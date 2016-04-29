@@ -431,9 +431,9 @@ function disableComment(commentIdx){
 
 function checkComment(form){
     var formTextField = $(form).find('[name=commenttext]').val();
-    if (isBlank(formTextField)) {
-        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
-        scrollToTop();
+    if (util.isBlank(formTextField)) {
+        util.setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
+        util.scrollToTop();
         return false;
     }
 }

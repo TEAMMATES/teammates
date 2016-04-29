@@ -22,7 +22,7 @@ $(document).ready(function(){
                 isFetchingCourses = false;
                 needsRetrying = true;
                 $('#coursesList').html('');
-                setStatusMessage(
+                util.setStatusMessage(
                     'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
                 , StatusType.WARNING);
                 $('#retryAjax').click(function(e) {
@@ -33,7 +33,7 @@ $(document).ready(function(){
             success: function(data) {
                 isFetchingCourses = false;
                 if (needsRetrying) {
-                    clearStatusMessages();
+                    util.clearStatusMessages();
                     needsRetrying = false;
                 }
                 

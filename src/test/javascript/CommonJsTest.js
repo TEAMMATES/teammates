@@ -1,16 +1,16 @@
 QUnit.module('common.js');
 
-QUnit.test('isNumber(num)', function(assert) {
-    assert.equal(isNumber('-0.001'), true, 'Negative double');
-    assert.equal(isNumber('12.056'), true, 'Positive double');
-    assert.equal(isNumber('100356'), true, 'Positive integer');
-    assert.equal(isNumber('-237'), true, 'Negative integer');
-    assert.equal(isNumber('ABCDE'), false, 'Letters');
-    assert.equal(isNumber('$12.57'), false, 'With Dollar Sign');
-    assert.equal(isNumber('12A5'), false, 'Letter in Numbers');
-    assert.equal(isNumber('0'), true, 'zero');
-    assert.equal(isNumber('   124    '), true, 'With Spacing');
-    assert.equal(isNumber('   12   4    '), false, 'With Spacing between');
+QUnit.test('util.isNumber(num)', function(assert) {
+    assert.equal(util.isNumber('-0.001'), true, 'Negative double');
+    assert.equal(util.isNumber('12.056'), true, 'Positive double');
+    assert.equal(util.isNumber('100356'), true, 'Positive integer');
+    assert.equal(util.isNumber('-237'), true, 'Negative integer');
+    assert.equal(util.isNumber('ABCDE'), false, 'Letters');
+    assert.equal(util.isNumber('$12.57'), false, 'With Dollar Sign');
+    assert.equal(util.isNumber('12A5'), false, 'Letter in Numbers');
+    assert.equal(util.isNumber('0'), true, 'zero');
+    assert.equal(util.isNumber('   124    '), true, 'With Spacing');
+    assert.equal(util.isNumber('   12   4    '), false, 'With Spacing between');
 });
 
 /**
@@ -22,29 +22,29 @@ QUnit.test('isNumber(num)', function(assert) {
  * TEAMMATES currently follows the RFC2822 / IETF date syntax
  * e.g. 02 Apr 2012, 23:59
  */
-QUnit.test('isDate(date)', function(assert) {
-    assert.equal(isDate('12432567'), false, 'Numbers');
-    assert.equal(isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
-    assert.equal(isDate('12/2/13'), true, '12/2/13 - valid format');
-    assert.equal(isDate('12/02/2013'), true, '12/02/2013 - valid format (mm/dd/yyyy)');
-    assert.equal(isDate('28/12/2013'), true, '28/12/2013 - valid format (dd/mm/yyyy)');
-    assert.equal(isDate('12/12/13'), true, '12/02/13 - valid format');
-    assert.equal(isDate('2013-12-12'), true, '2013-12-12 - valid format');
-    assert.equal(isDate('28-12-2013'), false, '28-12-2013 - invalid format (dd-mm-yyyy)');
-    assert.equal(isDate('2013-12-28'), true, '2013-12-28 - valid format (yyyy-mm-dd)');
-    assert.equal(isDate('01 03 2003'), true, '01 03 2003 - valid format');
-    assert.equal(isDate('A1/B3/C003'), false, 'A1/B3/C003 - invalid date');
-    assert.equal(isDate('Abcdef'), false, 'Invalid Date string');
-    assert.equal(isDate('02 Apr 2012, 23:59'), true, 'Valid Date string with time');
-    assert.equal(isDate('02 Apr 2012'), true, 'Valid Date string without time');
-    assert.equal(isDate('    12/12/01'), true, 'With Spacing in front');
-    assert.equal(isDate('12 12 01       '), true, 'With Spacing behind');
-    assert.equal(isDate('            12-12-01       '), false, 'With Spacing,' +
+QUnit.test('util.isDate(date)', function(assert) {
+    assert.equal(util.isDate('12432567'), false, 'Numbers');
+    assert.equal(util.isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
+    assert.equal(util.isDate('12/2/13'), true, '12/2/13 - valid format');
+    assert.equal(util.isDate('12/02/2013'), true, '12/02/2013 - valid format (mm/dd/yyyy)');
+    assert.equal(util.isDate('28/12/2013'), true, '28/12/2013 - valid format (dd/mm/yyyy)');
+    assert.equal(util.isDate('12/12/13'), true, '12/02/13 - valid format');
+    assert.equal(util.isDate('2013-12-12'), true, '2013-12-12 - valid format');
+    assert.equal(util.isDate('28-12-2013'), false, '28-12-2013 - invalid format (dd-mm-yyyy)');
+    assert.equal(util.isDate('2013-12-28'), true, '2013-12-28 - valid format (yyyy-mm-dd)');
+    assert.equal(util.isDate('01 03 2003'), true, '01 03 2003 - valid format');
+    assert.equal(util.isDate('A1/B3/C003'), false, 'A1/B3/C003 - invalid date');
+    assert.equal(util.isDate('Abcdef'), false, 'Invalid Date string');
+    assert.equal(util.isDate('02 Apr 2012, 23:59'), true, 'Valid Date string with time');
+    assert.equal(util.isDate('02 Apr 2012'), true, 'Valid Date string without time');
+    assert.equal(util.isDate('    12/12/01'), true, 'With Spacing in front');
+    assert.equal(util.isDate('12 12 01       '), true, 'With Spacing behind');
+    assert.equal(util.isDate('            12-12-01       '), false, 'With Spacing,' +
         ' invalid on Firefox and valid on Chrome');
-    assert.equal(isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
-    assert.equal(isDate('    a      12 12 2001'), false,
+    assert.equal(util.isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
+    assert.equal(util.isDate('    a      12 12 2001'), false,
         '    a      12 12 2001 - not in proper format');
-    assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
+    assert.equal(util.isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 
 QUnit.test('scrollToTop()', function(assert) {
@@ -52,31 +52,31 @@ QUnit.test('scrollToTop()', function(assert) {
     assert.expect(0);
 });
 
-QUnit.test('sortBase(x, y)', function(assert) {
-    assert.equal(sortBase('abc', 'abc'), 0, 'Same text');
-    assert.equal(sortBase('ABC', 'abc'), -1, 'Bigger text');
-    assert.equal(sortBase('abc', 'ABC'), 1, 'Smaller text');
-    assert.equal(sortBase('abc', 'efg'), -1, 'Different text');
-    assert.equal(sortBase('ABC', 'efg'), -1, 'Bigger text');
-    assert.equal(sortBase('abc', 'EFG'), 1, 'Smaller text');
+QUnit.test('util.sortBase(x, y)', function(assert) {
+    assert.equal(util.sortBase('abc', 'abc'), 0, 'Same text');
+    assert.equal(util.sortBase('ABC', 'abc'), -1, 'Bigger text');
+    assert.equal(util.sortBase('abc', 'ABC'), 1, 'Smaller text');
+    assert.equal(util.sortBase('abc', 'efg'), -1, 'Different text');
+    assert.equal(util.sortBase('ABC', 'efg'), -1, 'Bigger text');
+    assert.equal(util.sortBase('abc', 'EFG'), 1, 'Smaller text');
 });
 
-QUnit.test('sortNum(x, y)', function(assert) {
-    assert.equal(sortNum('1', '2'), -1, 'x=1, y=2');
-    assert.equal(sortNum('-10', '2'), -12, 'x=-10, y=2');
-    assert.equal(sortNum('3', '-1'), 4, 'x=3, y=-1');
-    assert.equal(sortNum('0.1', '0.1'), 0, 'x=0.1, y=0.1');
-    assert.equal(sortNum('-0.1', '0.1'), -0.2, 'x=-0.1, y=0.1');
-    assert.equal(sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
+QUnit.test('util.sortNum(x, y)', function(assert) {
+    assert.equal(util.sortNum('1', '2'), -1, 'x=1, y=2');
+    assert.equal(util.sortNum('-10', '2'), -12, 'x=-10, y=2');
+    assert.equal(util.sortNum('3', '-1'), 4, 'x=3, y=-1');
+    assert.equal(util.sortNum('0.1', '0.1'), 0, 'x=0.1, y=0.1');
+    assert.equal(util.sortNum('-0.1', '0.1'), -0.2, 'x=-0.1, y=0.1');
+    assert.equal(util.sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
 });
 
-QUnit.test('sortDate(x, y)', function(assert) {
-    assert.equal(sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
+QUnit.test('util.sortDate(x, y)', function(assert) {
+    assert.equal(util.sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
+    assert.equal(util.sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
         '25 April 1999 2:00PM - 25 April 1999 1:59PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
+    assert.equal(util.sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
         '25 April 1999 2:00PM - 25 April 1999 2:00PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
+    assert.equal(util.sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
         '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
@@ -145,50 +145,50 @@ QUnit.test('checkEvaluationForm()', function(assert) {
 });
 
 QUnit.test('sanitizeGoogleId(googleId)', function(assert) {
-    assert.equal(sanitizeGoogleId('test  @Gmail.COM  '), 'test', 'test - valid');
-    assert.equal(sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com',
+    assert.equal(util.sanitizeGoogleId('test  @Gmail.COM  '), 'test', 'test - valid');
+    assert.equal(util.sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com',
         'user@hotmail.com - valid');
 });
 
 QUnit.test('isValidGoogleId(googleId)', function(assert) {
-    assert.equal(isValidGoogleId('  test  \t\n'), true, 'test - valid');
-    assert.equal(isValidGoogleId('  charile.brown  \t\n'), true, 'charile.brown - valid');
-    assert.equal(isValidGoogleId('  big-small_mini  \t\n'), true, 'big-small_mini - valid');
+    assert.equal(util.isValidGoogleId('  test  \t\n'), true, 'test - valid');
+    assert.equal(util.isValidGoogleId('  charile.brown  \t\n'), true, 'charile.brown - valid');
+    assert.equal(util.isValidGoogleId('  big-small_mini  \t\n'), true, 'big-small_mini - valid');
 
-    assert.equal(isValidGoogleId(' hello@GMail.COm \t\n '), false, 'hello@gmail.com - invalid');
-    assert.equal(isValidGoogleId('wrong!'), false, 'wrong! - invalid');
-    assert.equal(isValidGoogleId('not*correct'), false, 'not*correct - invalid');
-    assert.equal(isValidGoogleId('is/not\correct'), false, 'is/not\correct - invalid');
+    assert.equal(util.isValidGoogleId(' hello@GMail.COm \t\n '), false, 'hello@gmail.com - invalid');
+    assert.equal(util.isValidGoogleId('wrong!'), false, 'wrong! - invalid');
+    assert.equal(util.isValidGoogleId('not*correct'), false, 'not*correct - invalid');
+    assert.equal(util.isValidGoogleId('is/not\correct'), false, 'is/not\correct - invalid');
 });
 
-QUnit.test('isEmailValid(email)', function(assert) {
-    assert.equal(isEmailValid('test@gmail.com'), true, 'test@gmail.com - valid');
-    assert.equal(isEmailValid('email'), false, 'email - invalid');
-    assert.equal(isEmailValid('email@email'), false, 'email@email - invalid');
-    assert.equal(isEmailValid('@yahoo.com'), false, '@yahoo.com - invalid');
-    assert.equal(isEmailValid('email.com'), false, 'email.com - invalid');
+QUnit.test('util.isEmailValid(email)', function(assert) {
+    assert.equal(util.isEmailValid('test@gmail.com'), true, 'test@gmail.com - valid');
+    assert.equal(util.isEmailValid('email'), false, 'email - invalid');
+    assert.equal(util.isEmailValid('email@email'), false, 'email@email - invalid');
+    assert.equal(util.isEmailValid('@yahoo.com'), false, '@yahoo.com - invalid');
+    assert.equal(util.isEmailValid('email.com'), false, 'email.com - invalid');
 });
 
-QUnit.test('isNameValid(name)', function(assert) {
-    assert.equal(isNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true,
+QUnit.test('util.isNameValid(name)', function(assert) {
+    assert.equal(util.isNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true,
         'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
+    assert.equal(util.isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
         'Maximum characters - valid');
 
-    assert.equal(isNameValid(''), false, 'Empty name - invalid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false,
+    assert.equal(util.isNameValid(''), false, 'Empty name - invalid');
+    assert.equal(util.isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false,
         'Exceed number of maximum characters - invalid');
-    assert.equal(isNameValid('Tom! Jacobs'), false, '! character - invalid');
-    assert.equal(isNameValid('Tom ^Jacobs'), false, '^ character - invalid');
-    assert.equal(isNameValid('Tom#'), false, '# character - invalid');
-    assert.equal(isNameValid('&Tom'), false, '& character - invalid');
-    assert.equal(isNameValid('J%cobs '), false, '% character - invalid');
-    assert.equal(isNameValid('Jacobs*'), false, '* character - invalid');
-    assert.equal(isNameValid('	+123	 '), false, '+ character - invalid');
-    assert.equal(isNameValid('a b c $ 1 2 3 4'), false, '$ character - invalid');
-    assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
-    assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');
-    assert.equal(isNameValid('Tom||Jacobs'), false, '| character - invalid');
+    assert.equal(util.isNameValid('Tom! Jacobs'), false, '! character - invalid');
+    assert.equal(util.isNameValid('Tom ^Jacobs'), false, '^ character - invalid');
+    assert.equal(util.isNameValid('Tom#'), false, '# character - invalid');
+    assert.equal(util.isNameValid('&Tom'), false, '& character - invalid');
+    assert.equal(util.isNameValid('J%cobs '), false, '% character - invalid');
+    assert.equal(util.isNameValid('Jacobs*'), false, '* character - invalid');
+    assert.equal(util.isNameValid('	+123	 '), false, '+ character - invalid');
+    assert.equal(util.isNameValid('a b c $ 1 2 3 4'), false, '$ character - invalid');
+    assert.equal(util.isNameValid('1@2@3  456'), false, '@ character - invalid');
+    assert.equal(util.isNameValid('Tom = Tom'), false, '= character - invalid');
+    assert.equal(util.isNameValid('Tom||Jacobs'), false, '| character - invalid');
 
 });
 
@@ -207,29 +207,29 @@ QUnit.test('roundToThreeDp(num)', function(assert) {
 });
 
 QUnit.test('sanitizeForJs(string)', function(assert) {
-    assert.equal(sanitizeForJs(''), '', 'sanitization for empty string');
-    assert.equal(sanitizeForJs('Will o\' Wisp'), 'Will o\\\' Wisp', 'sanitization for single quote');
-    assert.equal(sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'),
+    assert.equal(util.sanitizeForJs(''), '', 'sanitization for empty string');
+    assert.equal(util.sanitizeForJs('Will o\' Wisp'), 'Will o\\\' Wisp', 'sanitization for single quote');
+    assert.equal(util.sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'),
         'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp',
         'sanitization for single quote and slash \\');
 
 });
 
-QUnit.test('isBlank(string)', function(assert) {
-    assert.equal(isBlank(''), true, 'Test - empty string');
-    assert.equal(isBlank(' '), true, 'Test - single space');
-    assert.equal(isBlank('            '), true, 'Test - multiple spaces');
+QUnit.test('util.isBlank(string)', function(assert) {
+    assert.equal(util.isBlank(''), true, 'Test - empty string');
+    assert.equal(util.isBlank(' '), true, 'Test - single space');
+    assert.equal(util.isBlank('            '), true, 'Test - multiple spaces');
 
-    assert.equal(isBlank('test'), false, 'Test - not blank input');
-    assert.equal(isBlank('test    test'), false, 'Test - spaces between strings');
-    assert.equal(isBlank('     test'), false, 'Test - string with leading spaces');
-    assert.equal(isBlank('test       '), false, 'Test - string with trailing spaces');
-    assert.equal(isBlank('     test      '), false, 'Test - string with leading and trailing spaces');
+    assert.equal(util.isBlank('test'), false, 'Test - not blank input');
+    assert.equal(util.isBlank('test    test'), false, 'Test - spaces between strings');
+    assert.equal(util.isBlank('     test'), false, 'Test - string with leading spaces');
+    assert.equal(util.isBlank('test       '), false, 'Test - string with trailing spaces');
+    assert.equal(util.isBlank('     test      '), false, 'Test - string with leading and trailing spaces');
 
     // type check
-    assert.equal(isBlank(), false, 'Test - invalid type: empty input value');
-    assert.equal(isBlank(null), false, 'Test - invalid type: null input');
-    assert.equal(isBlank(0), false, 'Test - invalid type: number input');
-    assert.equal(isBlank({}), false, 'Test - invalid type: object input');
-    assert.equal(isBlank(undefined), false, 'Test - invalid type: undefined input');
+    assert.equal(util.isBlank(), false, 'Test - invalid type: empty input value');
+    assert.equal(util.isBlank(null), false, 'Test - invalid type: null input');
+    assert.equal(util.isBlank(0), false, 'Test - invalid type: number input');
+    assert.equal(util.isBlank({}), false, 'Test - invalid type: object input');
+    assert.equal(util.isBlank(undefined), false, 'Test - invalid type: undefined input');
 });

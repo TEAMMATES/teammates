@@ -85,7 +85,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 }
                 
                 // focus on status message
-                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
+                util.scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
             }
         });
     });
@@ -360,11 +360,11 @@ function cancelEdit(number) {
  * the selection as well.
  */
 function formatNumberBoxes() {
-    disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
-    disallowNonNumericEntries($('input.minScaleBox'), false, true);
-    disallowNonNumericEntries($('input.maxScaleBox'), false, true);
-    disallowNonNumericEntries($('input.stepBox'), true, false);
-    disallowNonNumericEntries($('input.pointsBox'), false, false);
+    util.disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
+    util.disallowNonNumericEntries($('input.minScaleBox'), false, true);
+    util.disallowNonNumericEntries($('input.maxScaleBox'), false, true);
+    util.disallowNonNumericEntries($('input.stepBox'), true, false);
+    util.disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     var modifyVisibility = function() {
@@ -431,7 +431,7 @@ function showNewQuestionFrame(type) {
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    scrollToElement($('#questionTableNew')[0], {duration: 1000});
+    util.scrollToElement($('#questionTableNew')[0], {duration: 1000});
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
@@ -716,7 +716,7 @@ function getQuestionLink(qnNumber) {
                         '&fsname=' + fsname +
                         '&questionid=' + questionId;
     
-    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
+    util.setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
 }
 
 function toParameterFormat(str) {
@@ -729,9 +729,9 @@ function bindCopyButton() {
         
         var questionRows = $('#copyTableModal >tbody>tr');
         if (!questionRows.length) {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
+            util.setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
         } else {
-            setStatusMessage('', StatusType.WARNING);
+            util.setStatusMessage('', StatusType.WARNING);
             $('#copyModal').modal('show');
         }
        
@@ -757,7 +757,7 @@ function bindCopyButton() {
         });
 
         if (!hasRowSelected) {
-            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
+            util.setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
             $('#copyModal').modal('hide');
         } else {
             $('#copyModalForm').submit();
@@ -1387,22 +1387,22 @@ function addRubricRow(questionNumber) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
-        fragment = replaceAll(fragment, '${row}', newRowNumber - 1);
-        fragment = replaceAll(fragment, '${col}', cols);
-        fragment = replaceAll(fragment, '${description}', '');
-        fragment = replaceAll(fragment, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}', 'rubricDesc');
+        fragment = util.replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = util.replaceAll(fragment, '${row}', newRowNumber - 1);
+        fragment = util.replaceAll(fragment, '${col}', cols);
+        fragment = util.replaceAll(fragment, '${description}', '');
+        fragment = util.replaceAll(fragment, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}', 'rubricDesc');
         rubricRowBodyFragments += fragment;
     }
 
     
     // Create new rubric row
     var newRubricRow = rubricRowTemplate;
-    newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNumber);
-    newRubricRow = replaceAll(newRubricRow, '${row}', newRowNumber - 1);
-    newRubricRow = replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
-    newRubricRow = replaceAll(newRubricRow, '${subQuestion}', '');
-    newRubricRow = replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
+    newRubricRow = util.replaceAll(newRubricRow, '${qnIndex}', questionNumber);
+    newRubricRow = util.replaceAll(newRubricRow, '${row}', newRowNumber - 1);
+    newRubricRow = util.replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
+    newRubricRow = util.replaceAll(newRubricRow, '${subQuestion}', '');
+    newRubricRow = util.replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
 
     // Row to insert new row after
     var lastRow = $('#rubricEditTable' + idSuffix + ' tr:last');
@@ -1438,10 +1438,10 @@ function addRubricCol(questionNumber) {
       + "</th>";
 
     var rubricHeaderFragment = rubricHeaderFragmentTemplate;
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNumber);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment,
+    rubricHeaderFragment = util.replaceAll(rubricHeaderFragment, '${qnIndex}', questionNumber);
+    rubricHeaderFragment = util.replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
+    rubricHeaderFragment = util.replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
+    rubricHeaderFragment = util.replaceAll(rubricHeaderFragment,
                                       '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}',
                                       'rubricChoice');
 
@@ -1462,11 +1462,11 @@ function addRubricCol(questionNumber) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
-        fragment = replaceAll(fragment, '${row}', rows);
-        fragment = replaceAll(fragment, '${col}', newColNumber-1);
-        fragment = replaceAll(fragment, '${description}', '');
-        fragment = replaceAll(fragment,
+        fragment = util.replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = util.replaceAll(fragment, '${row}', rows);
+        fragment = util.replaceAll(fragment, '${col}', newColNumber-1);
+        fragment = util.replaceAll(fragment, '${description}', '');
+        fragment = util.replaceAll(fragment,
                               '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
                               'rubricDesc');
         

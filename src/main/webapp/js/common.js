@@ -90,7 +90,7 @@ var StatusType = {
     WARNING : "warning",
     DANGER : "danger",
     isValidType : function(type) {
-        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
 
@@ -148,26 +148,15 @@ var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
-$(document).on('ajaxComplete ready', function() {
-    /**
-     * Initializing then disabling is better than simply
-     * not initializing for mobile due to some tooltips-specific
-     * code that throws errors.
-    */
-    var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({html: true, container: 'body'});
-    if (isTouchDevice()) {
-        $tooltips.tooltip('disable');
-    }
-});
+var util = {
 
 /**
  * Checks if the current device is touch based device
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
-function isTouchDevice() {
+isTouchDevice: function() {
     return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
-}
+},
 
 /**
  * Sorts a table
@@ -176,7 +165,7 @@ function isTouchDevice() {
  * @param comparator
  *     The function to compare 2 elements
  */
-function toggleSort(divElement, comparator) {
+toggleSort: function(divElement, comparator) {
 
     // The column index (1-based) as key for the sort
     var colIdx = $(divElement).parent().children().index($(divElement)) + 1;
@@ -187,22 +176,22 @@ function toggleSort(divElement, comparator) {
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
-        sortTable(divElement, colIdx, comparator, true, row);
+        this.sortTable(divElement, colIdx, comparator, true, row);
         $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
         $selectedDivElement.parent().find('.button-sort-descending').attr('class', 'button-sort-none');
         $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
-        sortTable(divElement, colIdx, comparator, false, row);
+        this.sortTable(divElement, colIdx, comparator, false, row);
         $selectedDivElement.attr('class', 'button-sort-descending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
     } else {
-        sortTable(divElement, colIdx, comparator, true, row);
+        this.sortTable(divElement, colIdx, comparator, true, row);
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
-}
+},
 
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
@@ -215,7 +204,7 @@ function toggleSort(divElement, comparator) {
  * @param ascending
  *     if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
+sortTable: function(oneOfTableCell, colIdx, comparator, ascending, row) {
     // Get the table
     var $table = $(oneOfTableCell);
     
@@ -241,9 +230,9 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         // Store rows together with the innerText to compare
         store.push([innerText, $RowList[i], i]);
         
-        if ((columnType === 0 || columnType === 1) && isNumber(innerText)) {
+        if ((columnType === 0 || columnType === 1) && this.isNumber(innerText)) {
             columnType = 1;
-        } else if ((columnType === 0 || columnType === 2) && isDate(innerText)) {
+        } else if ((columnType === 0 || columnType === 2) && this.isDate(innerText)) {
             columnType = 2;
         } else {
             columnType = 3;
@@ -256,7 +245,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         } else if (columnType === 2) {
             comparator = sortDate;
         } else {
-            comparator = sortBase;
+            comparator = this.sortBase;
         }
     }
     
@@ -292,7 +281,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     store = null;
-}
+},
 
 /**
  * The base comparator (ascending)
@@ -301,10 +290,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
  * @param y
  * @returns
  */
-function sortBase(x, y) {
+sortBase: function(x, y) {
     // Text sorting
     return (x < y ? -1 : x > y ? 1 : 0);
-}
+},
 
 /**
  * Comparator for numbers (integer, double) (ascending)
@@ -313,9 +302,9 @@ function sortBase(x, y) {
  * @param y
  * @returns
  */
-function sortNum(x, y) {
+sortNum: function(x, y) {
     return x - y;
-}
+},
 
 /**
  * Comparator for date. Allows for the same format as isDate()
@@ -324,21 +313,21 @@ function sortNum(x, y) {
  * @param y
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
-function sortDate(x, y) {
+sortDate: function(x, y) {
     x = Date.parse(x);
     y = Date.parse(y);
     var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
     return comparisonResult;
-}
+},
 
 /**
 * Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
 *
 * @returns pattern string
 */
-function getDayMonthYearFormat() {
+getDayMonthYearFormat: function() {
     return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
-}
+},
 
 /**
  * Tests whether the passed object is an actual date
@@ -352,18 +341,18 @@ function getDayMonthYearFormat() {
  * @param date
  * @returns boolean
  */
-function isDate(date) {
+isDate: function(date) {
     return !isNaN(Date.parse(date));
-}
+},
 
 /**
 * Function to test if param is a numerical value
 * @param num
 * @returns boolean
 */
-function isNumber(num) {
+isNumber: function(num) {
     return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
-}
+},
 
 /**
  * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
@@ -372,16 +361,16 @@ function isNumber(num) {
  * @param a
  * @param b
  */
-function sortByPoint(a, b) {
-    a = getPointValue(a, true);
-    b = getPointValue(b, true);
+sortByPoint: function(a, b) {
+    a = this.getPointValue(a, true);
+    b = this.getPointValue(b, true);
     
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
+    if (this.isNumber(a) && this.isNumber(b)) {
+        return this.sortNum(a, b);
     } else {
-        return sortBase(a, b);
+        return this.sortBase(a, b);
     }
-}
+},
 
 /**
  * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
@@ -390,16 +379,16 @@ function sortByPoint(a, b) {
  * @param a
  * @param b
  */
-function sortByDiff(a, b) {
-    a = getPointValue(a, false);
-    b = getPointValue(b, false);
+sortByDiff: function(a, b) {
+    a = this.getPointValue(a, false);
+    b = this.getPointValue(b, false);
 
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
+    if (this.isNumber(a) && this.isNumber(b)) {
+        return this.sortNum(a, b);
     } else {
-        return sortBase(a, b);
+        return this.sortBase(a, b);
     }
-}
+},
 
 /**
  * To get point value from a formatted string
@@ -410,7 +399,7 @@ function sortByDiff(a, b) {
  *     Whether 0% should be treated as lower than -90 or not
  * @returns
  */
-function getPointValue(s, ditchZero) {
+getPointValue: function(s, ditchZero) {
     if (s.lastIndexOf('<') !== -1) {
         s = s.substring(0, s.lastIndexOf('<'));
         s = s.substring(s.lastIndexOf('>') + 1);
@@ -440,7 +429,7 @@ function getPointValue(s, ditchZero) {
     }
     
     return 100 + eval(s); // Other typical cases
-}
+},
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
@@ -449,7 +438,7 @@ function getPointValue(s, ditchZero) {
  * Checks if element is within browser's viewport.
  * @return true if it is within the viewport, false otherwise 
  */
-function isWithinView(element) {
+isWithinView: function(element) {
     var viewHeight = window.innerHeight,
         viewTop = window.scrollY,
         viewBottom = viewTop + viewHeight;
@@ -462,7 +451,7 @@ function isWithinView(element) {
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
            : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
              || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
-}
+},
 
 /**
  * Scrolls the screen to a certain position.
@@ -471,13 +460,13 @@ function isWithinView(element) {
  *                 'fast and 'slow' are 600 and 200 ms respectively,
  *                 400 ms will be used if any other string is supplied.
  */
-function scrollToPosition(scrollPos, duration) {
+scrollToPosition: function(scrollPos, duration) {
     if (duration === undefined) {
         $(window).scrollTop(scrollPos);
     } else {
         $('html, body').animate({scrollTop: scrollPos}, duration);
     }
-}
+},
 
 /**
  * Scrolls to an element.
@@ -493,7 +482,7 @@ function scrollToPosition(scrollPos, duration) {
  *                  * duration: duration of animation,
  *                              defaults to 0 for scrolling without animation
  */
-function scrollToElement(element, options) {
+scrollToElement: function(element, options) {
     var defaultOptions = {type: 'top', offset: 0, duration: 0};
     
     options = options || {};
@@ -502,7 +491,7 @@ function scrollToElement(element, options) {
         duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
     
     var isViewType = (type === 'view');
-    if (isViewType && isWithinView(element)) {
+    if (isViewType && this.isWithinView(element)) {
         return;
     }
     
@@ -529,8 +518,8 @@ function scrollToElement(element, options) {
     
     var scrollPos = element.offsetTop + offset;
     
-    scrollToPosition(scrollPos, duration);
-}
+    this.scrollToPosition(scrollPos, duration);
+},
 
 /**
  * Scrolls the screen to top
@@ -538,12 +527,9 @@ function scrollToElement(element, options) {
  *                 'fast and 'slow' are 600 and 200 ms respectively,
  *                 400 ms will be used if any other string is supplied.
  */
-function scrollToTop(duration) {
-    scrollToPosition(0, duration);
-}
-
-/** Selector for status message div tag (to be used in jQuery) */
-var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
+scrollToTop: function(duration) {
+    this.scrollToPosition(0, duration);
+},
 
 /**
  * Sets a status message and the message status.
@@ -552,8 +538,9 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * @param message the text message to be shown to the user
  * @param status type
  */
-function setStatusMessage(message, status) {
+setStatusMessage: function(message, status) {
     if (message === '' || message === undefined || message === null) {
+
         return;
     }
 
@@ -575,30 +562,30 @@ function setStatusMessage(message, status) {
     $statusMessagesToUser.append($statusMessage);
     $statusMessagesToUser.show();
     
-    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
-}
+    this.scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+},
 
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-function appendStatusMessage(messages, error) {
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+appendStatusMessage: function(message, error) {
+	var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));
     $statusMessagesToUser.show();
-}
+},
 
 /**
  * Clears the status message div tag and hides it
  */
-function clearStatusMessages() {
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+clearStatusMessage: function() {
+	var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
-}
+},
 
 /**
  * Sanitize GoogleID by trimming space and '@gmail.com'
@@ -607,7 +594,7 @@ function clearStatusMessages() {
  * @param googleId
  * @returns sanitizedGoolgeId
  */
-function sanitizeGoogleId(googleId) {
+sanitizeGoogleId: function(googleId) {
     googleId = googleId.trim();
     var loc = googleId.toLowerCase().indexOf('@gmail.com');
     if (loc > -1) {
@@ -623,7 +610,8 @@ function sanitizeGoogleId(googleId) {
  * @param googleId
  * @return {Boolean}
  */
-function isValidGoogleId(googleId) {
+
+isValidGoogleId: function(googleId) {
     var isValidNonEmailGoogleId = false;
     googleId = googleId.trim();
     
@@ -632,7 +620,7 @@ function isValidGoogleId(googleId) {
     
     isValidNonEmailGoogleId = (matches != null && matches[0] === googleId);
     
-    var isValidEmailGoogleId = isEmailValid(googleId);
+    var isValidEmailGoogleId = this.isEmailValid(googleId);
     
     if (googleId.toLowerCase().indexOf('@gmail.com') > -1) {
         isValidEmailGoogleId = false;
@@ -640,7 +628,7 @@ function isValidGoogleId(googleId) {
     
     // email addresses are valid google IDs too
     return isValidNonEmailGoogleId || isValidEmailGoogleId;
-}
+},
 
 /**
  * Checks whether an e-mail is valid.
@@ -649,9 +637,9 @@ function isValidGoogleId(googleId) {
  * @param email
  * @returns {Boolean}
  */
-function isEmailValid(email) {
+isEmailValid: function(email) {
     return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
-}
+},
 
 /**
  * Checks whether a person's name is valid.
@@ -660,7 +648,7 @@ function isEmailValid(email) {
  * @param name
  * @returns {Boolean}
  */
-function isNameValid(name) {
+isNameValid: function(name) {
     name = name.trim();
 
     if (name === '') {
@@ -678,7 +666,7 @@ function isNameValid(name) {
     } else {
         return true;
     }
-}
+},
 
 /**
  * Checks whether an institution name is valid
@@ -686,7 +674,7 @@ function isNameValid(name) {
  * @param name
  * @returns {Boolean}
  */
-function isInstitutionValid(institution) {
+isInstitutionValid: function(institution) {
     institution = institution.trim();
 
     if (institution === '') {
@@ -704,13 +692,13 @@ function isInstitutionValid(institution) {
     } else {
         return true;
     }
-}
+},
 
 /**
  * Disallow non-numeric entries
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
-function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
+disallowNonNumericEntries: function(element, decimalPointAllowed, negativeAllowed) {
     element.on('keydown', function(event) {
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
@@ -736,28 +724,40 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
             }
         }
     });
-}
+},
 
 /**
  * Helper function to replace all occurrences of a sub-string in a string.
  */
-function replaceAll(string, find, replace) {
-    return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
+replaceAll: function(string, find, replace) {
+    return string.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+},
 
-function escapeRegExp(string) {
+escapeRegExp: function(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-}
+},
 
 /**
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
  */
-function sanitizeForJs(string) {
-    string = replaceAll(string, '\\', '\\\\');
-    string = replaceAll(string, '\'', '\\\'');
+sanitizeForJs: function(string) {
+    string = this.replaceAll(string, '\\', '\\\\');
+    string = this.replaceAll(string, '\'', '\\\'');
     return string;
-}
+},
 
+/**
+ * Checks if the input value is a blank string
+ * 
+ * @param str
+ * @returns true if the input is a blank string, false otherwise
+ */
+isBlank: function(str) {
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return false;
+    }
+    return str.trim() === '';
+},
 
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section
@@ -766,7 +766,7 @@ function sanitizeForJs(string) {
  * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
-function highlightSearchResult(searchKeyId, sectionToHighlight) {
+highlightSearchResult: function(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
     // trim symbols around every word in the string
     var symbolTrimmedSearchKey = [];
@@ -777,7 +777,7 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
         return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
-}
+}};
 
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
@@ -790,18 +790,8 @@ if (!String.prototype.includes) {
     }
 }
 
-/**
- * Checks if the input value is a blank string
- * 
- * @param str
- * @returns true if the input is a blank string, false otherwise
- */
-function isBlank(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return false;
-    }
-    return str.trim() === '';
-}
+/** Selector for status message div tag (to be used in jQuery) */
+var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
@@ -875,4 +865,3 @@ function hideSingleCollapse(e) {
     $(e).collapse('hide');
     $(heading).find('a.btn').hide();
 }
-
