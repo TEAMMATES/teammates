@@ -56,8 +56,8 @@ public class Const {
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
-        
-        /**
+	
+	/**
          * @return The file source for jquery.min.js used in application pages,
          * chosen based on the build's environment.<br>
          * <ul>
@@ -82,6 +82,7 @@ public class Const {
             return isDevServer ? "/js/lib/jquery-ui.min.js"
                                : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
         }
+       
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
@@ -124,7 +125,6 @@ public class Const {
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
-        public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
@@ -547,7 +547,8 @@ public class Const {
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
-        public static final String STATUS_MESSAGES_LIST = "statusMessagesToUser";
+        public static final String STATUS_MESSAGE = "message";
+        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
@@ -899,18 +900,44 @@ public class Const {
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-        public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
-                + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
-                + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-                + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
-                + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
-                + "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
-                + "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
-                + "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
-                + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
-                + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
-                + "</div>";
+        public static final String STUDENT_FIRST_TIME = "<div class=\"align-center\">"
+                                        + "<div style=\"margin-right: auto; margin-left: auto;\""
+                                        + " class=\"text-color-red text-bold\">Oops! Your "
+                                        + "Google account is not known to TEAMMATES." 
+                                        + "</div>"
+                                        + "</div>"
+                                        + "<br>"
+                                        + "<div>"
+											+ "To access a course on TEAMMATES, first you need to wait till an "
+											+ "instructor adds you to that course and TEAMMATES sends you "
+											+ "instructions on how to access that particular course in TEAMMATES."
+											+ "<br><br>If you 'joined' the course in TEAMMATES using a Google "
+											+ "account before,but cannot login anymore, these are the possible reasons:"
+											+ "<ol>"
+												+ "<li>"
+													+ "You used a different Google account to access TEAMMATES in the "
+													+ "past. In that case, you need to use the same Google account to access "
+													+ "TEAMMATES again. Logout and re-login using the other Google account. "
+													+ "If you don't remember which Google account you used previously, email "
+													+ "us from the same email account to which you receive TEAMMATES emails."
+												+ "</li>"
+												+ "<li>"
+													+ "You changed the primary email from a non-Gmail address to a "
+													+ "Gmail address recently. In that case, "
+													+ "<a href=\"https://teammatesv4.appspot.com/contact.html\">"
+													+ "email us "
+													+ "</a>"
+													+ "so that we can reconfigure your account to use the new Gmail address."
+												+ "</li>"
+												+ "<li>"
+													+ "You joined this course just a few seconds ago and your data "
+													+ "may be still in the process of propagating through our servers. "
+													+ "In that case, please click on the "
+													+ "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in "
+													+ "a few minutes."
+												+ "</li>"
+											+ "</ol>"
+                                        + "</div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
                 + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
@@ -944,7 +971,7 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
+        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
@@ -1106,15 +1133,14 @@ public class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
-        public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
-                + "that are currently open and view results without logging in. To access other features "
-                + "you need <a href='%s' class='link'>to login using a Google account</a> (recommended).";
-        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as "
-                + "<span class='text-danger text-bold text-large'>%s</span>. " 
-                + UNREGISTERED_STUDENT_MESSAGE;
-        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
-                + "<span class='text-danger text-bold text-large'>%s</span>. " 
-                + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-danger text-bold text-large'>%s</span>. " 
+                + "You may submit feedback and view results without logging in. "
+                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
+                + "(recommended).";
+        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as <span class='text-danger text-bold text-large'>%s</span>. " 
+                + "You may submit feedback and view results without logging in. "
+                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
+                + "(recommended).";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
