@@ -35,15 +35,21 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
             System.out.println("Checking Sanitization in Instructors...");
         }
         int numberOfAffectedInstructors = 0;
-        for (InstructorAttributes instructor : allInstructors) {
-            if (!isPreview) {
-                fixSanitizedDataForInstructor(instructor);
-            } else {
-                if (previewSanitizedDataForInstructor(instructor)) {
-                    numberOfAffectedInstructors++;
+        
+        try {
+            for (InstructorAttributes instructor : allInstructors) {
+                if (!isPreview) {
+                    fixSanitizedDataForInstructor(instructor);
+                } else {
+                    if (previewSanitizedDataForInstructor(instructor)) {
+                        numberOfAffectedInstructors++;
+                    }
                 }
             }
+        } catch (Exception e) {
+            Utils.getLogger().log(Level.INFO, e.getMessage());
         }
+        
         if (isPreview) {
             System.out.println("There are/is " + numberOfAffectedInstructors + " instructor(s) with sanitized data!");
         } else {
@@ -103,19 +109,12 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         instructor.role = fixSanitization(instructor.role);
     }
     
-    private void fixSanitizedDataForInstructor(InstructorAttributes instructor) {
-        try {
-            boolean hasSanitizedData = checkInstructorHasSanitizedData(instructor);
-            if (hasSanitizedData) {
-                fixSanitizationForInstructor(instructor);
-                updateInstructor(instructor);
-            }
-        } catch (InvalidParametersException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + instructor.email + " invalid!");
-            e.printStackTrace();
-        } catch (EntityDoesNotExistException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + instructor.email + " does not exist!");
-            e.printStackTrace();
+    private void fixSanitizedDataForInstructor(InstructorAttributes instructor) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        boolean hasSanitizedData = checkInstructorHasSanitizedData(instructor);
+        if (hasSanitizedData) {
+            fixSanitizationForInstructor(instructor);
+            updateInstructor(instructor);
         }
     }
 
