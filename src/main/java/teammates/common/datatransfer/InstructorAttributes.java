@@ -17,6 +17,9 @@ import teammates.storage.entity.Instructor;
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
+    // Note: we should disable HTML escaping when creating gson string of the InstructorAttributes
+    // objects because if the name of the instructor contains any html character, we cannot
+    // search for the object by the name anymore.
     private static Gson gson = Utils.getTeammatesGsonWithDisableHtmlEscaping();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
@@ -220,7 +223,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public String toString() {
-        return gson.toJson(this, InstructorAttributes.class);
+        return getJsonString();
     }
  
     @Override
@@ -240,7 +243,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, InstructorAttributes.class);
+        return gson.toJson(this, InstructorAttributes.class);
     }
     
     @Override
