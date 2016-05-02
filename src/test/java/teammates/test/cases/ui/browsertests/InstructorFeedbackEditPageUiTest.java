@@ -58,7 +58,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
         editedSession.instructions = new Text("Please fill in the edited feedback session.");
-        editedSession.endTime = TimeHelper.convertToDate("2016-05-01 10:00 PM UTC");
+        editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").id;
@@ -148,7 +148,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("alert alert-success", feedbackEditPage.getStatusMessage().getAttribute("class"));
+        assertEquals("overflow-auto alert alert-success statusMessage", 
+                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, feedbackEditPage.getStatus());
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
@@ -164,7 +165,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         // Ensuring that the settings did not default back to original values after manual publishing
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditManuallyPublished.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
@@ -287,6 +288,37 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                 .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
+        
+        ______TS("add question 2 and edit it to giver's team members and giver");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.fillQuestionBox("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
+        feedbackEditPage.clickMaxNumberOfRecipientsButton();
+        feedbackEditPage.clickAddQuestionButton();
+        
+        ______TS("test Recipient's Team Members row is hidden");
+        feedbackEditPage.clickVisibilityOptionsForQuestion(2);
+        
+        // use getAttribute("textContent") instead of getText 
+        // because of the row of Recipient's Team Members is not displayed
+        assertEquals("Recipient's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
+        assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
+                
+        ______TS("test visibility preview of question 2");
+        feedbackEditPage.clickVisibilityPreviewForQuestion(2);
+        WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
+        feedbackEditPage.waitForElementVisibility(visibilityMessage2);
+
+        assertTrue("Expected the receiving student to be able to see response, but was "
+                   + visibilityMessage2.getText(), visibilityMessage2.getText()
+                   .contains("The receiving student can see your response, and your name."));
+        
+        assertTrue("Expected instructors to be able to see response, but was "
+                   + visibilityMessage2.getText(), visibilityMessage2.getText()
+                   .contains("Instructors in this course can see your response, the name of the recipient, and your name.")); 
+        
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
     }
     
     private void testGetQuestionLink() {
@@ -301,7 +333,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         .withSessionName(feedbackSessionName)
                                         .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
 
-        assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
+        assertTrue(feedbackEditPage.isElementVisible("statusMessagesToUser"));
         // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
         assertEquals("Link for question 1: " + expectedUrl.toAbsoluteString().replace("+", "%20"),
                      feedbackEditPage.getStatus());
@@ -476,6 +508,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate before editing question");
 
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
 
@@ -488,6 +521,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate after editing question");
 
         feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
         
@@ -512,6 +546,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
+        
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
@@ -525,7 +560,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
-        
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        feedbackEditPage.fillQuestionBox("question for students to instructors");
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeInstructors();
+        feedbackEditPage.clickAddQuestionButton();
+
         ______TS("preview as student");
 
         FeedbackSubmitPage previewPage;

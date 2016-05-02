@@ -138,9 +138,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
-    
-    @FindBy(id = "fscopy_submit")
-    private WebElement fscopySubmitButton;
+ 
     
     @FindBy(id = "button_copy")
     private WebElement copyButton;
@@ -158,8 +156,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement getLinkButton;
     
     
+    public InstructorCopyFsToModal fsCopyToModal;
+    
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
+        fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
 
     @Override
@@ -346,11 +347,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickFsCopyButton() {
+        waitForElementNotCovered(fscopyButton);
         fscopyButton.click();
-    }
-    
-    public void clickFsCopySubmitButton() {
-        fscopySubmitButton.click();
     }
     
     public void clickCopyButton() {
@@ -367,21 +365,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         addMsqOtherOptionCheckboxForNewQuestion.click();
-    }
-    
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, newName);
     }
     
     public WebElement getDeleteSessionLink() {
@@ -426,8 +409,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
+    public void clickVisibilityPreviewForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
+    }
+    
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
@@ -696,6 +687,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
     
+    public void selectRecipientsToBeGiverTeamMembersAndGiver() {
+        selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
+    }
+
+    public void selectRecipientsToBeInstructors() {
+        selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
@@ -938,7 +937,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
-    
+
+    public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
+        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+    }
+
     public WebElement getPreviewLabel(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
     }

@@ -53,11 +53,6 @@
           </a>
         </li>
         <li>
-          <a href="/admin/adminAccountManagementPage">
-            Account Management
-          </a>
-        </li>
-        <li>
           <a href="/admin/adminSearchPage">
             Search
           </a>
@@ -120,8 +115,14 @@
   <div class="well well-plain">
     <div>
       <label class="label-control">
-        Instructor Details: (Name | Email | Institution)
+        Adding Multiple Instructors
       </label>
+      <div class="text-muted">
+        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary">
+        </span>
+        Add Instructor Details in the format (Name | Email | Institution)
+      </div>
+      <br>
       <textarea class="form-control addInstructorFormControl" id="addInstructorDetailsSingleLine" rows="5" type="text">
       </textarea>
     </div>
@@ -133,6 +134,12 @@
     </div>
   </div>
   <div class="well well-plain">
+    <div>
+      <label class="label-control">
+        Adding a Single Instructor
+      </label>
+    </div>
+    <br>
     <div>
       <label class="label-control">
         Short Name:
@@ -167,7 +174,7 @@
       </button>
     </div>
   </div>
-  <div class="panel panel-primary" hidden="hidden" id="addInstructorResultPanel">
+  <div class="panel panel-primary" hidden="" id="addInstructorResultPanel">
     <div class="panel-heading">
       <strong>
         Result
@@ -202,8 +209,10 @@
       </table>
     </div>
   </div>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
 </div>
 <div class="container-fluid" id="footerComponent">
   <div class="container">

@@ -86,7 +86,23 @@
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.test.CS1101":{
             "googleId":"teammates.test",
@@ -95,7 +111,23 @@
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.instr.CS2104":{
             "googleId":"teammates.instr",
@@ -104,7 +136,23 @@
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.instr.CS1101":{
             "googleId":"teammates.instr",
@@ -113,7 +161,23 @@
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.test.CS4215":{
             "googleId":"teammates.test",
@@ -122,7 +186,23 @@
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         }
     },
     "students":{
@@ -130,9 +210,9 @@
             "googleId":"teammates.test",
             "email":"teammates.test@gmail.tmt",
             "course":"CS2104",
-            "name":"Teammates Test",
-            "comments":"This student's name is Teammates Test",
-            "team":"Team 1",
+            "name":"Teammates Test</option></td></div>'\"",
+            "comments":"This student's name is Teammates Test</option></td></div>'\"",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "benny.c.tmms@CS2104":{
@@ -141,7 +221,7 @@
             "course":"CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "charlie.d.tmms@CS2104":{
@@ -150,7 +230,7 @@
             "course":"CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "alice.b.tmms@CS2104":{
@@ -177,7 +257,7 @@
             "course":"CS1101",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "benny.c.tmms@CS1101":{
             "googleId":"benny.c.tmms",
@@ -185,7 +265,7 @@
             "course":"CS1101",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "charlie.d.tmms@CS1101":{
             "googleId":"charlie.d.tmms",
@@ -209,7 +289,7 @@
             "course":"CS4215",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         }
     },
    
@@ -223,7 +303,7 @@
             },
             "createdTime":"2012-03-20 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2017-04-30 11:59 PM UTC",
+            "endTime":"2027-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":2.0,
@@ -241,9 +321,9 @@
             },
             "createdTime":"2013-03-20 11:59 PM UTC",
             "startTime":"2013-06-01 11:59 PM UTC",
-            "endTime":"2016-04-28 11:59 PM UTC",
+            "endTime":"2026-04-28 11:59 PM UTC",
             "sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
-            "resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
+            "resultsVisibleFromTime":"2026-04-29 11:59 PM UTC",
             "timeZone":2.0,
             "gracePeriod":5,
             "feedbackSessionType":"STANDARD",
@@ -295,9 +375,9 @@
             },
             "createdTime":"2012-03-20 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2017-04-30 11:59 PM UTC",
+            "endTime":"2027-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
-            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2027-05-01 11:59 PM UTC",
             "timeZone":8,
             "gracePeriod":0,
             "feedbackSessionType":"STANDARD",
@@ -779,7 +859,7 @@
             "feedbackQuestionId":"1",
             "giverEmail":"teammates.test@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
-            "createdAt":"2016-03-01 11:59 PM UTC",
+            "createdAt":"2026-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"This instructor's comment to student self feedback"	
             },
@@ -792,7 +872,7 @@
             "feedbackQuestionId":"1",
             "giverEmail":"teammates.instr@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
-            "createdAt":"2016-03-02 11:59 PM UTC",
+            "createdAt":"2026-03-02 11:59 PM UTC",
             "commentText":{
                 "value":"Other instructor's comment to student self feedback"	
             },
@@ -811,7 +891,7 @@
             "showGiverNameTo": [PERSON],
             "showRecipientNameTo": [],
             "receiverEmail":"alice.b.tmms@gmail.tmt",
-            "createdAt":"2016-04-01 11:59 PM UTC",
+            "createdAt":"2026-04-01 11:59 PM UTC",
             "commentText":{
                 "value":"Comment 1 from Instructor to Alice in course CS2104"
             }
@@ -827,7 +907,7 @@
             "showGiverNameTo": [COURSE],
             "showRecipientNameTo": [],
             "receiverEmail":"benny.c.tmms@gmail.tmt",
-            "createdAt":"2016-05-01 08:51 AM UTC",
+            "createdAt":"2026-05-01 08:51 AM UTC",
             "commentText":{
                 "value":"Comment 2 from Instructor to Benny in course CS2104"
             }

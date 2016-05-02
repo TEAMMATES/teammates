@@ -125,7 +125,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Course name
      */
-    private static final String COURSE_NAME_FIELD_NAME = "a course name";
+    public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+COURSE_NAME_FIELD_NAME+" because it %s. " +
@@ -895,4 +895,13 @@ public class FieldValidator {
         // TODO do better validation
         return redirectUrl.startsWith("/page/");
     }
+    
+    /**
+     * Checks whether a given text input represents a format of a valid email address.  
+     * @param email text input which needs the validation
+     * @return true if it is a valid email address, else false. 
+     */
+    public static boolean isValidEmailAddress(String email) {
+        return StringHelper.isMatching(email, REGEX_EMAIL);
+     }
 }

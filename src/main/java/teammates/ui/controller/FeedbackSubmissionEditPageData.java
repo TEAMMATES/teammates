@@ -19,7 +19,7 @@ import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses
 
 public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle = null;
-    private String moderatedQuestion = null;
+    private String moderatedQuestionId = null;
     private boolean isSessionOpenForSubmission;
     private boolean isPreview;
     private boolean isModeration;
@@ -28,6 +28,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private StudentAttributes studentToViewPageAs;
     private InstructorAttributes previewInstructor;    
     private String registerMessage; 
+    private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
@@ -37,7 +38,24 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;        
     }
+    
+    /**
+     * Generates the register message with join URL containing course ID 
+     * if the student is unregistered. Also loads the questions with responses.
+     * @param courseId the course ID
+     */
+    public void init(String courseId) {
+        init("", "", courseId);
+    }
 
+    
+    /**
+     * Generates the register message with join URL containing registration key, 
+     * email and course ID if the student is unregistered. Also loads the questions and responses.
+     * @param regKey the registration key
+     * @param email the email
+     * @param courseId the course ID
+     */
     public void init(String regKey, String email, String courseId) {
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
@@ -54,8 +72,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return bundle;
     }
     
-    public String getModeratedQuestion() {
-        return moderatedQuestion;
+    public String getModeratedQuestionId() {
+        return moderatedQuestionId;
     }
    
     public boolean isSessionOpenForSubmission() {
@@ -99,8 +117,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public String getSubmitAction() {
-        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
-                              : Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+        return submitAction;
     }
     
     public String getSubmitActionQuestion() {
@@ -116,8 +133,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return questionsWithResponses;
     }
 
-    public void setModeratedQuestion(String moderatedQuestion) {
-        this.moderatedQuestion = moderatedQuestion;
+    public void setModeratedQuestionId(String moderatedQuestionId) {
+        this.moderatedQuestionId = moderatedQuestionId;
     }
 
     public void setSessionOpenForSubmission(boolean isSessionOpenForSubmission) {
@@ -151,6 +168,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public void setRegisterMessage(String registerMessage) {
         this.registerMessage = registerMessage;
     }
+    
+    public void setSubmitAction(String submitAction) {
+        this.submitAction = submitAction;
+    }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
         ArrayList<String> result = new ArrayList<String>();
@@ -164,7 +185,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         // Add an empty option first.
         result.add(
             "<option value=\"\" " +
-            (currentlySelectedOption == null ? "selected=\"selected\">" : ">") +
+            (currentlySelectedOption == null ? "selected>" : ">") +
             "</option>"
         );
         
@@ -172,7 +193,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             result.add(
                 "<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" 
                 + (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  
-                                                ? " selected=\"selected\"" : "")
+                                                ? " selected" : "")
                 + ">" + sanitizeForHtml(pair.getValue())
                 + "</option>"
             );
@@ -205,7 +226,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private FeedbackSubmissionEditQuestion createQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx) {
-        boolean isModeratedQuestion = String.valueOf(questionAttributes.questionNumber).equals(getModeratedQuestion());
+        boolean isModeratedQuestion = String.valueOf(questionAttributes.getId()).equals(getModeratedQuestionId());
         
         return new FeedbackSubmissionEditQuestion(questionAttributes, qnIndx, isModeratedQuestion);
     }

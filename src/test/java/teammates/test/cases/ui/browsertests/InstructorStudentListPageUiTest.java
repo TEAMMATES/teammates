@@ -109,20 +109,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
-        viewPage.verifyHtmlWithRetry("/instructorStudentListWithHelperView.html");
+        viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
 
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
-        instructorWith2Courses.privileges = instructorWith2Courses.getInstructorPrivilegesFromText();
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
-        instructorWith2Courses.instructorPrivilegesAsText = instructorWith2Courses
-                                                             .getTextFromInstructorPrivileges();
         BackDoor.createInstructor(instructorWith2Courses);
 
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlMainContentWithRetry("/instructorStudentList.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentList.html");
 
         ______TS("content: 1 course with no students");
 
@@ -132,7 +129,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
-        viewPage.verifyHtmlMainContentWithRetry("/instructorStudentListPageNoStudent.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageNoStudent.html");
 
         ______TS("content: no course");
 
@@ -264,14 +261,14 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.checkCourse(2);
-        viewPage.verifyHtmlMainContentWithRetry("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
 
         ______TS("action: hide archive");
 
         viewPage.clickDisplayArchiveOptions();
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlMainContentWithRetry("/instructorStudentListPageHideArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCourses.html");
 
         ______TS("action: re-display archive");
 
@@ -279,7 +276,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.checkCourse(2);
-        viewPage.verifyHtmlMainContentWithRetry("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
     }
 
     @AfterClass

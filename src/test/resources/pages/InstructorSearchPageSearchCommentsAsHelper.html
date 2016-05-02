@@ -49,109 +49,117 @@
     </form>
   </div>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
+      <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
+        </span>
+      </div>
       <strong>
         Comments for students
       </strong>
     </div>
-    <div class="panel-body">
-      <div class="panel panel-info student-record-comments">
-        <div class="panel-heading">
-          From
-          <b>
-            Anonymous (searchUI.idOfTypicalCourse1)
-          </b>
-        </div>
-        <ul class="list-group comments">
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar-1">
-              <span class="text-muted">
-                To
-                <b>
-                  Anonymous
-                </b>
-                [Sat, 02 Jun 2012, 07:21 PM UTC]
-              </span>
-              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse">
+      <div class="panel-body">
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From
+            <b>
+              Anonymous (searchUI.idOfTypicalCourse1)
+            </b>
+          </div>
+          <ul class="list-group comments">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar-1">
+                <span class="text-muted">
+                  To
+                  <b>
+                    Anonymous
+                  </b>
+                  [Sat, 02 Jun 2012, 07:21 PM UTC]
                 </span>
-              </a>
-            </div>
-            <div id="plainCommentText1" style="margin-left: 15px;">
-              Other instructors in this course can see this
-              <span class="highlight">
-                comment
-              </span>
-              without names
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="panel panel-info student-record-comments">
-        <div class="panel-heading">
-          From
-          <b>
-            You (searchUI.idOfTypicalCourse1)
-          </b>
-        </div>
-        <ul class="list-group comments">
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar-2">
-              <span class="text-muted">
-                To
-                <b>
-                  All students in Course searchUI.idOfTypicalCourse1
-                </b>
-                [Sat, 02 Jun 2012, 07:22 PM UTC]
-              </span>
-              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                  <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                  </span>
+                </a>
+              </div>
+              <div id="plainCommentText1" style="margin-left: 15px;">
+                Other instructors in this course can see this
+                <span class="highlight">
+                  comment
                 </span>
-              </a>
-            </div>
-            <div id="plainCommentText2" style="margin-left: 15px;">
-              This is a private
-              <span class="highlight">
-                comment
-              </span>
-              which will not seen by other instructors
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="panel panel-info student-record-comments">
-        <div class="panel-heading">
-          From
-          <b>
-            Instructor Instructor2 Course1 (searchUI.idOfTypicalCourse1)
-          </b>
+                without names
+              </div>
+            </li>
+          </ul>
         </div>
-        <ul class="list-group comments">
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar-3">
-              <span class="text-muted">
-                To
-                <b>
-                  All students in Course searchUI.idOfTypicalCourse1
-                </b>
-                [Sat, 02 Jun 2012, 07:20 PM UTC]
-              </span>
-              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary">
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From
+            <b>
+              You (searchUI.idOfTypicalCourse1)
+            </b>
+          </div>
+          <ul class="list-group comments">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar-2">
+                <span class="text-muted">
+                  To
+                  <b>
+                    All students in Course searchUI.idOfTypicalCourse1
+                  </b>
+                  [Sat, 02 Jun 2012, 07:22 PM UTC]
                 </span>
-              </a>
-            </div>
-            <div id="plainCommentText3" style="margin-left: 15px;">
-              Other instructors in this course can see this
-              <span class="highlight">
-                comment
-              </span>
-            </div>
-          </li>
-        </ul>
+                <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                  <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                  </span>
+                </a>
+              </div>
+              <div id="plainCommentText2" style="margin-left: 15px;">
+                This is a private
+                <span class="highlight">
+                  comment
+                </span>
+                which will not seen by other instructors
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From
+            <b>
+              Instructor Instructor2 Course1 (searchUI.idOfTypicalCourse1)
+            </b>
+          </div>
+          <ul class="list-group comments">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar-3">
+                <span class="text-muted">
+                  To
+                  <b>
+                    All students in Course searchUI.idOfTypicalCourse1
+                  </b>
+                  [Sat, 02 Jun 2012, 07:20 PM UTC]
+                </span>
+                <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfHelperOfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                  <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                  </span>
+                </a>
+              </div>
+              <div id="plainCommentText3" style="margin-left: 15px;">
+                Other instructors in this course can see this
+                <span class="highlight">
+                  comment
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

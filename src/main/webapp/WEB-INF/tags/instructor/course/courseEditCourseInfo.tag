@@ -2,15 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.CourseAttributes" required="true" %>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>Course:</strong>
-        <a ${deleteCourseButton.attributesToString}>
-            ${deleteCourseButton.content}
-        </a>
+        
+        <div class="pull-right">
+            <a ${editCourseButton.attributesToString}>
+                ${editCourseButton.content}
+            </a>
+            
+            <a ${deleteCourseButton.attributesToString}>
+                ${deleteCourseButton.content}
+            </a>
+        </div>
     </div>
     
     <div class="panel-body fill-plain">
@@ -25,7 +33,7 @@
                             name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
                             value="${course.id}"
                             data-toggle="tooltip" data-placement="top" title="Identifier of the course, e.g.CS3215-Sem1."
-                            maxlength="<%=FieldValidator.COURSE_ID_MAX_LENGTH%>" tabindex="1" disabled="disabled">
+                            maxlength="<%=FieldValidator.COURSE_ID_MAX_LENGTH%>" tabindex="1" disabled>
                 </div>
             </div>
             
@@ -36,14 +44,14 @@
                             name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
                             value="${course.name}"
                             data-toggle="tooltip" data-placement="top" title="The name of the course, e.g. Software Engineering."
-                            maxlength="<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>" tabindex="2" disabled="disabled">
+                            maxlength="<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>" tabindex="2" disabled>
                 </div>
             </div>
             
             <div class="form-group">
                 <div class=" col-sm-12 align-center">
-                    <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse"
-                            style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
+                    <input type="submit" class="btn btn-primary" id="btnSaveCourse" name="btnSaveCourse"
+                            style="display:none;" value="Save Changes">
                 </div>
             </div>
             

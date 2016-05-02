@@ -1,0 +1,38 @@
+language: java
+jdk:
+  - oraclejdk7
+
+branches:
+  only:
+    - master
+    - release
+
+notifications:
+  email: false
+
+sudo: required
+dist: trusty
+
+addons:
+  firefox: "38.0.5"
+
+before_install:
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
+    --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 \
+    1440x900x16"
+  - "cp src/main/resources/build.template.properties \
+    src/main/resources/build.properties"
+  - "cp src/test/resources/test.template.properties \
+    src/test/resources/test.properties"
+  - "cp src/main/webapp/WEB-INF/appengine-web.template.xml \
+    src/main/webapp/WEB-INF/appengine-web.xml"
+
+before_script:
+  - export DISPLAY=:99.0
+  - tar -xjf /tmp/firefox-38.0.5.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
+  - gem install gist
+
+install: true
+script:
+  - ./gradlew -b travis.gradle

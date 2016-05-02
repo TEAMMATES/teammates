@@ -153,6 +153,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: panels expand/collapse");
         
         commentsPage.clickCommentsPageLinkInHeader();
+        
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
         
         commentsPage.clickAllCommentsPanelHeading();
@@ -162,6 +165,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickAllCommentsPanelHeading();
         commentsPage.waitForPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
+        
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToExpand();
         
     }
 

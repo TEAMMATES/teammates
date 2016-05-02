@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
@@ -122,11 +121,11 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             
         // Verify data
         StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "CCSDEditUiT.jose.tmms@gmail.tmt");
-        assertEquals("José Gómez",student.name);
-        assertEquals("Team 1",student.team);
+        assertEquals("José Gómez</option></td></div>'\"",student.name);
+        assertEquals("Team 1</td></div>'\"",student.team);
         assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt",student.email);
-        assertEquals("This student's name is José Gómez",student.comments);
+        assertEquals("This student's name is José Gómez</option></td></div>'\"",student.comments);
         
         
         ______TS("edit action");

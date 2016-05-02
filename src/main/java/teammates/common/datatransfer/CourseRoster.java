@@ -28,6 +28,15 @@ public class CourseRoster {
         return new ArrayList<InstructorAttributes>(instructorListByEmail.values());
     }
     
+    /**
+     * Checks if an instructor is the instructor of a course by providing an email address.
+     * @param instructorEmail email of the instructor to be checked.
+     * @return true if the instructor is an instructor of the course
+     */
+    public boolean isInstructorOfCourse(String instructorEmail) {
+        return instructorListByEmail.containsKey(instructorEmail);
+    }
+    
     public boolean isStudentInCourse(String studentEmail){
         return studentListByEmail.containsKey(studentEmail);
     }

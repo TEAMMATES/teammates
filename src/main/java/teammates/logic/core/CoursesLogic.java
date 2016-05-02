@@ -672,6 +672,25 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
     }
+    
+    /**
+     * Updates the course details.
+     * @param newCourse the course object containing new details of the course
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException, 
+                                                                EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);
+        
+        CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
+        
+        if (oldCourse == null) {
+            throw new EntityDoesNotExistException("Trying to update a course that does not exist.");
+        }
+        
+        coursesDb.updateCourse(newCourse);
+    }
 
     /**
      * Delete a course from its given corresponding ID
@@ -741,11 +760,9 @@ public class CoursesLogic {
                         export += Sanitizer.sanitizeForCsv(section.name) + ",";
                     }
 
-                    export += Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(team.name)) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(
-                                      StringHelper.removeExtraSpace(student.name))) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(
-                                      StringHelper.removeExtraSpace(student.lastName))) + "," 
+                    export += Sanitizer.sanitizeForCsv(team.name) + "," 
+                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + "," 
+                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + "," 
                               + Sanitizer.sanitizeForCsv(studentStatus) + "," 
                               + Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }

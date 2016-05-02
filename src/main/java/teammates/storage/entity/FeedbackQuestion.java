@@ -1,20 +1,24 @@
 package teammates.storage.entity;
 
 import java.util.List;
+import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.listener.StoreCallback;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.util.Const;
 
 @PersistenceCapable
-public class FeedbackQuestion {
+public class FeedbackQuestion implements StoreCallback {
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
     
     @PrimaryKey
@@ -61,6 +65,20 @@ public class FeedbackQuestion {
     
     @Persistent
     private List<FeedbackParticipantType> showRecipientNameTo;
+    
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Date updatedAt;
+    
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp. Set
+     * to true when using scripts to update entities when you want to preserve
+     * the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp = false;
 
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
@@ -85,6 +103,26 @@ public class FeedbackQuestion {
         this.showResponsesTo = showResponsesTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
+        this.setCreatedAt(new Date());
+    }
+
+    public Date getCreatedAt() {
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+    }
+    
+    public Date getUpdatedAt() {
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+    }
+    
+    public void setCreatedAt(Date newDate) {
+        this.createdAt = newDate;
+        setLastUpdate(newDate);
+    }
+    
+    public void setLastUpdate(Date newDate) {
+        if (!keepUpdateTimestamp) {
+            this.updatedAt = newDate;
+        }
     }
     
     public String getId() {
@@ -192,5 +230,12 @@ public class FeedbackQuestion {
     public void setShowRecipientNameTo(
             List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
+    }
+    
+    /**
+     * Called by jdo before storing takes place.
+     */
+    public void jdoPreStore() {
+        this.setLastUpdate(new Date());
     }
 }

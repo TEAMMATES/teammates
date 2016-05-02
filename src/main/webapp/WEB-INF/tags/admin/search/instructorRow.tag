@@ -35,13 +35,21 @@
         <c:if test="${not empty instructor.viewRecentActionsId}">
             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
                 <button type="submit" id="${instructor.viewRecentActionsId}_recentActions"
-                        class="btn btn-link btn-xs recentActionButton">
+                        class="btn btn-link btn-xs optionButton">
                         
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
                 </button>
                 <input type="hidden" name="filterQuery" value="${instructor.viewRecentActionsId}">
                 <input type="hidden" name="courseId" value="${instructor.courseId}">
             </form>
+            <c:if test="${not empty instructor.googleId}">
+                <form method="get" target="blank" action="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">
+                    <button type="submit" id="" class="btn btn-link btn-xs optionButton">
+                        <span class="glyphicon glyphicon-edit"></span>Manage this account
+                    </button>
+                    <input type="hidden" name="googleId" value="${instructor.googleId}">
+                </form>
+            </c:if>
         </c:if>
     </td>
 </tr>    
@@ -52,14 +60,14 @@
             <%-- Email --%>
             <li class="list-group-item list-group-item-success has-success">
                 <strong>Email</strong>
-                <input value="${instructor.email}" readonly="readonly" class="form-control" />
+                <input value="${instructor.email}" readonly class="form-control">
             </li>
              
              <%-- Course join link --%>
             <c:if test="${not empty instructor.courseJoinLink}">
                 <li class="list-group-item list-group-item-info">
                     <strong>Course Join Link</strong>
-                    <input value="${instructor.courseJoinLink}" readonly="readonly" class="form-control" />
+                    <input value="${instructor.courseJoinLink}" readonly class="form-control">
                 </li>
             </c:if>                               
         </ul>

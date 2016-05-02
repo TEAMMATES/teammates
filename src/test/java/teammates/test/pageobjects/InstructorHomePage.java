@@ -7,7 +7,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
 public class InstructorHomePage extends AppPage {
@@ -36,8 +35,14 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
+    
+    public InstructorCopyFsToModal fsCopyModal;
+    
     public InstructorHomePage(Browser browser){
         super(browser);
+        if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
+            this.fsCopyModal = new InstructorCopyFsToModal(browser);
+        }
     }
 
     @Override
@@ -156,31 +161,31 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionRemindLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName){
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
         clickAndConfirm(getUnpublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionPublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName){
         clickAndConfirm(getPublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     
@@ -330,6 +335,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     private int getCourseRowId(String courseId) {
+        waitForAjaxLoaderGifToDisappear();
         int id = 0;
         while (isElementPresent(By.id("course-" + id))) {
             if (getElementText(
@@ -359,39 +365,13 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        By element = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
-        waitForElementPresence(element);
-        WebElement fsCopyButton = browser.driver.findElement(element);
+        By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
+        
+        // give it some time to load as it is loaded via AJAX
+        waitForElementPresence(fsCopyButtonElement);
+        
+        WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
+        waitForElementNotCovered(fsCopyButton);
         fsCopyButton.click();
-    }
-    
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void waitForModalErrorToLoad() {
-        waitForElementPresence(By.id("fs-copy-modal-error"));
-    }
-    
-    public void clickFsCopySubmitButton() {
-        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
-
-        waitForElementVisibility(fsCopySubmitButton);
-        
-        fsCopySubmitButton.click();
-        waitForPageToLoad();
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        
-        fillTextBox(fsNameInput, newName);
     }
 }

@@ -77,7 +77,23 @@
             "role":"Co-owner",
             "isInstructor":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "CFResultsUiT.helper1":{
             "googleId":"CFResultsUiT.helper1",
@@ -87,7 +103,33 @@
             "role":"Custom",
             "isInstructor":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section B\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": true,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": false,
+                    "cangivecommentinsection": false,
+                    "cansubmitsessioninsection": false,
+                    "canmodifysessioncommentinsection": false,
+                    "canmodifycommentinsection": false,
+                    "canmodifycourse": false,
+                    "canviewsessioninsection": false,
+                    "canmodifysession": false,
+                    "canviewcommentinsection": false,
+                    "canmodifystudent": false,
+                    "canmodifyinstructor": false
+                },
+                "sectionLevel": {
+                    "Section B": {
+                        "canviewstudentinsection": false,
+                        "cangivecommentinsection": false,
+                        "cansubmitsessioninsection": true,
+                        "canmodifysessioncommentinsection": true,
+                        "canmodifycommentinsection": false,
+                        "canviewsessioninsection": true,
+                        "canviewcommentinsection": false
+                    }
+                },
+                "sessionLevel": {}
+            }
         },
         "CFResultsUiT.helper2":{
             "googleId":"CFResultsUiT.helper2",
@@ -97,7 +139,33 @@
             "role":"Custom",
             "isInstructor":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section A\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": true,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": false,
+                    "cangivecommentinsection": false,
+                    "cansubmitsessioninsection": false,
+                    "canmodifysessioncommentinsection": false,
+                    "canmodifycommentinsection": false,
+                    "canmodifycourse": false,
+                    "canviewsessioninsection": false,
+                    "canmodifysession": false,
+                    "canviewcommentinsection": false,
+                    "canmodifystudent": false,
+                    "canmodifyinstructor": false
+                },
+                "sectionLevel": {
+                    "Section A": {
+                        "canviewstudentinsection": false,
+                        "cangivecommentinsection": false,
+                        "cansubmitsessioninsection": true,
+                        "canmodifysessioncommentinsection": true,
+                        "canmodifycommentinsection": false,
+                        "canviewsessioninsection": true,
+                        "canviewcommentinsection": false
+                    }
+                },
+                "sessionLevel": {}
+            }
         },
         "CFResultsUiT.SanitizedTeam.instr":{
             "googleId":"CFResultsUiT.instr",
@@ -107,7 +175,23 @@
             "role":"Co-owner",
             "isInstructor":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         }
     },
     "students":{
@@ -115,9 +199,9 @@
             "googleId":"CFResultsUiT.alice.b",
             "email":"CFResultsUiT.alice.b@gmail.tmt",
             "course":"CFResultsUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1",
+            "name":"Alice Betsy</td>'\"",
+            "comments":"This student's name is Alice Betsy</td>'\"",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "Benny":{
@@ -126,7 +210,7 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "ExtraGuy":{
@@ -178,9 +262,9 @@
             "googleId":"CFResultsUiT.alice.b",
             "email":"CFResultsUiT.alice.b@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
-            "name":"Alic'e Bets'y",
-            "comments":"This student's name is Alic'e Bets'y",
-            "team":"Team '1",
+            "name":"Alic'e Bets'y</td></div>'\"",
+            "comments":"This student's name is Alic'e Bets'y</td></div>'\"",
+            "team":"Team '1</td></div>'\"",
             "section":"Section A"
         },
         "Sanitized.Benny":{
@@ -188,8 +272,8 @@
             "email":"CFResultsUiT.benny.c@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
             "name":"Benn'y Charle's",
-            "comments":"This student's name is Benn'y Charle's",
-            "team":"Team '1",
+            "comments":"This student's name is Benn'y Charle's</td></div>'\"",
+            "team":"Team '1</td></div>'\"",
             "section":"Section A"
         }
     },
@@ -203,7 +287,7 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":8.0,
@@ -221,9 +305,9 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
             "timeZone":8.0,
             "gracePeriod":20,
             "feedbackSessionType":"STANDARD",
@@ -239,7 +323,7 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":8.0,
@@ -257,7 +341,7 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":8.0,
@@ -275,11 +359,29 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":8.0,
             "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
+        "Session with Instructors as Givers":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"Session with Instructors as Givers"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":true
@@ -902,6 +1004,34 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
+        },
+        "qn1InInstructorsAsGivers":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"Rate 3 other students' products"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER",
+                "STUDENTS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS",
+                "STUDENTS",
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "STUDENTS",
+                "RECEIVER"
+            ]
         }
     },
     "feedbackResponses":{
@@ -1120,8 +1250,8 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"11",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"Team 1",
-            "recipientEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"Response from benny to Team 1 (own team)"
             },
@@ -1133,7 +1263,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"12",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 0}"
@@ -1367,7 +1497,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"None"
@@ -1380,7 +1510,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
@@ -1400,7 +1530,42 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "InstructorsAsGiversResponse1":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"Alice you did okay. You get B-"
+            }
+        },
+        "InstructorsAsGiversResponse2":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"You did better than Alice. You get C+"
+            }
+        },
+        "InstructorsAsGiversResponse3":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.charlie.d@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"I like you so I give you above A-"
+            }
         }
-
     }
 }

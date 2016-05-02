@@ -19,8 +19,10 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -40,8 +42,7 @@ public class PageData {
     public AccountAttributes account;
     public StudentAttributes student;
 
-    private String jQueryFilePath;
-    private String jQueryUiFilePath;
+    private List<StatusMessage> statusMessagesToUser;
 
     /**
      * @param account The account for the nominal user.
@@ -49,7 +50,6 @@ public class PageData {
     public PageData(AccountAttributes account) {
         this.account = account;
         this.student = null;
-        initCustomFilePaths();
     }
     
     /**
@@ -58,25 +58,6 @@ public class PageData {
     public PageData(AccountAttributes account, StudentAttributes student) {
         this.account = account;
         this.student = student;
-        initCustomFilePaths();
-    }
-    
-    /**
-     * Here is where we can initiate custom file paths for files that should be served via CDN on staging /
-     * live but through local files on Dev server to allow local testing without internet.
-     */
-    private void initCustomFilePaths() {
-        boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
-
-        if (isDevEnvironment) {
-            // V1.11.3
-            jQueryFilePath = "/js/lib/jquery.min.js";
-            // V1.11.4
-            jQueryUiFilePath = "/js/lib/jquery-ui.min.js";
-        } else {
-            jQueryFilePath = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
-            jQueryUiFilePath = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
-        }
     }
     
     public AccountAttributes getAccount() {
@@ -183,12 +164,12 @@ public class PageData {
        List<Double> options = TimeHelper.getTimeZoneValues();
        ArrayList<String> result = new ArrayList<String>();
        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
+           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
        }
        for (Double timeZoneOption : options) {
            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
-                      + (existingTimeZone == timeZoneOption ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
+                      + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
        }
        return result;
@@ -220,7 +201,7 @@ public class PageData {
      */
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
-            return new ElementTag(text, "value", value, "selected", "selected");
+            return new ElementTag(text, "value", value, "selected", null);
         } else {
             return new ElementTag(text, "value", value);
         }
@@ -240,7 +221,7 @@ public class PageData {
         ArrayList<String> result = new ArrayList<String>();
         for(int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" 
-                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected=\"selected\"" : "") 
+                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
                        + ">" + i + " mins</option>");
         }
         return result;
@@ -265,7 +246,7 @@ public class PageData {
         ArrayList<String> result = new ArrayList<String>();
         for(int i = 1; i <= 24; i++) {
             result.add("<option value=\"" + i + "\"" +
-                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected=\"selected\"" : "") + ">" 
+                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
         }
         return result;
@@ -469,7 +450,19 @@ public class PageData {
         return link;
     }
     
-  
+    /**
+     * Retrieves the link to submit the request for copy of session.
+     * Appends the return url to the link.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+    
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
@@ -481,12 +474,6 @@ public class PageData {
                                  Const.ParamsNames.NEXT_URL,
                                  (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                          : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getInstructorEditStudentFeedbackLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -523,12 +510,20 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String nextURL) {
+    /**
+     * Retrieves the link to submit request to delete the session.
+     * @param courseId course ID
+     * @param feedbackSessionName the session name
+     * @param returnUrl the url of the page to return to after the delete
+     * @return the link to submit request to delete the session with return page link
+     */
+    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, addUserIdToUrl(nextURL));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }    
     
@@ -556,15 +551,31 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to submit the request for remind student
+     * Appends the return url to the link.
+     * @param courseID the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
-    public String getInstructorFeedbackRemindParticularStudentsLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to load remind modal
+     * @param courseID the courseID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load remind modal
+     */
+    public String getInstructorFeedbackRemindParticularStudentsPageLink(String courseID, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -572,28 +583,36 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    /**
+     * Retrieves the link to submit the request to remind a particular student(s)
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+
+    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
     
-    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL,
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
@@ -740,8 +759,8 @@ public class PageData {
      * Returns the links of actions available for a specific session
      * @param session
      *         The feedback session details
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param returnUrl
+     *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
      * @param sectionsInCourse
@@ -750,9 +769,9 @@ public class PageData {
      * @throws EntityDoesNotExistException 
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-                                                                                boolean isHome,
+                                                                                String returnUrl,
                                                                                 InstructorAttributes instructor) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
+        return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 
     /**
@@ -941,7 +960,7 @@ public class PageData {
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + removeBracketsForArrayString(qn.showResponsesTo.toString());
+        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
     }
     
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
@@ -949,7 +968,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
         } else {
-            return removeBracketsForArrayString(frComment.showCommentTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
     }
     
@@ -962,7 +981,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
         } else {
-            return removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
     }
     
@@ -974,10 +993,6 @@ public class PageData {
                    + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
                    + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
-    }
-    
-    public String removeBracketsForArrayString(String arrayString) {
-        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
     
     @SuppressWarnings("unused")
@@ -1019,12 +1034,29 @@ public class PageData {
     private void ___________methods_to_serve_local_files() {
     //========================================================================    
     }
+    
+    /**
+     * Sets the list of status messages.
+     * @param statusMessagesToUser a list of status messages that is to be displayed to the user
+     */
+    public void setStatusMessagesToUser(List<StatusMessage> statusMessagesToUser) {
+        this.statusMessagesToUser = statusMessagesToUser;
+    }
+    
+    /**
+     * Gets the list of status messages.
+     * @return a list of status messages that is to be displayed to the user
+     */
+    public List<StatusMessage> getStatusMessagesToUser() {
+        return statusMessagesToUser;
+    }
 
     public String getjQueryFilePath() {
-        return jQueryFilePath;
+        return Const.SystemParams.getjQueryFilePath(Config.inst().isDevServer());
     }
 
     public String getjQueryUiFilePath() {
-        return jQueryUiFilePath;
+        return Const.SystemParams.getjQueryUiFilePath(Config.inst().isDevServer());
     }
+
 }
