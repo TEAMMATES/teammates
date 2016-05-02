@@ -134,9 +134,24 @@ public class StudentFeedbackResultsPageData extends PageData {
             }           
         }
         
-        for (String recipientEmail : recipients) {
-            List<FeedbackResponseAttributes> responsesBundleForRecipient = filterResponsesByRecipientEmail(recipientEmail, responsesBundle);
-            responseTables.add(createResponseTable(question, responsesBundleForRecipient));
+        for (String recipient : recipients) {
+            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);            
+            
+            boolean isUserRecipient = student.email.equals(recipient);
+            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS 
+                                          && student.team.equals(recipient);
+            String recipientName;
+            if (isUserRecipient) {
+                recipientName = "You";
+            } else if (isUserTeamRecipient) {
+                recipientName = String.format("Your Team (%s)", bundle.getNameForEmail(recipient));
+            } else {
+                recipientName = bundle.getNameForEmail(recipient);
+            }
+            
+            responseTables.add(createResponseTable(question, 
+                                                   responsesForRecipient,
+                                                   recipientName));
         }
         return responseTables;
     }
@@ -148,12 +163,10 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Feedback results responses table for a question and a recipient
      */
     private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
-                                    List<FeedbackResponseAttributes> responsesBundleForRecipient) {
+                                    List<FeedbackResponseAttributes> responsesBundleForRecipient,
+                                    String recipientName) {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
-        String recipientName = responsesBundleForRecipient == null || responsesBundleForRecipient.isEmpty() 
-                             ? "" 
-                             : bundle.getRecipientNameForResponse(responsesBundleForRecipient.get(0));
      
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
@@ -169,16 +182,8 @@ public class StudentFeedbackResultsPageData extends PageData {
                 giverName = "You";
             }
             
-            boolean isUserRecipient = student.email.equals(response.recipientEmail);
-            boolean isUserPartOfRecipientTeam = student.team.equals(response.recipientEmail);
-            if (question.recipientType == FeedbackParticipantType.TEAMS
-                && isUserPartOfRecipientTeam) {
-                recipientName = "Your Team (" + recipientName + ")";
-            } else if (isUserRecipient) {
-                recipientName = "You";
-            }
 
-            
+            boolean isUserRecipient = student.email.equals(response.recipientEmail);
             if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
