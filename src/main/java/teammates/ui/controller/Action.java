@@ -158,7 +158,7 @@ public abstract class Action {
                 if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
                     String expectedId = StringHelper.obscure(student.googleId);
                     expectedId = StringHelper.encrypt(expectedId);
-                    String redirectUrl = Config.getAppUrl(Const.ViewURIs.LOGOUT)
+                    String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
                                               .withUserId(StringHelper.encrypt(loggedInUserId))
                                               .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
                                               .withParam(Const.ParamsNames.HINT, expectedId)

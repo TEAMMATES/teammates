@@ -640,6 +640,7 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
+        public static final String LOGOUT = "/logout";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
