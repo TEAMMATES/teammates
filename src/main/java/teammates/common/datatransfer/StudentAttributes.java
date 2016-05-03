@@ -384,4 +384,18 @@ public class StudentAttributes extends EntityAttributes {
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    /**
+     * Checks whether the edit form of student has changed the section/team values.
+     * @param originalStudentAttribute
+     * @return true if either section or team has changed from previous values. 
+     */
+    public boolean hasSectionOrTeamChanged(StudentAttributes originalStudentAttribute) {
+       if ((this.section!=null && !this.section.equals(originalStudentAttribute.section)) || 
+                                       (this.team!=null && !this.team.equals(originalStudentAttribute.team))) {
+           return true;
+       } else {
+           return false;
+       }
+    }
 }
