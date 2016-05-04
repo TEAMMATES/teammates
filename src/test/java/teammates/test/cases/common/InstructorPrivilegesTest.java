@@ -247,7 +247,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, invalidPrivilegeName, false);
-        sectionPrivilges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
         assertEquals(2, privileges.getSectionLevelPrivileges().get(sectionId).size());

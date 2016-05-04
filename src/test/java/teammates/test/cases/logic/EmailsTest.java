@@ -309,9 +309,6 @@ public class EmailsTest extends BaseComponentTestCase {
 
         removeAndRestoreTypicalDataInDatastore();
         
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
-        
         StudentsLogic studentsLogic = StudentsLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -321,8 +318,8 @@ public class EmailsTest extends BaseComponentTestCase {
         
         CourseAttributes c = coursesLogic.getCourse(fsa.courseId);
         
-        students = studentsLogic.getStudentsForCourse(fsa.courseId);
-        instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.courseId);
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
         
         StudentAttributes s1 = new StudentAttributes();
         s1.email = "student5InCourse1@gmail.tmt";
