@@ -7,7 +7,6 @@ import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
-import com.google.gson.Gson;
 
 public class InstructorSearchDocument extends SearchDocument {
     
@@ -49,7 +48,7 @@ public class InstructorSearchDocument extends SearchDocument {
                        //searchableText is used to match the query string
                        .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
                        //attribute field is used to convert a doc back to attribute
-                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).setText(new Gson().toJson(instructor)))
+                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).setText(instructor.getJsonString()))
                        .setId(StringHelper.encrypt(instructor.key))
                        .build();
                 
