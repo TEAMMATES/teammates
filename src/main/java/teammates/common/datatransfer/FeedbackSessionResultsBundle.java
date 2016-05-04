@@ -1129,7 +1129,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 recipientTeam = getTeamNameForEmail(response.recipientEmail);
-                if (recipientTeam == "") {
+                if (recipientTeam.isEmpty()) {
                     recipientTeam = getNameForEmail(response.recipientEmail);
                 }
                 questionId = null;
@@ -1183,7 +1183,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giverTeam = getTeamNameForEmail(response.giverEmail);
-                if (giverTeam == "") {
+                if (giverTeam.isEmpty()) {
                     giverTeam = getNameForEmail(response.giverEmail);
                 }
                 questionId = null;

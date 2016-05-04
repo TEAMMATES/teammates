@@ -65,7 +65,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         StudentProfileAttributes studentProfile = null;
 
-        if (student.googleId == "") {
+        if (student.googleId.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
         } else if (!instructor.isAllowedForPrivilege(student.section,
                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {

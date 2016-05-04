@@ -504,7 +504,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
-                "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
+                "${statsTitle}", view.equals("student") ? "Response Summary (of visible responses)" : "Response Summary",
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString());
         
