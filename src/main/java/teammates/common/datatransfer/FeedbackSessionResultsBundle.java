@@ -39,7 +39,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public boolean isComplete;
 
     protected static Logger log = Utils.getLogger();
-	 
+    
     /**
      * Responses with identities of giver/recipients NOT hidden.
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
