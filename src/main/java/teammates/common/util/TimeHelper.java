@@ -358,11 +358,9 @@ public class TimeHelper {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     
-        Date newDate = new Date();
-    
         // Perform date manipulation
         try {
-            newDate = sdf.parse(date);
+            Date newDate = sdf.parse(date);
             calendar.setTime(newDate);
     
             if (time == 2400) {

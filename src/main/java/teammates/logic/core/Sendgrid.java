@@ -412,9 +412,7 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     public void send(WarningListener w) throws JSONException, UnsupportedEncodingException {
-        Map<String,String> data = new HashMap<String, String>();
-
-        data = this.prepareMessageData();
+        Map<String,String> data = this.prepareMessageData();
         StringBuffer requestParams = new StringBuffer();
         Iterator<String> paramIterator = data.keySet().iterator();
         

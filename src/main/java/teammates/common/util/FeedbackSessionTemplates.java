@@ -36,9 +36,6 @@ public class FeedbackSessionTemplates {
         
         String jsonString = FileHelper.readResourseFile(TEMPLATES.get(templateType));
         
-        List<FeedbackQuestionAttributes> questionAttributesList =
-                new ArrayList<FeedbackQuestionAttributes>();
-        
         //Replace placeholder
         jsonString = jsonString.replace("${courseId}", courseId);
         jsonString = jsonString.replace("${feedbackSessionName}", feedbackSessionName);
@@ -46,8 +43,6 @@ public class FeedbackSessionTemplates {
         
         Gson gson = Utils.getTeammatesGson();
         Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
-        questionAttributesList = gson.fromJson(jsonString, listType);
-        
-        return questionAttributesList;
+        return gson.fromJson(jsonString, listType);
     }
 }

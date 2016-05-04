@@ -830,7 +830,7 @@ public class PageData {
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
         StringBuilder peopleCanView = new StringBuilder();
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
