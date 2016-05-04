@@ -73,11 +73,11 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
 
     @Override
     public int compareTo(InstructorFeedbackResultsParticipantPanel o) {
+        // Shift panels for representing missing responses to the bottom
         if (isHasResponses != o.isHasResponses) {
             return isHasResponses ? -1 : 1;
-        } else {
-            return name.compareTo(o.name);
-        }
+        } 
+        return 0;
     }
     
 }
