@@ -47,7 +47,7 @@ $(document).ready(function() {
             $('#'+idOfOtherOptionFlag).val("0");
         }
     });
-    	           
+                   
     $("input[id^='otherOptionText']").keyup(function () {
     idOfOtherOptionRadioButton = $(this).attr('id').replace('Text','');
     $('#'+idOfOtherOptionRadioButton).val($(this).val());
@@ -78,15 +78,15 @@ $(document).ready(function() {
 
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
-	var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+    var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
     
     for (var i = 0; i < mcqQuestionNums.length; i++) {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
 
         for (var j = 0; j < numResponses; j++) {
-        	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
-        	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
+            $('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+                 .val($('#otherOptionText-' + qnNum + '-' + j).val());
         }
     }
 }
@@ -143,19 +143,19 @@ function prepareMCQQuestions() {
                 
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') == "otherOptionText") {
-                	if ($(this).is(':checked')) {
-                		$('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");               		
-                	} else {              		
-                		$('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                	}               	
+                    if ($(this).is(':checked')) {
+                        $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
+                    } else {                      
+                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    }                   
                 } else { // Predefined option is selected
-                	// If other option is enabled for the question
-                	if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
-                		$('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                	}
+                    // If other option is enabled for the question
+                    if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
+                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    }
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
