@@ -1,5 +1,8 @@
 apply plugin: "war"
 apply plugin: "appengine"
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+apply plugin: "findbugs"
 
 def appengineVersion = "1.9.27"
 def numOfTestRetries = 3
@@ -182,6 +185,53 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
+// STATIC ANALYSIS TASKS
+
+task eslint(type: Exec) {
+    def command = ["eslint"]
+    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
+    def configFile = ["-c", "static-analysis/teammates.eslintrc"]
+    def outputFormat = ["-f", "html"]
+    def outputFile = ["-o", "${buildDir}/reports/eslint.html"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + outputFormat + outputFile
+}
+
+checkstyle {
+    toolVersion = "6.18"
+    configFile = file("static-analysis/teammates-checkstyle.xml")
+}
+
+pmd {
+    toolVersion = "5.4.1"
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml")
+    ruleSets = []
+}
+
+findbugs {
+    toolVersion = "3.0.1"
+    visitors = [
+        "FindDeadLocalStores"
+    ]
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task staticAnalysisMain {
+    dependsOn checkstyleMain, pmdMain, findbugsMain
+}
+
+task staticAnalysisTest {
+    dependsOn checkstyleTest, pmdTest, findbugsTest
+}
+
+task staticAnalysis {
+    dependsOn eslint, staticAnalysisMain, staticAnalysisTest
+}
 
 // TRAVIS TEST TASKS
 
@@ -266,7 +316,7 @@ task generateFailedCmd(type: Exec) {
     }
 }
 
-defaultTasks "appengineRun", "travisTests", "appengineStop"
+defaultTasks "staticAnalysis", "appengineRun", "travisTests", "appengineStop"
 
 // LOCAL TEST TASKS (NOT USED CURRENTLY)
 
