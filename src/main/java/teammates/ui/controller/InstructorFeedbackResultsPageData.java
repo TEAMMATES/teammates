@@ -226,26 +226,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ 
-                    = bundle.getResponsesSortedByRecipientGiverQuestion();
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ =
+                    bundle.getResponsesSortedByRecipientGiverQuestion(isGroupedByTeam());
     
                 buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForRGQ, viewType.additionalInfoId());
                 break;
             case RECIPIENT_QUESTION_GIVER:
-                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRQG
-                    = bundle.getResponsesSortedByRecipientQuestionGiver(true);
+                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRQG =
+                    bundle.getResponsesSortedByRecipientQuestionGiver(isGroupedByTeam());
   
                 buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForRQG, viewType.additionalInfoId());
                 break;
             case GIVER_QUESTION_RECIPIENT:
-                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGQR 
-                    = bundle.getResponsesSortedByGiverQuestionRecipient(true);
+                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGQR =
+                    bundle.getResponsesSortedByGiverQuestionRecipient(isGroupedByTeam());
    
                 buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForGQR, viewType.additionalInfoId());
                 break;
             case GIVER_RECIPIENT_QUESTION:
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ
-                    = bundle.getResponsesSortedByGiverRecipientQuestion();
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ =
+                    bundle.getResponsesSortedByGiverRecipientQuestion(isGroupedByTeam());
                 buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForGRQ, viewType.additionalInfoId());
                 break;
             default:
