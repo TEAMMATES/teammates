@@ -225,10 +225,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AdminSearchTask</servlet-name>
-        <url-pattern>/searchTask</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/*</url-pattern>
     </servlet-mapping>
