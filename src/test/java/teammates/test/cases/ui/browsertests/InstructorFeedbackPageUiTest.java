@@ -194,8 +194,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
-        //Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
-        //      In that case, rerun in Chrome.
         assertEquals(newSession.toString(), savedSession.toString());
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
