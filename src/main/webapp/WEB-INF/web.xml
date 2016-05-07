@@ -263,7 +263,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         </web-resource-collection>
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>
-            <url-pattern>/searchTask</url-pattern>
             <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
         </web-resource-collection>
         <auth-constraint>
