@@ -35,15 +35,15 @@ public class LogoutServlet extends HttpServlet {
         String logoutUrl = Logic.getLogoutUrl(nextUrl);
         if (expectedId == null || actualId == null) {
             resp.sendRedirect(logoutUrl);
-        } else {
-            try {
-                req.setAttribute(Const.ParamsNames.HINT, StringHelper.decrypt(expectedId));
-                req.setAttribute(Const.ParamsNames.USER_ID, StringHelper.decrypt(actualId));
-                req.setAttribute(Const.ParamsNames.NEXT_URL, logoutUrl);
-                req.getRequestDispatcher(Const.ViewURIs.GOOGLE_ACCOUNT_HINT).forward(req, resp);
-            } catch (Exception e) {
-                resp.sendRedirect(logoutUrl);
-            }
+            return;
+        }
+        try {
+            req.setAttribute(Const.ParamsNames.HINT, StringHelper.decrypt(expectedId));
+            req.setAttribute(Const.ParamsNames.USER_ID, StringHelper.decrypt(actualId));
+            req.setAttribute(Const.ParamsNames.NEXT_URL, logoutUrl);
+            req.getRequestDispatcher(Const.ViewURIs.GOOGLE_ACCOUNT_HINT).forward(req, resp);
+        } catch (Exception e) {
+            resp.sendRedirect(logoutUrl);
         }
     }
 
