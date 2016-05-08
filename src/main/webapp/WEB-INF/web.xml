@@ -93,6 +93,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>BackDoorServlet</servlet-name>

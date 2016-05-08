@@ -640,6 +640,7 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
+        public static final String LOGOUT = "/logout";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
@@ -861,7 +862,7 @@ public class Const {
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         
-        public static final String LOGOUT = "/logout.jsp"; 
+        public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp"; 
         
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
