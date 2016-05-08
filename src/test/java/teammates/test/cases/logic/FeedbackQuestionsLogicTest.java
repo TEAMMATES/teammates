@@ -446,8 +446,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("Get questions created for instructors and self");
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         actualQuestions = 
                     fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt");
         
@@ -537,8 +537,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("Get questions created for students and teams");
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
         expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
+        expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
         actualQuestions = 
                     fqLogic.getFeedbackQuestionsForStudents("Second feedback session", "idOfTypicalCourse1");
         
