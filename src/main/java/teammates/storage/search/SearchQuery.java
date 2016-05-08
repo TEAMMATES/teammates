@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
+
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 
 /**
  * The SearchQuery object that defines how we query {@link Document}
@@ -40,7 +41,18 @@ public abstract class SearchQuery {
     }
     
     protected SearchQuery setTextFilter(String textField, String queryString){
-        String sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
+        String sanitizedQueryString;
+        
+        // The sanitize process considers the '.'(dot) as a space and this
+        // returns unnecessary search results in the case if someone searches
+        // using an email. To avoid this, we check whether the input text is an
+        // email, and if yes, we skip the sanitize process.
+        if(FieldValidator.isValidEmailAddress(queryString)){
+            sanitizedQueryString = queryString.toLowerCase().trim();
+        } else {
+            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
+        }
+        
         if(!sanitizedQueryString.isEmpty()){
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
             this.textQueryStrings.add(textField + ":" + preparedOrQueryString);

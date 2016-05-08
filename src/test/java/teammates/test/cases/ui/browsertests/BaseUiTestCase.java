@@ -127,7 +127,7 @@ public class BaseUiTestCase extends BaseTestCase {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected static void logout(Browser currentBrowser) {
-        currentBrowser.driver.get(createUrl(Const.ViewURIs.LOGOUT).toAbsoluteString());
+        currentBrowser.driver.get(createUrl(Const.ActionURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(currentBrowser).waitForPageToLoad();
         currentBrowser.isAdminLoggedIn = false;
     }
