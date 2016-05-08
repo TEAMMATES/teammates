@@ -71,11 +71,13 @@
         "typicalCourse1":{
             "id":"idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "courseNoEvals":{
             "id":"idOfCourseNoEvals",
             "name":"Typical Course 3 with 0 Evals",
+            "timeZone":"UTC",
             "isArchived":false
         }
     

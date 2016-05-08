@@ -33,6 +33,7 @@
         "idOfCourse1":{
             "id":"idOfCourse1",
             "name":"Programming Language Concepts",
+            "timeZone":"UTC",
             "isArchived": false
         }
     },

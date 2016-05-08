@@ -46,7 +46,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         ______TS("Error: Invalid parameter for Course ID");
         
         Action addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac,tpa1,id",
-                                     Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+                                     Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
+                                     Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
@@ -67,7 +68,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         ______TS("Typical case, 1 existing course");
         
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
+                              Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         pageData = (InstructorCoursesPageData) pageResult.data;
@@ -88,7 +90,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         ______TS("Error: Try to add the same course again");
         
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
+                              Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
@@ -112,7 +115,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         addAction = getAction(Const.ParamsNames.USER_ID, instructorId,
                               Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
-                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
+                              Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
@@ -144,7 +148,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructorId);
         
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
-                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
+                              Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         pageData = (InstructorCoursesPageData) pageResult.data;

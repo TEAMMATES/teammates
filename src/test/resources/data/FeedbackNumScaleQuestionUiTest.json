@@ -20,6 +20,7 @@
     "course": {
       "id": "FNumScaleQnUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

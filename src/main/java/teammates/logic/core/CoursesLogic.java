@@ -72,17 +72,17 @@ public class CoursesLogic {
         return instance;
     }
 
-    public void createCourse(String courseId, String courseName) throws InvalidParametersException, 
-                                                                        EntityAlreadyExistsException {
+    public void createCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         
-        CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
+        CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName, courseTimeZone);
         coursesDb.createEntity(courseToAdd);
     }
     
     /**
      * Creates a Course object and an Instructor object for the Course.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
@@ -91,7 +91,7 @@ public class CoursesLogic {
         Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId, 
                               courseCreator.isInstructor);
         
-        createCourse(courseId, courseName);
+        createCourse(courseId, courseName, courseTimeZone);
         
         /* Create the initial instructor for the course */
         InstructorPrivileges privileges = new InstructorPrivileges(

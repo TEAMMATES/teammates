@@ -8,6 +8,9 @@
   <script type="text/javascript" src="../../javascript/blanket.js"></script>
   <script type="text/javascript" src="../../../main/webapp/js/lib/jquery.min.js"></script>
   <script type="text/javascript" src="../../../main/webapp/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../../../main/webapp/js/lib/moment.min.js"></script>
+  <script type="text/javascript" src="../../../main/webapp/js/lib/moment-timezone-with-data-2010-2020.min.js"></script>
+  <script type="text/javascript" src="../../../main/webapp/js/lib/selectize.js"></script>
   <script type="text/javascript" src="../../../main/webapp/js/common.js" data-cover></script>  
   <script type="text/javascript" src="../../../main/webapp/js/instructorCourses.js" data-cover></script>
   <script type="text/javascript" src="../../../main/webapp/js/instructorCourseEnrollPage.js" data-cover></script>
@@ -323,6 +326,14 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="well well-plain">
+      <select class="form-control"
+          name="coursetimezone"
+          id="coursetimezone"
+          tabindex="3" placeholder="Select a time zone...">
+          <option value="">Select a time zone...</option>
+      </select>
     </div>
 </body>
 </html>

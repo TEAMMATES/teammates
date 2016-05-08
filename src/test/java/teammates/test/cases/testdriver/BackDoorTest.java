@@ -241,9 +241,9 @@ public class BackDoorTest extends BaseTestCase {
         String course2 = "AST.TGCBCI.course2";
         BackDoor.deleteCourse(course1);
         BackDoor.deleteCourse(course2);
-        String status = BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1"));
+        String status = BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1", "UTC"));
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        status = BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1"));
+        status = BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1", "UTC"));
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         
         // create a fresh instructor with relations for the 2 courses
@@ -262,7 +262,7 @@ public class BackDoorTest extends BaseTestCase {
         // add a course that belongs to a different instructor
         String course3 = "AST.TGCBCI.course3";
         BackDoor.deleteCourse(course3);
-        status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2"));
+        status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2", "UTC"));
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         courses = BackDoor.getCoursesByInstructorId(instructor1Id);
@@ -283,7 +283,7 @@ public class BackDoorTest extends BaseTestCase {
 
         String courseId = "tmapitt.tcc.course";
         CourseAttributes course = new CourseAttributes(courseId,
-                "Name of tmapitt.tcc.instructor");
+                "Name of tmapitt.tcc.instructor", "UTC");
         
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);

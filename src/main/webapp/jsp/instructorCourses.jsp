@@ -4,6 +4,11 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <c:set var="jsIncludes">
+    <link rel="stylesheet" href="/stylesheets/lib/selectize.bootstrap3.css" type="text/css">
+
+    <script type="text/javascript" src="/js/lib/moment.min.js"></script>
+    <script type="text/javascript" src="/js/lib/moment-timezone-with-data-2010-2020.min.js"></script>
+    <script type="text/javascript" src="/js/lib/selectize.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCoursesStatsAjax.js"></script>
     <script type="text/javascript" src="/js/instructorCoursesAjax.js"></script>

@@ -33,7 +33,8 @@
   "courses": {
     "course": {
       "id": "FRankUiT.CS4221",
-      "name": "Database Applications Design and Tuning"
+      "name": "Database Applications Design and Tuning",
+      "timeZone": "UTC"
     }
   },
   

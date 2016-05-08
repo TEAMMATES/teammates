@@ -20,16 +20,19 @@
     "SCJConfirmationUiT.CS2104": {
       "id": "SCJConfirmationUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "SCJConfirmationUiT.CS2103": {
       "id": "SCJConfirmationUiT.CS2103",
       "name": "Software Engineering",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "SCJConfirmationUiT.CS1101": {
       "id": "SCJConfirmationUiT.CS1101",
       "name": "Programming Methodology",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

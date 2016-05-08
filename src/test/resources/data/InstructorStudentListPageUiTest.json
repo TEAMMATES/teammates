@@ -41,21 +41,25 @@
     "course1": {
       "id": "course1",
       "name": "Name of Course 1",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "course2": {
       "id": "course2",
       "name": "Name of Course 2",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "course3": {
       "id": "course3",
       "name": "Name of Course 3",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "course4": {
       "id": "course4",
       "name": "Name of Course 4",
+      "timeZone": "UTC",
       "isArchived": true
     }
   },

@@ -13,6 +13,7 @@
     "CCEnrollUiT.CS2104": {
       "id": "CCEnrollUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },
