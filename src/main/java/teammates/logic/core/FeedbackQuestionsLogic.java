@@ -238,7 +238,7 @@ public class FeedbackQuestionsLogic {
             questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                             feedbackSessionName, courseId, INSTRUCTORS));
         }
-        
+        Collections.sort(questions);
         return questions;
     }
     
@@ -275,7 +275,7 @@ public class FeedbackQuestionsLogic {
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
                 courseId, SELF));
         
-        
+        Collections.sort(questions);
         return questions;
     }
     
@@ -319,6 +319,7 @@ public class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, TEAMS));
         
+        Collections.sort(questions);
         return questions;
     }
     
