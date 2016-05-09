@@ -228,19 +228,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
 	
     <servlet>
-        <servlet-name>AdminSearchTask</servlet-name>
-        <servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminSearchTask</servlet-name>
-        <url-pattern>/searchTask</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/*</url-pattern>
@@ -280,7 +271,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         </web-resource-collection>
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>
-            <url-pattern>/searchTask</url-pattern>
             <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
         </web-resource-collection>
         <auth-constraint>
