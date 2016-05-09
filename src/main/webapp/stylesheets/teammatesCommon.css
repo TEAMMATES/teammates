@@ -832,3 +832,8 @@ Prevent Long URL From Breaking Out of Container
         white-space: nowrap;
     }
 }
+
+.modal-footer {
+    padding: 14px 15px 15px;
+    margin-top: 0px;
+}
