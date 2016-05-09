@@ -104,10 +104,12 @@ Important: When a version is specified, please install that version instead of t
 
 
 
-1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X) 
-    or Chrome (Windows only). The default browser used for testing is Firefox 
-    because it is faster than Chrome and it can be run in the background.
-    Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
+1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
+   Only Firefox between versions 38.0.5 and 42.0 are supported, although the primary support is for 38.0.5.
+   To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
+   If you want to use a different path for this version, choose `custom setup` during install.
+   After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
+   Remember to disable the auto-updates (`Options → Advanced tab → Update`).
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone.
@@ -153,7 +155,7 @@ Important: When a version is specified, please install that version instead of t
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
-Possible values are `firefox` or `chrome`. 
+Currently only `firefox` is accepted.
 In addition, you need to configure the browser you have selected so that 
 it works with the test suite. 
 
@@ -165,17 +167,6 @@ it works with the test suite.
 * If you have installed a separate Firefox version, you can choose which 
   Firefox binary to use. You can specify the custom path in `test.firefox.path` 
   value inside the `test.properties` file.
-
-####Chrome
-* If you are planning to test changes to JavaScript code, disable 
-  javascript caching for Chrome : 
-    * Press ctrl-shift-j to bring up the Web Console. 
-    * At the bottom-right corner, there is a settings button. Click on that. 
-    * Under the General tab, check 'Disable Cache'
-* The chromedriver process started by the test suite will not automatically 
-  get killed after the tests have finished executing. 
-  You will need to manually kill these processes after the tests are done. 
-  On Windows, you can do this using the Task Manager or `tskill` DOS command. 
 
 ###Running the test suite outside Eclipse
 Typically, we run the test suite within Eclipse. But core developers may prefer
@@ -287,7 +278,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 
 * **Selenium** [version 2.46.0]
     Selenium automates browsers. We use it for automating our UI tests.
-    We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
+    We require Selenium standalone server and Java language bindings.
 * **JavaMail** [version 1.4.5]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
