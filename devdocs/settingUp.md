@@ -2,6 +2,7 @@
 * [Setting Up the Developer Environment](#setting-up-the-developer-environment)
 * [Prerequisites](#prerequisites)
 * [Setting up the dev server](#setting-up-the-dev-server)
+* [Setting up static analysis tools](#setting-up-static-analysis-tools)
 * [Running the test suite](#running-the-test-suite)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
