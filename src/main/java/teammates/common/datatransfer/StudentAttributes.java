@@ -386,13 +386,25 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     /**
-     * Checks whether the edit form of student has changed the section/team values.
+     * Checks whether the edit form of student has changed the section value.
      * @param originalStudentAttribute
-     * @return true if either section or team has changed from previous values. 
+     * @return true if either section has changed from previous values. 
      */
-    public boolean hasSectionOrTeamChanged(StudentAttributes originalStudentAttribute) {
-       if ((this.section!=null && !this.section.equals(originalStudentAttribute.section)) || 
-                                       (this.team!=null && !this.team.equals(originalStudentAttribute.team))) {
+    public boolean hasSectionChanged(StudentAttributes originalStudentAttribute) {
+       if (((this.section!=null) && !(this.section.equals(originalStudentAttribute.section)))) {
+           return true;
+       } else {
+           return false;
+       }
+    }
+    
+    /**
+     * Checks whether the edit form of student has changed the team value.
+     * @param originalStudentAttribute
+     * @return true if team has changed from previous values. 
+     */
+    public boolean hasTeamChanged(StudentAttributes originalStudentAttribute) {
+       if (((this.team!=null) && !(this.team.equals(originalStudentAttribute.team)))) {
            return true;
        } else {
            return false;

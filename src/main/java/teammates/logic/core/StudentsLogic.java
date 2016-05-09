@@ -356,7 +356,7 @@ public class StudentsLogic {
         }
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
-        validateSections(studentList, courseId);
+        validateSectionsAndTeams(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
         // enroll all students
@@ -398,20 +398,16 @@ public class StudentsLogic {
         }
     }
 
-    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    /**
+     * Validates both sections and teams for any limit violations
+     * @param studentList
+     * @param courseId
+     * @throws EntityDoesNotExistException
+     * @throws EnrollException
+     */
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
-        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
-        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
-        
-        for(StudentAttributes student : studentList) {
-            mergedList.add(student);
-        }
-
-        for(StudentAttributes student : studentsInCourse) {
-            if(!isInEnrollList(student, mergedList)){
-                mergedList.add(student);
-            }
-        }
+        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
         if(mergedList.size() < 2){ // no conflicts
             return;
@@ -426,7 +422,72 @@ public class StudentsLogic {
         }
 
     }
+    
+    /**
+     * Validates teams for any limit violations
+     * @param studentList
+     * @param courseId
+     * @throws EntityDoesNotExistException
+     * @throws EnrollException
+     */
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
+        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
+
+        if(mergedList.size() < 2){ // no conflicts
+            return;
+        }
+        
+        String errorMessage = "";
+        errorMessage += getTeamInvalidityInfo(mergedList);
+
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+    
+    /**
+     * Validates sections for any limit violations
+     * @param studentList
+     * @param courseId
+     * @throws EntityDoesNotExistException
+     * @throws EnrollException
+     */
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
+                                        
+        if(mergedList.size() < 2){ // no conflicts
+            return;
+        }
+        
+        String errorMessage = "";
+        errorMessage += getTeamInvalidityInfo(mergedList);
+
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+    
+    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId){
+
+        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        
+        for(StudentAttributes student : studentList) {
+            mergedList.add(student);
+        }
+
+        for(StudentAttributes student : studentsInCourse) {
+            if(!isInEnrollList(student, mergedList)){
+                mergedList.add(student);
+            }
+        }
+        return mergedList;
+    }
+    
     public String getSectionForTeam(String courseId, String teamName){
 
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);

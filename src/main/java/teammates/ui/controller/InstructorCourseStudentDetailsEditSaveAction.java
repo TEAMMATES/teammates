@@ -55,9 +55,17 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         try {
             StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);
             student.updateWithExistingRecord(originalStudentAttribute);
-            if(student.hasSectionOrTeamChanged(originalStudentAttribute)){
+            
+            boolean hasSectionChanged = student.hasSectionChanged(originalStudentAttribute);
+            boolean hasTeamChanged = student.hasSectionChanged(originalStudentAttribute);
+            if(hasSectionChanged && hasTeamChanged){
+                logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
+            } else if(hasSectionChanged){
                 logic.validateSections(Arrays.asList(student), courseId);
+            } else if(hasTeamChanged){
+                logic.validateTeams(Arrays.asList(student), courseId);
             }
+            
             logic.updateStudent(studentEmail, student);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
