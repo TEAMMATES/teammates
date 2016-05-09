@@ -496,8 +496,12 @@ public class FeedbackSessionsDb extends EntitiesDb {
         return feedbackSessionList;
     }
     
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        
+    /**
+     * @return empty list if none found.
+     * @deprecated Not scalable. Created for data migration purposes.
+     */
+    @Deprecated
+    public List<FeedbackSession> getAllFeedbackSessionEntities() {
         Query q = getPM().newQuery(FeedbackSession.class);
 
         @SuppressWarnings("unchecked")
