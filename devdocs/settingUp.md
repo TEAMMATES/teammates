@@ -100,6 +100,12 @@ Important: When a version is specified, please install that version instead of t
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
 
+## Setting up static analysis tools
+
+TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
+It is highly encouraged to set up these tools in your local development environment.
+Refer to [this document](staticAnalysis.md) for details on the tools used, how to set them up, and how to run them locally.
+
 ## Running the test suite
 
 
@@ -257,6 +263,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
+* **CheckStyle, PMD, FindBugs, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.
@@ -293,6 +300,8 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
+* **EclEmma/JaCoCo** [latest stable]
+    JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
 * **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]

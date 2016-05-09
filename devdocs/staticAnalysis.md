@@ -38,7 +38,11 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates.eslintrc).
-ESLint is currently not supported for Eclipse Java EE project.
+ESLint is a node.js package, currently not supported for Eclipse Java EE project.
+To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
+```
+npm install -g eslint
+```
 
 ### blanket.js
 
@@ -69,11 +73,7 @@ Alternatively, run the tools via Gradle:
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
 
-ESLint is a node.js package. After [installing node.js](https://nodejs.org/en/download/), install the ESLint package:
-```
-npm install -g eslint
-```
-Run the following command to run ESLint analysis on all JavaScript source files:
+To run ESLint analysis on all JavaScript source files, run the following command:
 ```
 ./gradlew -b travis.gradle eslint
 ```
