@@ -145,7 +145,7 @@ public class CourseEditSectionRow {
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + Const.ParamsNames.INSTRUCTOR_SECTION + (i + j);
                 ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
-                                                     (i + j == sectionIndex));
+                                                     false);
                 specialSectionGroup.add(checkbox);
             }
             specialSections.add(specialSectionGroup);
