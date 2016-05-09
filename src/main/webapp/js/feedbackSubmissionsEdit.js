@@ -74,6 +74,8 @@ $(document).ready(function() {
     prepareRankQuestions();
 
     focusModeratedQuestion();
+
+    showModalWarningIfSessionClosed();
 });
 
 // Saves the value in the other option textbox for MCQ questions
@@ -929,4 +931,25 @@ function updateRankMessageQn(qnNum) {
             updateRankMessages($rankMessageElement);
         }
     }
+}
+
+function showModalWarningIfSessionClosed() {
+    if (hasWarningMessage()) {
+        showAlertModal("TEAMMATES:", getWarningMessage(), "Okay");
+    }
+}
+
+function showAlertModal(title, message, okButtonText) {
+    $('#alert-modal-title').html(title);
+    $('#alert-modal-message').html(message);
+    $('#alert-modal-ok').html(okButtonText);
+    $('#alertModal').modal('show');
+}
+
+function hasWarningMessage() {
+    return (Boolean) ($('.alert-warning, .statusMessage'));
+}
+
+function getWarningMessage() {
+    return $('.alert-warning, .statusMessage').html().trim();
 }

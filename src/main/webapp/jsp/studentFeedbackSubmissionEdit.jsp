@@ -39,5 +39,5 @@
     </c:if>
     
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
-    
+    <feedbackSubmissionEdit:alertModal/>
 </ts:studentPage>
