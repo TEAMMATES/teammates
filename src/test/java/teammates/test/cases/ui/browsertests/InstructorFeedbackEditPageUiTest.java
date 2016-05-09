@@ -277,11 +277,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
         
-        assertFalse("Expected recipient's team members to not be able to see response, but was "
-                    + feedbackEditPage.getNewQnVisibilityMessage().getText(),
-                    feedbackEditPage.getNewQnVisibilityMessage()
-                    .getText()
-                                .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        feedbackEditPage.waitForTextContainedInElementAbsence(
+                By.id("visibilityMessage"), 
+                "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
         
