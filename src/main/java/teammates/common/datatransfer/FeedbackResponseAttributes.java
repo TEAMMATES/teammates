@@ -162,7 +162,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
         this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
