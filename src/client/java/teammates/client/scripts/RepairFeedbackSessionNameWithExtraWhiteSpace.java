@@ -20,8 +20,8 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackSession;
 
 /**
- * Previews and removes extra spaces in StudentAttributes, FeedbackResponseAttributes
- * and CommentAttributes.
+ * Previews and removes extra spaces in FeedbackSessionAttributes, FeedbackResponseAttributes,
+ * FeedbackQuestionAttributes and FeedbackResponseCommentAttribute.
  */
 public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClient {
     private final boolean isPreview = true;
@@ -30,7 +30,6 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     private FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
     private FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
     private FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-    
     
     public static void main(String[] args) throws IOException {
         RepairFeedbackSessionNameWithExtraWhiteSpace migrator = new RepairFeedbackSessionNameWithExtraWhiteSpace();
@@ -76,12 +75,17 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             e.printStackTrace();
         }
     }
-
-
+    
+    /**
+     * Displays the feedback session.
+     */
     private void showFeedbackSession(FeedbackSession session) {
         System.out.println("Feedback Session Name: \"" + session.getFeedbackSessionName() + "\" in " + session.getCourseId());
     }
 
+    /**
+     * Remove extra spaces in feedback session's name
+     */
     private void fixFeedbackSession(FeedbackSession session) throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         fixFeedbackQuestionsOfFeedbackSession(session);
         fixFeedbackResponsesOfFeedbackSession(session);
@@ -93,6 +97,9 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         feedbackSessionsDb.createEntity(sessionAttribute);
     }
 
+    /**
+     * Fixes feedbackSessionName in FeedbackResponseComments
+     */
     private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session) throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseCommentAttributes> feedbackResponseCommentList = feedbackResponseCommentsDb.getFeedbackResponseCommentsForSession(session.getCourseId(),
                                                                                                                                                session.getFeedbackSessionName());
@@ -102,6 +109,9 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         }
     }
 
+    /**
+     * Fixes feedbackSessionName in FeedbackResponses
+     */
     private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session) throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> feedbackResponseList = feedbackResponsesDb.getFeedbackResponsesForSession(session.getFeedbackSessionName(), 
                                                                                                                    session.getCourseId());
@@ -111,6 +121,9 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         }
     }
 
+    /**
+     * Fixes feedbackSessionName in FeedbackQuestions
+     */
     private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session) 
             throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> feedbackQuestionList = feedbackQuestionsDb.getFeedbackQuestionsForSession(session.getFeedbackSessionName(), 
