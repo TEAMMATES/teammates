@@ -734,7 +734,7 @@ function validateAllAnswersHaveRecipient() {
     });
 
     var isAllAnswersToMissingRecipientEmpty = true;
-    var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
+    var statusMessage = FEEDBACK_MISSING_RECIPIENT;
     var errorCount = 0;
 
     // for every response without a recipient, check that the response is empty

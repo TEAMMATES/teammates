@@ -203,7 +203,7 @@ function getNextId(e) {
 }
 
 function bindCollapseEvents(panels, numPanels) {
-    for (var i = 0 ; i < panels.length ; i++) {
+    for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
         if (heading.length != 0 && bodyCollapse.length != 0) {
