@@ -195,7 +195,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseToUpdate.recipientEmail = "Team 1.1";
         
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
@@ -203,7 +203,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
         
         
         ______TS("failure: invalid params");
@@ -236,13 +236,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // 1 team response from him to another team.
         FeedbackQuestionAttributes teamQuestion = getQuestionFromDatastore("team.members.feedback");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),1);
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),1);
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
         
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),1);
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
         
         // Add one more non-team response 
         FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
@@ -258,13 +258,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         teamQuestion = getQuestionFromDatastore("team.members.feedback");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),0);
+                teamQuestion.getId(), studentToUpdate.email).size(), 0);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),0);
+                teamQuestion.getId(), studentToUpdate.email).size(), 0);
         
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(),0);
+                teamQuestion.getId(), studentToUpdate.email).size(), 0);
         
         // Non-team response should remain
         
@@ -556,7 +556,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // check that team responses are gone too. already checked giver as it is stored by giver email not team id.
         remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));
 
-        assertEquals(remainingResponses.size(),0);    
+        assertEquals(remainingResponses.size(), 0);    
     }
     
     public void testDeleteFeedbackResponsesForCourse() {

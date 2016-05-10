@@ -86,7 +86,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
                       r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
         assertEquals(3, data.getCourseTables().size());
@@ -121,7 +121,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
         assertEquals(3, data.getCourseTables().size());
@@ -163,7 +163,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
         assertEquals(3, data.getCourseTables().size());

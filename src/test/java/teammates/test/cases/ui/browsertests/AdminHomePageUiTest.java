@@ -120,7 +120,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        homePage.createInstructor(shortName,instructor,institute);
+        homePage.createInstructor(shortName, instructor, institute);
         
         encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
         // use AppUrl from Config because the join link takes its base URL from build.properties
@@ -138,7 +138,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
         
         //get the joinURL which sent to the requester's email
-        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId,instructor.email));
+        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -259,7 +259,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.tmt";        
-        homePage.createInstructor(shortName,instructor,institute);
+        homePage.createInstructor(shortName, instructor, institute);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT),
                      homePage.getMessageFromResultTable(1));
       

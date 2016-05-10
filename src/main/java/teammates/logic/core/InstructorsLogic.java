@@ -334,7 +334,7 @@ public class InstructorsLogic {
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
         } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email",e);
+            throw new RuntimeException("Unexpected error while sending email", e);
         }
         
         return joinLink;
@@ -374,7 +374,7 @@ public class InstructorsLogic {
         
         //Cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId,instructor.email);
+            deleteInstructorCascade(instructor.courseId, instructor.email);
         }
     }
 

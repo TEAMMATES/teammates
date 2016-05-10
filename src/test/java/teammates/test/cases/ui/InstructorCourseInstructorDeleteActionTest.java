@@ -98,7 +98,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals"
-                     ,redirectResult.getDestinationWithParams());
+                     , redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());
 

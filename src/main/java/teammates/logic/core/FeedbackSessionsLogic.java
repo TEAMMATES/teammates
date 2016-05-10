@@ -294,8 +294,8 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
             = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
-        Map<String, Map<String,String>> recipientList
-            = new HashMap<String, Map<String,String>>();
+        Map<String, Map<String, String>> recipientList
+            = new HashMap<String, Map<String, String>>();
         
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
@@ -329,8 +329,8 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
             = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
-        Map<String, Map<String,String>> recipientList
-            = new HashMap<String, Map<String,String>>();
+        Map<String, Map<String, String>> recipientList
+            = new HashMap<String, Map<String, String>>();
         
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);

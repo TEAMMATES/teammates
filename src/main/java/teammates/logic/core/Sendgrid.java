@@ -351,7 +351,7 @@ public class Sendgrid {
      * @throws JSONException 
      */
     protected Map<String, String> prepareMessageData() throws JSONException {
-        Map<String,String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String, String>();
 
         params.put("api_user", this.username);
         params.put("api_key", this.password);
@@ -365,7 +365,7 @@ public class Sendgrid {
             params.put("fromname", this.getFromName());
         }
         
-        params.put("text",this.getText());
+        params.put("text", this.getText());
         params.put("from", this.getFrom());
 
         if (this.getReplyTo() != null) {
@@ -412,7 +412,7 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     public void send(WarningListener w) throws JSONException, UnsupportedEncodingException {
-        Map<String,String> data = this.prepareMessageData();
+        Map<String, String> data = this.prepareMessageData();
         StringBuffer requestParams = new StringBuffer();
         Iterator<String> paramIterator = data.keySet().iterator();
         
