@@ -1,5 +1,5 @@
 
-var loadUpFunction = function () {
+var loadUpFunction = function() {
     var typingErrMsg = "Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.";
     var notified = false;
 

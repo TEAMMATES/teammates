@@ -80,19 +80,19 @@ $(document).ready(function(){
             _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
-        $('.answerCheckbox:checked').each(function () {
+        $('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showcommentsto']").val(visibilityOptions.toString());
         
         visibilityOptions = [];
-        $('.giverCheckbox:checked').each(function () {
+        $('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showgiverto']").val(visibilityOptions.toString());
         
         visibilityOptions = [];
-        $('.recipientCheckbox:checked').each(function () {
+        $('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showrecipientto']").val(visibilityOptions.toString());

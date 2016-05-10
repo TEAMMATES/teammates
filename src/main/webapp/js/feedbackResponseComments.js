@@ -198,13 +198,13 @@ function registerResponseCommentCheckboxEvent() {
             _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
         
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
@@ -452,19 +452,19 @@ function registerCheckboxEventForVisibilityOptions() {
             _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
         
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showgiverto']").val(visibilityOptions.toString());
         
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showrecipientto']").val(visibilityOptions.toString());

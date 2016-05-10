@@ -26,19 +26,19 @@ $(document).ready(function() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
 
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
 
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());

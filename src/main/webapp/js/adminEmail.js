@@ -74,7 +74,7 @@ $(document).ready(function(){
         $("#composeSubmitButton").click();
     });
     
-    $("#addressReceiverEmails").on("change keyup", function (e) {
+    $("#addressReceiverEmails").on("change keyup", function(e) {
           if (e.which == 13) {
               $("#addressReceiverEmails").val($("#addressReceiverEmails").val() + ",");
           }

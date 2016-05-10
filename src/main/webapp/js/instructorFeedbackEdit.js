@@ -570,7 +570,7 @@ function formatCheckBoxes() {
                                      .prop('checked', true);
         }
     });
-    $('input[name=receiverLeaderCheckbox]').change(function () {
+    $('input[name=receiverLeaderCheckbox]').change(function() {
         $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
@@ -603,7 +603,7 @@ function copyOptions() {
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
-    $currRadioButtons.each(function (index) {
+    $currRadioButtons.each(function(index) {
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
     });
     
@@ -1322,7 +1322,7 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('[name=receiverLeaderCheckbox]')
-                         .change(function () {
+                         .change(function() {
         $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
