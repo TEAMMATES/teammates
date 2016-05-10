@@ -409,15 +409,15 @@ public class StudentsLogic {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
-        if(mergedList.size() < 2){ // no conflicts
+        if (mergedList.size() < 2) { // no conflicts
             return;
         }
-        
+
         String errorMessage = "";
         errorMessage += getSectionInvalidityInfo(mergedList);
         errorMessage += getTeamInvalidityInfo(mergedList);
 
-        if(!errorMessage.equals("")){
+        if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
 
@@ -434,14 +434,14 @@ public class StudentsLogic {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
-        if(mergedList.size() < 2){ // no conflicts
+        if (mergedList.size() < 2) { // no conflicts
             return;
         }
-        
+
         String errorMessage = "";
         errorMessage += getTeamInvalidityInfo(mergedList);
 
-        if(!errorMessage.equals("")){
+        if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
 
@@ -457,15 +457,15 @@ public class StudentsLogic {
     public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
-                                        
-        if(mergedList.size() < 2){ // no conflicts
+
+        if (mergedList.size() < 2) { // no conflicts
             return;
         }
-        
+
         String errorMessage = "";
         errorMessage += getTeamInvalidityInfo(mergedList);
 
-        if(!errorMessage.equals("")){
+        if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
 
@@ -475,13 +475,13 @@ public class StudentsLogic {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
-        
-        for(StudentAttributes student : studentList) {
+
+        for (StudentAttributes student : studentList) {
             mergedList.add(student);
         }
 
-        for(StudentAttributes student : studentsInCourse) {
-            if(!isInEnrollList(student, mergedList)){
+        for (StudentAttributes student : studentsInCourse) {
+            if (!isInEnrollList(student, mergedList)) {
                 mergedList.add(student);
             }
         }

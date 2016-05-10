@@ -58,11 +58,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             
             boolean hasSectionChanged = student.hasSectionChanged(originalStudentAttribute);
             boolean hasTeamChanged = student.hasSectionChanged(originalStudentAttribute);
-            if(hasSectionChanged && hasTeamChanged){
+            if (hasSectionChanged) {
                 logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
-            } else if(hasSectionChanged){
-                logic.validateSections(Arrays.asList(student), courseId);
-            } else if(hasTeamChanged){
+            } else if (hasTeamChanged) {
                 logic.validateTeams(Arrays.asList(student), courseId);
             }
             
