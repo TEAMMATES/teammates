@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSession {
 
     // Format is feedbackSessionName%courseId
+    @SuppressWarnings("PMD.UnusedPrivateField")
     @PrimaryKey
     @Persistent
     private transient String feedbackSessionId;

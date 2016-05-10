@@ -15,8 +15,6 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -27,7 +25,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -44,7 +41,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
     private static final int NUM_GIVER_OPTIONS = 4;
     private static final int NUM_RECIPIENT_OPTIONS = 8;
     
-    private static Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
 

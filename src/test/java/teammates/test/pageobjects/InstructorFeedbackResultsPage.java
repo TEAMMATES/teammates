@@ -27,12 +27,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "button_sortFromName")
     public WebElement sortTableGiverButton;
 
-    @FindBy(id = "button_sortToName")
-    private WebElement sortTableRecipientButton;
-
-    @FindBy(id = "button_sortFeedback")
-    private WebElement sortTableAnswerButton;
-
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
     
