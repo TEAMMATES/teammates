@@ -935,15 +935,15 @@ function updateRankMessageQn(qnNum) {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        showAlertModal("TEAMMATES:", getWarningMessage(), "Okay");
+        showWarningModal("TEAMMATES:", getWarningMessage(), "Okay");
     }
 }
 
-function showAlertModal(title, message, okButtonText) {
-    $('#alert-modal-title').html(title);
-    $('#alert-modal-message').html(message);
-    $('#alert-modal-ok').html(okButtonText);
-    $('#alertModal').modal('show');
+function showWarningModal(title, message, okButtonText) {
+    $('#warning-modal-title').html(title);
+    $('#warning-modal-message').html(message);
+    $('#warning-modal-ok').html(okButtonText);
+    $('#warning-modal').modal('show');
 }
 
 function hasWarningMessage() {
