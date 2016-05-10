@@ -22,6 +22,10 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
+#####Suppressing PMD warnings
+To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
+the `SuppressWarnings` annotation or the `NOPMD` marker, can be used to tell PMD to ignore specific parts of the code.     
+
 ### FindBugs
 
 [FindBugs](http://findbugs.sourceforge.net) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
