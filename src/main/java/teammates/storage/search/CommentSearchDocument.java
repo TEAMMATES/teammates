@@ -24,7 +24,7 @@ public class CommentSearchDocument extends SearchDocument {
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
-    private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
+    private StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
     
     public CommentSearchDocument(CommentAttributes comment){
         this.comment = comment;

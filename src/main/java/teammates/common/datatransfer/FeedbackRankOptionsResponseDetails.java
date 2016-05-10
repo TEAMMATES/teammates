@@ -67,7 +67,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
         
-        StringBuilder htmlBuilder = new StringBuilder();
+        StringBuilder htmlBuilder = new StringBuilder(100);
         htmlBuilder.append("<ul>");
         
         for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {

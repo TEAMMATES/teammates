@@ -857,7 +857,7 @@ public class FeedbackSessionsLogic {
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
         
-        StringBuilder exportBuilder = new StringBuilder();
+        StringBuilder exportBuilder = new StringBuilder(100);
 
         exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
                 + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);

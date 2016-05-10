@@ -122,7 +122,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {       
         
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder(100);
   
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
         result.append("<option" 

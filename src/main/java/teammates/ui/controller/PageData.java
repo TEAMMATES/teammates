@@ -778,7 +778,7 @@ public class PageData {
      * Returns the type of people that can view the comment. 
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         for(int i = 0; i < comment.showCommentTo.size(); i++){
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
@@ -829,7 +829,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;

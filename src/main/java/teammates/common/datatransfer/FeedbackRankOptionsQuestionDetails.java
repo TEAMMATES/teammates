@@ -152,7 +152,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
     
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder(100);
      
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
         result.append("<option" 
@@ -212,7 +212,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder();
+        StringBuilder optionListHtml = new StringBuilder(100);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         String additionalInfo = "";
         

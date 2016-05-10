@@ -60,7 +60,7 @@ public class FeedbackSessionDetailsBundle {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(100);
         sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
                 + Const.EOL);
         sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);

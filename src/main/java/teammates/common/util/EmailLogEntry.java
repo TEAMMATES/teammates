@@ -53,7 +53,7 @@ public class EmailLogEntry {
     
     private String getLogInfoForTableRowAsHtml(){
 
-        StringBuilder str = new StringBuilder();
+        StringBuilder str = new StringBuilder(500);
         str.append("<tr class=\"log\">");
         str.append("<td>" + this.receiver + "</td>");
         str.append("<td>" + this.subject + "</td>");

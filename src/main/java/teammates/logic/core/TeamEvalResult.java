@@ -421,7 +421,7 @@ public class TeamEvalResult {
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         String divider = "======================" + Const.EOL;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
         sb.append(indentString
