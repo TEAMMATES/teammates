@@ -240,8 +240,8 @@
    <!--<rule ref="rulesets/java/strings.xml/InsufficientStringBufferDeclaration"/>-->
    <!--<rule ref="rulesets/java/strings.xml/StringBufferInstantiationWithChar"/>-->
    <!--<rule ref="rulesets/java/strings.xml/StringInstantiation"/>-->
-   <!--<rule ref="rulesets/java/strings.xml/StringToString"/>-->
-   <!--<rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange"/>-->
+   <rule ref="rulesets/java/strings.xml/StringToString"/>
+   <rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange"/>
    <rule ref="rulesets/java/strings.xml/UseEqualsToCompareStrings"/>
    <rule ref="rulesets/java/strings.xml/UseIndexOfChar"/>
    <rule ref="rulesets/java/strings.xml/UselessStringValueOf"/>
