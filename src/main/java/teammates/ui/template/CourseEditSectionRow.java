@@ -144,9 +144,15 @@ public class CourseEditSectionRow {
             for (int j = 0; (j < 3) && (i + j < sectionNames.size()); j++) {
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + Const.ParamsNames.INSTRUCTOR_SECTION + (i + j);
-                ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
-                                                     false);
-                specialSectionGroup.add(checkbox);
+                if (isSectionSpecial()) {
+                    ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
+                                                         (i + j == sectionIndex));
+                    specialSectionGroup.add(checkbox);
+                } else {
+                    ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
+                                                    false);
+                    specialSectionGroup.add(checkbox);
+                }
             }
             specialSections.add(specialSectionGroup);
         }
