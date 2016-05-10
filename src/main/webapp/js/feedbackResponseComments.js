@@ -425,41 +425,6 @@ function toggleCollapsiblePanel(collapsiblePanel) {
     collapsiblePanel.collapse("toggle");
 }
 
-/**
- * Sets the chevron of a panel from up to down or from down to up depending on its current state.
- * clickedElement must be at least the parent of the chevron.
- */ 
-function toggleChevron(clickedElement) {
-    var $clickedElement = $(clickedElement);
-    var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
-    var $chevronContainer = $clickedElement.find(".glyphicon");
-    
-    //clearQueue to clear the animation queue to prevent animation build up
-    $chevronContainer.clearQueue();
-    
-    if (isChevronDown) { 
-        setChevronToUp($chevronContainer);
-    } else {
-        setChevronToDown($chevronContainer);
-    }
-}
-
-/**
- * Sets the chevron to point upwards.
- */
-function setChevronToUp(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-down");
-    chevronContainer.addClass("glyphicon-chevron-up");
-}
-
-/**
- * Sets the chevron to point downwards.
- */
-function setChevronToDown(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-up");
-    chevronContainer.addClass("glyphicon-chevron-down");
-}
-
 function updateBadgeForPendingComments(numberOfPendingComments) {
     if (numberOfPendingComments == 0) {
         $('.badge').parent().parent().hide();

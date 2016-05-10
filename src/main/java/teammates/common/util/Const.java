@@ -34,8 +34,7 @@ public class Const {
 
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-        /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
-        public static final int MAX_NUM_OF_INPUT_FOR_APP_ENGINE_BATCH = 200;
+        
         /* Field sizes and error messages for invalid fields can be found 
          * in the FieldValidator class.
          */
@@ -445,7 +444,8 @@ public class Const {
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
-        public static final String FEEDBACK_SESSION_MODERATED_STUDENT = "moderatedstudent";
+        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -642,6 +642,7 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
+        public static final String LOGOUT = "/logout";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
@@ -678,6 +679,8 @@ public class Const {
         
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
+        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE = "/page/instructorEditInstructorFeedbackPage";
+        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE = "/page/instructorEditInstructorFeedbackSave";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
@@ -861,7 +864,7 @@ public class Const {
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         
-        public static final String LOGOUT = "/logout.jsp"; 
+        public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp"; 
         
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
@@ -1157,6 +1160,7 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";

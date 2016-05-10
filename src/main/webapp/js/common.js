@@ -802,3 +802,77 @@ function isBlank(str) {
     }
     return str.trim() === '';
 }
+
+/**
+ * Sets the chevron of a panel from up to down or from down to up depending on its current state.
+ * clickedElement must be at least the parent of the chevron.
+ */ 
+function toggleChevron(clickedElement) {
+    var $clickedElement = $(clickedElement);
+    var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
+    var $chevronContainer = $clickedElement.find(".glyphicon");
+
+    //clearQueue to clear the animation queue to prevent animation build up
+    $chevronContainer.clearQueue();
+
+    if (isChevronDown) { 
+        setChevronToUp($chevronContainer);
+    } else {
+        setChevronToDown($chevronContainer);
+    }
+}
+
+/**
+ * Sets the chevron to point upwards.
+ */
+function setChevronToUp(chevronContainer) {
+    chevronContainer.removeClass("glyphicon-chevron-down");
+    chevronContainer.addClass("glyphicon-chevron-up");
+}
+
+/**
+ * Sets the chevron to point downwards.
+ */
+function setChevronToDown(chevronContainer) {
+    chevronContainer.removeClass("glyphicon-chevron-up");
+    chevronContainer.addClass("glyphicon-chevron-down");
+}
+
+/**
+ * Changes the state of the panel (collapsed/expanded).
+ */
+function toggleSingleCollapse(e) {
+    if ($(e.target).is('a') || $(e.target).is('input')) {
+        return;
+    }
+    var glyphIcon = $(this).find('.glyphicon');
+    var className = $(glyphIcon[0]).attr('class');
+    if (className.indexOf('glyphicon-chevron-up') != -1) {
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        showSingleCollapse($(e.currentTarget).attr('data-target'));
+    }
+}
+
+/**
+ * Shows panel's content and changes chevron to point up.
+ */
+function showSingleCollapse(e) {
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    setChevronToUp($(glyphIcon[0]));
+    $(e).collapse('show');
+    $(heading).find('a.btn').show();
+}
+
+/**
+ * Hides panel's content and changes chevron to point down.
+ */
+function hideSingleCollapse(e) {
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    setChevronToDown($(glyphIcon[0]))
+    $(e).collapse('hide');
+    $(heading).find('a.btn').hide();
+}
+

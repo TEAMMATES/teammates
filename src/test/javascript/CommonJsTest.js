@@ -170,7 +170,7 @@ QUnit.test('isEmailValid(email)', function(assert) {
 });
 
 QUnit.test('isNameValid(name)', function(assert) {
-    assert.equal(isNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true,
+    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-\/ \\  '), true,
         'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
     assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
         'Maximum characters - valid');
@@ -184,7 +184,7 @@ QUnit.test('isNameValid(name)', function(assert) {
     assert.equal(isNameValid('&Tom'), false, '& character - invalid');
     assert.equal(isNameValid('J%cobs '), false, '% character - invalid');
     assert.equal(isNameValid('Jacobs*'), false, '* character - invalid');
-    assert.equal(isNameValid('	+123	 '), false, '+ character - invalid');
+    assert.equal(isNameValid('\t+123\t '), false, '+ character - invalid');
     assert.equal(isNameValid('a b c $ 1 2 3 4'), false, '$ character - invalid');
     assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
     assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');

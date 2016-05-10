@@ -36,7 +36,7 @@
     <span style="display:none"></span>
 </c:set>
 
-<ts:studentPageCustom bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
+<ts:studentPage bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
     <c:if test="${not data.headerHidden}">
         <ts:studentMessageOfTheDay/>
     </c:if>
@@ -48,5 +48,5 @@
     </c:if>
     
     <feedbackSubmissionEdit:feedbackQuestionSubmissionForm feedbackSubmissionForm="${data}"/>
-</ts:studentPageCustom>
+</ts:studentPage>
 

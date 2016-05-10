@@ -348,22 +348,22 @@ public class PageData {
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
     
     public String getStudentFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
     
     public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -469,17 +469,11 @@ public class PageData {
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, 
                                  Const.ParamsNames.NEXT_URL,
                                  (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                          : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getInstructorEditStudentFeedbackLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -551,7 +545,7 @@ public class PageData {
     
     public String getInstructorFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
@@ -699,8 +693,8 @@ public class PageData {
     
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -836,7 +830,7 @@ public class PageData {
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
         StringBuilder peopleCanView = new StringBuilder();
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {

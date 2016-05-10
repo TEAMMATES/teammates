@@ -233,7 +233,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
-        studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt","",courseId));
+        studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt", "", courseId));
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
@@ -256,11 +256,11 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: invalid team");
 
         studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 2","Team 1.1","New Student", "newemail@com", "", courseId));
+        studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students"
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students"
                     , e.getMessage());
         }
     }

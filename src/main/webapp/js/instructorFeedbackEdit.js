@@ -1002,12 +1002,12 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
 }
 
 function toggleMcqOtherOptionEnabled(checkbox, questionNumber) {
-	idOfQuestion = '#form_editquestion-' + questionNumber;
-	idSuffix = getQuestionIdSuffix(questionNumber);
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = getQuestionIdSuffix(questionNumber);
 
-	if($(idOfQuestion).attr('editStatus') === "hasResponses") {
-		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-	}
+    if($(idOfQuestion).attr('editStatus') === "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
 }
 
 function changeMcqGenerateFor(questionNumber) {

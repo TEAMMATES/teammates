@@ -28,7 +28,6 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         GateKeeper.inst().verifyAdminPrivileges(account);
         
-        BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
         data = new AdminEmailComposePageData(account);    
@@ -59,7 +58,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             return createAjaxResult(data);
         }     
         
-        blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();     
         
         
         data.groupReceiverListFileKey = blobKey.getKeyString();

@@ -82,6 +82,17 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         assertTrue(isStudentRowDisplayed(student, instructor));
         
+        ______TS("search for student1 email");
+        
+        searchPage.clearSearchBox();
+        searchContent = "searchUI.student1InCourse1@gmail.tmt";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        
+        assertTrue(isSearchPanelPresent());
+        assertTrue(isSearchDataDisplayCorrect());
+        assertTrue(isOnlyOneResultVisible());
+        
         ______TS("search for student name with special characters");
         
         searchPage.clearSearchBox();
@@ -113,6 +124,12 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         return statusMessage.equals("Search key cannot be empty");
     }
+    
+    private boolean isOnlyOneResultVisible(){
+        return searchPage.getStatus().equals("Total results found: 1");
+    }
+        
+    
     
     /**
      * This method only checks if the search data tables are displayed correctly

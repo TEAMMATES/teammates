@@ -104,7 +104,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
+        assertTrue("URL: " + browser.driver.getCurrentUrl() , browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
                 "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
@@ -153,6 +153,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: panels expand/collapse");
         
         commentsPage.clickCommentsPageLinkInHeader();
+        
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
         
         commentsPage.clickAllCommentsPanelHeading();
@@ -162,6 +165,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickAllCommentsPanelHeading();
         commentsPage.waitForPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
+        
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToExpand();
         
     }
 

@@ -321,35 +321,30 @@ public class TimeHelper {
     }
     
     /**
-     * Checks if the time falls between the time range specified.
-     * Start time is inclusive (i.e. {@code startTime <= time < endTime})
-     * @param startTime the start time of the time range
-     * @param endTime the end time of the time range
+     * Checks if the time falls between the period specified. Possible scenarios:
+     * <ul>
+     *  <li>{@code startTime <= time <= endTime}</li>
+     *  <li>{@code startTime <= time < endTime}</li>
+     *  <li>{@code startTime < time <= endTime}</li>
+     *  <li>{@code startTime < time < endTime}</li>
+     * </ul>
+     * @param startTime the start time of the period
+     * @param endTime the end time of the period
      * @param time the time to be checked
+     * @param isStartInclusive true to allow time to fall on start time
+     * @param isEndInclusive true to allow time to fall on end time
      * @return true if the time falls between the start and end time
      */
-    public static boolean isStartTimeWithinRange(Date startTime, Date endTime, Date time) {
+    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time, 
+                                             boolean isStartInclusive, boolean isEndInclusive) {
         if (startTime == null || endTime == null || time == null) {
             return false;
         }
         
-        return startTime.getTime() <= time.getTime() && time.getTime() < endTime.getTime();
-    }
-    
-    /**
-     * Checks if the time falls between the time range specified.
-     * End time is inclusive (i.e. {@code startTime < time <= endTime})
-     * @param startTime the start time of the time range
-     * @param endTime the end time of the time range
-     * @param time the time to be checked
-     * @return true if the time falls between the start and end time
-     */
-    public static boolean isEndTimeWithinRange(Date startTime, Date endTime, Date time) {
-        if (startTime == null || endTime == null || time == null) {
-            return false;
-        }
+        boolean isAfterStartTime = time.after(startTime) || (isStartInclusive && time.equals(startTime));
+        boolean isBeforeEndTime = time.before(endTime) || (isEndInclusive && time.equals(endTime));
         
-        return startTime.getTime() < time.getTime() && time.getTime() <= endTime.getTime();
+        return isAfterStartTime && isBeforeEndTime;
     }
     
     public static double getLocalTimezoneHourOffset() {
@@ -363,11 +358,9 @@ public class TimeHelper {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     
-        Date newDate = new Date();
-    
         // Perform date manipulation
         try {
-            newDate = sdf.parse(date);
+            Date newDate = sdf.parse(date);
             calendar.setTime(newDate);
     
             if (time == 2400) {

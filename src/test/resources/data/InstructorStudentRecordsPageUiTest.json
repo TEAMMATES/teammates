@@ -78,23 +78,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.test.CS2104.Helper":{
             "googleId":"ISR.teammates.test.Helper",
@@ -104,23 +104,23 @@
             "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": false,
-                    \"cangivecommentinsection\": false,
-                    \"cansubmitsessioninsection\": false,
-                    \"canmodifysessioncommentinsection\": false,
-                    \"canmodifycommentinsection\": false,
-                    \"canmodifycourse\": false,
-                    \"canviewsessioninsection\": false,
-                    \"canmodifysession\": false,
-                    \"canviewcommentinsection\": false,
-                    \"canmodifystudent\": false,
-                    \"canmodifyinstructor\": false
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": false,
+                    "cangivecommentinsection": false,
+                    "cansubmitsessioninsection": false,
+                    "canmodifysessioncommentinsection": false,
+                    "canmodifycommentinsection": false,
+                    "canmodifycourse": false,
+                    "canviewsessioninsection": false,
+                    "canmodifysession": false,
+                    "canviewcommentinsection": false,
+                    "canmodifystudent": false,
+                    "canmodifyinstructor": false
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.test.CS1101":{
             "googleId":"ISR.teammates.test",
@@ -129,23 +129,23 @@
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.instr.CS1101":{
             "googleId":"ISR.teammates.instr",
@@ -154,23 +154,23 @@
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "teammates.noeval":{
             "googleId":"ISR.no.eval",
@@ -179,23 +179,23 @@
             "email":"teammates.norecord@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         }
     },
     "students":{

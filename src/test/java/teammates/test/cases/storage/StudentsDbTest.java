@@ -250,7 +250,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + 
-                    s2.email,e.getMessage());
+                    s2.email, e.getMessage());
         }
 
         ______TS("typical success case");

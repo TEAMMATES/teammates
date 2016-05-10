@@ -213,8 +213,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
                 "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
-                "${teamViewOfMe}",getPointsAsColorizedHtml(teamClaim),
-                "${teamViewOfOthers}",getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
+                "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
+                "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
 
         return html;
     }
@@ -518,7 +518,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, int[][]> getTeamSubmissionArray(List<String> teamNames,
             Map<String, List<String>> teamMembersEmail,
             Map<String, List<FeedbackResponseAttributes>> teamResponses) {
-        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String,int[][]>();
+        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String, int[][]>();
         for(String team : teamNames){
             int teamSize = teamMembersEmail.get(team).size();
             teamSubmissionArray.put(team, new int[teamSize][teamSize]);
@@ -548,7 +548,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = 
-                new LinkedHashMap<String,List<FeedbackResponseAttributes>>();
+                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         for(String teamName : teamNames){
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }

@@ -2,7 +2,6 @@ package teammates.logic.backdoor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -146,7 +145,7 @@ public class BackDoorLogic extends Logic {
         
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
-        Collections.sort(questionList);
+        
         for(FeedbackQuestionAttributes question : questionList){
             question.removeIrrelevantVisibilityOptions();
         }
@@ -201,7 +200,7 @@ public class BackDoorLogic extends Logic {
             return;
         }
 
-        InstructorPrivileges privileges = instructor.getInstructorPrivilegesFromText();
+        InstructorPrivileges privileges = instructor.privileges;
 
         switch (instructor.getRole()) {
 

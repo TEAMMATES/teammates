@@ -72,7 +72,7 @@ public abstract class ActionResult {
      * is {@code /page/instructorHome} and if we have {@code user=abc} in this map, 
      * the result will be sent to {@code /page/instructorHome?user=abc}
      */
-    protected Map<String,String> responseParams = new HashMap<String, String>();
+    protected Map<String, String> responseParams = new HashMap<String, String>();
     
     /**
      * Add a (key,value) pair ot the list of response parameters.
@@ -95,7 +95,7 @@ public abstract class ActionResult {
     public abstract void send(HttpServletRequest req, HttpServletResponse resp) 
             throws IOException, ServletException;
 
-    private String appendParameters(String url, Map<String,String> params){
+    private String appendParameters(String url, Map<String, String> params){
         String returnValue = url;
         for (String key : params.keySet()) {
             returnValue = Url.addParamToUrl(returnValue, key, params.get(key));

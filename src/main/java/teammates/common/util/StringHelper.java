@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -288,11 +289,22 @@ public class StringHelper {
         if (str == null) {
             return null;
         }
-        
         return str.trim().replaceAll("\\s+", " ");
-        
     }
     
+    /**
+     * trims all strings in the set and reduces consecutive white spaces to only one space
+     */
+    public static Set<String> removeExtraSpace(Set<String> strSet) {       
+        if (strSet == null) {
+            return null;
+        }
+        Set<String> result = new TreeSet<String>();
+        for (String s : strSet) {
+            result.add(removeExtraSpace(s));
+        }
+        return result;
+    }
     
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder sb = new StringBuilder(b.length * 2);
@@ -533,7 +545,7 @@ public class StringHelper {
         
         return str.substring(1, str.length() - 1);
     }
-	
+    
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

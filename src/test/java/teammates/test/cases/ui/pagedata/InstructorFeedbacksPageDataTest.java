@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,7 +21,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
@@ -85,8 +83,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
         
-        Calendar currentDate = TimeHelper.now(0);
-        String dateAsString = TimeHelper.formatDate(currentDate.getTime());
+        String dateAsString = TimeHelper.formatDate(TimeHelper.getNextHour());
         
         assertEquals(dateAsString, formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
@@ -375,9 +372,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<InstructorAttributes> iter = instructors.iterator();
         while (iter.hasNext()) {
             InstructorAttributes instructor = iter.next();
-            
-            instructor.privileges = gson.fromJson(instructor.instructorPrivilegesAsText, InstructorPrivileges.class);
-            
+
             boolean isGoogleIdSame = instructor.googleId != null 
                                      && instructor.googleId.equals(googleId);
             boolean isOmittedDueToArchiveStatus = isOmitArchived 

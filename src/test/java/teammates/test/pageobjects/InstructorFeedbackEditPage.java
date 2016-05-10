@@ -969,10 +969,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("visibilityMessage-" + String.valueOf(questionNumber)));
     }
     
-    public WebElement getNewQnVisibilityMessage() {
-        return browser.driver.findElement(By.id("visibilityMessage"));
-    }
-    
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
     }
