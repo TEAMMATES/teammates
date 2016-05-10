@@ -140,7 +140,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private boolean isSearchDataDisplayCorrect() {
         if (searchPage.isElementPresent(By.className("table"))) {
             int numSearchDataTables = browser.driver.findElements(By.className("table")).size();
-            for (int i = 0 ; i < numSearchDataTables ; i++) {
+            for (int i = 0; i < numSearchDataTables; i++) {
                 if (!isSearchTableHeaderCorrect(i)) {
                     return false;
                 }
@@ -172,7 +172,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Options");
             actualSessionTableHeaders = new ArrayList<String>();
             
-            for (int i = 0 ; i < numColumns ; i++) {
+            for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }
             
@@ -190,7 +190,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Comments",
                                                        "Options");
             actualSessionTableHeaders = new ArrayList<String>();
-            for (int i = 0 ; i < numColumns ; i++) {
+            for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }
             

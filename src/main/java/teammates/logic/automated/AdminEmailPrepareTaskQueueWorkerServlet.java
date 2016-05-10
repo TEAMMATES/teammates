@@ -277,7 +277,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         int indexOfLastEmailList = 0;
         int indexOfLastEmail = 0;
         
-        for(int i = indexOfEmailListToResume; i < processedReceiverEmails.size() ; i ++ ){
+        for(int i = indexOfEmailListToResume; i < processedReceiverEmails.size(); i ++ ){
             
             List<String> currentEmailList = processedReceiverEmails.get(i);
             

@@ -24,7 +24,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                                        FeedbackQuestionDetails questionDetails, 
                                        String[] answer) {
         List<Integer> rankAnswer = new ArrayList<Integer>();
-        for (int i = 0; i < answer.length ; i++){
+        for (int i = 0; i < answer.length; i++){
             try {
                 rankAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
@@ -117,7 +117,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
                                     FeedbackRankOptionsQuestionDetails rankQuestion) {
         SortedMap<Integer, List<String>> orderedOptions = new TreeMap<>();
-        for (int i = 0 ; i < answers.size() ; i++) {
+        for (int i = 0; i < answers.size(); i++) {
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
             

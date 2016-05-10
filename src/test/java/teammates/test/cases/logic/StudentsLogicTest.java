@@ -712,7 +712,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
-        String line = headerLine + EOL + "t8|n8|e8@g|c1" ;
+        String line = headerLine + EOL + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.NEW,

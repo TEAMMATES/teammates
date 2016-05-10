@@ -694,7 +694,7 @@ public abstract class AppPage {
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.

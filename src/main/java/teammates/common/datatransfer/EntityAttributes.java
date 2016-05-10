@@ -56,5 +56,5 @@ public abstract class EntityAttributes {
      * Perform any sanitization that needs to be done before saving. 
      * e.g. trim strings
      */
-    public abstract void sanitizeForSaving() ;
+    public abstract void sanitizeForSaving();
 }
