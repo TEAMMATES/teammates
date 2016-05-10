@@ -240,7 +240,7 @@
                       </div>
                     </div>
                   </div>
-                  <div id="tuneSectionPermissionsDiv0ForInstructor1" style="display: none;">
+                  <div id="tuneSectionPermissionsDiv0ForInstructor1">
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <div class="row">
@@ -254,7 +254,7 @@
                           <div class="col-sm-9">
                             <div class="col-sm-12">
                               <div class="col-sm-4">
-                                <input name="sectiongroup0section0" type="checkbox" value="Section 1">
+                                <input checked="" name="sectiongroup0section0" type="checkbox" value="Section 1">
                                 Section 1
                               </div>
                               <div class="col-sm-4">
@@ -284,7 +284,7 @@
                             </p>
                           </div>
                         </div>
-                        <input name="issectiongroup0set" type="hidden" value="false">
+                        <input name="issectiongroup0set" type="hidden" value="true">
                       </div>
                       <div class="panel-body">
                         <br>
@@ -298,7 +298,7 @@
                           <input checked="" name="canviewcommentinsectionsectiongroup0" type="checkbox" value="true">
                           View Others' Comments on Students
                           <br>
-                          <input name="canmodifycommentinsectionsectiongroup0" type="checkbox" value="true">
+                          <input checked="" name="canmodifycommentinsectionsectiongroup0" type="checkbox" value="true">
                           Edit/Delete Others' Comments on Students
                           <br>
                           <br>
@@ -315,11 +315,11 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 0)">
-                          Give different permissions for sessions in this section
+                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor1" onclick="hideTuneSessionnPermissionsDiv(1, 0)">
+                          Hide session-level permissions
                         </a>
-                        <div class="row" id="tuneSessionPermissionsDiv0ForInstructor1" style="display: none;">
-                          <input name="issectiongroup0sessionsset" type="hidden" value="false">
+                        <div class="row" id="tuneSessionPermissionsDiv0ForInstructor1">
+                          <input name="issectiongroup0sessionsset" type="hidden" value="true">
                           <table class="table table-striped">
                             <thead>
                               <tr>
@@ -376,7 +376,7 @@
                                 Section 1
                               </div>
                               <div class="col-sm-4">
-                                <input name="sectiongroup1section1" type="checkbox" value="Section 2">
+                                <input checked="" name="sectiongroup1section1" type="checkbox" value="Section 2">
                                 Section 2
                               </div>
                               <div class="col-sm-4">
@@ -476,7 +476,7 @@
                       </div>
                     </div>
                   </div>
-                  <div id="tuneSectionPermissionsDiv2ForInstructor1" style="display: none;">
+                  <div id="tuneSectionPermissionsDiv2ForInstructor1">
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <div class="row">
@@ -498,7 +498,7 @@
                                 Section 2
                               </div>
                               <div class="col-sm-4">
-                                <input name="sectiongroup2section2" type="checkbox" value="Section 3">
+                                <input checked="" name="sectiongroup2section2" type="checkbox" value="Section 3">
                                 Section 3
                               </div>
                             </div>
@@ -520,7 +520,7 @@
                             </p>
                           </div>
                         </div>
-                        <input name="issectiongroup2set" type="hidden" value="false">
+                        <input name="issectiongroup2set" type="hidden" value="true">
                       </div>
                       <div class="panel-body">
                         <br>
@@ -534,7 +534,7 @@
                           <input checked="" name="canviewcommentinsectionsectiongroup2" type="checkbox" value="true">
                           View Others' Comments on Students
                           <br>
-                          <input name="canmodifycommentinsectionsectiongroup2" type="checkbox" value="true">
+                          <input checked="" name="canmodifycommentinsectionsectiongroup2" type="checkbox" value="true">
                           Edit/Delete Others' Comments on Students
                           <br>
                           <br>
@@ -546,7 +546,7 @@
                           <input checked="" name="canviewsessioninsectionsectiongroup2" type="checkbox" value="true">
                           Sessions: View Responses and Comments
                           <br>
-                          <input checked="" name="canmodifysessioncommentinsectionsectiongroup2" type="checkbox" value="true">
+                          <input name="canmodifysessioncommentinsectionsectiongroup2" type="checkbox" value="true">
                           Sessions: Edit/Delete Responses/Comments by Others
                           <br>
                           <br>
@@ -585,7 +585,7 @@
                                   <input checked="" name="canviewsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
                                 </td>
                                 <td class="align-center">
-                                  <input checked="" name="canmodifysessioncommentinsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
+                                  <input name="canmodifysessioncommentinsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
                                 </td>
                               </tr>
                             </tbody>
@@ -594,7 +594,7 @@
                       </div>
                     </div>
                   </div>
-                  <a class="small" href="javascript:;" id="addSectionLevelForInstructor1" onclick="showTuneSectionPermissionsDiv(1, 1)">
+                  <a class="small" href="javascript:;" id="addSectionLevelForInstructor1" onclick="showTuneSectionPermissionsDiv(1, 3)" style="display: none;">
                     Give different permissions for a specific section
                   </a>
                 </div>
@@ -1410,7 +1410,7 @@
                           <div class="col-sm-9">
                             <div class="col-sm-12">
                               <div class="col-sm-4">
-                                <input name="sectiongroup0section0" type="checkbox" value="Section 1">
+                                <input checked="" name="sectiongroup0section0" type="checkbox" value="Section 1">
                                 Section 1
                               </div>
                               <div class="col-sm-4">
@@ -1532,7 +1532,7 @@
                                 Section 1
                               </div>
                               <div class="col-sm-4">
-                                <input name="sectiongroup1section1" type="checkbox" value="Section 2">
+                                <input checked="" name="sectiongroup1section1" type="checkbox" value="Section 2">
                                 Section 2
                               </div>
                               <div class="col-sm-4">
@@ -1654,7 +1654,7 @@
                                 Section 2
                               </div>
                               <div class="col-sm-4">
-                                <input name="sectiongroup2section2" type="checkbox" value="Section 3">
+                                <input checked="" name="sectiongroup2section2" type="checkbox" value="Section 3">
                                 Section 3
                               </div>
                             </div>
