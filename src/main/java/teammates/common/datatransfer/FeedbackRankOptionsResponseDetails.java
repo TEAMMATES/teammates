@@ -107,7 +107,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             
             String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
             
-            csvBuilder.append(optionsInCsv + ",");
+            csvBuilder.append(optionsInCsv).append(",");
         }
 
         csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma

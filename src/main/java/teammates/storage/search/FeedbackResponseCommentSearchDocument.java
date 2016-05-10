@@ -148,7 +148,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         searchableTextBuilder.append(comment.courseId).append(delim);
         searchableTextBuilder.append(course != null? course.name: "").append(delim);
         searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
-        searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
+        searchableTextBuilder.append("question ").append(relatedQuestion.questionNumber).append(delim);
         searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
         searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
         searchableTextBuilder.append(comment.giverEmail).append(delim);

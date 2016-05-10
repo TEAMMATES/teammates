@@ -61,7 +61,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
         
         
         
@@ -99,7 +99,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
     
     
         String html = FeedbackQuestionFormTemplates.populateTemplate(

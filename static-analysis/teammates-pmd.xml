@@ -236,7 +236,7 @@
    <!--<rule ref="rulesets/java/strings.xml/ConsecutiveAppendsShouldReuse"/>-->
    <!--<rule ref="rulesets/java/strings.xml/ConsecutiveLiteralAppends"/>-->
    <!--<rule ref="rulesets/java/strings.xml/InefficientEmptyStringCheck"/>-->
-   <!--<rule ref="rulesets/java/strings.xml/InefficientStringBuffering"/>-->
+   <rule ref="rulesets/java/strings.xml/InefficientStringBuffering"/>
    <rule ref="rulesets/java/strings.xml/InsufficientStringBufferDeclaration"/>
    <rule ref="rulesets/java/strings.xml/StringBufferInstantiationWithChar"/>
    <rule ref="rulesets/java/strings.xml/StringInstantiation"/>

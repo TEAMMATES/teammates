@@ -83,21 +83,20 @@ public class Emails {
             throws MessagingException {
         StringBuilder messageInfo = new StringBuilder(100);
         messageInfo.append("[Email sent]");
-        messageInfo
-                .append("to="
-                        + message.getRecipients(Message.RecipientType.TO)[0]
+        messageInfo.append("to=")
+                   .append(message.getRecipients(Message.RecipientType.TO)[0]
                                 .toString());
-        messageInfo.append("|from=" + message.getFrom()[0].toString());
-        messageInfo.append("|subject=" + message.getSubject());
+        messageInfo.append("|from=").append(message.getFrom()[0].toString());
+        messageInfo.append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
     public static String getEmailInfo(Sendgrid message) {
         StringBuilder messageInfo = new StringBuilder(100);
         messageInfo.append("[Email sent]");
-        messageInfo.append("to=" + message.getTos().get(0));
-        messageInfo.append("|from=" + message.getFrom());
-        messageInfo.append("|subject=" + message.getSubject());
+        messageInfo.append("to=").append(message.getTos().get(0));
+        messageInfo.append("|from=").append(message.getFrom());
+        messageInfo.append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     

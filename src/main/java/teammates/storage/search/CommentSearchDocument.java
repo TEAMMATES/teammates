@@ -77,7 +77,7 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case COURSE:
             for(String course:comment.recipients){
-                commentRecipientNameBuilder.append(delim).append("All students in Course " + course);
+                commentRecipientNameBuilder.append(delim).append("All students in Course ").append(course);
                 delim = ", ";
             }
             break;

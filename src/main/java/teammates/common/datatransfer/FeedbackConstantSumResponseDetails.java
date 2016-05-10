@@ -55,7 +55,7 @@ public class FeedbackConstantSumResponseDetails extends
                 String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");
-                htmlBuilder.append( optionString + ": " + Sanitizer.sanitizeForHtml(answerString));
+                htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
                 htmlBuilder.append("</li>");
             }
             htmlBuilder.append("</ul>");

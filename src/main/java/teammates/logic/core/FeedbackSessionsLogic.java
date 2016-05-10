@@ -893,8 +893,8 @@ public class FeedbackSessionsLogic {
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
         if (!statistics.isEmpty()) {
-            exportBuilder.append("Summary Statistics," + Const.EOL);
-            exportBuilder.append(statistics + Const.EOL);
+            exportBuilder.append("Summary Statistics,").append(Const.EOL);
+            exportBuilder.append(statistics).append(Const.EOL);
         }
         
         exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());

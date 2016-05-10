@@ -266,7 +266,7 @@ public class HtmlHelper {
     private static String getNodeOpeningTag(Node currentNode) {
         StringBuilder openingTag = new StringBuilder();
         // add the start of opening tag
-        openingTag.append("<" + currentNode.getNodeName().toLowerCase());
+        openingTag.append("<").append(currentNode.getNodeName().toLowerCase());
         
         // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
         NamedNodeMap attributes = currentNode.getAttributes();

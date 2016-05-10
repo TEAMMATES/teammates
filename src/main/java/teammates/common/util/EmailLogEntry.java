@@ -74,7 +74,7 @@ public class EmailLogEntry {
         str.append("<div class=\"well\">");
         str.append("<ul class=\"list-group\">");
         str.append("<li class=\"list-group-item list-group-item-success\"><small>");
-        str.append(this.content + "</small>");
+        str.append(this.content).append("</small>");
         str.append("</li>");
         str.append("</ul>");
         str.append("</div>");

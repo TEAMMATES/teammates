@@ -424,29 +424,29 @@ public class TeamEvalResult {
         StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
-        sb.append(indentString
-                + pointsToString((claimed)).replace(Const.EOL,
+        sb.append(indentString)
+          .append(pointsToString((claimed)).replace(Const.EOL,
                         Const.EOL + indentString + filler));
         sb.append(divider);
         sb.append("              normalizedClaimed:");
-        sb.append(indentString
-                + pointsToString((normalizedClaimed)).replace(Const.EOL,
+        sb.append(indentString)
+          .append(pointsToString((normalizedClaimed)).replace(Const.EOL,
                         Const.EOL + indentString + filler));
         sb.append(divider);
         sb.append("normalizedPeerContributionRatio:");
-        sb.append(indentString
-                + pointsToString(normalizedPeerContributionRatio).replace(
+        sb.append(indentString)
+          .append(pointsToString(normalizedPeerContributionRatio).replace(
                         Const.EOL, Const.EOL + indentString + filler));
         sb.append(divider);
         sb.append("     normalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString(normalizedAveragePerceived).replace(
+        sb.append(indentString)
+          .append(pointsToString(normalizedAveragePerceived).replace(
                         Const.EOL, Const.EOL + indentString + filler));
         sb.append(divider);
 
         sb.append("   denormalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString((denormalizedAveragePerceived)).replace(
+        sb.append(indentString)
+          .append(pointsToString((denormalizedAveragePerceived)).replace(
                         Const.EOL, Const.EOL + indentString + filler));
         sb.append(divider);
         return sb.toString();

@@ -91,7 +91,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
         
@@ -130,7 +130,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         
@@ -183,7 +183,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         return FeedbackQuestionFormTemplates.populateTemplate(
