@@ -257,5 +257,5 @@
    <!--<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>-->
    <!--<rule ref="rulesets/java/unusedcode.xml/UnusedModifier"/>-->
    <!--<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField"/>-->
-   <!--<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod"/>-->
+   <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod"/>
 </ruleset>

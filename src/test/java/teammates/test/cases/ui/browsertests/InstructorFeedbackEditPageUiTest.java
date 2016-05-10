@@ -75,7 +75,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    private void allTests() throws Exception {
+    public void allTests() throws Exception {
         testContent();
 
         testEditSessionLink();
