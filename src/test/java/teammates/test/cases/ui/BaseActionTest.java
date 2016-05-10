@@ -206,7 +206,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      * @param value Value to set
      */
     protected void modifyParamValue(String[] params, String key, String value){
-        for(int i=0 ; i<params.length ; i+=2){
+        for(int i=0; i<params.length; i+=2){
             if(params[i] == key){
                 if(i+1 >= params.length){
                     Assumption.fail("Cannot find parameter to modify.");

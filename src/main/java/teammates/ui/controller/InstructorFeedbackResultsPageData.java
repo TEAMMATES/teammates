@@ -92,11 +92,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         public boolean isPrimaryGroupingOfGiverType() {
-            return this == GIVER_QUESTION_RECIPIENT || this == GIVER_RECIPIENT_QUESTION ;
+            return this == GIVER_QUESTION_RECIPIENT || this == GIVER_RECIPIENT_QUESTION;
         }
         
         public boolean isSecondaryGroupingOfParticipantType() {
-            return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION ;
+            return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION;
         }
         
         public String additionalInfoId() {

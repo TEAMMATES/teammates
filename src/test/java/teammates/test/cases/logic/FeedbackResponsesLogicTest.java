@@ -270,8 +270,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
                             getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                            studentToUpdate.email).size()
-                    , 1);
+                            studentToUpdate.email).size(), 1);
         
         ______TS("test updateFeedbackResponseForChangingTeam for recipient type = giver's team members including giver");
         FeedbackQuestionAttributes questionToTeamMembersAndSelf = 

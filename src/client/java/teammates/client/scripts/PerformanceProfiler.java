@@ -94,7 +94,7 @@ public class PerformanceProfiler extends Thread{
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        for (int i =0; i< NUM_OF_RUNS ; i++)
+        for (int i =0; i< NUM_OF_RUNS; i++)
         {
             browser = BrowserPool.getBrowser();
             //overcome initial loading time with the below line
