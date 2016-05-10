@@ -29,19 +29,19 @@ $(document).ready(function() {
         table.find('.answerCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
+        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(", "));
 
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
+        form.find('input[name="showgiverto"]').val(visibilityOptions.join(", "));
 
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
+        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(", "));
     });
 
     readyStudentRecordsPage();
