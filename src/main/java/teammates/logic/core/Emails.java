@@ -953,7 +953,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }

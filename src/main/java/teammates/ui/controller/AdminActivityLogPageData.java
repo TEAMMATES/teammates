@@ -52,7 +52,7 @@ public class AdminActivityLogPageData extends PageData {
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
         for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
         }
         return excludedList;
     }

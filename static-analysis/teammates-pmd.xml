@@ -243,7 +243,7 @@
    <!--<rule ref="rulesets/java/strings.xml/StringToString"/>-->
    <!--<rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange"/>-->
    <rule ref="rulesets/java/strings.xml/UseEqualsToCompareStrings"/>
-   <!--<rule ref="rulesets/java/strings.xml/UseIndexOfChar"/>-->
+   <rule ref="rulesets/java/strings.xml/UseIndexOfChar"/>
    <rule ref="rulesets/java/strings.xml/UselessStringValueOf"/>
    <rule ref="rulesets/java/strings.xml/UseStringBufferLength"/>
    <!--<rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary"/>-->
