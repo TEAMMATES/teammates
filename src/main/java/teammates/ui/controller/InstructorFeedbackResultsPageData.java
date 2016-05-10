@@ -1545,7 +1545,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
 
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
-        boolean isHome = false;
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
                                                 Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
