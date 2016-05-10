@@ -88,7 +88,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${optionIdx}", Integer.toString(i),
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${rankOptionVisibility}", "",
-                            "${options}",getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
+                            "${options}", getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);

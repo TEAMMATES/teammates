@@ -57,7 +57,7 @@ public class FeedbackResponseComment {
     
     // for adding comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,String showCommentToString,
+            String giverName, String recipientName, String showCommentToString,
             String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);
