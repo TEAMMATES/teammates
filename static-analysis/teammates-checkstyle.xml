@@ -8,7 +8,7 @@
       <property name="tokens" value="COMMA"/>
     </module>
     <module name="NoWhitespaceAfter">
-      <property name="tokens" value="BNOT,DEC"/>
+      <property name="tokens" value="BNOT,DEC,DOT"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>
