@@ -3,7 +3,7 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down"){
+    if (button == "glyphicon glyphicon-chevron-down") {
     $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
     } else {
@@ -16,7 +16,7 @@ $(function() {
     $("#filterReference").toggle();
 });
 
-function submitLocalTimeAjaxRequest(time, googleId, role, entry){
+function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = "logTimeInAdminTimeZone=" + time
                  + "&logRole=" + role 
                  + "&logGoogleId=" + googleId;
@@ -36,7 +36,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
             $(localTimeDisplay).html("Loading error, please retry");          
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {       
                     $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "</mark>";
                 } else {
@@ -68,7 +68,7 @@ function submitFormAjax(searchTimeOffset) {
             button.html("Retry");
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {
                     // Inject new log row
                     var logs = data.logs;
@@ -89,11 +89,11 @@ function submitFormAjax(searchTimeOffset) {
 }
 
 
-function setFormErrorMessage(button, msg){
+function setFormErrorMessage(button, msg) {
     button.after("&nbsp;&nbsp;&nbsp;"+ msg);
 }
 
-function updateInfoForRecentActionButton(){
+function updateInfoForRecentActionButton() {
     var isShowAll = $("#ifShowAll").val();
     $(".ifShowAll_for_person").val(isShowAll);
 

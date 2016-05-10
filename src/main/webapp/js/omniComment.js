@@ -1,12 +1,12 @@
-$(document).ready(function(){
+$(document).ready(function() {
     var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
     var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
     
-    function isRedirectToSpecificComment(){
+    function isRedirectToSpecificComment() {
         return $(location).attr('href').indexOf('#') != -1;
     }
     
-    function getRedirectSpecificCommentRow(){
+    function getRedirectSpecificCommentRow() {
         var start = $(location).attr('href').indexOf('#');
         var end = $(location).attr('href').length;
         var rowId = $(location).attr('href').substring(start, end);
@@ -14,22 +14,22 @@ $(document).ready(function(){
         return row;
     }
     
-    function highlightRedirectSpecificCommentRow(row){
+    function highlightRedirectSpecificCommentRow(row) {
         row.toggleClass('list-group-item-warning list-group-item-success');
     }
     
     //for redirecting from search page, hide the header and highlight the specific comment row
-    if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0){
+    if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0) {
           $('.navbar').css('display','none');
           highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
-    } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0){
+    } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0) {
         //TODO: impl this, e.g. display a status msg that cannot find the comment etc
     }
     
     //re-display the hidden header
     var scrollEventCounter = 0;
     $( window ).scroll(function() {
-        if (isRedirectToSpecificComment() && scrollEventCounter > 0){
+        if (isRedirectToSpecificComment() && scrollEventCounter > 0) {
               $('.navbar').fadeIn("fast");
         }
         scrollEventCounter++;
@@ -37,20 +37,20 @@ $(document).ready(function(){
     
     //show on hover for comment
     $('.comments > .list-group-item').hover(
-       function(){
+       function() {
         $("a[type='button']", this).show();
-    }, function(){
+    }, function() {
         $("a[type='button']", this).hide();
     });
     
     //check submit text before submit
-    $('form.form_comment').submit(function(){
+    $('form.form_comment').submit(function() {
         return checkComment(this);        
     });
     
     //open or close show more options
-    $('#option-check').click(function(){
-        if ($('#option-check').is(':checked')){
+    $('#option-check').click(function() {
+        if ($('#option-check').is(':checked')) {
             $('#more-options').show();
         } else {
             $('#more-options').hide();
@@ -58,9 +58,9 @@ $(document).ready(function(){
     });
     
     //Binding for "Display All" panel option
-    $('#panel_all').click(function(){
+    $('#panel_all').click(function() {
         //use panel_all checkbox to control its children checkboxes.
-        if ($('#panel_all').is(':checked')){
+        if ($('#panel_all').is(':checked')) {
             $("input[id^=panel_check]").prop("checked", true);
         } else {
             $("input[id^=panel_check]").prop("checked", false);
@@ -70,9 +70,9 @@ $(document).ready(function(){
     });
     
     //Binding for changes in the panel check boxes
-    $("input[id^=panel_check]").change(function(){
+    $("input[id^=panel_check]").change(function() {
         //based on the selected panel_check check boxes, check/uncheck panel_all check box
-        if ($("input[id^='panel_check']:checked").length == $("input[id^='panel_check']").length){
+        if ($("input[id^='panel_check']:checked").length == $("input[id^='panel_check']").length) {
             $("#panel_all").prop("checked", true);
         } else {
             $("#panel_all").prop("checked", false);
@@ -81,9 +81,9 @@ $(document).ready(function(){
         filterPanel();
     });
     
-    function filterPanel(){
+    function filterPanel() {
         //if no panel_check checkboxes are checked, show the no-comment box to user
-        if ($("input[id^='panel_check']:checked").length == 0){
+        if ($("input[id^='panel_check']:checked").length == 0) {
             $('#no-comment-panel').show();
             //if all is checked, show giver and status for better user experience
             if (!$('#panel_all').prop("checked")) {
@@ -100,9 +100,9 @@ $(document).ready(function(){
         }
         
         //hide the panel accordingly based on panel_check checkbox
-        $("input[id^='panel_check']").each(function(){
+        $("input[id^='panel_check']").each(function() {
             var panelIdx = $(this).attr("id").split('-')[1];
-            if (this.checked){
+            if (this.checked) {
                 $("#panel_display-" + panelIdx).show();
             } else {
                 $("#panel_display-" + panelIdx).hide();
@@ -111,9 +111,9 @@ $(document).ready(function(){
     }
     
     //Binding for "Display All" giver option
-    $('#giver_all').click(function(){
+    $('#giver_all').click(function() {
         //use giver_all checkbox to control its children checkboxes.
-        if ($('#giver_all').is(':checked')){
+        if ($('#giver_all').is(':checked')) {
             $("input[id^=giver_check]").prop("checked", true);
             $("#status_all").prop("disabled", false);
             $("input[id^=status_check]").prop("disabled", false);
@@ -127,9 +127,9 @@ $(document).ready(function(){
     });
     
     //Binding for changes in the giver checkboxes.
-    $("input[id^=giver_check]").change(function(){
+    $("input[id^=giver_check]").change(function() {
         //based on the selected checkboxes, check/uncheck giver_all checkbox
-        if ($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length){
+        if ($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length) {
             $("#giver_all").prop("checked", true);
             $("#status_all").prop("disabled", false);
             $("input[id^=status_check]").prop("disabled", false);
@@ -142,14 +142,14 @@ $(document).ready(function(){
         filterGiver();
     });
     
-    function filterGiver(){
+    function filterGiver() {
         filterGiverCheckbox("you");
         filterGiverCheckbox("others");
     }
     
-    function filterGiverCheckbox(checkboxBy){
-        $("input[id=giver_check-by-" + checkboxBy + "]").each(function(){
-            if (this.checked){
+    function filterGiverCheckbox(checkboxBy) {
+        $("input[id=giver_check-by-" + checkboxBy + "]").each(function() {
+            if (this.checked) {
                 showCommentOfPanelIndex(".giver_display-by-" + checkboxBy);
             } else {
                 hideCommentOfPanelIndex(".giver_display-by-" + checkboxBy);
@@ -158,9 +158,9 @@ $(document).ready(function(){
     }
     //
     //Binding for "Display All" status option
-    $('#status_all').click(function(){
+    $('#status_all').click(function() {
         //use status_all checkbox to control its children checkboxes.
-        if ($('#status_all').is(':checked')){
+        if ($('#status_all').is(':checked')) {
             $("input[id^=status_check]").prop("checked", true);
             $("#giver_all").prop("disabled", false);
             $("input[id^=giver_check]").prop("disabled", false);
@@ -174,9 +174,9 @@ $(document).ready(function(){
     });
     
     //Binding for changes in the status checkboxes.
-    $("input[id^=status_check]").change(function(){
+    $("input[id^=status_check]").change(function() {
         //based on the selected checkboxes, check/uncheck status_all checkbox
-        if ($("input[id^='status_check']:checked").length == $("input[id^='status_check']").length){
+        if ($("input[id^='status_check']:checked").length == $("input[id^='status_check']").length) {
             $("#status_all").prop("checked", true);
             $("#giver_all").prop("disabled", false);
             $("input[id^=giver_check]").prop("disabled", false);
@@ -189,14 +189,14 @@ $(document).ready(function(){
         filterStatus();
     });
     
-    function filterStatus(){
+    function filterStatus() {
         filterStatusCheckbox("public");
         filterStatusCheckbox("private");
     }
     
-    function filterStatusCheckbox(checkboxBy){
-        $("input[id=status_check-" + checkboxBy + "]").each(function(){
-            if (this.checked){
+    function filterStatusCheckbox(checkboxBy) {
+        $("input[id=status_check-" + checkboxBy + "]").each(function() {
+            if (this.checked) {
                 showCommentOfPanelIndex(".status_display-" + checkboxBy);
             } else {
                 hideCommentOfPanelIndex(".status_display-" + checkboxBy);
@@ -205,25 +205,25 @@ $(document).ready(function(){
     }
     //
     
-    function showCommentOfPanelIndex(className){
-        $(className).each(function(){
+    function showCommentOfPanelIndex(className) {
+        $(className).each(function() {
             showCommentAndItsPanel(this);
         });
     }
     
-    function hideCommentOfPanelIndex(className){
-        $(className).each(function(){
+    function hideCommentOfPanelIndex(className) {
+        $(className).each(function() {
             hideCommentAndItsPanel(this);
         });
     }
     
-    function showCommentAndItsPanel(comment){
+    function showCommentAndItsPanel(comment) {
         $(comment).show();
         
         //to show feedback question + feedback session panel
         //if not all list elements are hidden within fbResponse, then show fbResponse
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)){
-            if ($(comment).parent().find('li[style*="display: none"]').length != $(comment).parent().find('li').length){
+        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
+            if ($(comment).parent().find('li[style*="display: none"]').length != $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 //a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.show();
@@ -232,13 +232,13 @@ $(document).ready(function(){
                 commentListRegionForFeedbackResponse.prev().prev().prev().show();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
-                if (feedbackQuestion.find('tr[style*="display: none"]').length != feedbackQuestion.find('tr').length){
+                if (feedbackQuestion.find('tr[style*="display: none"]').length != feedbackQuestion.find('tr').length) {
                     //if not all responses are hidden within fbQuestion, then show the fbQuestion
                     feedbackQuestion.show();
                     
                     var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length != feedbackSessionPanel.find('div[class="panel panel-info"]').length){
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length != feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         //if not all questions are hidden within fbSession, then show the fbsession's body
                         feedbackSessionPanelBody.show();
                     }
@@ -246,7 +246,7 @@ $(document).ready(function(){
             }
         }
         //to show student comments (only works for Giver filter)
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)){
+        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)) {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             //if not all student comments are hidden, then show the student comments panel
@@ -257,7 +257,7 @@ $(document).ready(function(){
         }
     }
     
-    function hideCommentAndItsPanel(comment){
+    function hideCommentAndItsPanel(comment) {
         $(comment).hide();
         
         //hide comment's add form in commentListRegionForFeedbackResponse
@@ -265,8 +265,8 @@ $(document).ready(function(){
         
         //to hide feedback question + feedback session panel
         //if all list elements are hidden within fbResponse, then hide fbResponse
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)){
-            if ($(comment).parent().find('li[style*="display: none"]').length == $(comment).parent().find('li').length){
+        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
+            if ($(comment).parent().find('li[style*="display: none"]').length == $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 //a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.hide();
@@ -275,13 +275,13 @@ $(document).ready(function(){
                 commentListRegionForFeedbackResponse.prev().prev().prev().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
-                if (feedbackQuestion.find('tr[style*="display: none"]').length == feedbackQuestion.find('tr').length){
+                if (feedbackQuestion.find('tr[style*="display: none"]').length == feedbackQuestion.find('tr').length) {
                     //if all responses are hidden within fbQuestion, then hide the fbQuestion
                     feedbackQuestion.hide();
                     
                     var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length == feedbackSessionPanel.find('div[class="panel panel-info"]').length){
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length == feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         //if all questions are hidden within fbSession, then hide the fbsession's body
                         feedbackSessionPanelBody.hide();
                     }
@@ -289,7 +289,7 @@ $(document).ready(function(){
             }
         }
         //to hide student comments
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)){
+        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)) {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             //if all student comments are hidden, then hide the student comments panel
@@ -301,9 +301,9 @@ $(document).ready(function(){
     }
     
     //Binding for "Display Archived Courses" check box.
-    $("#displayArchivedCourses_check").change(function(){
+    $("#displayArchivedCourses_check").change(function() {
         var urlToGo = $('#displayArchivedCourses_link > a').attr('href');
-        if (this.checked){
+        if (this.checked) {
             gotoUrlWithParam(urlToGo, "displayarchive", "true");
         } else {
             gotoUrlWithParam(urlToGo, "displayarchive", "false");
@@ -313,13 +313,13 @@ $(document).ready(function(){
     /**
      * Go to the url with appended param and value pair
      */
-    function gotoUrlWithParam(url, param, value){
+    function gotoUrlWithParam(url, param, value) {
         var paramValuePair = param + "=" + value;
-        if (!url.includes("?")){
+        if (!url.includes("?")) {
             window.location.href = url + "?" + paramValuePair;
-        } else if (!url.includes(param)){
+        } else if (!url.includes(param)) {
             window.location.href = url + "&" + paramValuePair;
-        } else if (url.includes(paramValuePair)){
+        } else if (url.includes(paramValuePair)) {
             window.location.href = url;
         } else {
             var urlWithoutParam = removeParamInUrl(url, param);
@@ -331,7 +331,7 @@ $(document).ready(function(){
      * Remove param and its value pair in the given url
      * Return the url withour param and value pair
      */
-    function removeParamInUrl(url, param){
+    function removeParamInUrl(url, param) {
         var indexOfParam = url.indexOf("?" + param);
         indexOfParam = indexOfParam == -1? url.indexOf("&" + param): indexOfParam;
         var indexOfAndSign = url.indexOf("&", indexOfParam + 1);
@@ -340,9 +340,9 @@ $(document).ready(function(){
         return urlBeforeParam + urlAfterParamValue;
     }
     
-    $('a[id^="visibility-options-trigger"]').click(function(){
+    $('a[id^="visibility-options-trigger"]').click(function() {
         var visibilityOptions = $(this).parent().next();
-        if (visibilityOptions.is(':visible')){
+        if (visibilityOptions.is(':visible')) {
             visibilityOptions.hide();
             $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
         } else {
@@ -351,7 +351,7 @@ $(document).ready(function(){
         }
     });
     
-    $("input[type=checkbox]").click(function(e){
+    $("input[type=checkbox]").click(function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
@@ -387,22 +387,22 @@ $(document).ready(function(){
 
 //public functions:
 
-function showAddCommentBox(id){
+function showAddCommentBox(id) {
     $('#comment_box_' + id).show();
     $('#commentText_' + id).focus();
 }
 
-function hideAddCommentBox(id){
+function hideAddCommentBox(id) {
     $('#comment_box_' + id).hide();
 }
 
-function submitCommentForm(commentIdx){
+function submitCommentForm(commentIdx) {
     $('#form_commentedit-'+commentIdx).submit();
     return false;
 }
 
-function deleteComment(commentIdx){
-    if (confirm("Are you sure you want to delete this comment?")){
+function deleteComment(commentIdx) {
+    if (confirm("Are you sure you want to delete this comment?")) {
         document.getElementById('commentedittype-'+commentIdx).value="delete";
         return submitCommentForm(commentIdx);
     } else {
@@ -415,7 +415,7 @@ function enableEdit(commentIdx, unusedParameter) {
     return false;
 }
 
-function enableComment(commentIdx){
+function enableComment(commentIdx) {
     $('#'+'commentBar-'+commentIdx).hide();
     $('#'+'plainCommentText'+commentIdx).hide();
     $("div[id='commentTextEdit"+commentIdx+"']").show();
@@ -423,13 +423,13 @@ function enableComment(commentIdx){
     $("textarea[id='commentText"+commentIdx+"']").focus();
 }
 
-function disableComment(commentIdx){
+function disableComment(commentIdx) {
     $('#'+'commentBar-'+commentIdx).show();
     $('#'+'plainCommentText'+commentIdx).show();
     $("div[id='commentTextEdit"+commentIdx+"']").hide();
 }
 
-function checkComment(form){
+function checkComment(form) {
     var formTextField = $(form).find('[name=commenttext]').val();
     if (isBlank(formTextField)) {
         setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);

@@ -770,11 +770,11 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
     // trim symbols around every word in the string
     var symbolTrimmedSearchKey = [];
-    $.each(searchKey.split(/["'.-]/), function(){
+    $.each(searchKey.split(/["'.-]/), function() {
         symbolTrimmedSearchKey.push($.trim(this));
     });
     // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
         return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }

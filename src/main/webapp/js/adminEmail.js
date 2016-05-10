@@ -3,7 +3,7 @@ var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image'
 
 var callbackFunction;
 
-$(document).ready(function(){
+$(document).ready(function() {
     
     $(".navbar-fixed-top").css( "zIndex", 0);
     
@@ -65,11 +65,11 @@ $(document).ready(function(){
         createGroupReceiverListUploadUrl();        
      });
     
-    $("#adminEmailGroupReceiverListUploadButton").on("click", function(){
+    $("#adminEmailGroupReceiverListUploadButton").on("click", function() {
         $("#adminEmailGroupReceiverList").click();
     });
     
-    $("#composeSaveButton").on("click", function(){
+    $("#composeSaveButton").on("click", function() {
         $("#adminEmailMainForm").attr("action", "/admin/adminEmailComposeSave");
         $("#composeSubmitButton").click();
     });
@@ -85,7 +85,7 @@ $(document).ready(function(){
 
 
 
-function createGroupReceiverListUploadUrl(){
+function createGroupReceiverListUploadUrl() {
     
     $.ajax({
         type : 'POST',
@@ -97,7 +97,7 @@ function createGroupReceiverListUploadUrl(){
             setErrorMessage("URL request failured, please try again.");
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {                   
                     $("#adminEmailReceiverListForm").attr("action", data.nextUploadUrl);                  
                     setStatusMessage(data.ajaxStatus);   
@@ -137,9 +137,9 @@ function submitGroupReceiverListUploadFormAjax() {
             clearUploadGroupReceiverListInfo();
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {
-                   if (data.isFileUploaded){
+                   if (data.isFileUploaded) {
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                        $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
                        $("#groupReceiverListFileKey").show();
@@ -165,7 +165,7 @@ function submitGroupReceiverListUploadFormAjax() {
 
 
 
-function createImageUploadUrl(){
+function createImageUploadUrl() {
     
     $.ajax({
         type : 'POST',
@@ -177,7 +177,7 @@ function createImageUploadUrl(){
             setErrorMessage("URL request failured, please try again.");
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {                   
                     $("#adminEmailFileForm").attr("action", data.nextUploadUrl);                  
                     setStatusMessage(data.ajaxStatus);   
@@ -217,9 +217,9 @@ function submitImageUploadFormAjax() {
             clearUploadFileInfo();
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {
-                   if (data.isFileUploaded){
+                   if (data.isFileUploaded) {
                        url = data.fileSrcUrl;
                        callbackFunction(url, {alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT});
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
@@ -245,22 +245,22 @@ function submitImageUploadFormAjax() {
 
 
 
-function setErrorMessage(message){
+function setErrorMessage(message) {
     setStatusMessage(message, StatusType.DANGER);
 }
 
-function showUploadingGif(){
+function showUploadingGif() {
     setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", StatusType.WARNING);
 }
 
-function clearUploadFileInfo(){
+function clearUploadFileInfo() {
     $("#adminEmailFileInput").html("<input type=\"file\" name=\"emailimagetoupload\" id=\"adminEmailFile\">");
     $("#adminEmailFile").on("change paste keyup", function() {
         createImageUploadUrl();
      });
 }
 
-function clearUploadGroupReceiverListInfo(){
+function clearUploadGroupReceiverListInfo() {
     $("#adminEmailGroupReceiverListInput").html("<input type=\"file\" name=\"emailgroupreceiverlisttoupload\" id=\"adminEmailGroupReceiverList\">");
     $("#adminEmailGroupReceiverList").on("change paste keyup", function() {
         createGroupReceiverListUploadUrl();

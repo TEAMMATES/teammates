@@ -1,6 +1,6 @@
 var instructorSize;
 
-function editFormRequest(e){
+function editFormRequest(e) {
     e.preventDefault();
     var editButton = this;
     var displayIcon = $(this).parent().find(".display-icon");
@@ -38,7 +38,7 @@ function editFormRequest(e){
 
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     var editLinks = $("a[id^=instrEditLink]");
     instructorSize = editLinks.length;
     $(editLinks).click(editFormRequest);

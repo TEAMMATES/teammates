@@ -1,7 +1,7 @@
 var retryTimes = 0;
 var numOfEntriesPerPage = 50;
 
-$(document).ready(function(){
+$(document).ready(function() {
     bindClickAction();
     clickOlderButtonIfNeeded();
     $("#filterReference").toggle();
@@ -12,7 +12,7 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down"){
+    if (button == "glyphicon glyphicon-chevron-down") {
     $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
     } else {
@@ -21,24 +21,24 @@ function toggleReference() {
     }
 }
 
-function bindClickAction(){
+function bindClickAction() {
     $("body").unbind('click', handler).on("click", ".log",handler);
 }
 
-var handler = function(event){
+var handler = function(event) {
     $(this).next("#small").toggle();
     $(this).next("#small").next("#big").toggle();
 };
 
-function clickOlderButtonIfNeeded(){
-    if (retryTimes >= 20){
+function clickOlderButtonIfNeeded() {
+    if (retryTimes >= 20) {
         return;
     }
     
     var curNumOfEntries = $("#emailLogsTable tbody tr").length;
     
-    if (curNumOfEntries < numOfEntriesPerPage){
-        if ($("#button_older").length){
+    if (curNumOfEntries < numOfEntriesPerPage) {
+        if ($("#button_older").length) {
             $("#button_older").click();
             retryTimes ++;
         }
@@ -67,7 +67,7 @@ function submitFormAjax(offset) {
                 if (!data.isError) {
                         // Inject new log row                  
                         var logs = data.logs;                    
-                        jQuery.each(logs, function(i, value){                        
+                        jQuery.each(logs, function(i, value) {                        
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#emailLogsTable tr:last');
                         bindClickAction();
@@ -85,7 +85,7 @@ function submitFormAjax(offset) {
     });
 }
 
-function setFormErrorMessage(button, msg){
+function setFormErrorMessage(button, msg) {
     button.after("&nbsp;&nbsp;&nbsp;"+ msg);
 }
 

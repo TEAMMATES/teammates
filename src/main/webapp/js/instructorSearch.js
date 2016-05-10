@@ -1,8 +1,8 @@
 $(function() { 
     $('.comments > .list-group-item').hover(
-       function(){
+       function() {
         $("a[type='button']", this).show();
-    }, function(){
+    }, function() {
         $("a[type='button']", this).hide();
     });
     

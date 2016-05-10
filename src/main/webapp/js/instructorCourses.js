@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
     $('#ajaxForCourses').trigger('submit');
 });
 
@@ -14,7 +14,7 @@ function verifyCourseData() {
     var allErrorMessage = "";
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
-    if (allErrorMessage.length>0){
+    if (allErrorMessage.length>0) {
         setStatusMessage(allErrorMessage, StatusType.DANGER);
         return false;
     }
@@ -35,7 +35,7 @@ function checkAddCourseParam(courseId, courseName) {
     return errorMessages;    
 }
 
-function getCourseIdInvalidityInfo(courseId){
+function getCourseIdInvalidityInfo(courseId) {
     
     var invalidityInfo = "";
     
@@ -59,7 +59,7 @@ function getCourseIdInvalidityInfo(courseId){
 }
 
 
-function getCourseNameInvalidityInfo(courseName){
+function getCourseNameInvalidityInfo(courseName) {
     
     courseName = courseName.trim();
     

@@ -14,7 +14,7 @@ var SAFARI_LOWEST_VERSION = 4;
  * 
  */
 
-function checkBrowserVersion(){
+function checkBrowserVersion() {
     var nAgt = navigator.userAgent;
     var browserName  = navigator.appName;
     var fullVersion  = parseFloat(navigator.appVersion); 
@@ -27,7 +27,7 @@ function checkBrowserVersion(){
         browserName = MICROSOFT_INTERNET_EXPLORER;
         fullVersion = nAgt.substring(verOffset+5);
         majorVersion = parseInt(fullVersion,10);
-        if (majorVersion < MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION){
+        if (majorVersion < MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION) {
             supported = false;
         }
     }
@@ -36,7 +36,7 @@ function checkBrowserVersion(){
         browserName = CHROME;
         fullVersion = nAgt.substring(verOffset+7);
         majorVersion = parseInt(fullVersion,10);
-        if (majorVersion < CHROME_LOWEST_VERSION){
+        if (majorVersion < CHROME_LOWEST_VERSION) {
             supported = false;
         }
     }
@@ -44,11 +44,11 @@ function checkBrowserVersion(){
     else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
         browserName = SAFARI;
         fullVersion = nAgt.substring(verOffset+7);
-        if ((verOffset=nAgt.indexOf("Version"))!=-1){ 
+        if ((verOffset=nAgt.indexOf("Version"))!=-1) { 
             fullVersion = nAgt.substring(verOffset+8);
         }
         majorVersion = parseInt(fullVersion,10);
-        if (majorVersion < SAFARI_LOWEST_VERSION){
+        if (majorVersion < SAFARI_LOWEST_VERSION) {
             supported = false;
         }
     }
@@ -57,7 +57,7 @@ function checkBrowserVersion(){
         browserName = FIREFOX;
         fullVersion = nAgt.substring(verOffset+8);
         majorVersion = parseInt(fullVersion,10);
-        if (majorVersion < FIREFOX_LOWEST_VERSION){
+        if (majorVersion < FIREFOX_LOWEST_VERSION) {
             supported = false;
         }
     }
@@ -68,7 +68,7 @@ function checkBrowserVersion(){
         supported = false;
     }
     
-    if (!supported){
+    if (!supported) {
         var message = document.getElementById("browserMessage");
         message.style.display = "block";
         message.innerHTML = "You are currently using " + browserName + " v." + majorVersion + ". This web browser is not officially supported by TEAMMATES. " + 
