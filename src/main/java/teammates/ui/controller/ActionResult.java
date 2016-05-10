@@ -63,7 +63,7 @@ public abstract class ActionResult {
     }
     
     public String getStatusMessageColor() {
-        return (statusToUser == null || statusToUser.isEmpty()) ? "info" : statusToUser.get(0).getColor();
+        return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
     
     /**

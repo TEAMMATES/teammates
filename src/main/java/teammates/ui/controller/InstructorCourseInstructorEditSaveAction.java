@@ -67,10 +67,11 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instrCanModifyInstructor = instructor;
             }
         }
-        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
-                ((instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null) ||
-                (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId != null &&
-                instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId)));
+        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1 
+                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null 
+                                             || instrCanModifyInstructor != null 
+                                                && instrCanModifyInstructor.googleId != null 
+                                                && instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId));
         if (lastCanModifyInstructor) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
@@ -81,8 +82,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = (displayedName == null || displayedName.isEmpty()) ?
-                InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
+        displayedName = displayedName == null || displayedName.isEmpty() 
+                      ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
+                      : displayedName;
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         

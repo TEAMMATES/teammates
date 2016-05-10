@@ -192,10 +192,10 @@ public class InstructorStudentCommentAddAction extends Action {
     }
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
-        return (comment.isVisibleTo(CommentParticipantType.PERSON)
-                    || comment.isVisibleTo(CommentParticipantType.TEAM)
-                    || comment.isVisibleTo(CommentParticipantType.SECTION)
-                    || comment.isVisibleTo(CommentParticipantType.COURSE));
+        return comment.isVisibleTo(CommentParticipantType.PERSON)
+               || comment.isVisibleTo(CommentParticipantType.TEAM)
+               || comment.isVisibleTo(CommentParticipantType.SECTION)
+               || comment.isVisibleTo(CommentParticipantType.COURSE);
     }
     
     public String getCourseStudentDetailsLink(String courseId, String studentEmail) {

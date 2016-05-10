@@ -184,8 +184,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
             participantType = question.recipientType;
         }
-        boolean isTypeSelf = (participantType == FeedbackParticipantType.SELF);
-        boolean isTypeNone = (participantType == FeedbackParticipantType.NONE);
+        boolean isTypeSelf = participantType == FeedbackParticipantType.SELF;
+        boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 
         return isVisible || isTypeSelf || isTypeNone;
     }

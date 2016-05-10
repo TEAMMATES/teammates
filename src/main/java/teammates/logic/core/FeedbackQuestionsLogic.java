@@ -291,8 +291,8 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.INSTRUCTORS || 
-                (question.giverType == FeedbackParticipantType.SELF && isCreator) ) {
+            if (question.giverType == FeedbackParticipantType.INSTRUCTORS 
+                || question.giverType == FeedbackParticipantType.SELF && isCreator) {
                 questions.add(question);
             }
         }

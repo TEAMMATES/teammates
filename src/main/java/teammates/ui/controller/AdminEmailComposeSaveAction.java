@@ -39,7 +39,7 @@ public class AdminEmailComposeSaveAction extends Action {
             groupReceiver.add(groupReceiverListFileKey);
         }
         
-        boolean isNewDraft = (emailId == null);
+        boolean isNewDraft = emailId == null;
         
         if(isNewDraft){
             //this is a new email draft, so create a new admin email entity

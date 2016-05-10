@@ -77,6 +77,6 @@ public class AdminAccountManagementPageData extends PageData {
     }
     
     public boolean isTestingAccount(AccountAttributes account){
-        return (account.email.endsWith(".tmt") || account.institute.contains("TEAMMATES Test Institute"));
+        return account.email.endsWith(".tmt") || account.institute.contains("TEAMMATES Test Institute");
     }
 }

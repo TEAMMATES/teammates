@@ -202,7 +202,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         if(!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
-            data.ajaxStatus = (Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE);
+            data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;
             return null;
         } else {
             return groupReceiverListFile;

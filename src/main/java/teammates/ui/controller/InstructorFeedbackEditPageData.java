@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                     boolean isGiverType = isValidGiver && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
                     
-                    isSelected = (isGiverType || isRecipientType); 
+                    isSelected = isGiverType || isRecipientType; 
                 }
                 
                 ElementTag optionTag = createOption(participantName, option.toString(), isSelected);

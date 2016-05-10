@@ -38,7 +38,7 @@ public class SearchManager {
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
         while (!isSuccessful
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
             ThreadHelper.waitBriefly();
             //retry putting the document
             isSuccessful = tryPutDocument(indexName, document);
@@ -57,7 +57,7 @@ public class SearchManager {
         Index index = getIndex(indexName);
         try {
             PutResponse result = index.put(document);
-            return (result.getResults().get(0).getCode() == StatusCode.OK);
+            return result.getResults().get(0).getCode() == StatusCode.OK;
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
             if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
