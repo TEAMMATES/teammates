@@ -230,7 +230,7 @@ public class PageData {
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
+            ElementTag option = createOption(i + " mins", String.valueOf(i), 
                                             (isGracePeriodToBeSelected(existingGracePeriod, i)));
             result.add(option);
         }
