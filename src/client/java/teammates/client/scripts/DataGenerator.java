@@ -101,7 +101,7 @@ public class DataGenerator {
     public static String generateData() {
         System.out.println("Start generating data!");
         //Create students
-        for (int i = 0; i< NUM_OF_STUDENTS; i ++) {
+        for (int i = 0; i< NUM_OF_STUDENTS; i++) {
             studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
         }
         
@@ -127,7 +127,7 @@ public class DataGenerator {
         long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES+1)
                 +MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
         
-        for (int j =0; j < numOfInstr; j ++) {
+        for (int j =0; j < numOfInstr; j++) {
             // Add an Instructor
             String instrName = "Instr"+j + "_of_"+courseName;
             instructors.put(instrName, courseName);
@@ -165,7 +165,7 @@ public class DataGenerator {
         while(studentEmailInCourse.size() >0) {
             long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
-            for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize; k ++) {
+            for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize; k++) {
                 
                 String email =studentEmailInCourse.remove(0);
                 
@@ -177,7 +177,7 @@ public class DataGenerator {
                 team.add(studentID);
             }
 
-            teamCount ++;
+            teamCount++;
             teams.add(team);
         }
     }

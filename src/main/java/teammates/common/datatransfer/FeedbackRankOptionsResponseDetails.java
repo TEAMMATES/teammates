@@ -98,7 +98,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         StringBuilder csvBuilder = new StringBuilder();
         
-        for (int rank = 1; rank <= rankQuestion.options.size(); rank ++) {
+        for (int rank = 1; rank <= rankQuestion.options.size(); rank++) {
             if (!orderedOptions.containsKey(rank)) {
                 csvBuilder.append(",");
                 continue;
