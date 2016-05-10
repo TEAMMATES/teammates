@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -45,22 +46,24 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter for Course ID");
         
-        Action addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac,tpa1,id",
+        String invalidCourseID = "ticac,tpa1,id";
+        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseID,
                                      Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_INVALID_ID, pageResult.getStatusMessage());
+        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+                                        FieldValidator.REASON_INCORRECT_FORMAT), pageResult.getStatusMessage());
         
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(1, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Please use only alphabets, numbers, dots, hyphens, underscores and dollar "
-                                    + "signs in course ID. Spaces are not allowed for course ID."
+                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+                                    FieldValidator.REASON_INCORRECT_FORMAT)
                                     + "|||/page/instructorCourseAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
 
