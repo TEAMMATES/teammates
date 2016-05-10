@@ -545,7 +545,7 @@ public class StringHelper {
         
         return str.substring(1, str.length() - 1);
     }
-	
+    
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

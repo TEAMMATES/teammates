@@ -58,7 +58,7 @@ $(document).ready(function() {
                 },
                 success : function(data) {
                     // .outerHTML is used instead of jQuery's .replaceWith() to avoid the <span>
-                	// for statuses' tooltips from being closed due to the presence of <br>
+                    // for statuses' tooltips from being closed due to the presence of <br>
                     $panel[0].outerHTML = data;
                     linkAjaxForResponseRate();
                 }

@@ -100,6 +100,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      This is to ensure that the code is properly formatted. 
      You may tweak the code further to improve readability as auto-format 
      doesn't always result in a good layout.
+
+   * Ensure that the code passes static analysis.
+     The details on how to run static analysis locally is given on [this document](staticAnalysis.md).
         
    * Ensure _dev green_ (i.e., all *local* tests are passing on dev server).
      
@@ -121,7 +124,13 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      In the PR description, mention the issue number in this format: `Fixes #1760`. 
      Doing so will create an automatic reference from the issue to the pull request.<br>
 
-   * Once a PR is opened, the CI server will automatically build and test it. Ensure that the
+   * Once a PR is opened, the CI server will first run static analysis on the code base.
+     If there are problems found, the build will terminate without proceeding to testing.
+     Some of the tools will display the cause of the failures in the console; if this is not the case,
+     you can run any of the static analysis tools and obtain the reports locally.
+     Ensure that the static analysis passes before triggering another CI build.
+
+     Once the code base passes static analysis, the CI server will build and test it. Ensure that the
      build is successful. If the some tests fail, look at the CI log and fix any tests that
      failed. Repeat until all tests pass on the CI server.
      

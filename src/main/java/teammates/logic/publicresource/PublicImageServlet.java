@@ -30,7 +30,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
         String blobKey = getBlobKeyFromRequest();
         
         try{      
-            if (blobKey != "") {
+            if (!blobKey.isEmpty()) {
                 resp.setContentType("image/png");
                 BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
                 blobstoreService.serve(new BlobKey(blobKey), resp);

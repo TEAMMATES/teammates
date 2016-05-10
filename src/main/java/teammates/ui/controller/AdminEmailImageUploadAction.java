@@ -23,7 +23,6 @@ public class AdminEmailImageUploadAction extends Action {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
-        BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
         data = new AdminEmailComposePageData(account);    
@@ -39,7 +38,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
         
         
-        blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();     
         
       
         data.isFileUploaded = true;

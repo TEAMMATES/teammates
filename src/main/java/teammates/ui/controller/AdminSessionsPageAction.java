@@ -18,7 +18,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
-import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageAction extends Action {
     
