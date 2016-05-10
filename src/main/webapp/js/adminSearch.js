@@ -16,9 +16,9 @@ $(document).ready(function() {
     $(".studentRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if($(this).attr("class") == "studentRow active"){
+        if ($(this).attr("class") == "studentRow active"){
             $(this).attr("class", "studentRow");
-        } else{
+        } else {
             $(this).attr("class", "studentRow active");
         }
         $(".fslink" + rawId).toggle();
@@ -28,9 +28,9 @@ $(document).ready(function() {
     $(".instructorRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if($(this).attr("class") == "instructorRow active"){
+        if ($(this).attr("class") == "instructorRow active"){
             $(this).attr("class", "instructorRow");
-        } else{
+        } else {
             $(this).attr("class", "instructorRow active");
         }
         $(".fslink" + rawId).toggle();
@@ -82,7 +82,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {                          
-                    if(data.isGoogleIdReset){
+                    if (data.isGoogleIdReset){
                         googleIdEntry.html("");
                         $(button).hide();
                     } else {

@@ -14,7 +14,7 @@ function verifyCourseData() {
     var allErrorMessage = "";
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
-    if(allErrorMessage.length>0){
+    if (allErrorMessage.length>0){
         setStatusMessage(allErrorMessage, StatusType.DANGER);
         return false;
     }
@@ -45,7 +45,7 @@ function getCourseIdInvalidityInfo(courseId){
         invalidityInfo = DISPLAY_COURSE_COURSE_ID_EMPTY + "<br>";
     } else {
         // long courseId
-        if(courseId.length > COURSE_ID_MAX_LENGTH) {
+        if (courseId.length > COURSE_ID_MAX_LENGTH) {
             invalidityInfo += DISPLAY_COURSE_LONG_ID + "<br>";
         }
         

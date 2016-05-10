@@ -37,7 +37,7 @@ function readyFeedbackEditPage() {
     // Bind destructive changes
     $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function() {
         var editStatus = $(this).parents('form').attr('editStatus');
-        if(editStatus === 'hasResponses') {
+        if (editStatus === 'hasResponses') {
             $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
         }
     });
@@ -448,7 +448,7 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
-    switch(type) {
+    switch (type) {
         case 'TEXT':
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
             
@@ -994,7 +994,7 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = getQuestionIdSuffix(questionNumber);
 
-    if($(idOfQuestion).attr('editStatus') === "hasResponses") {
+    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
     }
 }

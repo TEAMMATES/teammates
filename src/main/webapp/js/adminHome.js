@@ -120,7 +120,7 @@ function addInstructorFromFirstFormByAjax() {
     if (multipleLineText.length > 0) {
         instructorDetailsList = multipleLineText.split("\n");
         paramsList = [];
-        for(var i = 0; i < instructorDetailsList.length; i++) {
+        for (var i = 0; i < instructorDetailsList.length; i++) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g,"|");
             paramsList[i] = "instructordetailssingleline=" + instructorDetailsList[i];
         }

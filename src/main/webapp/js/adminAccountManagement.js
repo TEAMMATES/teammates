@@ -19,15 +19,15 @@ $(document).ready(function() {
 
 function updatePagination(){
     
-    if(totalPages > 5) {
-        if(currentPage >= 3 && (currentPage + 1) < totalPages){
+    if (totalPages > 5) {
+        if (currentPage >= 3 && (currentPage + 1) < totalPages){
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
         } 
         
-        if(currentPage >= 3 && (currentPage + 1) == totalPages){
+        if (currentPage >= 3 && (currentPage + 1) == totalPages){
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
@@ -43,7 +43,7 @@ function updatePagination(){
         $("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
             $(this).text(index + 1);
             
-            if((index + 1) > totalPages){
+            if ((index + 1) > totalPages){
                 $(this).parent().hide();
             }
         });
@@ -51,7 +51,7 @@ function updatePagination(){
     
     $("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
         var pageNum = parseInt($(this).text());
-        if(pageNum == currentPage){
+        if (pageNum == currentPage){
             $(this).parent().attr("class", "active");
         } else {
             $(this).parent().attr("class", "");
@@ -88,7 +88,7 @@ function showFirstPage(){
 
 function showEntryInInterval(start, end){
     hideAllEntries();
-    for(var i=start; i<=end; i++){
+    for (var i=start; i<=end; i++){
         $("#accountEntry_" + i).show();
     };
 }
@@ -142,10 +142,10 @@ function goToNextPage(){
 }
 
 $(document).keydown(function(e) {
-    if(e.keyCode == 37) { //LEFT
+    if (e.keyCode == 37) { //LEFT
         goToPreviousPage();
      }
-    if(e.keyCode == 39) { //RIGHT
+    if (e.keyCode == 39) { //RIGHT
         goToNextPage();
      }
  });

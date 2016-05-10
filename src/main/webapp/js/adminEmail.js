@@ -139,7 +139,7 @@ function submitGroupReceiverListUploadFormAjax() {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                   if(data.isFileUploaded){
+                   if (data.isFileUploaded){
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                        $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
                        $("#groupReceiverListFileKey").show();
@@ -219,7 +219,7 @@ function submitImageUploadFormAjax() {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                   if(data.isFileUploaded){
+                   if (data.isFileUploaded){
                        url = data.fileSrcUrl;
                        callbackFunction(url, {alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT});
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);

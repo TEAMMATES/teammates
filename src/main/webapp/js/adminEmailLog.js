@@ -12,10 +12,10 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if(button == "glyphicon glyphicon-chevron-down"){
+    if (button == "glyphicon glyphicon-chevron-down"){
     $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
-    }else{
+    } else {
         $("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
     }
@@ -31,14 +31,14 @@ var handler = function(event){
 };
 
 function clickOlderButtonIfNeeded(){
-    if(retryTimes >= 20){
+    if (retryTimes >= 20){
         return;
     }
     
     var curNumOfEntries = $("#emailLogsTable tbody tr").length;
     
-    if(curNumOfEntries < numOfEntriesPerPage){
-        if($("#button_older").length){
+    if (curNumOfEntries < numOfEntriesPerPage){
+        if ($("#button_older").length){
             $("#button_older").click();
             retryTimes ++;
         }

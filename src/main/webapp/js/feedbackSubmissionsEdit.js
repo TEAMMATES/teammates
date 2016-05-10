@@ -358,7 +358,7 @@ function prepareMobileRubricQuestions() {
     $rubricRadioInputs.closest('label').mousedown(function(e) {
         var $self = $(this);
         var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
-        if($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
+        if ($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
             var uncheck = function() {
                 setTimeout(function() {
                     $radioInput.prop('checked', false);

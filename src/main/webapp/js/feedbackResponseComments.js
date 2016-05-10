@@ -92,7 +92,7 @@ var editCommentHandler = function(e) {
         },
         success: function(data) {
             if (!data.isError) {
-                if(isInCommentsPage()) {
+                if (isInCommentsPage()) {
                     reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Update editted comment

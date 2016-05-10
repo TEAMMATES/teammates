@@ -88,7 +88,7 @@ function filterResults(searchText) {
     // a stack that stores the parent panels that have been traversed so far
     var parentStack = new Array();
 
-    for(var p = 0; p < allPanelText.length; p++) {
+    for (var p = 0; p < allPanelText.length; p++) {
         var panelText = allPanelText[p];
         var panel = $(panelText).closest('div.panel');
 
@@ -121,7 +121,7 @@ function filterResults(searchText) {
 
             // show all child panels of current panel
             if (hasChild) {
-                for(var c = p + 1; c <= p + childrenSize; c++) {
+                for (var c = p + 1; c <= p + childrenSize; c++) {
                     var childPanel = $(allPanelText[c]).closest('div.panel');
                     $(childPanel).show();
                 }
