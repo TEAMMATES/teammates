@@ -504,7 +504,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return studentResults;
     }
 
-    private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
+    protected Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
         for(String team : teamNames){
