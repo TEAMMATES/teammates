@@ -25,7 +25,7 @@
             "googleId":"student1InCourse1",
             "name":"Student 1 in course 1",
             "isInstructor":false,
-            "email":"student1inCourse1@gmail.tmt",
+            "email":"student1InCourse1@gmail.tmt",
             "institute":"TEAMMATES Test Institute 1"
         }
     },
@@ -436,7 +436,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"instructor1@course1.tmt",
-            "recipientEmail":"student1inCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Instructor feedback to student 1."
             }

@@ -224,7 +224,7 @@
       "email": "FSDTest.student6InCourse1@gmail.tmt",
       "name": "student6 In Course1",
       "googleId": "FSDTest.student5InCourse1",
-      "team": "Team 1.4",
+      "team": "Team 1.2",
       "comments" : "same googleId as student5InCourse1",
       "course" : "FSDTest.idOfTypicalCourse1"
     },
@@ -763,7 +763,7 @@
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSDTest.instr2@course1.tmt",
-        "recipientEmail" : "Team 1.2",
+        "recipientEmail" : "FSDTest.instr2@course1.tmt",
         "responseMetaData" : {"value" : "this is an answer"}
     }
   }  

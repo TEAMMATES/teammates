@@ -99,6 +99,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
+        ______TS("Typical case: session with invalid responses");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with invalid responses");
+        resultsPage.waitForPanelsToExpand();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageInvalidResponse.html");
+        
     }
     
     @Test
@@ -161,7 +167,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
-                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
+                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.ford.g@gmail.tmt",
+                                      "CFResultsUiT.emily.f@gmail.tmt");
 
         ______TS("Typical case: test moderate responses button for team response");
 
