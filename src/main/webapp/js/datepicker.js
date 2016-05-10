@@ -4,26 +4,6 @@ $(document).ready(function(){
     yesterday.setDate(yesterday.getDate() - 1);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    $("#start").datepicker({
-        dateFormat: "dd/mm/yy",
-        showOtherMonths: true,
-        gotoCurrent: true,
-        defaultDate: today,
-        onSelect: function(date) {
-            $("#deadline").datepicker("option", "minDate", getMinDateForEndDate($('#start').datepicker("getDate")));
-        }
-    });
-
-    $("#deadline").datepicker({
-        dateFormat: "dd/mm/yy",
-        showOtherMonths: true,
-        gotoCurrent: true,
-        defaultDate: today,
-        onSelect: function(date) {
-            $("#start").datepicker("option", "maxDate", date);
-        }
-    });
 
     $("#startdate" ).datepicker({
         dateFormat: "dd/mm/yy",
