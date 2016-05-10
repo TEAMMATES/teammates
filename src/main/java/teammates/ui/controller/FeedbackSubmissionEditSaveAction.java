@@ -295,7 +295,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * a class inheriting FeedbackSubmissionEditSaveAction requires
      */
     protected void setAdditionalParameters() throws EntityDoesNotExistException {
-        return;
     }
     
     /**
@@ -306,7 +305,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
      */
     protected void checkAdditionalConstraints() {
-        return;
     }
     
     /**
