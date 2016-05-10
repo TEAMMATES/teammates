@@ -895,4 +895,13 @@ public class FieldValidator {
         // TODO do better validation
         return redirectUrl.startsWith("/page/");
     }
+    
+    /**
+     * Checks whether a given text input represents a format of a valid email address.  
+     * @param email text input which needs the validation
+     * @return true if it is a valid email address, else false. 
+     */
+    public static boolean isValidEmailAddress(String email) {
+        return StringHelper.isMatching(email, REGEX_EMAIL);
+     }
 }

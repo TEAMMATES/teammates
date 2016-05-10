@@ -34,8 +34,7 @@ public class Const {
 
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-        /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
-        public static final int MAX_NUM_OF_INPUT_FOR_APP_ENGINE_BATCH = 200;
+        
         /* Field sizes and error messages for invalid fields can be found 
          * in the FieldValidator class.
          */
@@ -640,6 +639,7 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
+        public static final String LOGOUT = "/logout";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
@@ -861,7 +861,7 @@ public class Const {
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         
-        public static final String LOGOUT = "/logout.jsp"; 
+        public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp"; 
         
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 

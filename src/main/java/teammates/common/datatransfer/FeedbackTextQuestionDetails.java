@@ -7,7 +7,6 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -86,8 +85,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        @SuppressWarnings("unused")
         String html = "";
+        /*
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
         int maxLength = Integer.MIN_VALUE;
@@ -109,9 +108,9 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         "${averageLength}", Integer.toString(averageLength),
                         "${minLength}", (minLength == Integer.MAX_VALUE)? "-" : Integer.toString(minLength),
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
-        
+        */
         //TODO: evaluate what statistics are needed for text questions later.
-        return "";
+        return html;
     }
     
 

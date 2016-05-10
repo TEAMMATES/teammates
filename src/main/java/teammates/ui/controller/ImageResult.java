@@ -30,7 +30,7 @@ public class ImageResult extends ActionResult {
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
-        if (blobKey != "") {
+        if (!blobKey.isEmpty()) {
             resp.setContentType("image/png");
             BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
             blobstoreService.serve(new BlobKey(blobKey), resp);

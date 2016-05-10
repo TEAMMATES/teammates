@@ -397,20 +397,20 @@ MockHttpRequest.prototype = {
         var querypattern = /(?:^|&)([^&=]*)=?([^&]*)/g;
 
         var match = pattern.exec(str);
-		var uri = {};
-		var i = 14;
-	    while (i--) {
+        var uri = {};
+        var i = 14;
+        while (i--) {
             uri[key[i]] = match[i] || "";
         }
 
-	    uri.queryKey = {};
-	    uri[key[12]].replace(querypattern, function ($0, $1, $2) {
-		    if ($1) {
+        uri.queryKey = {};
+        uri[key[12]].replace(querypattern, function ($0, $1, $2) {
+            if ($1) {
                 uri.queryKey[$1] = $2;
             }
-	    });
+        });
 
-	    return uri;
+        return uri;
     }
 };
 
