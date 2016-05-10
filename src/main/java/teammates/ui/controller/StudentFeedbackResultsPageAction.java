@@ -65,7 +65,7 @@ public class StudentFeedbackResultsPageAction extends Action {
     // The following methods are overridden by the unregistered version of this action
 
     protected boolean isJoinedCourse(String courseId) {
-        return isJoinedCourse(courseId, account.googleId);
+        return isJoinedCourse(courseId);
     }
 
     protected StudentAttributes getCurrentStudent(String courseId) {

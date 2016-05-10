@@ -835,7 +835,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     private FeedbackResponseAttributes getResponseAttributes(String id) {
-        FeedbackResponseAttributes result = fras.get("response3ForQ2S1C1");
+        FeedbackResponseAttributes result = fras.get(id);
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giverEmail, result.giverSection,
