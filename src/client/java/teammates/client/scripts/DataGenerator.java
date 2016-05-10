@@ -304,7 +304,7 @@ public class DataGenerator {
      * @return Json string presentation for a student entity
      */
     public static String student (String objName, String email, String name, 
-            String team, String id, String comments , String course , String profile) {
+            String team, String id, String comments, String course, String profile) {
         String result = "\""+objName+"\":{";
         result += "\"email\":\""+email+"\",";
         result += "\"name\":\""+name+"\",";
