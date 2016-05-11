@@ -175,10 +175,10 @@ public class InstructorCourseInstructorAddAction extends Action {
             InstructorAttributes instructorToAdd, List<String> sectionNames, HashMap<String, Boolean> sectionNamesTable) {
         HashMap<String, List<String>> sectionNamesMap = new HashMap<String, List<String>>();
         if (instructorToAdd.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
-            for (int i = 0; i<sectionNames.size(); i++) {
+            for (int i = 0; i < sectionNames.size(); i++) {
                 String setSectionGroupStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
                 boolean isSectionGroupSpecial = setSectionGroupStr != null && setSectionGroupStr.equals("true");
-                for (int j = 0; j<sectionNames.size(); j++) {
+                for (int j = 0; j < sectionNames.size(); j++) {
                     String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + Const.ParamsNames.INSTRUCTOR_SECTION + j);
                     if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
                         if (sectionNamesMap.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i) == null) {

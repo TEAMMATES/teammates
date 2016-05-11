@@ -86,7 +86,7 @@ public class AccountsLogic {
         Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
-        for (int i = 0; i<instructorList.size(); i++) {
+        for (int i = 0; i < instructorList.size(); i++) {
             String instructorGoogleId = instructorList.get(i).googleId;
             if(instructorGoogleId == null){
                 continue;

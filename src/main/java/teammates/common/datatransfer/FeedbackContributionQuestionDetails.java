@@ -287,7 +287,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for(int i = 0; i<incomingPoints.length; i++){
+            for(int i = 0; i < incomingPoints.length; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
@@ -388,7 +388,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for(int i = 0; i<incomingPoints.length; i++){
+            for(int i = 0; i < incomingPoints.length; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
                      
@@ -523,8 +523,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             int teamSize = teamMembersEmail.get(team).size();
             teamSubmissionArray.put(team, new int[teamSize][teamSize]);
             //Initialize all as not submitted.
-            for(int i = 0; i<teamSize; i++){
-                for(int j = 0; j<teamSize; j++){
+            for(int i = 0; i < teamSize; i++){
+                for(int j = 0; j < teamSize; j++){
                     teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
                 }
             }
@@ -601,7 +601,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
-        for(int i = 0; i<subs.length; i++){
+        for(int i = 0; i < subs.length; i++){
             if(i == index){
                 continue;
             }
@@ -625,7 +625,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static String getNormalizedPointsListDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
-        for(int i = 0; i<subs.length; i++){
+        for(int i = 0; i < subs.length; i++){
             if(i == index){
                 continue;
             }
@@ -831,7 +831,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
                 + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
-        for(int i = 200; i>=0; i-=10){
+        for(int i = 200; i >= 0; i-=10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
@@ -903,9 +903,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "<span class=\"color-negative\">Not Sure</span>";
         else if(i == 0)
             return "<span class=\"color-negative\">0%</span>";
-        else if(i>100)
+        else if(i > 100)
             return "<span class=\"color-positive\">Equal Share +"+(i-100)+"%</span>";
-        else if(i<100)
+        else if(i < 100)
             return "<span class=\"color-negative\">Equal Share -"+(100-i)+"%</span>";
         else if(i == 100)
             return "<span class=\"color_neutral\">Equal Share</span>";
