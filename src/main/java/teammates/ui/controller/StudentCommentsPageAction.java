@@ -39,8 +39,19 @@ public class StudentCommentsPageAction extends Action {
         
         //COURSE_ID can be null, if viewed by default
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (courseId == null) {
-            courseId = "";
+        
+        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
+        
+        Collections.sort(courses);
+        
+        if (courseId == null && !courses.isEmpty()) {
+            // if courseId not provided, select the newest course
+            courseId = getCourseIdOfNewestCourse(courses);
+        }
+        
+        String courseName = getSelectedCourseName(courses);
+        if (courseName.isEmpty()) {
+            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
         }
         
         //check accessibility with courseId
@@ -49,8 +60,8 @@ public class StudentCommentsPageAction extends Action {
         }
         verifyAccessible();
         
-        List<String> coursePaginationList = new ArrayList<String>(); 
-        String courseName = getCoursePaginationList(coursePaginationList);
+        List<String> coursePaginationList = getCoursePaginationList(courses); 
+        
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
@@ -93,26 +104,29 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private String getCoursePaginationList(List<String> coursePaginationList) 
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
             throws EntityDoesNotExistException {
-        String courseName = "";
-        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        java.util.Collections.sort(courses);
-        for (int i = 0; i < courses.size(); i++) {
-            CourseAttributes course = courses.get(i);
+        List<String> coursePaginationList = new ArrayList<>();
+
+        for (int i = 0; i < sortedCourses.size(); i++) {
+            CourseAttributes course = sortedCourses.get(i);
             coursePaginationList.add(course.id);
-            if (courseId.isEmpty()) {
-                //if courseId not provided, select the newest course
-                courseId = course.id;
-            }
+        }
+        
+        return coursePaginationList;
+    }
+    
+    private String getSelectedCourseName(List<CourseAttributes> sortedCourses) {
+        for (CourseAttributes course : sortedCourses) {
             if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+                return course.id + " : " + course.name;
             }
         }
-        if (courseName.equals("")) {
-            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
-        }
-        return courseName;
+        return "";
+    }
+    
+    private String getCourseIdOfNewestCourse(List<CourseAttributes> sortedCourses) {
+        return sortedCourses.get(0).id;
     }
     
     /*
