@@ -459,7 +459,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
         for(FeedbackResponseAttributes response : responses) {
-            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
+            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
                 String optionReceivingPoints = distributeToRecipients ? 

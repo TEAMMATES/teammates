@@ -143,13 +143,13 @@ public class PerformanceProfiler extends Thread{
                 if (type.equals(String.class) && !customTimer)
                 {
                     long startTime = System.nanoTime();
-                    Object retVal = (String)method.invoke(this);
+                    Object retVal = (String) method.invoke(this);
                     long endTime = System.nanoTime();
                     duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
                     System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
                 } else if (type.equals(Long.class) && customTimer)
                 {
-                    duration = (float) (((Long)(method.invoke(this)))/1000000.0);
+                    duration = (float) (((Long) (method.invoke(this)))/1000000.0);
                     System.out.print("Name: " +name + "\tTime: " + duration + "\n");
                 }
                 // Add new duration to the arrayList of the test.

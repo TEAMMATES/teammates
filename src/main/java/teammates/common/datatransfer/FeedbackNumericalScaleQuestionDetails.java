@@ -533,7 +533,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponsesExcludingSelf) {
         
         for(FeedbackResponseAttributes response : responses){
-            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails)response.getResponseDetails();
+            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
             String giverEmail = response.giverEmail;
             String recipientEmail = response.recipientEmail;
