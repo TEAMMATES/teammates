@@ -35,8 +35,8 @@ public class CommentSearchQuery extends SearchQuery {
             giverEmailLimit.append(delim).append(ins.email);
             delim = OR;
         }
-        courseIdLimit.append(")");
-        giverEmailLimit.append(")");
+        courseIdLimit.append(')');
+        giverEmailLimit.append(')');
 
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString()
                 + AND + "(" + Const.SearchDocumentField.GIVER_EMAIL + ":" + giverEmailLimit.toString() 

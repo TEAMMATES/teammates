@@ -237,7 +237,7 @@ public class AccountsDb extends EntitiesDb {
 
     @Override
     protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
+        return getAccountEntity(((AccountAttributes) entity).googleId);
     }
 }
 

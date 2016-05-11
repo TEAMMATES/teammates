@@ -541,9 +541,8 @@ function getCountryCode(countryName) {
     } else if (codeToCountry.indexOf(countryName) !== -1) {
         // Already in alpha 3
         return countryName;
-    } else {
-        return null;
     }
+    return null;
 }
 
 function getCountryNameByCode(code) {
