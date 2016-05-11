@@ -40,7 +40,7 @@ function clickOlderButtonIfNeeded() {
     if (curNumOfEntries < numOfEntriesPerPage) {
         if ($("#button_older").length) {
             $("#button_older").click();
-            retryTimes ++;
+            retryTimes++;
         }
     }
 }

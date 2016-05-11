@@ -97,7 +97,7 @@ function reLabelOrderedAccountEntries() {
     total = 0;
     $("tr.accountEntry").each(function(index) {
         $(this).attr("id", "accountEntry_" + (index + 1));
-        total ++;
+        total++;
     });
     
     showFirstPage();
