@@ -75,8 +75,9 @@
 
         ////////// Best Practices //////////
 
-        "no-else-return": 2,        // disallow else after a return in an if (off by default)
-        
+        "no-else-return": 2,        // disallow else after a return in an if
+        "no-lonely-if": 2,          // disallow if as the only statement in an else block
+
         "block-scoped-var": 0,      // treat var statements as if they were block scoped (off by default)
         "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program (off by default)
         "consistent-return": 0,     // require return statements to either always or never specify values
@@ -187,7 +188,6 @@
         "new-parens": 0,                // disallow the omission of parentheses when invoking a constructor with no arguments
         "no-array-constructor": 0,      // disallow use of the Array constructor
         "no-inline-comments": 0,        // disallow comments inline after code (off by default)
-        "no-lonely-if": 0,              // disallow if as the only statement in an else block (off by default)
         "no-multiple-empty-lines": 0,   // disallow multiple empty lines (off by default)
         "no-nested-ternary": 0,         // disallow nested ternary expressions (off by default)
         "no-new-object": 0,             // disallow use of the Object constructor
