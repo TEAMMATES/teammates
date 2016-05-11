@@ -206,7 +206,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private boolean isNearDeadline(){
         
         long timeLeftInMillis = ApiProxy.getCurrentEnvironment().getRemainingMillis();
-        if (timeLeftInMillis/1000 < 100){
+        if (timeLeftInMillis / 1000 < 100){
             return true;
         }
         
