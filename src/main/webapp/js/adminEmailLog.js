@@ -86,6 +86,6 @@ function submitFormAjax(offset) {
 }
 
 function setFormErrorMessage(button, msg) {
-    button.after("&nbsp;&nbsp;&nbsp;"+ msg);
+    button.after("&nbsp;&nbsp;&nbsp;" + msg);
 }
 

@@ -100,7 +100,7 @@ function filterResults(searchText) {
 
         // reset traversed parent panel stack & pending parent panel stack 
         // to the parent of current panel
-        while (parentStack.length > 0 && !parentStack[parentStack.length-1].is(panelParent)) {
+        while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
             parentStack.pop();
             if (showStack.length > 0) {
                 var s = showStack.pop();

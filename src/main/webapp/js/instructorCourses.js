@@ -8,13 +8,13 @@ $(document).ready(function() {
  * @returns {Boolean} True if it is OK to proceed with the form submission.
  */
 function verifyCourseData() {
-    var courseID = $("#"+COURSE_ID).val();
-    var courseName = $("#"+COURSE_NAME).val();
+    var courseID = $("#" + COURSE_ID).val();
+    var courseName = $("#" + COURSE_NAME).val();
     
     var allErrorMessage = "";
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
-    if (allErrorMessage.length>0) {
+    if (allErrorMessage.length > 0) {
         setStatusMessage(allErrorMessage, StatusType.DANGER);
         return false;
     }

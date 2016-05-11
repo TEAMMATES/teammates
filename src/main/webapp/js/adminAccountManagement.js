@@ -62,13 +62,13 @@ function updatePagination() {
 }
 
 function caculateTotalPages() {
-    var a = parseInt(total/entryPerPage);
-    var b = total%entryPerPage;
-    totalPages = b==0? a : a + 1;
+    var a = parseInt(total / entryPerPage);
+    var b = total % entryPerPage;
+    totalPages = b == 0 ? a : a + 1;
 }
 
 function updateEntriesCount() {
-    var newText = start + "~" + (end > total? total : end);
+    var newText = start + "~" + (end > total ? total : end);
     
     $("span#currentPageEntryCount").text(newText);    
     $("span#totalEntryCount").text(total);
@@ -88,7 +88,7 @@ function showFirstPage() {
 
 function showEntryInInterval(start, end) {
     hideAllEntries();
-    for (var i=start; i<=end; i++) {
+    for (var i = start; i <= end; i++) {
         $("#accountEntry_" + i).show();
     };
 }
@@ -96,7 +96,7 @@ function showEntryInInterval(start, end) {
 function reLabelOrderedAccountEntries() {
     total = 0;
     $("tr.accountEntry").each(function(index) {
-        $(this).attr("id", "accountEntry_" + (index+1));
+        $(this).attr("id", "accountEntry_" + (index + 1));
         total ++;
     });
     
@@ -106,7 +106,7 @@ function reLabelOrderedAccountEntries() {
 }
 
 function showEntriesForSelectedPage() {
-    start = (currentPage - 1)*entryPerPage + 1;
+    start = (currentPage - 1) * entryPerPage + 1;
     end = start + entryPerPage - 1;
     showEntryInInterval(start, end);
     
@@ -128,14 +128,14 @@ $(document).on("click", "ul.pagination li.next", function() {
 });
 
 function goToPreviousPage() {
-    currentPage = (currentPage > 1)? currentPage - 1 : currentPage;
+    currentPage = (currentPage > 1) ? currentPage - 1 : currentPage;
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();
 }
 
 function goToNextPage() {
-    currentPage = (currentPage < totalPages)? currentPage + 1 : totalPages;
+    currentPage = (currentPage < totalPages) ? currentPage + 1 : totalPages;
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();

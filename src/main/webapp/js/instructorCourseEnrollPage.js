@@ -4,7 +4,7 @@ var loadUpFunction = function() {
     var notified = false;
 
     function isUserTyping(str) {
-        return str.indexOf("\t")==-1 && str.indexOf("|")==-1;
+        return str.indexOf("\t") == -1 && str.indexOf("|") == -1;
     }
   window.isUserTyping = isUserTyping;
 

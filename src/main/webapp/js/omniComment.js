@@ -333,10 +333,10 @@ $(document).ready(function() {
      */
     function removeParamInUrl(url, param) {
         var indexOfParam = url.indexOf("?" + param);
-        indexOfParam = indexOfParam == -1? url.indexOf("&" + param): indexOfParam;
+        indexOfParam = indexOfParam == -1 ? url.indexOf("&" + param) : indexOfParam;
         var indexOfAndSign = url.indexOf("&", indexOfParam + 1);
         var urlBeforeParam = url.substr(0, indexOfParam);
-        var urlAfterParamValue = indexOfAndSign == -1? "": url.substr(indexOfAndSign);
+        var urlAfterParamValue = indexOfAndSign == -1 ? "" : url.substr(indexOfAndSign);
         return urlBeforeParam + urlAfterParamValue;
     }
     
@@ -397,13 +397,13 @@ function hideAddCommentBox(id) {
 }
 
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-'+commentIdx).submit();
+    $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
 
 function deleteComment(commentIdx) {
     if (confirm("Are you sure you want to delete this comment?")) {
-        document.getElementById('commentedittype-'+commentIdx).value="delete";
+        document.getElementById('commentedittype-' + commentIdx).value = "delete";
         return submitCommentForm(commentIdx);
     } else {
         return false;
@@ -416,17 +416,17 @@ function enableEdit(commentIdx, unusedParameter) {
 }
 
 function enableComment(commentIdx) {
-    $('#'+'commentBar-'+commentIdx).hide();
-    $('#'+'plainCommentText'+commentIdx).hide();
-    $("div[id='commentTextEdit"+commentIdx+"']").show();
-    $("textarea[id='commentText"+commentIdx+"']").val($("#plainCommentText"+commentIdx).text());
-    $("textarea[id='commentText"+commentIdx+"']").focus();
+    $('#' + 'commentBar-' + commentIdx).hide();
+    $('#' + 'plainCommentText' + commentIdx).hide();
+    $("div[id='commentTextEdit" + commentIdx + "']").show();
+    $("textarea[id='commentText" + commentIdx + "']").val($("#plainCommentText" + commentIdx).text());
+    $("textarea[id='commentText" + commentIdx + "']").focus();
 }
 
 function disableComment(commentIdx) {
-    $('#'+'commentBar-'+commentIdx).show();
-    $('#'+'plainCommentText'+commentIdx).show();
-    $("div[id='commentTextEdit"+commentIdx+"']").hide();
+    $('#' + 'commentBar-' + commentIdx).show();
+    $('#' + 'plainCommentText' + commentIdx).show();
+    $("div[id='commentTextEdit" + commentIdx + "']").hide();
 }
 
 function checkComment(form) {

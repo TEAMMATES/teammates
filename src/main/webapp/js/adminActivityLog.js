@@ -90,7 +90,7 @@ function submitFormAjax(searchTimeOffset) {
 
 
 function setFormErrorMessage(button, msg) {
-    button.after("&nbsp;&nbsp;&nbsp;"+ msg);
+    button.after("&nbsp;&nbsp;&nbsp;" + msg);
 }
 
 function updateInfoForRecentActionButton() {

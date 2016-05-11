@@ -244,7 +244,7 @@ function enableQuestion(number) {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT+'-' + number).show();
+    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + number).show();
     $('#' + 'button_question_submit-' + number).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
@@ -927,16 +927,16 @@ function addMcqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
     
-    $("<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"mcqOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"radio\" disabled>"
         +       "</span>"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_MCQCHOICE + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_MCQCHOICE + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control mcqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
-        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeMcqOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -1019,16 +1019,16 @@ function addMsqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $("<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"msqOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_MSQCHOICE + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_MSQCHOICE + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
-        +                   "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeMsqOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -1181,13 +1181,13 @@ function addConstSumOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $("<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group width-100-pc\">"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control constSumOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button class=\"btn btn-default removeOptionLink\" id=\"constSumRemoveOptionLink\" "
-        +                   "onclick=\"removeConstSumOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeConstSumOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -1464,7 +1464,7 @@ function addRubricCol(questionNumber) {
         var fragment = rubricRowFragmentTemplate;
         fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
         fragment = replaceAll(fragment, '${row}', rows);
-        fragment = replaceAll(fragment, '${col}', newColNumber-1);
+        fragment = replaceAll(fragment, '${col}', newColNumber - 1);
         fragment = replaceAll(fragment, '${description}', '');
         fragment = replaceAll(fragment,
                               '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
@@ -1580,13 +1580,13 @@ function addRankOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $("<div id=\"rankOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"rankOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control rankOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_RANKOPTION + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_RANKOPTION + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control rankOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button class=\"btn btn-default removeOptionLink\" id=\"rankRemoveOptionLink\" "
-        +                   "onclick=\"removeRankOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeRankOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"

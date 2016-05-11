@@ -76,7 +76,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-'+commentIdx).submit();
+    $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
 
@@ -138,7 +138,7 @@ function disableComment(commentIdx) {
 
 function textAreaAdjust(o) {
     o.style.height = '1px';
-    o.style.height = (o.scrollHeight+5) + 'px';
+    o.style.height = (o.scrollHeight + 5) + 'px';
 }
 
 /**

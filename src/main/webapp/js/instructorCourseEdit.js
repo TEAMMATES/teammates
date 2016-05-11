@@ -217,7 +217,7 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
-    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1];
+    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
     
     if ((instrNum <= numOfInstr) && (instrNum <= instructorCourseEditInstructorAccessLevelWhenLoadingPage.length)) {
         if (originalRole === 'Custom') {
