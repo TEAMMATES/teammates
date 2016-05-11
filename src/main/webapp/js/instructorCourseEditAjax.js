@@ -31,7 +31,7 @@ function editFormRequest(e) {
             checkTheRoleThatApplies(index);
             bindChangingRole(index);
             $(editButton).off('click');
-            $(editButton).click({instructorIndex: parseInt(index), total: instructorSize}, enableEditInstructor);
+            $(editButton).click({ instructorIndex: parseInt(index), total: instructorSize }, enableEditInstructor);
             $(editButton).trigger('click');
         }    
     });

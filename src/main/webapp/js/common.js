@@ -155,7 +155,7 @@ $(document).on('ajaxComplete ready', function() {
      * code that throws errors.
     */
     var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({html: true, container: 'body'});
+    $tooltips.tooltip({ html: true, container: 'body' });
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
@@ -475,7 +475,7 @@ function scrollToPosition(scrollPos, duration) {
     if (duration === undefined) {
         $(window).scrollTop(scrollPos);
     } else {
-        $('html, body').animate({scrollTop: scrollPos}, duration);
+        $('html, body').animate({ scrollTop: scrollPos }, duration);
     }
 }
 
@@ -494,7 +494,7 @@ function scrollToPosition(scrollPos, duration) {
  *                              defaults to 0 for scrolling without animation
  */
 function scrollToElement(element, options) {
-    var defaultOptions = {type: 'top', offset: 0, duration: 0};
+    var defaultOptions = { type: 'top', offset: 0, duration: 0 };
     
     options = options || {};
     var type = options.type || defaultOptions.type,
@@ -575,7 +575,7 @@ function setStatusMessage(message, status) {
     $statusMessagesToUser.append($statusMessage);
     $statusMessagesToUser.show();
     
-    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+    scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
 /**

@@ -221,7 +221,7 @@ function submitImageUploadFormAjax() {
                 if (!data.isError) {
                    if (data.isFileUploaded) {
                        url = data.fileSrcUrl;
-                       callbackFunction(url, {alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT});
+                       callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                    } else {
                           setErrorMessage(data.ajaxStatus);

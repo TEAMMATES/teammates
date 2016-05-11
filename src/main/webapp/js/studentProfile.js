@@ -97,7 +97,7 @@ function finaliseUploadPictureForm(event) {
         error: function() {
             $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
             setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-            scrollToTop({duration: ''});
+            scrollToTop({ duration: '' });
         },
         success: function(data) {
             if (!data.isError) {
@@ -109,7 +109,7 @@ function finaliseUploadPictureForm(event) {
             } else {
                 $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
                 setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-                scrollToTop({duration: ''});
+                scrollToTop({ duration: '' });
             }
         }
     });

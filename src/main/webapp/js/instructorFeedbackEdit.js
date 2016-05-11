@@ -85,7 +85,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 }
                 
                 // focus on status message
-                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
+                scrollToElement($("#statusMessagesToUser"), { offset: ($('.navbar').height() + 30) * -1 });
             }
         });
     });
@@ -431,7 +431,7 @@ function showNewQuestionFrame(type) {
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    scrollToElement($('#questionTableNew')[0], {duration: 1000});
+    scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }

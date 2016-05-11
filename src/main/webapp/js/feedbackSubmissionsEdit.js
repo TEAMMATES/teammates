@@ -109,7 +109,7 @@ function updateMsqOtherOptionField() {
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('.moderated-question').length > 0) {
-        scrollToElement($('.moderated-question')[0], {duration: 1000});
+        scrollToElement($('.moderated-question')[0], { duration: 1000 });
     }
 }
 
