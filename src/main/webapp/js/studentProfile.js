@@ -95,7 +95,7 @@ function finaliseUploadPictureForm(event) {
             $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },
         error: function() {
-            $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
+            $('#profileUploadPictureSubmit').text(initialSubmitMessage);
             setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
             scrollToTop({ duration: '' });
         },
@@ -107,7 +107,7 @@ function finaliseUploadPictureForm(event) {
                 $('#profilePictureUploadForm').attr('action', data.formUrl);
                 $('#profilePictureUploadForm').submit();
             } else {
-                $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
+                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
                 setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
                 scrollToTop({ duration: '' });
             }
