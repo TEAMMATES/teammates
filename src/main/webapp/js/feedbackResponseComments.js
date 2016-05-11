@@ -1,5 +1,5 @@
 function isInCommentsPage() {
-    return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
+    return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
 var addCommentHandler = function(e) {
@@ -141,7 +141,7 @@ var deleteCommentHandler = function(e) {
         error: function() {
             if (editForm.is(':visible')) {
                 setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
-            } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+            } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                 frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">Failed to delete comment. Please try again.</div>");
             }
             submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -164,7 +164,7 @@ var deleteCommentHandler = function(e) {
             } else {
                 if (editForm.is(':visible')) {
                     setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
-                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                     frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
                 }
                 submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -251,34 +251,34 @@ function removeUnwantedVisibilityOptions(commentId) {
     for (var i = 0; i < checkboxesInInAddForm.length; i++) {
         valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
     }
-    if (valuesOfCheckbox.indexOf('GIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('GIVER') === -1) {
         $("#response-giver-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER') === -1) {
         $("#response-recipient-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') === -1) {
         $("#response-giver-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') === -1) {
         $("#response-recipient-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('STUDENTS') == -1) {
+    if (valuesOfCheckbox.indexOf('STUDENTS') === -1) {
         $("#response-students-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('INSTRUCTORS') == -1) {
+    if (valuesOfCheckbox.indexOf('INSTRUCTORS') === -1) {
         $("#response-instructors-" + commentId).remove();
     }
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().remove();
     }
 }
 
 function setFormErrorMessage(submitButton, msg) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().text(msg);
     } else {
         submitButton.next().after("<span id=\"errorMessage\" class=\"pull-right \"> " + msg + "</span>");
@@ -426,7 +426,7 @@ function toggleCollapsiblePanel(collapsiblePanel) {
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
-    if (numberOfPendingComments == 0) {
+    if (numberOfPendingComments === 0) {
         $('.badge').parent().parent().hide();
     } else {
         $('.badge').parent().parent().show();

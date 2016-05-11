@@ -27,8 +27,8 @@ $(document).ready(function() {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
                 var $panelBody = $(panelBody[0]);
                 $(data).remove();
-                if (typeof appendedQuestion != 'undefined') {
-                    if (appendedQuestion.indexOf('resultStatistics') == -1) {
+                if (typeof appendedQuestion !== 'undefined') {
+                    if (appendedQuestion.indexOf('resultStatistics') === -1) {
                         $panelBody.removeClass('padding-0');
                     }
                     $panelBody.html(appendedQuestion);

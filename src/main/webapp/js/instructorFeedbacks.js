@@ -286,7 +286,7 @@ function formatSessionVisibilityGroup() {
     var $sessionVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']');
     $sessionVisibilityBtnGroup.change(function() {
         collapseIfPrivateSession();
-        if ($sessionVisibilityBtnGroup.filter(':checked').val() == 'custom') {
+        if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
         } else {
@@ -304,7 +304,7 @@ function formatSessionVisibilityGroup() {
 function formatResponsesVisibilityGroup() {
     var $responsesVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + ']');
     $responsesVisibilityBtnGroup.change(function() {
-        if ($responsesVisibilityBtnGroup.filter(':checked').val() == 'custom') {
+        if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
         } else {
@@ -329,7 +329,7 @@ function toggleDisabledAndStoreLast(id, bool) {
  * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
  */
 function collapseIfPrivateSession() {
-    if ($('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']').filter(':checked').val() == 'never') {
+    if ($('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']').filter(':checked').val() === 'never') {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
     } else {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
