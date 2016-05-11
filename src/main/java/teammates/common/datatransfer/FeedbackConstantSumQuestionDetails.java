@@ -283,7 +283,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected" : "",
                 "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
                 "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
-                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",
+                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient" : "option",
                 "${distributeUnevenly}", (forceUnevenDistribution) ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
@@ -331,7 +331,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         }
         //Point information
-        additionalInfo += pointsPerOption? "Points per "+(distributeToRecipients?"recipient":"option")+": " + points : "Total points: " + points;
+        additionalInfo += pointsPerOption? "Points per "+(distributeToRecipients?"recipient" : "option")+": " + points : "Total points: " + points;
 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -441,7 +441,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
         }
         
-        csv += (distributeToRecipients? "Team, Recipient":"Option") + ", Average Points" + Const.EOL; 
+        csv += (distributeToRecipients? "Team, Recipient" : "Option") + ", Average Points" + Const.EOL; 
         csv += fragments + Const.EOL;
         
         return csv;
@@ -612,7 +612,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         numRecipients = numOfResponseSpecific;
         
         int numOptions = distributeToRecipients? numRecipients : constSumOptions.size();
-        int totalPoints = pointsPerOption? points*numOptions: points;
+        int totalPoints = pointsPerOption? points*numOptions : points;
         int sum = 0;
         for(FeedbackResponseAttributes response : responses){
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();

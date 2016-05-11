@@ -188,11 +188,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String statsTitle = "Response Summary";
         
         String fragmentTemplateToUse = showAvgExcludingSelf ? 
-                                       FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE:
+                                       FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE :
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
         
         String templateToUse = showAvgExcludingSelf ? 
-                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE:
+                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE :
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
 
         
@@ -261,10 +261,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         String fragmentTemplateToUse = showAvgExcludingSelf ? 
-                                       FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE: 
+                                       FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE : 
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
         String templateToUse = showAvgExcludingSelf ? 
-                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE: 
+                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE : 
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
   
         

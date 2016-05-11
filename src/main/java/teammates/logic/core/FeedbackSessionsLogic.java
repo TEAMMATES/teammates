@@ -924,7 +924,7 @@ public class FeedbackSessionsLogic {
                 
                 
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
-                                    fsrBundle.getFullNameFromRoster(response.giverEmail):
+                                    fsrBundle.getFullNameFromRoster(response.giverEmail) :
                                     response.giverEmail;
                 
                 possibleRecipientsForGiver = fsrBundle.getPossibleRecipients(question, giverIdentifier);
