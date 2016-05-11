@@ -85,11 +85,11 @@ var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
 // Status message type
 var StatusType = {
-    SUCCESS : "success",
-    INFO : "info",
-    WARNING : "warning",
-    DANGER : "danger",
-    isValidType : function(type) {
+    SUCCESS: "success",
+    INFO: "info",
+    WARNING: "warning",
+    DANGER: "danger",
+    isValidType: function(type) {
         return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
@@ -155,7 +155,7 @@ $(document).on('ajaxComplete ready', function() {
      * code that throws errors.
     */
     var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({html: true, container: 'body'});
+    $tooltips.tooltip({ html: true, container: 'body' });
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
@@ -475,7 +475,7 @@ function scrollToPosition(scrollPos, duration) {
     if (duration === undefined) {
         $(window).scrollTop(scrollPos);
     } else {
-        $('html, body').animate({scrollTop: scrollPos}, duration);
+        $('html, body').animate({ scrollTop: scrollPos }, duration);
     }
 }
 
@@ -494,7 +494,7 @@ function scrollToPosition(scrollPos, duration) {
  *                              defaults to 0 for scrolling without animation
  */
 function scrollToElement(element, options) {
-    var defaultOptions = {type: 'top', offset: 0, duration: 0};
+    var defaultOptions = { type: 'top', offset: 0, duration: 0 };
     
     options = options || {};
     var type = options.type || defaultOptions.type,
@@ -575,7 +575,7 @@ function setStatusMessage(message, status) {
     $statusMessagesToUser.append($statusMessage);
     $statusMessagesToUser.show();
     
-    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+    scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
 /**
@@ -770,11 +770,11 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
     // trim symbols around every word in the string
     var symbolTrimmedSearchKey = [];
-    $.each(searchKey.split(/["'.-]/), function(){
+    $.each(searchKey.split(/["'.-]/), function() {
         symbolTrimmedSearchKey.push($.trim(this));
     });
     // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
         return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }

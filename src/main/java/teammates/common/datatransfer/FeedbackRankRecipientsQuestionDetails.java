@@ -23,9 +23,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         super(FeedbackQuestionType.RANK_RECIPIENTS);
     }
 
-    public FeedbackRankRecipientsQuestionDetails(String questionText,
-                                       List<String> rankOptions,
-                                       int maxRank) {
+    public FeedbackRankRecipientsQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
     }
 

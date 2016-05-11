@@ -431,8 +431,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
             return getPossibleGivers(fqa, student);
         } else if (isParticipantIdentifierInstructor(recipientParticipantIdentifier)) {
-            InstructorAttributes instructor = roster.getInstructorForEmail(recipientParticipantIdentifier);
-            return getPossibleGivers(fqa, instructor);
+            return getPossibleGiversForInstructor(fqa);
         } else if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch (fqa.giverType) {
                 case STUDENTS:
@@ -551,12 +550,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the possible givers for a INSTRUCTOR recipient for the question specified
      * @param fqa
-     * @param instructorRecipient
      * @return a list of possible givers that can give a response to the instructor 
      *         specified as the recipient
      */
-    private List<String> getPossibleGivers(FeedbackQuestionAttributes fqa,
-                                           InstructorAttributes instructorRecipient) {
+    private List<String> getPossibleGiversForInstructor(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType giverType = fqa.giverType;
         List<String> possibleGivers = new ArrayList<String>();
 
