@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
