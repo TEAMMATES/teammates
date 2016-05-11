@@ -313,13 +313,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         }
     }
     
-    class InstituteStats{
+    class InstituteStats {
         String name;
         int studentTotal;
         int instructorTotal;
     }
     
-    class StatsBundle{
+    class StatsBundle {
         List<InstituteStats> instituteStatsList;
         int numOfUniqueStudentEmails;
         int numOfAllStudentEmails;

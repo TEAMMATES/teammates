@@ -15,7 +15,7 @@ import static teammates.logic.core.TeamEvalResult.NSU;
 import static teammates.logic.core.TeamEvalResult.pointsToString;
 import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 
-public class TeamEvalResultTest extends BaseTestCase{
+public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
     public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{

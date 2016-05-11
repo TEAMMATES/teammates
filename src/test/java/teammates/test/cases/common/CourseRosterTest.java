@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 
-public class CourseRosterTest extends BaseTestCase{
+public class CourseRosterTest extends BaseTestCase {
     
     @Test
     public void allTests(){

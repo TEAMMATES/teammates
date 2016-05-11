@@ -54,8 +54,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
     
     
-    private static enum StudentStatus{REG, UNREG, ALL};
-    private static enum InstructorStatus{REG, UNREG, ALL};
+    private static enum StudentStatus { REG, UNREG, ALL};
+    private static enum InstructorStatus { REG, UNREG, ALL};
     
     private EmailListConfig emailListConfig = new EmailListConfig();
     private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
@@ -85,7 +85,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         if(emailListConfig.student){
             System.out.print("Student Status: ");
-            switch (emailListConfig.studentStatus){
+            switch (emailListConfig.studentStatus) {
                 case REG:
                     System.out.print("REG\n");
                     break;
@@ -113,7 +113,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         if(emailListConfig.instructor){
             System.out.print("Instructor Status: ");
-            switch (emailListConfig.studentStatus){
+            switch (emailListConfig.studentStatus) {
                 case REG:
                     System.out.print("REG\n");
                     break;
@@ -527,7 +527,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    class EmailListConfig{
+    class EmailListConfig {
         public boolean student = false;
         public boolean instructor = false;
         public StudentStatus studentStatus = StudentStatus.ALL;

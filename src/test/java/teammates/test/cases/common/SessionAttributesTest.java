@@ -73,7 +73,7 @@ public class SessionAttributesTest extends BaseTestCase {
         printTestClassFooter();
     }
     
-    private class miniEval implements SessionAttributes{
+    private class miniEval implements SessionAttributes {
         public Date startTime, endTime;
         public String name;
         
@@ -100,7 +100,7 @@ public class SessionAttributesTest extends BaseTestCase {
         
     }
     
-    private class miniFeedback implements SessionAttributes{
+    private class miniFeedback implements SessionAttributes {
         
         public Date startTime, endTime;
         public String name;

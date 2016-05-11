@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
 @SuppressWarnings("serial")
-public abstract class AutomatedRemindersServlet extends HttpServlet{
+public abstract class AutomatedRemindersServlet extends HttpServlet {
     
     protected static Logger log = Utils.getLogger();
     

@@ -10,7 +10,7 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
-public class ActivityLogEntryTest extends BaseTestCase{
+public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test
     public void testActivityLogEntryClass() {

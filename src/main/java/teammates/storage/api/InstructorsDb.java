@@ -34,7 +34,7 @@ import teammates.storage.search.InstructorSearchQuery;
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  * 
  */
-public class InstructorsDb extends EntitiesDb{
+public class InstructorsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
     

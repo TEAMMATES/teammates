@@ -14,7 +14,7 @@ import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.common.util.FileHelper;
 
-public class GenerateLargeScaledData extends RemoteApiClient{
+public class GenerateLargeScaledData extends RemoteApiClient {
     private static Logger logger = Logger.getLogger(GenerateLargeScaledData.class.getName());
     
     public static void main(String[] args) throws IOException {

@@ -241,7 +241,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor){
+        switch(generateOptionsFor) {
         case NONE:
             optionList = msqChoices;
             break;

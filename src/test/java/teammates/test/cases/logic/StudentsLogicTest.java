@@ -54,7 +54,7 @@ import teammates.test.driver.AssertHelper;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
-public class StudentsLogicTest extends BaseComponentTestCase{
+public class StudentsLogicTest extends BaseComponentTestCase {
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();

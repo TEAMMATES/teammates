@@ -180,7 +180,7 @@ public class FeedbackQuestionsLogic {
                 copiableQuestions.addAll(questions);
             }
         }
-        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>(){
+        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>() {
             @Override
             public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
                 int order = q1.courseId.compareTo(q2.courseId);

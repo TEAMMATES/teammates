@@ -103,7 +103,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     
     private void sortStudentResultList(){
         
-        Collections.sort(studentList, new Comparator<StudentAttributes>(){
+        Collections.sort(studentList, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes s1, StudentAttributes s2){
                 int compareResult = s1.course.compareTo(s2.course);

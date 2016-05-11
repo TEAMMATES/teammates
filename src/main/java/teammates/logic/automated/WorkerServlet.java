@@ -19,7 +19,7 @@ import teammates.common.util.Utils;
 * the servlet.
 */
 @SuppressWarnings("serial")
-public abstract class WorkerServlet extends HttpServlet{
+public abstract class WorkerServlet extends HttpServlet {
     
     protected static Logger log = Utils.getLogger();
     

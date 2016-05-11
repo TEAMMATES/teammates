@@ -59,7 +59,7 @@ import com.google.gson.Gson;
 
 
 
-public class PerformanceProfiler extends Thread{
+public class PerformanceProfiler extends Thread {
     
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
     private final Integer NUM_OF_RUNS = 2;
