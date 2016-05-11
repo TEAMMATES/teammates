@@ -346,16 +346,16 @@ public class AdminSessionsPageAction extends Action {
         
         if (condition.contentEquals("null")) {
 
-            return (startDate == null && endDate == null && startHour == null &&
-                    endHour == null && startMin == null && endMin == null && timeZone == null);
+            return startDate == null && endDate == null && startHour == null 
+                   && endHour == null && startMin == null && endMin == null && timeZone == null;
 
         } else if (condition.contentEquals("notNull")) {
 
-            return (startDate != null && endDate != null && startHour != null
-                    && endHour != null && startMin != null && endMin != null && timeZone != null
-                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
-                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty());
+            return startDate != null && endDate != null && startHour != null
+                   && endHour != null && startMin != null && endMin != null && timeZone != null
+                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
+                   && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
 
         } else {
             return false;

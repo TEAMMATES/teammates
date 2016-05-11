@@ -496,7 +496,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public boolean isPersonSpecified() {
-        return ((q != null) && (q.isPersonInQuery));
+        return q != null && q.isPersonInQuery;
     }
     
     public String getPersonSpecified() {

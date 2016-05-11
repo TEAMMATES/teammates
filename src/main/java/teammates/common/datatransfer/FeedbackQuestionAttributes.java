@@ -163,7 +163,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
             // Recipient fragment: e.g. student, instructor, etc.
             if (participant == FeedbackParticipantType.RECEIVER) {
-                line += (recipientType.toSingularFormString());
+                line += recipientType.toSingularFormString();
 
                 if (numberOfEntitiesToGiveFeedbackTo > 1) {
                     line += "s";
@@ -222,20 +222,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public boolean isGiverAStudent() {
-        return (giverType == FeedbackParticipantType.SELF
-                || giverType == FeedbackParticipantType.STUDENTS);
+        return giverType == FeedbackParticipantType.SELF
+               || giverType == FeedbackParticipantType.STUDENTS;
     }
 
     public boolean isRecipientNameHidden() {
-        return (recipientType == FeedbackParticipantType.NONE
-                || recipientType == FeedbackParticipantType.SELF);
+        return recipientType == FeedbackParticipantType.NONE
+               || recipientType == FeedbackParticipantType.SELF;
     }
 
     public boolean isRecipientAStudent() {
-        return (recipientType == FeedbackParticipantType.SELF
-                || recipientType == FeedbackParticipantType.STUDENTS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        return recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.STUDENTS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {

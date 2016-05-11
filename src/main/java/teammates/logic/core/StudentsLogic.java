@@ -234,9 +234,10 @@ public class StudentsLogic {
         FieldValidator validator = new FieldValidator();
         //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
         //       Reason: Difficult to reproduce a persistence delay during testing
-        String finalEmail = (student.email == null || !validator
-                .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
-                originalEmail : student.email;
+        String finalEmail = student.email == null 
+                                || !validator.getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty() 
+                            ? originalEmail 
+                            : student.email;
         
         // cascade email changes to comments
         if (!originalStudent.email.equals(finalEmail)) {
@@ -749,13 +750,13 @@ public class StudentsLogic {
     }
     
     private boolean isTeamChanged(String originalTeam, String newTeam) {
-        return (newTeam != null) && (originalTeam != null)
-                && (!originalTeam.equals(newTeam));
+        return newTeam != null && originalTeam != null
+                && !originalTeam.equals(newTeam);
     }
 
     private boolean isSectionChanged(String originalSection, String newSection) {
-        return (newSection != null) && (originalSection != null)
-                && (!originalSection.equals(newSection));
+        return newSection != null && originalSection != null
+                && !originalSection.equals(newSection);
     }
 
     public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {

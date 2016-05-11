@@ -58,9 +58,8 @@ public class EmailAccount {
         String subject = message.getSubject();
 
         if (subject != null) {
-            isRegistrationEmail = subject
-                    .contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-                    && (subject.contains(courseId));
+            isRegistrationEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+                                  && subject.contains(courseId);
         }
 
         return isRegistrationEmail;

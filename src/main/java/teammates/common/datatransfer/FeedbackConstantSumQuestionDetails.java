@@ -85,10 +85,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Assumption.assertNotNull("Null points", pointsString);
         forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
-        distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
-        pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
+        distributeToRecipients = distributeToRecipientsString != null && distributeToRecipientsString.equals("true");
+        pointsPerOption = pointsPerOptionString != null && pointsPerOptionString.equals("true");
         points = Integer.parseInt(pointsString);
-        forceUnevenDistribution = (forceUnevenDistributionString == null) ? false : (forceUnevenDistributionString.equals("on") ? true : false); 
+        forceUnevenDistribution = forceUnevenDistributionString != null && forceUnevenDistributionString.equals("on"); 
         
         if (!distributeToRecipients) {
             String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
@@ -279,12 +279,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
-                "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected" : "",
-                "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
-                "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
-                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient" : "option",
-                "${distributeUnevenly}", (forceUnevenDistribution) ? "checked" : "",
+                "${constSumToRecipientsValue}", distributeToRecipients ? "true" : "false",
+                "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
+                "${constSumOptionTableVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
+                "${constSumPoints}", points == 0 ? "100" : new Integer(points).toString(),
+                "${optionRecipientDisplayName}", distributeToRecipients ? "recipient": "option",
+                "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,

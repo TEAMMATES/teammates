@@ -383,8 +383,8 @@ public class InstructorsDb extends EntitiesDb {
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-            while ((instructorCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (instructorCheck != null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 instructorCheck = getInstructorEntityForEmail(courseId, email);
                 elapsedTime += ThreadHelper.WAIT_DURATION;

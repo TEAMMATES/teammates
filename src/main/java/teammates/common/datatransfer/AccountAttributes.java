@@ -156,7 +156,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public boolean isUserRegistered() {
-        return (googleId != null && !googleId.isEmpty());
+        return googleId != null && !googleId.isEmpty();
     }
     
 }

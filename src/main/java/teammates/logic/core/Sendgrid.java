@@ -79,7 +79,7 @@ public class Sendgrid {
      * @return           The SendGrid object.
      */
     public Sendgrid addTo(String email, String name) {
-        String toAddress = (name.length() > 0) ? name + "<" + email + ">" : email;
+        String toAddress = name.length() > 0 ? name + "<" + email + ">" : email;
         this.toList.add(toAddress);
         
         return this;
@@ -499,7 +499,7 @@ public class Sendgrid {
         
         for (int i = 0; i < input.length(); i++) {
           int code = Character.codePointAt(input, i);
-          sb.append(String.format((code > 127) ? "\\u%x" : "%c", code)); 
+          sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
         }
         
         return sb.toString();
