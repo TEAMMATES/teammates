@@ -644,7 +644,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
             throws EntityDoesNotExistException{
         
-       return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null , range, viewType);
+       return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null, range, viewType);
     }
 
     /**

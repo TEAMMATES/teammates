@@ -77,7 +77,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     private boolean isSessionDataDisplayCorrect() {
         if (sessionsPage.isElementPresent(By.className("dataTable"))) {
             int numSessionDataTables = browser.driver.findElements(By.className("dataTable")).size();
-            for (int i = 0 ; i < numSessionDataTables ; i++) {
+            for (int i = 0; i < numSessionDataTables; i++) {
                 if (!isSessionTableHeaderCorrect(i)) {
                     return false;
                 }
@@ -102,7 +102,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                                                                "End Time ",
                                                                "Creator");
         List<String> actualSessionTableHeaders = new ArrayList<String>();
-        for (int i = 0 ; i < numColumns ; i++) {
+        for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
         }
         return actualSessionTableHeaders.equals(expectedSessionTableHeaders);

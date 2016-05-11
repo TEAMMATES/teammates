@@ -121,7 +121,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             Assumption.fail("FeedbackResponseComment should not be null");
         }
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return ;
+            return;
         }
         new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);

@@ -260,8 +260,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students"
-                    , e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students", 
+                    e.getMessage());
         }
     }
 
@@ -712,7 +712,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
-        String line = headerLine + EOL + "t8|n8|e8@g|c1" ;
+        String line = headerLine + EOL + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.NEW,

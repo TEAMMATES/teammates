@@ -279,7 +279,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course , s.googleId));
+        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
         int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");

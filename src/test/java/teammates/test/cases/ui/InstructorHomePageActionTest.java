@@ -58,7 +58,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                                      + "|||true|||Instructor|||Instructor Without Courses"
                                      + "|||instructorWithoutCourses|||iwc@yahoo.tmt"
                                      + "|||instructorHome Page Load<br>Total Courses: 0"
-                                     + "|||/page/instructorHomePage" ;
+                                     + "|||/page/instructorHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         submissionParams = new String[]{};
@@ -105,7 +105,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                               + "|||Instructor(M)|||Instructor 3 of Course 1 and 2"
                               + "|||idOfInstructor3|||instr3@course1n2.tmt"
                               + "|||instructorHome Page Load<br>Total Courses: 3"
-                              + "|||/page/instructorHomePage" ;
+                              + "|||/page/instructorHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
