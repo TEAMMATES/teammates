@@ -831,7 +831,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
                 + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
-        for (int i = 200; i >= 0; i-=10){
+        for (int i = 200; i >= 0; i -= 10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
