@@ -20,6 +20,6 @@ public class FeedbackResultsResponseTable {
     }
     
     public boolean isGiverNameYou() {
-        return (!responses.isEmpty() && responses.get(0).getGiverName().equals("You"));
+        return !responses.isEmpty() && responses.get(0).getGiverName().equals("You");
     }
 }

@@ -19,7 +19,7 @@
  * - authenticate(user, password)
  *
  */
-function MockHttpRequest () {
+function MockHttpRequest() {
     // These are internal flags and data structures
     this.error = false;
     this.sent = false;
@@ -89,7 +89,7 @@ MockHttpRequest.prototype = {
 
     /*** Request ***/
 
-    open: function (method, url, async, user, password) {
+    open: function(method, url, async, user, password) {
         if (typeof method !== "string") {
             throw "INVALID_METHOD";
         }
@@ -126,7 +126,7 @@ MockHttpRequest.prototype = {
         this.onreadystatechange();
     },
 
-    setRequestHeader: function (header, value) {
+    setRequestHeader: function(header, value) {
         header = header.toLowerCase();
 
         switch (header) {
@@ -165,7 +165,7 @@ MockHttpRequest.prototype = {
 
     },
 
-    send: function (data) {
+    send: function(data) {
         if ((this.readyState !== this.OPENED) || this.sent) {
             throw "INVALID_STATE_ERR";
         }
@@ -183,7 +183,7 @@ MockHttpRequest.prototype = {
         this.onsend();
     },
 
-    abort: function () {
+    abort: function() {
         this.responseText = null;
         this.error = true;
         for (var header in this.requestHeaders) {
@@ -201,7 +201,7 @@ MockHttpRequest.prototype = {
     status: 0,
     statusText: "",
 
-    getResponseHeader: function (header) {
+    getResponseHeader: function(header) {
         if ((this.readyState === this.UNSENT)
             || (this.readyState === this.OPENED)
             || this.error) {
@@ -210,7 +210,7 @@ MockHttpRequest.prototype = {
         return this.responseHeaders[header.toLowerCase()];
     },
 
-    getAllResponseHeaders: function () {
+    getAllResponseHeaders: function() {
         var r = "";
         for (var header in this.responseHeaders) {
             if ((header === "set-cookie") || (header === "set-cookie2")) {
@@ -228,42 +228,42 @@ MockHttpRequest.prototype = {
 
     /*** See http://www.w3.org/TR/progress-events/ ***/
 
-    onload: function () {
+    onload: function() {
         // Instances should override this.
     },
 
-    onprogress: function () {
+    onprogress: function() {
         // Instances should override this.
     },
 
-    onerror: function () {
+    onerror: function() {
         // Instances should override this.
     },
 
-    onabort: function () {
+    onabort: function() {
         // Instances should override this.
     },
 
-    onreadystatechange: function () {
+    onreadystatechange: function() {
         // Instances should override this.
     },
 
 
     /*** Properties and methods for test interaction ***/
 
-    onsend: function () {
+    onsend: function() {
         // Instances should override this.
     },
 
-    getRequestHeader: function (header) {
+    getRequestHeader: function(header) {
         return this.requestHeaders[header.toLowerCase()];
     },
 
-    setResponseHeader: function (header, value) {
+    setResponseHeader: function(header, value) {
         this.responseHeaders[header.toLowerCase()] = value;
     },
 
-    makeXMLResponse: function (data) {
+    makeXMLResponse: function(data) {
         var xmlDoc;
         // according to specs from point 3.7.5:
         // "1. If the response entity body is null terminate these steps
@@ -312,7 +312,7 @@ MockHttpRequest.prototype = {
     },
 
     // Call this to simulate a server response
-    receive: function (status, data) {
+    receive: function(status, data) {
         if ((this.readyState !== this.OPENED) || (!this.sent)) {
             // Can't respond to unopened request.
             throw "INVALID_STATE_ERR";
@@ -338,7 +338,7 @@ MockHttpRequest.prototype = {
     },
 
     // Call this to simulate a request error (e.g. NETWORK_ERR)
-    err: function (exception) {
+    err: function(exception) {
         if ((this.readyState !== this.OPENED) || (!this.sent)) {
             // Can't respond to unopened request.
             throw "INVALID_STATE_ERR";
@@ -358,7 +358,7 @@ MockHttpRequest.prototype = {
     },
 
     // Convenience method to verify HTTP credentials
-    authenticate: function (user, password) {
+    authenticate: function(user, password) {
         if (this.user) {
             return (user === this.user) && (password === this.password);
         }
@@ -389,7 +389,7 @@ MockHttpRequest.prototype = {
     // Parse RFC 3986 compliant URIs.
     // Based on parseUri by Steven Levithan <stevenlevithan.com>
     // See http://blog.stevenlevithan.com/archives/parseuri
-    parseUri: function (str) {
+    parseUri: function(str) {
         var pattern = /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/;
         var key = ["source", "protocol", "authority", "userInfo", "user",
                    "password", "host", "port", "relative", "path",
@@ -397,20 +397,20 @@ MockHttpRequest.prototype = {
         var querypattern = /(?:^|&)([^&=]*)=?([^&]*)/g;
 
         var match = pattern.exec(str);
-		var uri = {};
-		var i = 14;
-	    while (i--) {
+        var uri = {};
+        var i = 14;
+        while (i--) {
             uri[key[i]] = match[i] || "";
         }
 
-	    uri.queryKey = {};
-	    uri[key[12]].replace(querypattern, function ($0, $1, $2) {
-		    if ($1) {
+        uri.queryKey = {};
+        uri[key[12]].replace(querypattern, function($0, $1, $2) {
+            if ($1) {
                 uri.queryKey[$1] = $2;
             }
-	    });
+        });
 
-	    return uri;
+        return uri;
     }
 };
 
@@ -435,18 +435,18 @@ MockHttpRequest.prototype = {
  *
  * 5. Profit!
  */
-function MockHttpServer (handler) {
+function MockHttpServer(handler) {
     if (handler) {
         this.handle = handler;
     }
 };
 MockHttpServer.prototype = {
 
-    start: function () {
+    start: function() {
         var self = this;
 
-        function Request () {
-            this.onsend = function () {
+        function Request() {
+            this.onsend = function() {
                 self.handle(this);
             };
             MockHttpRequest.apply(this, arguments);
@@ -457,11 +457,11 @@ MockHttpServer.prototype = {
         window.XMLHttpRequest = Request;
     },
 
-    stop: function () {
+    stop: function() {
         window.XMLHttpRequest = window.OriginalHttpRequest;
     },
 
-    handle: function (request) {
+    handle: function(request) {
         // Instances should override this.
     }
 };

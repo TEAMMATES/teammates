@@ -36,7 +36,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.setUsingAjax((isUsingAjax != null));
+        data.setUsingAjax(isUsingAjax != null);
         
         
         boolean omitArchived = true; // TODO: implement as a request parameter

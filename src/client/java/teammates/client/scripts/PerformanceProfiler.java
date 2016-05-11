@@ -94,7 +94,7 @@ public class PerformanceProfiler extends Thread{
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        for (int i =0; i< NUM_OF_RUNS ; i++)
+        for (int i =0; i< NUM_OF_RUNS; i++)
         {
             browser = BrowserPool.getBrowser();
             //overcome initial loading time with the below line
@@ -246,7 +246,7 @@ public class PerformanceProfiler extends Thread{
                 total += f;
                 lineStr  += f + " , ";
             }
-            lineStr = lineStr.substring(0,lineStr.length()-3); //remove last comma
+            lineStr = lineStr.substring(0, lineStr.length()-3); //remove last comma
             Float average = total/arr.size();
             lineStr = str + "| " +average + " | " + lineStr +"\n";
             out.write(lineStr);

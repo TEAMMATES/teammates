@@ -187,12 +187,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -327,12 +327,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
         
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;

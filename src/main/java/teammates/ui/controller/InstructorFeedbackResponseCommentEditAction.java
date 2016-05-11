@@ -37,7 +37,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackSessionName, feedbackResponseCommentId,
+        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
@@ -105,14 +105,14 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
     }
 
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
                     || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
                     || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                     || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
+                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
     
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
             String feedbackResponseCommentId, InstructorAttributes instructor,
             FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
         FeedbackResponseCommentAttributes frc =
@@ -121,7 +121,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             Assumption.fail("FeedbackResponseComment should not be null");
         }
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return ;
+            return;
         }
         new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);

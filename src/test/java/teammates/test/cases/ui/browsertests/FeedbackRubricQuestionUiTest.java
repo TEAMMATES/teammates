@@ -416,7 +416,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
-        return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
+        return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass

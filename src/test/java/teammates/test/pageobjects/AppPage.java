@@ -28,7 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -43,7 +42,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -319,6 +317,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementPresence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+    }
+    
+    /**
+     * Waits for text contained in the element to disappear from the page, or timeout
+     */
+    public void waitForTextContainedInElementAbsence(By by, String text) {
+        WebDriverWait wait =  new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
     /**
@@ -688,7 +694,7 @@ public abstract class AppPage {
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.
@@ -1068,7 +1074,7 @@ public abstract class AppPage {
     }
 
     public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360,640));
+        browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
 
     public void changeToDesktopView() {

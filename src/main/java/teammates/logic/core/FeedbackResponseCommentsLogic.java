@@ -58,9 +58,9 @@ public class FeedbackResponseCommentsLogic {
             return frcDb.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try {
-                FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
                 
-                existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
+                FeedbackResponseCommentAttributes existingComment =
+                                  frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
                                                                    frComment.createdAt);
                 if (existingComment == null) {
                     existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
@@ -294,10 +294,10 @@ public class FeedbackResponseCommentsLogic {
         
         boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
                 userIsStudent 
-                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                    && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                  FeedbackParticipantType.RECEIVER))
-                && response.recipientEmail.equals(student.team));
+                && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.RECEIVER)
+                && response.recipientEmail.equals(student.team);
         boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,

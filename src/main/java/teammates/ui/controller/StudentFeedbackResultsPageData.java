@@ -177,7 +177,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
 
             /* If the giver is the same user, show the real name of the receiver */
-            if (giverName.equals("You") && (!recipientName.equals("You"))) {
+            if (giverName.equals("You") && !recipientName.equals("You")) {
                 recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
             }
             

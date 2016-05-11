@@ -55,8 +55,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
-		addUnregStudentToCourse1();
+        removeAndRestoreTypicalDataInDatastore();
+        addUnregStudentToCourse1();
     }
     
     @AfterClass
@@ -877,7 +877,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         CommentAttributes comment = comments.get(0);
         
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COMMENT_ID,comment.getCommentId().toString(),
+                Const.ParamsNames.COMMENT_ID, comment.getCommentId().toString(),
                 Const.ParamsNames.COMMENT_EDITTYPE, "edit",
                 Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 1 to Student 1 in course 1",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,

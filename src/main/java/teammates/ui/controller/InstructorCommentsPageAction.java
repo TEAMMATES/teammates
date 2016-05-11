@@ -119,7 +119,7 @@ public class InstructorCommentsPageAction extends Action {
             if (isDisplayArchivedCourse 
              || !isCourseArchived(course, account.googleId) 
              || course.id.equals(courseId)) {
-                if (courseId == "") {
+                if (courseId.isEmpty()) {
                     courseId = course.id;
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }

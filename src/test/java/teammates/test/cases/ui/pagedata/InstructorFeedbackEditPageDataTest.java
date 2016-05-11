@@ -22,7 +22,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -80,7 +79,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
-        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
@@ -230,8 +229,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
-        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
-                          .withUserId(instructor.googleId)).toString(), 
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+                           .withUserId(instructor.googleId).toString(), 
                       fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());

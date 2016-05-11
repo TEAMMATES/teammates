@@ -21,7 +21,7 @@ public class StringHelper {
     }
 
     public static String generateStringOfLength(int length, char character) {
-        assert (length >= 0);
+        Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(character);
@@ -425,7 +425,7 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                if (i + 1 < chars.length && chars[i + 1] == '"') {
                     i++;
                 } else {
                     inquote = !inquote;
@@ -545,7 +545,7 @@ public class StringHelper {
         
         return str.substring(1, str.length() - 1);
     }
-	
+    
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

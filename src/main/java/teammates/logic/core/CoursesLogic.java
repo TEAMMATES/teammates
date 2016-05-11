@@ -252,7 +252,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 sectionDetails.teams.add(team);
             }
         }
@@ -309,7 +309,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
@@ -362,7 +362,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
             }
@@ -414,7 +414,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 teams.add(team);
             }
         }
@@ -525,14 +525,13 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         List<String> courseIdList = new ArrayList<String>();
 
         for (InstructorAttributes instructor : instructorList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
@@ -576,13 +575,12 @@ public class CoursesLogic {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes instructor : instructorAttributesList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
@@ -710,12 +708,11 @@ public class CoursesLogic {
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
             courseIdList.add(ia.courseId);
         }
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {

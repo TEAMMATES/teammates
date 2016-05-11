@@ -40,7 +40,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         
         return isHomePageUrl;
     }
