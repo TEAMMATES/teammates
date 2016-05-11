@@ -123,7 +123,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -196,7 +196,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         copyModalModel = helperData.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(0, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -318,7 +318,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("First feedback session" , copyModalModel.getFsName());
+        assertEquals("First feedback session", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
     }
     
@@ -371,8 +371,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
             boolean isGoogleIdSame = instructor.googleId != null 
                                      && instructor.googleId.equals(googleId);
             boolean isOmittedDueToArchiveStatus = isOmitArchived 
-                                                  && (instructor.isArchived != null 
-                                                      && instructor.isArchived);
+                                                  && instructor.isArchived != null 
+                                                  && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
             }

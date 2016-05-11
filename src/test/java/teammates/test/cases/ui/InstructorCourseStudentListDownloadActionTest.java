@@ -57,7 +57,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
         assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
         
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
@@ -83,7 +83,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
         assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
         removeAndRestoreTypicalDataInDatastore();
         
@@ -111,7 +111,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
         assertEquals("\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
         assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
     }
     

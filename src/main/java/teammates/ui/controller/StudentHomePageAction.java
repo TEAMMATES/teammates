@@ -40,7 +40,7 @@ public class StudentHomePageAction extends Action {
             
             boolean isDataConsistent = isCourseIncluded(recentlyJoinedCourseId, courses);
             if (!isDataConsistent) {
-                addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
             }
             
             for (CourseDetailsBundle course : courses) {
@@ -49,7 +49,7 @@ public class StudentHomePageAction extends Action {
         
         } catch (EntityDoesNotExistException e) {
             if (recentlyJoinedCourseId != null) {
-                addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
             } else {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_FIRST_TIME, StatusMessageColor.WARNING));
                 statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
@@ -114,7 +114,7 @@ public class StudentHomePageAction extends Action {
     }
     
     private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId,
-            String googleId, Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         try {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             courses.add(course);

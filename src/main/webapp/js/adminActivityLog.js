@@ -3,11 +3,11 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if(button == "glyphicon glyphicon-chevron-down"){
-    $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
+    if (button == "glyphicon glyphicon-chevron-down") {
+    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
-    }else{
-        $("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
+    } else {
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
     }
 }
@@ -16,7 +16,7 @@ $(function() {
     $("#filterReference").toggle();
 });
 
-function submitLocalTimeAjaxRequest(time, googleId, role, entry){
+function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = "logTimeInAdminTimeZone=" + time
                  + "&logRole=" + role 
                  + "&logGoogleId=" + googleId;
@@ -27,16 +27,16 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
     var originalTime = $(link).html();
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminActivityLogPage?" + params,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminActivityLogPage?" + params,
+        beforeSend: function() {
             $(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             $(localTimeDisplay).html("Loading error, please retry");          
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {       
                     $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "</mark>";
                 } else {
@@ -44,7 +44,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
                 }
                 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-            },500);
+            }, 500);
         }
     });
 }
@@ -58,17 +58,17 @@ function submitFormAjax(searchTimeOffset) {
     var lastLogRow = $('#logsTable tr:last');
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminActivityLogPage?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminActivityLogPage?" + formData,
+        beforeSend: function() {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             setFormErrorMessage(olderButton, "Failed to load older logs. Please try again.");
             button.html("Retry");
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {
                     // Inject new log row
                     var logs = data.logs;
@@ -83,17 +83,17 @@ function submitFormAjax(searchTimeOffset) {
                 }
 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-            },500);
+            }, 500);
         }
     });
 }
 
 
-function setFormErrorMessage(button, msg){
-    button.after("&nbsp;&nbsp;&nbsp;"+ msg);
+function setFormErrorMessage(button, msg) {
+    button.after("&nbsp;&nbsp;&nbsp;" + msg);
 }
 
-function updateInfoForRecentActionButton(){
+function updateInfoForRecentActionButton() {
     var isShowAll = $("#ifShowAll").val();
     $(".ifShowAll_for_person").val(isShowAll);
 

@@ -43,14 +43,14 @@ public class CourseRoster {
     
     public boolean isStudentInTeam(String studentEmail, String targetTeamName){
         StudentAttributes student = studentListByEmail.get(studentEmail);
-        return (student != null) && (student.team.equals(targetTeamName));
+        return student != null && student.team.equals(targetTeamName);
     }
     
     public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2){
         StudentAttributes student1 = studentListByEmail.get(studentEmail1);
         StudentAttributes student2 = studentListByEmail.get(studentEmail2);
-        return (student1 != null) && (student2 != null) 
-                && (student1.team != null) && (student1.team.equals(student2.team));
+        return student1 != null && student2 != null
+               && student1.team != null && student1.team.equals(student2.team);
     }
     
     public StudentAttributes getStudentForEmail(String email) {

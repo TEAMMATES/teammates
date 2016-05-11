@@ -201,7 +201,6 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ______TS("CONSTSUM Response: typical case");
         String questionText = "question text";
-        int numOfConstSumOptions = 2;
         List<String> constSumOptions = new ArrayList<String>();
         
         constSumOptions.add("Option 1");
@@ -211,8 +210,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         int points = 100;
         boolean forceUnevenDistribution = false;
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
-                new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, 
-                                                    constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+                new FeedbackConstantSumQuestionDetails(questionText, constSumOptions, 
+                                                       pointsPerOption, points, forceUnevenDistribution);
         
         requestParameters.put("questiontype-7", new String[] { "CONSTSUM" });
         requestParameters.put("responsetext-7-0", new String[] { "20", "80" });

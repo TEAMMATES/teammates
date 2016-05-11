@@ -27,13 +27,13 @@ public class CourseRosterTest extends BaseTestCase{
         assertFalse(roster.isStudentInCourse("non-existent@gmail.com"));
         assertTrue(roster.isStudentInCourse("s1@gmail.com"));
         
-        assertFalse(roster.isStudentInTeam("non-existent@gmail.com","team 1"));
-        assertFalse(roster.isStudentInTeam("s1@gmail.com","team 123"));
-        assertTrue(roster.isStudentInTeam("s1@gmail.com","team 1"));
+        assertFalse(roster.isStudentInTeam("non-existent@gmail.com", "team 1"));
+        assertFalse(roster.isStudentInTeam("s1@gmail.com", "team 123"));
+        assertTrue(roster.isStudentInTeam("s1@gmail.com", "team 1"));
         
-        assertFalse(roster.isStudentsInSameTeam("non-existent@gmail.com","s1@gmail.com"));
-        assertFalse(roster.isStudentsInSameTeam("s1@gmail.com","non-existent@gmail.com"));
-        assertTrue(roster.isStudentsInSameTeam("s1@gmail.com","s1@gmail.com"));
+        assertFalse(roster.isStudentsInSameTeam("non-existent@gmail.com", "s1@gmail.com"));
+        assertFalse(roster.isStudentsInSameTeam("s1@gmail.com", "non-existent@gmail.com"));
+        assertTrue(roster.isStudentsInSameTeam("s1@gmail.com", "s1@gmail.com"));
         
         assertEquals(roster.getStudentForEmail("s1@gmail.com").email, "s1@gmail.com");
         assertEquals(roster.getStudentForEmail("s1@gmail.com").team, "team 1");
@@ -59,15 +59,15 @@ public class CourseRosterTest extends BaseTestCase{
         assertFalse(roster.isStudentInCourse("non-existent@gmail.com"));
         assertTrue(roster.isStudentInCourse("s2@gmail.com"));
         
-        assertFalse(roster.isStudentInTeam("non-existent@gmail.com","team 1"));
-        assertFalse(roster.isStudentInTeam("s3@gmail.com","team 1"));
-        assertTrue(roster.isStudentInTeam("s1@gmail.com","team 1"));
-        assertTrue(roster.isStudentInTeam("s2@gmail.com","team 1"));
-        assertTrue(roster.isStudentInTeam("s3@gmail.com","team 2"));
+        assertFalse(roster.isStudentInTeam("non-existent@gmail.com", "team 1"));
+        assertFalse(roster.isStudentInTeam("s3@gmail.com", "team 1"));
+        assertTrue(roster.isStudentInTeam("s1@gmail.com", "team 1"));
+        assertTrue(roster.isStudentInTeam("s2@gmail.com", "team 1"));
+        assertTrue(roster.isStudentInTeam("s3@gmail.com", "team 2"));
         
-        assertFalse(roster.isStudentsInSameTeam("non-existent@gmail.com","s1@gmail.com"));
-        assertFalse(roster.isStudentsInSameTeam("s1@gmail.com","s3@gmail.com"));
-        assertTrue(roster.isStudentsInSameTeam("s2@gmail.com","s1@gmail.com"));
+        assertFalse(roster.isStudentsInSameTeam("non-existent@gmail.com", "s1@gmail.com"));
+        assertFalse(roster.isStudentsInSameTeam("s1@gmail.com", "s3@gmail.com"));
+        assertTrue(roster.isStudentsInSameTeam("s2@gmail.com", "s1@gmail.com"));
         
         assertEquals(roster.getInstructorForEmail("ins1@email.com").email, "ins1@email.com");
         assertEquals(roster.getInstructorForEmail("ins1@email.com").name, "John");

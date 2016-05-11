@@ -268,7 +268,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         String enrollString = gsonBuilder.toJson(enrollList);
 
         //Prepare parameter map
-        HashMap<String, String> paramMap = new HashMap<String,String>();
+        HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, student.course);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);

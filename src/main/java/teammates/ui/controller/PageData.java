@@ -65,7 +65,7 @@ public class PageData {
     }
     
     public boolean isUnregisteredStudent() {
-        return account.googleId == null || (student != null && !student.isRegistered());
+        return account.googleId == null || student != null && !student.isRegistered();
     }
 
     @SuppressWarnings("unused")
@@ -187,7 +187,7 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption 
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = (existingTimeZone == timeZoneOption);
+            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
             
             ElementTag option = createOption(textToDisplay, 
                                              formatAsString(timeZoneOption), isExistingTimeZone);
@@ -231,7 +231,7 @@ public class PageData {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
-                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+                                            isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
         return result;
@@ -256,7 +256,7 @@ public class PageData {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
-                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+                                             String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
         }
         return result;
@@ -348,22 +348,22 @@ public class PageData {
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
     
     public String getStudentFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
     
     public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -469,7 +469,7 @@ public class PageData {
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, 
                                  Const.ParamsNames.NEXT_URL,
                                  (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
@@ -545,7 +545,7 @@ public class PageData {
     
     public String getInstructorFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
@@ -693,8 +693,8 @@ public class PageData {
     
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -875,7 +875,7 @@ public class PageData {
 
     
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
-        boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
+        boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
@@ -898,7 +898,7 @@ public class PageData {
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
         int defaultGracePeriod = 15;
-        boolean isEditingExistingEvaluation = (existingGracePeriodValue != Const.INT_UNINITIALIZED);
+        boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
         } else {

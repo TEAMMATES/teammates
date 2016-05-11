@@ -75,7 +75,7 @@ public class InstructorStudentCommentEditAction extends Action {
         }
         
         return !isFromCommentPage ? 
-               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
+               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)):
                createRedirectResult(
                        (new PageData(account).getInstructorCommentsLink()) + "&" 
                      + Const.ParamsNames.COURSE_ID + "=" + courseId);
@@ -89,7 +89,7 @@ public class InstructorStudentCommentEditAction extends Action {
         
         if (commentInDb != null && instructor != null && commentInDb.giverEmail.equals(instructor.email)) {
             // if comment giver and instructor are the same, allow access
-            return ;
+            return;
         }
         if (commentInDb == null) {
             Assumption.fail("Comment or instructor cannot be null for editing comment");
