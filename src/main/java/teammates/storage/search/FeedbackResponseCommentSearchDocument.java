@@ -31,7 +31,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private FeedbackQuestionAttributes relatedQuestion;
     private FeedbackSessionAttributes relatedSession;
     private CourseAttributes course;
-    private InstructorAttributes giverAsInstructor;//comment giver
+    private InstructorAttributes giverAsInstructor; //comment giver
     private List<InstructorAttributes> relatedInstructors;
     private List<StudentAttributes> relatedStudents;
     
@@ -100,7 +100,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipientEmail, comment.courseId);
             if(team != null){
-                responseRecipientName = relatedResponse.recipientEmail;//it's actually a team name here
+                responseRecipientName = relatedResponse.recipientEmail; //it's actually a team name here
                 for(StudentAttributes studentInTeam:team){
                     if(!addedEmailSet.contains(studentInTeam.email)){
                         relatedStudents.add(studentInTeam);
@@ -122,7 +122,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         String delim = ",";
         int counter = 0;
         for(StudentAttributes student:relatedStudents){
-            if(counter == 25) break;//in case of exceeding size limit for document
+            if(counter == 25) break; //in case of exceeding size limit for document
             relatedPeopleBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)

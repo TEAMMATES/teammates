@@ -63,8 +63,8 @@ public class PerformanceProfiler extends Thread{
     
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
     private final Integer NUM_OF_RUNS = 2;
-    private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
-    private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
+    private final Integer WAIT_TIME_TEST = 1000; //waiting time between tests, in ms
+    private final Integer WAIT_TIME_RUN = 5000; //waiting time between runs, in ms
     private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
     
     private String reportFilePath;

@@ -38,8 +38,8 @@ public class FeedbackConstantSumResponseDetails extends
     
     @Override
     public String getAnswerString() {
-        String listString = answers.toString();//[1, 2, 3] format
-        return listString.substring(1, listString.length()-1);//remove []
+        String listString = answers.toString(); //[1, 2, 3] format
+        return listString.substring(1, listString.length()-1); //remove []
     }
 
     @Override
