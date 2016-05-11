@@ -1097,7 +1097,7 @@ public class FeedbackSessionsLogic {
 
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-        return (fs.creatorEmail.equals(userEmail));
+        return fs.creatorEmail.equals(userEmail);
     }
 
     public boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
@@ -1837,7 +1837,7 @@ public class FeedbackSessionsLogic {
                                 question, userEmail, role, section);
             }
 
-            boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
+            boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
             if (thisQuestionHasResponses) {
                 relevantQuestions.put(question.getId(), question);
                 responses.addAll(responsesForThisQn);
@@ -1976,7 +1976,7 @@ public class FeedbackSessionsLogic {
             boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
             
             if (isQueryingResponseRateStatus) {
-                responseStatus = (section == null && isIncludeResponseStatus) 
+                responseStatus = section == null && isIncludeResponseStatus 
                                ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
                                : null;
             } else {
@@ -1997,18 +1997,17 @@ public class FeedbackSessionsLogic {
                                         question, userEmail, Role.INSTRUCTOR, section);
                     }
     
-                    boolean thisQuestionHasResponses = (!responsesForThisQn
-                            .isEmpty());
+                    boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
                             boolean isVisibleResponse = false;
-                            if ((response.giverEmail.equals(userEmail))
-                                    || (response.recipientEmail.equals(userEmail) && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
-                                    || (role == Role.INSTRUCTOR && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
-                                    || (role == Role.STUDENT && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+                            if (response.giverEmail.equals(userEmail)
+                                || response.recipientEmail.equals(userEmail) && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                || role == Role.INSTRUCTOR && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                || role == Role.STUDENT && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
                                 isVisibleResponse = true;
                             }
                             InstructorAttributes instructor = null;
@@ -2017,16 +2016,16 @@ public class FeedbackSessionsLogic {
                             }
                             if (isVisibleResponse && instructor != null) {
                                 boolean isGiverSectionRestricted 
-                                        = !(instructor.isAllowedForPrivilege(response.giverSection,
-                                                                             response.feedbackSessionName, 
-                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                                        = !instructor.isAllowedForPrivilege(response.giverSection,
+                                                                            response.feedbackSessionName, 
+                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 // If instructors are not restricted to view the giver's section,
                                 // they are allowed to view responses to GENERAL, subject to visibility options
                                 boolean isRecipientSectionRestricted 
-                                        = !(question.recipientType == FeedbackParticipantType.NONE)
-                                       && !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                                                             response.feedbackSessionName, 
-                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                                        = question.recipientType != FeedbackParticipantType.NONE
+                                       && !instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                            response.feedbackSessionName, 
+                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
                                 if (isNotAllowedForInstructor) {
                                     isVisibleResponse = false;
@@ -2104,9 +2103,9 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        responseStatus = (section == null && isIncludeResponseStatus) 
-                        ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
-                        : null;
+        responseStatus = section == null && isIncludeResponseStatus 
+                       ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                       : null;
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
@@ -2235,34 +2234,39 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
         
         boolean isVisibleResponse = false;
-        if ((role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
-                || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
-                || (response.giverEmail.equals(userEmail))
-                || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+        if (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+            || response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+            || response.giverEmail.equals(userEmail)
+            || role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-        } else if (role == Role.STUDENT 
-                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                        && response.recipientEmail.equals(student.team))
-                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                        || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                            && studentsEmailInTeam.contains(response.giverEmail))
-                    || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.recipientEmail)))) {
-            isVisibleResponse = true;
+        } else if (role == Role.STUDENT) {
+            if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                && response.recipientEmail.equals(student.team)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS 
+                       && studentsEmailInTeam.contains(response.giverEmail)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                       && studentsEmailInTeam.contains(response.giverEmail)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                       && studentsEmailInTeam.contains(response.recipientEmail)) {
+                isVisibleResponse = true;
+            }
         }
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted 
-            = !(instructor.isAllowedForPrivilege(response.giverSection,
-                                                 response.feedbackSessionName, 
-                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            = !instructor.isAllowedForPrivilege(response.giverSection,
+                                                response.feedbackSessionName, 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted 
-                    = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE) 
-                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                                         response.feedbackSessionName, 
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                    = relatedQuestion.recipientType != FeedbackParticipantType.NONE 
+                   && !instructor.isAllowedForPrivilege(response.recipientSection,
+                                                        response.feedbackSessionName, 
+                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
