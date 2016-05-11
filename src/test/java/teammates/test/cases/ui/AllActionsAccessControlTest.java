@@ -869,7 +869,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         Iterator<CommentAttributes> iterator = comments.iterator();
         while(iterator.hasNext()){
             CommentAttributes commentAttributes = iterator.next();
-            if(!commentAttributes.giverEmail.equals(instructor.email)){
+            if (!commentAttributes.giverEmail.equals(instructor.email)){
                 iterator.remove();
             }
         }
@@ -1194,7 +1194,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         session.startTime = startTime;
         session.endTime = endTime;
-        if(isPublished){
+        if (isPublished){
             session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
             assertTrue(session.isPublished());
         } else {

@@ -52,7 +52,7 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
                                             String cursorString) {
-        if(queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty())
             return new StudentSearchResultBundle();
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
@@ -73,7 +73,7 @@ public class StudentsDb extends EntitiesDb {
      * @return null if no result found
      */ 
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
-        if(queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty())
             return new StudentSearchResultBundle();
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
@@ -84,7 +84,7 @@ public class StudentsDb extends EntitiesDb {
     
 
     public void deleteDocument(StudentAttributes studentToDelete){
-        if(studentToDelete.key == null){
+        if (studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
             if (student != null) {
                 deleteDocument(Const.SearchIndex.STUDENT, student.key);
@@ -293,7 +293,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
         for (Student s: studentList) {
-            if(!JDOHelper.isDeleted(s)) {
+            if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
         }
@@ -313,7 +313,7 @@ public class StudentsDb extends EntitiesDb {
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
         for (StudentAttributes s: allStudents){
-            if(s.googleId == null || s.googleId.trim().isEmpty()){
+            if (s.googleId == null || s.googleId.trim().isEmpty()){
                 unregistered.add(s);
             }
         }
@@ -456,7 +456,7 @@ public class StudentsDb extends EntitiesDb {
             return;
         }
         
-        if(hasDocument){
+        if (hasDocument){
             deleteDocument(new StudentAttributes(studentToDelete));
         }
        
@@ -464,7 +464,7 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     
         // Check delete operation persisted
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Student studentCheck = getStudentEntityForEmail(courseId, email);
             while (studentCheck != null
@@ -501,7 +501,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
         
-        if(hasDocument){
+        if (hasDocument){
             for (Student student : studentList){
                 deleteDocument(new StudentAttributes(student));
             }
@@ -529,7 +529,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
-        if(hasDocument){
+        if (hasDocument){
             for (Student student : studentList){
                 deleteDocument(new StudentAttributes(student));
             }

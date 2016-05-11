@@ -531,7 +531,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
-        if(!checkBox.isSelected()){
+        if (!checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -540,7 +540,7 @@ public abstract class AppPage {
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if(checkBox.isSelected()){
+        if (checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -1046,7 +1046,7 @@ public abstract class AppPage {
         elementToClick.click();
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
         } else {
             alert.dismiss();
@@ -1058,7 +1058,7 @@ public abstract class AppPage {
         jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
         } else {
             alert.dismiss();

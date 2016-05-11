@@ -262,9 +262,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
-        } else if(recipientType == FeedbackParticipantType.TEAMS){
+        } else if (recipientType == FeedbackParticipantType.TEAMS){
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
-        } else if(recipientType == FeedbackParticipantType.STUDENTS){
+        } else if (recipientType == FeedbackParticipantType.STUDENTS){
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
             response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {

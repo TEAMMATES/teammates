@@ -77,7 +77,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("3 sessions opened and emails sent, 1 awaiting");
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
         
@@ -164,7 +164,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
     }

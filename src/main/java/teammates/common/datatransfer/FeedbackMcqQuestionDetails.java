@@ -59,7 +59,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numMcqChoicesCreated; i++) {
                 String mcqChoice = HttpRequestHelper.getValueFromParamMap(
                                                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-                if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+                if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
                     mcqChoices.add(mcqChoice);
                     numOfMcqChoices++;
                 }
@@ -313,7 +313,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if(this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
             optionListHtml.append("<br>"
                                 + "The options for this question is "
                                 + "automatically generated from the list of all "

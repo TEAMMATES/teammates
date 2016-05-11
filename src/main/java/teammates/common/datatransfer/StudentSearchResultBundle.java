@@ -31,7 +31,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
      */
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if(results == null){
+        if (results == null){
             return this;
         }
         
@@ -51,7 +51,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
-            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+            if (studentsLogic.getStudentForRegistrationKey(student.key) == null){
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -76,7 +76,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
      * @return studentResultBundle containing information related to matched students only.
      */   
     public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results){
-        if(results == null) {
+        if (results == null) {
             return this;
         }
         
@@ -86,7 +86,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                                                                              StudentAttributes.class);
             
-            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+            if (studentsLogic.getStudentForRegistrationKey(student.key) == null){
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -107,22 +107,22 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             @Override
             public int compare(StudentAttributes s1, StudentAttributes s2){
                 int compareResult = s1.course.compareTo(s2.course);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                 
                 compareResult = s1.section.compareTo(s2.section);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                 
                 compareResult = s1.team.compareTo(s2.team);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                 
                 compareResult = s1.name.compareTo(s2.name);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                 

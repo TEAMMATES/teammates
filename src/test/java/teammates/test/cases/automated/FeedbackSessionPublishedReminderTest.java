@@ -83,7 +83,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(1)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(1)){
                 break;
             }
         }
@@ -123,7 +123,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(3)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(3)){
                 break;
             }
         }
@@ -138,11 +138,11 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(2)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(2)){
                 break;
             }
         }
-        if(counter == 10){
+        if (counter == 10){
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 2);
         }
        
@@ -181,7 +181,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("testing whether no more mails are sent");
         FeedbackSessionPublishedCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionPublishedEmails();
-        if(!FeedbackSessionPublishedCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionPublishedCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 0);
         }
     }

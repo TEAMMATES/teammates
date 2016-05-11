@@ -93,7 +93,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         while(counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             feedbackSessionsLogic.publishFeedbackSession(fsa.feedbackSessionName, fsa.courseId);
-            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
                 break;
             }
             counter++;
@@ -112,7 +112,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
             assertEquals("Trying to publish a non-existant session.", 
                     e.getMessage());
         }
-        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
         }
         
@@ -130,7 +130,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         while(counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             logic.sendReminderForFeedbackSession(fsa.courseId, fsa.feedbackSessionName);
-            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
                 break;
             }
             counter++;
@@ -183,7 +183,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         while(counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
-            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
                 break;
             }
             counter++;
@@ -203,7 +203,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
         assertTrue(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
         }
         
@@ -221,7 +221,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         while(counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
-            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
                 break;
             }
             counter++;
@@ -242,7 +242,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         while(counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails(); // empty session
-            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
                 break;
             }
             counter++;
@@ -257,7 +257,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         fsLogic.updateFeedbackSession(fsa);
         fsLogic.scheduleFeedbackSessionPublishedEmails();
         
-        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
         }
     }

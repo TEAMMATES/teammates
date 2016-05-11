@@ -57,7 +57,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             for (int i = 0; i < numMsqChoicesCreated; i++) {
                 String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
-                if(msqChoice != null && !msqChoice.trim().isEmpty()) {
+                if (msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
                     numOfMsqChoices++;
                 }
@@ -340,7 +340,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if(this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
             optionListHtml.append("<br>"
                                 + "The options for this question is "
                                 + "automatically generated from the list of all "
@@ -348,7 +348,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                 + " in this course.");
         }
         
-        if(numOfMsqChoices > 0){
+        if (numOfMsqChoices > 0){
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment = 
@@ -390,11 +390,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if(view.equals("student")){
+        if (view.equals("student")){
             return "";
         }
         
-        if(responses.size() == 0){
+        if (responses.size() == 0){
             return "";
         }
         
@@ -438,7 +438,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 
-                if(!answerFrequency.containsKey(answerString)){
+                if (!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
                     answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
@@ -476,7 +476,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if(responses.size() == 0){
+        if (responses.size() == 0){
             return "";
         }
         
@@ -519,7 +519,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
-                if(!answerFrequency.containsKey(answerString)){
+                if (!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
                     answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
@@ -566,7 +566,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if(generateOptionsFor == FeedbackParticipantType.NONE &&
+        if (generateOptionsFor == FeedbackParticipantType.NONE &&
                 numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES){
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES+".");
         }
@@ -582,10 +582,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-            if(!otherEnabled){
+            if (!otherEnabled){
                 List<String> validChoices = msqChoices;
                 validChoices.add("");
-                if(!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
                     errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
                 }
             }

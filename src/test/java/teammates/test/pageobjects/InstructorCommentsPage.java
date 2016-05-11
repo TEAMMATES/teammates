@@ -252,7 +252,7 @@ public class InstructorCommentsPage extends AppPage {
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
         for (WebElement e : webElements) {
-            if(e.isDisplayed() != isVisible) {
+            if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }
@@ -300,13 +300,13 @@ public class InstructorCommentsPage extends AppPage {
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         int idNumber = commentTableIdSuffix.split("-").length;
-        if(idNumber == 4){
+        if (idNumber == 4){
             WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
             waitForElementPresence(errorSpan);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
-        } else if(idNumber == 3){
+        } else if (idNumber == 3){
             WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");

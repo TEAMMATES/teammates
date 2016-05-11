@@ -76,7 +76,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("typical case, 0 sessions closing soon");
         fsLogic.scheduleFeedbackSessionClosingEmails();
-        if(!FeedbackSessionClosingCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionClosingCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionClosingCallback.taskCount, 0);
         }
         
@@ -120,12 +120,12 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
             FeedbackSessionClosingCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             //There are only 2 sessions closing reminder to be sent
-            if(FeedbackSessionClosingCallback.verifyTaskCount(2)){
+            if (FeedbackSessionClosingCallback.verifyTaskCount(2)){
                 break;
             }
             counter++;
         }
-        if(counter == 10){
+        if (counter == 10){
             assertEquals(FeedbackSessionClosingCallback.taskCount, 2);
         }
     }

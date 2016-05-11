@@ -202,7 +202,7 @@ public class StudentsLogic {
     
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
         StudentAttributes student1 = getStudentForEmail(courseId, student1Email);
-        if(student1 == null) {
+        if (student1 == null) {
             return false;
         }
         return isStudentInTeam(courseId, student1.team, student2Email);
@@ -249,7 +249,7 @@ public class StudentsLogic {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
         }
 
-        if(isSectionChanged(originalStudent.section, student.section)) {
+        if (isSectionChanged(originalStudent.section, student.section)) {
             frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
         }
         
@@ -272,7 +272,7 @@ public class StudentsLogic {
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
         
-        if(!student.isValid()) {
+        if (!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
@@ -297,7 +297,7 @@ public class StudentsLogic {
         StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
         originalStudent.googleId = null;
         
-        if(!originalStudent.isValid()) {
+        if (!originalStudent.isValid()) {
             throw new InvalidParametersException(originalStudent.getInvalidityInfo());
         }     
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name, 
@@ -394,7 +394,7 @@ public class StudentsLogic {
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
-        if(students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+        if (students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
         }
     }
@@ -409,12 +409,12 @@ public class StudentsLogic {
         }
 
         for (StudentAttributes student : studentsInCourse) {
-            if(!isInEnrollList(student, mergedList)){
+            if (!isInEnrollList(student, mergedList)){
                 mergedList.add(student);
             }
         }
 
-        if(mergedList.size() < 2){ // no conflicts
+        if (mergedList.size() < 2){ // no conflicts
             return;
         }
         
@@ -422,7 +422,7 @@ public class StudentsLogic {
         errorMessage += getSectionInvalidityInfo(mergedList);
         errorMessage += getTeamInvalidityInfo(mergedList);
 
-        if(!errorMessage.equals("")){
+        if (!errorMessage.equals("")){
             throw new EnrollException(errorMessage);
         }
 
@@ -431,7 +431,7 @@ public class StudentsLogic {
     public String getSectionForTeam(String courseId, String teamName){
 
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
-        if(students.isEmpty()){
+        if (students.isEmpty()){
             return Const.DEFAULT_SECTION;
         } else {
             return students.get(0).section;
@@ -447,16 +447,16 @@ public class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
-            if(currentStudent.section.equals(previousStudent.section)){
+            if (currentStudent.section.equals(previousStudent.section)){
                 studentsCount++;
             } else {
-                if(studentsCount > SECTION_SIZE_LIMIT){
+                if (studentsCount > SECTION_SIZE_LIMIT){
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if(i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
+            if (i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
                 invalidSectionList.add(currentStudent.section);
             }
         }
@@ -477,8 +477,8 @@ public class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
-            if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
-                if(!invalidTeamList.contains(currentStudent.team)){
+            if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
+                if (!invalidTeamList.contains(currentStudent.team)){
                     invalidTeamList.add(currentStudent.team);    
                 }
             }
@@ -488,7 +488,7 @@ public class StudentsLogic {
         for (String team : invalidTeamList){
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
-        if(!errorMessage.equals("")){
+        if (!errorMessage.equals("")){
             errorMessage += "Please use the enroll page to edit multiple students";
         }
 
@@ -638,12 +638,12 @@ public class StudentsLogic {
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
-            if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
+            if (enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
-            if(!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
+            if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isSectionChanged(enrollment.oldSection, enrollment.newSection)){
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
@@ -671,10 +671,10 @@ public class StudentsLogic {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
-            if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
+            if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                 enrollmentDetails.oldTeam = originalStudentAttributes.team;
             }
-            if(!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
+            if (!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {

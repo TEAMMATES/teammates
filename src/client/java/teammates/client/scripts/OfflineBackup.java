@@ -94,7 +94,7 @@ public class OfflineBackup extends RemoteApiClient {
         Set<String> courses = new HashSet<String>();
         for (String course : modifiedLogs) {
             course = course.trim();
-            if(!course.equals("")) {
+            if (!course.equals("")) {
                 courses.add(course);
             }
             
@@ -203,7 +203,7 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         CourseAttributes course = logic.getCourse(courseId);
         
-        if(course == null) {
+        if (course == null) {
             return;
         }
         
@@ -330,9 +330,9 @@ public class OfflineBackup extends RemoteApiClient {
             FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
             
             for (StudentAttributes student : students) {
-                if(student != null && student.googleId != null && !student.googleId.equals("")) {
+                if (student != null && student.googleId != null && !student.googleId.equals("")) {
                     StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-                    if(profile != null) {
+                    if (profile != null) {
                         saveProfile(profile);
                     }
                 }
@@ -351,7 +351,7 @@ public class OfflineBackup extends RemoteApiClient {
     protected String formatJsonString(String entityJsonString, String name) {
         String formattedString = "";
         
-        if(hasPreviousEntity) {
+        if (hasPreviousEntity) {
             formattedString += ",\n";
         } else {
             hasPreviousEntity = true;
@@ -367,14 +367,14 @@ public class OfflineBackup extends RemoteApiClient {
      *  Retrieves all the student accounts and saves them
      */
     protected void saveStudentAccount(StudentAttributes student) {
-        if(student == null) {
+        if (student == null) {
             return;
         }
         
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(student.googleId.trim());
         
-        if(account == null || accountsSaved.contains(account.email)) {
+        if (account == null || accountsSaved.contains(account.email)) {
             return;
         }
         
@@ -387,14 +387,14 @@ public class OfflineBackup extends RemoteApiClient {
      *  Retrieves all the instructor accounts and saves them
      */
     protected void saveInstructorAccount(InstructorAttributes instructor) {
-        if(instructor == null) {
+        if (instructor == null) {
             return;
         }
         
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(instructor.googleId.trim());
         
-        if(account == null || accountsSaved.contains(account.email)) {
+        if (account == null || accountsSaved.contains(account.email)) {
             return;
         }
         

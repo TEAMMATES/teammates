@@ -61,7 +61,7 @@ public class AdminEmailComposeSendAction extends Action {
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
         groupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
         
-        if(groupModeOn){     
+        if (groupModeOn){     
             try {
                 groupReceiver.add(groupReceiverListFileKey);
                 checkGroupReceiverListFile(groupReceiverListFileKey);
@@ -71,7 +71,7 @@ public class AdminEmailComposeSendAction extends Action {
             }     
         }
         
-        if(addressModeOn){
+        if (addressModeOn){
             addressReceiver.add(addressReceiverListString);          
             try {
                 checkAddressReceiverString(addressReceiverListString);
@@ -81,13 +81,13 @@ public class AdminEmailComposeSendAction extends Action {
             }  
         } 
         
-        if(!addressModeOn && !groupModeOn){
+        if (!addressModeOn && !groupModeOn){
             isError = true;
             statusToAdmin = "Error : No reciver address or file given";
             statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));       
         }
         
-        if(isError){
+        if (isError){
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
                                                         groupReceiver,
@@ -100,13 +100,13 @@ public class AdminEmailComposeSendAction extends Action {
         
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
         
-        if(!isEmailDraft) {
+        if (!isEmailDraft) {
             recordNewSentEmail(subject, addressReceiver, groupReceiver, emailContent);
         } else {
             updateDraftEmailToSent(emailId, subject, addressReceiver, groupReceiver, emailContent);
         }
  
-        if(isError){
+        if (isError){
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
                                                         groupReceiver,
@@ -124,7 +124,7 @@ public class AdminEmailComposeSendAction extends Action {
        String[] emails = addressReceiverString.split(",");
        for (String email : emails){
            String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-           if(error != null && !error.isEmpty()){
+           if (error != null && !error.isEmpty()){
                isError = true;
                statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
                throw new InvalidParametersException("<strong>Email Format Error</strong>");
@@ -196,7 +196,7 @@ public class AdminEmailComposeSendAction extends Action {
             List<String> newList = Arrays.asList(readString.split(","));
             
             
-            if(listOfList.isEmpty()){
+            if (listOfList.isEmpty()){
                 //this is the first time reading
                 listOfList.add(newList);
             } else {
@@ -207,7 +207,7 @@ public class AdminEmailComposeSendAction extends Action {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if(!lastStringOfLastAddedList.contains("@")||
+                if (!lastStringOfLastAddedList.contains("@")||
                    !firstStringOfNewList.contains("@")){
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
@@ -240,7 +240,7 @@ public class AdminEmailComposeSendAction extends Action {
     }
     
     private void moveJobToGroupModeTaskQueue(){
-        if(!groupModeOn){
+        if (!groupModeOn){
             return;
         }
         
@@ -262,7 +262,7 @@ public class AdminEmailComposeSendAction extends Action {
     
     private void moveJobToAddressModeTaskQueue(){
         
-        if(!addressModeOn){
+        if (!addressModeOn){
             return;
         }
         

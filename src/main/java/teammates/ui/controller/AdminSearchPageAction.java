@@ -38,9 +38,9 @@ public class AdminSearchPageAction extends Action {
         
         AdminSearchPageData data = new AdminSearchPageData(account);
         
-        if(searchKey == null || searchKey.trim().isEmpty()){
+        if (searchKey == null || searchKey.trim().isEmpty()){
             
-            if(searchButtonHit != null){             
+            if (searchButtonHit != null){             
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
@@ -72,7 +72,7 @@ public class AdminSearchPageAction extends Action {
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
-        if(numOfResults > 0){
+        if (numOfResults > 0){
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
             statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
@@ -92,18 +92,18 @@ public class AdminSearchPageAction extends Action {
         Logic logic = new Logic();
         
         for (StudentAttributes student : students){
-            if(student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
+            if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
                 CourseAttributes course = logic.getCourse(student.course);
-                if(course != null){
+                if (course != null){
                     data.courseIdToCourseNameMap.put(student.course, course.name);
                 }
             }
         }
         
         for (InstructorAttributes instructor : instructors){
-            if(instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
+            if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
                 CourseAttributes course = logic.getCourse(instructor.courseId);
-                if(course != null){
+                if (course != null){
                     data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
                 }
             }
@@ -118,7 +118,7 @@ public class AdminSearchPageAction extends Action {
             
             String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
-            if(!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
+            if (!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
                 String joinLinkWithoutInsititute = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                                 .toAbsoluteString();
@@ -135,7 +135,7 @@ public class AdminSearchPageAction extends Action {
         Logic logic = new Logic();
         for (InstructorAttributes instructor : instructors){
             
-            if(tempCourseIdToInstituteMap.get(instructor.courseId) != null){
+            if (tempCourseIdToInstituteMap.get(instructor.courseId) != null){
                 data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
                 continue;
             }
@@ -143,7 +143,7 @@ public class AdminSearchPageAction extends Action {
             String googleId = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
             AccountAttributes account = logic.getAccount(googleId);           
-            if(account == null){
+            if (account == null){
                 continue;
             }
             
@@ -160,7 +160,7 @@ public class AdminSearchPageAction extends Action {
         
         for (InstructorAttributes instructor : instructors){
             
-            if(instructor.googleId == null){
+            if (instructor.googleId == null){
                 continue;
             }
             
@@ -182,7 +182,7 @@ public class AdminSearchPageAction extends Action {
         
         for (StudentAttributes student : students){
             
-            if(tempCourseIdToInstituteMap.get(student.course) != null){
+            if (tempCourseIdToInstituteMap.get(student.course) != null){
                 data.studentInstituteMap.put(student.getIdentificationString(), tempCourseIdToInstituteMap.get(student.course));
                 continue;
             }
@@ -190,7 +190,7 @@ public class AdminSearchPageAction extends Action {
             String instructorForCoursegoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
             
             AccountAttributes account = logic.getAccount(instructorForCoursegoogleId);           
-            if(account == null){
+            if (account == null){
                 continue;
             }
             
@@ -209,7 +209,7 @@ public class AdminSearchPageAction extends Action {
         
         for (StudentAttributes student : students){
             
-            if(student.googleId == null){
+            if (student.googleId == null){
                 continue;
             }
             
@@ -227,7 +227,7 @@ public class AdminSearchPageAction extends Action {
         
         for (StudentAttributes student : students){
             
-            if(student.course == null ||student.email == null){
+            if (student.course == null ||student.email == null){
                 continue;
             }
             
@@ -259,13 +259,13 @@ public class AdminSearchPageAction extends Action {
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId){
         
-        if(tempCourseIdToInstructorGoogleIdMap.get(courseId) != null){
+        if (tempCourseIdToInstructorGoogleIdMap.get(courseId) != null){
             return tempCourseIdToInstructorGoogleIdMap.get(courseId);
         }
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         
-        if(instructorList == null || instructorList.isEmpty()){
+        if (instructorList == null || instructorList.isEmpty()){
             return "";
         }
 
@@ -317,7 +317,7 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if(fsa.isOpened() == false){
+         if (fsa.isOpened() == false){
              
              if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
                  List<String> submitUrlList = new ArrayList<String>();
@@ -349,8 +349,8 @@ public class AdminSearchPageAction extends Action {
                                     .withStudentEmail(student.email)
                                     .toAbsoluteString();
              
-         if(fsa.isPublished()){
-             if(data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+         if (fsa.isPublished()){
+             if (data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
                  List<String> viewResultUrlList = new ArrayList<String>();
                  viewResultUrlList.add(viewResultUrl);
                  data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);

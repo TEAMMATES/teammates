@@ -33,7 +33,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractGroupReceiverListFileKey();
         
-        if(blobInfo == null){
+        if (blobInfo == null){
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             
@@ -133,7 +133,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             List<String> newList = Arrays.asList(readString.split(","));
             
             
-            if(listOfList.isEmpty()){
+            if (listOfList.isEmpty()){
                 //this is the first time reading
                 listOfList.add(newList);
             } else {
@@ -144,7 +144,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if(!lastStringOfLastAddedList.contains("@")||
+                if (!lastStringOfLastAddedList.contains("@")||
                    !firstStringOfNewList.contains("@")){
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
@@ -184,7 +184,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
             
-            if(blobs != null && blobs.size() > 0) {
+            if (blobs != null && blobs.size() > 0) {
                 BlobInfo groupReceiverListFile = blobs.get(0);
                 return validateGroupReceiverListFile(groupReceiverListFile);
             } else {
@@ -199,7 +199,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     private BlobInfo validateGroupReceiverListFile (BlobInfo groupReceiverListFile) {
         
-        if(!groupReceiverListFile.getContentType().contains("text/")) {
+        if (!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
             data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;
