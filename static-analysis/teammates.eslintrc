@@ -75,24 +75,26 @@
 
         ////////// Best Practices //////////
 
+        "no-else-return": 2,        // disallow else after a return in an if
+        "no-fallthrough": 2,        // disallow fallthrough of case statements
+        "no-lonely-if": 2,          // disallow if as the only statement in an else block
+        "default-case": 2,          // require default case in switch statements
+
         "block-scoped-var": 0,      // treat var statements as if they were block scoped (off by default)
         "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program (off by default)
         "consistent-return": 0,     // require return statements to either always or never specify values
         "curly": 0,                 // specify curly brace conventions for all control statements
-        "default-case": 0,          // require default case in switch statements (off by default)
         "dot-notation": 0,          // encourages use of dot notation whenever possible
         "eqeqeq": 0,                // require the use of === and !==
         "guard-for-in": 0,          // make sure for-in loops have an if statement (off by default)
         "no-alert": 0,              // disallow the use of alert, confirm, and prompt
         "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
         "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression (off by default)
-        "no-else-return": 0,        // disallow else after a return in an if (off by default)
         "no-empty-label": 0,        // disallow use of labels for anything other then loops and switches
         "no-eq-null": 0,            // disallow comparisons to null without a type-checking operator (off by default)
         "no-eval": 0,               // disallow use of eval()
         "no-extend-native": 0,      // disallow adding to native types
         "no-extra-bind": 0,         // disallow unnecessary function binding
-        "no-fallthrough": 0,        // disallow fallthrough of case statements
         "no-floating-decimal": 0,   // disallow the use of leading or trailing decimal points in numeric literals (off by default)
         "no-implied-eval": 0,       // disallow use of eval()-like methods
         "no-iterator": 0,           // disallow usage of __iterator__ property
@@ -186,7 +188,6 @@
         "new-parens": 0,                // disallow the omission of parentheses when invoking a constructor with no arguments
         "no-array-constructor": 0,      // disallow use of the Array constructor
         "no-inline-comments": 0,        // disallow comments inline after code (off by default)
-        "no-lonely-if": 0,              // disallow if as the only statement in an else block (off by default)
         "no-multiple-empty-lines": 0,   // disallow multiple empty lines (off by default)
         "no-nested-ternary": 0,         // disallow nested ternary expressions (off by default)
         "no-new-object": 0,             // disallow use of the Object constructor
