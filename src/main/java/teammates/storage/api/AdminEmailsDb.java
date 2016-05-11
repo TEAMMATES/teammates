@@ -138,7 +138,7 @@ public class AdminEmailsDb extends EntitiesDb {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         List<AdminEmail> entities = getAdminEmailEntities();
         Iterator<AdminEmail> it = entities.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             list.add(new AdminEmailAttributes(it.next()));
         }
         
@@ -195,7 +195,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -228,7 +228,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -258,7 +258,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {

@@ -261,7 +261,7 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while(logic.getCourse(proposedCourseId) != null){
+        while (logic.getCourse(proposedCourseId) != null){
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;

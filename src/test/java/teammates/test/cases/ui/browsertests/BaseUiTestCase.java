@@ -146,7 +146,7 @@ public class BaseUiTestCase extends BaseTestCase {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
@@ -173,7 +173,7 @@ public class BaseUiTestCase extends BaseTestCase {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.removeDataBundleFromDb(testData);
             if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
@@ -199,7 +199,7 @@ public class BaseUiTestCase extends BaseTestCase {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
             if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
@@ -222,7 +222,7 @@ public class BaseUiTestCase extends BaseTestCase {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.putDocuments(testData);
             if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){

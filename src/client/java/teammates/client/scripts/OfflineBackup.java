@@ -133,7 +133,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         Iterator<String> it = coursesList.iterator();
         
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             String courseId = it.next();
             currentFileName = backupFileDirectory + "/" + courseId + ".json";
             FileHelper.appendToFile(currentFileName, "{\n");

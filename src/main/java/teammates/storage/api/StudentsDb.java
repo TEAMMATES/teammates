@@ -329,7 +329,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> list = new LinkedList<StudentAttributes>();
         List<Student> entities = getStudentEntities();
         Iterator<Student> it = entities.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Student student = it.next();
             
             if (!JDOHelper.isDeleted(student)) {

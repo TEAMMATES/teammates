@@ -498,7 +498,7 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes a : dataBundle.accounts.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getAccount(a.googleId);
                 if (retreived == null){
                     break;
@@ -515,7 +515,7 @@ public class BackDoorLogic extends Logic {
         for (CourseAttributes c : dataBundle.courses.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getCourse(c.id);
                 if (retreived == null){
                     break;
@@ -533,7 +533,7 @@ public class BackDoorLogic extends Logic {
         for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
                 if (retreived == null){
                     break;
@@ -554,7 +554,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes s : dataBundle.students.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getStudentForEmail(s.course, s.email);
                 if (retreived == null){
                     break;
@@ -571,7 +571,7 @@ public class BackDoorLogic extends Logic {
         for (InstructorAttributes i : dataBundle.instructors.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
                 if (retreived == null){
                     break;

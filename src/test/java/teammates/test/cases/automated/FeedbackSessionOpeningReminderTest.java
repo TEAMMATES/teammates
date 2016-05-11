@@ -110,7 +110,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         int counter = 0;
 
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionOpeningCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
             if (FeedbackSessionOpeningCallback.verifyTaskCount(2)) {

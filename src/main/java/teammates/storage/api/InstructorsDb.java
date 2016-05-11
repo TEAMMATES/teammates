@@ -272,7 +272,7 @@ public class InstructorsDb extends EntitiesDb {
         List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Instructor instructor = it.next();
             
             if (!JDOHelper.isDeleted(instructor)) {

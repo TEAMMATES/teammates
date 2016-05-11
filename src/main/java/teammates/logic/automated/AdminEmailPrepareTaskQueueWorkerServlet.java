@@ -151,7 +151,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
         //file size is needed to track the number of unread bytes 
-        while(size > 0){
+        while (size > 0){
             //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);

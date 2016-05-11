@@ -116,7 +116,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         verifyPresentInDatastore(session3);
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionClosingCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             //There are only 2 sessions closing reminder to be sent

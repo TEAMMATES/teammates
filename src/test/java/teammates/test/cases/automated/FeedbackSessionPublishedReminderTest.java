@@ -79,7 +79,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("3 sessions unpublished, 1 published and emails unsent");
         int counter = 0;
 
-        while(counter < 10){
+        while (counter < 10){
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
@@ -119,7 +119,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 
         counter = 0;
 
-        while(counter < 10){
+        while (counter < 10){
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
@@ -134,7 +134,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         
         counter = 0;
 
-        while(counter < 10){
+        while (counter < 10){
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();

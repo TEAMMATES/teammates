@@ -90,7 +90,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         int counter = 0;
 
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             feedbackSessionsLogic.publishFeedbackSession(fsa.feedbackSessionName, fsa.courseId);
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
@@ -127,7 +127,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         int counter = 0;
 
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             logic.sendReminderForFeedbackSession(fsa.courseId, fsa.feedbackSessionName);
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
@@ -180,7 +180,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
         int counter = 0;
 
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
@@ -218,7 +218,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         assertFalse(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
@@ -239,7 +239,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         ______TS("1 closing email tasks to be sent");
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails(); // empty session
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){

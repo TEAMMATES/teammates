@@ -142,7 +142,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines += newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
         
@@ -195,7 +195,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines += studentInTeam1.toEnrollmentString();
         
         counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, studentInTeam1.course);
             
