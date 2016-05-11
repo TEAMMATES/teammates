@@ -399,13 +399,11 @@ public class BackDoorLogic extends Logic {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
             FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
-                    response.feedbackSessionName, response.courseId,
-                    qnNumber);
+                    response.feedbackSessionName, response.courseId, qnNumber);
             if (question == null) {
                 throw new EntityDoesNotExistException("question has not persisted yet");
             }
-            response.feedbackQuestionId = 
-                question.getId();
+            response.feedbackQuestionId = question.getId();
             
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.

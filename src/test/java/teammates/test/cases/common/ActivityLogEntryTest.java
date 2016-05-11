@@ -50,7 +50,7 @@ public class ActivityLogEntryTest extends BaseTestCase{
         try {
             ActivityLogEntry.getActionName("instructorCourse");
             signalFailureToDetectException("getActionName should throw an exception if an action cannot be retrieved");
-        } catch (Exception e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             assertEquals("java.lang.ArrayIndexOutOfBoundsException: 2", e.toString());
         }
     }
