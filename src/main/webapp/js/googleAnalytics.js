@@ -1,3 +1,4 @@
+  /* eslint-disable no-underscore-dangle */
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-37652587-1']);
   _gaq.push(['_trackPageview']);

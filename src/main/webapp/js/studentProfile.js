@@ -40,6 +40,7 @@ $(function() {
             //
             // It utilizes an internal method from the library (_offset)
             // to update the (top, left) offset values for the image.
+            /* eslint-disable no-underscore-dangle */
             $('#profilePicEditPanUp').click(function() {
                 var data = picture.guillotine('getData');
                 picture.guillotine('instance')._offset(data.x / data.w, (data.y - 10) / data.h);
@@ -56,6 +57,7 @@ $(function() {
                 var data = picture.guillotine('getData');
                 picture.guillotine('instance')._offset(data.x / data.w, (data.y + 10) / data.h);
             });
+            /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
             if ($('#profilePic').attr('data-edit') == "true") {
