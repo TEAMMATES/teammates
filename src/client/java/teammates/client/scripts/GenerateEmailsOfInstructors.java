@@ -42,7 +42,7 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
         }
         
         // Last one
-        System.out.println(instructorAccounts.get(instructorAccounts.size()-1).getEmail());
+        System.out.println(instructorAccounts.get(instructorAccounts.size() - 1).getEmail());
     }
     
 }

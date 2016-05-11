@@ -2165,7 +2165,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             tableString += "}},";
         }
         if (!tableString.isEmpty()) {
-            tableString = tableString.substring(0, tableString.length()-1);
+            tableString = tableString.substring(0, tableString.length() - 1);
         }
         return tableString;
     }

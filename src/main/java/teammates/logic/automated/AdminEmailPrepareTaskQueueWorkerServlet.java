@@ -172,7 +172,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 listOfList.add(newList);        
             } else {
                 //check if the last reading stopped in the middle of a email address string
-                List<String> lastAddedList = listOfList.get(listOfList.size() -1);
+                List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
                 //get the last item of the list from last reading
                 String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
                 //get the first item of the list from current reading
@@ -183,7 +183,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
                    //simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() -1)
+                   listOfList.get(listOfList.size() - 1)
                              .set(lastAddedList.size() - 1,
                                   lastStringOfLastAddedList + 
                                   firstStringOfNewList);

@@ -458,7 +458,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 "e@y", 
                 "");
         
-        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
+        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6)+"@c.gov";
         testOnce("valid: max length", 
                 FieldType.EMAIL, 
                 maxLengthValue, 

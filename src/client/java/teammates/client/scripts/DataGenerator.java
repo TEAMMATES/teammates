@@ -208,7 +208,7 @@ public class DataGenerator {
             output+="\t"+account(email);
             output+=",\n";
         }
-        output = output.substring(0, output.length()-2);
+        output = output.substring(0, output.length() - 2);
         output+= "\n},";
         return output;
     }
@@ -224,7 +224,7 @@ public class DataGenerator {
             output+="\t"+instructor(instructor, "googleIdOf_"+instructor, "courseIdOf_"+course, "nameOf_"+instructor, "emailOf_"+instructor+"@gmail.com");
             output+=",\n";
         }
-        output = output.substring(0, output.length()-2);
+        output = output.substring(0, output.length() - 2);
         output+= "\n},";
         return output;
     }
@@ -237,7 +237,7 @@ public class DataGenerator {
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX+courses.get(i);
             output+="\t"+course(course, "courseIdOf_"+course, "nameOf_"+course);
-            if (i!=courses.size()-1)
+            if (i!=courses.size() - 1)
                 output+=",\n";
         }
         output+= "\n},";
@@ -257,7 +257,7 @@ public class DataGenerator {
             String email = studentEmails.get(Integer.parseInt(index));
             output+="\t"+student(student, email, "Student "+index+ " in " +course,
                     "Team "+team, email.split("@")[0], "comment", "courseIdOf_"+course, "profile");
-            if (i!=students.size()-1)
+            if (i!=students.size() - 1)
                 output+=",\n";
         }
         output+= "\n},";

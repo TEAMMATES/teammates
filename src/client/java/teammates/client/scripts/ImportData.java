@@ -60,7 +60,7 @@ public class ImportData {
                 System.out.print("\n Finish!");
                 break;
             }
-            long elapsedTimeMillis = System.currentTimeMillis()-start;
+            long elapsedTimeMillis = System.currentTimeMillis() - start;
 
             // Get elapsed time in seconds of the current request
             float elapsedTimeSec = elapsedTimeMillis / 1000F;

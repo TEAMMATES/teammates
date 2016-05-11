@@ -446,7 +446,7 @@ public class StudentsLogic {
         int studentsCount = 1;
         for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
-            StudentAttributes previousStudent = mergedList.get(i-1);
+            StudentAttributes previousStudent = mergedList.get(i - 1);
             if (currentStudent.section.equals(previousStudent.section)){
                 studentsCount++;
             } else {
@@ -476,7 +476,7 @@ public class StudentsLogic {
         List<String> invalidTeamList = new ArrayList<String>();
         for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
-            StudentAttributes previousStudent = mergedList.get(i-1);
+            StudentAttributes previousStudent = mergedList.get(i - 1);
             if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
                 if (!invalidTeamList.contains(currentStudent.team)){
                     invalidTeamList.add(currentStudent.team);    

@@ -528,7 +528,7 @@ public class ActivityLogEntry {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
@@ -549,7 +549,7 @@ public class ActivityLogEntry {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
