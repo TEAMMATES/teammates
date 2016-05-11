@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,16 +16,15 @@ public class FileDownloadResult extends ActionResult {
     String fileName ="";
 
     public FileDownloadResult(String destination, AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
     }
     
     public FileDownloadResult(
             String destination, AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest, List<StatusMessage> status, 
+            List<StatusMessage> status, 
             String fileName, String fileContent) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
         this.fileName = fileName;
         this.fileContent = fileContent;
     }

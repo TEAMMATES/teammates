@@ -55,8 +55,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testGetCourse();
         testGetArchivedCoursesForInstructor();
         testGetCoursesForInstructor();
-        testIsSampleCourse() ;
-        testIsCoursePresent() ;
+        testIsSampleCourse();
+        testIsCoursePresent();
         testVerifyCourseIsPresent();
         testSetArchiveStatusOfCourse();
         testGetCourseSummary();
@@ -77,7 +77,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testCreateCourse();
         testCreateCourseAndInstructor();
         testGetCourseIdToSectionNamesMap();
-        testDeleteCourse() ;
+        testDeleteCourse();
     }
 
 

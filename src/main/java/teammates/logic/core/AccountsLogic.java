@@ -174,11 +174,11 @@ public class AccountsLogic {
     private void joinCourseForInstructorWithInstitute(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
-        confirmValidJoinCourseRequest(encryptedKey, googleId, institute);
+        confirmValidJoinCourseRequest(encryptedKey, googleId);
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute ) ;
+        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute );
         
         if (account == null){
             createAccount(new AccountAttributes(googleId,
@@ -205,7 +205,7 @@ public class AccountsLogic {
     /**
      * @throws JoinCourseException if the request is invalid. Do nothing otherwise.
      */
-    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId, String institute)
+    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
         //The order in which these confirmations are done is important. Reorder with care.
@@ -213,7 +213,7 @@ public class AccountsLogic {
         
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId, institute);
+        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
         confirmUnusedKey(instructorForKey, googleId);
         confirmNotRejoiningUsingDifferentKey(instructorForKey, googleId);
         
@@ -246,7 +246,7 @@ public class AccountsLogic {
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
      */
-    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId, String institute) 
+    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) 
             throws JoinCourseException {
         if(instructorForKey.googleId ==null || !instructorForKey.googleId.equals(googleId)){
             return;

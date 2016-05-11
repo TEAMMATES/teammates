@@ -39,7 +39,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
-            int numOfConstSumOptions, List<String> constSumOptions,
+            List<String> constSumOptions,
             boolean pointsPerOption, int points, boolean unevenDistribution) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
         
@@ -69,7 +69,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         
-        int numOfConstSumOptions = 0;
         List<String> constSumOptions = new LinkedList<String>();
         String distributeToRecipientsString = null;
         String pointsPerOptionString = null;
@@ -103,14 +102,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     numOfConstSumOptions++;
                 }
             }
-            this.setConstantSumQuestionDetails(numOfConstSumOptions, constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
         } else {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
         }
         return true;
     }
 
-    private void setConstantSumQuestionDetails(int numOfConstSumOptions,
+    private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
             int points, boolean unevenDistribution) {
         
@@ -461,7 +460,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for(FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
             
-            for (int i = 0 ; i < frd.getAnswerList().size(); i++) {
+            for (int i = 0; i < frd.getAnswerList().size(); i++) {
                 String optionReceivingPoints = distributeToRecipients ? 
                                                response.recipientEmail : 
                                                String.valueOf(i);

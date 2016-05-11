@@ -644,7 +644,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
             throws EntityDoesNotExistException{
         
-       return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null , range, viewType);
+       return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null, range, viewType);
     }
 
     /**
@@ -2129,8 +2129,8 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
                     .get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
-                boolean isVisibleResponse = isResponseVisibleForUser(userEmail, courseId,
-                        role, section, student, studentsEmailInTeam, response,
+                boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
+                        role, student, studentsEmailInTeam, response,
                         relatedQuestion, instructor);
                 if (isVisibleResponse) {
                     responses.add(response);
@@ -2228,8 +2228,8 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private boolean isResponseVisibleForUser(String userEmail, String courseId,
-            UserType.Role role, String section, StudentAttributes student,
+    private boolean isResponseVisibleForUser(String userEmail, 
+            UserType.Role role, StudentAttributes student,
             Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {

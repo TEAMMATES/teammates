@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,24 +20,21 @@ public class AjaxResult extends ActionResult {
     
     public AjaxResult(String destination, 
                       AccountAttributes account, 
-                      Map<String, String[]> parametersFromPreviousRequest, 
                       List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
     }
 
     public AjaxResult(AccountAttributes account,
-                      Map<String, String[]> parametersFromPreviousRequest,
                       List<StatusMessage> status, 
                       PageData data) {
-        super("", account, parametersFromPreviousRequest, status);
+        super("", account, status);
         this.data = data;
     }
     
     public AjaxResult(AccountAttributes account,
-                      Map<String, String[]> parametersFromPreviousRequest,
                       List<StatusMessage> status, 
                       PageData data, boolean isClearingStatusMessage) {
-          this(account, parametersFromPreviousRequest, status, data);
+          this(account, status, data);
           this.isClearingStatusMessage = isClearingStatusMessage;
     }
     

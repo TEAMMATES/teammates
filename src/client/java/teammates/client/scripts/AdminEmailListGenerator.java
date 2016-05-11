@@ -260,7 +260,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                         continue;
                     }
                     w.write(email + ",");
-                    studentEmailCount ++;
+                    studentEmailCount++;
                 }
             } 
             
@@ -271,7 +271,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                         continue;
                     }
                     w.write(email + ",");
-                    instructorEmailCount ++;
+                    instructorEmailCount++;
                 }
             }
             
@@ -521,7 +521,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private void updateProgressIndicator(){
-        iterationCounter ++;       
+        iterationCounter++;       
         if(iterationCounter%1000 == 0){           
             System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
         }

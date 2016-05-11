@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +19,8 @@ public class ImageResult extends ActionResult {
     public String blobKey;
     
     public ImageResult(String destination, String blobKey, AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
         this.blobKey = blobKey;
     }
 
