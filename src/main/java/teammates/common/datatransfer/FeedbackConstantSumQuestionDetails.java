@@ -186,7 +186,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${constSumOptionVisibility}", distributeToRecipients? "style=\"display:none\"" : "",
+                "${constSumOptionVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
                 "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
                 "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
@@ -243,7 +243,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${constSumOptionVisibility}", distributeToRecipients? "style=\"display:none\"" : "",
+                "${constSumOptionVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
                 "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
                 "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
@@ -331,7 +331,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         }
         //Point information
-        additionalInfo += pointsPerOption? "Points per "+(distributeToRecipients?"recipient" : "option")+": " + points : "Total points: " + points;
+        additionalInfo += pointsPerOption ? "Points per "+(distributeToRecipients ? "recipient" : "option")+": " + points : "Total points: " + points;
 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -441,7 +441,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
         }
         
-        csv += (distributeToRecipients? "Team, Recipient" : "Option") + ", Average Points" + Const.EOL; 
+        csv += (distributeToRecipients ? "Team, Recipient" : "Option") + ", Average Points" + Const.EOL; 
         csv += fragments + Const.EOL;
         
         return csv;
@@ -611,8 +611,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         numRecipients = numOfResponseSpecific;
         
-        int numOptions = distributeToRecipients? numRecipients : constSumOptions.size();
-        int totalPoints = pointsPerOption? points*numOptions : points;
+        int numOptions = distributeToRecipients ? numRecipients : constSumOptions.size();
+        int totalPoints = pointsPerOption ? points*numOptions : points;
         int sum = 0;
         for (FeedbackResponseAttributes response : responses){
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();

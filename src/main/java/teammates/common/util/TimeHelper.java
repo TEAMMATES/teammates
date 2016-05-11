@@ -386,7 +386,7 @@ public class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds){
      
-        return timeInMilliseconds != null? String.format("%d:%d:%d",
+        return timeInMilliseconds != null ? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";

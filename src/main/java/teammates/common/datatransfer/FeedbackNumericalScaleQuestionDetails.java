@@ -383,7 +383,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user name with "You"
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? "You" : "Your Team (" + currentUserTeam + ")";
+            return isRecipientTypeStudent ? "You" : "Your Team (" + currentUserTeam + ")";
         }
         
         // Replace general identifier with "General"
@@ -401,7 +401,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user team with "" when recipient type is not student
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? currentUserTeam : "";
+            return isRecipientTypeStudent ? currentUserTeam : "";
         }
         
         // Display other recipients' team name

@@ -22,7 +22,7 @@ public class AdminEmailComposePageAction extends Action {
         if (isEmailEdit){
             
             data.emailToEdit = logic.getAdminEmailById(idOfEmailToEdit);             
-            statusToAdmin = data.emailToEdit == null? 
+            statusToAdmin = data.emailToEdit == null ? 
                             "adminEmailComposePage Page Load : " + Const.StatusMessages.EMAIL_NOT_FOUND :
                             "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() +"]";
             

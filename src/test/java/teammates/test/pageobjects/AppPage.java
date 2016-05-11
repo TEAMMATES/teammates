@@ -584,7 +584,7 @@ public abstract class AppPage {
      * status message in the page.
      */
     public String getStatus() {
-        return statusMessage == null? "" : statusMessage.getText();
+        return statusMessage == null ? "" : statusMessage.getText();
     }
 
     /** 

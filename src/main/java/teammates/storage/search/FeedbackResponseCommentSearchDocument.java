@@ -146,23 +146,23 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name : "").append(delim);
+        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
         searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
         searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
         searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
         searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
         searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name : "").append(delim);
+        searchableTextBuilder.append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim);
         searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);
         searchableTextBuilder.append(comment.commentText.getValue());
         
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
-        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion ? 
                     relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) : 
                         comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
-        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
+        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion ? 
                     relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) : 
                         comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
@@ -192,7 +192,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName +" "+ giverAsInstructor.name : comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName +" "+ giverAsInstructor.name : comment.giverEmail)))
             .setId(comment.getId().toString())
             .build();
         return doc;

@@ -923,7 +923,7 @@ public class FeedbackSessionsLogic {
                         possibleRecipientsForGiver, prevGiver));
                 
                 
-                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
+                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS) ? 
                                     fsrBundle.getFullNameFromRoster(response.giverEmail) :
                                     response.giverEmail;
                 

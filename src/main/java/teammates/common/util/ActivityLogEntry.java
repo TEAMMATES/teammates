@@ -226,17 +226,17 @@ public class ActivityLogEntry {
                 role = "Student";
             } else if (userType.isInstructor && userType.isStudent && !userType.isAdmin){
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
-                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else if (userType.isAdmin){
                 role = "Admin";
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : role;
                 role = servletName.toLowerCase().startsWith("student") ? "Student" : role;
-                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else {
                 role = "Unregistered";
             }
             
-            role = role + (isMasquerade? "(M)" : "");
+            role = role + (isMasquerade ? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;

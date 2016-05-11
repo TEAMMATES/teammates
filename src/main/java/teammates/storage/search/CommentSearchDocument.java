@@ -108,9 +108,9 @@ public class CommentSearchDocument extends SearchDocument {
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name : "").append(delim);
+        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
         searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name : "").append(delim);
+        searchableTextBuilder.append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim);
         searchableTextBuilder.append(recipientsBuilder.toString()).append(delim);
         searchableTextBuilder.append(comment.commentText.getValue());
         
@@ -126,7 +126,7 @@ public class CommentSearchDocument extends SearchDocument {
             //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
                     new Gson().toJson(commentRecipientNameBuilder.toString())))
             .setId(comment.getCommentId().toString())

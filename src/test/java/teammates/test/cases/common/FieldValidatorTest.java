@@ -685,7 +685,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 fieldType,
                 "course name of the student",
                 emptyValue, 
-                emptyStringAllowed? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+                emptyStringAllowed ? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {
