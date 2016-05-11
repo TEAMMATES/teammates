@@ -78,7 +78,7 @@ public class CourseRosterTest extends BaseTestCase{
 
     private List<StudentAttributes> createStudentList(String... studentData) {
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-        for (int i = 0; i < studentData.length; i=i+2) {
+        for (int i = 0; i < studentData.length; i += 2) {
             StudentAttributes student = new StudentAttributes();
             student.team = studentData[i];
             student.email = studentData[i+1];
@@ -89,7 +89,7 @@ public class CourseRosterTest extends BaseTestCase{
     
     private List<InstructorAttributes> createInstructorList(String... instructorData) {
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
-        for (int i = 0; i < instructorData.length; i=i+2) {
+        for (int i = 0; i < instructorData.length; i += 2) {
             @SuppressWarnings("deprecation")
             InstructorAttributes instructor = new InstructorAttributes("googleId", "courseId", instructorData[i], instructorData[i+1]);
             instructors.add(instructor);

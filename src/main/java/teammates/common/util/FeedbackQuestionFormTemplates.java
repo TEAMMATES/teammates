@@ -85,7 +85,7 @@ public class FeedbackQuestionFormTemplates {
      */
     public static String populateTemplate(String template, String... values) {
         String populatedTemplate = template;
-        for(int i=0; i < values.length; i += 2) {
+        for(int i = 0; i < values.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(values[i], values[i+1]);
         }
         

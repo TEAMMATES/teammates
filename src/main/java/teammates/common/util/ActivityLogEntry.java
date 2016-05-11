@@ -274,7 +274,7 @@ public class ActivityLogEntry {
     
     
     public String getIconRoleForShow(){
-        String iconRole="";
+        String iconRole = "";
         
         if(role.contains("Instructor")){   
            

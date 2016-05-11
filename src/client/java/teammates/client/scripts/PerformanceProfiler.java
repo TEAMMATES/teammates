@@ -80,7 +80,7 @@ public class PerformanceProfiler extends Thread{
 
     public void run() {
         //Data used for profiling
-        String jsonString= "";
+        String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
         } catch (FileNotFoundException e1) {
@@ -90,11 +90,11 @@ public class PerformanceProfiler extends Thread{
 
         //Import previous results
         try {
-            results =importReportFile(reportFilePath);
+            results = importReportFile(reportFilePath);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        for (int i =0; i< NUM_OF_RUNS; i++)
+        for (int i = 0; i< NUM_OF_RUNS; i++)
         {
             browser = BrowserPool.getBrowser();
             //overcome initial loading time with the below line
@@ -145,7 +145,7 @@ public class PerformanceProfiler extends Thread{
                     long startTime = System.nanoTime();
                     Object retVal = (String)method.invoke(this);
                     long endTime = System.nanoTime();
-                    duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
+                    duration = (float) ((endTime - startTime)/1000000.0); //in miliSecond
                     System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
                 } else if (type.equals(Long.class) && customTimer)
                 {
@@ -206,7 +206,7 @@ public class PerformanceProfiler extends Thread{
         while ((strLine = br.readLine()) != null)
         {
             System.out.println (strLine);
-            String[] strs= strLine.split("\\|");
+            String[] strs = strLine.split("\\|");
             
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");

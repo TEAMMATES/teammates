@@ -18,7 +18,7 @@ public class FeedbackConstantSumResponseDetails extends
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
-        for(int i=0; i<answer.length; i++){
+        for(int i = 0; i<answer.length; i++){
             try{
                 constSumAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
@@ -50,7 +50,7 @@ public class FeedbackConstantSumResponseDetails extends
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
             htmlBuilder.append("<ul>");
-            for (int i=0; i<answers.size(); i++) {
+            for (int i = 0; i<answers.size(); i++) {
                 String answerString = answers.get(i).toString();
                 String optionString = csQd.constSumOptions.get(i);
                 
@@ -67,7 +67,7 @@ public class FeedbackConstantSumResponseDetails extends
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
         
-        for(int i=0; i<answers.size(); i++) {
+        for(int i = 0; i<answers.size(); i++) {
             if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
                 csvBuilder.append(",");
             }

@@ -34,8 +34,8 @@ public class Account {
     @Persistent
     private Date createdAt;
     
-    @Persistent(dependent="true", defaultFetchGroup="false")
-    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    @Persistent(dependent = "true", defaultFetchGroup = "false")
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private StudentProfile studentProfile;
 
     /**

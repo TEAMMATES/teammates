@@ -32,7 +32,7 @@ public class ImportData {
     
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST =1000;//ms
+    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000;//ms
     
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -80,7 +80,7 @@ public class ImportData {
     private static String persist(@SuppressWarnings("rawtypes") HashMap map)
     {
         DataBundle bundle = new DataBundle();
-        int count =0;
+        int count = 0;
         @SuppressWarnings("unchecked")
         Set<String> set = map.keySet();
         @SuppressWarnings("rawtypes")
