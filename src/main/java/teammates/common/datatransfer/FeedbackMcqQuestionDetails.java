@@ -209,7 +209,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();;
+        List<String> optionList = new ArrayList<String>();
 
         switch(generateOptionsFor){
             case NONE:

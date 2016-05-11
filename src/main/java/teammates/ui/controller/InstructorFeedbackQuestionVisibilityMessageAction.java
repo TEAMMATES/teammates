@@ -93,7 +93,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     private static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
         List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
 
-        if (participantListParam.isEmpty() || participantListParam == null) {
+        if (participantListParam == null || participantListParam.isEmpty()) {
             // null not covered, even when set to null, action receives it as an empty string
             return participantList;
         }
