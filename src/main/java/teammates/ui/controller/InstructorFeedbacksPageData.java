@@ -272,7 +272,7 @@ public class InstructorFeedbacksPageData extends PageData {
             if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 ElementTag option = createOption(course.id, course.id,  
-                                                 (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));
+                                                 isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse);
                 result.add(option);
             }
         }

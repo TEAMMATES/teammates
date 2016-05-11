@@ -1823,7 +1823,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfResponses() {
-        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected())
+        return viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected()
              || !bundle.isComplete;
     }
     

@@ -139,10 +139,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
     }
     
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
              || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
+             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 }

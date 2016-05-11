@@ -294,10 +294,10 @@ public class FeedbackResponseCommentsLogic {
         
         boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
                 userIsStudent 
-                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                    && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                  FeedbackParticipantType.RECEIVER))
-                && response.recipientEmail.equals(student.team));
+                && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.RECEIVER)
+                && response.recipientEmail.equals(student.team);
         boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
