@@ -423,7 +423,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     private void verifyExceptionThrownFromCreateFrComment(
             CommentAttributes comment, String message) 
             throws InvalidParametersException, EntityAlreadyExistsException {
-        try{
+        try {
             commentsLogic.createComment(comment);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
@@ -433,7 +433,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyExceptionThrownFromGetCommentsForGiver(
             CommentAttributes comment, String message) {
-        try{
+        try {
             commentsLogic.getCommentsForGiver(comment.courseId, comment.giverEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
@@ -443,7 +443,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyExceptionThrownFromGetCommentsForReceiver(
             CommentAttributes comment, String message) {
-        try{
+        try {
             commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType, comment.recipients.iterator().next());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
@@ -453,7 +453,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
 
     private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
             throws EntityDoesNotExistException {
-        try{
+        try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(message, e.getMessage());

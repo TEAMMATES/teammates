@@ -27,7 +27,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
-        try{
+        try {
             int index = 0;
             /*
             for (StudentAttributes student : largeScaleBundle.students.values()){

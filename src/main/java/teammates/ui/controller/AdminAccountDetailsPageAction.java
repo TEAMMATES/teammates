@@ -21,7 +21,7 @@ public class AdminAccountDetailsPageAction extends Action {
         AccountAttributes accountInformation = logic.getAccount(googleId);
 
         List<CourseDetailsBundle> instructorCourseList;
-        try{
+        try {
             instructorCourseList = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(googleId).values());
         } catch (EntityDoesNotExistException e){
             //Not an instructor of any course
@@ -29,7 +29,7 @@ public class AdminAccountDetailsPageAction extends Action {
         }
         
         List<CourseAttributes> studentCourseList;
-        try{
+        try {
             studentCourseList = logic.getCoursesForStudentAccount(googleId);
         } catch (EntityDoesNotExistException e) {
             //Not a student of any course

@@ -31,7 +31,7 @@ public class InstructorCommentsPage extends AppPage {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
-        try{
+        try {
             String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
             waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
         } catch (StaleElementReferenceException e){

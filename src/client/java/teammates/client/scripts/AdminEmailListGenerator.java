@@ -166,7 +166,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return null;
         }
         
-        try{
+        try {
             String[] split = dateString.split("/");
             int day = Integer.parseInt(split[0]);
             int month = Integer.parseInt(split[1]);
@@ -246,7 +246,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
                                          HashSet<String> instructorEmailSet){
         
-        try{
+        try {
         
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
             FileOutputStream fos = new FileOutputStream(newFile);

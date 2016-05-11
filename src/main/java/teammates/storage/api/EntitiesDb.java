@@ -304,7 +304,7 @@ public abstract class EntitiesDb {
     
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document){
-        try{
+        try {
             SearchManager.putDocument(indexName, document.build());
         } catch (Exception e){
             log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
@@ -316,7 +316,7 @@ public abstract class EntitiesDb {
     }
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        try{
+        try {
             if(query.getFilterSize() > 0){
                 return SearchManager.searchDocuments(indexName, query.toQuery());
             } else {
@@ -329,7 +329,7 @@ public abstract class EntitiesDb {
     }
     
     protected void deleteDocument(String indexName, String documentId){
-        try{
+        try {
             SearchManager.deleteDocument(indexName, documentId);
         } catch (Exception e){
             log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);

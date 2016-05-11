@@ -19,7 +19,7 @@ public class FeedbackConstantSumResponseDetails extends
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
         for (int i = 0; i < answer.length; i++){
-            try{
+            try {
                 constSumAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
                 constSumAnswer.add(0);

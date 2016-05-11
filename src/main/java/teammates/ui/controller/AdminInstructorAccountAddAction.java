@@ -189,7 +189,7 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         
-        try{
+        try {
             backdoor.persistDataBundle(data);        
         } catch (EntityDoesNotExistException | NullPointerException e){
             int elapsedTime = 0;

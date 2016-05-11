@@ -1798,7 +1798,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("failure: already published");
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1822,7 +1822,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure: not published");
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1835,7 +1835,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
 
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1845,7 +1845,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Private session can't be published.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1859,7 +1859,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         sessionUnderTest.feedbackSessionName = "non-existant session";
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1868,7 +1868,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Trying to publish a non-existant session.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                     sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(

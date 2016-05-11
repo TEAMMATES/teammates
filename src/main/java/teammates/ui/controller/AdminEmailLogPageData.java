@@ -86,7 +86,7 @@ public class AdminEmailLogPageData extends PageData {
     public void generateQueryParameters(String query){
         query = query.toLowerCase();
         
-        try{
+        try {
             q = parseQuery(query);
         } catch (Exception e){
             this.queryMessage = "Error with the query: " + e.getMessage();

@@ -152,7 +152,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         accountToCreate = new AccountAttributes("", "name",
                 true, "test@email", "dev", spa);
-        try{
+        try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
         } catch (InvalidParametersException e){

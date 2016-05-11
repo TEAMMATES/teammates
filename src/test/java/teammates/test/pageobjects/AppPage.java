@@ -707,7 +707,7 @@ public abstract class AppPage {
      * @return True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
-        try{
+        try {
             browser.driver.findElement(By.id(elementId));
             return true;
         } catch (NoSuchElementException e) {
@@ -716,7 +716,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementVisible(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -724,7 +724,7 @@ public abstract class AppPage {
     }
 
     public boolean isElementVisible(By by) {
-        try{
+        try {
             return browser.driver.findElement(by).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -732,7 +732,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementVisible(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -740,7 +740,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementEnabled(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -748,7 +748,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementEnabled(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -756,7 +756,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementSelected(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isSelected();
         } catch (NoSuchElementException e) {
             return false;
