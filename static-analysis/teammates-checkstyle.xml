@@ -9,7 +9,7 @@
     </module>
     <module name="NoWhitespaceBefore"/>
     <module name="WhitespaceAround">
-      <property name="tokens" value="ASSIGN"/>
+      <property name="tokens" value="ASSIGN,BAND"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>
