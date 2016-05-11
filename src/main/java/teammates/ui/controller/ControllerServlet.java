@@ -119,7 +119,7 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
+        } catch (Throwable e) { // NOPMD, used as fallback
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
