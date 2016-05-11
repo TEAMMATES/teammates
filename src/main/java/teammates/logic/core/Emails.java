@@ -82,8 +82,7 @@ public class Emails {
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {
         StringBuilder messageInfo = new StringBuilder(100);
-        messageInfo.append("[Email sent]");
-        messageInfo.append("to=")
+        messageInfo.append("[Email sent]to=")
                    .append(message.getRecipients(Message.RecipientType.TO)[0]
                                 .toString());
         messageInfo.append("|from=").append(message.getFrom()[0].toString());
@@ -93,8 +92,7 @@ public class Emails {
     
     public static String getEmailInfo(Sendgrid message) {
         StringBuilder messageInfo = new StringBuilder(100);
-        messageInfo.append("[Email sent]");
-        messageInfo.append("to=").append(message.getTos().get(0));
+        messageInfo.append("[Email sent]to=").append(message.getTos().get(0));
         messageInfo.append("|from=").append(message.getFrom());
         messageInfo.append("|subject=").append(message.getSubject());
         return messageInfo.toString();

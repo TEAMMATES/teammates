@@ -859,14 +859,18 @@ public class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder(100);
 
-        exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);
+        exportBuilder.append(String.format("Course,%s", Sanitizer.sanitizeForCsv(results.feedbackSession.courseId)))
+                     .append(Const.EOL)
+                     .append(String.format("Session Name,%s", 
+                             Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)))
+                     .append(Const.EOL);
         
         if(section != null){
-            exportBuilder.append("Section Name" + "," + Sanitizer.sanitizeForCsv(section) + Const.EOL);
+            exportBuilder.append(String.format("Section Name,%s", Sanitizer.sanitizeForCsv(section)))
+                         .append(Const.EOL);
         }
 
-        exportBuilder.append(Const.EOL + Const.EOL);
+        exportBuilder.append(Const.EOL).append(Const.EOL);
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {

@@ -93,7 +93,7 @@ public abstract class SearchQuery {
 
         if(keywords.size() < 1) return "";
         
-        StringBuilder preparedQueryString = new StringBuilder("("+ "\"" + keywords.get(0) + "\"");
+        StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         
         for(int i = 1; i < keywords.size(); i++){
             preparedQueryString.append(OR).append("\"" + keywords.get(i) + "\"");

@@ -314,11 +314,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
         if(this.generateOptionsFor != FeedbackParticipantType.NONE){
-            optionListHtml.append("<br>"
-                                + "The options for this question is "
-                                + "automatically generated from the list of all "
-                                + generateOptionsFor.toString().toLowerCase()
-                                + " in this course.");
+            String optionHelpText = String.format(
+                "<br>The options for this question is automatically generated from the list of all %s in this course.", 
+                generateOptionsFor.toString().toLowerCase());
+            optionListHtml.append(optionHelpText);
         }
         
         if (numOfMcqChoices > 0) {
