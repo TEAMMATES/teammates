@@ -86,7 +86,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private boolean isTestingInstructorData(Instructor instructor){
         boolean isTestingData = false;
         
-        if (instructor.getEmail()!=null && instructor.getEmail().toLowerCase().endsWith(".tmt")){
+        if (instructor.getEmail() != null && instructor.getEmail().toLowerCase().endsWith(".tmt")){
             isTestingData = true;
         }       
         

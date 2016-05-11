@@ -101,11 +101,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (emailListConfig.studentCreatedDateRangeStart !=null){
+        if (emailListConfig.studentCreatedDateRangeStart != null){
             System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart.toString() + "\n");
         }
         
-        if (emailListConfig.studentCreatedDateRangeEnd !=null){
+        if (emailListConfig.studentCreatedDateRangeEnd != null){
             System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd.toString() + "\n");
         }
         
@@ -129,11 +129,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (emailListConfig.instructorCreatedDateRangeStart !=null){
+        if (emailListConfig.instructorCreatedDateRangeStart != null){
             System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart.toString() + "\n");
         } 
         
-        if (emailListConfig.instructorCreatedDateRangeEnd !=null){
+        if (emailListConfig.instructorCreatedDateRangeEnd != null){
             System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd.toString() + "\n");
         }
        

@@ -32,20 +32,20 @@ public class LoginServlet extends HttpServlet {
             throws IOException, ServletException{
         Logic server = new Logic();
         UserType user = server.getCurrentUser();
-        if (req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
+        if (req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR) != null){
             if (isMasqueradeMode(user)){
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else {
                 resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
             }
-        } else if (req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
+        } else if (req.getParameter(Const.ParamsNames.LOGIN_STUDENT) != null){
             if (isMasqueradeMode(user)){
                 resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
             } else {
                 resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
             }
         //TODO: do we need this branch?
-        } else if (req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
+        } else if (req.getParameter(Const.ParamsNames.LOGIN_ADMIN) != null){
             if (isMasqueradeMode(user)){
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
@@ -57,6 +57,6 @@ public class LoginServlet extends HttpServlet {
     }
 
     private boolean isMasqueradeMode(UserType user) {
-        return user!=null;
+        return user != null;
     }
 }

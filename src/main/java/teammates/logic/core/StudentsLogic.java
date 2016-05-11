@@ -177,7 +177,7 @@ public class StudentsLogic {
     }
 
     public boolean isStudentInAnyCourse(String googleId) {
-        return studentsDb.getStudentsForGoogleId(googleId).size()!=0;
+        return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
     }
 
     public boolean isStudentInCourse(String courseId, String studentEmail) {
