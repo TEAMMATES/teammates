@@ -24,8 +24,8 @@
    <rule ref="rulesets/java/basic.xml/JumbledIncrementer"/>
    <rule ref="rulesets/java/basic.xml/MisplacedNullCheck"/>
    <rule ref="rulesets/java/basic.xml/OverrideBothEqualsAndHashcode"/>
-   <!--<rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/UnconditionalIfStatement"/>-->
+   <rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock"/>
+   <rule ref="rulesets/java/basic.xml/UnconditionalIfStatement"/>
    <!--<rule ref="rulesets/java/clone.xml/CloneMethodMustImplementCloneable"/>-->
    <!--<rule ref="rulesets/java/clone.xml/CloneThrowsCloneNotSupportedException"/>-->
    <!--<rule ref="rulesets/java/clone.xml/ProperCloneImplementation"/>-->
