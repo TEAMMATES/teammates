@@ -172,7 +172,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
+            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;

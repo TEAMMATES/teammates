@@ -117,10 +117,10 @@
    <!--<rule ref="rulesets/java/design.xml/UseUtilityClass"/>-->
    <!--<rule ref="rulesets/java/design.xml/UseVarargs"/>-->
    <!--<rule ref="rulesets/java/basic.xml/EmptyCatchBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyFinallyBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyInitializer"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyStatementBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyStatementNotInLoop"/>-->
+   <rule ref="rulesets/java/basic.xml/EmptyFinallyBlock"/>
+   <rule ref="rulesets/java/basic.xml/EmptyInitializer"/>
+   <rule ref="rulesets/java/basic.xml/EmptyStatementBlock"/>
+   <rule ref="rulesets/java/basic.xml/EmptyStatementNotInLoop"/>
    <!--<rule ref="rulesets/java/basic.xml/EmptyStaticInitializer"/>-->
    <!--<rule ref="rulesets/java/basic.xml/EmptySwitchStatements"/>-->
    <!--<rule ref="rulesets/java/basic.xml/EmptySynchronizedBlock"/>-->
