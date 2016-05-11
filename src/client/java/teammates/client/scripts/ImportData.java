@@ -66,7 +66,7 @@ public class ImportData {
             float elapsedTimeSec = elapsedTimeMillis / 1000F;
             System.out.print(status + " in "+elapsedTimeSec +" s\n");
 
-        }while (true);
+        } while (true);
         
     }
     
