@@ -1,6 +1,7 @@
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
+var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage'
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -947,9 +948,9 @@ function showWarningModal(title, message, okButtonText) {
 }
 
 function hasWarningMessage() {
-    return (Boolean) ($('.alert-warning, .statusMessage'));
+    return $(WARNING_STATUS_MESSAGE).length;
 }
 
 function getWarningMessage() {
-    return $('.alert-warning, .statusMessage').html().trim();
+    return $(WARNING_STATUS_MESSAGE).html().trim();
 }
