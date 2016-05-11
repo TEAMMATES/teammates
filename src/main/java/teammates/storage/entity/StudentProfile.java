@@ -18,6 +18,7 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class StudentProfile {
 
+    // PMD.UnusedPrivateField is suppressed as profileId is persisted to the database
     @SuppressWarnings("PMD.UnusedPrivateField")
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
