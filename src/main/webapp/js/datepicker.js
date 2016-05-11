@@ -1,11 +1,11 @@
-$(document).ready(function(){
+$(document).ready(function() {
     var today = new Date();
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    $("#startdate" ).datepicker({
+    $("#startdate").datepicker({
         dateFormat: "dd/mm/yy",
         showOtherMonths: true,
         gotoCurrent: true,
@@ -73,7 +73,7 @@ function triggerDatepickerOnClick(datepickerDivs) {
  * @assumption: startDate has a valid value
  * @returns 
  */
-function getMinDateForEndDate (startDate) {    
+function getMinDateForEndDate(startDate) {    
     return startDate;
 }
 
@@ -81,7 +81,7 @@ function getMinDateForEndDate (startDate) {
  * @assumption: endDate has a valid value
  * @returns 
  */
-function getMaxDateForStartDate (endDate) {
+function getMaxDateForStartDate(endDate) {
     return endDate;
 }
 
@@ -89,7 +89,7 @@ function getMaxDateForStartDate (endDate) {
  * @assumption: startDate has a valid value
  * @returns 
  */
-function getMaxDateForVisibleDate (startDate, publishDate) {
+function getMaxDateForVisibleDate(startDate, publishDate) {
     var minDate = 0;
     
     if (publishDate == null) {
@@ -107,6 +107,6 @@ function getMaxDateForVisibleDate (startDate, publishDate) {
  * @assumption: visibleDate has a valid value
  * @returns 
  */
-function getMinDateForPublishDate (visibleDate) {    
+function getMinDateForPublishDate(visibleDate) {    
     return visibleDate;
 }

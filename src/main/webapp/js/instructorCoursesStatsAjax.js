@@ -1,4 +1,4 @@
-function linkAjaxForCourseStats(){
+function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function(e) {
         var row = $(this).parent().parent();
         var ajaxCols = $(row).children('td[id^="course-stats"]');
