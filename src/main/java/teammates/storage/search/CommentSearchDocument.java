@@ -24,7 +24,7 @@ public class CommentSearchDocument extends SearchDocument {
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
-    private StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
+    private String commentRecipientName;
     
     public CommentSearchDocument(CommentAttributes comment){
         this.comment = comment;
@@ -41,6 +41,8 @@ public class CommentSearchDocument extends SearchDocument {
         
         String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
+        
+        StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
         switch (comment.recipientType) {
         case PERSON:
             for(String email:comment.recipients){
@@ -84,6 +86,7 @@ public class CommentSearchDocument extends SearchDocument {
         default:
             break;
         }
+        commentRecipientName = commentRecipientNameBuilder.toString();
     }
 
     @Override
@@ -128,7 +131,7 @@ public class CommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
                     new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName + " " + giverAsInstructor.name: comment.giverEmail)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
-                    new Gson().toJson(commentRecipientNameBuilder.toString())))
+                    new Gson().toJson(commentRecipientName)))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;
