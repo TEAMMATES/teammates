@@ -100,14 +100,14 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         for (int rank = 1; rank <= rankQuestion.options.size(); rank ++) {
             if (!orderedOptions.containsKey(rank)) {
-                csvBuilder.append(",");
+                csvBuilder.append(',');
                 continue;
             }
             List<String> optionsWithGivenRank = orderedOptions.get(rank);
             
             String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
             
-            csvBuilder.append(optionsInCsv).append(",");
+            csvBuilder.append(optionsInCsv).append(',');
         }
 
         csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma

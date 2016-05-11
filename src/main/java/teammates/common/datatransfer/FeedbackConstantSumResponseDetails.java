@@ -69,7 +69,7 @@ public class FeedbackConstantSumResponseDetails extends
         
         for(int i=0 ; i<answers.size() ; i++) {
             if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
-                csvBuilder.append(",");
+                csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
         }

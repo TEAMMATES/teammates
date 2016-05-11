@@ -432,14 +432,14 @@ public class Sendgrid {
                         w.warning("Unsupported Encoding Exception", e);
                     }
                     
-                    requestParams.append("=");
+                    requestParams.append('=');
                     
                     try {
                         requestParams.append(URLEncoder.encode(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                         w.warning("Unsupported Encoding Exception", e);
                     }
-                    requestParams.append("&");
+                    requestParams.append('&');
                 }
             }
         }

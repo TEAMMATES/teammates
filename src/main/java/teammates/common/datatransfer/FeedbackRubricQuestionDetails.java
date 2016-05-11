@@ -624,7 +624,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // table header
         for (String choice : rubricChoices) {
-            csv.append(",").append(Sanitizer.sanitizeForCsv(choice));
+            csv.append(',').append(Sanitizer.sanitizeForCsv(choice));
         }
         
         csv.append(Const.EOL);
