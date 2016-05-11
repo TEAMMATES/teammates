@@ -306,9 +306,7 @@ public class TeamEvalResult {
 
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
-        for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];
-        }
+        System.arraycopy(input, 0, converted, 0, input.length);
         return converted;
     }
 

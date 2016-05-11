@@ -205,7 +205,7 @@
    <!--<rule ref="rulesets/java/naming.xml/SuspiciousHashcodeMethodName"/>-->
    <!--<rule ref="rulesets/java/naming.xml/VariableNamingConventions"/>-->
    <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
-   <!--<rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops"/>-->
+   <rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops"/>
    <!--<rule ref="rulesets/java/optimizations.xml/AvoidInstantiatingObjectsInLoops"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/LocalVariableCouldBeFinal"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/MethodArgumentCouldBeFinal"/>-->
