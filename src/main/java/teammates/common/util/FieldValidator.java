@@ -432,10 +432,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case PERSON_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
-            break;
         case INSTITUTE_NAME:
             returnValue = getValidityInfoForAllowedName(
                     INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
@@ -497,6 +493,10 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    public String getInvalidityInfoForPersonName(String personName) {
+        return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
     
     /**
