@@ -37,7 +37,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackSessionName, feedbackResponseCommentId,
+        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
@@ -112,7 +112,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                     || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
     }
     
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
             String feedbackResponseCommentId, InstructorAttributes instructor,
             FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
         FeedbackResponseCommentAttributes frc =

@@ -105,7 +105,7 @@ public class AdminActivityLogPageAction extends Action {
             logs = searchLogsWithTimeIncrement(query, data);
         }
         
-        generateStatusMessage(versionToQuery, query, data, logs, courseIdFromSearchPage);
+        generateStatusMessage(versionToQuery, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
         if (searchTimeOffset.isEmpty()) {
@@ -128,7 +128,7 @@ public class AdminActivityLogPageAction extends Action {
         return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
     }
     
-    private void generateStatusMessage(List<String> versionToQuery, AdminLogQuery query, 
+    private void generateStatusMessage(List<String> versionToQuery, 
                                        AdminActivityLogPageData data, 
                                        List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
