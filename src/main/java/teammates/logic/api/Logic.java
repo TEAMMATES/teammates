@@ -1355,7 +1355,7 @@ public class Logic {
     }
 
     /**
-     * Validate if the list of modified students will not create conflicts for both the sections and teams
+     * Validates if the list of modified students will not create conflicts for both the sections and teams
      * in a course 
      * Preconditions: <br>
      * * All parameters are non-null
@@ -1370,7 +1370,7 @@ public class Logic {
     }
     
     /**
-     * Validate if the list of modified students will not create conflicts for the teams
+     * Validates if the list of modified students will not create conflicts for the teams
      * in a course 
      * Preconditions: <br>
      * * All parameters are non-null
