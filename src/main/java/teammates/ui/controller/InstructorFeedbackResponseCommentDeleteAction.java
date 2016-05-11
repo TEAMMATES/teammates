@@ -30,7 +30,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackSessionName, feedbackResponseCommentId,
+        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
@@ -49,7 +49,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         return createAjaxResult(data);
     }
     
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
             String feedbackResponseCommentId, InstructorAttributes instructor,
             FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
         FeedbackResponseCommentAttributes frc =

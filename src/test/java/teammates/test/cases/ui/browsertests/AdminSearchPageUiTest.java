@@ -49,8 +49,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         ______TS("content: default search page");
         
-        String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
-        searchPage = getAdminSearchPage(instructorId);
+        searchPage = getAdminSearchPage();
         
         assertTrue(isPageTitleCorrect());
         assertTrue(isSearchPanelPresent());
@@ -104,7 +103,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         assertTrue(isSearchDataDisplayCorrect());
     }
 
-    private AdminSearchPage getAdminSearchPage(String instructorId) {
+    private AdminSearchPage getAdminSearchPage() {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
 
         return loginAdminToPage(browser, commentsPageUrl, AdminSearchPage.class);

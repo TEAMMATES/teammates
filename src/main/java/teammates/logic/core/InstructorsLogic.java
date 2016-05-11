@@ -214,12 +214,12 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
-        checkForUpdatingRespondants(googleId, instructor);
+        checkForUpdatingRespondants(instructor);
         
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
-    private void checkForUpdatingRespondants(String googleId, InstructorAttributes instructor) 
+    private void checkForUpdatingRespondants(InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);

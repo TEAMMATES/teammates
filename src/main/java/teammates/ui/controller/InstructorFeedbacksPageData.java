@@ -61,7 +61,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         buildNewForm(courses, courseIdForNewSession, 
                      instructors, defaultFormValues, 
-                     feedbackSessionType, highlightedFeedbackSession);
+                     feedbackSessionType);
         
         
         buildFsList(courseIdForNewSession, existingFeedbackSessions, 
@@ -134,8 +134,7 @@ public class InstructorFeedbacksPageData extends PageData {
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
-                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                              String feedbackSessionName) {
+                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
@@ -144,14 +143,14 @@ public class InstructorFeedbacksPageData extends PageData {
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
                                    newFeedbackSession, feedbackSessionType,
-                                   feedbackSessionName, courseIds,
+                                   courseIds,
                                    additionalSettings);
     }
 
     private FeedbackSessionsForm buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
                                                 Map<String, InstructorAttributes> instructors,
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                                                String feedbackSessionNameForSessionList, List<String> courseIds,
+                                                List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
@@ -171,9 +170,9 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment(this);            
+            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
         } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession);
+            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
 
     }

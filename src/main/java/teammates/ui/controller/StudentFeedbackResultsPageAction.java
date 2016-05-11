@@ -62,12 +62,6 @@ public class StudentFeedbackResultsPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }
 
-    // The following methods are overridden by the unregistered version of this action
-
-    protected boolean isJoinedCourse(String courseId) {
-        return isJoinedCourse(courseId, account.googleId);
-    }
-
     protected StudentAttributes getCurrentStudent(String courseId) {
         if (student != null) {
             return student;

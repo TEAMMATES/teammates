@@ -39,7 +39,6 @@ public abstract class ActionResult {
     public ActionResult(
             String destination, 
             AccountAttributes account, 
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status){
         
         this.destination = destination;

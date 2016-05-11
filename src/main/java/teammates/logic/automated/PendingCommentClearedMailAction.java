@@ -37,7 +37,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
     }
 
     public PendingCommentClearedMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         courseId = paramMap.get(ParamsNames.EMAIL_COURSE);

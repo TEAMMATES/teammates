@@ -43,8 +43,9 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
-                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, String newQuestionEditForm) {
+                                                        String questionTypeChoiceOptions,  List<ElementTag> giverOptions,
+                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, 
+                                                        String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
         
@@ -71,13 +72,12 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
         newQnForm.isEditable = true;
         
-        setDefaultVisibilityOptions(visibilitySettings, feedbackPathSettings);
+        setDefaultVisibilityOptions(visibilitySettings);
         
         return newQnForm;
     }
     
-    private static void setDefaultVisibilityOptions(FeedbackQuestionVisibilitySettings visibilityOptions,
-                                                    FeedbackQuestionFeedbackPathSettings feedbackPathSettings) {
+    private static void setDefaultVisibilityOptions(FeedbackQuestionVisibilitySettings visibilityOptions) {
         Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();

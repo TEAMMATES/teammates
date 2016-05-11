@@ -386,8 +386,8 @@ public class Sendgrid {
      * Invoked when a warning is returned from the server that
      * isn't critical
      */
-    public static interface WarningListener {
-        public void warning(String serverResponse, Throwable t);
+    public interface WarningListener {
+        void warning(String serverResponse, Throwable t);
     }
 
     /**
