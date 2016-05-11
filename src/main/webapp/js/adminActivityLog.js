@@ -27,15 +27,15 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var originalTime = $(link).html();
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminActivityLogPage?" + params,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminActivityLogPage?" + params,
+        beforeSend: function() {
             $(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             $(localTimeDisplay).html("Loading error, please retry");          
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {       
                     $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "</mark>";
@@ -58,16 +58,16 @@ function submitFormAjax(searchTimeOffset) {
     var lastLogRow = $('#logsTable tr:last');
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminActivityLogPage?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminActivityLogPage?" + formData,
+        beforeSend: function() {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             setFormErrorMessage(olderButton, "Failed to load older logs. Please try again.");
             button.html("Retry");
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
                     // Inject new log row

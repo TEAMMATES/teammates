@@ -91,7 +91,7 @@ function finaliseUploadPictureForm(event) {
     initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
         url: "/page/studentProfileCreateFormUrl?user=" + $("input[name='user']").val(),
-        beforeSend : function() {
+        beforeSend: function() {
             $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },
         error: function() {

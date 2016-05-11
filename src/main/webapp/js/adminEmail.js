@@ -30,7 +30,7 @@ $(document).ready(function() {
         "Wingdings=wingdings,zapf dingbats",
         
         
-        document_base_url : $("#documentBaseUrl").text(),
+        document_base_url: $("#documentBaseUrl").text(),
         relative_urls: false,
         convert_urls: false,
         plugins: [
@@ -88,15 +88,15 @@ $(document).ready(function() {
 function createGroupReceiverListUploadUrl() {
     
     $.ajax({
-        type : 'POST',
-        url :  "/admin/adminEmailCreateGroupReceiverListUploadUrl",
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminEmailCreateGroupReceiverListUploadUrl",
+        beforeSend: function() {
             showUploadingGif();
         },
-        error : function() {
+        error: function() {
             setErrorMessage("URL request failured, please try again.");
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {                   
                     $("#adminEmailReceiverListForm").attr("action", data.nextUploadUrl);                  
@@ -120,23 +120,23 @@ function submitGroupReceiverListUploadFormAjax() {
     var formData = new FormData($("#adminEmailReceiverListForm")[0]);
     
     $.ajax({
-        type : 'POST',
-        enctype :"multipart/form-data",
-        url :   $("#adminEmailReceiverListForm").attr("action"),
+        type: 'POST',
+        enctype: "multipart/form-data",
+        url: $("#adminEmailReceiverListForm").attr("action"),
         data: formData,
         //Options to tell jQuery not to process data or worry about content-type.
           cache: false,
           contentType: false,
           processData: false,
           
-        beforeSend : function() {
+        beforeSend: function() {
             showUploadingGif();
         },
-        error : function() {
+        error: function() {
             setErrorMessage("Group receiver list upload failed, please try again.");
             clearUploadGroupReceiverListInfo();
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
                    if (data.isFileUploaded) {
@@ -168,15 +168,15 @@ function submitGroupReceiverListUploadFormAjax() {
 function createImageUploadUrl() {
     
     $.ajax({
-        type : 'POST',
-        url :  "/admin/adminEmailCreateImageUploadUrl",
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminEmailCreateImageUploadUrl",
+        beforeSend: function() {
             showUploadingGif();
         },
-        error : function() {
+        error: function() {
             setErrorMessage("URL request failured, please try again.");
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {                   
                     $("#adminEmailFileForm").attr("action", data.nextUploadUrl);                  
@@ -200,23 +200,23 @@ function submitImageUploadFormAjax() {
     var formData = new FormData($("#adminEmailFileForm")[0]);
     
     $.ajax({
-        type : 'POST',
-        enctype :"multipart/form-data",
-        url :   $("#adminEmailFileForm").attr("action"),
+        type: 'POST',
+        enctype: "multipart/form-data",
+        url: $("#adminEmailFileForm").attr("action"),
         data: formData,
         //Options to tell jQuery not to process data or worry about content-type.
           cache: false,
           contentType: false,
           processData: false,
           
-        beforeSend : function() {
+        beforeSend: function() {
             showUploadingGif();
         },
-        error : function() {
+        error: function() {
             setErrorMessage("Image upload failed, please try again.");
             clearUploadFileInfo();
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
                    if (data.isFileUploaded) {

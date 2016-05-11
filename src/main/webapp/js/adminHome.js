@@ -66,12 +66,12 @@ function enableAddInstructorForm() {
  */
 function addInstructorByAjaxRecursively() {
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminInstructorAccountAdd?" + paramsList[paramsCounter],
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminInstructorAccountAdd?" + paramsList[paramsCounter],
+        beforeSend: function() {
             disableAddInstructorForm();
         },
-        error : function() {
+        error: function() {
             var rowText = createRowForResultTable("-", "-", "-", "-", false, "Cannot send Ajax Request!");
             $("#addInstructorResultTable tbody").append(rowText);
             if (isInputFromFirstPanel) {
@@ -87,7 +87,7 @@ function addInstructorByAjaxRecursively() {
                 enableAddInstructorForm();
             }
         },
-        success : function(data) {
+        success: function(data) {
             var rowText = createRowForResultTable(data.instructorShortName, data.instructorName, 
                                                   data.instructorEmail, data.instructorInstitution,
                                                   data.instructorAddingResultForAjax, data.statusForAjax);

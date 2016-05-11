@@ -11,19 +11,19 @@ function editFormRequest(e) {
     var saveButton = $("#btnSaveInstructor" + index);
 
     $.ajax({
-        type : 'POST',
-        cache : false,
-        url : $(form).attr('action') + "?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        cache: false,
+        url: $(form).attr('action') + "?" + formData,
+        beforeSend: function() {
             displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
         },
-        error : function() {
+        error: function() {
             displayIcon.html('');
             var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
             var errorMsg = 'Edit failed. Click here to retry.';
             $(editButton).html(warningSign + ' ' + errorMsg);
         },
-        success : function(data) {
+        success: function(data) {
               var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
             $(data).remove();
             $(editForm[0]).html(appendedData);

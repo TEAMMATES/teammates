@@ -58,7 +58,7 @@ jQuery(document).ready(function() {
     jQuery('.back-to-top-left').click(function(event) {
         event.preventDefault();
         jQuery('html, body').animate({
-            scrollTop : 0
+            scrollTop: 0
         }, duration);
         return false;
     });
@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
     jQuery('.back-to-top-right').click(function(event) {
         event.preventDefault();
         jQuery('html, body').animate({
-            scrollTop : 0
+            scrollTop: 0
         }, duration);
         return false;
     });

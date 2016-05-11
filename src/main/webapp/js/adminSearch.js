@@ -71,15 +71,15 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
     var originalGoogleIdEntry = $(googleIdEntry).html();
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminStudentGoogleIdReset?" + params,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminStudentGoogleIdReset?" + params,
+        beforeSend: function() {
             $(button).html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             $(button).html("An Error Occurred, Please Retry");          
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {                          
                     if (data.isGoogleIdReset) {

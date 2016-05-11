@@ -44,19 +44,19 @@ $(document).ready(function() {
             var content = $panel.find('.pull-right')[0];
             
             $.ajax({
-                type : 'POST',
-                url : '/page/instructorHomePage?' + formData,
-                beforeSend : function() {
+                type: 'POST',
+                url: '/page/instructorHomePage?' + formData,
+                beforeSend: function() {
                     $(content).html("<img src='/images/ajax-loader.gif'/>");
                 },
-                error : function() {
+                error: function() {
                     var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
                     var errorMsg = '[ Failed to load. Click here to retry. ]';
                     errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
                     var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
                     $(content).html(warningSign + errorMsg + chevronDown);  
                 },
-                success : function(data) {
+                success: function(data) {
                     // .outerHTML is used instead of jQuery's .replaceWith() to avoid the <span>
                     // for statuses' tooltips from being closed due to the presence of <br>
                     $panel[0].outerHTML = data;

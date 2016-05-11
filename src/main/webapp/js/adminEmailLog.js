@@ -53,16 +53,16 @@ function submitFormAjax(offset) {
     var lastLogRow = $('#emailLogsTable tr:last');
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminEmailLogPage?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminEmailLogPage?" + formData,
+        beforeSend: function() {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             setFormErrorMessage(button, "Failed to load older logs. Please try again.");
             button.html("Retry");            
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
                         // Inject new log row                  
