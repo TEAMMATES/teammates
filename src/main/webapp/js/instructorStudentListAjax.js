@@ -74,60 +74,58 @@ var seeMoreRequest = function(e) {
             $(courseCheck).prop('checked', true);
         }
         checkCourseBinding(courseCheck);
-    } else {
-        if (numStudents < STUDENT_LIMIT) {
-            clearStatusMessages();
-            var formObject = $(this).children('form');
-            var courseIdx = $(formObject[0]).attr('class').split('-')[1];
-            var formData = formObject.serialize();
-            e.preventDefault();
-            if (displayIcon.html().indexOf('img') == -1) {
-                $.ajax({
-                    type: 'POST',
-                    url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
-                    beforeSend: function() {
-                        displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
-                    },
-                    error: function() {
-                        var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-                        var errorMsg = '[ Failed to load. Click here to retry. ]';
-                        errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
-                        displayIcon.html(warningSign + errorMsg);
-                    },
-                    success: function(data) {
-                        $(panelBody[0]).html(data);
+    } else if (numStudents < STUDENT_LIMIT) {
+        clearStatusMessages();
+        var formObject = $(this).children('form');
+        var courseIdx = $(formObject[0]).attr('class').split('-')[1];
+        var formData = formObject.serialize();
+        e.preventDefault();
+        if (displayIcon.html().indexOf('img') == -1) {
+            $.ajax({
+                type: 'POST',
+                url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
+                beforeSend: function() {
+                    displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+                },
+                error: function() {
+                    var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+                    var errorMsg = '[ Failed to load. Click here to retry. ]';
+                    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
+                    displayIcon.html(warningSign + errorMsg);
+                },
+                success: function(data) {
+                    $(panelBody[0]).html(data);
 
-                        // Count number of students retrieved
-                        courseNumStudents = numStudentsRetrieved();
-                        $('#numStudents-' + courseIdx).val(courseNumStudents);
+                    // Count number of students retrieved
+                    courseNumStudents = numStudentsRetrieved();
+                    $('#numStudents-' + courseIdx).val(courseNumStudents);
 
-                        // If number of students shown is already more than the limit
-                        // Do not show more, even if we can retrieve it, as browser will lag.
-                        if (numStudents >= STUDENT_LIMIT) {
-                            showStudentLimitError(courseCheck, displayIcon);
-                            removeDataToBeTransported();
-                            return;
-                        }
-
-                        // Show newly retrieved students
-                        numStudents += courseNumStudents;
-                        transportSectionChoices();
-                        transportTeamChoices();
-                        transportEmailChoices();
-                        bindPhotos(courseIdx);
-
-                        $(panelHeading).removeClass('ajax_submit');
-                        displayIcon.html('');
-                        if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
-                            $(panelHeading).trigger('click');
-                        }
+                    // If number of students shown is already more than the limit
+                    // Do not show more, even if we can retrieve it, as browser will lag.
+                    if (numStudents >= STUDENT_LIMIT) {
+                        showStudentLimitError(courseCheck, displayIcon);
+                        removeDataToBeTransported();
+                        return;
                     }
-                });
-            }
-        } else {
-            // Do not make ajax call if students shown already above limit
-            showStudentLimitError(courseCheck, displayIcon);
+
+                    // Show newly retrieved students
+                    numStudents += courseNumStudents;
+                    transportSectionChoices();
+                    transportTeamChoices();
+                    transportEmailChoices();
+                    bindPhotos(courseIdx);
+
+                    $(panelHeading).removeClass('ajax_submit');
+                    displayIcon.html('');
+                    if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
+                        $(panelHeading).trigger('click');
+                    }
+                }
+            });
         }
+    } else {
+        // Do not make ajax call if students shown already above limit
+        showStudentLimitError(courseCheck, displayIcon);
     }
 };
 

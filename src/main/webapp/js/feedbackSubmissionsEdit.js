@@ -150,12 +150,10 @@ function prepareMCQQuestions() {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
                     }                   
-                } else { // Predefined option is selected
+                } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
-                    if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
-                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                    }
+                    $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
@@ -419,10 +417,8 @@ function updateRubricCellSelectedColor(radioInput) {
     if ($(radioInput).prop('checked')) {
         cell.addClass('cell-selected');
         tableRow.addClass('row-answered');
-    } else {
-        if (cell.hasClass('cell-selected')) {
-            cell.removeClass('cell-selected');
-        }
+    } else if (cell.hasClass('cell-selected')) {
+        cell.removeClass('cell-selected');
     }
 }
 
@@ -722,9 +718,8 @@ function isAnswerBlank(question, response) {
     if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
         return !$answer.is(':checked');
-    } else {
-        return $answer.val().trim() === '';
     }
+    return $answer.val().trim() === '';
 }
 
 // Checks that there are no responses written to an unspecified recipient

@@ -300,7 +300,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : responsesGivenByPerson.entrySet()) {
             Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
             for (FeedbackResponseAttributes res : responses) {
-                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails)res.getResponseDetails();
+                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
                 rankOfResponse.put(res, frd.answer);
             }
             

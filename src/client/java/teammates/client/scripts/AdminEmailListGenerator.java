@@ -504,7 +504,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private int getMaxNumOfDayForMonth(int month, int year){
         
-        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 000);
+        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue(); 
     }
     

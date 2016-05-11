@@ -337,7 +337,7 @@ public class Sendgrid {
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
         String string = "";
-        for (int i = 0;i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
             string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
         }
 

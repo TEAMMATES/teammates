@@ -103,7 +103,7 @@ public class FeedbackResponseComment {
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
-        this.isVisibilityFollowingFeedbackQuestion = Boolean.valueOf(false);
+        this.isVisibilityFollowingFeedbackQuestion = false;
         this.lastEditorEmail = (lastEditorEmail == null) ? giverEmail : lastEditorEmail;
         this.lastEditedAt = (lastEditedAt == null) ? createdAt : lastEditedAt;
     }

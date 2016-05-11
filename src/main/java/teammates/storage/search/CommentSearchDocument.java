@@ -97,7 +97,7 @@ public class CommentSearchDocument extends SearchDocument {
         String delim = ",";
         int counter = 0;
         for(StudentAttributes student:relatedStudents){
-            if(counter == 50) break;//in case of exceeding size limit for document
+            if(counter == 50) break; //in case of exceeding size limit for document
             recipientsBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)

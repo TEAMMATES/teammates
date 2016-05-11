@@ -412,7 +412,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         int numChoicesSelected = 0;
         for(FeedbackResponseAttributes response : responses){
-            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings(); 
+            List<String> answerStrings = ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings(); 
             Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
             
@@ -461,7 +461,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double)entry.getValue()/numChoicesSelected));
+                                "${percentage}", df.format(100*(double) entry.getValue()/numChoicesSelected));
         }
         //Use same template as MCQ for now, until they need to be different.
         String html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
@@ -494,7 +494,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         int numChoicesSelected = 0;
         
         for(FeedbackResponseAttributes response : responses){
-            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            List<String> answerStrings = ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
             Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
             
@@ -540,7 +540,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
-                      + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
+                      + df.format(100*(double) entry.getValue()/numChoicesSelected) + Const.EOL;
                     
         }
 

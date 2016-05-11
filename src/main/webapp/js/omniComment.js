@@ -405,9 +405,8 @@ function deleteComment(commentIdx) {
     if (confirm("Are you sure you want to delete this comment?")) {
         document.getElementById('commentedittype-' + commentIdx).value = "delete";
         return submitCommentForm(commentIdx);
-    } else {
-        return false;
     }
+    return false;
 }
 
 function enableEdit(commentIdx, unusedParameter) {

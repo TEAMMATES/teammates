@@ -326,7 +326,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                                             List<FeedbackResponseAttributes> responses) {
         Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails)response.getResponseDetails();
+            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
             
             List<Integer> answers = frd.getAnswerList();
             Map<String, Integer> mapOfOptionToRank = new HashMap<>();

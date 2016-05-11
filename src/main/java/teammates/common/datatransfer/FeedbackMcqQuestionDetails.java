@@ -209,7 +209,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();;
+        List<String> optionList = new ArrayList<String>();
 
         switch(generateOptionsFor){
             case NONE:
@@ -405,7 +405,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double)entry.getValue()/responses.size()));
+                                "${percentage}", df.format(100*(double) entry.getValue()/responses.size()));
         }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
@@ -460,7 +460,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
-                      + df.format(100*(double)entry.getValue()/responses.size()) + Const.EOL;
+                      + df.format(100*(double) entry.getValue()/responses.size()) + Const.EOL;
         }
         
         csv += "Choice, Response Count, Percentage" + Const.EOL;

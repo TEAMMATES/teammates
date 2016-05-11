@@ -144,10 +144,10 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             nonRespondentsEmails = new HashSet<String>();
             for (EntityAttributes possibleRespondent : allPossibleRespondents) {
                 if (possibleRespondent instanceof StudentAttributes) {
-                    StudentAttributes student = (StudentAttributes)possibleRespondent;
+                    StudentAttributes student = (StudentAttributes) possibleRespondent;
                     nonRespondentsEmails.add(student.email);
                 } else if (possibleRespondent instanceof InstructorAttributes){
-                    InstructorAttributes instructor = (InstructorAttributes)possibleRespondent;
+                    InstructorAttributes instructor = (InstructorAttributes) possibleRespondent;
                     nonRespondentsEmails.add(instructor.email);
                 }
             }
@@ -196,7 +196,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         Date curEnd = endCal.getTime();
         
         @SuppressWarnings("unchecked")
-        List<FeedbackSession> feedbackSessions = (List<FeedbackSession>)query.execute(curStart, curEnd);
+        List<FeedbackSession> feedbackSessions = (List<FeedbackSession>) query.execute(curStart, curEnd);
         for (FeedbackSession feedbackSession : feedbackSessions) {
             FeedbackSessionAttributes feedbackSessionAttributes = new FeedbackSessionAttributes(feedbackSession);
             result.add(feedbackSessionAttributes);

@@ -249,10 +249,8 @@ public class InstructorSearchPageAction extends Action {
                 String section = "None";
                 String recipient = "";
                 
-                for (String recipientInSet : commentAttributes.recipients) {
-                    recipient = recipientInSet;
-                    break;
-                }
+                recipient = commentAttributes.recipients.iterator().next();
+
                 if (commentAttributes.recipientType == CommentParticipantType.PERSON) {
                     StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
                     if (student == null) {

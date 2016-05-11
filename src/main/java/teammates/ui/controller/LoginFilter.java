@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest)request;
+        HttpServletRequest req = (HttpServletRequest) request;
         
         if(exclude.contains(req.getRequestURI())){
             chain.doFilter(request, response);
@@ -48,7 +48,7 @@ public class LoginFilter implements Filter {
             String query = req.getQueryString();
             if(query!=null) link+="?"+query;
             
-            HttpServletResponse resp = (HttpServletResponse)response;
+            HttpServletResponse resp = (HttpServletResponse) response;
             resp.sendRedirect(Logic.getLoginUrl(link));
         } else {
             chain.doFilter(request, response);

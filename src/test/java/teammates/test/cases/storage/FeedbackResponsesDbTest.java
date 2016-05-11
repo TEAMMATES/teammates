@@ -219,7 +219,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("get by id");
         
-        actual = frDb.getFeedbackResponse(actual.getId());//Id from first success case
+        actual = frDb.getFeedbackResponse(actual.getId()); //Id from first success case
         
         assertEquals(expected.toString(), actual.toString());
         

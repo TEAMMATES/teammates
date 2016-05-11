@@ -32,10 +32,9 @@ function checkFeedbackQuestion(form) {
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
-        } else {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
-            return false;
         }
+        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+        return false;
     }
     return true;
 }
@@ -43,9 +42,8 @@ function checkFeedbackQuestion(form) {
 function getQuestionNumFromEditForm(form) {
     if ($(form).attr('name') === 'form_addquestions') {
         return -1;
-    } else {
-        return extractQuestionNumFromEditFormId($(form).attr('id'));
     }
+    return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
 function extractQuestionNumFromEditFormId(id) {
@@ -256,15 +254,11 @@ function updateUncommonSettingsInfo() {
 }
 
 function isDefaultSetting() {
-    if ($('#sessionVisibleFromButton_atopen').prop('checked') &&
-            $('#resultsVisibleFromButton_later').prop('checked') &&
-            $('#sendreminderemail_open').prop('checked') &&
-            $('#sendreminderemail_closing').prop('checked') &&
-            $('#sendreminderemail_published').prop('checked')) {
-        return true;
-    } else {
-        return false;
-    }
+    return $('#sessionVisibleFromButton_atopen').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked')
+           && $('#sendreminderemail_open').prop('checked')
+           && $('#sendreminderemail_closing').prop('checked')
+           && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {
