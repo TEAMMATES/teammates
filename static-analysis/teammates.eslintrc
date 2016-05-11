@@ -157,7 +157,7 @@
 
         "brace-style": 0,               // enforce one true brace style (off by default)
         "camelcase": 0,                 // require camel case names
-        "comma-spacing": 0,             // enforce spacing before and after comma
+        "comma-spacing": 2,             // enforce spacing before and after comma
         "comma-style": 0,               // enforce one true comma style (off by default)
         "consistent-this": 0,           // enforces consistent naming when capturing the current execution context (off by default)
         "eol-last": 0,                  // enforce newline at the end of file, with no multiple empty lines
@@ -193,7 +193,6 @@
         "space-in-brackets": 0,         // require or disallow spaces inside brackets (off by default)
         "space-in-parens": 2,           // require or disallow spaces inside parentheses (off by default)
         "space-infix-ops": 2,           // require spaces around operators
-        "space-return-throw-case": 0,   // require a space after return, throw, and case
         "space-unary-ops": 2,           // Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
         "spaced-line-comment": 0,       // require or disallow a space immediately following the // in a line comment (off by default)
         "wrap-regex": 0,                // require regex literals to be wrapped in parentheses (off by default)

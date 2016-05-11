@@ -108,7 +108,7 @@ function createGroupReceiverListUploadUrl() {
                 }
                                
 
-            },500);
+            }, 500);
 
         }
         
@@ -153,7 +153,7 @@ function submitGroupReceiverListUploadFormAjax() {
                 }
                                
 
-            },500);
+            }, 500);
             
             
         }
@@ -188,7 +188,7 @@ function createImageUploadUrl() {
                 }
                                
 
-            },500);
+            }, 500);
 
         }
         
@@ -232,7 +232,7 @@ function submitImageUploadFormAjax() {
                 }
                                
 
-            },500);
+            }, 500);
             
             
         }

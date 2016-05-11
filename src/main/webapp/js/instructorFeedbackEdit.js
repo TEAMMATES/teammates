@@ -720,7 +720,7 @@ function getQuestionLink(qnNumber) {
 }
 
 function toParameterFormat(str) {
-    return str.replace(/\s/g,'+');
+    return str.replace(/\s/g, '+');
 }
 
 function bindCopyButton() {
@@ -1277,9 +1277,9 @@ function setContribQnVisibilityFormat(questionNumber) {
                                      .prop('checked', false);
             } else {
                 $(this).parent().parent().find('input[class*="giverCheckbox"]')
-                                         .prop('checked',false);
+                                         .prop('checked', false);
                 $(this).parent().parent().find('input[class*="recipientCheckbox"]')
-                                         .prop('checked',false);
+                                         .prop('checked', false);
             }
             
         }
@@ -1305,7 +1305,7 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                     .prop('checked',true)
+                                     .prop('checked', true)
                                      .trigger('change');
         }
     });
@@ -1315,7 +1315,7 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                     .prop('checked',true)
+                                     .prop('checked', true)
                                      .trigger('change');
         }
     });

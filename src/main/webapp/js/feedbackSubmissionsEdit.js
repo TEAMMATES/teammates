@@ -49,7 +49,7 @@ $(document).ready(function() {
     });
                    
     $("input[id^='otherOptionText']").keyup(function() {
-    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text','');
+    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
     $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
     

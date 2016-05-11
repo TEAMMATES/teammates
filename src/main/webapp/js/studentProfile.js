@@ -101,9 +101,9 @@ function finaliseUploadPictureForm(event) {
         },
         success: function(data) {
             if (!data.isError) {
-                $('#profilePictureUploadForm').attr('enctype','multipart/form-data');
+                $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');
                 // for IE compatibility
-                $('#profilePictureUploadForm').attr('encoding','multipart/form-data');
+                $('#profilePictureUploadForm').attr('encoding', 'multipart/form-data');
                 $('#profilePictureUploadForm').attr('action', data.formUrl);
                 $('#profilePictureUploadForm').submit();
             } else {

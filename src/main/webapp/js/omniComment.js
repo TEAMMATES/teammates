@@ -20,7 +20,7 @@ $(document).ready(function() {
     
     //for redirecting from search page, hide the header and highlight the specific comment row
     if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0) {
-          $('.navbar').css('display','none');
+          $('.navbar').css('display', 'none');
           highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
     } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0) {
         //TODO: impl this, e.g. display a status msg that cannot find the comment etc

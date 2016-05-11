@@ -89,7 +89,7 @@ function addInstructorByAjaxRecursively() {
         },
         success : function(data) {
             var rowText = createRowForResultTable(data.instructorShortName, data.instructorName, 
-                                                  data.instructorEmail,data.instructorInstitution,
+                                                  data.instructorEmail, data.instructorInstitution,
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $("#addInstructorResultTable tbody").append(rowText);
             if ((!data.instructorAddingResultForAjax) && (isInputFromFirstPanel)) {
@@ -121,7 +121,7 @@ function addInstructorFromFirstFormByAjax() {
         instructorDetailsList = multipleLineText.split("\n");
         paramsList = [];
         for (var i = 0; i < instructorDetailsList.length; i++) {
-            instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g,"|");
+            instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, "|");
             paramsList[i] = "instructordetailssingleline=" + instructorDetailsList[i];
         }
     }

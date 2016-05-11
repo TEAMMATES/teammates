@@ -4,10 +4,10 @@ function toggleReference() {
     var button = $("#detailButton").attr("class");
     
     if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
+    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
     } else {
-        $("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
     }
 }
@@ -44,7 +44,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
                 }
                 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-            },500);
+            }, 500);
         }
     });
 }
@@ -83,7 +83,7 @@ function submitFormAjax(searchTimeOffset) {
                 }
 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-            },500);
+            }, 500);
         }
     });
 }

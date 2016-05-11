@@ -79,10 +79,10 @@ function toggleFilter() {
     var button = $("#detailButton").attr("class");
     
     if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
+    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Filter");
     } else {
-        $("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Filter");
     }
 }

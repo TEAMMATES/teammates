@@ -18,7 +18,7 @@ function checkBrowserVersion() {
     var nAgt = navigator.userAgent;
     var browserName  = navigator.appName;
     var fullVersion  = parseFloat(navigator.appVersion); 
-    var majorVersion = parseInt(navigator.appVersion,10);
+    var majorVersion = parseInt(navigator.appVersion, 10);
     var verOffset;
     var supported = true;
 
@@ -26,7 +26,7 @@ function checkBrowserVersion() {
     if ((verOffset = nAgt.indexOf("MSIE")) != -1) {
         browserName = MICROSOFT_INTERNET_EXPLORER;
         fullVersion = nAgt.substring(verOffset + 5);
-        majorVersion = parseInt(fullVersion,10);
+        majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION) {
             supported = false;
         }
@@ -35,7 +35,7 @@ function checkBrowserVersion() {
     else if ((verOffset = nAgt.indexOf("Chrome")) != -1) {
         browserName = CHROME;
         fullVersion = nAgt.substring(verOffset + 7);
-        majorVersion = parseInt(fullVersion,10);
+        majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < CHROME_LOWEST_VERSION) {
             supported = false;
         }
@@ -47,7 +47,7 @@ function checkBrowserVersion() {
         if ((verOffset = nAgt.indexOf("Version")) != -1) { 
             fullVersion = nAgt.substring(verOffset + 8);
         }
-        majorVersion = parseInt(fullVersion,10);
+        majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < SAFARI_LOWEST_VERSION) {
             supported = false;
         }
@@ -56,7 +56,7 @@ function checkBrowserVersion() {
     else if ((verOffset = nAgt.indexOf("Firefox")) != -1) {
         browserName = FIREFOX;
         fullVersion = nAgt.substring(verOffset + 8);
-        majorVersion = parseInt(fullVersion,10);
+        majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < FIREFOX_LOWEST_VERSION) {
             supported = false;
         }

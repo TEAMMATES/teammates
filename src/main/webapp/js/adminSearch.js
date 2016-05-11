@@ -97,7 +97,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
 
-            },500);
+            }, 500);
         }
     });
 }
