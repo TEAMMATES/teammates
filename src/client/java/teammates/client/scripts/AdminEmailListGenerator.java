@@ -522,7 +522,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private void updateProgressIndicator(){
         iterationCounter++;       
-        if (iterationCounter%1000 == 0){           
+        if (iterationCounter % 1000 == 0){           
             System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
         }
     }
