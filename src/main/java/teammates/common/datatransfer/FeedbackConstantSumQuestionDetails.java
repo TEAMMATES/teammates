@@ -612,7 +612,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         numRecipients = numOfResponseSpecific;
         
         int numOptions = distributeToRecipients ? numRecipients : constSumOptions.size();
-        int totalPoints = pointsPerOption ? points*numOptions : points;
+        int totalPoints = pointsPerOption ? points * numOptions : points;
         int sum = 0;
         for (FeedbackResponseAttributes response : responses){
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();

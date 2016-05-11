@@ -315,7 +315,7 @@ public class TimeHelper {
         Date currentDate = new Date();
         int differenceInDays;
         
-        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
+        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
         
         return differenceInDays > 365;
     }

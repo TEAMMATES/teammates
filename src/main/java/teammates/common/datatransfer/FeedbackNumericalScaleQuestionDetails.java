@@ -715,8 +715,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         if (possibleValuesCount > 6) {
             possibleValuesString += StringHelper.toDecimalFormatString(minScale) + ", "
                     + StringHelper.toDecimalFormatString(minScale + step) + ", "
-                    + StringHelper.toDecimalFormatString(minScale + 2*step) + ", ..., "
-                    + StringHelper.toDecimalFormatString(maxScale - 2*step) + ", "
+                    + StringHelper.toDecimalFormatString(minScale + 2 * step) + ", ..., "
+                    + StringHelper.toDecimalFormatString(maxScale - 2 * step) + ", "
                     + StringHelper.toDecimalFormatString(maxScale - step) + ", "
                     + StringHelper.toDecimalFormatString(maxScale);
         } else {
