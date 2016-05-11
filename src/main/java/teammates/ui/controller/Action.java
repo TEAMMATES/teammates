@@ -357,7 +357,7 @@ public abstract class Action {
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
             }
         }
-        response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
+        response.responseParams.put(Const.ParamsNames.ERROR, Boolean.toString(response.isError));
         
         // Pass status message using session to prevent XSS attack
         if (!response.getStatusMessage().isEmpty()) {

@@ -408,7 +408,7 @@ public class TeamEvalResult {
      */
     public static String replaceMagicNumbers(String returnValue) {
         returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(NA + "", " NA");
+        returnValue = returnValue.replace(Integer.toString(NA), " NA");
         returnValue = returnValue.replace(NSB + ".0", "NSB");
         returnValue = returnValue.replace(NSU + ".0", "NSU");
         return returnValue;
