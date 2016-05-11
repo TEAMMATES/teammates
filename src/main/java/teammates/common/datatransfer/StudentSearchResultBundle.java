@@ -23,8 +23,6 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     private int numberOfResults = 0;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     
-    public StudentSearchResultBundle(){}
-    
     /**
      * Produce a StudentSearchResultBundle from the Results<ScoredDocument> collection.
      * The list of InstructorAttributes is used to filter out the search result.

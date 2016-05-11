@@ -44,8 +44,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     
-    public FeedbackResponseCommentSearchResultBundle(){}
-    
     public Map<String, List<FeedbackQuestionAttributes>> getQuestions() {
         return questions;
     }

@@ -26,8 +26,6 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     private int numberOfResults = 0;
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
-    public CommentSearchResultBundle(){}
-    
     /**
      * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection.
      * The list of InstructorAttributes is used to filter out the search result.
