@@ -174,9 +174,9 @@ public abstract class Action {
 
     protected AccountAttributes authenticateNotLoggedInUser(String email, String courseId) {
         student = logic.getStudentForRegistrationKey(regkey);
-        boolean isUnknownKey = (student == null);
+        boolean isUnknownKey = student == null;
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-        boolean isMissingAdditionalAuthenticationInfo = (email == null) || (courseId == null);
+        boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
         boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email) || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
@@ -223,7 +223,7 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
-            boolean isUserLoggedIn = (account.googleId != null);
+            boolean isUserLoggedIn = account.googleId != null;
             if (isPersistenceIssue() && isHomePage()) {
                 // let the user go through as this is a persistence issue
             } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
@@ -532,7 +532,7 @@ public abstract class Action {
 
     protected boolean isInMasqueradeMode() {
         try { 
-            return (!loggedInUser.googleId.equals(account.googleId));
+            return !loggedInUser.googleId.equals(account.googleId);
         } catch (NullPointerException e) {
             return false;
         }

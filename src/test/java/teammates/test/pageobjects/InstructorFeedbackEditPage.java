@@ -37,12 +37,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "enddate")
     private WebElement endDateBox;
     
-    @FindBy(id = "visibletime")
-    private WebElement visibleTimeDropDown;
-    
-    @FindBy(id = "publishtime")
-    private WebElement publishTimeDropDown;
-    
     @FindBy(id = "timezone")
     private WebElement timezoneDropDown;
     
@@ -75,9 +69,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
     private WebElement neverResultsVisibleTimeButton;
-    
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_open")
-    private WebElement openSessionEmailReminderButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement closingSessionEmailReminderButton;

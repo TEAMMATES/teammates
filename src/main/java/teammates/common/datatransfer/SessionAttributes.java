@@ -33,12 +33,12 @@ public interface SessionAttributes {
             
             //Compares end times
             result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? 1
-                    : (session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0);
+                    : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0;
             
             //If the end time is same, compares start times
             if (result == 0) {
                 result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? 1
-                        : (session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0);
+                        : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0;
             }
             
             //if both end and start time is same, compares session name
@@ -87,13 +87,13 @@ public interface SessionAttributes {
             //Compares end times
             if(!isSession1PrivateFeedback && !isSession2PrivateFeedback){
                 result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
-                        : (session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0);
+                        : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
             }
             
             //If the end time is same, compares start times
             if (result == 0) {
                 result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? -1
-                        : (session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0);
+                        : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0;
             }
             
             //if both end and start time is same, compares session name

@@ -59,7 +59,7 @@ public class AdminEmailComposeSendAction extends Action {
         addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();        
         emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
-        groupModeOn = (groupReceiverListFileKey != null) && !groupReceiverListFileKey.isEmpty();
+        groupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
         
         if(groupModeOn){     
             try {

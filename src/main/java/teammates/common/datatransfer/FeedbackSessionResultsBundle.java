@@ -184,8 +184,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
             participantType = question.recipientType;
         }
-        boolean isTypeSelf = (participantType == FeedbackParticipantType.SELF);
-        boolean isTypeNone = (participantType == FeedbackParticipantType.NONE);
+        boolean isTypeSelf = participantType == FeedbackParticipantType.SELF;
+        boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 
         return isVisible || isTypeSelf || isTypeNone;
     }
@@ -214,6 +214,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getAnonEmailFromStudentEmail(String studentEmail) {
         String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
+    }
+    
+    public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
+        return "Anonymous " + type.toSingularFormString();
     }
 
     private String getAnonName(FeedbackParticipantType type, String name) {
