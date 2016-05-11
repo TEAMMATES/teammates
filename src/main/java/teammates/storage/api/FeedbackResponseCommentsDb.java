@@ -334,7 +334,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
+        frc.setIsVisibilityFollowingFeedbackQuestion(false);
         frc.setLastEditorEmail(newAttributes.giverEmail);
         frc.setLastEditedAt(newAttributes.createdAt);
         

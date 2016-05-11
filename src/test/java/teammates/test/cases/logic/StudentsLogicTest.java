@@ -1191,7 +1191,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
                 new Class[] { StudentAttributes.class, Boolean.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { student, new Boolean(false) };
+        Object[] params = new Object[] { student, false };
         return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
     }
     
