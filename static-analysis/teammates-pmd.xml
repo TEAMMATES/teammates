@@ -134,7 +134,7 @@
    <!--<rule ref="rulesets/java/finalizers.xml/FinalizeShouldBeProtected"/>-->
    <!--<rule ref="rulesets/java/imports.xml/DontImportJavaLang"/>-->
    <!--<rule ref="rulesets/java/imports.xml/DuplicateImports"/>-->
-   <!--<rule ref="rulesets/java/imports.xml/ImportFromSamePackage"/>-->
+   <rule ref="rulesets/java/imports.xml/ImportFromSamePackage"/>
    <!--<rule ref="rulesets/java/imports.xml/TooManyStaticImports"/>-->
    <!--<rule ref="rulesets/java/imports.xml/UnnecessaryFullyQualifiedName"/>-->
    <!--<rule ref="rulesets/java/imports.xml/UnusedImports"/>-->
