@@ -37,19 +37,19 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
-    private int iterationCounter = 0;
+    private int iterationCounter;
     
     //handle test data
     public boolean includeTestData = true;
     
     //admin email configuration
-    public boolean student = false;
+    public boolean student;
     public boolean instructor = true;
     public StudentStatus studentStatus = StudentStatus.ALL;
     public InstructorStatus instructorStatus = InstructorStatus.ALL;
     public String studentCreatedDateRangeStart = "02/03/2013";
     public String studentCreatedDateRangeEnd = "06/03/2015";
-    public String instructorCreatedDateRangeStart = null;
+    public String instructorCreatedDateRangeStart;
     public String instructorCreatedDateRangeEnd = "31/12/2015";
     public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
     
@@ -527,13 +527,13 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     class EmailListConfig{
-        public boolean student = false;
-        public boolean instructor = false;
+        public boolean student;
+        public boolean instructor;
         public StudentStatus studentStatus = StudentStatus.ALL;
         public InstructorStatus instructorStatus = InstructorStatus.ALL;
-        public Date studentCreatedDateRangeStart = null;
-        public Date studentCreatedDateRangeEnd = null;
-        public Date instructorCreatedDateRangeStart = null;
-        public Date instructorCreatedDateRangeEnd = null;
+        public Date studentCreatedDateRangeStart;
+        public Date studentCreatedDateRangeEnd;
+        public Date instructorCreatedDateRangeStart;
+        public Date instructorCreatedDateRangeEnd;
     }
 }

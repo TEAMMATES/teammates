@@ -28,7 +28,7 @@ public class FeedbackResponsesLogic {
 
     private static final Logger log = Utils.getLogger();
 
-    private static FeedbackResponsesLogic instance = null;
+    private static FeedbackResponsesLogic instance;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic

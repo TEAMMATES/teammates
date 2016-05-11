@@ -37,7 +37,7 @@ public class TeamEvalResult {
     // List of student email's.
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
-    public List<String> studentEmails = null;
+    public List<String> studentEmails;
     
 
     public TeamEvalResult(int[][] submissionValues) {

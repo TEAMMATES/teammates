@@ -18,8 +18,8 @@ import teammates.ui.template.FeedbackSubmissionEditResponse;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
 public class FeedbackSubmissionEditPageData extends PageData {
-    public FeedbackSessionQuestionsBundle bundle = null;
-    private String moderatedQuestionId = null;
+    public FeedbackSessionQuestionsBundle bundle;
+    private String moderatedQuestionId;
     private boolean isSessionOpenForSubmission;
     private boolean isPreview;
     private boolean isModeration;

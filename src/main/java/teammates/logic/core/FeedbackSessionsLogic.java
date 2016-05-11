@@ -53,7 +53,7 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackSessionsLogic {
 
-    private static FeedbackSessionsLogic instance = null;
+    private static FeedbackSessionsLogic instance;
 
     @SuppressWarnings("unused")
     private static Logger log = Utils.getLogger();

@@ -210,7 +210,7 @@
    <!--<rule ref="rulesets/java/optimizations.xml/LocalVariableCouldBeFinal"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/MethodArgumentCouldBeFinal"/>-->
    <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>
-   <!--<rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>-->
+   <rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>
    <!--<rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector"/>-->

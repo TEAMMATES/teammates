@@ -41,15 +41,15 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     final int MAX_READING_LENGTH = 900000; 
     
     
-    private String adminEmailTaskQueueMode = null;
+    private String adminEmailTaskQueueMode;
     
     //param needed for sending small number of emails
-    private String addressReceiverListString = null;
+    private String addressReceiverListString;
     
     //params needed to move heavy jobs into a queue task
-    private String groupReceiverListFileKey = null;
-    private int groupReceiverListFileSize = 0;
-    private String emailId = null;
+    private String groupReceiverListFileKey;
+    private int groupReceiverListFileSize;
+    private String emailId;
     
 
     @Override

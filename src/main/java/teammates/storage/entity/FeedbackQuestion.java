@@ -78,7 +78,7 @@ public class FeedbackQuestion implements StoreCallback {
      * the lastUpdate time stamp.
      **/
     @NotPersistent
-    public boolean keepUpdateTimestamp = false;
+    public boolean keepUpdateTimestamp;
 
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,

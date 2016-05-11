@@ -34,7 +34,7 @@ public class AdminSessionsPageAction extends Action {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

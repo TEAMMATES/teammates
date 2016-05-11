@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class FeedbackSessionQuestionsBundle {
 
-    public FeedbackSessionAttributes feedbackSession = null;
-    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = null;
-    public Map<String, Map<String, String>> recipientList = null;
+    public FeedbackSessionAttributes feedbackSession;
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
+    public Map<String, Map<String, String>> recipientList;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,

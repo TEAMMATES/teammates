@@ -16,7 +16,7 @@ public class AdminAccountManagementPageData extends PageData {
     /**
      * By default the testing accounts should not be shown
      */
-    private boolean isToShowAll = false;
+    private boolean isToShowAll;
     
     public AdminAccountManagementPageData(AccountAttributes account, 
                                           Map<String, AccountAttributes> instructorAccountsTable, 

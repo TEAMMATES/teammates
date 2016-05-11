@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
-    private String feedbackResponseId = null;
+    private String feedbackResponseId;
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;

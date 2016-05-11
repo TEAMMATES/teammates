@@ -57,8 +57,8 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     // the feedback session specified will be operated upon.
     // If either of courseId or feedbackSessionName is null,
     // then all feedback sessions will be checked
-    private String courseId = null;
-    private String feedbackSessionName = null;
+    private String courseId;
+    private String feedbackSessionName;
     
     
     private Map<String, Set<String>> emailsInCourse = new HashMap<>();

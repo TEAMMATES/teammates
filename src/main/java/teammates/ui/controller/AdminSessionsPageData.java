@@ -27,7 +27,7 @@ public class AdminSessionsPageData extends PageData {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
     

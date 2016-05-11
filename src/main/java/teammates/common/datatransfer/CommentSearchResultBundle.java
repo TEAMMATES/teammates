@@ -22,8 +22,8 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     public Map<String, List<CommentAttributes>> giverCommentTable = new TreeMap<String, List<CommentAttributes>>();
     public Map<String, String> giverTable = new HashMap<String, String>();
     public Map<String, String> recipientTable = new HashMap<String, String>();
-    public Cursor cursor = null;
-    private int numberOfResults = 0;
+    public Cursor cursor;
+    private int numberOfResults;
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     public CommentSearchResultBundle(){}

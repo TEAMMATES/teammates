@@ -39,7 +39,7 @@ import teammates.test.util.FileHelper;
 public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     protected String currentFileName = "";
-    protected boolean hasPreviousEntity = false;
+    protected boolean hasPreviousEntity;
     protected Set<String> accountsSaved = new HashSet<String>();
     
     public static void main(String[] args) throws IOException {
