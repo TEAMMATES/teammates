@@ -25,7 +25,7 @@ public class CompileLogs {
     public String doLogExam() {
         LogService logService = LogServiceFactory.getLogService();
 
-        long endTime = (new java.util.Date()).getTime();
+        long endTime = new java.util.Date().getTime();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         long queryRange = 1000 * 60 * 6;
         long startTime = endTime - queryRange;

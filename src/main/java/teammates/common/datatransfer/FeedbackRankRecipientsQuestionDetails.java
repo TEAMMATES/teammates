@@ -23,9 +23,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         super(FeedbackQuestionType.RANK_RECIPIENTS);
     }
 
-    public FeedbackRankRecipientsQuestionDetails(String questionText,
-                                       List<String> rankOptions,
-                                       int maxRank) {
+    public FeedbackRankRecipientsQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
     }
 
@@ -61,7 +59,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
         
         
         
@@ -99,7 +97,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
     
     
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -122,7 +120,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {       
         
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder(100);
   
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
         result.append("<option" 

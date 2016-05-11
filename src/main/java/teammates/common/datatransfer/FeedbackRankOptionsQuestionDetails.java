@@ -32,8 +32,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     public FeedbackRankOptionsQuestionDetails(String questionText,
-                                       List<String> rankOptions,
-                                       int maxRank) {
+                                       List<String> rankOptions) {
         super(FeedbackQuestionType.RANK_OPTIONS, questionText);
         this.options = rankOptions;
     }
@@ -91,7 +90,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
         
@@ -130,7 +129,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         
@@ -152,7 +151,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
     
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder(100);
      
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
         result.append("<option" 
@@ -183,7 +182,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         return FeedbackQuestionFormTemplates.populateTemplate(
@@ -212,7 +211,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder();
+        StringBuilder optionListHtml = new StringBuilder(100);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         String additionalInfo = "";
         

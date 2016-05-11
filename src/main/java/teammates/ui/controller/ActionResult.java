@@ -39,7 +39,6 @@ public abstract class ActionResult {
     public ActionResult(
             String destination, 
             AccountAttributes account, 
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status){
         
         this.destination = destination;
@@ -63,7 +62,7 @@ public abstract class ActionResult {
     }
     
     public String getStatusMessageColor() {
-        return (statusToUser == null || statusToUser.isEmpty()) ? "info" : statusToUser.get(0).getColor();
+        return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
     
     /**

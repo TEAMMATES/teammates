@@ -16,9 +16,9 @@ $(document).ready(function() {
     $(".studentRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if($(this).attr("class") == "studentRow active"){
+        if ($(this).attr("class") == "studentRow active") {
             $(this).attr("class", "studentRow");
-        } else{
+        } else {
             $(this).attr("class", "studentRow active");
         }
         $(".fslink" + rawId).toggle();
@@ -28,24 +28,24 @@ $(document).ready(function() {
     $(".instructorRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if($(this).attr("class") == "instructorRow active"){
+        if ($(this).attr("class") == "instructorRow active") {
             $(this).attr("class", "instructorRow");
-        } else{
+        } else {
             $(this).attr("class", "instructorRow active");
         }
         $(".fslink" + rawId).toggle();
 
     });
     
-    $(".homePageLink").click(function(e){        
+    $(".homePageLink").click(function(e) {        
         e.stopPropagation();
     });
     
-    $(".detailsPageLink").click(function(e){        
+    $(".detailsPageLink").click(function(e) {        
         e.stopPropagation();
     });
     
-    $(".optionButton").click(function(e){
+    $(".optionButton").click(function(e) {
         e.stopPropagation();
     });
     
@@ -53,13 +53,13 @@ $(document).ready(function() {
          this.select();
     });
     
-    $(".resetGoogleIdButton").click(function(e){
+    $(".resetGoogleIdButton").click(function(e) {
         e.stopPropagation();
     });
 
 });
 
-function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button){
+function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
     var params = "studentemail=" + studentEmail
                  + "&courseid=" + studentCourseId
                  + "&googleid=" + wrongGoogleId;
@@ -71,18 +71,18 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
     var originalGoogleIdEntry = $(googleIdEntry).html();
     
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminStudentGoogleIdReset?" + params,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminStudentGoogleIdReset?" + params,
+        beforeSend: function() {
             $(button).html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             $(button).html("An Error Occurred, Please Retry");          
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {                          
-                    if(data.isGoogleIdReset){
+                    if (data.isGoogleIdReset) {
                         googleIdEntry.html("");
                         $(button).hide();
                     } else {
@@ -97,29 +97,29 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
 
-            },500);
+            }, 500);
         }
     });
 }
 
-function adminSearchDiscloseAllStudents(){
+function adminSearchDiscloseAllStudents() {
     
     $(".fslink_student").slideDown();    
     $(".studentRow").attr("class", "studentRow active");
     
 }
 
-function adminSearchCollapseAllStudents(){
+function adminSearchCollapseAllStudents() {
     $(".fslink_student").hide();
     $(".studentRow").attr("class", "studentRow");
 }
 
-function adminSearchDiscloseAllInstructors(){
+function adminSearchDiscloseAllInstructors() {
     $(".fslink_instructor").slideDown();
     $(".instructorRow").attr("class", "instructorRow active");
 }
 
-function adminSearchCollapseAllInstructors(){
+function adminSearchCollapseAllInstructors() {
     $(".fslink_instructor").hide();
     $(".instructorRow").attr("class", "instructorRow");
 }

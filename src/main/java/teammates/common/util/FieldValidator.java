@@ -787,7 +787,7 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        return (value.equals(sanitizedValue)) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
+        return value.equals(sanitizedValue) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {

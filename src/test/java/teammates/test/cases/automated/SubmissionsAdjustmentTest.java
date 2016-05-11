@@ -241,7 +241,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
-    private void testAdjustmentOfResponses() throws Exception {
+    public void testAdjustmentOfResponses() throws Exception {
                 
         ______TS("typical case : existing student changes team");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");

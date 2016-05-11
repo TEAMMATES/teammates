@@ -48,7 +48,7 @@ public class StudentCommentsPageData extends PageData {
         
         setCoursePagination(coursePaginationList);
         setCommentsForStudentsTables(studentEmail, roster, comments);
-        createFeedbackSessionRows(feedbackResultBundles, roster);
+        createFeedbackSessionRows(feedbackResultBundles);
     }
 
     public String getCourseId() {
@@ -166,7 +166,7 @@ public class StudentCommentsPageData extends PageData {
     }
     
     private void createFeedbackSessionRows(
-            Map<String, FeedbackSessionResultsBundle> feedbackResultBundles, CourseRoster roster) {
+            Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
         feedbackSessionRows = new ArrayList<FeedbackSessionRow>();
         
         for (String fsName : feedbackResultBundles.keySet()) {
@@ -174,14 +174,14 @@ public class StudentCommentsPageData extends PageData {
             FeedbackSessionRow feedbackSessionRow = 
                     new FeedbackSessionRow(
                             fsName, courseId, createFeedbackQuestionTables(
-                                                      feedbackResultBundles.get(fsName), roster));
+                                                      feedbackResultBundles.get(fsName)));
             
             feedbackSessionRows.add(feedbackSessionRow);
         }
     }
     
     private List<QuestionTable> createFeedbackQuestionTables(
-            FeedbackSessionResultsBundle feedbackResultBundle, CourseRoster roster) {
+            FeedbackSessionResultsBundle feedbackResultBundle) {
         List<QuestionTable> feedbackQuestionTables = new ArrayList<QuestionTable>();
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries 
@@ -199,7 +199,7 @@ public class StudentCommentsPageData extends PageData {
             QuestionTable feedbackQuestionTable = 
                     new QuestionTable(questionNumber, questionText, additionalInfo, 
                                       createFeedbackResponseRows(
-                                              feedbackResultBundle, questionDetails, responseEntries, roster));
+                                              feedbackResultBundle, questionDetails, responseEntries));
             feedbackQuestionTables.add(feedbackQuestionTable);
         }
         return feedbackQuestionTables;
@@ -207,8 +207,7 @@ public class StudentCommentsPageData extends PageData {
     
     private List<ResponseRow> createFeedbackResponseRows(
             FeedbackSessionResultsBundle feedbackResultBundle, FeedbackQuestionDetails questionDetails, 
-            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries,
-            CourseRoster roster) {
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries) {
         List<ResponseRow> feedbackResponseRows = new ArrayList<ResponseRow>();
         
         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
@@ -227,7 +226,7 @@ public class StudentCommentsPageData extends PageData {
             ResponseRow responseRow = 
                     new ResponseRow(giverName, recipientName, response, 
                                     createFeedbackResponseCommentRows(
-                                            feedbackResultBundle, responseEntry, roster));
+                                            feedbackResultBundle, responseEntry));
             
             feedbackResponseRows.add(responseRow);
         }
@@ -235,8 +234,7 @@ public class StudentCommentsPageData extends PageData {
     }
     
     private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
-            FeedbackSessionResultsBundle feedbackResultBundle, FeedbackResponseAttributes responseEntry,
-            CourseRoster roster) {
+            FeedbackSessionResultsBundle feedbackResultBundle, FeedbackResponseAttributes responseEntry) {
         List<FeedbackResponseComment> feedbackResponseCommentRows = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> frcList = 
                 feedbackResultBundle.responseComments.get(responseEntry.getId());

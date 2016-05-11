@@ -168,8 +168,8 @@ public class TimeHelper {
         c.setTime(date);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
-        hour = (hour == 0 ? 24 : hour);
-        hour = ((hour == 23) && (minutes == 59)) ? 24 : hour;
+        hour = hour == 0 ? 24 : hour;
+        hour = hour == 23 && minutes == 59 ? 24 : hour;
         return hour + "";
     }
     
@@ -317,7 +317,7 @@ public class TimeHelper {
         
         differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
         
-        return (differenceInDays > 365);
+        return differenceInDays > 365;
     }
     
     /**
@@ -341,8 +341,8 @@ public class TimeHelper {
             return false;
         }
         
-        boolean isAfterStartTime = time.after(startTime) || (isStartInclusive && time.equals(startTime));
-        boolean isBeforeEndTime = time.before(endTime) || (isEndInclusive && time.equals(endTime));
+        boolean isAfterStartTime = time.after(startTime) || isStartInclusive && time.equals(startTime);
+        boolean isBeforeEndTime = time.before(endTime) || isEndInclusive && time.equals(endTime);
         
         return isAfterStartTime && isBeforeEndTime;
     }

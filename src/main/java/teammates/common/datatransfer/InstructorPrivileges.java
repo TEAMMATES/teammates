@@ -428,7 +428,8 @@ public final class InstructorPrivileges {
      * @return whether there are special settings for sessionName in sectionName
      */
     public boolean isSessionInSectionSpecial(String sectionName, String sessionName) {
-        return (this.sessionLevel.containsKey(sectionName)) && this.sessionLevel.get(sectionName).containsKey(sessionName);
+        return this.sessionLevel.containsKey(sectionName) 
+               && this.sessionLevel.get(sectionName).containsKey(sessionName);
     }
     
     /**

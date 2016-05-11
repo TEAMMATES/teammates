@@ -37,7 +37,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     }
     
     public FeedbackSessionPublishedMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         feedbackSessionName = paramMap.get(ParamsNames.EMAIL_FEEDBACK);

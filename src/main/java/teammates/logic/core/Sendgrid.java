@@ -79,7 +79,7 @@ public class Sendgrid {
      * @return           The SendGrid object.
      */
     public Sendgrid addTo(String email, String name) {
-        String toAddress = (name.length() > 0) ? name + "<" + email + ">" : email;
+        String toAddress = name.length() > 0 ? name + "<" + email + ">" : email;
         this.toList.add(toAddress);
         
         return this;
@@ -386,8 +386,8 @@ public class Sendgrid {
      * Invoked when a warning is returned from the server that
      * isn't critical
      */
-    public static interface WarningListener {
-        public void warning(String serverResponse, Throwable t);
+    public interface WarningListener {
+        void warning(String serverResponse, Throwable t);
     }
 
     /**
@@ -432,14 +432,14 @@ public class Sendgrid {
                         w.warning("Unsupported Encoding Exception", e);
                     }
                     
-                    requestParams.append("=");
+                    requestParams.append('=');
                     
                     try {
                         requestParams.append(URLEncoder.encode(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                         w.warning("Unsupported Encoding Exception", e);
                     }
-                    requestParams.append("&");
+                    requestParams.append('&');
                 }
             }
         }
@@ -499,7 +499,7 @@ public class Sendgrid {
         
         for (int i = 0; i < input.length(); i++) {
           int code = Character.codePointAt(input, i);
-          sb.append(String.format((code > 127) ? "\\u%x" : "%c", code)); 
+          sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
         }
         
         return sb.toString();

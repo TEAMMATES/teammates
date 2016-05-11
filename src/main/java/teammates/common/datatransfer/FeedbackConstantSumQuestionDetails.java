@@ -39,7 +39,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
-            int numOfConstSumOptions, List<String> constSumOptions,
+            List<String> constSumOptions,
             boolean pointsPerOption, int points, boolean unevenDistribution) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
         
@@ -69,7 +69,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         
-        int numOfConstSumOptions = 0;
         List<String> constSumOptions = new LinkedList<String>();
         String distributeToRecipientsString = null;
         String pointsPerOptionString = null;
@@ -86,10 +85,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Assumption.assertNotNull("Null points", pointsString);
         forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
-        distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
-        pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
+        distributeToRecipients = distributeToRecipientsString != null && distributeToRecipientsString.equals("true");
+        pointsPerOption = pointsPerOptionString != null && pointsPerOptionString.equals("true");
         points = Integer.parseInt(pointsString);
-        forceUnevenDistribution = (forceUnevenDistributionString == null) ? false : (forceUnevenDistributionString.equals("on") ? true : false); 
+        forceUnevenDistribution = forceUnevenDistributionString != null && forceUnevenDistributionString.equals("on"); 
         
         if (!distributeToRecipients) {
             String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
@@ -103,14 +102,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     numOfConstSumOptions++;
                 }
             }
-            this.setConstantSumQuestionDetails(numOfConstSumOptions, constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
         } else {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
         }
         return true;
     }
 
-    private void setConstantSumQuestionDetails(int numOfConstSumOptions,
+    private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
             int points, boolean unevenDistribution) {
         
@@ -164,7 +163,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             "${constSumOptionPoint}", existingConstSumResponse.getAnswerString(),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${constSumOptionValue}", "");
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for(int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment = 
@@ -177,7 +176,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 "${constSumOptionPoint}", Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
-                optionListHtml.append(optionFragment + Const.EOL);
+                optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
         
@@ -221,7 +220,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             "${constSumOptionPoint}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${constSumOptionValue}", "");
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for(int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment = 
@@ -234,7 +233,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 "${constSumOptionPoint}", "",
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
-                optionListHtml.append(optionFragment + Const.EOL);
+                optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
         
@@ -271,7 +270,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -280,12 +279,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
-                "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected" : "",
-                "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
-                "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
-                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",
-                "${distributeUnevenly}", (forceUnevenDistribution) ? "checked" : "",
+                "${constSumToRecipientsValue}", distributeToRecipients ? "true" : "false",
+                "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
+                "${constSumOptionTableVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
+                "${constSumPoints}", points == 0 ? "100" : Integer.toString(points),
+                "${optionRecipientDisplayName}", distributeToRecipients ? "recipient": "option",
+                "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,

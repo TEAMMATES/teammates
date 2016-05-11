@@ -75,9 +75,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (sortType == null) {
             // default view: sort by question, statistics shown, grouped by team.
-            showStats = new String("on");
-            groupByTeam = new String("on");
-            sortType = new String("question");
+            showStats = "on";
+            groupByTeam = "on";
+            sortType = "question";
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);

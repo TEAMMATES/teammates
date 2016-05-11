@@ -232,7 +232,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
             // TODO display numerical value of option 
-            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
     }
@@ -255,9 +255,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
+                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
             // Get entire row
             String tableRow = 
@@ -267,7 +267,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${row}", Integer.toString(i),
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow + Const.EOL);
+            tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         return tableBodyHtml.toString();
     }
@@ -289,7 +289,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
+                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
@@ -298,7 +298,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
                     "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
-            mobileHtml.append(panel + Const.EOL);
+            mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
     }
@@ -318,7 +318,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
         
         // Create table body
@@ -337,7 +337,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(j),
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
-                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
             
             // Get entire row
@@ -348,7 +348,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
-            tableBodyHtml.append(tableRow + Const.EOL);
+            tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         
         // Create edit form
@@ -473,7 +473,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${rubricChoiceValue}", rubricChoiceValue);
-            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
         
         // Create table body
@@ -490,7 +490,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
                                                                    + " (" + responseFrequency[j][i] +")");
-                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
             
             // Get entire row
@@ -498,7 +498,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow + Const.EOL);
+            tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         
         
@@ -624,7 +624,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // table header
         for (String choice : rubricChoices) {
-            csv.append("," + Sanitizer.sanitizeForCsv(choice));
+            csv.append(',').append(Sanitizer.sanitizeForCsv(choice));
         }
         
         csv.append(Const.EOL);

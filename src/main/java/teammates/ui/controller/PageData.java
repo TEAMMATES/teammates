@@ -65,7 +65,7 @@ public class PageData {
     }
     
     public boolean isUnregisteredStudent() {
-        return account.googleId == null || (student != null && !student.isRegistered());
+        return account.googleId == null || student != null && !student.isRegistered();
     }
 
     @SuppressWarnings("unused")
@@ -187,7 +187,7 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption 
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = (existingTimeZone == timeZoneOption);
+            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
             
             ElementTag option = createOption(textToDisplay, 
                                              formatAsString(timeZoneOption), isExistingTimeZone);
@@ -230,8 +230,8 @@ public class PageData {
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
-                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+            ElementTag option = createOption(i + " mins", String.valueOf(i), 
+                                            isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
         return result;
@@ -256,7 +256,7 @@ public class PageData {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
-                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+                                             String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
         }
         return result;
@@ -778,7 +778,7 @@ public class PageData {
      * Returns the type of people that can view the comment. 
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         for(int i = 0; i < comment.showCommentTo.size(); i++){
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
@@ -829,7 +829,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
@@ -875,7 +875,7 @@ public class PageData {
 
     
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
-        boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
+        boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
@@ -898,7 +898,7 @@ public class PageData {
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
         int defaultGracePeriod = 15;
-        boolean isEditingExistingEvaluation = (existingGracePeriodValue != Const.INT_UNINITIALIZED);
+        boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
         } else {
@@ -1011,7 +1011,7 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (studentEmail != null && recipient.equals(studentEmail)) {
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");

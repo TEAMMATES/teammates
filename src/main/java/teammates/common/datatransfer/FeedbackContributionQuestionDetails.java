@@ -108,7 +108,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked" : "",
+                "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
@@ -504,7 +504,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return studentResults;
     }
 
-    private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
+    protected Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
         for(String team : teamNames){
@@ -759,10 +759,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         // restrictions on visibility options
         Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
-                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+                feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) 
+                && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
         return errorMsg;
     }

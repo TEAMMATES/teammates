@@ -144,7 +144,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
                             "${msqChoiceText}",  Sanitizer.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         if (otherEnabled) {
@@ -154,13 +154,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${disabled}", sessionIsOpen ? "" : "disabled",
-                            "${text-disabled}", (sessionIsOpen && isOtherSelected) ? "" : "disabled",
+                            "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             "${msqChoiceValue}", Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
-            optionListHtml.append(otherOptionFragment + Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
         
         // additional checkbox for user to submit a blank response ("None of the above")
@@ -173,7 +173,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
@@ -199,7 +199,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
                             "${msqChoiceText}", Sanitizer.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment); 
+            optionListHtml.append(Const.EOL);
         }
         
         if (otherEnabled) {
@@ -215,7 +216,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             "${msqChoiceValue}", "",
                             "${msqOtherOptionAnswer}", "0");
-            optionListHtml.append(otherOptionFragment + Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(Const.EOL);
         } 
         
         // additional checkbox for user to submit a blank response ("None of the above")
@@ -228,7 +229,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-        optionListHtml.append(optionFragment + Const.EOL);
+        optionListHtml.append(optionFragment).append(Const.EOL);
         
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -299,7 +300,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -308,7 +309,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
-                "${checkedOtherOptionEnabled}", ((otherEnabled) ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 
@@ -337,15 +338,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder();
+        StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
         if(this.generateOptionsFor != FeedbackParticipantType.NONE){
-            optionListHtml.append("<br>"
-                                + "The options for this question is "
-                                + "automatically generated from the list of all "
-                                + generateOptionsFor.toString().toLowerCase()
-                                + " in this course.");
+            String optionHelpText = String.format(
+                "<br>The options for this question is automatically generated from the list of all %s in this course.", 
+                generateOptionsFor.toString().toLowerCase());
+            optionListHtml.append(optionHelpText);
         }
         
         if(numOfMsqChoices > 0){

@@ -169,8 +169,8 @@ function setupFsCopyModal() {
                 beforeSend: function() {
                     $copyModalStatusMessage.removeClass("alert alert-danger");
                     $copyModalStatusMessage.html($('<img>', {
-                                                       'class':'margin-center-horizontal',
-                                                       'src':'/images/ajax-loader.gif'
+                                                       'class': 'margin-center-horizontal',
+                                                       'src': '/images/ajax-loader.gif'
                                                        }
                                                 ));
                 },
