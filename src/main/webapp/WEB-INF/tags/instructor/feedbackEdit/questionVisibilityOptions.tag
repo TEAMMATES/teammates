@@ -15,7 +15,7 @@
 
 <div class="col-sm-12 padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
-        <b class="visibilityTitle">Visibility</b> (Who can see the responses?)
+        <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
     <div class="col-sm-6 btn-group" data-toggle="buttons">
         <label class="btn btn-xs btn-info visibilityOptionsLabel"

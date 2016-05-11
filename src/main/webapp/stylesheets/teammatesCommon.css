@@ -566,8 +566,8 @@ Apply to thead to make headers not bold.
     width: 12px;
 }
     
-.feedbackPathTitle,
-.visibilityTitle {
+.feedback-path-title,
+.visibility-title {
 	color: #2aabd2;
 }
 
