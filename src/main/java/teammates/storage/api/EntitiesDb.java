@@ -296,7 +296,7 @@ public abstract class EntitiesDb {
      *             based on the default key identifiers. Returns null if it 
      *             does not already exist in the Datastore. 
      */
-    protected abstract Object getEntity(EntityAttributes attributes) ;
+    protected abstract Object getEntity(EntityAttributes attributes);
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();

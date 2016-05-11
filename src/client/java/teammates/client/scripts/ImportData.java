@@ -32,7 +32,7 @@ public class ImportData {
     
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST =1000 ;//ms
+    private static final int WAIT_TIME_BETWEEN_REQUEST =1000;//ms
     
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -113,7 +113,7 @@ public class ImportData {
                 StudentAttributes studentData = (StudentAttributes)obj;
                 bundle.students.put(key, studentData);
             } 
-            count ++;
+            count++;
             itr.remove();
             System.out.print(key + "\n");
             if(type.equals("EvaluationData")&& count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)

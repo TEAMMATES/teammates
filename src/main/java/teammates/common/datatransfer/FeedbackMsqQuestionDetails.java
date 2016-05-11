@@ -360,7 +360,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (otherEnabled) {
                 String optionFragment = 
-                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${msqChoiceValue}", "Other");
+                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate, "${msqChoiceValue}", "Other");
                 optionListHtml.append(optionFragment);
             }
             
@@ -401,7 +401,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         String html = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for(String option : msqChoices){
             answerFrequency.put(option, 0);
@@ -482,7 +482,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String csv = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
         for(String option : msqChoices){

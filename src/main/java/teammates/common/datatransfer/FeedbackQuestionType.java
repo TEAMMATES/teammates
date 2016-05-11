@@ -27,7 +27,7 @@ public enum FeedbackQuestionType {
     }
 
     public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, 
-                                                                      Map<String,String[]> requestParameters) {
+                                                                      Map<String, String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
 
         switch (this) {

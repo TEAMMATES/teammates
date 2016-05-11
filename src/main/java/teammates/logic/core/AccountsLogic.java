@@ -171,14 +171,14 @@ public class AccountsLogic {
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
      */
-    private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
+    private void joinCourseForInstructorWithInstitute(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
         confirmValidJoinCourseRequest(encryptedKey, googleId, institute);
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute ) ;
+        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute );
         
         if (account == null){
             createAccount(new AccountAttributes(googleId,

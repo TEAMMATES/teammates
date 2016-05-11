@@ -831,7 +831,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
 
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -890,7 +890,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -967,7 +967,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestionInSection(
             String feedbackQuestionId, String receiver, String section) {
         
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
         
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String sectionParam");
@@ -1014,7 +1014,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionInSection(
             String feedbackQuestionId, String giverEmail, String section) {
         
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
         
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String sectionParam");
