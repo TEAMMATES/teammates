@@ -5,7 +5,7 @@
   <module name="TreeWalker">
     <module name="UnusedImports"/>
     <module name="WhitespaceAfter">
-      <property name="tokens" value="COMMA"/>
+      <property name="tokens" value="COMMA,TYPECAST"/>
     </module>
     <module name="NoWhitespaceBefore"/>
   </module>
