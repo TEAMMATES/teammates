@@ -90,7 +90,7 @@ function showEntryInInterval(start, end) {
     hideAllEntries();
     for (var i = start; i <= end; i++) {
         $("#accountEntry_" + i).show();
-    };
+    }
 }
 
 function reLabelOrderedAccountEntries() {

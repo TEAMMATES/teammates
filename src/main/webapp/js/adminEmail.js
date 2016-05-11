@@ -161,7 +161,7 @@ function submitGroupReceiverListUploadFormAjax() {
         
     });
     clearUploadGroupReceiverListInfo();
-};
+}
 
 
 
@@ -240,7 +240,7 @@ function submitImageUploadFormAjax() {
         
     });
     clearUploadFileInfo();
-};
+}
 
 
 

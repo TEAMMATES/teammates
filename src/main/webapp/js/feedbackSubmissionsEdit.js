@@ -795,7 +795,7 @@ function prepareRankQuestions() {
 function updateRankMessages() {
     var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
 
-    for (var i = 0; i < rankQuestionNums.length; i++) {;
+    for (var i = 0; i < rankQuestionNums.length; i++) {
         var qnNum = rankQuestionNums[i];
         updateRankMessageQn(qnNum);
     }

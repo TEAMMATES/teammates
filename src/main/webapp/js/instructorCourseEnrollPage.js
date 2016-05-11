@@ -21,7 +21,7 @@ var loadUpFunction = function() {
                 }
             }
         })
-    };
+    }
 };
 
 if (window.addEventListener) {
