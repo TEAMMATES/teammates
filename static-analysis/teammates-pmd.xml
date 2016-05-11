@@ -4,7 +4,7 @@
          name=""
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
    <description></description>
-   <!--<rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop"/>-->
+   <rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop"/>
    <!--<rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor"/>-->
    <!--<rule ref="rulesets/java/basic.xml/AvoidMultipleUnaryOperators"/>-->
    <!--<rule ref="rulesets/java/basic.xml/AvoidThreadGroup"/>-->
