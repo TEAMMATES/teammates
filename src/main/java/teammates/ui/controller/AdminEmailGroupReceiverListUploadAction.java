@@ -144,7 +144,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if (!lastStringOfLastAddedList.contains("@")||
+                if (!lastStringOfLastAddedList.contains("@") ||
                    !firstStringOfNewList.contains("@")){
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".

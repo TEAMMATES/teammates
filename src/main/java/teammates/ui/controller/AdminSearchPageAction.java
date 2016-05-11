@@ -227,7 +227,7 @@ public class AdminSearchPageAction extends Action {
         
         for (StudentAttributes student : students){
             
-            if (student.course == null ||student.email == null){
+            if (student.course == null || student.email == null){
                 continue;
             }
             
