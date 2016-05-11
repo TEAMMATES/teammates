@@ -347,10 +347,10 @@ public class InstructorsLogic {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        error= validator.getInvalidityInfoForPersonName(shortName);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+        error= validator.getInvalidityInfoForPersonName(name);
         if(!error.isEmpty()) { errors.add(error); }
         
         error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);

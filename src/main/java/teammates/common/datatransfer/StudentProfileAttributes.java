@@ -106,7 +106,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+            error = validator.getInvalidityInfoForPersonName(shortName);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
