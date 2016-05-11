@@ -48,8 +48,8 @@ public class AccountAttributesTest extends BaseTestCase {
                 "\"invalid google id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty."+ EOL +
                 "\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces."+ EOL +
                 "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty.";
-        assertEquals("all valid values",false, account.isValid());
-        assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));
+        assertEquals("all valid values", false, account.isValid());
+        assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
     }
     

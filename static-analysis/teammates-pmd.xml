@@ -252,10 +252,10 @@
    <!--<rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals"/>-->
    <!--<rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable"/>-->
    <!--<rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod"/>-->
-   <rule ref="rulesets/java/unnecessary.xml/UselessParentheses"/>
-   <!--<rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter"/>-->
-   <!--<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>-->
-   <!--<rule ref="rulesets/java/unusedcode.xml/UnusedModifier"/>-->
+   <!--<rule ref="rulesets/java/unnecessary.xml/UselessParentheses"/>-->
+   <rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter"/>
+   <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>
+   <rule ref="rulesets/java/unusedcode.xml/UnusedModifier"/>
    <!--<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField"/>-->
    <!--<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod"/>-->
 </ruleset>

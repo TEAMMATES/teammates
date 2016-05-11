@@ -83,7 +83,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                            "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
                   .replace("${courseEditLink}", 
                            "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
-        assertEquals(expected,pageResult.getStatusMessage());
+        assertEquals(expected, pageResult.getStatusMessage());
         
         ______TS("Error: Try to add the same course again");
         
@@ -162,7 +162,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                          "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
                 .replace("${courseEditLink}", 
                          "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
-        assertEquals(expected,pageResult.getStatusMessage());
+        assertEquals(expected, pageResult.getStatusMessage());
     }
     
     private Action getAction(String... parameters) throws Exception {

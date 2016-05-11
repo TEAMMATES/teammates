@@ -86,7 +86,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
-        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession); 
     }   
 
 

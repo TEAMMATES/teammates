@@ -145,7 +145,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
                 institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
                 allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
-                instructorEmailCounter ++;
+                instructorEmailCounter++;
                 updateProgressIndicator();
         }
 
@@ -169,7 +169,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
             institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
             allStudentEmailSet.add(student.getEmail().toLowerCase());  
-            studentEmailCounter ++;
+            studentEmailCounter++;
             updateProgressIndicator();
         }
                 
@@ -307,7 +307,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     private void updateProgressIndicator(){
-        iterationCounter ++;       
+        iterationCounter++;       
         if(iterationCounter%1000 == 0){           
             System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
         }

@@ -157,7 +157,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);
         } catch(EntityDoesNotExistException e) {
-            return ;
+            return;
         }
         HashMap<String, Boolean> sectionNamesTable = new HashMap<String, Boolean>();
         for (String sectionName : sectionNames) {

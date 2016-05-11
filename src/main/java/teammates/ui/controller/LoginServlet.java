@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        this.doPost(req,resp);
+        this.doPost(req, resp);
     }
 
     @Override

@@ -12,15 +12,15 @@ import teammates.common.util.Assumption;
  * - {@link FeedbackSessionAttributes}
  */
 public interface SessionAttributes {
-    public Date getSessionStartTime();
-    public Date getSessionEndTime();
-    public String getSessionName();
+    Date getSessionStartTime();
+    Date getSessionEndTime();
+    String getSessionName();
     
     /**
      * Comparator to sort SessionAttributes on ASCENDING order based on
      * end time, followed by start time and session name
      */
-    static final Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>(){
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             Assumption.assertNotNull(session1.getSessionName());
@@ -54,7 +54,7 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name
      */
-    static final Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>(){
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             FeedbackSessionAttributes feedbackSession1 = null;

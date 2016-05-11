@@ -434,7 +434,6 @@ public abstract class Action {
     public ShowPageResult createShowPageResult(String destination, PageData pageData) {
         return new ShowPageResult(destination, 
                                   account,
-                                  requestParameters,
                                   pageData,
                                   statusToUser);
     }
@@ -445,7 +444,6 @@ public abstract class Action {
      */
     public AjaxResult createAjaxResult(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData);
     }
@@ -456,12 +454,11 @@ public abstract class Action {
      */
     public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData, false);
     }
     
-    protected boolean isJoinedCourse(String courseId, String googleId) {
+    protected boolean isJoinedCourse(String courseId) {
         if (student != null) {
             return true;
         } else {
@@ -475,7 +472,6 @@ public abstract class Action {
     public RedirectResult createRedirectResult(String destination) {
         return new RedirectResult(destination, 
                                   account,
-                                  requestParameters,
                                   statusToUser);
     }
     
@@ -485,7 +481,6 @@ public abstract class Action {
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
         return new FileDownloadResult("filedownload", 
                                       account,
-                                      requestParameters,
                                       statusToUser,
                                       fileName,
                                       fileContent);
@@ -503,7 +498,6 @@ public abstract class Action {
         return new ImageResult("imagedisplay",
                                blobKey,
                                account,
-                               requestParameters,
                                statusToUser);
     }
 

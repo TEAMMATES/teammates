@@ -333,7 +333,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         if (otherEnabled) {
             String optionFragment = 
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${mcqChoiceValue}", "Others");
+                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate, "${mcqChoiceValue}", "Others");
             optionListHtml.append(optionFragment);
         }
         optionListHtml.append("</ul>");
@@ -371,7 +371,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         String html = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for(String option : mcqChoices){
             answerFrequency.put(option, 0);
@@ -427,7 +427,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         String csv = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices) {
             answerFrequency.put(option, 0);

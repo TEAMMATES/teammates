@@ -213,8 +213,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
                 "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
-                "${teamViewOfMe}",getPointsAsColorizedHtml(teamClaim),
-                "${teamViewOfOthers}",getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
+                "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
+                "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
 
         return html;
     }
@@ -287,7 +287,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for(int i=0 ; i<incomingPoints.length ; i++){
+            for(int i=0; i<incomingPoints.length; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
@@ -388,7 +388,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for(int i=0 ; i<incomingPoints.length ; i++){
+            for(int i=0; i<incomingPoints.length; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
                      
@@ -518,13 +518,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, int[][]> getTeamSubmissionArray(List<String> teamNames,
             Map<String, List<String>> teamMembersEmail,
             Map<String, List<FeedbackResponseAttributes>> teamResponses) {
-        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String,int[][]>();
+        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String, int[][]>();
         for(String team : teamNames){
             int teamSize = teamMembersEmail.get(team).size();
             teamSubmissionArray.put(team, new int[teamSize][teamSize]);
             //Initialize all as not submitted.
-            for(int i=0 ; i<teamSize ; i++){
-                for(int j=0 ; j<teamSize ; j++){
+            for(int i=0; i<teamSize; i++){
+                for(int j=0; j<teamSize; j++){
                     teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
                 }
             }
@@ -548,7 +548,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = 
-                new LinkedHashMap<String,List<FeedbackResponseAttributes>>();
+                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         for(String teamName : teamNames){
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }
@@ -601,7 +601,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
-        for(int i=0 ; i<subs.length ; i++){
+        for(int i=0; i<subs.length; i++){
             if(i==index){
                 continue;
             }
@@ -625,7 +625,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static String getNormalizedPointsListDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
-        for(int i=0 ; i<subs.length ; i++){
+        for(int i=0; i<subs.length; i++){
             if(i==index){
                 continue;
             }

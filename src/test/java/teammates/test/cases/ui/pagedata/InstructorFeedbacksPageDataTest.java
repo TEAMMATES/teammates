@@ -128,7 +128,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -201,7 +201,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         copyModalModel = helperData.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(0, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -323,7 +323,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("First feedback session" , copyModalModel.getFsName());
+        assertEquals("First feedback session", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
     }
     

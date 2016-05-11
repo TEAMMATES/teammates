@@ -173,7 +173,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         for(List<String> list : listOfList){
             for(String str : list){
                 log.info(str + "      " + i + " \n");
-                i ++;
+                i++;
             }
         }
     }
