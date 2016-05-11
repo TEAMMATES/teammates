@@ -848,7 +848,7 @@ public abstract class AppPage {
                 actual = getPageSource(by);
             }
             
-        } catch (IOException|AssertionError e) {
+        } catch (IOException | AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
