@@ -857,16 +857,20 @@ public class FeedbackSessionsLogic {
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
         
-        StringBuilder exportBuilder = new StringBuilder();
+        StringBuilder exportBuilder = new StringBuilder(100);
 
-        exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);
+        exportBuilder.append(String.format("Course,%s", Sanitizer.sanitizeForCsv(results.feedbackSession.courseId)))
+                     .append(Const.EOL)
+                     .append(String.format("Session Name,%s", 
+                             Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)))
+                     .append(Const.EOL);
         
         if(section != null){
-            exportBuilder.append("Section Name" + "," + Sanitizer.sanitizeForCsv(section) + Const.EOL);
+            exportBuilder.append(String.format("Section Name,%s", Sanitizer.sanitizeForCsv(section)))
+                         .append(Const.EOL);
         }
 
-        exportBuilder.append(Const.EOL + Const.EOL);
+        exportBuilder.append(Const.EOL).append(Const.EOL);
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
@@ -893,8 +897,8 @@ public class FeedbackSessionsLogic {
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
         if (!statistics.isEmpty()) {
-            exportBuilder.append("Summary Statistics," + Const.EOL);
-            exportBuilder.append(statistics + Const.EOL);
+            exportBuilder.append("Summary Statistics,").append(Const.EOL);
+            exportBuilder.append(statistics).append(Const.EOL);
         }
         
         exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
@@ -939,8 +943,8 @@ public class FeedbackSessionsLogic {
         
         // add the rows for the possible givers and recipients who have missing responses
         exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
-                possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
-        exportBuilder.append(Const.EOL + Const.EOL);
+                                            possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver))
+                     .append(Const.EOL + Const.EOL);
         
         return exportBuilder;
     }

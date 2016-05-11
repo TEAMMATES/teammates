@@ -55,7 +55,7 @@ public class FeedbackConstantSumResponseDetails extends
                 String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");
-                htmlBuilder.append( optionString + ": " + Sanitizer.sanitizeForHtml(answerString));
+                htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
                 htmlBuilder.append("</li>");
             }
             htmlBuilder.append("</ul>");
@@ -69,7 +69,7 @@ public class FeedbackConstantSumResponseDetails extends
         
         for(int i=0; i<answers.size(); i++) {
             if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
-                csvBuilder.append(",");
+                csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
         }

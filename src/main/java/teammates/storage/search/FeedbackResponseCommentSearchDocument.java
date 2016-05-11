@@ -145,16 +145,16 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //commentGiverEmail, commentGiverName, 
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name: "").append(delim);
-        searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
-        searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
-        searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
-        searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(comment.courseId).append(delim)
+                             .append(course != null? course.name: "").append(delim)
+                             .append(relatedSession.feedbackSessionName).append(delim)
+                             .append("question ").append(relatedQuestion.questionNumber).append(delim)
+                             .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
+                             .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
+                             .append(comment.giverEmail).append(delim)
+                             .append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim)
+                             .append(relatedPeopleBuilder.toString()).append(delim)
+                             .append(comment.commentText.getValue());
         
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
