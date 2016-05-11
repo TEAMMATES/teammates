@@ -602,7 +602,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for(int i = 0; i<subs.length; i++){
-            if(i==index){
+            if(i == index){
                 continue;
             }
             result.add(getPointsAsColorizedHtml(subs[i]));
@@ -626,7 +626,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private static String getNormalizedPointsListDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for(int i = 0; i<subs.length; i++){
-            if(i==index){
+            if(i == index){
                 continue;
             }
             result.add(Integer.toString(subs[i]));
@@ -895,19 +895,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if(i==Const.INT_UNINITIALIZED)
+        if(i == Const.INT_UNINITIALIZED)
             return "<span class=\"color_neutral\">N/A</span>";
         else if (i == Const.POINTS_NOT_SUBMITTED)
             return "<span class=\"color_neutral\"></span>";
-        else if(i==Const.POINTS_NOT_SURE)
+        else if(i == Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
-        else if(i==0)
+        else if(i == 0)
             return "<span class=\"color-negative\">0%</span>";
         else if(i>100)
             return "<span class=\"color-positive\">Equal Share +"+(i-100)+"%</span>";
         else if(i<100)
             return "<span class=\"color-negative\">Equal Share -"+(100-i)+"%</span>";
-        else if(i==100)
+        else if(i == 100)
             return "<span class=\"color_neutral\">Equal Share</span>";
         else
             return "";

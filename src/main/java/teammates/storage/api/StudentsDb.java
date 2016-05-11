@@ -313,7 +313,7 @@ public class StudentsDb extends EntitiesDb {
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
         for(StudentAttributes s: allStudents){
-            if(s.googleId==null || s.googleId.trim().isEmpty()){
+            if(s.googleId == null || s.googleId.trim().isEmpty()){
                 unregistered.add(s);
             }
         }
