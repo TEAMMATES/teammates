@@ -538,6 +538,9 @@ function prepareQuestionForm(type) {
             
             $('#rankRecipientsForm').show();
             break;
+        default:
+            // do nothing if the question type is not recognized, which should not happen
+            break;
     }
 }
 

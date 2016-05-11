@@ -76,13 +76,14 @@
         ////////// Best Practices //////////
 
         "no-else-return": 2,        // disallow else after a return in an if
+        "no-fallthrough": 2,        // disallow fallthrough of case statements
         "no-lonely-if": 2,          // disallow if as the only statement in an else block
+        "default-case": 2,          // require default case in switch statements
 
         "block-scoped-var": 0,      // treat var statements as if they were block scoped (off by default)
         "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program (off by default)
         "consistent-return": 0,     // require return statements to either always or never specify values
         "curly": 0,                 // specify curly brace conventions for all control statements
-        "default-case": 0,          // require default case in switch statements (off by default)
         "dot-notation": 0,          // encourages use of dot notation whenever possible
         "eqeqeq": 0,                // require the use of === and !==
         "guard-for-in": 0,          // make sure for-in loops have an if statement (off by default)
@@ -94,7 +95,6 @@
         "no-eval": 0,               // disallow use of eval()
         "no-extend-native": 0,      // disallow adding to native types
         "no-extra-bind": 0,         // disallow unnecessary function binding
-        "no-fallthrough": 0,        // disallow fallthrough of case statements
         "no-floating-decimal": 0,   // disallow the use of leading or trailing decimal points in numeric literals (off by default)
         "no-implied-eval": 0,       // disallow use of eval()-like methods
         "no-iterator": 0,           // disallow usage of __iterator__ property
