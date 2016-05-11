@@ -2281,7 +2281,7 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
+    protected void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
