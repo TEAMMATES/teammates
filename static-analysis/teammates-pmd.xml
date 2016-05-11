@@ -220,8 +220,8 @@
    <!--<rule ref="rulesets/java/sunsecure.xml/MethodReturnsInternalArray"/>-->
    <!--<rule ref="rulesets/java/strictexception.xml/AvoidCatchingGenericException"/>-->
    <!--<rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE"/>-->
-   <!--<rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable"/>-->
-   <!--<rule ref="rulesets/java/strictexception.xml/AvoidLosingExceptionInformation"/>-->
+   <rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable"/>
+   <rule ref="rulesets/java/strictexception.xml/AvoidLosingExceptionInformation"/>
    <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException"/>
    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNewInstanceOfSameException"/>
    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNullPointerException"/>
