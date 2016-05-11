@@ -399,7 +399,7 @@ public class StudentsLogic {
     }
 
     /**
-     * Validates both sections and teams for any limit violations
+     * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
      * @throws EntityDoesNotExistException
@@ -424,37 +424,13 @@ public class StudentsLogic {
     }
     
     /**
-     * Validates teams for any limit violations
+     * Validates teams for any team name violations
      * @param studentList
      * @param courseId
      * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
     public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
-
-        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
-
-        if (mergedList.size() < 2) { // no conflicts
-            return;
-        }
-
-        String errorMessage = "";
-        errorMessage += getTeamInvalidityInfo(mergedList);
-
-        if (!errorMessage.isEmpty()) {
-            throw new EnrollException(errorMessage);
-        }
-
-    }
-    
-    /**
-     * Validates sections for any limit violations
-     * @param studentList
-     * @param courseId
-     * @throws EntityDoesNotExistException
-     * @throws EnrollException
-     */
-    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 

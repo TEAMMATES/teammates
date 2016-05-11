@@ -56,11 +56,11 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);
             student.updateWithExistingRecord(originalStudentAttribute);
             
-            boolean hasSectionChanged = student.hasSectionChanged(originalStudentAttribute);
-            boolean hasTeamChanged = student.hasSectionChanged(originalStudentAttribute);
-            if (hasSectionChanged) {
+            boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
+            boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
+            if (isSectionChanged) {
                 logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
-            } else if (hasTeamChanged) {
+            } else if (isTeamChanged) {
                 logic.validateTeams(Arrays.asList(student), courseId);
             }
             
