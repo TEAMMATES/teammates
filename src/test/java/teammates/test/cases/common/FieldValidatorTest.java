@@ -255,66 +255,6 @@ public class FieldValidatorTest extends BaseTestCase{
     }
 
     @Test
-    public void testGetValidityInfo_PERSON_NAME() {
-        
-        //NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedNonEmptyString
-        //  , testGetValidityInfoForSizeCappedPossiblyEmptyString or testGetValidityInfoForAllowedName
-        // methods which are already unit tested. Therefore, this method checks if the 
-        //  max length and the field name are handled correctly by SUT.
-        
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.PERSON_NAME, 
-                PERSON_NAME_MAX_LENGTH, 
-                PERSON_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_INSTITUTE_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.INSTITUTE_NAME, 
-                INSTITUTE_NAME_MAX_LENGTH, 
-                INSTITUTE_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_COURSE_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.COURSE_NAME, 
-                COURSE_NAME_MAX_LENGTH, 
-                COURSE_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_TEAM_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.TEAM_NAME, 
-                TEAM_NAME_MAX_LENGTH, 
-                TEAM_NAME_ERROR_MESSAGE, 
-                false);
-        
-    }
-
-    @Test
-    public void testGetValidityInfo_STUDENT_ROLE_COMMENTS() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.STUDENT_ROLE_COMMENTS, 
-                STUDENT_ROLE_COMMENTS_MAX_LENGTH, 
-                STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, 
-                true);
-    }
-    
-    @Test
     public void testGetValidityInfo_COUNTRY() {
         runGenericTestCasesForCappedSizeStringTypeField(
                 FieldType.NATIONALITY,
