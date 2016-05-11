@@ -175,7 +175,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = teammates.common.util.Utils.getTeammatesGson();
+        Gson gson = Utils.getTeammatesGson();
         
         if (responseDetails == null) {
             // There was error extracting response data from http request
@@ -204,7 +204,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
     }
