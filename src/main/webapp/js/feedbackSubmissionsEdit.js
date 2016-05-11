@@ -39,18 +39,18 @@ $(document).ready(function() {
     
         if ($(this).data('text') === "otherOptionText") {
             // Other option is selected by the student
-            $('#'+idOfOtherOptionText).prop('disabled', false);
-            $('#'+idOfOtherOptionFlag).val("1");
+            $('#' + idOfOtherOptionText).prop('disabled', false);
+            $('#' + idOfOtherOptionFlag).val("1");
         } else {
             // Any option except the other option is selected
-            $('#'+idOfOtherOptionText).prop('disabled', true);
-            $('#'+idOfOtherOptionFlag).val("0");
+            $('#' + idOfOtherOptionText).prop('disabled', true);
+            $('#' + idOfOtherOptionFlag).val("0");
         }
     });
-    	           
-    $("input[id^='otherOptionText']").keyup(function () {
-    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text','');
-    $('#'+idOfOtherOptionRadioButton).val($(this).val());
+                   
+    $("input[id^='otherOptionText']").keyup(function() {
+    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+    $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
@@ -78,15 +78,15 @@ $(document).ready(function() {
 
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
-	var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+    var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
     
     for (var i = 0; i < mcqQuestionNums.length; i++) {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
 
         for (var j = 0; j < numResponses; j++) {
-        	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
-        	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
+            $('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+                 .val($('#otherOptionText-' + qnNum + '-' + j).val());
         }
     }
 }
@@ -109,7 +109,7 @@ function updateMsqOtherOptionField() {
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('.moderated-question').length > 0) {
-        scrollToElement($('.moderated-question')[0], {duration: 1000});
+        scrollToElement($('.moderated-question')[0], { duration: 1000 });
     }
 }
 
@@ -143,19 +143,19 @@ function prepareMCQQuestions() {
                 
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') == "otherOptionText") {
-                	if ($(this).is(':checked')) {
-                		$('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");               		
-                	} else {              		
-                		$('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                	}               	
+                    if ($(this).is(':checked')) {
+                        $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
+                    } else {                      
+                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    }                   
                 } else { // Predefined option is selected
-                	// If other option is enabled for the question
-                	if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
-                		$('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                	}
+                    // If other option is enabled for the question
+                    if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
+                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    }
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
@@ -236,7 +236,7 @@ function prepareMSQQuestions() {
 
         // reset "none of the above" if any option is clicked
         var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""], '
-                        +'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
+                        + 'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
 
         $options.click(function() {
             var noneOfTheAboveOption = $(this).closest('table').find(
@@ -358,7 +358,7 @@ function prepareMobileRubricQuestions() {
     $rubricRadioInputs.closest('label').mousedown(function(e) {
         var $self = $(this);
         var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
-        if($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
+        if ($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
             var uncheck = function() {
                 setTimeout(function() {
                     $radioInput.prop('checked', false);
@@ -734,7 +734,7 @@ function validateAllAnswersHaveRecipient() {
     });
 
     var isAllAnswersToMissingRecipientEmpty = true;
-    var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
+    var statusMessage = FEEDBACK_MISSING_RECIPIENT;
     var errorCount = 0;
 
     // for every response without a recipient, check that the response is empty

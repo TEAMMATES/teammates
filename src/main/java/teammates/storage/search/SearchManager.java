@@ -29,7 +29,7 @@ public class SearchManager {
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
     private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
-    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String,Index>>();
+    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
     
     /*
      * Create or update the search document for the given document and index
@@ -38,7 +38,7 @@ public class SearchManager {
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
         while (!isSuccessful
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
             ThreadHelper.waitBriefly();
             //retry putting the document
             isSuccessful = tryPutDocument(indexName, document);
@@ -57,7 +57,7 @@ public class SearchManager {
         Index index = getIndex(indexName);
         try {
             PutResponse result = index.put(document);
-            return (result.getResults().get(0).getCode() == StatusCode.OK);
+            return result.getResults().get(0).getCode() == StatusCode.OK;
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
             if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){

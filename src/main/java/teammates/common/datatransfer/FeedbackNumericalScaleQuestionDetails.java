@@ -275,8 +275,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
-        boolean isRecipientTypeTeam = (question.recipientType == FeedbackParticipantType.TEAMS) || 
-                                    (question.recipientType == FeedbackParticipantType.OWN_TEAM);
+        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS 
+                                      || question.recipientType == FeedbackParticipantType.OWN_TEAM;
         boolean isRecipientTypeStudent = !isRecipientTypeGeneral && !isRecipientTypeTeam;
         
         String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
@@ -476,7 +476,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setRoundingMode(RoundingMode.DOWN);
   
         String csvHeader = "";
-        csvHeader += "Team, Recipient, Average, Minimum, Maximum" ;
+        csvHeader += "Team, Recipient, Average, Minimum, Maximum";
         csvHeader += showAvgExcludingSelf ? ", Average excluding self response" : "";
         csvHeader += Const.EOL;
         
@@ -498,7 +498,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             csvBody += "," + df.format(average.get(recipient));
             csvBody += "," + df.format(min.get(recipient));
             csvBody += "," + df.format(max.get(recipient));
-            csvBody += showAvgExcludingSelf ? "," + averageScoreExcludingSelfText : "" ;
+            csvBody += showAvgExcludingSelf ? "," + averageScoreExcludingSelfText : "";
             csvBody += Const.EOL;
         }
         

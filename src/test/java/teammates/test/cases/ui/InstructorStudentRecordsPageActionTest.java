@@ -141,9 +141,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         // re-login as another instructor for new test
         gaeSimulation.loginAsInstructor(instructor4Id);
         String courseIdWithNoSession = "idOfCourseNoEvals";
-        StudentAttributes testStudent = new StudentAttributes();
 
-        testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
+        StudentAttributes testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
 
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,

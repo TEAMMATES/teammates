@@ -3,7 +3,7 @@ QUnit.module('instructorStudentList.js');
 function testFilterSection() {}
 QUnit.test('filterSection()', function(assert) {
 
-    if(!$('#show_email').is(':checked')) {
+    if (!$('#show_email').is(':checked')) {
         $('#show_email').click();
     }
 
@@ -76,10 +76,10 @@ QUnit.test('filterSection()', function(assert) {
 function testFilterTeam() {}
 QUnit.test('filterTeam()', function(assert) {
     //Initialize by checking the options box and show email
-    if(!$('#option_check').is(':checked')) {
+    if (!$('#option_check').is(':checked')) {
         $('#option_check').click();
     }
-    if(!$('#show_email').is(':checked')) {
+    if (!$('#show_email').is(':checked')) {
         $('#show_email').click();
     }
 

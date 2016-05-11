@@ -23,7 +23,6 @@ public class AdminEmailImageUploadAction extends Action {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
-        BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
         data = new AdminEmailComposePageData(account);    
@@ -39,7 +38,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
         
         
-        blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();     
         
       
         data.isFileUploaded = true;
@@ -84,7 +83,7 @@ public class AdminEmailImageUploadAction extends Action {
         } else if(!image.getContentType().contains("image/")) {
             deleteImage(image.getBlobKey());
             isError = true;
-            data.ajaxStatus = (Const.StatusMessages.FILE_NOT_A_PICTURE);
+            data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
         } else {
             return image;

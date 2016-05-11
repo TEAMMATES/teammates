@@ -77,8 +77,8 @@ public abstract class EntitiesDb {
         int elapsedTime = 0;
         Object createdEntity = getEntity(entityToAdd);
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
-            while ((createdEntity == null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (createdEntity == null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 createdEntity = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
@@ -186,8 +186,8 @@ public abstract class EntitiesDb {
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToAdd);
-            while ((entityCheck == null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (entityCheck == null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 entityCheck = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
@@ -229,8 +229,8 @@ public abstract class EntitiesDb {
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToDelete);
-            while ((entityCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (entityCheck != null
+                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 entityCheck = getEntity(entityToDelete);
                 //check before incrementing to avoid boundary case problem
@@ -296,7 +296,7 @@ public abstract class EntitiesDb {
      *             based on the default key identifiers. Returns null if it 
      *             does not already exist in the Datastore. 
      */
-    protected abstract Object getEntity(EntityAttributes attributes) ;
+    protected abstract Object getEntity(EntityAttributes attributes);
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();

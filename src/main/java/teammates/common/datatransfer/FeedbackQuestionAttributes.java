@@ -163,7 +163,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
             // Recipient fragment: e.g. student, instructor, etc.
             if (participant == FeedbackParticipantType.RECEIVER) {
-                line += (recipientType.toSingularFormString());
+                line += recipientType.toSingularFormString();
 
                 if (numberOfEntitiesToGiveFeedbackTo > 1) {
                     line += "s";
@@ -222,20 +222,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public boolean isGiverAStudent() {
-        return (giverType == FeedbackParticipantType.SELF
-                || giverType == FeedbackParticipantType.STUDENTS);
+        return giverType == FeedbackParticipantType.SELF
+               || giverType == FeedbackParticipantType.STUDENTS;
     }
 
     public boolean isRecipientNameHidden() {
-        return (recipientType == FeedbackParticipantType.NONE
-                || recipientType == FeedbackParticipantType.SELF);
+        return recipientType == FeedbackParticipantType.NONE
+               || recipientType == FeedbackParticipantType.SELF;
     }
 
     public boolean isRecipientAStudent() {
-        return (recipientType == FeedbackParticipantType.SELF
-                || recipientType == FeedbackParticipantType.STUDENTS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        return recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.STUDENTS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
@@ -273,9 +273,19 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public int compareTo(FeedbackQuestionAttributes o) {
         if (o == null) {
             return 1;
-        } else {
+        }
+        
+        if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
+        /**
+         * Although question numbers ought to be unique in a feedback session,
+         * eventual consistency can result in duplicate questions numbers. 
+         * Therefore, to ensure that the question order is always consistent to the user,
+         * compare feedbackQuestionId, which is guaranteed to be unique,
+         * when the questionNumbers are the same. 
+         */
+        return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
 
     @Override

@@ -81,7 +81,7 @@
       </ul>
       <ul class="nav navbar-nav pull-right">
         <li>
-          <a class="nav logout" href="/logout.jsp" id="btnLogout">
+          <a class="nav logout" href="/logout" id="btnLogout">
             Logout (
             <span class="text-info" data-original-title="${test.instructor}" data-placement="bottom" data-toggle="tooltip" title="">
               ${test.instructor}
@@ -119,7 +119,7 @@
         .
         <br>
         If this is not you please
-        <a href="/logout.jsp">
+        <a href="/logout">
           log out
         </a>
         and re-login using your own Google account.
@@ -131,7 +131,7 @@
         <a class="btn btn-success" href="/page/instructorCourseJoinAuthenticated?key=${regkey.enc}" id="button_confirm">
           Yes, this is my account
         </a>
-        <a class="btn btn-danger" href="/logout.jsp" id="button_cancel">
+        <a class="btn btn-danger" href="/logout" id="button_cancel">
           No, this is not my account
         </a>
       </div>

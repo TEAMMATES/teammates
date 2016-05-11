@@ -28,7 +28,6 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         GateKeeper.inst().verifyAdminPrivileges(account);
         
-        BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
         data = new AdminEmailComposePageData(account);    
@@ -59,7 +58,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             return createAjaxResult(data);
         }     
         
-        blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();     
         
         
         data.groupReceiverListFileKey = blobKey.getKeyString();
@@ -174,7 +173,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         for(List<String> list : listOfList){
             for(String str : list){
                 log.info(str + "      " + i + " \n");
-                i ++;
+                i++;
             }
         }
     }
@@ -203,7 +202,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         if(!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
-            data.ajaxStatus = (Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE);
+            data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;
             return null;
         } else {
             return groupReceiverListFile;

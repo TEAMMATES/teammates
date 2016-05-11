@@ -182,7 +182,6 @@ public class StudentFeedbackResultsPageData extends PageData {
                 giverName = "You";
             }
             
-
             boolean isUserRecipient = student.email.equals(response.recipientEmail);
             if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient

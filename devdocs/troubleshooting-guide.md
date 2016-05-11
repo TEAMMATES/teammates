@@ -193,10 +193,6 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   **SOLUTION**: Replace "/src/main/webapp/files/Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
 
-12. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
-
-  **SOLUTION**: Download the file from [here]( http://chromedriver.storage.googleapis.com/index.html) and extract to /src/test/resources/lib/selenium, then rename it by adding "`_osx`". Refresh the folder in eclipse.
-
 13. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. Here is a useful [reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).

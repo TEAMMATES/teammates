@@ -33,7 +33,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.googleId,
-                "account","true"
+                "account", "true"
         };
         
         final String adminUserId = "admin.user";

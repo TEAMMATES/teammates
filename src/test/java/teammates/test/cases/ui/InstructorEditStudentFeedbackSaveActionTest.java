@@ -122,7 +122,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "" ,
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         

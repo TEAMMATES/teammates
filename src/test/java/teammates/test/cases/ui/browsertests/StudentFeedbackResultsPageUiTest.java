@@ -166,7 +166,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl,StudentFeedbackResultsPage.class);
+        return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
     }
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,

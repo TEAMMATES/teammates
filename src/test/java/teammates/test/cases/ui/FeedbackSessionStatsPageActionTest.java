@@ -20,7 +20,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
     }
     
@@ -45,8 +45,8 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
        
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(10,data.sessionDetails.stats.expectedTotal);
-        assertEquals(4,data.sessionDetails.stats.submittedTotal);
+        assertEquals(10, data.sessionDetails.stats.expectedTotal);
+        assertEquals(4, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent feedback session");

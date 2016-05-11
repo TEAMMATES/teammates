@@ -238,7 +238,7 @@ public class FeedbackQuestionsLogic {
             questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                             feedbackSessionName, courseId, INSTRUCTORS));
         }
-        
+        Collections.sort(questions);
         return questions;
     }
     
@@ -275,7 +275,7 @@ public class FeedbackQuestionsLogic {
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
                 courseId, SELF));
         
-        
+        Collections.sort(questions);
         return questions;
     }
     
@@ -291,8 +291,8 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.INSTRUCTORS || 
-                (question.giverType == FeedbackParticipantType.SELF && isCreator) ) {
+            if (question.giverType == FeedbackParticipantType.INSTRUCTORS 
+                || question.giverType == FeedbackParticipantType.SELF && isCreator) {
                 questions.add(question);
             }
         }
@@ -319,6 +319,7 @@ public class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, TEAMS));
         
+        Collections.sort(questions);
         return questions;
     }
     
@@ -369,7 +370,7 @@ public class FeedbackQuestionsLogic {
         return unansweredQuestions;
     }
     
-    public Map<String,String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
+    public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
             throws EntityDoesNotExistException {
         
         InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
@@ -378,12 +379,12 @@ public class FeedbackQuestionsLogic {
         return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
     }
 
-    public Map<String,String> getRecipientsForQuestion(
+    public Map<String, String> getRecipientsForQuestion(
             FeedbackQuestionAttributes question, String giver, 
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)
                     throws EntityDoesNotExistException {
 
-        Map<String,String> recipients = new HashMap<String,String>();
+        Map<String, String> recipients = new HashMap<String, String>();
         
         FeedbackParticipantType recipientType = question.recipientType;
         

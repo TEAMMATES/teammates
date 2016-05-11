@@ -18,7 +18,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
-import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageAction extends Action {
     
@@ -347,16 +346,16 @@ public class AdminSessionsPageAction extends Action {
         
         if (condition.contentEquals("null")) {
 
-            return (startDate == null && endDate == null && startHour == null &&
-                    endHour == null && startMin == null && endMin == null && timeZone == null);
+            return startDate == null && endDate == null && startHour == null 
+                   && endHour == null && startMin == null && endMin == null && timeZone == null;
 
         } else if (condition.contentEquals("notNull")) {
 
-            return (startDate != null && endDate != null && startHour != null
-                    && endHour != null && startMin != null && endMin != null && timeZone != null
-                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
-                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty());
+            return startDate != null && endDate != null && startHour != null
+                   && endHour != null && startMin != null && endMin != null && timeZone != null
+                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
+                   && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
 
         } else {
             return false;

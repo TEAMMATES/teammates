@@ -256,7 +256,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(
-                              frcaExpected.courseId, frcaExpected.createdAt,frcaExpected.giverEmail);
+                              frcaExpected.courseId, frcaExpected.createdAt, frcaExpected.giverEmail);
         
         frcaExpected.setId(frcaActual.getId());
         frcaExpected.feedbackQuestionId = frcaActual.feedbackQuestionId;

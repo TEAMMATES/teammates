@@ -41,7 +41,6 @@ public class InstructorCourseAddAction extends Action {
 
         /* Prepare data for the refreshed page after executing the adding action */
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         
@@ -52,7 +51,7 @@ public class InstructorCourseAddAction extends Action {
         }
         
         // Get corresponding courses of the instructors.
-        allCourses = logic.getCoursesForInstructor(instructorList);
+        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(instructorList);
         
         List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
         for (CourseAttributes course : allCourses) {

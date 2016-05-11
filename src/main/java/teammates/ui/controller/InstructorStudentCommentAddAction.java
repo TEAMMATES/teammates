@@ -192,16 +192,16 @@ public class InstructorStudentCommentAddAction extends Action {
     }
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
-        return (comment.isVisibleTo(CommentParticipantType.PERSON)
-                    || comment.isVisibleTo(CommentParticipantType.TEAM)
-                    || comment.isVisibleTo(CommentParticipantType.SECTION)
-                    || comment.isVisibleTo(CommentParticipantType.COURSE));
+        return comment.isVisibleTo(CommentParticipantType.PERSON)
+               || comment.isVisibleTo(CommentParticipantType.TEAM)
+               || comment.isVisibleTo(CommentParticipantType.SECTION)
+               || comment.isVisibleTo(CommentParticipantType.COURSE);
     }
     
     public String getCourseStudentDetailsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = new PageData(account).addUserIdToUrl(link);
         return link;
     }

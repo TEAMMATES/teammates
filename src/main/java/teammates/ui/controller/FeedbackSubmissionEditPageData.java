@@ -63,8 +63,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                         .withCourseId(courseId)
                                         .toString();
         
-        registerMessage = (student == null || joinUrl == null) ? "" : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, 
-                                                                                       student.name, joinUrl);
+        registerMessage = student == null || joinUrl == null 
+                        ? "" 
+                        : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, student.name, joinUrl);
         createQuestionsWithResponses();        
     }
     

@@ -514,8 +514,8 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
-                             throws AddressException,MessagingException,UnsupportedEncodingException {
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute) 
+                             throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
@@ -525,7 +525,7 @@ public class Emails {
         
         String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
         emailBody = emailBody.replace("${userName}", shortName);
-        emailBody = emailBody.replace("${joinUrl}",joinUrl);
+        emailBody = emailBody.replace("${joinUrl}", joinUrl);
         messageToUser.setContent(emailBody, "text/html");
 
         return messageToUser;
@@ -913,7 +913,7 @@ public class Emails {
                 }
             }
         } catch (Exception e){
-            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders", e);
         }
         
         return data;

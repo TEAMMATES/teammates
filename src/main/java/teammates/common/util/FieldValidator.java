@@ -787,7 +787,7 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        return (value.equals(sanitizedValue)) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
+        return value.equals(sanitizedValue) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
@@ -895,4 +895,13 @@ public class FieldValidator {
         // TODO do better validation
         return redirectUrl.startsWith("/page/");
     }
+    
+    /**
+     * Checks whether a given text input represents a format of a valid email address.  
+     * @param email text input which needs the validation
+     * @return true if it is a valid email address, else false. 
+     */
+    public static boolean isValidEmailAddress(String email) {
+        return StringHelper.isMatching(email, REGEX_EMAIL);
+     }
 }
