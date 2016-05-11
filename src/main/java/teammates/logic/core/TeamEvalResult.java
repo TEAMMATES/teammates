@@ -230,7 +230,6 @@ public class TeamEvalResult {
     }
 
     public static double sum(double[] input) {
-        double sum = NA;
         if (input.length == 0) {
             return 0;
         }
@@ -238,6 +237,7 @@ public class TeamEvalResult {
         verify("Unsanitized value in " + Arrays.toString(input),
                 isSanitized(doubleToInt(input)));
 
+        double sum = NA;
         for (int i = 0; i < input.length; i++) {
 
             double value = input[i];

@@ -278,10 +278,6 @@ public class FeedbackResponsesLogic {
         if (question == null) {
             return false;
         }
-
-        List<FeedbackParticipantType> showNameTo =
-                isGiverName ? question.showGiverNameTo
-                        : question.showRecipientNameTo;
         
         // Early return if user is giver
         if (question.giverType != FeedbackParticipantType.TEAMS) {
@@ -295,6 +291,9 @@ public class FeedbackResponsesLogic {
             }
         }
         
+        List<FeedbackParticipantType> showNameTo = isGiverName 
+                                                 ? question.showGiverNameTo
+                                                 : question.showRecipientNameTo;
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
@@ -802,10 +801,6 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
-        StudentAttributes student =
-                studentsLogic.getStudentForEmail(question.courseId,
-                        studentEmail);
-
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             addNewResponses(viewableResponses,
                     getFeedbackResponsesForQuestion(question.getId()));
@@ -814,6 +809,8 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
+        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId,
+                                                                     studentEmail);
         if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(

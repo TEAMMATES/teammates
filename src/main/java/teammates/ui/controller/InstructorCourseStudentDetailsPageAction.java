@@ -22,16 +22,14 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         Assumption.assertNotNull(studentEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), student.section,
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        
         if (student == null) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS, StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
-        
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), student.section,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         
         String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         

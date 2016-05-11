@@ -183,14 +183,13 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private void printToFile() {     
-        
-        HashSet<String> studentEmailSet = new HashSet<String>();
-        HashSet<String> instructorEmailSet = new HashSet<String>();
-        
         if(!emailListConfig.student && !emailListConfig.instructor){
             System.out.print("No email list to be generated. Exiting now..\n\n");
             return;
         }
+        
+        HashSet<String> studentEmailSet = new HashSet<String>();
+        HashSet<String> instructorEmailSet = new HashSet<String>();
         if(emailListConfig.student){
             studentEmailSet = addStudentEmailIntoSet(studentEmailSet);
         }

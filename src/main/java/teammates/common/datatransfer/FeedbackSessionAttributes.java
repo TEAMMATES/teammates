@@ -320,7 +320,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date now = TimeHelper.now(timeZone).getTime();
         Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -329,6 +328,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return false;
         }
 
+        Date now = TimeHelper.now(timeZone).getTime();
         return visibleTime.before(now);
     }
 

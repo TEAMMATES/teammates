@@ -175,7 +175,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
-        ArrayList<String> result = new ArrayList<String>();
         
         if (this.bundle == null) {
             return null;
@@ -183,6 +182,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
         
+        List<String> result = new ArrayList<String>();
         // Add an empty option first.
         result.add(
             "<option value=\"\" " +

@@ -90,7 +90,6 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       BackDoorLogic backDoor = new BackDoorLogic();     
        String courseId = null;    
        
        try {
@@ -114,6 +113,7 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
         
+       BackDoorLogic backDoor = new BackDoorLogic();
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
         data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;

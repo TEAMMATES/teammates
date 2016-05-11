@@ -117,9 +117,9 @@ public class BaseActionTest extends BaseComponentTestCase {
     
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        List<String> paramList = Arrays.asList(typicalCase); 
         if (order == 0) return typicalCase;
         
+        List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
         int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);

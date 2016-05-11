@@ -193,11 +193,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @return The Feedback*ResponseDetails object representing the response's details
      */
     public FeedbackResponseDetails getResponseDetails(){
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if (isMissingResponse()) {
             return null;
         }
+        
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if(responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON

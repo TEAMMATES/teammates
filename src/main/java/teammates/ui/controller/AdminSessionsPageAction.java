@@ -39,8 +39,6 @@ public class AdminSessionsPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        Logic logic = new Logic();
-        
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
         

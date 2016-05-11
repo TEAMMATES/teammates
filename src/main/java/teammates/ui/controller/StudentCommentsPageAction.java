@@ -43,14 +43,14 @@ public class StudentCommentsPageAction extends Action {
             courseId = "";
         }
         
-        List<String> coursePaginationList = new ArrayList<String>(); 
-        String courseName = getCoursePaginationList(coursePaginationList);
-        
         //check accessibility with courseId
         if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();
+        
+        List<String> coursePaginationList = new ArrayList<String>(); 
+        String courseName = getCoursePaginationList(coursePaginationList);
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;

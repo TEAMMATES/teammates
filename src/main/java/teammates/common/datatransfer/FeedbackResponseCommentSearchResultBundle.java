@@ -208,7 +208,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response, 
             FeedbackResponseCommentAttributes comment){
-        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         //in the old ver, name is always visible
         if(comment.isVisibilityFollowingFeedbackQuestion){
             return true;
@@ -218,6 +217,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if(instructorEmails.contains(comment.giverEmail)){
             return true;
         }
+        
+        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         for(FeedbackParticipantType type:showNameTo){
             if(type == FeedbackParticipantType.GIVER
                     && instructorEmails.contains(response.giverEmail)){
