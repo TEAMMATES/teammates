@@ -26,19 +26,19 @@ $(document).ready(function() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
 
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
 
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
@@ -76,7 +76,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-'+commentIdx).submit();
+    $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
 
@@ -138,7 +138,7 @@ function disableComment(commentIdx) {
 
 function textAreaAdjust(o) {
     o.style.height = '1px';
-    o.style.height = (o.scrollHeight+5) + 'px';
+    o.style.height = (o.scrollHeight + 5) + 'px';
 }
 
 /**
@@ -161,7 +161,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function( response, status, xhr ) {
+    targetDiv.load(url, function(response, status, xhr) {
       if (status == 'success') {
           $(sender).removeAttr('onclick');
       }

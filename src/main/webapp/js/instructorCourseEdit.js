@@ -70,7 +70,7 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
-    scrollToElement($('#panelAddInstructor')[0], {duration: 1000});
+    scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
 }
 
 function hideNewInstructorForm() {
@@ -217,7 +217,7 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
-    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1];
+    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
     
     if ((instrNum <= numOfInstr) && (instrNum <= instructorCourseEditInstructorAccessLevelWhenLoadingPage.length)) {
         if (originalRole === 'Custom') {
@@ -326,8 +326,8 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
     }
 }
 
-function bindChangingRole(index){
-    $("input[id^='instructorroleforinstructor" + index + "']").change(function(){
+function bindChangingRole(index) {
+    $("input[id^='instructorroleforinstructor" + index + "']").change(function() {
         var idAttr = $(this).attr('id');
         var instrNum = parseInt(idAttr.substring(27));
         var role = $(this).attr("value");
@@ -335,7 +335,7 @@ function bindChangingRole(index){
     });
 }
 
-$(function(){
+$(function() {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
     for (var i = 0; i < numOfInstr; i++) {
         var instrNum = i + 1;

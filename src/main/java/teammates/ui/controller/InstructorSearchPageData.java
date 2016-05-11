@@ -143,8 +143,7 @@ public class InstructorSearchPageData extends PageData {
     private void setSearchStudentsTables(StudentSearchResultBundle studentSearchResultBundle) {
         
         searchStudentsTables = new ArrayList<SearchStudentsTable>(); // 1 table for each course      
-        List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(
-                                        studentSearchResultBundle.studentList, studentSearchResultBundle);
+        List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle);
         
         for (String courseId : courseIdList) {
             searchStudentsTables.add(new SearchStudentsTable(
@@ -308,7 +307,6 @@ public class InstructorSearchPageData extends PageData {
     
     
     private List<String> getCourseIdsFromStudentSearchResultBundle(
-                                    List<StudentAttributes> studentList, 
                                     StudentSearchResultBundle studentSearchResultBundle) {
         List<String> courses = new ArrayList<String>();
         

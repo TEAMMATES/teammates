@@ -99,7 +99,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         // a registered student must have an associated google Id, therefore 2 branches are missed here
         // and not covered, if they happen, it signifies a much larger problem.
         // i.e. that student.googleId cannot be empty or null if student != null
-        return (student != null) && (student.googleId != null)  && (!student.googleId.isEmpty());
+        return student != null && student.googleId != null && !student.googleId.isEmpty();
     }
 
     @Override

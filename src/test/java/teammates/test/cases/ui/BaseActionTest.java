@@ -206,7 +206,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      * @param value Value to set
      */
     protected void modifyParamValue(String[] params, String key, String value){
-        for(int i=0 ; i<params.length ; i+=2){
+        for(int i=0; i<params.length; i+=2){
             if(params[i] == key){
                 if(i+1 >= params.length){
                     Assumption.fail("Cannot find parameter to modify.");
@@ -315,8 +315,8 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginUser(unregUserId);
         verifyCanAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
     }
 
     protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) throws Exception {
@@ -328,7 +328,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCanAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
     }
 
@@ -341,8 +341,8 @@ public class BaseActionTest extends BaseComponentTestCase {
         StudentAttributes otherStudent = data.students.get("student1InCourse2");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId, submissionParams));
         verifyCanAccess(submissionParams);
         
     }
@@ -365,8 +365,8 @@ public class BaseActionTest extends BaseComponentTestCase {
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(submissionParams);
         
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId, submissionParams));
         
     }
 
@@ -388,7 +388,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyCanMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
     }
 
@@ -400,7 +400,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be a student
-        verifyCanMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
+        verifyCanMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         
     }
 
@@ -413,8 +413,8 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.logoutUser();
         verifyRedirectToLoginOrUnauthorisedException(submissionParams);
-        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
     }
     
     private void verifyUnaccessibleWithoutLoginMasquerade(String... params) {
@@ -441,8 +441,8 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginUser(unregUserId);
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
     }
     
@@ -565,7 +565,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
     }
     
@@ -598,7 +598,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         
     }
     

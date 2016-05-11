@@ -227,8 +227,8 @@ public class EmailsTest extends BaseComponentTestCase {
                 + "{*}" + c.id + "{*}" + c.name
                 + "{*}" + fsa.feedbackSessionName + "{*}" + deadline 
                 + "{*}{The student's unique submission url appears here}"
-                + "{*}{The student's unique submission url appears here}"
-                , emailBody);
+                + "{*}{The student's unique submission url appears here}", 
+                emailBody);
 
         printEmail(email);
         

@@ -36,7 +36,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
     
     public FeedbackSessionClosingMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         feedbackSessionName = paramMap.get(ParamsNames.EMAIL_FEEDBACK);

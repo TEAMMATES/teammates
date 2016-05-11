@@ -154,7 +154,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${disabled}", sessionIsOpen ? "" : "disabled",
-                            "${text-disabled}", (sessionIsOpen && isOtherSelected) ? "" : "disabled",
+                            "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
@@ -308,7 +308,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
-                "${checkedOtherOptionEnabled}", ((otherEnabled) ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 
@@ -360,7 +360,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (otherEnabled) {
                 String optionFragment = 
-                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${msqChoiceValue}", "Other");
+                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate, "${msqChoiceValue}", "Other");
                 optionListHtml.append(optionFragment);
             }
             
@@ -401,7 +401,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         String html = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for(String option : msqChoices){
             answerFrequency.put(option, 0);
@@ -482,7 +482,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String csv = "";
         String fragments = "";
-        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
         for(String option : msqChoices){

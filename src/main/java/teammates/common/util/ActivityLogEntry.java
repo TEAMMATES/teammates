@@ -346,15 +346,15 @@ public class ActivityLogEntry {
             if(googleId.contentEquals("Unregistered")){
                 return "[" + name +
                         " (Unregistered User) " + 
-                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
             }     
             return "[" + name +
                     " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
         } else if(url.contains("/instructor")){
             return "[" + name +
                     " <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
         } else { 
             return googleId; 
         }

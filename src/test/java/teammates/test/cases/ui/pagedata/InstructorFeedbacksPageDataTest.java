@@ -23,7 +23,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -31,11 +30,7 @@ import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 
-import com.google.gson.Gson;
-
 public class InstructorFeedbacksPageDataTest extends BaseTestCase {
-
-    private static Gson gson = Utils.getTeammatesGson();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
     
@@ -128,7 +123,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -201,7 +196,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         copyModalModel = helperData.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(0, copyModalModel.getExistingFeedbackSessions().size());
         
         
@@ -323,7 +318,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("First feedback session" , copyModalModel.getFsName());
+        assertEquals("First feedback session", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
     }
     
@@ -376,8 +371,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
             boolean isGoogleIdSame = instructor.googleId != null 
                                      && instructor.googleId.equals(googleId);
             boolean isOmittedDueToArchiveStatus = isOmitArchived 
-                                                  && (instructor.isArchived != null 
-                                                      && instructor.isArchived);
+                                                  && instructor.isArchived != null 
+                                                  && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
             }

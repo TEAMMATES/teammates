@@ -157,9 +157,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1,"Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #{*}Private Session #");
+                0, 1, "Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #{*}Private Session #");
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1,"Private Session #{*}Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
+                0, 1, "Private Session #{*}Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
         
         
         ______TS("sort by course id");
@@ -210,7 +210,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         String templateSessionName = "Team Peer Evaluation Session";
         feedbackPage.addFeedbackSession(
-                templateSessionName , newSession.courseId,
+                templateSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions, newSession.gracePeriod);
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
@@ -793,7 +793,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("test response rate link clickable");
         
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
-        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104","Private Session #");
+        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "Private Session #");
         
         
         ______TS("test response rate already displayed");
@@ -952,7 +952,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
-                templateSessionName , newSession.courseId, 
+                templateSessionName, newSession.courseId, 
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
@@ -971,7 +971,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Team peer evaluation session");
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithTimeZone(
-                templateSessionName , newSession.courseId,
+                templateSessionName, newSession.courseId,
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,

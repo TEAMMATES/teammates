@@ -694,7 +694,7 @@ public abstract class AppPage {
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.
@@ -1074,7 +1074,7 @@ public abstract class AppPage {
     }
 
     public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360,640));
+        browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
 
     public void changeToDesktopView() {
