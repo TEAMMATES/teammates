@@ -121,11 +121,11 @@
    <rule ref="rulesets/java/basic.xml/EmptyInitializer"/>
    <rule ref="rulesets/java/basic.xml/EmptyStatementBlock"/>
    <rule ref="rulesets/java/basic.xml/EmptyStatementNotInLoop"/>
-   <!--<rule ref="rulesets/java/basic.xml/EmptyStaticInitializer"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptySwitchStatements"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptySynchronizedBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyTryBlock"/>-->
-   <!--<rule ref="rulesets/java/basic.xml/EmptyWhileStmt"/>-->
+   <rule ref="rulesets/java/basic.xml/EmptyStaticInitializer"/>
+   <rule ref="rulesets/java/basic.xml/EmptySwitchStatements"/>
+   <rule ref="rulesets/java/basic.xml/EmptySynchronizedBlock"/>
+   <rule ref="rulesets/java/basic.xml/EmptyTryBlock"/>
+   <rule ref="rulesets/java/basic.xml/EmptyWhileStmt"/>
    <!--<rule ref="rulesets/java/finalizers.xml/AvoidCallingFinalize"/>-->
    <!--<rule ref="rulesets/java/finalizers.xml/EmptyFinalizer"/>-->
    <!--<rule ref="rulesets/java/finalizers.xml/FinalizeDoesNotCallSuperFinalize"/>-->
