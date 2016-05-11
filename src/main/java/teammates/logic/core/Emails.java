@@ -84,17 +84,17 @@ public class Emails {
         StringBuilder messageInfo = new StringBuilder(100);
         messageInfo.append("[Email sent]to=")
                    .append(message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString());
-        messageInfo.append("|from=").append(message.getFrom()[0].toString());
-        messageInfo.append("|subject=").append(message.getSubject());
+                                .toString())
+                   .append("|from=").append(message.getFrom()[0].toString())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
     public static String getEmailInfo(Sendgrid message) {
         StringBuilder messageInfo = new StringBuilder(100);
-        messageInfo.append("[Email sent]to=").append(message.getTos().get(0));
-        messageInfo.append("|from=").append(message.getFrom());
-        messageInfo.append("|subject=").append(message.getSubject());
+        messageInfo.append("[Email sent]to=").append(message.getTos().get(0))
+                   .append("|from=").append(message.getFrom())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     

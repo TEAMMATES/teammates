@@ -426,29 +426,29 @@ public class TeamEvalResult {
         String filler = "                                ";
         sb.append(indentString)
           .append(pointsToString((claimed)).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("              normalizedClaimed:");
-        sb.append(indentString)
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("              normalizedClaimed:")
+          .append(indentString)
           .append(pointsToString((normalizedClaimed)).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("normalizedPeerContributionRatio:");
-        sb.append(indentString)
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("normalizedPeerContributionRatio:")
+          .append(indentString)
           .append(pointsToString(normalizedPeerContributionRatio).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("     normalizedAveragePerceived:");
-        sb.append(indentString)
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
+          .append("     normalizedAveragePerceived:")
+          .append(indentString)
           .append(pointsToString(normalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
 
-        sb.append("   denormalizedAveragePerceived:");
-        sb.append(indentString)
+          .append("   denormalizedAveragePerceived:")
+          .append(indentString)
           .append(pointsToString((denormalizedAveragePerceived)).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider);
         return sb.toString();
     }
 

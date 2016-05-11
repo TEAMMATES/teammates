@@ -107,12 +107,12 @@ public class CommentSearchDocument extends SearchDocument {
         //courseId, courseName, giverEmail, giverName, 
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name: "").append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(recipientsBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(comment.courseId).append(delim)
+                             .append(course != null? course.name: "").append(delim)
+                             .append(comment.giverEmail).append(delim)
+                             .append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim)
+                             .append(recipientsBuilder.toString()).append(delim)
+                             .append(comment.commentText.getValue());
         
         Document doc = Document.newBuilder()
             //this is used to filter documents visible to certain instructor

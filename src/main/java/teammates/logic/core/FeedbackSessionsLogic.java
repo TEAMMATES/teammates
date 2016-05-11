@@ -943,8 +943,8 @@ public class FeedbackSessionsLogic {
         
         // add the rows for the possible givers and recipients who have missing responses
         exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
-                possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
-        exportBuilder.append(Const.EOL + Const.EOL);
+                                            possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver))
+                     .append(Const.EOL + Const.EOL);
         
         return exportBuilder;
     }
