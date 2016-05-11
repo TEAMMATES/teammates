@@ -55,7 +55,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
             int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
             
-            for(int i = 0; i < numMsqChoicesCreated; i++) {
+            for (int i = 0; i < numMsqChoicesCreated; i++) {
                 String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
                 if(msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
@@ -134,7 +134,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
         
-        for(int i = 0; i < choices.size(); i++) {
+        for (int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -189,7 +189,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-        for(int i = 0; i < choices.size(); i++) {
+        for (int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -292,7 +292,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
-        for(int i = 0; i < numOfMsqChoices; i++) {
+        for (int i = 0; i < numOfMsqChoices; i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
@@ -350,7 +350,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         if(numOfMsqChoices > 0){
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for(int i = 0; i < numOfMsqChoices; i++) {
+            for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                                 "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
@@ -403,7 +403,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for(String option : msqChoices){
+        for (String option : msqChoices){
             answerFrequency.put(option, 0);
         }
         
@@ -412,7 +412,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         int numChoicesSelected = 0;
-        for(FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings(); 
             Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
@@ -430,7 +430,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 answerStrings.remove(otherAnswer);
             }
             
-            for(String answerString : answerStrings){
+            for (String answerString : answerStrings){
                 if (answerString.equals("")) {
                     continue;
                 }
@@ -457,7 +457,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
@@ -485,7 +485,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
-        for(String option : msqChoices){
+        for (String option : msqChoices){
             answerFrequency.put(option, 0);
         }
         
@@ -495,7 +495,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         int numChoicesSelected = 0;
         
-        for(FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
             Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
@@ -513,7 +513,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 answerStrings.remove(otherAnswer);
             }
             
-            for(String answerString : answerStrings){
+            for (String answerString : answerStrings){
                 if (answerString.equals("")) {
                     continue;
                 }
@@ -538,7 +538,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
                       + df.format(100*(double)entry.getValue() / numChoicesSelected) + Const.EOL;
@@ -580,7 +580,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
-        for(FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if(!otherEnabled){
                 List<String> validChoices = msqChoices;

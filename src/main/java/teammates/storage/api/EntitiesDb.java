@@ -106,7 +106,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -137,7 +137,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -251,7 +251,7 @@ public abstract class EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         List<Object> entities = new ArrayList<Object>();
-        for(EntityAttributes entityToDelete : entitiesToDelete){
+        for (EntityAttributes entityToDelete : entitiesToDelete){
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);

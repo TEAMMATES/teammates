@@ -114,7 +114,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         c.courseId = "idOfTypicalCourse1";
         List<CommentAttributes> commentsForGiver = commentsLogic.getCommentsForGiver(c.courseId, c.giverEmail);
-        for(CommentAttributes comment : commentsForGiver){
+        for (CommentAttributes comment : commentsForGiver){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.giverEmail, comment.giverEmail);
         }
@@ -123,7 +123,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         c.recipientType = CommentParticipantType.PERSON;
         List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
         }
@@ -136,7 +136,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentDrafts(c.giverEmail);
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
             assertEquals(c.status, comment.status);
@@ -190,7 +190,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         //init
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         comments = commentsLogic.getCommentsForStudent(student);
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments){
             comment.showCommentTo = new ArrayList<CommentParticipantType>();
             comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
             comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
@@ -321,7 +321,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
 
     private void verifyCommentsGotForStudent(
             List<CommentAttributes> commentsForReceiver) {
-        for(CommentAttributes comment : commentsForReceiver){
+        for (CommentAttributes comment : commentsForReceiver){
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.PERSON)
                     || comment.showCommentTo.contains(CommentParticipantType.TEAM)
                     || comment.showCommentTo.contains(CommentParticipantType.SECTION)
@@ -332,7 +332,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     private void verifyCommentsGotForInstructor(
             List<CommentAttributes> commentsForReceiver,
             InstructorAttributes instructor) {
-        for(CommentAttributes comment : commentsForReceiver){
+        for (CommentAttributes comment : commentsForReceiver){
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR)
                     || comment.courseId.equals(instructor.courseId));
         }
@@ -397,25 +397,25 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     // TODO: add tests for those one level down api call if test coverage is considered
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+        for (CommentAttributes c: comments){
             assertTrue(!c.giverEmail.equals("Anonymous"));
         }
     }
     
     private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+        for (CommentAttributes c: comments){
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
     private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+        for (CommentAttributes c: comments){
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+        for (CommentAttributes c: comments){
             assertTrue(!c.recipients.iterator().next().equals("Anonymous"));
         }
     }

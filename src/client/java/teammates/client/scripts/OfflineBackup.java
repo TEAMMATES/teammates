@@ -92,7 +92,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         //Extracts the course Ids to be backup from the logs
         Set<String> courses = new HashSet<String>();
-        for(String course : modifiedLogs) {
+        for (String course : modifiedLogs) {
             course = course.trim();
             if(!course.equals("")) {
                 courses.add(course);
@@ -165,11 +165,11 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 saveStudentAccount(student);
             }
             
-            for(InstructorAttributes instructor : instructors) {
+            for (InstructorAttributes instructor : instructors) {
                 saveInstructorAccount(instructor);
             } 
             
@@ -189,7 +189,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for(CommentAttributes comment: comments) {
+        for (CommentAttributes comment: comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
@@ -225,7 +225,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");
         
-        for(FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             saveFeedbackQuestion(feedbackQuestion);
         }
         hasPreviousEntity = false;
@@ -242,7 +242,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackResponses\":{\n");
         
-        for(FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
+        for (FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
             saveFeedbackResponse(feedbackResponse);
         }
         hasPreviousEntity = false;
@@ -259,7 +259,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
         
-        for(FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
+        for (FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
             saveFeedbackResponseComment(feedbackResponseComment);
         }
         hasPreviousEntity = false;
@@ -275,7 +275,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"feedbackSessions\":{\n");
         
-        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             saveFeedbackSession(feedbackSession);
         }
         hasPreviousEntity = false;
@@ -291,7 +291,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"instructors\":{\n");
         
-        for(InstructorAttributes instructor : instructors) {
+        for (InstructorAttributes instructor : instructors) {
             saveInstructor(instructor);
         }
         hasPreviousEntity = false;
@@ -308,7 +308,7 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"students\":{\n");
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 saveStudent(student);
             }
             hasPreviousEntity = false;
@@ -329,7 +329,7 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 if(student != null && student.googleId != null && !student.googleId.equals("")) {
                     StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
                     if(profile != null) {

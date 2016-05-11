@@ -170,8 +170,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //log all email addresses retrieved from the txt file 
         int i = 0;
         
-        for(List<String> list : listOfList){
-            for(String str : list){
+        for (List<String> list : listOfList){
+            for (String str : list){
                 log.info(str + "      " + i + " \n");
                 i++;
             }

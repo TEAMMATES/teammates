@@ -192,7 +192,7 @@ public class StudentsLogic {
         }
         
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);        
-        for(StudentAttributes teammate : teammates) {
+        for (StudentAttributes teammate : teammates) {
             if (teammate.email.equals(student.email)) {
                 return true;
             }
@@ -403,11 +403,11 @@ public class StudentsLogic {
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             mergedList.add(student);
         }
 
-        for(StudentAttributes student : studentsInCourse) {
+        for (StudentAttributes student : studentsInCourse) {
             if(!isInEnrollList(student, mergedList)){
                 mergedList.add(student);
             }
@@ -443,7 +443,7 @@ public class StudentsLogic {
 
         List<String> invalidSectionList = new ArrayList<String>();
         int studentsCount = 1;
-        for(int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
             if(currentStudent.section.equals(previousStudent.section)){
@@ -461,7 +461,7 @@ public class StudentsLogic {
         }
 
         String errorMessage = "";
-        for(String section: invalidSectionList){
+        for (String section: invalidSectionList){
             errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
         }
 
@@ -473,7 +473,7 @@ public class StudentsLogic {
         StudentAttributes.sortByTeamName(mergedList);
 
         List<String> invalidTeamList = new ArrayList<String>();
-        for(int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
             if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
@@ -484,7 +484,7 @@ public class StudentsLogic {
         }
 
         String errorMessage = "";
-        for(String team : invalidTeamList){
+        for (String team : invalidTeamList){
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
         if(!errorMessage.equals("")){
@@ -601,7 +601,7 @@ public class StudentsLogic {
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for(StudentAttributes student : students) {
+        for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
@@ -609,7 +609,7 @@ public class StudentsLogic {
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for(StudentAttributes student : students) {
+        for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
@@ -635,7 +635,7 @@ public class StudentsLogic {
     public void adjustFeedbackResponseForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-        for(StudentEnrollDetails enrollment : enrollmentList) {
+        for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {

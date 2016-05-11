@@ -784,7 +784,7 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> teamResponses =
                 new ArrayList<FeedbackResponseAttributes>();
         
-        for(StudentAttributes studentInTeam : studentsInTeam){
+        for (StudentAttributes studentInTeam : studentsInTeam){
             if(studentInTeam.email.equals(student.email)){
                 continue;
             }

@@ -238,7 +238,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;
         
-        for(FeedbackResponseAttributes existingResponse : existingResponses) {
+        for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipientEmail);
             

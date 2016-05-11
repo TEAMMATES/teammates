@@ -67,7 +67,7 @@ public abstract class SearchQuery {
         List<String> keywords = new ArrayList<String>();
         String key = "";
         boolean isStartQuote = false;
-        for(int i = 0; i < splitStrings.length; i++){
+        for (int i = 0; i < splitStrings.length; i++){
             if(!splitStrings[i].equals("\"")){
                 if(isStartQuote){
                     key += " " + splitStrings[i];
@@ -95,7 +95,7 @@ public abstract class SearchQuery {
         
         StringBuilder preparedQueryString = new StringBuilder("("+ "\"" + keywords.get(0) + "\"");
         
-        for(int i = 1; i < keywords.size(); i++){
+        for (int i = 1; i < keywords.size(); i++){
             preparedQueryString.append(OR).append("\"" + keywords.get(i) + "\"");
         }
         return preparedQueryString.toString() + ")";
@@ -126,7 +126,7 @@ public abstract class SearchQuery {
         
         boolean isfirstElement = visibilityQueryString.isEmpty() ? true : false;
         
-        for(String textQuery : textQueryStrings){
+        for (String textQuery : textQueryStrings){
             if(isfirstElement){
                 queryStringBuilder.append(textQuery);
                 isfirstElement = false;
@@ -134,7 +134,7 @@ public abstract class SearchQuery {
                 queryStringBuilder.append(AND).append(textQuery);
             }
         }
-        for(String dateQuery : dateQueryStrings){
+        for (String dateQuery : dateQueryStrings){
             if(isfirstElement){
                 queryStringBuilder.append(dateQuery);
                 isfirstElement = false;

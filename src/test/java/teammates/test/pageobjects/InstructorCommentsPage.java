@@ -135,7 +135,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -145,7 +145,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -251,7 +251,7 @@ public class InstructorCommentsPage extends AppPage {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
-        for(WebElement e : webElements) {
+        for (WebElement e : webElements) {
             if(e.isDisplayed() != isVisible) {
                 return false;
             }

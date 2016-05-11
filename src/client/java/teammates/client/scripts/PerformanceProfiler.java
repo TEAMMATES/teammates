@@ -212,7 +212,7 @@ public class PerformanceProfiler extends Thread {
             String[] durations = strs[2].split("\\,");
             
             ArrayList<Float> arr = new ArrayList<Float>();
-            for(String str : durations) {
+            for (String str : durations) {
                 Float f = Float.parseFloat(str);
                 arr.add(f);
             }

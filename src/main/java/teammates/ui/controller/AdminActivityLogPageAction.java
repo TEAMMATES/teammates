@@ -214,7 +214,7 @@ public class AdminActivityLogPageAction extends Action {
         long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
         query.setTimePeriod(startTime, query.getEndTime());
         
-        for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
+        for (int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }

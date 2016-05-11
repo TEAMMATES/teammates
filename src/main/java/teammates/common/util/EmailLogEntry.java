@@ -146,7 +146,7 @@ public class EmailLogEntry {
             return text;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
+        for (String stringToHighlight : keyStringsToHighlight){
             if(text.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());

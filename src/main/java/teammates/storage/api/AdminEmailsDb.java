@@ -95,7 +95,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         for (AdminEmailAttributes a : emailsInTrashBin){
             if (a.getGroupReceiver() != null){
-                for(String key : a.getGroupReceiver()){
+                for (String key : a.getGroupReceiver()){
                     BlobKey blobKey = new BlobKey(key);
                     deleteAdminEmailUploadedFile(blobKey);
                 }

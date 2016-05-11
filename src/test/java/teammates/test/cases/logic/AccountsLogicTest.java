@@ -182,7 +182,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("test getInstructorAccounts");
         
         
-        for(AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()){
             ______TS(aa.toString());
         }
         

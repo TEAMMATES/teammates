@@ -243,7 +243,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("Failure case: invalid section");
 
         studentList = new ArrayList<StudentAttributes>();
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++){
             StudentAttributes addedStudent = new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
             studentList.add(addedStudent);
         }

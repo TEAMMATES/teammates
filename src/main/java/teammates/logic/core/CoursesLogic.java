@@ -207,7 +207,7 @@ public class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
-        for(StudentAttributes sd: studentDataList) {
+        for (StudentAttributes sd: studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
@@ -230,7 +230,7 @@ public class CoursesLogic {
         SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
         TeamDetailsBundle team = null;
         sectionDetails.name = section;
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
     
             // first student of first team
@@ -334,7 +334,7 @@ public class CoursesLogic {
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
         
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
             if (section == null) {   // First student of first section
@@ -745,7 +745,7 @@ public class CoursesLogic {
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
-                for(StudentAttributes student : team.students) {
+                for (StudentAttributes student : team.students) {
                     String studentStatus = null;
                     if (student.googleId == null || student.googleId.equals("")) {
                         studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
@@ -772,7 +772,7 @@ public class CoursesLogic {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             if (!student.section.equals(Const.DEFAULT_SECTION)) {
                 return true;
             }

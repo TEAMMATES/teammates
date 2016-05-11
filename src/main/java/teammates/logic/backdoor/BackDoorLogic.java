@@ -61,7 +61,7 @@ public class BackDoorLogic extends Logic {
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     public String putDocumentsForStudents(DataBundle dataBundle) {
-        for(StudentAttributes student : dataBundle.students.values()){
+        for (StudentAttributes student : dataBundle.students.values()){
             student = getStudentForEmail(student.course, student.email);
             putDocument(student);
             ThreadHelper.waitFor(50);
@@ -138,7 +138,7 @@ public class BackDoorLogic extends Logic {
         
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for(FeedbackSessionAttributes session : sessions.values()){
+        for (FeedbackSessionAttributes session : sessions.values()){
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
@@ -146,7 +146,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         
-        for(FeedbackQuestionAttributes question : questionList){
+        for (FeedbackQuestionAttributes question : questionList){
             question.removeIrrelevantVisibilityOptions();
         }
         fqDb.createFeedbackQuestions(questionList);
@@ -475,7 +475,7 @@ public class BackDoorLogic extends Logic {
 
     private void deleteCourses(Collection<CourseAttributes> courses) {  
         List<String> courseIds = new ArrayList<String>();
-        for(CourseAttributes course : courses){
+        for (CourseAttributes course : courses){
             courseIds.add(course.id);
         }
         if(!courseIds.isEmpty()){

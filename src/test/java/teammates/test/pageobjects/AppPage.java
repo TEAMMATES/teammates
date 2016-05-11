@@ -802,7 +802,7 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for(int row = 1;row < splitString.length;row++){
+        for (int row = 1;row < splitString.length;row++){
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }

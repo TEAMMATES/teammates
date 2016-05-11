@@ -212,7 +212,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         //can enroll, if within the size limit
         StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
-        for(int i = 0; i < sizeLimitBoundary; i++) {
+        for (int i = 0; i < sizeLimitBoundary; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }

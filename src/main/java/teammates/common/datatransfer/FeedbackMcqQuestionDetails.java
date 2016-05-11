@@ -56,7 +56,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
             int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
             
-            for(int i = 0; i < numMcqChoicesCreated; i++) {
+            for (int i = 0; i < numMcqChoicesCreated; i++) {
                 String mcqChoice = HttpRequestHelper.getValueFromParamMap(
                                                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
                 if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
@@ -373,7 +373,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for(String option : mcqChoices){
+        for (String option : mcqChoices){
             answerFrequency.put(option, 0);
         }
         
@@ -402,7 +402,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),

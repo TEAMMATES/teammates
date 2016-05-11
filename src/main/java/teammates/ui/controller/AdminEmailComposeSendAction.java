@@ -122,7 +122,7 @@ public class AdminEmailComposeSendAction extends Action {
        FieldValidator validator = new FieldValidator();
        
        String[] emails = addressReceiverString.split(",");
-       for(String email : emails){
+       for (String email : emails){
            String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
            if(error != null && !error.isEmpty()){
                isError = true;

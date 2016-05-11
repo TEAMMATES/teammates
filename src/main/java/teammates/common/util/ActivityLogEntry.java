@@ -631,7 +631,7 @@ public class ActivityLogEntry {
             return;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
+        for (String stringToHighlight : keyStringsToHighlight){
             if(message.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());
