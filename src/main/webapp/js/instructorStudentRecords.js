@@ -137,8 +137,8 @@ function disableComment(commentIdx) {
 }
 
 function textAreaAdjust(o) {
-    o.style.height = '1px';
-    o.style.height = (o.scrollHeight + 5) + 'px';
+    var height = o.scrollHeight + 5;
+    o.style.height = height + 'px';
 }
 
 /**

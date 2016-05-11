@@ -81,7 +81,7 @@ function selectDefaultTimeOptions() {
 
     var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
-    var currentTime = (parseInt(hours) + 1);
+    var currentTime = parseInt(hours) + 1;
     var timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {

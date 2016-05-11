@@ -94,6 +94,6 @@ function toggleArchiveCourseConfirmation(courseId) {
 function instructorHomeDateComparator(x, y) {
     x = Date.parse(x + ' ' + CURRENT_YEAR);
     y = Date.parse(y + ' ' + CURRENT_YEAR);
-    var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+    var comparisonResult = x > y ? 1 : x < y ? -1 : 0;
     return comparisonResult;
 }

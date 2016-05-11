@@ -910,7 +910,7 @@ function getQuestionIdSuffix(questionNumber) {
     var isValidQuestionNumber = questionNumber > 0 ||
                                 questionNumber === newQuestionNumber;
     
-    var idSuffix = isValidQuestionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
     return idSuffix;
 }
 
@@ -1149,7 +1149,7 @@ function updateNumScalePossibleValues(questionNumber) {
         } else {
             possibleValuesString += min.toString();
             var cur = min + step;
-            while ((max - cur) >= -1e-9) {
+            while (max - cur >= -1e-9) {
                 possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
                 cur += step;
             }
@@ -1330,7 +1330,7 @@ function setContribQnVisibilityFormat(questionNumber) {
 }
 
 function fixContribQnGiverRecipient(questionNumber) {
-    var idSuffix = questionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = questionNumber ? '-' + questionNumber : '';
     var $giverType = $('#givertype' + idSuffix);
     var $recipientType = $('#recipienttype' + idSuffix);
 

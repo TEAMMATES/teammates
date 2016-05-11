@@ -119,7 +119,7 @@ function handleData(err, countryCoordinates, userData) {
             fillData = this.options.fills,
             svg = this.svg;
 
-        if (!data || (data && !data.slice)) {
+        if (!data || data && !data.slice) {
             handleError();
             return;
         }
