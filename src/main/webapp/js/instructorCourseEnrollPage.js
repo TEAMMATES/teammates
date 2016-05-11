@@ -15,7 +15,7 @@ var loadUpFunction = function() {
         $(enrolTextbox).keydown(function(e) {
             var keycode = e.which || e.keyCode;
             if (keycode == ENTER_KEYCODE) {
-                if (isUserTyping (e.target.value) && !notified) {
+                if (isUserTyping(e.target.value) && !notified) {
                     notified = true;
                     alert(typingErrMsg);
                 }
