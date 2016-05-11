@@ -22,7 +22,7 @@ public abstract class AutomatedRemindersServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             doGet(req, resp);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.severe("Exception occured while performing " + servletName + e.getMessage());
         }
     }

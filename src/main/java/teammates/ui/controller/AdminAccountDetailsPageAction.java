@@ -31,7 +31,7 @@ public class AdminAccountDetailsPageAction extends Action {
         List<CourseAttributes> studentCourseList;
         try{
             studentCourseList = logic.getCoursesForStudentAccount(googleId);
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             //Not a student of any course
             studentCourseList = null;
         }

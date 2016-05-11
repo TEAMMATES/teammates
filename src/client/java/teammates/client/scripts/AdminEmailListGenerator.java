@@ -176,7 +176,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             } else {
                 throw new InvalidParametersException("Date format error");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new InvalidParametersException("Date format error");
         }
         
@@ -454,7 +454,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }

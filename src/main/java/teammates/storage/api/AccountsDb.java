@@ -226,7 +226,7 @@ public class AccountsDb extends EntitiesDb {
             return account;
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }

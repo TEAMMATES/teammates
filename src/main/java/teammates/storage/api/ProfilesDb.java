@@ -215,7 +215,7 @@ public class ProfilesDb extends EntitiesDb {
             account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             return account.getStudentProfile();
             
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }

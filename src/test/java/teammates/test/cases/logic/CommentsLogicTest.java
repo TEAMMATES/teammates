@@ -426,7 +426,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         try{
             commentsLogic.createComment(comment);
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
@@ -436,7 +436,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         try{
             commentsLogic.getCommentsForGiver(comment.courseId, comment.giverEmail);
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
@@ -446,7 +446,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         try{
             commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType, comment.recipients.iterator().next());
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
@@ -455,9 +455,9 @@ public class CommentsLogicTest extends BaseComponentTestCase {
             throws EntityDoesNotExistException {
         try{
             commentsLogic.updateComment(c);
-        } catch(InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             AssertHelper.assertContains(message, e.getMessage());
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(message, e.getMessage());
         }
     }

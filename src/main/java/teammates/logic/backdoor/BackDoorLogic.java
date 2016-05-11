@@ -590,7 +590,7 @@ public class BackDoorLogic extends Logic {
         try {
             BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
             return BackDoorServlet.RETURN_VALUE_TRUE;
-        } catch(IllegalArgumentException | BlobstoreFailureException e) {
+        } catch (IllegalArgumentException | BlobstoreFailureException e) {
             return BackDoorServlet.RETURN_VALUE_FALSE;
         }
     }

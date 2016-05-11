@@ -259,7 +259,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }

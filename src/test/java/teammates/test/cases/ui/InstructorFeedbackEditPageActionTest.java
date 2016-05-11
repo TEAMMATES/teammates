@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         try {
             showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }

@@ -129,7 +129,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         try { 
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor ["+ invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());    
         }
         

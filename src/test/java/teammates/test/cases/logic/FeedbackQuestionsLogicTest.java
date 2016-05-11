@@ -191,7 +191,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(e.getMessage(), "Session disappeared.");
         }
         
@@ -202,7 +202,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(e.getMessage(), "Session disappeared.");
         }
         

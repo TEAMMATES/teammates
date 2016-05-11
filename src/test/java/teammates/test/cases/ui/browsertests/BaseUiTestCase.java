@@ -86,7 +86,7 @@ public class BaseUiTestCase extends BaseTestCase {
             browser.driver.get(url.toAbsoluteString());
             try {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
             }
         }

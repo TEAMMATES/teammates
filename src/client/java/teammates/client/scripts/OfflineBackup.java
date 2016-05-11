@@ -120,7 +120,7 @@ public class OfflineBackup extends RemoteApiClient {
 
        try {
            directory.mkdirs();
-       } catch(SecurityException se){
+       } catch (SecurityException se) {
            System.out.println("Error making directory: " + directoryName);
        }        
        

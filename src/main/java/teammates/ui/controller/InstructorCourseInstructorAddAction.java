@@ -133,7 +133,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         List<String> sectionNames = null;
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);
-        } catch(EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             return;
         }
         HashMap<String, Boolean> sectionNamesTable = new HashMap<String, Boolean>();

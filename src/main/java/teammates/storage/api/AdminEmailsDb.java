@@ -79,7 +79,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent file");
         }
     }

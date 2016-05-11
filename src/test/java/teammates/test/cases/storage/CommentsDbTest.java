@@ -182,7 +182,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.recipients.add("invalid receiver email");
         try{
             commentsDb.updateComment(c);
-        } catch(InvalidParametersException e) {
+        } catch (InvalidParametersException e) {
             assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT), 
                     e.getLocalizedMessage());
         }
@@ -193,7 +193,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.setCommentId((long)-1); //non-existent comment
         try{
             commentsDb.updateComment(c);
-        } catch(EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             assertTrue(e.getLocalizedMessage().contains(CommentsDb.ERROR_UPDATE_NON_EXISTENT));
         }
         
