@@ -5,7 +5,7 @@ var callbackFunction;
 
 $(document).ready(function() {
     
-    $(".navbar-fixed-top").css( "zIndex", 0);
+    $(".navbar-fixed-top").css("zIndex", 0);
     
     tinymce.init({
         selector: "textarea",

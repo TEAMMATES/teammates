@@ -65,7 +65,7 @@ $(document).ready(function() {
         }
     }
     
-    $("input[type=checkbox]").on( "click", visibilityOptionsHandler);
+    $("input[type=checkbox]").on("click", visibilityOptionsHandler);
     
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];

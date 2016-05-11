@@ -5,7 +5,7 @@ $(document).ready(function() {
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    $("#startdate" ).datepicker({
+    $("#startdate").datepicker({
         dateFormat: "dd/mm/yy",
         showOtherMonths: true,
         gotoCurrent: true,

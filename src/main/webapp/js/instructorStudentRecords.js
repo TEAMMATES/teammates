@@ -161,7 +161,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function( response, status, xhr ) {
+    targetDiv.load(url, function(response, status, xhr) {
       if (status == 'success') {
           $(sender).removeAttr('onclick');
       }

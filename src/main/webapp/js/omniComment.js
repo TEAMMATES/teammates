@@ -28,7 +28,7 @@ $(document).ready(function() {
     
     //re-display the hidden header
     var scrollEventCounter = 0;
-    $( window ).scroll(function() {
+    $(window).scroll(function() {
         if (isRedirectToSpecificComment() && scrollEventCounter > 0) {
               $('.navbar').fadeIn("fast");
         }

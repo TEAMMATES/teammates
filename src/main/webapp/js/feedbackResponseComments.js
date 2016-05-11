@@ -396,7 +396,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     
-    panelBody.load(url, function( response, status, xhr ) {
+    panelBody.load(url, function(response, status, xhr) {
         if (status !== "success") {
             panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         } else {

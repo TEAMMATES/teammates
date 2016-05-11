@@ -7,7 +7,7 @@ $(document).ready(function() {
     
     //auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function(e) {
-        selectElementContents( document.getElementById('detailsTable') );
+        selectElementContents(document.getElementById('detailsTable'));
     });
 });
 

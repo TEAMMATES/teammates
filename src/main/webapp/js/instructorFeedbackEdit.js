@@ -62,7 +62,7 @@ function readyFeedbackEditPage() {
 }
 
 function bindFeedbackSessionEditFormSubmission() {
-    $('#form_feedbacksession').submit(function( event ) {
+    $('#form_feedbacksession').submit(function(event) {
         // Prevent form submission
         event.preventDefault();
         
@@ -927,7 +927,7 @@ function addMcqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
     
-    $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"radio\" disabled>"
@@ -1019,7 +1019,7 @@ function addMsqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"checkbox\" disabled>"
@@ -1181,7 +1181,7 @@ function addConstSumOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group width-100-pc\">"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
@@ -1580,7 +1580,7 @@ function addRankOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div id=\"rankOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"rankOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control rankOptionTextBox\">"
