@@ -8,6 +8,9 @@
       <property name="tokens" value="COMMA"/>
     </module>
     <module name="NoWhitespaceBefore"/>
+    <module name="WhitespaceAround">
+      <property name="tokens" value="ASSIGN"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
 </module>
