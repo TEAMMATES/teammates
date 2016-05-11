@@ -788,7 +788,7 @@ if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
-    }
+    };
 }
 
 /**
@@ -872,7 +872,7 @@ function showSingleCollapse(e) {
 function hideSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
     var glyphIcon = $(heading[0]).find('.glyphicon');
-    setChevronToDown($(glyphIcon[0]))
+    setChevronToDown($(glyphIcon[0]));
     $(e).collapse('hide');
     $(heading).find('a.btn').hide();
 }

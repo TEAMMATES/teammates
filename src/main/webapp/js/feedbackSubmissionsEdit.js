@@ -793,7 +793,7 @@ function prepareRankQuestions() {
 }
 
 function updateRankMessages() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
     for (var i = 0; i < rankQuestionNums.length; i++) {
         var qnNum = rankQuestionNums[i];
@@ -806,7 +806,7 @@ function validateRankQuestions() {
 
     // if any of the rank questions has an error.
     if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
         var statusMessage = 'Please fix the error(s) for rank question(s)';
         var errorCount = 0;
 

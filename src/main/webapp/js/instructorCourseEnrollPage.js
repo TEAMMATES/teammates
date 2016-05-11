@@ -20,7 +20,7 @@ var loadUpFunction = function() {
                     alert(typingErrMsg);
                 }
             }
-        })
+        });
     }
 };
 

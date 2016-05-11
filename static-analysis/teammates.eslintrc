@@ -197,7 +197,7 @@
         "padded-blocks": 0,             // enforce padding within blocks (off by default)
         "quote-props": 0,               // require quotes around object literal property names (off by default)
         "quotes": 0,                    // specify whether double or single quotes should be used
-        "semi": 0,                      // require or disallow use of semicolons instead of ASI
+        "semi": 2,                      // require or disallow use of semicolons instead of ASI
         "sort-vars": 0,                 // sort variables within the same declaration block (off by default)
         "spaced-line-comment": 0,       // require or disallow a space immediately following the // in a line comment (off by default)
         "wrap-regex": 0,                // require regex literals to be wrapped in parentheses (off by default)

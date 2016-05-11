@@ -22,7 +22,7 @@ $(document).ready(function() {
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
             beforeSend: function() {
-                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
             error: function() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);

@@ -86,7 +86,7 @@ var seeMoreRequest = function(e) {
                     type: 'POST',
                     url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
                     beforeSend: function() {
-                        displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                        displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
                     },
                     error: function() {
                         var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
