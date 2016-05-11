@@ -232,7 +232,7 @@ public class AdminEmailLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 0:00");                          
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
             } else if (label.equals("before")){
@@ -241,7 +241,7 @@ public class AdminEmailLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 23:59");  
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 toDateValue = cal.getTime().getTime();          
             } else if (label.equals("receiver")){
                 isReceiverInQuery = true;
