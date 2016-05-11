@@ -35,7 +35,7 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }
-        courseIdLimit.append(")");
+        courseIdLimit.append(')');
         
         //TODO: verify section
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();

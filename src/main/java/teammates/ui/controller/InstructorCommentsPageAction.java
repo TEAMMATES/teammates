@@ -96,7 +96,7 @@ public class InstructorCommentsPageAction extends Action {
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
         }
-        isViewingDraft = false;//TODO: handle the draft page
+        isViewingDraft = false; //TODO: handle the draft page
     }
 
     private void getDisplayArchivedOptionFromSession() {

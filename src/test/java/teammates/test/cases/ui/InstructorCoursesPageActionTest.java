@@ -84,7 +84,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
+        InstructorCoursesPageData pageData = (InstructorCoursesPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());

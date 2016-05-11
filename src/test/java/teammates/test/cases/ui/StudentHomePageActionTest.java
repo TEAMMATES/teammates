@@ -134,7 +134,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(1, data.getCourseTables().size());
         assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
         

@@ -230,7 +230,7 @@ public class PageData {
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
+            ElementTag option = createOption(i + " mins", String.valueOf(i), 
                                             isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
@@ -778,7 +778,7 @@ public class PageData {
      * Returns the type of people that can view the comment. 
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         for(int i = 0; i < comment.showCommentTo.size(); i++){
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
@@ -829,7 +829,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
@@ -1011,7 +1011,7 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (studentEmail != null && recipient.equals(studentEmail)) {
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");

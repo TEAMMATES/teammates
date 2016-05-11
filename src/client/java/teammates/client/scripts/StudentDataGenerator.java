@@ -53,9 +53,8 @@ public class StudentDataGenerator {
 
             String name = generateRandomString(LENGTH_OF_STUDENT_NAME);
 
-            String student = new String();
-            student += teamnames.get(new Random().nextInt(teamnames.size()))
-                    + '|' + name + '|' + name + "@gmail.com";
+            String student = teamnames.get(new Random().nextInt(teamnames.size()))
+                             + '|' + name + '|' + name + "@gmail.com";
 
             lines.add(student);
         }
@@ -73,7 +72,7 @@ public class StudentDataGenerator {
     }
 
     private static String generateRandomString(int length) {
-        String name = new String();
+        String name = "";
 
         for (int j = 0; j < length; j++) {
             name += RANDOM_ALLOWED_CHARS.charAt(new Random()

@@ -248,10 +248,9 @@ public class InstructorSearchPageAction extends Action {
                     // prevent error--however, this should never happen unless there is corruption of data
                     return false;
                 }
-                for (String recipientInSet : commentAttributes.recipients) {
-                    recipient = recipientInSet;
-                    break;
-                }
+                
+                recipient = commentAttributes.recipients.iterator().next();
+                
                 if (commentAttributes.recipientType == CommentParticipantType.PERSON) {
                     StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
                     if (student == null) {

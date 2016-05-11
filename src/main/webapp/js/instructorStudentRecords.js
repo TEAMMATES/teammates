@@ -137,8 +137,8 @@ function disableComment(commentIdx) {
 }
 
 function textAreaAdjust(o) {
-    o.style.height = '1px';
-    o.style.height = (o.scrollHeight + 5) + 'px';
+    var height = o.scrollHeight + 5;
+    o.style.height = height + 'px';
 }
 
 /**
@@ -150,9 +150,8 @@ function deleteComment(commentIdx) {
     if (confirm('Are you sure you want to delete this comment?')) {
         document.getElementById(COMMENT_EDITTYPE + '-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    } else {
-        return false;
     }
+    return false;
 }
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {

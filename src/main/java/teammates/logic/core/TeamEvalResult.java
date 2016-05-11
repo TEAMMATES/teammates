@@ -421,34 +421,34 @@ public class TeamEvalResult {
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         String divider = "======================" + Const.EOL;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
-        sb.append(indentString
-                + pointsToString(claimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("              normalizedClaimed:");
-        sb.append(indentString
-                + pointsToString(normalizedClaimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("normalizedPeerContributionRatio:");
-        sb.append(indentString
-                + pointsToString(normalizedPeerContributionRatio).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("     normalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString(normalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+        sb.append(indentString)
+          .append(pointsToString(claimed).replace(Const.EOL,
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("              normalizedClaimed:")
+          .append(indentString)
+          .append(pointsToString(normalizedClaimed).replace(Const.EOL,
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("normalizedPeerContributionRatio:")
+          .append(indentString)
+          .append(pointsToString(normalizedPeerContributionRatio).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
+          .append("     normalizedAveragePerceived:")
+          .append(indentString)
+          .append(pointsToString(normalizedAveragePerceived).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
 
-        sb.append("   denormalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString(denormalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+          .append("   denormalizedAveragePerceived:")
+          .append(indentString)
+          .append(pointsToString(denormalizedAveragePerceived).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider);
         return sb.toString();
     }
 

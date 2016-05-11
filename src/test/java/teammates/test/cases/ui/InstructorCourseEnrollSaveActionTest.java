@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
@@ -188,11 +189,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + "&quot;invalid.email.tmt&quot; is not acceptable to TEAMMATES as "
-                                                + "an email because it is not in the correct format. An "
-                                                + "email address contains some text followed by one &#39;@&#39; sign"
-                                                + " followed by some more text. It cannot be longer than 254 "
-                                                + "characters. It cannot be empty and it cannot have spaces."
+                                                + Sanitizer.sanitizeForHtml(
+                                                        String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
+                                                                      "invalid.email.tmt",
+                                                                      FieldValidator.REASON_INCORRECT_FORMAT))
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
@@ -211,7 +211,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         int sizeLimitBoundary = 150;
         
         //can enroll, if within the size limit
-        StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
+        StringBuilder enrollStringBuilder = new StringBuilder(200);
+        enrollStringBuilder.append("Section\tTeam\tName\tEmail");
         for(int i = 0; i < sizeLimitBoundary; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
                                                          + "\temail" + i + "@nonexistemail.nonexist");

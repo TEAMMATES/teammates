@@ -81,23 +81,20 @@ public class Emails {
 
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo
-                .append("to="
-                        + message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString());
-        messageInfo.append("|from=" + message.getFrom()[0].toString());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=")
+                   .append(message.getRecipients(Message.RecipientType.TO)[0]
+                                .toString())
+                   .append("|from=").append(message.getFrom()[0].toString())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
     public static String getEmailInfo(Sendgrid message) {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo.append("to=" + message.getTos().get(0));
-        messageInfo.append("|from=" + message.getFrom());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=").append(message.getTos().get(0))
+                   .append("|from=").append(message.getFrom())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
@@ -953,7 +950,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }
