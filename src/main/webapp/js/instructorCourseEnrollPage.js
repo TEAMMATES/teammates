@@ -20,8 +20,8 @@ var loadUpFunction = function() {
                     alert(typingErrMsg);
                 }
             }
-        })
-    };
+        });
+    }
 };
 
 if (window.addEventListener) {

@@ -20,14 +20,14 @@ $(document).ready(function() {
 function updatePagination() {
     
     if (totalPages > 5) {
-        if (currentPage >= 3 && (currentPage + 1) < totalPages) {
+        if (currentPage >= 3 && currentPage + 1 < totalPages) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
         } 
         
-        if (currentPage >= 3 && (currentPage + 1) == totalPages) {
+        if (currentPage >= 3 && currentPage + 1 == totalPages) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
@@ -43,7 +43,7 @@ function updatePagination() {
         $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
             $(this).text(index + 1);
             
-            if ((index + 1) > totalPages) {
+            if (index + 1 > totalPages) {
                 $(this).parent().hide();
             }
         });
@@ -90,7 +90,7 @@ function showEntryInInterval(start, end) {
     hideAllEntries();
     for (var i = start; i <= end; i++) {
         $("#accountEntry_" + i).show();
-    };
+    }
 }
 
 function reLabelOrderedAccountEntries() {
@@ -128,14 +128,14 @@ $(document).on("click", "ul.pagination li.next", function() {
 });
 
 function goToPreviousPage() {
-    currentPage = (currentPage > 1) ? currentPage - 1 : currentPage;
+    currentPage = currentPage > 1 ? currentPage - 1 : currentPage;
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();
 }
 
 function goToNextPage() {
-    currentPage = (currentPage < totalPages) ? currentPage + 1 : totalPages;
+    currentPage = currentPage < totalPages ? currentPage + 1 : totalPages;
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();

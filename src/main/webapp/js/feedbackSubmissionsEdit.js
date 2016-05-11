@@ -139,7 +139,7 @@ function prepareMCQQuestions() {
                 var indexSuffix = name.substring(name.indexOf("-"));
           
                 // toggle the radio button checked state
-                $(this).attr('checked', (radioStates[name][val] = !radioStates[name][val]));
+                $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') == "otherOptionText") {
@@ -535,7 +535,7 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
         } else {
-            message = 'Over allocated ' + (-remainingPoints) + ' points.';
+            message = 'Over allocated ' + -remainingPoints + ' points.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
@@ -615,7 +615,7 @@ function validateConstSumQuestions() {
 
             // indicate the question number where the errors are located at
             if ($('p[id^="constSumMessage-' + qnNum + '-"].text-color-red').length > 0) {
-                statusMessage += (errorCount === 0) ? '' : ',';
+                statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
                 errorCount++;
@@ -747,7 +747,7 @@ function validateAllAnswersHaveRecipient() {
         var answer = $('[name=responsetext-' + question + '-' + response + ']');
 
         if (!isAnswerBlank(question, response)) {
-            statusMessage += (errorCount == 0) ? '' : ',';
+            statusMessage += errorCount == 0 ? '' : ',';
             statusMessage += ' ';
             statusMessage += question;
             errorCount++;
@@ -793,9 +793,9 @@ function prepareRankQuestions() {
 }
 
 function updateRankMessages() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
-    for (var i = 0; i < rankQuestionNums.length; i++) {;
+    for (var i = 0; i < rankQuestionNums.length; i++) {
         var qnNum = rankQuestionNums[i];
         updateRankMessageQn(qnNum);
     }
@@ -806,7 +806,7 @@ function validateRankQuestions() {
 
     // if any of the rank questions has an error.
     if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
         var statusMessage = 'Please fix the error(s) for rank question(s)';
         var errorCount = 0;
 
@@ -815,7 +815,7 @@ function validateRankQuestions() {
 
             // indicate the question number where the errors are located at
             if ($('p[id^="rankMessage-' + qnNum + '-"].text-color-red').length > 0) {
-                statusMessage += (errorCount === 0) ? '' : ',';
+                statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
                 errorCount++;

@@ -374,7 +374,7 @@ function formatNumberBoxes() {
         var value = $(this).val();
         
         formatNumberBox(value, qnNumber);
-    }
+    };
     $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
                                                              .change(modifyVisibility);
     
@@ -833,7 +833,7 @@ function getVisibilityMessage(buttonElem) {
     var formData = $form.serialize();
     
     var $formOptions = $form.find('.visibilityOptions');
-    var $formVisibility = $form.find('.visibilityMessage') 
+    var $formVisibility = $form.find('.visibilityMessage'); 
     
     if (previousFormDataMap[qnNumber] === formData) {
         $formOptions.hide();
@@ -910,7 +910,7 @@ function getQuestionIdSuffix(questionNumber) {
     var isValidQuestionNumber = questionNumber > 0 ||
                                 questionNumber === newQuestionNumber;
     
-    var idSuffix = isValidQuestionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
     return idSuffix;
 }
 
@@ -975,7 +975,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
         $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').hide();
@@ -1068,7 +1068,7 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
         $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").hide();
@@ -1129,7 +1129,7 @@ function updateNumScalePossibleValues(questionNumber) {
                                    ' is not divisible by the specified increment.]';
 
         if (isNaN(min) || isNaN(max) || isNaN(step)) {
-            possibleValuesString = '[Please enter valid numbers for all the options.]'
+            possibleValuesString = '[Please enter valid numbers for all the options.]';
         }
 
         $numScalePossibleValues.text(possibleValuesString);
@@ -1149,7 +1149,7 @@ function updateNumScalePossibleValues(questionNumber) {
         } else {
             possibleValuesString += min.toString();
             var cur = min + step;
-            while ((max - cur) >= -1e-9) {
+            while (max - cur >= -1e-9) {
                 possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
                 cur += step;
             }
@@ -1330,7 +1330,7 @@ function setContribQnVisibilityFormat(questionNumber) {
 }
 
 function fixContribQnGiverRecipient(questionNumber) {
-    var idSuffix = questionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = questionNumber ? '-' + questionNumber : '';
     var $giverType = $('#givertype' + idSuffix);
     var $recipientType = $('#recipienttype' + idSuffix);
 
@@ -1494,7 +1494,7 @@ function removeRubricRow(index, questionNumber) {
     
     var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
     if (!confirm('Are you sure you want to ' + delStr + ' the row?')) {
-        return
+        return;
     }
     
     if (numberOfRows <= 1) {
@@ -1519,7 +1519,7 @@ function removeRubricCol(index, questionNumber) {
     
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
     if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
-        return
+        return;
     }
     
     if (numberOfCols <= 1) {
