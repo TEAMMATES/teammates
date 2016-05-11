@@ -502,7 +502,7 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getAccount(a.googleId);
                 if(retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
@@ -519,7 +519,7 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getCourse(c.id);
                 if(retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
@@ -537,7 +537,7 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
                 if(retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); }
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
@@ -558,7 +558,7 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getStudentForEmail(s.course, s.email);
                 if(retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
@@ -575,7 +575,7 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
                 if(retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }

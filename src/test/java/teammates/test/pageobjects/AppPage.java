@@ -1048,7 +1048,7 @@ public abstract class AppPage {
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
@@ -1060,7 +1060,7 @@ public abstract class AppPage {
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }

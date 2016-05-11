@@ -861,7 +861,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if ( points < Const.POINTS_EQUAL_SHARE){
             // Negative share
             return "color-negative";
-        } else{
+        } else {
             // Positive share
             return "color-positive";
         }

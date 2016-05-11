@@ -339,7 +339,7 @@ public class AccountsLogic {
                 Assumption.fail("Invalid account data detected unexpectedly " +
                         "while removing instruction privileges from account :"+account.toString());
             }
-        }else {
+        } else {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
         }
     }

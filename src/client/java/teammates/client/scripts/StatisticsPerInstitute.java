@@ -193,7 +193,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if(institute != null){
             return institute;
-        } else{
+        } else {
             institute = UNKNOWN_INSTITUTE;
         }
         

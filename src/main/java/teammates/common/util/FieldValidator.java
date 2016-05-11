@@ -825,7 +825,7 @@ public class FieldValidator {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         } else if(value.length() > COURSE_ID_MAX_LENGTH){
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
+        } else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -842,7 +842,7 @@ public class FieldValidator {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
         } else if(value.length() > EMAIL_MAX_LENGTH){
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
+        } else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";

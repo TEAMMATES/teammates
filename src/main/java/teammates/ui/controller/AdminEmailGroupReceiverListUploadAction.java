@@ -187,7 +187,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             if(blobs != null && blobs.size() > 0) {
                 BlobInfo groupReceiverListFile = blobs.get(0);
                 return validateGroupReceiverListFile(groupReceiverListFile);
-            } else{
+            } else {
                 data.ajaxStatus = Const.StatusMessages.NO_GROUP_RECEIVER_LIST_FILE_GIVEN;
                 isError = true;
                 return null;

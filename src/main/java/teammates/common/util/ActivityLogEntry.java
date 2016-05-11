@@ -396,7 +396,7 @@ public class ActivityLogEntry {
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
@@ -413,7 +413,7 @@ public class ActivityLogEntry {
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "danger";
         }    
         return colorCode;            
