@@ -29,9 +29,6 @@ public class InstructorCourseEditPage extends AppPage {
     
     @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
-
-    @FindBy(id = "instructorid1")
-    private WebElement editInstructorIdTextBox;
     
     @FindBy(id = "instructorname1")
     private WebElement editInstructorNameTextBox;

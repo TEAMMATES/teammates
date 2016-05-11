@@ -166,7 +166,7 @@ $(document).on('ajaxComplete ready', function() {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch;
 }
 
 /**
@@ -303,7 +303,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
  */
 function sortBase(x, y) {
     // Text sorting
-    return (x < y ? -1 : x > y ? 1 : 0);
+    return x < y ? -1 : x > y ? 1 : 0;
 }
 
 /**
@@ -327,7 +327,7 @@ function sortNum(x, y) {
 function sortDate(x, y) {
     x = Date.parse(x);
     y = Date.parse(y);
-    var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+    var comparisonResult = x > y ? 1 : x < y ? -1 : 0;
     return comparisonResult;
 }
 
@@ -460,8 +460,8 @@ function isWithinView(element) {
     
     return viewHeight >= elementHeight
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
-           : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
-             || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
+           : viewTop <= elementTop && viewBottom >= elementTop             // top within view
+             || viewTop <= elementBottom && viewBottom >= elementBottom;   // btm within view
 }
 
 /**
@@ -501,7 +501,7 @@ function scrollToElement(element, options) {
         offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
         duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
     
-    var isViewType = (type === 'view');
+    var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
         return;
     }
@@ -512,9 +512,9 @@ function scrollToElement(element, options) {
         footerHeight = footer ? footer.offsetHeight : 0;
     var windowHeight = window.innerHeight - navbarHeight - footerHeight;
     
-    var isElementTallerThanWindow = (windowHeight < element.offsetHeight),
-        isFromAbove = (window.scrollY < element.offsetTop),
-        isAlignedToTop = (!isViewType || isElementTallerThanWindow || !isFromAbove);
+    var isElementTallerThanWindow = windowHeight < element.offsetHeight,
+        isFromAbove = window.scrollY < element.offsetTop,
+        isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
     
     // default offset - from navbar / footer
     if (options.offset === undefined) {
@@ -630,7 +630,7 @@ function isValidGoogleId(googleId) {
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = (matches != null && matches[0] === googleId);
+    isValidNonEmailGoogleId = matches != null && matches[0] === googleId;
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -714,17 +714,17 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
     element.on('keydown', function(event) {
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
-        if (key === 46 || key === 8 || key === 9 || key === 27 || key === 13 ||
+        if (key === 46 || key === 8 || key === 9 || key === 27 || key === 13
             // Allow: Ctrl+A
-            (key === 65 && event.ctrlKey) ||
+            || key === 65 && event.ctrlKey
              // Allow: home, end, left, right
-            (key >= 35 && key <= 39) ||
+            || key >= 35 && key <= 39
              // Allow dot if decimal point is allowed
-            (decimalPointAllowed && key === 190) ||
+            || decimalPointAllowed && key === 190
              // Allow hyphen if negative is allowed
              // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
-            (negativeAllowed && (key === 189 || key === 109))) {
+            || negativeAllowed && (key === 189 || key === 109)) {
             
             // let it happen, don't do anything
             return;
@@ -775,7 +775,8 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     });
     // remove empty elements from symbolTrimmedSearchKey
     symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
-        return (!(n == "")) });
+        return n !== "";
+    });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
 
@@ -787,7 +788,7 @@ if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
-    }
+    };
 }
 
 /**
@@ -871,7 +872,7 @@ function showSingleCollapse(e) {
 function hideSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
     var glyphIcon = $(heading[0]).find('.glyphicon');
-    setChevronToDown($(glyphIcon[0]))
+    setChevronToDown($(glyphIcon[0]));
     $(e).collapse('hide');
     $(heading).find('a.btn').hide();
 }

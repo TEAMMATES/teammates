@@ -92,7 +92,7 @@ function addInstructorByAjaxRecursively() {
                                                   data.instructorEmail, data.instructorInstitution,
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $("#addInstructorResultTable tbody").append(rowText);
-            if ((!data.instructorAddingResultForAjax) && (isInputFromFirstPanel)) {
+            if (!data.instructorAddingResultForAjax && isInputFromFirstPanel) {
                 var instructorsToBeRetried = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
                 $("#addInstructorDetailsSingleLine").val(instructorsToBeRetried);
             }

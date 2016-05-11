@@ -22,7 +22,7 @@ $(document).ready(function() {
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
             beforeSend: function() {
-                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
             error: function() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
@@ -59,7 +59,7 @@ $(document).ready(function() {
                 $('a[id^="collapse-panels-button-section-"],a[id^="collapse-panels-button-team-"]').off('click');
                 $('a[id^="collapse-panels-button-section-"]').on('click', function() {
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');
-                    var childPanelType = (isGroupByTeam) ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
+                    var childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
