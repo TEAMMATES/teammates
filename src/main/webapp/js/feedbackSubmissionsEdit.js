@@ -722,9 +722,8 @@ function isAnswerBlank(question, response) {
     if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
         return !$answer.is(':checked');
-    } else {
-        return $answer.val().trim() === '';
     }
+    return $answer.val().trim() === '';
 }
 
 // Checks that there are no responses written to an unspecified recipient

@@ -265,17 +265,14 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
             var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
             if (compareResult === 0) {
                 return x[2] - y[2];
-            } else {
-                return compareResult;
             }
-        } else {
-            var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            } else {
-                return compareResult;
-            }
+            return compareResult;
         }
+        var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
+        if (compareResult === 0) {
+            return x[2] - y[2];
+        }
+        return compareResult;
     });
     
     // Must rewrap because .get() does not return a jQuery wrapped DOM node
@@ -378,9 +375,8 @@ function sortByPoint(a, b) {
     
     if (isNumber(a) && isNumber(b)) {
         return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
     }
+    return sortBase(a, b);
 }
 
 /**
@@ -396,9 +392,8 @@ function sortByDiff(a, b) {
 
     if (isNumber(a) && isNumber(b)) {
         return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
     }
+    return sortBase(a, b);
 }
 
 /**
@@ -427,9 +422,8 @@ function getPointValue(s, ditchZero) {
     if (s === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
-        } else {
-            return 100;
         }
+        return 100;
     }
     
     s = s.replace('E', '');
@@ -675,9 +669,8 @@ function isNameValid(name) {
         return false;
     } else if (name.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -701,9 +694,8 @@ function isInstitutionValid(institution) {
         return false;
     } else if (institution.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -728,12 +720,11 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
             
             // let it happen, don't do anything
             return;
-        } else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
-                event.preventDefault();
-                return false;
-            }
+        }
+        // Ensure that it is a number and stop the keypress
+        if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
+            event.preventDefault();
+            return false;
         }
     });
 }

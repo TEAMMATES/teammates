@@ -336,9 +336,8 @@ function deleteQuestion(number) {
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete'); 
         $('#form_editquestion-' + number).submit();
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 /**
@@ -1134,31 +1133,30 @@ function updateNumScalePossibleValues(questionNumber) {
 
         $numScalePossibleValues.text(possibleValuesString);
         return false;
-    } else {
-        $numScalePossibleValues.css('color', 'black');
-        var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
-        
-        // step is 3 d.p. at most, so round it after * 1000. 
-        if (possibleValuesCount > 6) {
-            possibleValuesString += min.toString() + ', ' +
-                                    (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
-                                    (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
-                                    (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
-                                    (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
-                                    max.toString();       
-        } else {
-            possibleValuesString += min.toString();
-            var cur = min + step;
-            while (max - cur >= -1e-9) {
-                possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
-                cur += step;
-            }
-        }
-        
-        possibleValuesString += ']';
-        $numScalePossibleValues.text(possibleValuesString);
-        return true;
     }
+    $numScalePossibleValues.css('color', 'black');
+    var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+    
+    // step is 3 d.p. at most, so round it after * 1000. 
+    if (possibleValuesCount > 6) {
+        possibleValuesString += min.toString() + ', ' +
+                                (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
+                                (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
+                                (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
+                                (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
+                                max.toString();       
+    } else {
+        possibleValuesString += min.toString();
+        var cur = min + step;
+        while (max - cur >= -1e-9) {
+            possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
+            cur += step;
+        }
+    }
+    
+    possibleValuesString += ']';
+    $numScalePossibleValues.text(possibleValuesString);
+    return true;
 }
 
 /**
