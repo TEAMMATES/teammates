@@ -1,7 +1,17 @@
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
-var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage'
+var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+
+// selectors for warning modal prompt and the various fields within
+var WARNING_MODAL = '#warning-modal';
+var WARNING_MODAL_TITLE = '#warning-modal-title';
+var WARNING_MODAL_MESSAGE = '#warning-modal-message';
+var WARNING_MODAL_OK = '#warning-modal-ok';
+
+// text displayed to user
+var SESSION_CLOSED = 'Feedback Session Closed';
+var OKAY = 'Okay';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -936,15 +946,15 @@ function updateRankMessageQn(qnNum) {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        showWarningModal("TEAMMATES:", getWarningMessage(), "Okay");
+        showWarningModal(SESSION_CLOSED, getWarningMessage(), OKAY);
     }
 }
 
 function showWarningModal(title, message, okButtonText) {
-    $('#warning-modal-title').html(title);
-    $('#warning-modal-message').html(message);
-    $('#warning-modal-ok').html(okButtonText);
-    $('#warning-modal').modal('show');
+    $(WARNING_MODAL_TITLE).html(title);
+    $(WARNING_MODAL_MESSAGE).html(message);
+    $(WARNING_MODAL_OK).html(okButtonText);
+    $(WARNING_MODAL).modal('show');
 }
 
 function hasWarningMessage() {
