@@ -153,16 +153,15 @@ public class CourseEditSectionRow {
         // i represents the row (horizontal alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {
             List<ElementTag> specialSectionGroup = new ArrayList<ElementTag>();
-            int positionOfNewSection = i;
             
             // j represents the column (vertical alignment) of the checkbox
-            for (int j = 0; j < 3 && positionOfNewSection < sectionNames.size(); j++) {
-                positionOfNewSection = i + j;
+            for (int j = 0; j < 3 && i + j < sectionNames.size(); j++) {
+                int positionOfNewSection = i + j;
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + Const.ParamsNames.INSTRUCTOR_SECTION + positionOfNewSection;
                 
                 if (isSectionSpecial()) {
-                    boolean isPositionMatchedWithSection = i + j == sectionIndex;
+                    boolean isPositionMatchedWithSection = positionOfNewSection == sectionIndex;
                     ElementTag checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
                                                          sectionNames.get(positionOfNewSection),
                                                          isPositionMatchedWithSection);
