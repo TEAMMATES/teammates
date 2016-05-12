@@ -64,8 +64,13 @@ public class CourseEditSectionRow {
         return feedbackSessions;
     }
     
-    // a section is considered special if the instructor has special privileges
-    // ie. privileges that are not defined at course level
+    /**
+     * Checks if the section this row corresponds to is special.
+     * A section is considered special if the instructor has special privileges
+     * ie. privileges that are not defined at course level.
+     * 
+     * @return true if the section is special; false otherwise.
+     */
     public boolean isSectionSpecial() {
         return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
     }
@@ -150,27 +155,27 @@ public class CourseEditSectionRow {
     private List<List<ElementTag>> createSpecialSectionsForSectionRow(List<String> sectionNames, 
                                                                       int sectionIndex) {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
-        // i represents the row (horizontal alignment) of the checkbox
+        // i represents the row (vertical alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {
             List<ElementTag> specialSectionGroup = new ArrayList<ElementTag>();
             
-            // j represents the column (vertical alignment) of the checkbox
+            // j represents the column (horizontal alignment) of the checkbox
             for (int j = 0; j < 3 && i + j < sectionNames.size(); j++) {
                 int positionOfNewSection = i + j;
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + Const.ParamsNames.INSTRUCTOR_SECTION + positionOfNewSection;
                 
+                ElementTag checkbox;
                 if (isSectionSpecial()) {
                     boolean isPositionMatchedWithSection = positionOfNewSection == sectionIndex;
-                    ElementTag checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
+                    checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
                                                          sectionNames.get(positionOfNewSection),
                                                          isPositionMatchedWithSection);
-                    specialSectionGroup.add(checkbox);
                 } else {
-                    ElementTag checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
+                    checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
                                                          sectionNames.get(positionOfNewSection), false);
-                    specialSectionGroup.add(checkbox);
                 }
+                specialSectionGroup.add(checkbox);
             }
             
             specialSections.add(specialSectionGroup);
