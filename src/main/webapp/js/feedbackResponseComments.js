@@ -400,7 +400,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
         if (status !== "success") {
             panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         } else {
-            updateBadgeForPendingComments(panelBody.children(":first").text());
+            updateBadgeForPendingComments(parseInt(panelBody.children(":first").text()));
             panelBody.children(":first").remove();
 
             $clickedElement.addClass("loaded");
