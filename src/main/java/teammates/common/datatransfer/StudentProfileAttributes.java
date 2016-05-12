@@ -120,7 +120,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         if (!institute.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+            error = validator.getInvalidityInfoForInstituteName(institute);
             if (!error.isEmpty()) {
                 errors.add(error);
             }

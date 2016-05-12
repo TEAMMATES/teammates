@@ -104,7 +104,7 @@ public class AccountAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        error= validator.getInvalidityInfoForInstituteName(institute);
         if(!error.isEmpty()) { errors.add(error); }
         
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
