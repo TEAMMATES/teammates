@@ -416,9 +416,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case GENDER:
-            returnValue = getValidityInfoForGender((String) value);
-            break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
                     STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
@@ -458,6 +455,22 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    /**
+     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}
+     * @param gender
+     * @return An explanation of why the {@code gender} is not acceptable.
+     *         Returns an empty string if the {@code gender} is acceptable.
+     */
+    public String getInvalidityInfoForGender(String gender) {
+        Assumption.assertTrue("Non-null value expected", gender != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(gender);
+        
+        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
+            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
+        }
+        return "";
     }
 
     /**
@@ -850,16 +863,6 @@ public class FieldValidator {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForGender(String value) {
-        Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (!GENDER_ACCEPTED_VALUES.contains(value)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }
