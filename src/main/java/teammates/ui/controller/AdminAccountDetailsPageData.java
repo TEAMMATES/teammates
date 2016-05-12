@@ -47,7 +47,7 @@ public class AdminAccountDetailsPageData extends PageData {
                                                             List<CourseDetailsBundle> instructorCourseList) {
         List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
         if (instructorCourseList != null) {
-            for(CourseDetailsBundle courseDetails : instructorCourseList) {
+            for (CourseDetailsBundle courseDetails : instructorCourseList) {
                 AdminAccountDetailsInstructorCourseListTableRow row = new AdminAccountDetailsInstructorCourseListTableRow(accountInformation.googleId, courseDetails);
                 courseListTable.add(row);
             }

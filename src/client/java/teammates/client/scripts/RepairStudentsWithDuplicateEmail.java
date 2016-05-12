@@ -64,7 +64,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
             }
         }
         
-        for(String entry : duplicateEmailRecord) {
+        for (String entry : duplicateEmailRecord) {
             print(entry);
             //TODO: delete duplicate records if possible
         }

@@ -54,8 +54,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
     
     
-    private static enum StudentStatus{REG, UNREG, ALL};
-    private static enum InstructorStatus{REG, UNREG, ALL};
+    private static enum StudentStatus { REG, UNREG, ALL};
+    private static enum InstructorStatus { REG, UNREG, ALL};
     
     private EmailListConfig emailListConfig = new EmailListConfig();
     private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
@@ -85,7 +85,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         if(emailListConfig.student){
             System.out.print("Student Status: ");
-            switch (emailListConfig.studentStatus){
+            switch (emailListConfig.studentStatus) {
                 case REG:
                     System.out.print("REG\n");
                     break;
@@ -113,7 +113,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         if(emailListConfig.instructor){
             System.out.print("Instructor Status: ");
-            switch (emailListConfig.studentStatus){
+            switch (emailListConfig.studentStatus) {
                 case REG:
                     System.out.print("REG\n");
                     break;
@@ -166,7 +166,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return null;
         }
         
-        try{
+        try {
             String[] split = dateString.split("/");
             int day = Integer.parseInt(split[0]);
             int month = Integer.parseInt(split[1]);
@@ -176,7 +176,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             } else {
                 throw new InvalidParametersException("Date format error");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new InvalidParametersException("Date format error");
         }
         
@@ -206,7 +206,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         String q = "SELECT FROM " + Instructor.class.getName();
         List<?> allInstructors = (List<?>) pm.newQuery(q).execute();
         
-        for(Object object : allInstructors){
+        for (Object object : allInstructors){
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
             if (instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
@@ -227,7 +227,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         String q = "SELECT FROM " + Student.class.getName();
         List<?> allStudents = (List<?>) pm.newQuery(q).execute();
 
-        for(Object object : allStudents){
+        for (Object object : allStudents){
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
             if (student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
@@ -246,7 +246,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
                                          HashSet<String> instructorEmailSet){
         
-        try{
+        try {
         
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
             FileOutputStream fos = new FileOutputStream(newFile);
@@ -255,7 +255,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
             int studentEmailCount = 0;
             if(studentEmailSet.size() > 0){
-                for(String email : studentEmailSet){
+                for (String email : studentEmailSet){
                     if(!includeTestData && email.endsWith(".tmt")){
                         continue;
                     }
@@ -266,7 +266,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
             int instructorEmailCount = 0;
             if(instructorEmailSet.size() > 0){
-                for(String email : instructorEmailSet){
+                for (String email : instructorEmailSet){
                     if(!includeTestData && email.endsWith(".tmt")){
                         continue;
                     }
@@ -454,7 +454,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -527,7 +527,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    class EmailListConfig{
+    class EmailListConfig {
         public boolean student = false;
         public boolean instructor = false;
         public StudentStatus studentStatus = StudentStatus.ALL;

@@ -37,13 +37,13 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for(InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins:instructors){
             giverEmailList.add(ins.email);
             courseIdInstructorMap.put(ins.courseId, ins);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for(ScoredDocument doc:filteredResults){
+        for (ScoredDocument doc:filteredResults){
             StudentAttributes student = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                     StudentAttributes.class);
@@ -82,7 +82,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         
-        for(ScoredDocument doc:results){
+        for (ScoredDocument doc:results){
             StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                                                                              StudentAttributes.class);
             
@@ -103,7 +103,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     
     private void sortStudentResultList(){
         
-        Collections.sort(studentList, new Comparator<StudentAttributes>(){
+        Collections.sort(studentList, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes s1, StudentAttributes s2){
                 int compareResult = s1.course.compareTo(s2.course);

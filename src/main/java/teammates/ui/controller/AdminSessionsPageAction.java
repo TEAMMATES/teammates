@@ -259,7 +259,7 @@ public class AdminSessionsPageAction extends Action {
             return googleId;
         }
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
+        for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
           
             if (instructor.googleId != null) {
                 googleId = instructor.googleId;

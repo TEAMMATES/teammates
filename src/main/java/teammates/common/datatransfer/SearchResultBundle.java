@@ -28,12 +28,12 @@ public abstract class SearchResultBundle {
     protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                      List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
-        for(InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins:instructors){
             courseIdSet.add(ins.courseId);
         }
         
         List<ScoredDocument> filteredResults = new ArrayList<ScoredDocument>();
-        for(ScoredDocument document : results){
+        for (ScoredDocument document : results){
             String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
             if(courseIdSet.contains(resultCourseId)){
                 filteredResults.add(document);

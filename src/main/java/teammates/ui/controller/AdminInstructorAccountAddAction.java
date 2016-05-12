@@ -189,7 +189,7 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         
-        try{
+        try {
             backdoor.persistDataBundle(data);        
         } catch (EntityDoesNotExistException e){
             int elapsedTime = 0;
@@ -211,17 +211,17 @@ public class AdminInstructorAccountAddAction extends Action {
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments){
             backdoor.putDocument(comment);
         }
-        for(FeedbackResponseCommentAttributes comment : frComments){
+        for (FeedbackResponseCommentAttributes comment : frComments){
             backdoor.putDocument(comment);
         }
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             backdoor.putDocument(student);
         }
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             backdoor.putDocument(instructor);
         }
         

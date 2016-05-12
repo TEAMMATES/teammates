@@ -146,7 +146,7 @@ public class InstructorStudentRecordsPage extends AppPage {
      * @return true if all record panel bodies are equals to the visibility being checked.
      */
     private boolean areAllRecordPanelBodiesVisibilityEquals(boolean isVisible) {
-        for(WebElement e : getStudentFeedbackPanels()) {
+        for (WebElement e : getStudentFeedbackPanels()) {
             if(e.isDisplayed() != isVisible) {
                 return false;
             }

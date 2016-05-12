@@ -181,7 +181,7 @@ public class TimeHelper {
         String optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue.equals("24")) {
             return "2359H";
-        }else if (optionValue.length() == 1) {
+        } else if (optionValue.length() == 1) {
             return "0" + optionValue + "00H";
         } else if (optionValue.length() == 2) {
             return optionValue + "00H";

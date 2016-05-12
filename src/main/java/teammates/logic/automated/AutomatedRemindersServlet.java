@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
 @SuppressWarnings("serial")
-public abstract class AutomatedRemindersServlet extends HttpServlet{
+public abstract class AutomatedRemindersServlet extends HttpServlet {
     
     protected static Logger log = Utils.getLogger();
     
@@ -22,7 +22,7 @@ public abstract class AutomatedRemindersServlet extends HttpServlet{
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             doGet(req, resp);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.severe("Exception occured while performing " + servletName + e.getMessage());
         }
     }
