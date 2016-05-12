@@ -894,27 +894,6 @@ public class Emails {
         return s.googleId == null || s.googleId.isEmpty();
     }
 
-    /**
-     * Generate email recipient list for the automated reminders sent.
-     * Used for AdminActivityLog
-     */
-    public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
-    
-        ArrayList<Object> data = new ArrayList<Object>();
-        
-        try{
-            for (int i = 0; i < emails.size(); i++){
-                Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
-                for (int j = 0; j < recipients.length; j++){
-                    data.add(recipients[j]);
-                }
-            }
-        } catch (Exception e){
-            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders", e);
-        }
-        
-        return data;
-    }
     
     public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);

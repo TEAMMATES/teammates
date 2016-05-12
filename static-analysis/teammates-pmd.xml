@@ -213,8 +213,8 @@
    <rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>
    <rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith"/>
    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
-   <!--<rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector"/>-->
-   <!--<rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>-->
+   <rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector"/>
+   <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
    <!--<rule ref="rulesets/java/optimizations.xml/UseStringBufferForStringAppends"/>-->
    <!--<rule ref="rulesets/java/sunsecure.xml/ArrayIsStoredDirectly"/>-->
    <!--<rule ref="rulesets/java/sunsecure.xml/MethodReturnsInternalArray"/>-->
