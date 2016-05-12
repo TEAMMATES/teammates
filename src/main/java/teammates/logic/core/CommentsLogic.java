@@ -202,7 +202,7 @@ public class CommentsLogic {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
         if (instructor == null) {
             throw new EntityDoesNotExistException(
-                    "User " + email + " is not a registered instructor for course "+ courseId + ".");
+                    "User " + email + " is not a registered instructor for course " + courseId + ".");
         }
     }
     

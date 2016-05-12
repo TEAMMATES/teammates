@@ -120,7 +120,7 @@ public class InstructorCommentsPage extends AppPage {
 
     public void clickStudentCommentEditForRow(int i) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"+"commentedit-"+i+"').click();");
+        jsExecutor.executeScript("document.getElementById('" + "commentedit-" + i + "').click();");
     }
     
     public void clickStudentCommentVisibilityEdit(int row){

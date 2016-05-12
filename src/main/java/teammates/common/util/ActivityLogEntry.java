@@ -215,7 +215,7 @@ public class ActivityLogEntry {
         try {
             servletName = getActionName(requestUrl);
         } catch (Exception e) {
-            servletName = "error in getActionName for requestUrl : "+ requestUrl;
+            servletName = "error in getActionName for requestUrl : " + requestUrl;
         }
         action = servletName; //TODO: remove this?
         toShow = true;
@@ -346,15 +346,15 @@ public class ActivityLogEntry {
             if (googleId.contentEquals("Unregistered")){
                 return "[" + name +
                         " (Unregistered User) " + 
-                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
+                        " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
             }     
             return "[" + name +
-                    " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
+                    " <a href=\"" + getStudentHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>" +
+                    " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
         } else if (url.contains("/instructor")){
             return "[" + name +
-                    " <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
+                    " <a href=\"" + getInstructorHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>" +
+                    " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
         } else { 
             return googleId; 
         }
@@ -370,7 +370,7 @@ public class ActivityLogEntry {
         } else {
             style = "text-success bold";
         }
-        return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
+        return "<a href=\"" + getUrlToShow() + "\" class=\"" + style + "\" target=\"_blank\">" + servletName + "</a>";
     }
     
     public String getMessageInfo(){

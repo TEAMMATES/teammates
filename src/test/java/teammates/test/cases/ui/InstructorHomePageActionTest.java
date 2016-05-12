@@ -83,7 +83,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                       r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
@@ -118,7 +118,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
@@ -160,7 +160,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());

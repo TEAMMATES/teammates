@@ -405,7 +405,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
             
             //For sorting purposes
-            sortedMap.put(displayTeam +"-%-"+ displayName, contribFragmentString);
+            sortedMap.put(displayTeam + "-%-" + displayName, contribFragmentString);
             
         }
 
@@ -651,7 +651,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * class (posDiff and negDiff).
      * Positive points will be green, negative will be red, 0 will be black.
      * This will also put N/A or Not Sure for respective points representation.
-     * The output will be E+x% for positive points, E-x% for negative points,
+     * The output will be E + x% for positive points, E-x% for negative points,
      * and just E for equal share.
      * Zero contribution will be printed as 0%
      * @param points
@@ -668,7 +668,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (points == 0) {
             return "<span class=\"color-negative\">0%</span>";
         } else if (points > 100) {
-            return "<span class=\"color-positive\">E +" + (points - 100) + "%</span>";
+            return "<span class=\"color-positive\">E + " + (points - 100) + "%</span>";
         } else if (points < 100) {
             return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
         } else {
@@ -690,7 +690,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                    + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S"
                    + "</span>";
         } else if (diff > 0) {
-            return "<span class=\"color-positive\">+" + diff + "%</span>";
+            return "<span class=\"color-positive\"> + " + diff + "%</span>";
         } else if (diff < 0) {
             return "<span class=\"color-negative\">" + diff + "%</span>";
         } else {
@@ -705,7 +705,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"CONTRIB\">"+Const.FeedbackQuestionTypeNames.CONTRIB+"</option>";
+        return "<option value = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</option>";
     }
 
     @Override
@@ -832,7 +832,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for (int i = 200; i >= 0; i -= 10){
-            result += "<option "+
+            result += "<option " +
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
                         (i == points ? "selected" : "") +
@@ -904,9 +904,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else if (i == 0)
             return "<span class=\"color-negative\">0%</span>";
         else if (i > 100)
-            return "<span class=\"color-positive\">Equal Share +"+(i - 100)+"%</span>";
+            return "<span class=\"color-positive\">Equal Share + " + (i - 100) + "%</span>";
         else if (i < 100)
-            return "<span class=\"color-negative\">Equal Share -"+(100 - i)+"%</span>";
+            return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         else if (i == 100)
             return "<span class=\"color_neutral\">Equal Share</span>";
         else

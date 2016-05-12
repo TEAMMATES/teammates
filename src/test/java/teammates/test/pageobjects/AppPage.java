@@ -1050,7 +1050,7 @@ public abstract class AppPage {
     
     private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
+        jsExecutor.executeScript("document.getElementById('" + hiddenElementIdToClick + "').click();");
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
         if (isConfirm){

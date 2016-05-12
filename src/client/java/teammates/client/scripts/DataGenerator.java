@@ -64,7 +64,7 @@ public class DataGenerator {
 
     public static void main(String[] args) throws IOException {
         String data = generateData();
-        writeDataToFile(data, TestProperties.TEST_DATA_FOLDER +"/"+ FILE_NAME);
+        writeDataToFile(data, TestProperties.TEST_DATA_FOLDER + "/" + FILE_NAME);
     }
     
     /**
@@ -102,12 +102,12 @@ public class DataGenerator {
         System.out.println("Start generating data!");
         //Create students
         for (int i = 0; i < NUM_OF_STUDENTS; i++) {
-            studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
+            studentEmails.add(PREFIX + "Stu" + i + "Email@gmail.com");
         }
         
         // Create courses
         for (int i = 0; i < NUM_OF_COURSES; i++) {
-            String courseName = "Course"+i;
+            String courseName = "Course" + i;
             courses.add(courseName);
             generateDataForCourse(courseName);
         }
@@ -124,12 +124,12 @@ public class DataGenerator {
      */
     public static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
-        long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES+1)
-                +MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
+        long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
+                + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
         
         for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor
-            String instrName = "Instr"+j + "_of_"+courseName;
+            String instrName = "Instr" + j + "_of_" + courseName;
             instructors.put(instrName, courseName);
 
         }
@@ -163,7 +163,7 @@ public class DataGenerator {
         //Add teams
         int teamCount = 1;
         while (studentEmailInCourse.size() > 0) {
-            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
+            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
             for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
                 
@@ -171,7 +171,7 @@ public class DataGenerator {
                 
                 //add to team, add to students;
                 String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-                String studentID = PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
+                String studentID = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
                 
                 students.add(studentID);
                 team.add(studentID);
@@ -205,7 +205,7 @@ public class DataGenerator {
         String output = "\"accounts\":{\n";
         for (String email : studentEmails) {
             email = email.split("@")[0];
-            output+="\t"+account(email);
+            output+="\t" + account(email);
             output+=",\n";
         }
         output = output.substring(0, output.length() - 2);
@@ -221,7 +221,7 @@ public class DataGenerator {
         for (String instructor : instructors.keySet()) {
             String course = PREFIX + instructors.get(instructor);
             instructor = PREFIX + instructor;
-            output+="\t"+instructor(instructor, "googleIdOf_"+instructor, "courseIdOf_"+course, "nameOf_"+instructor, "emailOf_"+instructor+"@gmail.com");
+            output+="\t" + instructor(instructor, "googleIdOf_" + instructor, "courseIdOf_" + course, "nameOf_" + instructor, "emailOf_" + instructor + "@gmail.com");
             output+=",\n";
         }
         output = output.substring(0, output.length() - 2);
@@ -235,8 +235,8 @@ public class DataGenerator {
     public static String allCourses(){
         String output = "\"courses\":{\n";
         for (int i = 0; i < courses.size(); i++) {
-            String course = PREFIX+courses.get(i);
-            output+="\t"+course(course, "courseIdOf_"+course, "nameOf_"+course);
+            String course = PREFIX + courses.get(i);
+            output+="\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
             if (i != courses.size() - 1)
                 output+=",\n";
         }
@@ -253,10 +253,10 @@ public class DataGenerator {
             String student = students.get(i);
             String index = student.split("Stu")[1].split("Team")[0];
             String team  = student.split("Team")[1].split("_")[0];
-            String course = PREFIX+student.split("_in_")[1];
+            String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
-            output+="\t"+student(student, email, "Student "+index+ " in " +course,
-                    "Team "+team, email.split("@")[0], "comment", "courseIdOf_"+course, "profile");
+            output+="\t" + student(student, email, "Student " + index + " in " + course,
+                    "Team " + team, email.split("@")[0], "comment", "courseIdOf_" + course, "profile");
             if (i != students.size() - 1)
                 output+=",\n";
         }
@@ -267,10 +267,10 @@ public class DataGenerator {
 
     
     public static String account(String acc) {
-        String result = "\""+acc+"\":{";
-        result += "\"googleId\":\""+acc+"\",";
-        result += "\"name\":\""+acc+"\",";
-        result += "\"email\":\""+acc+"@gmail.com\",";
+        String result = "\"" + acc + "\":{";
+        result += "\"googleId\":\"" + acc + "\",";
+        result += "\"name\":\"" + acc + "\",";
+        result += "\"email\":\"" + acc + "@gmail.com\",";
         result += "\"institute\":\"\"";
           result += "}";
           return result;
@@ -280,11 +280,11 @@ public class DataGenerator {
      * @return Json string presentation for a instructor entity
      */
     public static String instructor (String objName, String googleId, String courseId, String name, String email) {
-        String result = "\""+objName+"\":{";
-        result += "\"googleId\":\""+googleId+"\",";
-        result += "\"courseId\":\""+courseId+"\",";
-        result += "\"name\":\""+name+"\",";
-        result += "\"email\":\""+email+"\"";
+        String result = "\"" + objName + "\":{";
+        result += "\"googleId\":\"" + googleId + "\",";
+        result += "\"courseId\":\"" + courseId + "\",";
+        result += "\"name\":\"" + name + "\",";
+        result += "\"email\":\"" + email + "\"";
           result += "}";
           return result;
     }
@@ -293,9 +293,9 @@ public class DataGenerator {
      * @return Json string presentation for a course entity
      */
     public static String course (String objName, String id, String name){
-        String result = "\""+objName+"\":{";
-        result += "\"id\":\""+id+"\",";
-        result += "\"name\":\""+name+"\"";
+        String result = "\"" + objName + "\":{";
+        result += "\"id\":\"" + id + "\",";
+        result += "\"name\":\"" + name + "\"";
           result += "}";
           return result;
     }
@@ -305,14 +305,14 @@ public class DataGenerator {
      */
     public static String student (String objName, String email, String name, 
             String team, String id, String comments, String course, String profile) {
-        String result = "\""+objName+"\":{";
-        result += "\"email\":\""+email+"\",";
-        result += "\"name\":\""+name+"\",";
-        result += "\"team\":\""+team+"\",";
-        result += "\"id\":\""+id+"\",";
-        result += "\"comments\":\""+comments+"\",";
-        result += "\"course\":\""+course+"\",";
-        result += "\"profile\":{\"value\": \""+name+"\"}";
+        String result = "\"" + objName + "\":{";
+        result += "\"email\":\"" + email + "\",";
+        result += "\"name\":\"" + name + "\",";
+        result += "\"team\":\"" + team + "\",";
+        result += "\"id\":\"" + id + "\",";
+        result += "\"comments\":\"" + comments + "\",";
+        result += "\"course\":\"" + course + "\",";
+        result += "\"profile\":{\"value\": \"" + name + "\"}";
           result += "}";
           return result;
     }
@@ -326,7 +326,7 @@ public class DataGenerator {
      */
     public static String emailFromStudentId(String id) {
         String index = id.split("Team")[0].split("Stu")[1];
-        return PREFIX+"Stu"+index+"Email@gmail.com";
+        return PREFIX + "Stu" + index + "Email@gmail.com";
     }
     
     /**

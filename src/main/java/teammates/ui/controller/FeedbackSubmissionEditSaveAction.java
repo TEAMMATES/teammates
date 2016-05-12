@@ -77,7 +77,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             

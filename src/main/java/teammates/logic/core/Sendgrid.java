@@ -424,7 +424,7 @@ public class Sendgrid {
                 requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
             } else {
                 if (key.equals("toname") && this.getToNames().size() > 0) {
-                    requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1)+"&");
+                    requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
                 } else {
                     try {
                         requestParams.append(URLEncoder.encode(key, "UTF-8"));
@@ -447,7 +447,7 @@ public class Sendgrid {
         String request = this.domain + this.endpoint;
 
         if (this.getBccs().size() > 0) {
-            request += "?" +this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
+            request += "?" + this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
         }
         
         try {

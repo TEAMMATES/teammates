@@ -683,7 +683,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = headerLine + EOL +"t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
+        lines = headerLine + EOL + "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
@@ -739,7 +739,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(line_t10));
-            AssertHelper.assertContains("Same email address as the student in line \""+line_t9+"\"", e.getMessage());    
+            AssertHelper.assertContains("Same email address as the student in line \"" + line_t9 + "\"", e.getMessage());    
         }
         
         

@@ -69,7 +69,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
-                                  + "|||true|||Student|||"+ student.name +"|||" + student.googleId
+                                  + "|||true|||Student|||" + student.name + "|||" + student.googleId
                                   + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
                                   + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
@@ -122,7 +122,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + student.name +"|||" + student.googleId + "|||" + student.email
+                                  + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||Student Profile for <span class=\"bold\">(" + student.googleId
                                   + ")</span> edited.<br>" + expectedProfile.toString()
                                   + "|||/page/studentProfileEditSave";

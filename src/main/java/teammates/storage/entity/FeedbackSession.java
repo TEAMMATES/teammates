@@ -336,7 +336,7 @@ public class FeedbackSession {
                 + ", sentPublishedEmail=" + sentPublishedEmail 
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
 }

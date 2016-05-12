@@ -367,7 +367,7 @@ public class HtmlHelper {
                       .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.BLOB_KEY + "=" + REGEX_BLOB_KEY,
                                   Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
+                                  + "\\?" + Const.ParamsNames.BLOB_KEY + "=\\${blobkey}")
                       .replaceAll("( type=\"hidden\"|"
                                   + " name=\"" + Const.ParamsNames.BLOB_KEY + "\"|"
                                   + " id=\"blobKey\"|"
