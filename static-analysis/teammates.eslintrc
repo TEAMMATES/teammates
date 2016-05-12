@@ -181,12 +181,13 @@
 
         ////////// Constructors //////////
 
-        "new-parens": 2,            // disallow the omission of parentheses when invoking a constructor with no arguments
-        "no-array-constructor": 2,  // disallow use of the Array constructor
-        "no-new": 2,                // disallow use of new operator when not part of the assignment or comparison
-        "no-new-func": 2,           // disallow use of new operator for Function object
-        "no-new-object": 2,         // disallow use of the Object constructor
-        "no-new-wrappers": 2,       // disallows creating new instances of String, Number, and Boolean
+        "one-var": ["error", "never"],      // allow just one var statement per function
+        "new-parens": 2,                    // disallow the omission of parentheses when invoking a constructor with no arguments
+        "no-array-constructor": 2,          // disallow use of the Array constructor
+        "no-new": 2,                        // disallow use of new operator when not part of the assignment or comparison
+        "no-new-func": 2,                   // disallow use of new operator for Function object
+        "no-new-object": 2,                 // disallow use of the Object constructor
+        "no-new-wrappers": 2,               // disallows creating new instances of String, Number, and Boolean
 
 
         ////////// Stylistic Issues //////////
@@ -202,8 +203,6 @@
         "no-nested-ternary": 0,         // disallow nested ternary expressions (off by default)
         "no-ternary": 0,                // disallow the use of ternary operators (off by default)
         "no-trailing-spaces": 0,        // disallow trailing whitespace at the end of lines
-        "no-wrap-func": 0,              // disallow wrapping of non-IIFE statements in parens
-        "one-var": 0,                   // allow just one var statement per function (off by default)
         "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely (off by default)
         "padded-blocks": 0,             // enforce padding within blocks (off by default)
         "quote-props": 0,               // require quotes around object literal property names (off by default)

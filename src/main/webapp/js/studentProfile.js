@@ -70,10 +70,10 @@ $(function() {
 });
 
 function finaliseEditPictureForm(event) {
-    var picture = $('#editableProfilePicture'),
-        transformData = picture.guillotine('getData'),
-        scaledWidth = picture.prop('naturalWidth') * transformData.scale,
-        scaledHeight = picture.prop('naturalHeight') * transformData.scale;
+    var picture = $('#editableProfilePicture');
+    var transformData = picture.guillotine('getData');
+    var scaledWidth = picture.prop('naturalWidth') * transformData.scale;
+    var scaledHeight = picture.prop('naturalHeight') * transformData.scale;
 
     $('#cropBoxLeftX').val(transformData.x);
     $('#cropBoxTopY').val(transformData.y);

@@ -115,9 +115,9 @@ function handleData(err, countryCoordinates, userData) {
     });
 
     map.addPlugin('pins', function(layer, data, options) {
-        var self = this,
-            fillData = this.options.fills,
-            svg = this.svg;
+        var self = this;
+        var fillData = this.options.fills;
+        var svg = this.svg;
 
         if (!data || data && !data.slice) {
             handleError();

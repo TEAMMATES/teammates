@@ -7,10 +7,11 @@
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
