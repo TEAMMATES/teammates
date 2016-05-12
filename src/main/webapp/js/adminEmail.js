@@ -7,6 +7,7 @@ $(document).ready(function() {
     
     $(".navbar-fixed-top").css("zIndex", 0);
     
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
     tinymce.init({
         selector: "textarea",
         theme: "modern",
@@ -55,7 +56,7 @@ $(document).ready(function() {
         }
         
     });
-    
+    /* eslint-enable camelcase */
     
     $("#adminEmailFile").on("change paste keyup", function() {
         createImageUploadUrl();        
@@ -161,7 +162,7 @@ function submitGroupReceiverListUploadFormAjax() {
         
     });
     clearUploadGroupReceiverListInfo();
-};
+}
 
 
 
@@ -240,7 +241,7 @@ function submitImageUploadFormAjax() {
         
     });
     clearUploadFileInfo();
-};
+}
 
 
 

@@ -63,8 +63,8 @@ public class PerformanceProfiler extends Thread {
     
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
     private final Integer NUM_OF_RUNS = 2;
-    private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
-    private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
+    private final Integer WAIT_TIME_TEST = 1000; //waiting time between tests, in ms
+    private final Integer WAIT_TIME_RUN = 5000; //waiting time between runs, in ms
     private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
     
     private String reportFilePath;
@@ -143,13 +143,13 @@ public class PerformanceProfiler extends Thread {
                 if (type.equals(String.class) && !customTimer)
                 {
                     long startTime = System.nanoTime();
-                    Object retVal = (String)method.invoke(this);
+                    Object retVal = (String) method.invoke(this);
                     long endTime = System.nanoTime();
                     duration = (float) ((endTime - startTime) / 1000000.0); //in miliSecond
                     System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
                 } else if (type.equals(Long.class) && customTimer)
                 {
-                    duration = (float) (((Long)(method.invoke(this))) / 1000000.0);
+                    duration = (float) (((Long) (method.invoke(this))) / 1000000.0);
                     System.out.print("Name: " +name + "\tTime: " + duration + "\n");
                 }
                 // Add new duration to the arrayList of the test.

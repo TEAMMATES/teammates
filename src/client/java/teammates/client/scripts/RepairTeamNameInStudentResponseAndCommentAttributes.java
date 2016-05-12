@@ -146,7 +146,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         StringBuilder result = new StringBuilder();
         for (String s : set) {
             if (hasExtraSpaces(s)) {
-                result.append(s + " ");
+                result.append(s).append(' ');
             }
         }
         return result.toString();

@@ -190,7 +190,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("comment not exist");
         c.recipients = new HashSet<String>();
         c.recipients.add("receiver@mail.com");
-        c.setCommentId((long)-1); //non-existent comment
+        c.setCommentId((long) -1); //non-existent comment
         try {
             commentsDb.updateComment(c);
         } catch (EntityDoesNotExistException e) {

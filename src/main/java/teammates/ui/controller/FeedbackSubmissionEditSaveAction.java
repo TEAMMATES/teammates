@@ -294,9 +294,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * To be used to set any extra parameters or attributes that 
      * a class inheriting FeedbackSubmissionEditSaveAction requires
      */
-    protected void setAdditionalParameters() throws EntityDoesNotExistException {
-        return;
-    }
+    protected abstract void setAdditionalParameters() throws EntityDoesNotExistException;
     
     /**
      * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
@@ -305,9 +303,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * 
      * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
      */
-    protected void checkAdditionalConstraints() {
-        return;
-    }
+    protected abstract void checkAdditionalConstraints();
     
     /**
      * Note that when overriding this method, this should not use {@code respondingStudentList} 

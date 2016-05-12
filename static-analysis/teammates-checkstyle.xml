@@ -4,9 +4,7 @@
   <property name="severity" value="error"/>
   <module name="TreeWalker">
     <module name="UnusedImports"/>
-    <module name="WhitespaceAfter">
-      <property name="tokens" value="COMMA"/>
-    </module>
+    <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
       <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
     </module>

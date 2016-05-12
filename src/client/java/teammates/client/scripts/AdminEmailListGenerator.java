@@ -102,11 +102,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.studentCreatedDateRangeStart != null){
-            System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart.toString() + "\n");
+            System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart + "\n");
         }
         
         if (emailListConfig.studentCreatedDateRangeEnd != null){
-            System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd.toString() + "\n");
+            System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd + "\n");
         }
         
         System.out.print("instructor : " + emailListConfig.instructor + "\n");
@@ -130,11 +130,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.instructorCreatedDateRangeStart != null){
-            System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart.toString() + "\n");
+            System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart + "\n");
         } 
         
         if (emailListConfig.instructorCreatedDateRangeEnd != null){
-            System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd.toString() + "\n");
+            System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd + "\n");
         }
        
     }
@@ -505,7 +505,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private int getMaxNumOfDayForMonth(int month, int year){
         
-        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 000);
+        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue(); 
     }
     

@@ -186,16 +186,16 @@ function registerResponseCommentCheckboxEvent() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        var _target = $(e.target);
+        var target = $(e.target);
         
-        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
-            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
+            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").includes("giverCheckbox") || 
-             _target.prop("class").includes("recipientCheckbox")) &&
-             _target.prop("checked")) {
-            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop("class").includes("giverCheckbox") || 
+             target.prop("class").includes("recipientCheckbox")) &&
+             target.prop("checked")) {
+            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
@@ -212,18 +212,18 @@ function registerResponseCommentCheckboxEvent() {
 }
 
 function updateVisibilityOptionsForResponseComment(formObject, data) {
-    formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop("checked", (data.comment.showCommentTo.indexOf("GIVER") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("GIVER") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showCommentTo.indexOf("STUDENTS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showGiverNameTo.indexOf("STUDENTS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showCommentTo.indexOf("INSTRUCTORS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop("checked", data.comment.showCommentTo.indexOf("GIVER") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop("checked", data.comment.showGiverNameTo.indexOf("GIVER") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop("checked", data.comment.showCommentTo.indexOf("RECEIVER") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop("checked", data.comment.showGiverNameTo.indexOf("RECEIVER") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop("checked", data.comment.showCommentTo.indexOf("STUDENTS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop("checked", data.comment.showGiverNameTo.indexOf("STUDENTS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop("checked", data.comment.showCommentTo.indexOf("INSTRUCTORS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1);
 }
 
 function enableHoverToDisplayEditOptions() {
@@ -440,16 +440,16 @@ function registerCheckboxEventForVisibilityOptions() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        var _target = $(e.target);
+        var target = $(e.target);
         
-        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
-            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
+            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").includes("giverCheckbox") || 
-             _target.prop("class").includes("recipientCheckbox")) &&
-             _target.prop("checked")) {
-            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop("class").includes("giverCheckbox") || 
+             target.prop("class").includes("recipientCheckbox")) &&
+             target.prop("checked")) {
+            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {

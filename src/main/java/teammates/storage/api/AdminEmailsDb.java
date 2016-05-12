@@ -29,7 +29,7 @@ public class AdminEmailsDb extends EntitiesDb {
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
         try {
-            AdminEmail ae = (AdminEmail)createEntity(adminEmailToAdd);
+            AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
             return ae.getCreateDate();
         } catch (EntityAlreadyExistsException e) {
             try {
@@ -273,7 +273,7 @@ public class AdminEmailsDb extends EntitiesDb {
         Query q = getPM().newQuery(AdminEmail.class);
         
         @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>)q.execute();
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute();
         
         return adminEmailList;
     }

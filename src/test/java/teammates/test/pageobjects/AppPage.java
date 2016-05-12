@@ -487,14 +487,9 @@ public abstract class AppPage {
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws Exception {
-        
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     public void click(By by) {
@@ -802,7 +797,7 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for (int row = 1;row < splitString.length;row++){
+        for (int row = 1; row < splitString.length; row++){
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }

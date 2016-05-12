@@ -128,7 +128,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = new StudentAttributes((Student)createEntity(student));
+        StudentAttributes createdStudent = new StudentAttributes((Student) createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -169,7 +169,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(googleId, courseId);
+        List<Student> studentList = (List<Student>) q.execute(googleId, courseId);
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
@@ -566,7 +566,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("courseID == courseIdParam && email == emailParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(courseId, email);
+        List<Student> studentList = (List<Student>) q.execute(courseId, email);
     
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;

@@ -133,7 +133,7 @@ public class InstructorsDb extends EntitiesDb {
     }
     
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{  
-        Instructor instructor = (Instructor)createEntity(instructorToAdd);
+        Instructor instructor = (Instructor) createEntity(instructorToAdd);
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
         }

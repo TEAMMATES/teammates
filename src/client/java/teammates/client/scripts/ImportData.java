@@ -32,7 +32,7 @@ public class ImportData {
     
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000;//ms
+    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
     
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -95,22 +95,22 @@ public class ImportData {
             if (obj instanceof AccountAttributes)
             {
                 type = "AccountData";
-                AccountAttributes accountData = (AccountAttributes)obj;
+                AccountAttributes accountData = (AccountAttributes) obj;
                 bundle.accounts.put(key, accountData);
             } else if (obj instanceof InstructorAttributes)
             {
                 type = "InstructorData";
-                InstructorAttributes instructorData = (InstructorAttributes)obj;
+                InstructorAttributes instructorData = (InstructorAttributes) obj;
                 bundle.instructors.put(key, instructorData);
             } else if (obj instanceof CourseAttributes)
             {
                 type = "CourseData";
-                CourseAttributes courseData = (CourseAttributes)obj;
+                CourseAttributes courseData = (CourseAttributes) obj;
                 bundle.courses.put(key, courseData);
             } else if (obj instanceof StudentAttributes)
             {
                 type = "StudentData";
-                StudentAttributes studentData = (StudentAttributes)obj;
+                StudentAttributes studentData = (StudentAttributes) obj;
                 bundle.students.put(key, studentData);
             } 
             count++;

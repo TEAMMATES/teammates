@@ -101,4 +101,12 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         // i.e. that student.googleId cannot be empty or null if student != null
         return student != null && student.googleId != null && !student.googleId.isEmpty();
     }
+
+    @Override
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
+    }
+
+    @Override
+    protected void checkAdditionalConstraints() {
+    }
 }

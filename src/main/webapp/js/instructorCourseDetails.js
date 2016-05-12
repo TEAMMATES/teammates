@@ -103,4 +103,4 @@ function selectElementContents(el) {
     }
 }
 
-var isShowCommentBox = false
+var isShowCommentBox = false;

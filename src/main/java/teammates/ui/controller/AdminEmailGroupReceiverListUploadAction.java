@@ -110,7 +110,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //offset is needed for remembering where it stops from last reading
         int offset = 0;
         //file size is needed to track the number of unread bytes 
-        int size = (int)blobInfo.getSize();    
+        int size = (int) blobInfo.getSize();    
         
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();

@@ -574,6 +574,7 @@ public final class InstructorPrivileges {
         return (HashMap<String, HashMap<String, HashMap<String, Boolean>>>) sessionLevel.clone();
     }
     
+    @Override
     public boolean equals(Object another) {
         if (!(another instanceof InstructorPrivileges)) {
             return false;
@@ -582,10 +583,22 @@ public final class InstructorPrivileges {
             return true;
         }
         
-        InstructorPrivileges rhs = (InstructorPrivileges)another;
+        InstructorPrivileges rhs = (InstructorPrivileges) another;
         return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) &&
                 this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges()) &&
                 this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
+    }
+    
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        
+        result = prime * result + this.getCourseLevelPrivileges().hashCode();
+        result = prime * result + this.getSectionLevelPrivileges().hashCode();
+        result = prime * result + this.getSessionLevelPrivileges().hashCode();
+        
+        return result;
     }
     
 }

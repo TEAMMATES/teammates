@@ -434,59 +434,59 @@ public class FieldValidator {
         switch (fieldType) {
         case PERSON_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
+                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String) value);
             break;
         case INSTITUTE_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
+                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String) value);
             break;
         case NATIONALITY:
             returnValue = getValidityInfoForAllowedName(
-                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String)value);
+                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String) value);
             break;
         case COURSE_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
+                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String) value);
             break;
         case FEEDBACK_SESSION_NAME:
             returnValue = getValidityInfoForFeedbackSessionName(value);
             break;
         case FEEDBACK_QUESTION_TEXT:
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
-                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String)value);
+                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
             break;
         case GENDER:
-            returnValue = getValidityInfoForGender((String)value);
+            returnValue = getValidityInfoForGender((String) value);
             break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
+                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
             break;
         case TEAM_NAME:
             returnValue = getValidityInfoForAllowedName(
-            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
+            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
             break;
         case SECTION_NAME:
             returnValue = getValidityInfoForAllowedName(
-            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String)value);
+            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
             break;
         case GOOGLE_ID:
-            returnValue = getInvalidInfoForGoogleId((String)value);
+            returnValue = getInvalidInfoForGoogleId((String) value);
             break;
         case COURSE_ID:
-            returnValue = getValidityInfoForCourseId((String)value);
+            returnValue = getValidityInfoForCourseId((String) value);
             break;
         case EMAIL:
-            returnValue = getValidityInfoForEmail((String)value);
+            returnValue = getValidityInfoForEmail((String) value);
             break;
         case INTRUCTOR_ROLE:
-            returnValue = getValidityInfoForInstructorRole((String)value);
+            returnValue = getValidityInfoForInstructorRole((String) value);
             break;
         case EMAIL_SUBJECT:
-            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String)value);
+            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
             break;
         case EMAIL_CONTENT:
-            returnValue = this.getValidityInfoForEmailContent((Text)value);
+            returnValue = this.getValidityInfoForEmailContent((Text) value);
             break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -768,7 +768,7 @@ public class FieldValidator {
     public String getValidityInfoForFeedbackSessionName(Object value) {
         String returnValue;
         returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
         if (returnValue.equals("")){
             returnValue = getValidityInfoForNonHtmlField(
                     FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
