@@ -54,7 +54,7 @@ import teammates.test.driver.AssertHelper;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
-public class StudentsLogicTest extends BaseComponentTestCase{
+public class StudentsLogicTest extends BaseComponentTestCase {
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
@@ -243,7 +243,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: invalid section");
 
         studentList = new ArrayList<StudentAttributes>();
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++){
             StudentAttributes addedStudent = new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
             studentList.add(addedStudent);
         }
@@ -1191,7 +1191,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
                 new Class[] { StudentAttributes.class, Boolean.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { student, new Boolean(false) };
+        Object[] params = new Object[] { student, false };
         return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
     }
     

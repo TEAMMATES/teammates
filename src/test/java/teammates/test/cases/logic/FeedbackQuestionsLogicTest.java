@@ -150,7 +150,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
-        for(int i = 0; i < actualList.size(); i++){
+        for (int i = 0; i < actualList.size(); i++){
             assertEquals(actualList.get(i), expectedList.get(i));
         }
         
@@ -177,7 +177,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
-        for(int i = 0; i < actualList.size(); i++){
+        for (int i = 0; i < actualList.size(); i++){
             assertEquals(expectedList.get(i), actualList.get(i));
         }
     }
@@ -191,7 +191,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(e.getMessage(), "Session disappeared.");
         }
         
@@ -202,7 +202,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(e.getMessage(), "Session disappeared.");
         }
         
@@ -234,7 +234,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
-        for(int i = 0; i < actualList.size(); i++){
+        for (int i = 0; i < actualList.size(); i++){
             assertEquals(actualList.get(i), expectedList.get(i));
         }
                 
@@ -261,7 +261,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
-        for(int i = 0; i < actualList.size(); i++){
+        for (int i = 0; i < actualList.size(); i++){
             assertEquals(actualList.get(i), expectedList.get(i));
         }
         
@@ -285,7 +285,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
-        for(int i = 0; i < actualList.size(); i++){
+        for (int i = 0; i < actualList.size(); i++){
             assertEquals(actualList.get(i), expectedList.get(i));
         }
     }

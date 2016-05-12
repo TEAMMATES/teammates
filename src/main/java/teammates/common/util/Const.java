@@ -15,7 +15,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 
 public class Const {
     
-    public static class SystemParams{
+    public static class SystemParams {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
@@ -109,7 +109,7 @@ public class Const {
     /* Text displayed to the user when the mouse hover over certain elements in
      * the UI.
      */
-    public class Tooltips{
+    public class Tooltips {
     
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
@@ -271,7 +271,7 @@ public class Const {
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
     }
     
-    public static class FeedbackQuestion{
+    public static class FeedbackQuestion {
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -319,7 +319,7 @@ public class Const {
         
     }
 
-    public class FeedbackQuestionTypeNames{
+    public class FeedbackQuestionTypeNames {
         public static final String TEXT = "Essay question";
         public static final String MCQ = "Multiple-choice (single answer) question";
         public static final String MSQ = "Multiple-choice (multiple answers) question";
@@ -340,13 +340,13 @@ public class Const {
         public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
-    public class GenderTypes{
+    public class GenderTypes {
         public static final String MALE = "male";
         public static final String FEMALE = "female";
         public static final String OTHER = "other";
     }
 
-    public class ParamsNames{
+    public class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
         
@@ -506,7 +506,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
-        public static final String FEEDBACK_RESULTS_MAIN_INDEX ="frmainindex";
+        public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -580,8 +580,8 @@ public class Const {
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
-        public static final String SEARCH_KEY ="searchkey";
-        public static final String DISPLAY_ARCHIVE ="displayarchive";
+        public static final String SEARCH_KEY = "searchkey";
+        public static final String DISPLAY_ARCHIVE = "displayarchive";
         
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
@@ -634,7 +634,7 @@ public class Const {
         public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
-    public class ActionURIs{
+    public class ActionURIs {
         
         /* _PAGE/Page in the Action URI name means 'show page' */
     
@@ -784,7 +784,7 @@ public class Const {
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
-    public class AutomatedActionNames{
+    public class AutomatedActionNames {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
@@ -796,7 +796,7 @@ public class Const {
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
-    public class PublicActionNames{
+    public class PublicActionNames {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
@@ -807,7 +807,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
-    public class ViewURIs{
+    public class ViewURIs {
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
@@ -884,7 +884,7 @@ public class Const {
     }
 
     /* These are status messages that may be shown to the user */
-    public class StatusMessages{
+    public class StatusMessages {
         
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
@@ -1118,7 +1118,7 @@ public class Const {
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
-    public class StatusCodes{
+    public class StatusCodes {
     
         // Backdoor responses
         public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
@@ -1244,8 +1244,8 @@ public class Const {
     @SuppressWarnings("unused")
     private void _______other_constants________________________(){}
     
-    public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
-    public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
+    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
+    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     

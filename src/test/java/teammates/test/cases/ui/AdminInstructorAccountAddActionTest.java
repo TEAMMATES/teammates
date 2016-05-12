@@ -129,8 +129,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String normalIdSuffix = ".gma-demo";
         final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length();  //9
-        final String strShortWithWordDemo = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength)/2) + "-demo";
-        final String strWayShorterThanMaxium = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength)/2);
+        final String strShortWithWordDemo = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
+        final String strWayShorterThanMaxium = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
         final String strOneCharShorterThanMaximum = StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
         final String strOneCharLongerThanMaximum = StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1); 
         assertEquals("Case email input: normal short email with word 'demo' with maximumIdLength:" + maximumIdLength, strShortWithWordDemo + normalIdSuffix, generateNextDemoCourseId.invoke(a, strShortWithWordDemo + atEmail, maximumIdLength));
@@ -146,7 +146,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private Action getAction(String... parameters) throws Exception {
-        return (Action)gaeSimulation.getActionObject(uri, parameters);
+        return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
     private String getDemoCourseIdRoot(String instructorEmail){

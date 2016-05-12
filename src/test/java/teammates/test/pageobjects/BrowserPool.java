@@ -68,7 +68,7 @@ public class BrowserPool {
 
     private Browser requestInstance(boolean sequentialUiTest) {
         
-        if(sequentialUiTest){
+        if (sequentialUiTest){
             //Set priority of the sequential ui tests thread to max priority.
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         } else {
@@ -79,7 +79,7 @@ public class BrowserPool {
             //synchronized to ensure thread-safety
             synchronized (this) {
                 // Look for instantiated and available object.
-                int n=0;
+                int n = 0;
                 for (Browser b : pool) {
                     n++;
                     if (!sequentialUiTest && n == 1) {

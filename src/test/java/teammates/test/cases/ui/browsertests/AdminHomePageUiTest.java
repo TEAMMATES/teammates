@@ -52,7 +52,7 @@ import com.google.appengine.api.datastore.Text;
  * SUT: {@link AdminHomePage}
  */
 @Priority(6)
-public class AdminHomePageUiTest extends BaseUiTestCase{
+public class AdminHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminHomePage homePage;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
@@ -112,7 +112,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .toAbsoluteString();
         assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
                      homePage.getMessageFromResultTable(2));
-        homePage.createInstructorByInstructorDetailsSingleLineForm(""); // to clear the first form
+        homePage.clearInstructorDetailsSingleLineForm();
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
@@ -266,7 +266,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
+        if (!TestProperties.inst().TEAMMATES_URL.contains("local")){
             
             BackDoor.deleteCourse(demoCourseId);
             BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);

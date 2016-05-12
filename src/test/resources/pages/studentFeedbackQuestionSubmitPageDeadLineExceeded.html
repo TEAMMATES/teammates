@@ -114,10 +114,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="SFQSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="SFQSubmitUiT.alice.b@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -127,7 +127,9 @@
             </div>
             <div class="col-sm-12">
               <textarea class="form-control" cols="100%" disabled="" name="responsetext-1-0" rows="4">
+                this is a response edited during grace period
               </textarea>
+              <input name="responseid-1-0" type="hidden" value="${question.id}%SFQSubmitUiT.alice.b@gmail.tmt%SFQSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
         </div>

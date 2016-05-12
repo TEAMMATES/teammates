@@ -67,8 +67,8 @@ public class StudentHomePageAction extends Action {
             List<CourseDetailsBundle> courses, String googleId) {
         Map<FeedbackSessionAttributes, Boolean> returnValue = new HashMap<>();
         
-        for(CourseDetailsBundle c : courses) {
-            for(FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
+        for (CourseDetailsBundle c : courses) {
+            for (FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
                 returnValue.put(f, getStudentStatusForSession(f, googleId));
             }

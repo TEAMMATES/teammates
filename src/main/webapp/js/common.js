@@ -229,7 +229,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
-        if ($RowList[i].cells[colIdx - 1] == undefined || $RowList[i].cells[colIdx - 1] == null) {
+        if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
         
@@ -250,7 +250,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
-    if (comparator == null) {
+    if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
             comparator = sortNum;
         } else if (columnType === 2) {
@@ -265,17 +265,14 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
             var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
             if (compareResult === 0) {
                 return x[2] - y[2];
-            } else {
-                return compareResult;
             }
-        } else {
-            var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            } else {
-                return compareResult;
-            }
+            return compareResult;
         }
+        var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
+        if (compareResult === 0) {
+            return x[2] - y[2];
+        }
+        return compareResult;
     });
     
     // Must rewrap because .get() does not return a jQuery wrapped DOM node
@@ -378,9 +375,8 @@ function sortByPoint(a, b) {
     
     if (isNumber(a) && isNumber(b)) {
         return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
     }
+    return sortBase(a, b);
 }
 
 /**
@@ -396,9 +392,8 @@ function sortByDiff(a, b) {
 
     if (isNumber(a) && isNumber(b)) {
         return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
     }
+    return sortBase(a, b);
 }
 
 /**
@@ -427,9 +422,8 @@ function getPointValue(s, ditchZero) {
     if (s === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
-        } else {
-            return 100;
         }
+        return 100;
     }
     
     s = s.replace('E', '');
@@ -450,13 +444,13 @@ function getPointValue(s, ditchZero) {
  * @return true if it is within the viewport, false otherwise 
  */
 function isWithinView(element) {
-    var viewHeight = window.innerHeight,
-        viewTop = window.scrollY,
-        viewBottom = viewTop + viewHeight;
+    var viewHeight = window.innerHeight;
+    var viewTop = window.scrollY;
+    var viewBottom = viewTop + viewHeight;
     
-    var elementHeight = element.offsetHeight,
-        elementTop = element.offsetTop,
-        elementBottom = elementTop + elementHeight;
+    var elementHeight = element.offsetHeight;
+    var elementTop = element.offsetTop;
+    var elementBottom = elementTop + elementHeight;
     
     return viewHeight >= elementHeight
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
@@ -472,7 +466,7 @@ function isWithinView(element) {
  *                 400 ms will be used if any other string is supplied.
  */
 function scrollToPosition(scrollPos, duration) {
-    if (duration === undefined) {
+    if (duration === undefined || duration === null) {
         $(window).scrollTop(scrollPos);
     } else {
         $('html, body').animate({ scrollTop: scrollPos }, duration);
@@ -497,24 +491,24 @@ function scrollToElement(element, options) {
     var defaultOptions = { type: 'top', offset: 0, duration: 0 };
     
     options = options || {};
-    var type = options.type || defaultOptions.type,
-        offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
-        duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    var type = options.type || defaultOptions.type;
+    var offset = options.offset !== undefined ? options.offset : defaultOptions.offset;
+    var duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
     
     var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
         return;
     }
     
-    var navbar = document.getElementsByClassName('navbar')[0],
-        navbarHeight = navbar ? navbar.offsetHeight : 0;
-    var footer = document.getElementById('footerComponent'),
-        footerHeight = footer ? footer.offsetHeight : 0;
+    var navbar = document.getElementsByClassName('navbar')[0];
+    var navbarHeight = navbar ? navbar.offsetHeight : 0;
+    var footer = document.getElementById('footerComponent');
+    var footerHeight = footer ? footer.offsetHeight : 0;
     var windowHeight = window.innerHeight - navbarHeight - footerHeight;
     
-    var isElementTallerThanWindow = windowHeight < element.offsetHeight,
-        isFromAbove = window.scrollY < element.offsetTop,
-        isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
+    var isElementTallerThanWindow = windowHeight < element.offsetHeight;
+    var isFromAbove = window.scrollY < element.offsetTop;
+    var isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
     
     // default offset - from navbar / footer
     if (options.offset === undefined) {
@@ -630,7 +624,7 @@ function isValidGoogleId(googleId) {
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = matches != null && matches[0] === googleId;
+    isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -650,7 +644,7 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
 }
 
 /**
@@ -675,9 +669,8 @@ function isNameValid(name) {
         return false;
     } else if (name.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -701,9 +694,8 @@ function isInstitutionValid(institution) {
         return false;
     } else if (institution.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -728,12 +720,11 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
             
             // let it happen, don't do anything
             return;
-        } else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
-                event.preventDefault();
-                return false;
-            }
+        }
+        // Ensure that it is a number and stop the keypress
+        if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
+            event.preventDefault();
+            return false;
         }
     });
 }

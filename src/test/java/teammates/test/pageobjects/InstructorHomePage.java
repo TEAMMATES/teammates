@@ -264,7 +264,7 @@ public class InstructorHomePage extends AppPage {
     public void fillRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         List<WebElement> usersToRemind = remindModal.findElements(By.name("usersToRemind"));
-        for(WebElement e : usersToRemind) {
+        for (WebElement e : usersToRemind) {
             markCheckBoxAsChecked(e);
         }
     }

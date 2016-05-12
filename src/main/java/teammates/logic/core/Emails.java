@@ -240,7 +240,7 @@ public class Emails {
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
-            if(s == null) continue;
+            if (s == null) continue;
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
@@ -902,7 +902,7 @@ public class Emails {
     
         ArrayList<Object> data = new ArrayList<Object>();
         
-        try{
+        try {
             for (int i = 0; i < emails.size(); i++){
                 Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
                 for (int j = 0; j < recipients.length; j++){

@@ -33,7 +33,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractGroupReceiverListFileKey();
         
-        if(blobInfo == null){
+        if (blobInfo == null){
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             
@@ -110,12 +110,12 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //offset is needed for remembering where it stops from last reading
         int offset = 0;
         //file size is needed to track the number of unread bytes 
-        int size = (int)blobInfo.getSize();    
+        int size = (int) blobInfo.getSize();    
         
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
    
-        while(size > 0){
+        while (size > 0){
             //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
@@ -133,23 +133,23 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             List<String> newList = Arrays.asList(readString.split(","));
             
             
-            if(listOfList.isEmpty()){
+            if (listOfList.isEmpty()){
                 //this is the first time reading
                 listOfList.add(newList);
             } else {
                 //check if the last reading stopped in the middle of a email address string
-                List<String> lastAddedList = listOfList.get(listOfList.size() -1);
+                List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
                 //get the last item of the list from last reading
                 String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if(!lastStringOfLastAddedList.contains("@")||
+                if (!lastStringOfLastAddedList.contains("@") ||
                    !firstStringOfNewList.contains("@")){
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
                    //simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() -1)
+                   listOfList.get(listOfList.size() - 1)
                              .set(lastAddedList.size() - 1,
                                   lastStringOfLastAddedList + 
                                   firstStringOfNewList);
@@ -170,8 +170,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //log all email addresses retrieved from the txt file 
         int i = 0;
         
-        for(List<String> list : listOfList){
-            for(String str : list){
+        for (List<String> list : listOfList){
+            for (String str : list){
                 log.info(str + "      " + i + " \n");
                 i++;
             }
@@ -184,10 +184,10 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
             
-            if(blobs != null && blobs.size() > 0) {
+            if (blobs != null && blobs.size() > 0) {
                 BlobInfo groupReceiverListFile = blobs.get(0);
                 return validateGroupReceiverListFile(groupReceiverListFile);
-            } else{
+            } else {
                 data.ajaxStatus = Const.StatusMessages.NO_GROUP_RECEIVER_LIST_FILE_GIVEN;
                 isError = true;
                 return null;
@@ -199,7 +199,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     private BlobInfo validateGroupReceiverListFile (BlobInfo groupReceiverListFile) {
         
-        if(!groupReceiverListFile.getContentType().contains("text/")) {
+        if (!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
             data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;

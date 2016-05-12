@@ -172,7 +172,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
+            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;
@@ -259,7 +259,7 @@ public class AdminSessionsPageAction extends Action {
             return googleId;
         }
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
+        for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
           
             if (instructor.googleId != null) {
                 googleId = instructor.googleId;

@@ -181,7 +181,7 @@ public class TimeHelper {
         String optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue.equals("24")) {
             return "2359H";
-        }else if (optionValue.length() == 1) {
+        } else if (optionValue.length() == 1) {
             return "0" + optionValue + "00H";
         } else if (optionValue.length() == 2) {
             return optionValue + "00H";
@@ -315,7 +315,7 @@ public class TimeHelper {
         Date currentDate = new Date();
         int differenceInDays;
         
-        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
+        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
         
         return differenceInDays > 365;
     }
@@ -386,7 +386,7 @@ public class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds){
      
-        return timeInMilliseconds !=null? String.format("%d:%d:%d",
+        return timeInMilliseconds != null ? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";

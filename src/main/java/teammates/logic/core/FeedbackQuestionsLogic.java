@@ -58,7 +58,7 @@ public class FeedbackQuestionsLogic {
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Session disappeared.");
         }
-        if(fqa.questionNumber < 0){
+        if (fqa.questionNumber < 0){
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
@@ -175,16 +175,16 @@ public class FeedbackQuestionsLogic {
                 copiableQuestions.addAll(questions);
             }
         }
-        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>(){
+        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>() {
             @Override
             public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
                 int order = q1.courseId.compareTo(q2.courseId);
-                if(order != 0){
+                if (order != 0){
                     return order;
                 }
                 
                 order = q1.feedbackSessionName.compareTo(q2.feedbackSessionName);
-                if(order != 0){
+                if (order != 0){
                     return order;
                 }
                 
@@ -195,7 +195,7 @@ public class FeedbackQuestionsLogic {
                 String q2DisplayName = q2Details.getQuestionTypeDisplayName();
                 
                 order = q1DisplayName.compareTo(q2DisplayName);
-                if(order != 0){
+                if (order != 0){
                     return order;
                 }
                 
@@ -404,9 +404,9 @@ public class FeedbackQuestionsLogic {
         case STUDENTS:
             List<StudentAttributes> studentsInCourse =
                 studentsLogic.getStudentsForCourse(question.courseId);
-            for(StudentAttributes student : studentsInCourse) {
+            for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
-                if(giver.equals(student.email) == false) {
+                if (giver.equals(student.email) == false) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -414,7 +414,7 @@ public class FeedbackQuestionsLogic {
         case INSTRUCTORS:
             List<InstructorAttributes> instructorsInCourse =
                 instructorsLogic.getInstructorsForCourse(question.courseId);
-            for(InstructorAttributes instr : instructorsInCourse) {
+            for (InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
                 if (!giver.equals(instr.email)) {
                     recipients.put(instr.email, instr.name);
@@ -424,7 +424,7 @@ public class FeedbackQuestionsLogic {
         case TEAMS:
             List<TeamDetailsBundle> teams =
                 coursesLogic.getTeamsForCourse(question.courseId);
-            for(TeamDetailsBundle team : teams) {
+            for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
                 if (giverTeam.equals(team.name) == false) {
                     // recipientEmail doubles as team name in this case.
@@ -439,7 +439,7 @@ public class FeedbackQuestionsLogic {
             List<StudentAttributes> students = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : students) {
-                if(student.email.equals(giver) == false) {
+                if (student.email.equals(giver) == false) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -577,9 +577,9 @@ public class FeedbackQuestionsLogic {
     private void adjustQuestionNumbers(int oldQuestionNumber,
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions){
         
-        if(oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1){
-            for(int i = oldQuestionNumber-1; i >= newQuestionNumber; i--){
-                FeedbackQuestionAttributes question = questions.get(i-1);
+        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1){
+            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--){
+                FeedbackQuestionAttributes question = questions.get(i - 1);
                 question.questionNumber += 1;
                 try {
                     updateFeedbackQuestionWithoutResponseRateUpdate(question);
@@ -589,9 +589,9 @@ public class FeedbackQuestionsLogic {
                     Assumption.fail("Question disappeared.");
                 }
             }
-        } else if(oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()){
-            for(int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
-                FeedbackQuestionAttributes question = questions.get(i-1);
+        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()){
+            for (int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
+                FeedbackQuestionAttributes question = questions.get(i - 1);
                 question.questionNumber -= 1;
                 try {
                     updateFeedbackQuestionWithoutResponseRateUpdate(question);
@@ -652,7 +652,7 @@ public class FeedbackQuestionsLogic {
                     "Trying to update a feedback question that does not exist.");
         }
         
-        if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
+        if (oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
             frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         
@@ -666,7 +666,7 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions = 
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
-        for(FeedbackQuestionAttributes question : questions) {
+        for (FeedbackQuestionAttributes question : questions) {
             deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }
         
@@ -755,7 +755,7 @@ public class FeedbackQuestionsLogic {
         
         fqDb.deleteEntity(questionToDelete);
         
-        if(questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
+        if (questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
             shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsToShiftQnNumber);
         }
     }
@@ -764,7 +764,7 @@ public class FeedbackQuestionsLogic {
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {                
-            if(question.questionNumber > questionNumberToShiftFrom){
+            if (question.questionNumber > questionNumberToShiftFrom){
                 question.questionNumber -= 1;
                 try {
                     updateFeedbackQuestionWithoutResponseRateUpdate(question);
