@@ -13,8 +13,8 @@ import static teammates.common.util.FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_M
 import static teammates.common.util.FieldValidator.SECTION_NAME_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.TEAM_NAME_ERROR_MESSAGE;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -319,7 +319,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {
-        List<StudentAttributes> list = new Vector<>();
+        List<StudentAttributes> list = new ArrayList<>();
         list.add(new StudentAttributes("sect 2", "team 2", "name 1", "email 1", "comment 1", "courseId"));
         list.add(new StudentAttributes("sect 2", "team 2", "name 4", "email 4", "comment 4", "courseId"));
         list.add(new StudentAttributes("sect 3", "team 1", "name 2", "email 3", "comment 3", "courseId"));
