@@ -52,7 +52,7 @@ public class AdminActivityLogPageData extends PageData {
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
         for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
         }
         return excludedList;
     }
@@ -373,7 +373,7 @@ public class AdminActivityLogPageData extends PageData {
         int remainder = totalNumOfActions % totalColumns;
         
         if (remainder > 0) {
-            rowsPerCol ++;
+            rowsPerCol++;
         }
         
         return rowsPerCol;
@@ -415,7 +415,7 @@ public class AdminActivityLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters{        
+    private class QueryParameters {        
                 
         public boolean isRequestInQuery;
         public String[] requestValues;
@@ -496,7 +496,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public boolean isPersonSpecified() {
-        return ((q != null) && (q.isPersonInQuery));
+        return q != null && q.isPersonInQuery;
     }
     
     public String getPersonSpecified() {

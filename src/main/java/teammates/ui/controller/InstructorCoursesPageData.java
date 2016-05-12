@@ -7,7 +7,6 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.ui.template.ActiveCoursesTable;
@@ -160,21 +159,21 @@ public class InstructorCoursesPageData extends PageData {
         
         button.setAttribute("class", buttonClass);
         
-        if ((id != null) && (!id.equals(""))) {
+        if (id != null && !id.equals("")) {
             button.setAttribute("id", id);
         }
         
-        if ((href != null) && (!href.equals(""))) {
+        if (href != null && !href.equals("")) {
             button.setAttribute("href", href);
         }
         
-        if ((title != null) && (!title.equals(""))) {
+        if (title != null && !title.equals("")) {
             button.setAttribute("title", title);
             button.setAttribute("data-toggle", "tooltip");
             button.setAttribute("data-placement", "top");
         }
         
-        if ((onClick != null) && (!onClick.equals(""))) {
+        if (onClick != null && !onClick.equals("")) {
             button.setAttribute("onclick", onClick);
         }
         

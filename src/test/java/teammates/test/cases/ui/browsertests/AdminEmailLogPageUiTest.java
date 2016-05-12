@@ -80,7 +80,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
                                                                  "Date");
         List<String> actualSessionTableHeaders = new ArrayList<String>();
         
-        for (int i = 0 ; i < numColumns ; i++) {
+        for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailLogPage.getHeaderValueFromDataTable(0, 0, i));
         }
         

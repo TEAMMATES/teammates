@@ -1,5 +1,5 @@
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
 var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
@@ -105,7 +105,7 @@ onload = function() {
     var currentDate = new Date();
     e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
 
-    setInterval(loopTestimonials,LOOP_INTERVAL);
+    setInterval(loopTestimonials, LOOP_INTERVAL);
 };
 
 // Format large number with commas

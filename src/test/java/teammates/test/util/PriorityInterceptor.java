@@ -26,7 +26,7 @@ import org.testng.ITestContext;
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
     static{
-        try{
+        try {
             packageOrder = FileHelper.readFile("src\\test\\testng-travis.xml", Charset.defaultCharset());
         } catch (Exception e){
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml", Charset.defaultCharset());
@@ -72,14 +72,14 @@ public class PriorityInterceptor implements IMethodInterceptor {
             private int packagePriorityOffset(String packageName){
                 int index = packageOrder.indexOf(packageName);
                 //Storage tests go first!
-                if(packageName.contains("storage")){
+                if (packageName.contains("storage")){
                     return 1000000;
                 }
                 //Action tests go last. (in component tests)
-                if(packageName.contains("teammates.test.cases.ui")){
+                if (packageName.contains("teammates.test.cases.ui")){
                     return -1000000;
                 }
-                if(index != -1){
+                if (index != -1){
                     return -index;
                 } else {
                     return 0;
@@ -95,25 +95,25 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 val = p1.compareTo(p2);
                 val -= packagePriorityOffset(p1);
                 val += packagePriorityOffset(p2);
-                if(val != 0){
+                if (val != 0){
                     return val;
                 }
                 
                 //Compare by class priority
                 val = getClassPriority(m1) - getClassPriority(m2);
-                if(val != 0){
+                if (val != 0){
                     return val;
                 }
                 
                 //Compare by class name
                 val = getClassName(m1).compareTo(getClassName(m2));
-                if(val != 0){
+                if (val != 0){
                     return val;
                 }
                 
                 //Compare by method priority
                 val = getMethodPriority(m1) - getMethodPriority(m2);
-                if(val != 0){
+                if (val != 0){
                     return val;
                 }
                 

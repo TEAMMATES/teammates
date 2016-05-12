@@ -24,7 +24,7 @@ function checkFeedbackQuestion(form) {
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() ||
-                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()||
+                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val() ||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
             return false;
@@ -32,10 +32,9 @@ function checkFeedbackQuestion(form) {
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
-        } else {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
-            return false;
         }
+        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+        return false;
     }
     return true;
 }
@@ -43,9 +42,8 @@ function checkFeedbackQuestion(form) {
 function getQuestionNumFromEditForm(form) {
     if ($(form).attr('name') === 'form_addquestions') {
         return -1;
-    } else {
-        return extractQuestionNumFromEditFormId($(form).attr('id'));
     }
+    return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
 function extractQuestionNumFromEditFormId(id) {
@@ -81,7 +79,7 @@ function selectDefaultTimeOptions() {
 
     var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
-    var currentTime = (parseInt(hours) + 1);
+    var currentTime = parseInt(hours) + 1;
     var timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
@@ -256,15 +254,11 @@ function updateUncommonSettingsInfo() {
 }
 
 function isDefaultSetting() {
-    if ($('#sessionVisibleFromButton_atopen').prop('checked') &&
-            $('#resultsVisibleFromButton_later').prop('checked') &&
-            $('#sendreminderemail_open').prop('checked') &&
-            $('#sendreminderemail_closing').prop('checked') &&
-            $('#sendreminderemail_published').prop('checked')) {
-        return true;
-    } else {
-        return false;
-    }
+    return $('#sessionVisibleFromButton_atopen').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked')
+           && $('#sendreminderemail_open').prop('checked')
+           && $('#sendreminderemail_closing').prop('checked')
+           && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {

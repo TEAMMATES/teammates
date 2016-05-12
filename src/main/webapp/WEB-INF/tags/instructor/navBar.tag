@@ -1,4 +1,5 @@
 <%@ tag description="Instructor Navigation Bar" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -39,7 +40,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-                <li><a id="btnLogout" class='nav logout' href="/logout.jsp">Logout
+                <li><a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
                         
                         (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
                                 title="${data.account.googleId}">

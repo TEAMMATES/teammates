@@ -180,12 +180,12 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
-        return (otherStudent != null) && otherStudent.email.equals(this.email)
-                && otherStudent.course.equals(this.course)
-                && otherStudent.name.equals(this.name)
-                && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team)
-                && otherStudent.section.equals(this.section);
+        return otherStudent != null && otherStudent.email.equals(this.email)
+               && otherStudent.course.equals(this.course)
+               && otherStudent.name.equals(this.name)
+               && otherStudent.comments.equals(this.comments)
+               && otherStudent.team.equals(this.team)
+               && otherStudent.section.equals(this.section);
     }
 
     public List<String> getInvalidityInfo() {

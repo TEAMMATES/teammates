@@ -5,8 +5,6 @@ import java.util.List;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService.LogLevel;
 
-import teammates.common.util.Assumption;
-
 /**
  * A wrapper class for LogQuery to retrieve logs from GAE server.
  */

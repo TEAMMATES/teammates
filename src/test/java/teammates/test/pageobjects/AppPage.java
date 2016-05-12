@@ -28,7 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -43,7 +42,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -68,7 +66,7 @@ public abstract class AppPage {
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     
-    static final long ONE_MINUTE_IN_MILLIS=60000;
+    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
@@ -238,7 +236,7 @@ public abstract class AppPage {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
-    
+
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
@@ -287,6 +285,14 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits for an alert to appear on the page, up to the timeout specified.
+     */
+    public void waitForAlertPresence() {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+    /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by){
@@ -311,6 +317,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementPresence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+    }
+    
+    /**
+     * Waits for text contained in the element to disappear from the page, or timeout
+     */
+    public void waitForTextContainedInElementAbsence(By by, String text) {
+        WebDriverWait wait =  new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
     /**
@@ -473,14 +487,9 @@ public abstract class AppPage {
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws Exception {
-        
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     public void click(By by) {
@@ -517,7 +526,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
-        if(!checkBox.isSelected()){
+        if (!checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -526,7 +535,7 @@ public abstract class AppPage {
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if(checkBox.isSelected()){
+        if (checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -570,7 +579,7 @@ public abstract class AppPage {
      * status message in the page.
      */
     public String getStatus() {
-        return statusMessage == null? "" : statusMessage.getText();
+        return statusMessage == null ? "" : statusMessage.getText();
     }
 
     /** 
@@ -680,7 +689,7 @@ public abstract class AppPage {
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.
@@ -693,7 +702,7 @@ public abstract class AppPage {
      * @return True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
-        try{
+        try {
             browser.driver.findElement(By.id(elementId));
             return true;
         } catch (NoSuchElementException e) {
@@ -702,7 +711,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementVisible(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -710,7 +719,7 @@ public abstract class AppPage {
     }
 
     public boolean isElementVisible(By by) {
-        try{
+        try {
             return browser.driver.findElement(by).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -718,7 +727,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementVisible(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -726,7 +735,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementEnabled(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -734,7 +743,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementEnabled(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -742,7 +751,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementSelected(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isSelected();
         } catch (NoSuchElementException e) {
             return false;
@@ -762,13 +771,8 @@ public abstract class AppPage {
         return !topElem.equals(element);
     }
 
-    public void verifyUnclickable(WebElement element){
-        try {
-            respondToAlertWithRetry(element, false);
-            Assert.fail("This should not give an alert when clicked");
-        } catch (NoAlertPresentException e) {
-            return;
-        }
+    public void verifyUnclickable(WebElement element) {
+        Assert.assertNotNull(element.getAttribute("disabled"));
     }
 
     /**
@@ -793,7 +797,7 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for(int row=1;row < splitString.length;row++){
+        for (int row = 1; row < splitString.length; row++){
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
@@ -839,7 +843,7 @@ public abstract class AppPage {
                 actual = getPageSource(by);
             }
             
-        } catch (IOException|AssertionError e) {
+        } catch (IOException | AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
@@ -932,7 +936,7 @@ public abstract class AppPage {
                 if (expectedStatus.equals(getStatus())) {
                     break;
                 }
-            } catch (StaleElementReferenceException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
             }
@@ -1034,15 +1038,12 @@ public abstract class AppPage {
 
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
-        elementToClick.click();    
-        //This method might fail at times due to a Selenium bug
-        //  See https://code.google.com/p/selenium/issues/detail?id=3544
-        //  The delay below is a temporary workaround to minimize the failure rate.
-        ThreadHelper.waitFor(250);
+        elementToClick.click();
+        waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
@@ -1050,14 +1051,11 @@ public abstract class AppPage {
     private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
-        //This method might fail at times due to a Selenium bug
-        //  See https://code.google.com/p/selenium/issues/detail?id=3544
-        //  The delay below is a temporary workaround to minimize the failure rate.
-        ThreadHelper.waitFor(250);
+        waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
@@ -1071,7 +1069,7 @@ public abstract class AppPage {
     }
 
     public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360,640));
+        browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
 
     public void changeToDesktopView() {

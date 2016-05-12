@@ -97,7 +97,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         Set<String> allCourses = new HashSet<String>();
         
-        for(Course course : courses) {
+        for (Course course : courses) {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;

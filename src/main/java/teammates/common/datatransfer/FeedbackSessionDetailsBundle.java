@@ -41,15 +41,15 @@ public class FeedbackSessionDetailsBundle {
                 }
                 if (result == 0) {
                     result = session1.createdTime.after(session2.createdTime) ? 1
-                            : (session1.createdTime.before(session2.createdTime) ? -1 : 0);
+                            : session1.createdTime.before(session2.createdTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.endTime.after(session2.endTime) ? 1
-                            : (session1.endTime.before(session2.endTime) ? -1 : 0);
+                            : session1.endTime.before(session2.endTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.startTime.after(session2.startTime) ? 1
-                            : (session1.startTime.before(session2.startTime) ? -1 : 0);
+                            : session1.startTime.before(session2.startTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
@@ -60,10 +60,10 @@ public class FeedbackSessionDetailsBundle {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(100);
         sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-                + Const.EOL);
-        sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
+                + Const.EOL)
+          .append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
         return sb.toString();
     }
 }

@@ -96,7 +96,7 @@ public class InstructorCommentsPageAction extends Action {
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
         }
-        isViewingDraft = false;//TODO: handle the draft page
+        isViewingDraft = false; //TODO: handle the draft page
     }
 
     private void getDisplayArchivedOptionFromSession() {
@@ -119,7 +119,7 @@ public class InstructorCommentsPageAction extends Action {
             if (isDisplayArchivedCourse 
              || !isCourseArchived(course, account.googleId) 
              || course.id.equals(courseId)) {
-                if (courseId == "") {
+                if (courseId.isEmpty()) {
                     courseId = course.id;
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }

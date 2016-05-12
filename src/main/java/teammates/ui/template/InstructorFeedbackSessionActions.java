@@ -3,7 +3,6 @@ package teammates.ui.template;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.ui.controller.PageData;
 
 public class InstructorFeedbackSessionActions {
@@ -37,8 +36,8 @@ public class InstructorFeedbackSessionActions {
 
         this.privateSession = session.isPrivateSession();
 
-        this.courseId = Sanitizer.sanitizeForJs(courseId);
-        this.fsName = Sanitizer.sanitizeForJs(feedbackSessionName);
+        this.courseId = courseId;
+        this.fsName = feedbackSessionName;
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);

@@ -1,5 +1,9 @@
 apply plugin: "war"
 apply plugin: "appengine"
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+apply plugin: "findbugs"
+apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
 def numOfTestRetries = 3
@@ -89,11 +93,20 @@ sourceSets {
     main {
         java {
             srcDir "src/main/java"
-            srcDir "src/test/java"
             include "**/*.java"
         }
         resources {
             srcDir "src/main/resources"
+            exclude "**/*.java"
+        }
+    }
+    test {
+        java {
+            srcDir "src/test/java"
+            srcDir "src/client/java"
+            include "**/*.java"
+        }
+        resources {
             srcDir "src/test/resources"
             exclude "**/*.java"
         }
@@ -173,6 +186,53 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
+// STATIC ANALYSIS TASKS
+
+task eslint(type: Exec) {
+    def command = ["eslint"]
+    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
+    def configFile = ["-c", "static-analysis/teammates.eslintrc"]
+    def outputFormat = ["-f", "html"]
+    def outputFile = ["-o", "${buildDir}/reports/eslint.html"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + outputFormat + outputFile
+}
+
+checkstyle {
+    toolVersion = "6.18"
+    configFile = file("static-analysis/teammates-checkstyle.xml")
+}
+
+pmd {
+    toolVersion = "5.4.1"
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml")
+    ruleSets = []
+}
+
+findbugs {
+    toolVersion = "3.0.1"
+    visitors = [
+        "FindDeadLocalStores"
+    ]
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task staticAnalysisMain {
+    dependsOn checkstyleMain, pmdMain, findbugsMain
+}
+
+task staticAnalysisTest {
+    dependsOn checkstyleTest, pmdTest, findbugsTest
+}
+
+task staticAnalysis {
+    dependsOn eslint, staticAnalysisMain, staticAnalysisTest
+}
 
 // TRAVIS TEST TASKS
 
@@ -257,7 +317,27 @@ task generateFailedCmd(type: Exec) {
     }
 }
 
-defaultTasks "appengineRun", "travisTests", "appengineStop"
+// COVERAGE TOOLS
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+jacocoTestReport {
+    sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
+    classDirectories =  files(sourceSets.main.output, sourceSets.test.output)
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "**/*Filter.class", "**/*Servlet.class"])
+        })
+    }
+}
+
+defaultTasks "staticAnalysis", "appengineRun", "travisTests", "appengineStop", "jacocoTestReport"
 
 // LOCAL TEST TASKS (NOT USED CURRENTLY)
 

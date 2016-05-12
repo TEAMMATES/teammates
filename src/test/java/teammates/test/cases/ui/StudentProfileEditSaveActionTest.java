@@ -28,7 +28,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
     }
     

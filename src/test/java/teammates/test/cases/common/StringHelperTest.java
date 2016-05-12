@@ -46,9 +46,9 @@ public class StringHelperTest extends BaseTestCase {
         
         
         String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
-        String[] stringsToMatch = {"names","name", " name ", " names ", "student name", "students names",
+        String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
                                    "student names", "students name", "full name", "full names", "full   names",
-                                   "student full names", "students full    names", "Names", "NAMES","Full Names",
+                                   "student full names", "students full    names", "Names", "NAMES", "Full Names",
                                    "FULL NAMES", "Full Name", "Student Full Name", "Name"};
         verifyRegexMatch(stringsToMatch, regexArray, true);
         
@@ -133,45 +133,45 @@ public class StringHelperTest extends BaseTestCase {
         String fullName = "singleWord";
         String[] splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"singleWord");
+        assertEquals(splitName[0], "");
+        assertEquals(splitName[1], "singleWord");
        
         fullName = "";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"");
+        assertEquals(splitName[0], "");
+        assertEquals(splitName[1], "");
         
         fullName = null;
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName,null);
+        assertEquals(splitName, null);
         
         
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"two");
-        assertEquals(splitName[1],"words");
+        assertEquals(splitName[0], "two");
+        assertEquals(splitName[1], "words");
         
         fullName = "now three words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"now three");
-        assertEquals(splitName[1],"words");
+        assertEquals(splitName[0], "now three");
+        assertEquals(splitName[1], "words");
         
         
         fullName = "what if four words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"what if four");
-        assertEquals(splitName[1],"words");
+        assertEquals(splitName[0], "what if four");
+        assertEquals(splitName[1], "words");
         
         fullName = "first name firstName {last Name}";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"first name firstName");
-        assertEquals(splitName[1],"last Name");
+        assertEquals(splitName[0], "first name firstName");
+        assertEquals(splitName[1], "last Name");
         
     }
     
@@ -179,34 +179,34 @@ public class StringHelperTest extends BaseTestCase {
     public void testRemoveExtraSpace(){
         
        String str = "";
-       assertEquals("",StringHelper.removeExtraSpace(str));
+       assertEquals("", StringHelper.removeExtraSpace(str));
        
        str = null;
-       assertEquals(null,StringHelper.removeExtraSpace(str));
+       assertEquals(null, StringHelper.removeExtraSpace(str));
        
        str = "a    a";
-       assertEquals("a a",StringHelper.removeExtraSpace(str));
+       assertEquals("a a", StringHelper.removeExtraSpace(str));
        
        str = "  a    a   ";
-       assertEquals("a a",StringHelper.removeExtraSpace(str));
+       assertEquals("a a", StringHelper.removeExtraSpace(str));
        
        str = "    ";
-       assertEquals("",StringHelper.removeExtraSpace(str));
+       assertEquals("", StringHelper.removeExtraSpace(str));
        
        str = " a      b       c       d      ";
-       assertEquals("a b c d",StringHelper.removeExtraSpace(str));
+       assertEquals("a b c d", StringHelper.removeExtraSpace(str));
     }
     
     @Test
     public void testRecoverFromSanitizedText(){        
         String str = null;
-        assertEquals(null,StringHelper.recoverFromSanitizedText(str));
+        assertEquals(null, StringHelper.recoverFromSanitizedText(str));
         
         str = "";
-        assertEquals("",StringHelper.recoverFromSanitizedText(str));
+        assertEquals("", StringHelper.recoverFromSanitizedText(str));
         
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
-        assertEquals("<text><div> 'param' &&& \\//\\",StringHelper.recoverFromSanitizedText(str));
+        assertEquals("<text><div> 'param' &&& \\//\\", StringHelper.recoverFromSanitizedText(str));
     }
 
     @Test
@@ -277,7 +277,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
+        for (String str : stringsToMatch){
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }

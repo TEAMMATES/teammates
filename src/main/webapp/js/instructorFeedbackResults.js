@@ -7,10 +7,11 @@
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
@@ -83,12 +84,12 @@ function filterResults(searchText) {
 
     // a stack that stores parent panels that are pending on 
     // the search result from the child panels to decide show/hide
-    var showStack = new Array();
+    var showStack = [];
 
     // a stack that stores the parent panels that have been traversed so far
-    var parentStack = new Array();
+    var parentStack = [];
 
-    for(var p = 0; p < allPanelText.length; p++) {
+    for (var p = 0; p < allPanelText.length; p++) {
         var panelText = allPanelText[p];
         var panel = $(panelText).closest('div.panel');
 
@@ -100,7 +101,7 @@ function filterResults(searchText) {
 
         // reset traversed parent panel stack & pending parent panel stack 
         // to the parent of current panel
-        while (parentStack.length > 0 && !parentStack[parentStack.length-1].is(panelParent)) {
+        while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
             parentStack.pop();
             if (showStack.length > 0) {
                 var s = showStack.pop();
@@ -121,7 +122,7 @@ function filterResults(searchText) {
 
             // show all child panels of current panel
             if (hasChild) {
-                for(var c = p + 1; c <= p + childrenSize; c++) {
+                for (var c = p + 1; c <= p + childrenSize; c++) {
                     var childPanel = $(allPanelText[c]).closest('div.panel');
                     $(childPanel).show();
                 }
@@ -203,7 +204,7 @@ function getNextId(e) {
 }
 
 function bindCollapseEvents(panels, numPanels) {
-    for (var i = 0 ; i < panels.length ; i++) {
+    for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
         if (heading.length != 0 && bodyCollapse.length != 0) {
@@ -279,7 +280,7 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
+    $('#fsResultsTableWindow').on('shown.bs.modal', function(e) {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 

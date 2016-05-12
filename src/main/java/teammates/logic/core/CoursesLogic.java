@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,8 +109,8 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + EOL 
-                                  + instructor.toString() + EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+                                  + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -207,7 +205,7 @@ public class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
-        for(StudentAttributes sd: studentDataList) {
+        for (StudentAttributes sd: studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
@@ -230,7 +228,7 @@ public class CoursesLogic {
         SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
         TeamDetailsBundle team = null;
         sectionDetails.name = section;
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
     
             // first student of first team
@@ -252,7 +250,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 sectionDetails.teams.add(team);
             }
         }
@@ -309,7 +307,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
@@ -334,7 +332,7 @@ public class CoursesLogic {
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
         
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
             if (section == null) {   // First student of first section
@@ -362,7 +360,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
             }
@@ -414,7 +412,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 teams.add(team);
             }
         }
@@ -456,7 +454,7 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
@@ -525,14 +523,13 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         List<String> courseIdList = new ArrayList<String>();
 
         for (InstructorAttributes instructor : instructorList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
@@ -576,13 +573,12 @@ public class CoursesLogic {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes instructor : instructorAttributesList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
@@ -710,12 +706,11 @@ public class CoursesLogic {
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
             courseIdList.add(ia.courseId);
         }
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
@@ -748,7 +743,7 @@ public class CoursesLogic {
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
-                for(StudentAttributes student : team.students) {
+                for (StudentAttributes student : team.students) {
                     String studentStatus = null;
                     if (student.googleId == null || student.googleId.equals("")) {
                         studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
@@ -775,7 +770,7 @@ public class CoursesLogic {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             if (!student.section.equals(Const.DEFAULT_SECTION)) {
                 return true;
             }

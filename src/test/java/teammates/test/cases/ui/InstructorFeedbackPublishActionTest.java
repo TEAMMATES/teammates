@@ -25,7 +25,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
     }
     
@@ -69,8 +69,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         
@@ -83,8 +83,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         

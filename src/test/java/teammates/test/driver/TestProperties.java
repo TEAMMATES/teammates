@@ -101,21 +101,6 @@ public class TestProperties {
         return instance;
     }
 
-
-    public static String getChromeDriverPath() {
-        String os = System.getProperty("os.name");
-        if (os.startsWith("Windows")) {
-            return "./src/test/resources/lib/selenium/chromedriver.exe";
-        } else if (os.startsWith("Mac OS")) {
-            return "./src/test/resources/lib/selenium/chromedriver_osx";
-        }
-        return "";
-    }
-    
-    public static String getIEDriverPath() {
-            return "./src/test/resources/lib/selenium/IEDriverServer.exe";
-    }
-    
     public boolean isDevServer(){
         return TEAMMATES_URL.contains("localhost");
     }

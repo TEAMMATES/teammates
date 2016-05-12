@@ -90,7 +90,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void removePreExistComments() {
-        if(commentsPage.getPageSource().contains("added response comment")
+        if (commentsPage.getPageSource().contains("added response comment")
                 || commentsPage.getPageSource().contains("edited response comment")){
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
             commentsPage.clickCommentsPageLinkInHeader();
@@ -104,7 +104,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
                 "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();

@@ -129,27 +129,27 @@ public class StudentAttributesFactory {
             if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_SECTION)) {
                 sectionColumnIndex = curPos;
                 count++;
-                fieldCount = (!hasSection) ? fieldCount + 1 : fieldCount;
+                fieldCount = !hasSection ? fieldCount + 1 : fieldCount;
                 hasSection = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
                 teamColumnIndex = curPos;
                 count++;
-                fieldCount = (!hasTeam) ? fieldCount + 1 : fieldCount;
+                fieldCount = !hasTeam ? fieldCount + 1 : fieldCount;
                 hasTeam = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
                 nameColumnIndex = curPos;
                 count++;
-                fieldCount = (!hasName) ? fieldCount + 1 : fieldCount;
+                fieldCount = !hasName ? fieldCount + 1 : fieldCount;
                 hasName = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
                 emailColumnIndex = curPos;
                 count++;
-                fieldCount = (!hasEmail) ? fieldCount + 1 : fieldCount;
+                fieldCount = !hasEmail ? fieldCount + 1 : fieldCount;
                 hasEmail = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
-                fieldCount = (!hasComment) ? fieldCount + 1 : fieldCount;
+                fieldCount = !hasComment ? fieldCount + 1 : fieldCount;
                 hasComment = true;
             } else {
                 // do nothing as it is a empty column

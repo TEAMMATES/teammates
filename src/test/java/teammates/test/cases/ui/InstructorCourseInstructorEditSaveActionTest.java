@@ -26,7 +26,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
     }
     
@@ -100,7 +100,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
-        String expectedErrorMessage = (new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail);
+        String expectedErrorMessage = new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail);
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
         AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());

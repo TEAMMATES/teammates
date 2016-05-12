@@ -141,7 +141,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
-        submitPage.selectRecipient(2,0,"Benny Charles");
+        submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
@@ -319,7 +319,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
-        assertEquals(editedResponse,BackDoor.getFeedbackResponse(fq.getId(),
+        assertEquals(editedResponse, BackDoor.getFeedbackResponse(fq.getId(),
                                                                  "SFSubmitUiT.alice.b@gmail.tmt",
                                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
@@ -376,7 +376,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
-        submitPage.selectRecipient(2,0,"Benny Charles");
+        submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
         submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is number 1.");
@@ -434,7 +434,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                                              "SFSubmitUiT.alice.b@gmail.tmt",
                                                                              "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("1",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("1", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("Test InputValidation Over Max value");
 
@@ -451,7 +451,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("Test InputValidation extreme negative value");
 
@@ -470,7 +470,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("write response without specifying recipient");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");

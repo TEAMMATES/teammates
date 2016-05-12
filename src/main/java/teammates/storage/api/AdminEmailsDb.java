@@ -29,7 +29,7 @@ public class AdminEmailsDb extends EntitiesDb {
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
         try {
-            AdminEmail ae = (AdminEmail)createEntity(adminEmailToAdd);
+            AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
             return ae.getCreateDate();
         } catch (EntityAlreadyExistsException e) {
             try {
@@ -44,7 +44,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     public void updateAdminEmail(AdminEmailAttributes ae) throws InvalidParametersException, EntityDoesNotExistException{
-        if(!ae.isValid()){
+        if (!ae.isValid()){
             throw new InvalidParametersException(ae.getInvalidityInfo());
         }
         
@@ -79,7 +79,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent file");
         }
     }
@@ -95,7 +95,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         for (AdminEmailAttributes a : emailsInTrashBin){
             if (a.getGroupReceiver() != null){
-                for(String key : a.getGroupReceiver()){
+                for (String key : a.getGroupReceiver()){
                     BlobKey blobKey = new BlobKey(key);
                     deleteAdminEmailUploadedFile(blobKey);
                 }
@@ -105,7 +105,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException{
-        if(!newAdminEmail.isValid()){
+        if (!newAdminEmail.isValid()){
             throw new InvalidParametersException(newAdminEmail.getInvalidityInfo());
         }
         
@@ -138,7 +138,7 @@ public class AdminEmailsDb extends EntitiesDb {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         List<AdminEmail> entities = getAdminEmailEntities();
         Iterator<AdminEmail> it = entities.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             list.add(new AdminEmailAttributes(it.next()));
         }
         
@@ -195,7 +195,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -228,7 +228,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -258,7 +258,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -273,7 +273,7 @@ public class AdminEmailsDb extends EntitiesDb {
         Query q = getPM().newQuery(AdminEmail.class);
         
         @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>)q.execute();
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute();
         
         return adminEmailList;
     }
@@ -315,7 +315,7 @@ public class AdminEmailsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         AdminEmailAttributes adminEmailToGet = (AdminEmailAttributes) attributes;
         
-        if(adminEmailToGet.getEmailId() != null){
+        if (adminEmailToGet.getEmailId() != null){
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
         } else {
             return getAdminEmailEntity(adminEmailToGet.getSubject(),

@@ -14,6 +14,6 @@ public class TestPropertiesTest extends BaseTestCase {
     
     @Test 
     public void testConstruction(){
-        AssertJUnit.assertTrue(null!=TestProperties.inst().TEAMMATES_VERSION); 
+        AssertJUnit.assertTrue(null != TestProperties.inst().TEAMMATES_VERSION); 
     }
 }

@@ -76,7 +76,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("typical case, 0 sessions closing soon");
         fsLogic.scheduleFeedbackSessionClosingEmails();
-        if(!FeedbackSessionClosingCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionClosingCallback.verifyTaskCount(0)){
             assertEquals(FeedbackSessionClosingCallback.taskCount, 0);
         }
         
@@ -116,16 +116,16 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         verifyPresentInDatastore(session3);
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10){
             FeedbackSessionClosingCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             //There are only 2 sessions closing reminder to be sent
-            if(FeedbackSessionClosingCallback.verifyTaskCount(2)){
+            if (FeedbackSessionClosingCallback.verifyTaskCount(2)){
                 break;
             }
             counter++;
         }
-        if(counter == 10){
+        if (counter == 10){
             assertEquals(FeedbackSessionClosingCallback.taskCount, 2);
         }
     }
@@ -144,7 +144,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
-        int course1StudentCount = 5-2; // 2 students have already completed the session 
+        int course1StudentCount = 5 - 2; // 2 students have already completed the session 
         int course1InstructorCount = 5;
         
         List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();

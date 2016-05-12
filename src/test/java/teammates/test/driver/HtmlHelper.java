@@ -16,7 +16,6 @@ import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -266,7 +265,7 @@ public class HtmlHelper {
     private static String getNodeOpeningTag(Node currentNode) {
         StringBuilder openingTag = new StringBuilder();
         // add the start of opening tag
-        openingTag.append("<" + currentNode.getNodeName().toLowerCase());
+        openingTag.append('<').append(currentNode.getNodeName().toLowerCase());
         
         // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
         NamedNodeMap attributes = currentNode.getAttributes();

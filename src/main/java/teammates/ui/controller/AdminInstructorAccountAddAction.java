@@ -189,11 +189,11 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         
-        try{
+        try {
             backdoor.persistDataBundle(data);        
-        } catch (EntityDoesNotExistException | NullPointerException e){
+        } catch (EntityDoesNotExistException e){
             int elapsedTime = 0;
-            if(PERSISTENCE_WAITING_DURATION > 0){
+            if (PERSISTENCE_WAITING_DURATION > 0){
                 while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -211,17 +211,17 @@ public class AdminInstructorAccountAddAction extends Action {
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments){
             backdoor.putDocument(comment);
         }
-        for(FeedbackResponseCommentAttributes comment : frComments){
+        for (FeedbackResponseCommentAttributes comment : frComments){
             backdoor.putDocument(comment);
         }
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             backdoor.putDocument(student);
         }
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             backdoor.putDocument(instructor);
         }
         
@@ -261,7 +261,7 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while(logic.getCourse(proposedCourseId) != null){
+        while (logic.getCourse(proposedCourseId) != null){
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;
@@ -297,12 +297,12 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-        if(isFirstCourseId){
+        if (isFirstCourseId){
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
         } else {
             final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if(isFirstTimeDuplicate){
+            if (isFirstTimeDuplicate){
                 return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
                                                  maximumIdLength);
             } else {
