@@ -18,7 +18,7 @@ public class FeedbackConstantSumResponseDetails extends
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
-        for(int i=0 ; i<answer.length ; i++){
+        for(int i=0; i<answer.length; i++){
             try{
                 constSumAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
@@ -38,8 +38,8 @@ public class FeedbackConstantSumResponseDetails extends
     
     @Override
     public String getAnswerString() {
-        String listString = answers.toString();//[1, 2, 3] format
-        return listString.substring(1, listString.length()-1);//remove []
+        String listString = answers.toString(); //[1, 2, 3] format
+        return listString.substring(1, listString.length()-1); //remove []
     }
 
     @Override
@@ -50,12 +50,12 @@ public class FeedbackConstantSumResponseDetails extends
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
             htmlBuilder.append("<ul>");
-            for (int i=0 ; i<answers.size() ; i++) {
+            for (int i=0; i<answers.size(); i++) {
                 String answerString = answers.get(i).toString();
                 String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");
-                htmlBuilder.append( optionString + ": " + Sanitizer.sanitizeForHtml(answerString));
+                htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
                 htmlBuilder.append("</li>");
             }
             htmlBuilder.append("</ul>");
@@ -67,9 +67,9 @@ public class FeedbackConstantSumResponseDetails extends
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
         
-        for(int i=0 ; i<answers.size() ; i++) {
+        for(int i=0; i<answers.size(); i++) {
             if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
-                csvBuilder.append(",");
+                csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
         }

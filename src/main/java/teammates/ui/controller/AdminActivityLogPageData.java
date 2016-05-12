@@ -52,7 +52,7 @@ public class AdminActivityLogPageData extends PageData {
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
         for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
         }
         return excludedList;
     }
@@ -373,7 +373,7 @@ public class AdminActivityLogPageData extends PageData {
         int remainder = totalNumOfActions % totalColumns;
         
         if (remainder > 0) {
-            rowsPerCol ++;
+            rowsPerCol++;
         }
         
         return rowsPerCol;
@@ -496,7 +496,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public boolean isPersonSpecified() {
-        return ((q != null) && (q.isPersonInQuery));
+        return q != null && q.isPersonInQuery;
     }
     
     public String getPersonSpecified() {

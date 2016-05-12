@@ -48,7 +48,7 @@ public class CourseEditSectionRow {
             for (String privilege : privileges) {
                 String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex 
                               + "feedback" + feedbackName;
-                boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, 
+                boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
                                                                                              feedbackName,
                                                                                              privilege);
                 checkBoxList.add(createCheckBox(null, name, "true", isChecked));
@@ -65,11 +65,11 @@ public class CourseEditSectionRow {
     }
     
     public boolean isSectionSpecial() {
-        return (instructor != null) && instructor.privileges.isSectionSpecial(sectionName);
+        return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
     }
     
     public boolean isSessionsInSectionSpecial() {
-        return (instructor != null) && instructor.privileges.isSessionsInSectionSpecial(sectionName);
+        return instructor != null && instructor.privileges.isSessionsInSectionSpecial(sectionName);
     }
     
     public List<List<ElementTag>> getSpecialSections() {
@@ -101,8 +101,8 @@ public class CourseEditSectionRow {
                  
         int index = 0;
         for (String privilege : privileges) {
-            boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, 
-                                                                                         privilege);
+            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
+                                                                                       privilege);
             String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex;
             permissionInputGroup.add(createCheckBox(checkboxContent[index], name, "true", isChecked));
             index++;
@@ -126,8 +126,8 @@ public class CourseEditSectionRow {
         
         int index = 0;
         for (String privilege : privileges) {
-            boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, 
-                                                                                         privilege);
+            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
+                                                                                       privilege);
             String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex;
             permissionInputGroup.add(createCheckBox(checkboxContent[index], name, "true", isChecked));
             index++;
@@ -141,11 +141,11 @@ public class CourseEditSectionRow {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
         for (int i = 0; i < sectionNames.size(); i += 3) {
             List<ElementTag> specialSectionGroup = new ArrayList<ElementTag>();
-            for (int j = 0; (j < 3) && (i + j < sectionNames.size()); j++) {
+            for (int j = 0; j < 3 && i + j < sectionNames.size(); j++) {
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + Const.ParamsNames.INSTRUCTOR_SECTION + (i + j);
                 ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
-                                                     (i + j == sectionIndex));
+                                                     i + j == sectionIndex);
                 specialSectionGroup.add(checkbox);
             }
             specialSections.add(specialSectionGroup);

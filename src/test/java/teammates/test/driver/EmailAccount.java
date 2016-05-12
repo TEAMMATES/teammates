@@ -58,9 +58,8 @@ public class EmailAccount {
         String subject = message.getSubject();
 
         if (subject != null) {
-            isRegistrationEmail = subject
-                    .contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-                    && (subject.contains(courseId));
+            isRegistrationEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+                                  && subject.contains(courseId);
         }
 
         return isRegistrationEmail;
@@ -69,7 +68,7 @@ public class EmailAccount {
     private static String getKey(String body) {
         String key = body.substring(
                 body.indexOf("key=") + "key=".length(),
-                body.indexOf("studentemail=") - 1);//*If prompted to log in
+                body.indexOf("studentemail=") - 1); //*If prompted to log in
         return key.trim();
     }
 

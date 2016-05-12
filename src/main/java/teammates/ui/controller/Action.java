@@ -174,9 +174,9 @@ public abstract class Action {
 
     protected AccountAttributes authenticateNotLoggedInUser(String email, String courseId) {
         student = logic.getStudentForRegistrationKey(regkey);
-        boolean isUnknownKey = (student == null);
+        boolean isUnknownKey = student == null;
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-        boolean isMissingAdditionalAuthenticationInfo = (email == null) || (courseId == null);
+        boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
         boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email) || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
@@ -223,7 +223,7 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
-            boolean isUserLoggedIn = (account.googleId != null);
+            boolean isUserLoggedIn = account.googleId != null;
             if (isPersistenceIssue() && isHomePage()) {
                 // let the user go through as this is a persistence issue
             } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
@@ -434,7 +434,6 @@ public abstract class Action {
     public ShowPageResult createShowPageResult(String destination, PageData pageData) {
         return new ShowPageResult(destination, 
                                   account,
-                                  requestParameters,
                                   pageData,
                                   statusToUser);
     }
@@ -445,7 +444,6 @@ public abstract class Action {
      */
     public AjaxResult createAjaxResult(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData);
     }
@@ -456,12 +454,11 @@ public abstract class Action {
      */
     public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData, false);
     }
     
-    protected boolean isJoinedCourse(String courseId, String googleId) {
+    protected boolean isJoinedCourse(String courseId) {
         if (student != null) {
             return true;
         } else {
@@ -475,7 +472,6 @@ public abstract class Action {
     public RedirectResult createRedirectResult(String destination) {
         return new RedirectResult(destination, 
                                   account,
-                                  requestParameters,
                                   statusToUser);
     }
     
@@ -485,7 +481,6 @@ public abstract class Action {
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
         return new FileDownloadResult("filedownload", 
                                       account,
-                                      requestParameters,
                                       statusToUser,
                                       fileName,
                                       fileContent);
@@ -503,7 +498,6 @@ public abstract class Action {
         return new ImageResult("imagedisplay",
                                blobKey,
                                account,
-                               requestParameters,
                                statusToUser);
     }
 
@@ -537,11 +531,10 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        try { 
-            return (!loggedInUser.googleId.equals(account.googleId));
-        } catch (NullPointerException e) {
-            return false;
+        if (loggedInUser != null && loggedInUser.googleId != null && account != null) { 
+            return !loggedInUser.googleId.equals(account.googleId);
         }
+        return false;
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {

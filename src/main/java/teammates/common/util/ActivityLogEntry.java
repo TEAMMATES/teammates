@@ -212,7 +212,11 @@ public class ActivityLogEntry {
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
                             String requestUrl, StudentAttributes student, UserType userType){
         time = System.currentTimeMillis();
-        servletName = getActionName(requestUrl);
+        try {
+            servletName = getActionName(requestUrl);
+        } catch (Exception e) {
+            servletName = "error in getActionName for requestUrl : "+ requestUrl;
+        }
         action = servletName; //TODO: remove this?
         toShow = true;
         message = logMessage;
@@ -314,11 +318,7 @@ public class ActivityLogEntry {
      * @return action name in the URL e.g., "studentHome" in the above example.
      */
     public static String getActionName(String requestUrl) {
-        try {
-            return requestUrl.split("/")[2].split("\\?")[0];
-        } catch (Throwable e) {
-            return "error in getActionName for requestUrl : "+ requestUrl;
-        }
+        return requestUrl.split("/")[2].split("\\?")[0];
     }
 
 
@@ -346,15 +346,15 @@ public class ActivityLogEntry {
             if(googleId.contentEquals("Unregistered")){
                 return "[" + name +
                         " (Unregistered User) " + 
-                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
             }     
             return "[" + name +
                     " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
         } else if(url.contains("/instructor")){
             return "[" + name +
                     " <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
         } else { 
             return googleId; 
         }

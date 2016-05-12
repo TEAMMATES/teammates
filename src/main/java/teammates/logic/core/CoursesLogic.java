@@ -252,7 +252,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 sectionDetails.teams.add(team);
             }
         }
@@ -309,7 +309,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
@@ -362,7 +362,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
             }
@@ -414,7 +414,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 teams.add(team);
             }
         }

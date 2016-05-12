@@ -27,7 +27,8 @@ public class AdminExceptionTestAction extends Action {
             throw new UnauthorizedAccessException();
 
         } else if (error.equals(NullPointerException.class.getSimpleName())) {
-            throw new NullPointerException();
+            // NOPMD as this is deliberately done for testing
+            throw new NullPointerException();  // NOPMD 
             
         } else if (error.equals(DeadlineExceededException.class.getSimpleName())) {
             throw new DeadlineExceededException();

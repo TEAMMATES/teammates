@@ -79,7 +79,7 @@ public class Sendgrid {
      * @return           The SendGrid object.
      */
     public Sendgrid addTo(String email, String name) {
-        String toAddress = (name.length() > 0) ? name + "<" + email + ">" : email;
+        String toAddress = name.length() > 0 ? name + "<" + email + ">" : email;
         this.toList.add(toAddress);
         
         return this;
@@ -337,7 +337,7 @@ public class Sendgrid {
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
         String string = "";
-        for (int i = 0;i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
             string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
         }
 
@@ -351,7 +351,7 @@ public class Sendgrid {
      * @throws JSONException 
      */
     protected Map<String, String> prepareMessageData() throws JSONException {
-        Map<String,String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String, String>();
 
         params.put("api_user", this.username);
         params.put("api_key", this.password);
@@ -365,7 +365,7 @@ public class Sendgrid {
             params.put("fromname", this.getFromName());
         }
         
-        params.put("text",this.getText());
+        params.put("text", this.getText());
         params.put("from", this.getFrom());
 
         if (this.getReplyTo() != null) {
@@ -386,8 +386,8 @@ public class Sendgrid {
      * Invoked when a warning is returned from the server that
      * isn't critical
      */
-    public static interface WarningListener {
-        public void warning(String serverResponse, Throwable t);
+    public interface WarningListener {
+        void warning(String serverResponse, Throwable t);
     }
 
     /**
@@ -412,7 +412,7 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     public void send(WarningListener w) throws JSONException, UnsupportedEncodingException {
-        Map<String,String> data = this.prepareMessageData();
+        Map<String, String> data = this.prepareMessageData();
         StringBuffer requestParams = new StringBuffer();
         Iterator<String> paramIterator = data.keySet().iterator();
         
@@ -432,14 +432,14 @@ public class Sendgrid {
                         w.warning("Unsupported Encoding Exception", e);
                     }
                     
-                    requestParams.append("=");
+                    requestParams.append('=');
                     
                     try {
                         requestParams.append(URLEncoder.encode(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                         w.warning("Unsupported Encoding Exception", e);
                     }
-                    requestParams.append("&");
+                    requestParams.append('&');
                 }
             }
         }
@@ -499,7 +499,7 @@ public class Sendgrid {
         
         for (int i = 0; i < input.length(); i++) {
           int code = Character.codePointAt(input, i);
-          sb.append(String.format((code > 127) ? "\\u%x" : "%c", code)); 
+          sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
         }
         
         return sb.toString();

@@ -575,20 +575,20 @@ public class BackDoorTest extends BaseTestCase {
             StudentAttributes actualStudent) {
         
         // For these fields, we consider null and "" equivalent.
-        if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
+        if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
             actualStudent.googleId = null;
         }
-        if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
+        if (expectedStudent.team == null && actualStudent.team.equals("")) {
             actualStudent.team = null;
         }
-        if ((expectedStudent.comments == null)
-                && (actualStudent.comments.equals(""))) {
+        if (expectedStudent.comments == null
+                && actualStudent.comments.equals("")) {
             actualStudent.comments = null;
         }
 
         // pretend keys match because the key is generated on the server side
         // and cannot be anticipated
-        if ((actualStudent.key != null)) {
+        if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
         }
     }
@@ -598,7 +598,7 @@ public class BackDoorTest extends BaseTestCase {
             InstructorAttributes actualInstructor) {
         
         // pretend keys match because the key is generated only before storing into database
-        if ((actualInstructor.key != null)) {
+        if (actualInstructor.key != null) {
             expectedInstructor.key = actualInstructor.key;
         }
     }

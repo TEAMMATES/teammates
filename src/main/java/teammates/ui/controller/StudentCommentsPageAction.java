@@ -47,7 +47,7 @@ public class StudentCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         
         //check accessibility with courseId
-        if (!isJoinedCourse(courseId, account.googleId)) {
+        if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();

@@ -487,14 +487,9 @@ public abstract class AppPage {
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws Exception {
-        
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     public void click(By by) {
@@ -694,7 +689,7 @@ public abstract class AppPage {
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.
@@ -802,7 +797,7 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for(int row=1;row < splitString.length;row++){
+        for(int row=1; row < splitString.length; row++){
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
@@ -1074,7 +1069,7 @@ public abstract class AppPage {
     }
 
     public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360,640));
+        browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
 
     public void changeToDesktopView() {

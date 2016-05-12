@@ -392,15 +392,19 @@ public class BackDoorLogic extends Logic {
     * Therefore the question number corresponding to the created response 
     * should be inserted in the json file in place of the actual response ID.<br />
     * This method will then generate the correct ID and replace the field.
+     * @throws EntityDoesNotExistException 
     **/
-    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) {
+    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) throws EntityDoesNotExistException {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
-            response.feedbackQuestionId = 
-                feedbackQuestionsLogic.getFeedbackQuestion(
-                        response.feedbackSessionName, response.courseId,
-                        qnNumber).getId();
+            FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId, qnNumber);
+            if (question == null) {
+                throw new EntityDoesNotExistException("question has not persisted yet");
+            }
+            response.feedbackQuestionId = question.getId();
+            
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }

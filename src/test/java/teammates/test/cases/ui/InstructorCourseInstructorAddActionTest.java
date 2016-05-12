@@ -104,11 +104,11 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL, newInvalidInstructorEmail), redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
-               + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail) 
+               + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL, newInvalidInstructorEmail) 
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -148,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     }
     
     private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
-        return (InstructorCourseInstructorAddAction)gaeSimulation.getActionObject(uri, parameters);
+        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 
 }

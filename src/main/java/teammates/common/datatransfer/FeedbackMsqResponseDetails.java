@@ -93,7 +93,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             csvBuilder.append("");
         } else {
             for(String choice : msqDetails.msqChoices) {
-                csvBuilder.append(",");
+                csvBuilder.append(',');
                 if (this.contains(choice)) {
                     csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
                 }

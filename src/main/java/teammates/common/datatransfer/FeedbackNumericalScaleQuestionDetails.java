@@ -275,8 +275,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
-        boolean isRecipientTypeTeam = (question.recipientType == FeedbackParticipantType.TEAMS) || 
-                                    (question.recipientType == FeedbackParticipantType.OWN_TEAM);
+        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS 
+                                      || question.recipientType == FeedbackParticipantType.OWN_TEAM;
         boolean isRecipientTypeStudent = !isRecipientTypeGeneral && !isRecipientTypeTeam;
         
         String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
@@ -476,7 +476,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setRoundingMode(RoundingMode.DOWN);
   
         String csvHeader = "";
-        csvHeader += "Team, Recipient, Average, Minimum, Maximum" ;
+        csvHeader += "Team, Recipient, Average, Minimum, Maximum";
         csvHeader += showAvgExcludingSelf ? ", Average excluding self response" : "";
         csvHeader += Const.EOL;
         
@@ -498,7 +498,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             csvBody += "," + df.format(average.get(recipient));
             csvBody += "," + df.format(min.get(recipient));
             csvBody += "," + df.format(max.get(recipient));
-            csvBody += showAvgExcludingSelf ? "," + averageScoreExcludingSelfText : "" ;
+            csvBody += showAvgExcludingSelf ? "," + averageScoreExcludingSelfText : "";
             csvBody += Const.EOL;
         }
         
@@ -533,7 +533,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponsesExcludingSelf) {
         
         for(FeedbackResponseAttributes response : responses){
-            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails)response.getResponseDetails();
+            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
             String giverEmail = response.giverEmail;
             String recipientEmail = response.recipientEmail;
@@ -711,16 +711,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
             possibleValuesCount++;
         }
         
-        String possibleValuesString = new String();
+        String possibleValuesString;
         if (possibleValuesCount > 6) {
-            possibleValuesString += StringHelper.toDecimalFormatString(minScale) + ", "
+            possibleValuesString = StringHelper.toDecimalFormatString(minScale) + ", "
                     + StringHelper.toDecimalFormatString(minScale + step) + ", "
                     + StringHelper.toDecimalFormatString(minScale + 2*step) + ", ..., "
                     + StringHelper.toDecimalFormatString(maxScale - 2*step) + ", "
                     + StringHelper.toDecimalFormatString(maxScale - step) + ", "
                     + StringHelper.toDecimalFormatString(maxScale);
         } else {
-            possibleValuesString += minScale;
+            possibleValuesString = Integer.toString(minScale);
             cur = minScale + step;
             while ((maxScale - cur) >= -1e-9) {
                 possibleValuesString += ", " + StringHelper.toDecimalFormatString(cur);

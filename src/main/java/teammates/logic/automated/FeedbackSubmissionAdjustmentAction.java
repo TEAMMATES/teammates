@@ -43,7 +43,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         Assumption.assertNotNull(enrollmentDetails);
     }
 
-    public FeedbackSubmissionAdjustmentAction(HashMap<String,String> paramMap) {    
+    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {    
         super(null);
         
         this.courseId = paramMap.get(ParamsNames.COURSE_ID); 

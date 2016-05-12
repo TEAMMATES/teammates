@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -68,7 +69,9 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             logic.persistDataBundle(dataBundle);
             Assert.fail();
         } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));
+            assertTrue(e.getMessage().equals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
+                                                           "invalid id",
+                                                           FieldValidator.REASON_INCORRECT_FORMAT)));
         }
 
         // Not checking for invalid values in other entities because they

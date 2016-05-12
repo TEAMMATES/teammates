@@ -128,7 +128,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = new StudentAttributes((Student)createEntity(student));
+        StudentAttributes createdStudent = new StudentAttributes((Student) createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -169,7 +169,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(googleId, courseId);
+        List<Student> studentList = (List<Student>) q.execute(googleId, courseId);
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
@@ -467,8 +467,8 @@ public class StudentsDb extends EntitiesDb {
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Student studentCheck = getStudentEntityForEmail(courseId, email);
-            while ((studentCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (studentCheck != null
+                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 studentCheck = getStudentEntityForEmail(courseId, email);
                 elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -566,7 +566,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("courseID == courseIdParam && email == emailParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(courseId, email);
+        List<Student> studentList = (List<Student>) q.execute(courseId, email);
     
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;

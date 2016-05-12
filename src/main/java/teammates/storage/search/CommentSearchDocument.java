@@ -24,7 +24,7 @@ public class CommentSearchDocument extends SearchDocument {
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
-    private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
+    private String commentRecipientName;
     
     public CommentSearchDocument(CommentAttributes comment){
         this.comment = comment;
@@ -41,6 +41,8 @@ public class CommentSearchDocument extends SearchDocument {
         
         String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
+        
+        StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
         switch (comment.recipientType) {
         case PERSON:
             for(String email:comment.recipients){
@@ -77,13 +79,14 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case COURSE:
             for(String course:comment.recipients){
-                commentRecipientNameBuilder.append(delim).append("All students in Course " + course);
+                commentRecipientNameBuilder.append(delim).append("All students in Course ").append(course);
                 delim = ", ";
             }
             break;
         default:
             break;
         }
+        commentRecipientName = commentRecipientNameBuilder.toString();
     }
 
     @Override
@@ -94,7 +97,7 @@ public class CommentSearchDocument extends SearchDocument {
         String delim = ",";
         int counter = 0;
         for(StudentAttributes student:relatedStudents){
-            if(counter == 50) break;//in case of exceeding size limit for document
+            if(counter == 50) break; //in case of exceeding size limit for document
             recipientsBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)
@@ -107,12 +110,12 @@ public class CommentSearchDocument extends SearchDocument {
         //courseId, courseName, giverEmail, giverName, 
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.getName(): "").append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(recipientsBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(comment.courseId).append(delim)
+                             .append(course != null? course.getName(): "").append(delim)
+                             .append(comment.giverEmail).append(delim)
+                             .append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim)
+                             .append(recipientsBuilder.toString()).append(delim)
+                             .append(comment.commentText.getValue());
         
         Document doc = Document.newBuilder()
             //this is used to filter documents visible to certain instructor
@@ -128,7 +131,7 @@ public class CommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
                     new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName + " " + giverAsInstructor.name: comment.giverEmail)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
-                    new Gson().toJson(commentRecipientNameBuilder.toString())))
+                    new Gson().toJson(commentRecipientName)))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;

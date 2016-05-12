@@ -29,9 +29,6 @@ public class InstructorCourseEditPage extends AppPage {
     
     @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
-
-    @FindBy(id = "instructorid1")
-    private WebElement editInstructorIdTextBox;
     
     @FindBy(id = "instructorname1")
     private WebElement editInstructorNameTextBox;
@@ -359,10 +356,10 @@ public class InstructorCourseEditPage extends AppPage {
     
     
     public WebElement getNameField(int instrNum) {
-        return browser.driver.findElement(By.id("instructorname" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
     public WebElement getEmailField(int instrNum) {
-        return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {

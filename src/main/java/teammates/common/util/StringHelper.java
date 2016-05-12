@@ -21,7 +21,7 @@ public class StringHelper {
     }
 
     public static String generateStringOfLength(int length, char character) {
-        assert (length >= 0);
+        Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(character);
@@ -259,8 +259,8 @@ public class StringHelper {
         String firstName;
         
         if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf("{");
-            int endIndex = fullName.indexOf("}");
+            int startIndex = fullName.indexOf('{');
+            int endIndex = fullName.indexOf('}');
             lastName = fullName.substring(startIndex + 1, endIndex);
             firstName = fullName.replace("{", "")
                                 .replace("}", "")
@@ -268,7 +268,7 @@ public class StringHelper {
                                 .trim();           
             
         } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
+            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         
@@ -425,7 +425,7 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                if (i + 1 < chars.length && chars[i + 1] == '"') {
                     i++;
                 } else {
                     inquote = !inquote;

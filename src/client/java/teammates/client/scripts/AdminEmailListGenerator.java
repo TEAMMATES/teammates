@@ -102,11 +102,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if(emailListConfig.studentCreatedDateRangeStart !=null){
-            System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart.toString() + "\n");
+            System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart + "\n");
         }
         
         if(emailListConfig.studentCreatedDateRangeEnd !=null){
-            System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd.toString() + "\n");
+            System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd + "\n");
         }
         
         System.out.print("instructor : " + emailListConfig.instructor + "\n");
@@ -130,11 +130,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if(emailListConfig.instructorCreatedDateRangeStart !=null){
-            System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart.toString() + "\n");
+            System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart + "\n");
         } 
         
         if(emailListConfig.instructorCreatedDateRangeEnd !=null){
-            System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd.toString() + "\n");
+            System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd + "\n");
         }
        
     }
@@ -209,9 +209,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for(Object object : allInstructors){
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
-            if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
-               (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
-               (emailListConfig.instructorStatus == InstructorStatus.ALL)){
+            if (instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
+                || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
+                || emailListConfig.instructorStatus == InstructorStatus.ALL) {
                 
                 if(isInstructorCreatedInRange(instructor)){
                     instructorEmailSet.add(instructor.getEmail());
@@ -230,9 +230,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for(Object object : allStudents){
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
-            if((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG) ||
-               (!student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG) ||
-               (emailListConfig.studentStatus == StudentStatus.ALL)){
+            if (student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
+                || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
+                || emailListConfig.studentStatus == StudentStatus.ALL) {
                 
                 if(isStudentCreatedInRange(student)){
                     studentEmailSet.add(student.getEmail());
@@ -260,7 +260,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                         continue;
                     }
                     w.write(email + ",");
-                    studentEmailCount ++;
+                    studentEmailCount++;
                 }
             } 
             
@@ -271,7 +271,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                         continue;
                     }
                     w.write(email + ",");
-                    instructorEmailCount ++;
+                    instructorEmailCount++;
                 }
             }
             
@@ -505,7 +505,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private int getMaxNumOfDayForMonth(int month, int year){
         
-        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 000);
+        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue(); 
     }
     
@@ -521,7 +521,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private void updateProgressIndicator(){
-        iterationCounter ++;       
+        iterationCounter++;       
         if(iterationCounter%1000 == 0){           
             System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
         }
