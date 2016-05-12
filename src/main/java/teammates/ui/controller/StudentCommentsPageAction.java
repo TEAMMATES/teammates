@@ -46,7 +46,7 @@ public class StudentCommentsPageAction extends Action {
         
         if (courseId == null && !courses.isEmpty()) {
             // if courseId not provided, select the newest course
-            courseId = getCourseIdOfNewestCourse(courses);
+            courseId = courses.get(0).id;
         }
         
         String courseName = getSelectedCourseName(courses);
@@ -61,7 +61,6 @@ public class StudentCommentsPageAction extends Action {
         verifyAccessible();
         
         List<String> coursePaginationList = getCoursePaginationList(courses); 
-        
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
@@ -108,8 +107,7 @@ public class StudentCommentsPageAction extends Action {
             throws EntityDoesNotExistException {
         List<String> coursePaginationList = new ArrayList<>();
 
-        for (int i = 0; i < sortedCourses.size(); i++) {
-            CourseAttributes course = sortedCourses.get(i);
+        for (CourseAttributes course : sortedCourses) {
             coursePaginationList.add(course.id);
         }
         
@@ -123,10 +121,6 @@ public class StudentCommentsPageAction extends Action {
             }
         }
         return "";
-    }
-    
-    private String getCourseIdOfNewestCourse(List<CourseAttributes> sortedCourses) {
-        return sortedCourses.get(0).id;
     }
     
     /*
