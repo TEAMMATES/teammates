@@ -206,7 +206,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private boolean isNearDeadline(){
         
         long timeLeftInMillis = ApiProxy.getCurrentEnvironment().getRemainingMillis();
-        if (timeLeftInMillis/1000 < 100){
+        if (timeLeftInMillis / 1000 < 100){
             return true;
         }
         
@@ -241,7 +241,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));
         }    
         
-        for(String emailAddress : addressList){     
+        for (String emailAddress : addressList){     
             HashMap<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
             paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, emailAddress);
@@ -277,11 +277,11 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         int indexOfLastEmailList = 0;
         int indexOfLastEmail = 0;
         
-        for(int i = indexOfEmailListToResume; i < processedReceiverEmails.size() ; i ++ ){
+        for (int i = indexOfEmailListToResume; i < processedReceiverEmails.size(); i++ ){
             
             List<String> currentEmailList = processedReceiverEmails.get(i);
             
-            for(int j = indexOfEmailToResume; j < currentEmailList.size(); j++){
+            for (int j = indexOfEmailToResume; j < currentEmailList.size(); j++){
                 String receiverEmail = currentEmailList.get(j);
                 
                 HashMap<String, String> paramMap = new HashMap<String, String>();

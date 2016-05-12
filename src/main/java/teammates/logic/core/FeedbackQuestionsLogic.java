@@ -180,7 +180,7 @@ public class FeedbackQuestionsLogic {
                 copiableQuestions.addAll(questions);
             }
         }
-        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>(){
+        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>() {
             @Override
             public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
                 int order = q1.courseId.compareTo(q2.courseId);
@@ -291,8 +291,8 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.INSTRUCTORS || 
-                (question.giverType == FeedbackParticipantType.SELF && isCreator) ) {
+            if (question.giverType == FeedbackParticipantType.INSTRUCTORS 
+                || question.giverType == FeedbackParticipantType.SELF && isCreator) {
                 questions.add(question);
             }
         }
@@ -370,7 +370,7 @@ public class FeedbackQuestionsLogic {
         return unansweredQuestions;
     }
     
-    public Map<String,String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
+    public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
             throws EntityDoesNotExistException {
         
         InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
@@ -379,12 +379,12 @@ public class FeedbackQuestionsLogic {
         return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
     }
 
-    public Map<String,String> getRecipientsForQuestion(
+    public Map<String, String> getRecipientsForQuestion(
             FeedbackQuestionAttributes question, String giver, 
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)
                     throws EntityDoesNotExistException {
 
-        Map<String,String> recipients = new HashMap<String,String>();
+        Map<String, String> recipients = new HashMap<String, String>();
         
         FeedbackParticipantType recipientType = question.recipientType;
         
@@ -409,7 +409,7 @@ public class FeedbackQuestionsLogic {
         case STUDENTS:
             List<StudentAttributes> studentsInCourse =
                 studentsLogic.getStudentsForCourse(question.courseId);
-            for(StudentAttributes student : studentsInCourse) {
+            for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
                 if(giver.equals(student.email) == false) {
                     recipients.put(student.email, student.name);
@@ -419,7 +419,7 @@ public class FeedbackQuestionsLogic {
         case INSTRUCTORS:
             List<InstructorAttributes> instructorsInCourse =
                 instructorsLogic.getInstructorsForCourse(question.courseId);
-            for(InstructorAttributes instr : instructorsInCourse) {
+            for (InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
                 if (!giver.equals(instr.email)) {
                     recipients.put(instr.email, instr.name);
@@ -429,7 +429,7 @@ public class FeedbackQuestionsLogic {
         case TEAMS:
             List<TeamDetailsBundle> teams =
                 coursesLogic.getTeamsForCourse(question.courseId);
-            for(TeamDetailsBundle team : teams) {
+            for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
                 if (giverTeam.equals(team.name) == false) {
                     // recipientEmail doubles as team name in this case.
@@ -583,7 +583,7 @@ public class FeedbackQuestionsLogic {
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions){
         
         if(oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1){
-            for(int i = oldQuestionNumber-1; i >= newQuestionNumber; i--){
+            for (int i = oldQuestionNumber-1; i >= newQuestionNumber; i--){
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber += 1;
                 try {
@@ -595,7 +595,7 @@ public class FeedbackQuestionsLogic {
                 }
             }
         } else if(oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()){
-            for(int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
+            for (int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber -= 1;
                 try {
@@ -671,7 +671,7 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions = 
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
-        for(FeedbackQuestionAttributes question : questions) {
+        for (FeedbackQuestionAttributes question : questions) {
             deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }
         

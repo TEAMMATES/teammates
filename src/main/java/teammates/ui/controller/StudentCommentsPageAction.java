@@ -47,7 +47,7 @@ public class StudentCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         
         //check accessibility with courseId
-        if (!isJoinedCourse(courseId, account.googleId)) {
+        if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();
@@ -125,7 +125,7 @@ public class StudentCommentsPageAction extends Action {
                 new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
-        for(FeedbackSessionAttributes fs : fsList) {
+        for (FeedbackSessionAttributes fs : fsList) {
             if (!fs.isPublished()) {
                 continue;
             }

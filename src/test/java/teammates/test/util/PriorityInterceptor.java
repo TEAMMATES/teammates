@@ -26,7 +26,7 @@ import org.testng.ITestContext;
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
     static{
-        try{
+        try {
             packageOrder = FileHelper.readFile("src\\test\\testng-travis.xml", Charset.defaultCharset());
         } catch (Exception e){
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml", Charset.defaultCharset());

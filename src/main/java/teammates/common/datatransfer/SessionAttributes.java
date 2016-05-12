@@ -12,15 +12,15 @@ import teammates.common.util.Assumption;
  * - {@link FeedbackSessionAttributes}
  */
 public interface SessionAttributes {
-    public Date getSessionStartTime();
-    public Date getSessionEndTime();
-    public String getSessionName();
+    Date getSessionStartTime();
+    Date getSessionEndTime();
+    String getSessionName();
     
     /**
      * Comparator to sort SessionAttributes on ASCENDING order based on
      * end time, followed by start time and session name
      */
-    static final Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             Assumption.assertNotNull(session1.getSessionName());
@@ -33,12 +33,12 @@ public interface SessionAttributes {
             
             //Compares end times
             result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? 1
-                    : (session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0);
+                    : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0;
             
             //If the end time is same, compares start times
             if (result == 0) {
                 result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? 1
-                        : (session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0);
+                        : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0;
             }
             
             //if both end and start time is same, compares session name
@@ -54,7 +54,7 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name
      */
-    static final Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             FeedbackSessionAttributes feedbackSession1 = null;
@@ -87,13 +87,13 @@ public interface SessionAttributes {
             //Compares end times
             if(!isSession1PrivateFeedback && !isSession2PrivateFeedback){
                 result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
-                        : (session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0);
+                        : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
             }
             
             //If the end time is same, compares start times
             if (result == 0) {
                 result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? -1
-                        : (session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0);
+                        : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0;
             }
             
             //if both end and start time is same, compares session name

@@ -192,7 +192,7 @@ public class StudentsLogic {
         }
         
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);        
-        for(StudentAttributes teammate : teammates) {
+        for (StudentAttributes teammate : teammates) {
             if (teammate.email.equals(student.email)) {
                 return true;
             }
@@ -234,9 +234,10 @@ public class StudentsLogic {
         FieldValidator validator = new FieldValidator();
         //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
         //       Reason: Difficult to reproduce a persistence delay during testing
-        String finalEmail = (student.email == null || !validator
-                .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
-                originalEmail : student.email;
+        String finalEmail = student.email == null 
+                                || !validator.getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty() 
+                            ? originalEmail 
+                            : student.email;
         
         // cascade email changes to comments
         if (!originalStudent.email.equals(finalEmail)) {
@@ -376,7 +377,7 @@ public class StudentsLogic {
         
         for (FeedbackSessionAttributes session : feedbackSessions) {
             //Schedule adjustment of submissions for feedback session in course
-            scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList,courseId,
+            scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList, courseId,
                     session.feedbackSessionName);
         }
 
@@ -403,11 +404,11 @@ public class StudentsLogic {
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             mergedList.add(student);
         }
 
-        for(StudentAttributes student : studentsInCourse) {
+        for (StudentAttributes student : studentsInCourse) {
             if(!isInEnrollList(student, mergedList)){
                 mergedList.add(student);
             }
@@ -443,7 +444,7 @@ public class StudentsLogic {
 
         List<String> invalidSectionList = new ArrayList<String>();
         int studentsCount = 1;
-        for(int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
             if(currentStudent.section.equals(previousStudent.section)){
@@ -461,7 +462,7 @@ public class StudentsLogic {
         }
 
         String errorMessage = "";
-        for(String section: invalidSectionList){
+        for (String section: invalidSectionList){
             errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
         }
 
@@ -473,7 +474,7 @@ public class StudentsLogic {
         StudentAttributes.sortByTeamName(mergedList);
 
         List<String> invalidTeamList = new ArrayList<String>();
-        for(int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
             if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
@@ -484,7 +485,7 @@ public class StudentsLogic {
         }
 
         String errorMessage = "";
-        for(String team : invalidTeamList){
+        for (String team : invalidTeamList){
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
         if(!errorMessage.equals("")){
@@ -601,7 +602,7 @@ public class StudentsLogic {
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for(StudentAttributes student : students) {
+        for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
@@ -609,7 +610,7 @@ public class StudentsLogic {
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for(StudentAttributes student : students) {
+        for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
@@ -635,7 +636,7 @@ public class StudentsLogic {
     public void adjustFeedbackResponseForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-        for(StudentEnrollDetails enrollment : enrollmentList) {
+        for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
@@ -710,7 +711,7 @@ public class StudentsLogic {
                 }
                 
                 if (isStudentEmailDuplicated(student.email, studentEmailList)){
-                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList,linesArray), 
+                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray), 
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
@@ -726,7 +727,7 @@ public class StudentsLogic {
     }
     
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            ArrayList<String> studentEmailList,String[] linesArray){
+            ArrayList<String> studentEmailList, String[] linesArray){
         List<String> info = new ArrayList<String>();
         info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1]+ "\"");
         return info;
@@ -749,13 +750,13 @@ public class StudentsLogic {
     }
     
     private boolean isTeamChanged(String originalTeam, String newTeam) {
-        return (newTeam != null) && (originalTeam != null)
-                && (!originalTeam.equals(newTeam));
+        return newTeam != null && originalTeam != null
+                && !originalTeam.equals(newTeam);
     }
 
     private boolean isSectionChanged(String originalSection, String newSection) {
-        return (newSection != null) && (originalSection != null)
-                && (!originalSection.equals(newSection));
+        return newSection != null && originalSection != null
+                && !originalSection.equals(newSection);
     }
 
     public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {

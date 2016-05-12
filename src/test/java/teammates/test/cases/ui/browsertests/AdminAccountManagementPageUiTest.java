@@ -26,7 +26,7 @@ import teammates.test.pageobjects.BrowserPool;
  * Covers the 'accounts management' view for admins.
  * SUT: {@link AdminAccountManagementPage}
  */
-public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
+public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppUrl accountsPageUrl;
     private static AdminAccountManagementPage accountsPage;

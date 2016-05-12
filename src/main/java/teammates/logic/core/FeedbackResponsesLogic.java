@@ -367,8 +367,8 @@ public class FeedbackResponsesLogic {
                    question.recipientType.equals(FeedbackParticipantType.STUDENTS)
                 || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                || (question.recipientType.equals(FeedbackParticipantType.GIVER)  
-                    && question.giverType.equals(FeedbackParticipantType.STUDENTS)); 
+                || question.recipientType.equals(FeedbackParticipantType.GIVER)  
+                   && question.giverType.equals(FeedbackParticipantType.STUDENTS); 
                                         
         if (isStudentRecipientType
             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
@@ -575,10 +575,11 @@ public class FeedbackResponsesLogic {
         boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
                 .equals(enrollment.email);
 
-        boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
-                || isRecipientTypeTeamMembers(question)));
-        boolean shouldDeleteByChangeOfRecipient = (isReceiverSameForResponseAndEnrollment
-                && isRecipientTypeTeamMembers(question));
+        boolean shouldDeleteByChangeOfGiver = isGiverSameForResponseAndEnrollment 
+                                              && (question.giverType == FeedbackParticipantType.TEAMS 
+                                                  || isRecipientTypeTeamMembers(question));
+        boolean shouldDeleteByChangeOfRecipient = isReceiverSameForResponseAndEnrollment
+                                                  && isRecipientTypeTeamMembers(question);
 
         boolean shouldDeleteResponse = shouldDeleteByChangeOfGiver
                 || shouldDeleteByChangeOfRecipient;
@@ -681,7 +682,7 @@ public class FeedbackResponsesLogic {
         try {
             FeedbackQuestionAttributes question = fqLogic
                     .getFeedbackQuestion(feedbackQuestionId);
-            boolean isInstructor = (question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS);
+            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS;
             for (String email : emails) {
                 boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
@@ -784,7 +785,7 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> teamResponses =
                 new ArrayList<FeedbackResponseAttributes>();
         
-        for(StudentAttributes studentInTeam : studentsInTeam){
+        for (StudentAttributes studentInTeam : studentsInTeam){
             if(studentInTeam.email.equals(student.email)){
                 continue;
             }

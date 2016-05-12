@@ -91,7 +91,7 @@ public class AdminSearchPageAction extends Action {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             if(student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
                 CourseAttributes course = logic.getCourse(student.course);
                 if(course != null){
@@ -100,7 +100,7 @@ public class AdminSearchPageAction extends Action {
             }
         }
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             if(instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
                 CourseAttributes course = logic.getCourse(instructor.courseId);
                 if(course != null){
@@ -114,7 +114,7 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
 
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             
             String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
@@ -133,7 +133,7 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
         Logic logic = new Logic();
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             
             if(tempCourseIdToInstituteMap.get(instructor.courseId) != null){
                 data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
@@ -158,7 +158,7 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors){
             
             if(instructor.googleId == null){
                 continue;
@@ -180,7 +180,7 @@ public class AdminSearchPageAction extends Action {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             
             if(tempCourseIdToInstituteMap.get(student.course) != null){
                 data.studentInstituteMap.put(student.getIdentificationString(), tempCourseIdToInstituteMap.get(student.course));
@@ -207,7 +207,7 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             
             if(student.googleId == null){
                 continue;
@@ -225,7 +225,7 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students){
             
             if(student.course == null ||student.email == null){
                 continue;
@@ -294,10 +294,10 @@ public class AdminSearchPageAction extends Action {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){    
+        for (StudentAttributes student : students){    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
-            for(FeedbackSessionAttributes fsa : feedbackSessions){               
+            for (FeedbackSessionAttributes fsa : feedbackSessions){               
                 data = extractDataFromFeedbackSeesion(fsa, data, student);              
             }       
         }       

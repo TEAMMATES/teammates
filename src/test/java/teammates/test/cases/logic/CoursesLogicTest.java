@@ -55,8 +55,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testGetCourse();
         testGetArchivedCoursesForInstructor();
         testGetCoursesForInstructor();
-        testIsSampleCourse() ;
-        testIsCoursePresent() ;
+        testIsSampleCourse();
+        testIsCoursePresent();
         testVerifyCourseIsPresent();
         testSetArchiveStatusOfCourse();
         testGetCourseSummary();
@@ -77,7 +77,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testCreateCourse();
         testCreateCourseAndInstructor();
         testGetCourseIdToSectionNamesMap();
-        testDeleteCourse() ;
+        testDeleteCourse();
     }
 
 
@@ -238,7 +238,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "non-existent-course";
 
-        try{
+        try {
             coursesLogic.verifyCourseIsPresent(c.id);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
@@ -405,14 +405,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes)null);
+            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
         
         try {
-            coursesLogic.getCourseSummaryWithoutStats((String)null);
+            coursesLogic.getCourseSummaryWithoutStats((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

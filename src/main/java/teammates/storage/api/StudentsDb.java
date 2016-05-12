@@ -103,7 +103,7 @@ public class StudentsDb extends EntitiesDb {
     public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
         
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
-        for(EntityAttributes entity : studentsToUpdate){
+        for (EntityAttributes entity : studentsToUpdate){
             StudentAttributes student = (StudentAttributes) entity;
             try {          
                 updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
@@ -128,7 +128,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = new StudentAttributes((Student)createEntity(student));
+        StudentAttributes createdStudent = new StudentAttributes((Student) createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -169,7 +169,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(googleId, courseId);
+        List<Student> studentList = (List<Student>) q.execute(googleId, courseId);
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
@@ -292,7 +292,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for(Student s: studentList) {
+        for (Student s: studentList) {
             if(!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -312,8 +312,8 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for(StudentAttributes s: allStudents){
-            if(s.googleId==null || s.googleId.trim().isEmpty()){
+        for (StudentAttributes s: allStudents){
+            if(s.googleId == null || s.googleId.trim().isEmpty()){
                 unregistered.add(s);
             }
         }
@@ -467,8 +467,8 @@ public class StudentsDb extends EntitiesDb {
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Student studentCheck = getStudentEntityForEmail(courseId, email);
-            while ((studentCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (studentCheck != null
+                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 studentCheck = getStudentEntityForEmail(courseId, email);
                 elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -502,7 +502,7 @@ public class StudentsDb extends EntitiesDb {
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
         
         if(hasDocument){
-            for(Student student : studentList){
+            for (Student student : studentList){
                 deleteDocument(new StudentAttributes(student));
             }
         }
@@ -530,7 +530,7 @@ public class StudentsDb extends EntitiesDb {
     
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
         if(hasDocument){
-            for(Student student : studentList){
+            for (Student student : studentList){
                 deleteDocument(new StudentAttributes(student));
             }
         }
@@ -566,7 +566,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("courseID == courseIdParam && email == emailParam");
         
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>)q.execute(courseId, email);
+        List<Student> studentList = (List<Student>) q.execute(courseId, email);
     
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;

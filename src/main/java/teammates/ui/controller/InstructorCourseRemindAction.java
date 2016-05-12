@@ -130,7 +130,7 @@ public class InstructorCourseRemindAction extends Action {
     
     private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
-        int endIndex = emailContent.indexOf(",");
+        int endIndex = emailContent.indexOf(',');
         return emailContent.substring(startIndex, endIndex);
     }
     

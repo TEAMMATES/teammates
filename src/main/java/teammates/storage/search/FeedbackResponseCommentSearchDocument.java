@@ -31,7 +31,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private FeedbackQuestionAttributes relatedQuestion;
     private FeedbackSessionAttributes relatedSession;
     private CourseAttributes course;
-    private InstructorAttributes giverAsInstructor;//comment giver
+    private InstructorAttributes giverAsInstructor; //comment giver
     private List<InstructorAttributes> relatedInstructors;
     private List<StudentAttributes> relatedStudents;
     
@@ -100,8 +100,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipientEmail, comment.courseId);
             if(team != null){
-                responseRecipientName = relatedResponse.recipientEmail;//it's actually a team name here
-                for(StudentAttributes studentInTeam:team){
+                responseRecipientName = relatedResponse.recipientEmail; //it's actually a team name here
+                for (StudentAttributes studentInTeam:team){
                     if(!addedEmailSet.contains(studentInTeam.email)){
                         relatedStudents.add(studentInTeam);
                         addedEmailSet.add(studentInTeam.email);
@@ -121,8 +121,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         StringBuilder relatedPeopleBuilder = new StringBuilder("");
         String delim = ",";
         int counter = 0;
-        for(StudentAttributes student:relatedStudents){
-            if(counter == 25) break;//in case of exceeding size limit for document
+        for (StudentAttributes student:relatedStudents){
+            if(counter == 25) break; //in case of exceeding size limit for document
             relatedPeopleBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)
@@ -130,7 +130,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             counter++;
         }
         counter = 0;
-        for(InstructorAttributes instructor:relatedInstructors){
+        for (InstructorAttributes instructor:relatedInstructors){
             if(counter == 25) break;
             relatedPeopleBuilder.append(instructor.email).append(delim)
                 .append(instructor.name).append(delim)
@@ -145,25 +145,25 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //commentGiverEmail, commentGiverName, 
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name: "").append(delim);
-        searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
-        searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
-        searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
-        searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(comment.courseId).append(delim)
+                             .append(course != null? course.name : "").append(delim)
+                             .append(relatedSession.feedbackSessionName).append(delim)
+                             .append("question ").append(relatedQuestion.questionNumber).append(delim)
+                             .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
+                             .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
+                             .append(comment.giverEmail).append(delim)
+                             .append(giverAsInstructor != null? giverAsInstructor.name : "").append(delim)
+                             .append(relatedPeopleBuilder.toString()).append(delim)
+                             .append(comment.commentText.getValue());
         
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true: comment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER): 
+                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) : 
                         comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
         boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
+                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) : 
                         comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
         Document doc = Document.newBuilder()
@@ -192,7 +192,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName +" "+ giverAsInstructor.name: comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName +" "+ giverAsInstructor.name : comment.giverEmail)))
             .setId(comment.getId().toString())
             .build();
         return doc;

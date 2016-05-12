@@ -66,7 +66,7 @@ public class AccountsDb extends EntitiesDb {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
         if(updateAccount){
-            for(EntityAttributes entity : accountsToUpdate){
+            for (EntityAttributes entity : accountsToUpdate){
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
                     updateAccount(account, true);
@@ -198,7 +198,7 @@ public class AccountsDb extends EntitiesDb {
     
     public void deleteAccounts(Collection<AccountAttributes> accounts){
 
-        for(AccountAttributes accountToDelete : accounts){
+        for (AccountAttributes accountToDelete : accounts){
             if (!accountToDelete.studentProfile.pictureKey.equals("")) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
@@ -226,7 +226,7 @@ public class AccountsDb extends EntitiesDb {
             return account;
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -237,7 +237,7 @@ public class AccountsDb extends EntitiesDb {
 
     @Override
     protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
+        return getAccountEntity(((AccountAttributes) entity).googleId);
     }
 }
 

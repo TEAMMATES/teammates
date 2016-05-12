@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import teammates.common.util.StatusMessage;
  * A result that shows a page in the Browser. These are usually implemented as 
  * JSP pages.
  */
-public class ShowPageResult extends ActionResult{
+public class ShowPageResult extends ActionResult {
     
     /** The data that will be used to render the page*/
     public PageData data;
@@ -24,18 +23,16 @@ public class ShowPageResult extends ActionResult{
     public ShowPageResult(
             String destination, 
             AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
     }
     
     public ShowPageResult(
             String destination, 
             AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest,
             PageData data,
             List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
         this.data = data;
     }
 

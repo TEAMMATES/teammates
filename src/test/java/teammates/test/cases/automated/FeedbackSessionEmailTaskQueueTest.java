@@ -28,7 +28,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
  *  Tests the SystemParams.EMAIL_TASK_QUEUE, and SystemParams.SEND_EMAIL_TASK_QUEUE
  *  
  */
-@Test(sequential=true)
+@Test(sequential = true)
 public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final Logic logic = new Logic();
@@ -211,8 +211,8 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-3);
-        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime(((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT 
-                + (int) fsa.timeZone) * 60 * 60 * 1000) - 60 * 1000);
+        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT 
+                + (int) fsa.timeZone) * 60 * 60 * 1000 - 60 * 1000);
         fsLogic.updateFeedbackSession(fsa);
         
         assertFalse(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());

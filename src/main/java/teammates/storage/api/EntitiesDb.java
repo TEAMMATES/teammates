@@ -77,8 +77,8 @@ public abstract class EntitiesDb {
         int elapsedTime = 0;
         Object createdEntity = getEntity(entityToAdd);
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
-            while ((createdEntity == null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (createdEntity == null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 createdEntity = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
@@ -106,7 +106,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -137,7 +137,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -186,8 +186,8 @@ public abstract class EntitiesDb {
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToAdd);
-            while ((entityCheck == null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (entityCheck == null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 entityCheck = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
@@ -229,8 +229,8 @@ public abstract class EntitiesDb {
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToDelete);
-            while ((entityCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (entityCheck != null
+                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 entityCheck = getEntity(entityToDelete);
                 //check before incrementing to avoid boundary case problem
@@ -251,7 +251,7 @@ public abstract class EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         List<Object> entities = new ArrayList<Object>();
-        for(EntityAttributes entityToDelete : entitiesToDelete){
+        for (EntityAttributes entityToDelete : entitiesToDelete){
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
@@ -276,7 +276,7 @@ public abstract class EntitiesDb {
     public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent picture");
         }
     }
@@ -284,7 +284,7 @@ public abstract class EntitiesDb {
     public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(keys);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent pictures");
         }
     }
@@ -296,7 +296,7 @@ public abstract class EntitiesDb {
      *             based on the default key identifiers. Returns null if it 
      *             does not already exist in the Datastore. 
      */
-    protected abstract Object getEntity(EntityAttributes attributes) ;
+    protected abstract Object getEntity(EntityAttributes attributes);
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();
@@ -304,7 +304,7 @@ public abstract class EntitiesDb {
     
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document){
-        try{
+        try {
             SearchManager.putDocument(indexName, document.build());
         } catch (Exception e){
             log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
@@ -316,7 +316,7 @@ public abstract class EntitiesDb {
     }
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        try{
+        try {
             if(query.getFilterSize() > 0){
                 return SearchManager.searchDocuments(indexName, query.toQuery());
             } else {
@@ -329,7 +329,7 @@ public abstract class EntitiesDb {
     }
     
     protected void deleteDocument(String indexName, String documentId){
-        try{
+        try {
             SearchManager.deleteDocument(indexName, documentId);
         } catch (Exception e){
             log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);

@@ -38,7 +38,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                                     new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String,String> recipients = new HashMap<String,String>();
+    private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
     public static void classSetUp() throws Exception {

@@ -35,7 +35,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     
     private void repairDataForSession(String courseId, String sessionName) throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException{
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
-        for(FeedbackQuestionAttributes question : questions){
+        for (FeedbackQuestionAttributes question : questions){
             boolean needRepairGiverSection = isGiverContainingSection(question.giverType);
             boolean needRepairRecipientSection = isRecipientContaningSection(question.giverType, question.recipientType);
             if(needRepairGiverSection || needRepairRecipientSection){
@@ -46,7 +46,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     
     private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection, boolean needRepairRecipientSection) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException{
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
-        for(FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses){
             boolean needUpdateResponse = false;
             String originalGiverSection = "";
             String originalRecipientSection = "";
@@ -92,12 +92,12 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     }
     
     private boolean isRecipientContaningSection(FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
-        return (recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType))
-                || recipientType == FeedbackParticipantType.STUDENTS
-                || recipientType == FeedbackParticipantType.TEAMS
-                || recipientType == FeedbackParticipantType.OWN_TEAM
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
+               || recipientType == FeedbackParticipantType.STUDENTS
+               || recipientType == FeedbackParticipantType.TEAMS
+               || recipientType == FeedbackParticipantType.OWN_TEAM
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
     
     private boolean isTeamRecipient(FeedbackParticipantType recipientType){

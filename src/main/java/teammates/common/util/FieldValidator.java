@@ -374,7 +374,7 @@ public class FieldValidator {
     public static final String REASON_TOO_LONG = "is too long";
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
-    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR= "starts with a non-alphanumeric character";
+    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
@@ -434,59 +434,59 @@ public class FieldValidator {
         switch (fieldType) {
         case PERSON_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
+                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String) value);
             break;
         case INSTITUTE_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
+                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String) value);
             break;
         case NATIONALITY:
             returnValue = getValidityInfoForAllowedName(
-                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String)value);
+                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String) value);
             break;
         case COURSE_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
+                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String) value);
             break;
         case FEEDBACK_SESSION_NAME:
             returnValue = getValidityInfoForFeedbackSessionName(value);
             break;
         case FEEDBACK_QUESTION_TEXT:
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
-                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String)value);
+                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
             break;
         case GENDER:
-            returnValue = getValidityInfoForGender((String)value);
+            returnValue = getValidityInfoForGender((String) value);
             break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
+                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
             break;
         case TEAM_NAME:
             returnValue = getValidityInfoForAllowedName(
-            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
+            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
             break;
         case SECTION_NAME:
             returnValue = getValidityInfoForAllowedName(
-            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String)value);
+            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
             break;
         case GOOGLE_ID:
-            returnValue = getInvalidInfoForGoogleId((String)value);
+            returnValue = getInvalidInfoForGoogleId((String) value);
             break;
         case COURSE_ID:
-            returnValue = getValidityInfoForCourseId((String)value);
+            returnValue = getValidityInfoForCourseId((String) value);
             break;
         case EMAIL:
-            returnValue = getValidityInfoForEmail((String)value);
+            returnValue = getValidityInfoForEmail((String) value);
             break;
         case INTRUCTOR_ROLE:
-            returnValue = getValidityInfoForInstructorRole((String)value);
+            returnValue = getValidityInfoForInstructorRole((String) value);
             break;
         case EMAIL_SUBJECT:
-            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String)value);
+            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
             break;
         case EMAIL_CONTENT:
-            returnValue = this.getValidityInfoForEmailContent((Text)value);
+            returnValue = this.getValidityInfoForEmailContent((Text) value);
             break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -522,7 +522,7 @@ public class FieldValidator {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if(value.length()>maxLength){
+        } else if(value.length() > maxLength){
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
             return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
@@ -554,7 +554,7 @@ public class FieldValidator {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if(value.length()>maxLength){
+        } else if(value.length() > maxLength){
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
@@ -584,7 +584,7 @@ public class FieldValidator {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length()>maxLength) {
+        } else if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
@@ -623,7 +623,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
-        if (value.length()>maxLength){
+        if (value.length() > maxLength){
             return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
@@ -768,7 +768,7 @@ public class FieldValidator {
     public String getValidityInfoForFeedbackSessionName(Object value) {
         String returnValue;
         returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
         if(returnValue.equals("")){
             returnValue = getValidityInfoForNonHtmlField(
                     FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
@@ -787,7 +787,7 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        return (value.equals(sanitizedValue)) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
+        return value.equals(sanitizedValue) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
@@ -806,7 +806,7 @@ public class FieldValidator {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
-        } else if(value.length()>GOOGLE_ID_MAX_LENGTH){
+        } else if(value.length() > GOOGLE_ID_MAX_LENGTH){
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if(!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
@@ -823,9 +823,9 @@ public class FieldValidator {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
-        } else if(value.length()>COURSE_ID_MAX_LENGTH){
+        } else if(value.length() > COURSE_ID_MAX_LENGTH){
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
+        } else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -840,9 +840,9 @@ public class FieldValidator {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
-        } else if(value.length()>EMAIL_MAX_LENGTH){
+        } else if(value.length() > EMAIL_MAX_LENGTH){
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
+        } else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";

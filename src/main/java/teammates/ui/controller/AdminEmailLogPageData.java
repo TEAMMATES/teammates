@@ -86,7 +86,7 @@ public class AdminEmailLogPageData extends PageData {
     public void generateQueryParameters(String query){
         query = query.toLowerCase();
         
-        try{
+        try {
             q = parseQuery(query);
         } catch (Exception e){
             this.queryMessage = "Error with the query: " + e.getMessage();
@@ -111,7 +111,7 @@ public class AdminEmailLogPageData extends PageData {
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
        
-        for(int i = 0; i < tokens.length; i++){           
+        for (int i = 0; i < tokens.length; i++){           
             String[] pair = tokens[i].split(":", -1);
             
             if(pair.length != 2){
@@ -198,7 +198,7 @@ public class AdminEmailLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters{        
+    private class QueryParameters {        
         public boolean isToDateInQuery;
         public long toDateValue;
         
@@ -232,7 +232,7 @@ public class AdminEmailLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 0:00");                          
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
             } else if (label.equals("before")){
@@ -241,7 +241,7 @@ public class AdminEmailLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 23:59");  
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 toDateValue = cal.getTime().getTime();          
             } else if (label.equals("receiver")){
                 isReceiverInQuery = true;

@@ -77,7 +77,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
             spreadsheetLink = createUrl(spreadsheetLinkString);
         }
 
-        try{
+        try {
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForWindows);
         } catch (AssertionError e){
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForUnix);

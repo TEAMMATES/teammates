@@ -31,11 +31,12 @@ public class InstructorCommentsPage extends AppPage {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
-        try{
+        try {
             String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
             waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
         } catch (StaleElementReferenceException e){
-            ;//do nothing
+            //do nothing 
+            //TODO why?
         }
     }
 
@@ -80,27 +81,27 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void showCommentsForAll(){
-        browser.driver.findElement(By.id("panel_all")).click();;
+        browser.driver.findElement(By.id("panel_all")).click();
     }
     
     public void showCommentsFromAll(){
-        browser.driver.findElement(By.id("giver_all")).click();;
+        browser.driver.findElement(By.id("giver_all")).click();
     }
     
     public void showCommentsFromAllStatus(){
-        browser.driver.findElement(By.id("status_all")).click();;
+        browser.driver.findElement(By.id("status_all")).click();
     }
     
     public void showCommentsForPanel(int panelIdx){
-        browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();;
+        browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();
     }
     
     public void showCommentsFromGiver(String giverIdx){
-        browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();;
+        browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();
     }
     
     public void showCommentsForStatus(String status){
-        browser.driver.findElement(By.id("status_check-" + status)).click();;
+        browser.driver.findElement(By.id("status_check-" + status)).click();
     }
 
     public WebElement getNextCourseLink() {
@@ -135,7 +136,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -145,7 +146,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -212,7 +213,7 @@ public class InstructorCommentsPage extends AppPage {
      * Clicks 'Comments for students' panel heading of the comment panel to either expand/collapse the panel body.
      */
     public void clickCommentsForStudentsPanelHeading() {
-        WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));;
+        WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));
 
         e.findElement(By.cssSelector(".panel-heading")).click();        
     }
@@ -251,7 +252,7 @@ public class InstructorCommentsPage extends AppPage {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
-        for(WebElement e : webElements) {
+        for (WebElement e : webElements) {
             if(e.isDisplayed() != isVisible) {
                 return false;
             }
