@@ -25,7 +25,7 @@ public class TaskQueuesLogic {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         
-        for(Map.Entry<String, String> entry : paramMap.entrySet()) {
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             String name = entry.getKey();
             String value = entry.getValue();
             
@@ -41,7 +41,7 @@ public class TaskQueuesLogic {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         
-        for(Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+        for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
             String name = entry.getKey();
             String[] value = entry.getValue();
             
@@ -59,7 +59,7 @@ public class TaskQueuesLogic {
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         taskToBeAdded.countdownMillis(countdownTime);
         
-        for(Map.Entry<String, String> entry : paramMap.entrySet()) {
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             String name = entry.getKey();
             String value = entry.getValue();
             

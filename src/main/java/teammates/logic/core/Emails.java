@@ -893,7 +893,6 @@ public class Emails {
     private boolean isYetToJoinCourse(StudentAttributes s) {
         return s.googleId == null || s.googleId.isEmpty();
     }
-
     
     public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);

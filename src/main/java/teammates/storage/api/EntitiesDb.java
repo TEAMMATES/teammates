@@ -106,7 +106,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -137,7 +137,7 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for(EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd){
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
@@ -251,7 +251,7 @@ public abstract class EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         List<Object> entities = new ArrayList<Object>();
-        for(EntityAttributes entityToDelete : entitiesToDelete){
+        for (EntityAttributes entityToDelete : entitiesToDelete){
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
@@ -276,7 +276,7 @@ public abstract class EntitiesDb {
     public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent picture");
         }
     }
@@ -284,7 +284,7 @@ public abstract class EntitiesDb {
     public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(keys);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warning("tried to delete non-existent pictures");
         }
     }
@@ -304,7 +304,7 @@ public abstract class EntitiesDb {
     
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document){
-        try{
+        try {
             SearchManager.putDocument(indexName, document.build());
         } catch (Exception e){
             log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
@@ -316,7 +316,7 @@ public abstract class EntitiesDb {
     }
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        try{
+        try {
             if(query.getFilterSize() > 0){
                 return SearchManager.searchDocuments(indexName, query.toQuery());
             } else {
@@ -329,7 +329,7 @@ public abstract class EntitiesDb {
     }
     
     protected void deleteDocument(String indexName, String documentId){
-        try{
+        try {
             SearchManager.deleteDocument(indexName, documentId);
         } catch (Exception e){
             log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);

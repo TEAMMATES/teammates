@@ -109,10 +109,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if(!error.isEmpty()) { errors.add(error); }
         
         return errors;
@@ -228,7 +228,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>(){
+        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
             public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
                 return fr1.getId().compareTo(fr2.getId());
             }

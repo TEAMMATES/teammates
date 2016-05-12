@@ -79,7 +79,7 @@ public class CommentAttributesTest extends BaseTestCase {
         
         ______TS("null parameter error messages");
         
-        try{
+        try {
             comment.getInvalidityInfo();
         } catch (AssertionError e) {
             ignoreExpectedException();
@@ -126,7 +126,7 @@ public class CommentAttributesTest extends BaseTestCase {
         ______TS("Sanitize potentially harmful characters");
         
         comment.sanitizeForSaving();
-        for(String recipientId : comment.recipients){
+        for (String recipientId : comment.recipients){
             assertEquals(Sanitizer.sanitizeForHtml(invalidRecipientId), recipientId);
         }
     }

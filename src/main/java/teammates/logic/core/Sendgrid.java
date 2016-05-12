@@ -39,7 +39,7 @@ public class Sendgrid {
     private JSONObject headerList = new JSONObject();
 
     protected String domain = "https://sendgrid.com/";
-    protected String endpoint= "api/mail.send.json";
+    protected String endpoint = "api/mail.send.json";
     protected String username;
     protected String password;
 

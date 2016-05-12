@@ -152,7 +152,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         
         
-        for(Student student : allStudents){
+        for (Student student : allStudents){
             
             if(isTestingStudentData(student) || student.getEmail() == null){
                 continue;
@@ -193,7 +193,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if(institute != null){
             return institute;
-        } else{
+        } else {
             institute = UNKNOWN_INSTITUTE;
         }
         
@@ -214,7 +214,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private String getInstituteForInstructors(List<Instructor> instructorList){
         String institute = UNKNOWN_INSTITUTE;
         
-        for(Instructor instructor : instructorList){
+        for (Instructor instructor : instructorList){
             
             String tempIns = getInstituteForInstructor(instructor);
             if(tempIns != null){
@@ -259,7 +259,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
         } catch (IllegalArgumentException iae){
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -313,13 +313,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         }
     }
     
-    class InstituteStats{
+    class InstituteStats {
         String name;
         int studentTotal;
         int instructorTotal;
     }
     
-    class StatsBundle{
+    class StatsBundle {
         List<InstituteStats> instituteStatsList;
         int numOfUniqueStudentEmails;
         int numOfAllStudentEmails;

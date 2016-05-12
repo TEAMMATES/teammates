@@ -30,7 +30,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
     public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException{
         List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
-        for(EntityAttributes entity : feedbackSessionsToUpdate){
+        for (EntityAttributes entity : feedbackSessionsToUpdate){
             FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
             try {
                 updateFeedbackSession(session);

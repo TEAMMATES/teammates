@@ -77,7 +77,7 @@ public class BaseUiTestCase extends BaseTestCase {
             browser.driver.get(url.toAbsoluteString());
             try {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
             }
         }
@@ -93,7 +93,7 @@ public class BaseUiTestCase extends BaseTestCase {
         
         String instructorId = url.get(Const.ParamsNames.USER_ID);
         
-        if(instructorId==null){ //admin using system as admin
+        if (instructorId == null) { //admin using system as admin
             instructorId = adminUsername;
         }
         

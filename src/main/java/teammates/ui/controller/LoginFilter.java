@@ -22,10 +22,10 @@ public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         String param = filterConfig.getInitParameter("ExcludedFiles");
-        if(param==null) return;
+        if(param == null) return;
         String[] excludedFiles = param.split("[|]");
         exclude = new ArrayList<String>();
-        for(int i=0; i<excludedFiles.length; i++){
+        for (int i = 0; i < excludedFiles.length; i++){
             exclude.add(excludedFiles[i].trim());
         }
         for (int i = 0; i < Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.size(); i++) {

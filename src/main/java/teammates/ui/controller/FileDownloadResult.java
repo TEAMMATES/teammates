@@ -13,7 +13,7 @@ import teammates.common.util.StatusMessage;
 public class FileDownloadResult extends ActionResult {
     
     String fileContent = "";
-    String fileName ="";
+    String fileName = "";
 
     public FileDownloadResult(String destination, AccountAttributes account,
             List<StatusMessage> status) {

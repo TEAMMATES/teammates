@@ -73,8 +73,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
     }
 
     private boolean hasSections(List<StudentAttributes>[] students){
-        for(List<StudentAttributes> studentList : students){
-            for(StudentAttributes student : studentList){
+        for (List<StudentAttributes> studentList : students){
+            for (StudentAttributes student : studentList){
                 if (!student.section.equals(Const.DEFAULT_SECTION)) {
                     return true;
                 }

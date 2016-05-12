@@ -86,9 +86,9 @@ public class AccountsLogic {
         Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
-        for (int i=0; i<instructorList.size(); i++) {
+        for (int i = 0; i < instructorList.size(); i++) {
             String instructorGoogleId = instructorList.get(i).googleId;
-            if(instructorGoogleId==null){
+            if(instructorGoogleId == null){
                 continue;
             }
             AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
@@ -248,7 +248,7 @@ public class AccountsLogic {
      */
     private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) 
             throws JoinCourseException {
-        if(instructorForKey.googleId ==null || !instructorForKey.googleId.equals(googleId)){
+        if(instructorForKey.googleId == null || !instructorForKey.googleId.equals(googleId)){
             return;
         }
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
@@ -279,7 +279,7 @@ public class AccountsLogic {
      * @throws JoinCourseException if the key has been used before.
      */
     private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException{
-        if(instructorForKey.googleId==null){
+        if(instructorForKey.googleId == null){
             return;
         }
         
@@ -339,7 +339,7 @@ public class AccountsLogic {
                 Assumption.fail("Invalid account data detected unexpectedly " +
                         "while removing instruction privileges from account :"+account.toString());
             }
-        }else {
+        } else {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
         }
     }

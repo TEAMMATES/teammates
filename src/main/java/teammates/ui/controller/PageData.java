@@ -219,7 +219,7 @@ public class PageData {
      */
     protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 0; i <= 30; i += 5) {
+        for (int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" 
                        + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
                        + ">" + i + " mins</option>");
@@ -229,7 +229,7 @@ public class PageData {
     
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 0; i <= 30; i += 5) {
+        for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i), 
                                             isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
@@ -244,7 +244,7 @@ public class PageData {
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             result.add("<option value=\"" + i + "\"" +
                        (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
@@ -254,7 +254,7 @@ public class PageData {
     
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
@@ -779,7 +779,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
         StringBuilder peopleCanView = new StringBuilder(100);
-        for(int i = 0; i < comment.showCommentTo.size(); i++){
+        for (int i = 0; i < comment.showCommentTo.size(); i++){
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
@@ -836,7 +836,7 @@ public class PageData {
         } else {
             showCommentTo = comment.showCommentTo;
         }
-        for(int i = 0; i < showCommentTo.size(); i++) {
+        for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
                 peopleCanView.append("and ");

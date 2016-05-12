@@ -64,7 +64,7 @@ public class AdminEmailImageUploadAction extends Action {
             if(blobs != null && blobs.size() > 0) {
                 BlobInfo image = blobs.get(0);
                 return validateImage(image);
-            } else{
+            } else {
                 data.ajaxStatus = Const.StatusMessages.NO_IMAGE_GIVEN;
                 isError = true;
                 return null;

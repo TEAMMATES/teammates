@@ -15,7 +15,7 @@ import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
-public class FieldValidatorTest extends BaseTestCase{
+public class FieldValidatorTest extends BaseTestCase {
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass

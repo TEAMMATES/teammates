@@ -14,7 +14,7 @@ import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.common.util.FileHelper;
 
-public class GenerateLargeScaledData extends RemoteApiClient{
+public class GenerateLargeScaledData extends RemoteApiClient {
     private static Logger logger = Logger.getLogger(GenerateLargeScaledData.class.getName());
     
     public static void main(String[] args) throws IOException {
@@ -27,10 +27,10 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
-        try{
+        try {
             int index = 0;
             /*
-            for(StudentAttributes student : largeScaleBundle.students.values()){
+            for (StudentAttributes student : largeScaleBundle.students.values()){
                 logic.createStudent(student);
                 index++;
                 if(index % 100 == 0){
@@ -39,7 +39,7 @@ public class GenerateLargeScaledData extends RemoteApiClient{
             }
             */
           
-            for(FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
+            for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
                 if(index % 100 == 0){

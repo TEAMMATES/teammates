@@ -34,7 +34,7 @@ import teammates.storage.search.InstructorSearchQuery;
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  * 
  */
-public class InstructorsDb extends EntitiesDb{
+public class InstructorsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
     
@@ -98,13 +98,13 @@ public class InstructorsDb extends EntitiesDb{
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
-        for(InstructorAttributes instructor: instructorsToAdd){
+        for (InstructorAttributes instructor: instructorsToAdd){
             if(!instructorsToUpdate.contains(instructor)){
                 putDocument(instructor);
             }
         }
         
-        for(EntityAttributes entity : instructorsToUpdate){
+        for (EntityAttributes entity : instructorsToUpdate){
             InstructorAttributes instructor = (InstructorAttributes) entity;
             try {
                 updateInstructorByEmail(instructor);
@@ -410,7 +410,7 @@ public class InstructorsDb extends EntitiesDb{
         
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
         
-        for(Instructor instructor : instructorsToDelete){        
+        for (Instructor instructor : instructorsToDelete){        
             deleteDocument(new InstructorAttributes(instructor)); 
         }
         
@@ -428,7 +428,7 @@ public class InstructorsDb extends EntitiesDb{
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
         
-        for(Instructor instructor : instructorList){        
+        for (Instructor instructor : instructorList){        
             deleteDocument(new InstructorAttributes(instructor)); 
         } 
         
@@ -447,7 +447,7 @@ public class InstructorsDb extends EntitiesDb{
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
         
-        for(Instructor instructor : instructorList){        
+        for (Instructor instructor : instructorList){        
             deleteDocument(new InstructorAttributes(instructor)); 
         }        
         getPM().deletePersistentAll(instructorList);

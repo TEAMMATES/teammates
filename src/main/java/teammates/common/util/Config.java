@@ -88,7 +88,7 @@ public class Config {
 
     private static void initProperties(){
         APP_URL = instance.getAppUrl();
-        GCS_BUCKETNAME= instance.getGcsBucketname();
+        GCS_BUCKETNAME = instance.getGcsBucketname();
         BACKDOOR_KEY = instance.getBackdoorKey();
         ENCRYPTION_KEY = instance.getEncyptionKey();
         PERSISTENCE_CHECK_DURATION = instance.getPersistenceCheckduration();

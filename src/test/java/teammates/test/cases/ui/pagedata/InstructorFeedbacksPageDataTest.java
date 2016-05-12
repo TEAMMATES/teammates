@@ -35,7 +35,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     
-    private final int NUMBER_OF_HOURS_IN_DAY= 24;
+    private final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
