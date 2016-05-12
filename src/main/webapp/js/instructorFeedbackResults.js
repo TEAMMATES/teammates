@@ -83,10 +83,10 @@ function filterResults(searchText) {
 
     // a stack that stores parent panels that are pending on 
     // the search result from the child panels to decide show/hide
-    var showStack = new Array();
+    var showStack = [];
 
     // a stack that stores the parent panels that have been traversed so far
-    var parentStack = new Array();
+    var parentStack = [];
 
     for (var p = 0; p < allPanelText.length; p++) {
         var panelText = allPanelText[p];
