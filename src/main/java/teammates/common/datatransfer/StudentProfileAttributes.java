@@ -127,7 +127,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         if (!nationality.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.NATIONALITY, nationality);
+            error = validator.getInvalidityInfoForNationality(nationality);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
