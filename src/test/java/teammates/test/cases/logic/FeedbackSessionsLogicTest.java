@@ -333,7 +333,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         
         assertEquals(questions1.size(), questions2.size());
-        for(int i = 0; i < questions1.size(); i++){
+        for (int i = 0; i < questions1.size(); i++){
             FeedbackQuestionAttributes question1 = questions1.get(i);
             FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
@@ -444,7 +444,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
                 newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            if(details.feedbackSession.feedbackSessionName.equals(
+            if (details.feedbackSession.feedbackSessionName.equals(
                     newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
                 stats = details.stats;
                 break;
@@ -834,7 +834,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
         List<String> actualStrings = new ArrayList<String>();
-        for(FeedbackResponseAttributes response: results.responses) {
+        for (FeedbackResponseAttributes response: results.responses) {
             String giverName = results.getNameForEmail(response.giverEmail);
             String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
             giverName = results.appendTeamNameToName(giverName, giverTeamName);
@@ -1798,7 +1798,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("failure: already published");
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1822,7 +1822,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure: not published");
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1835,7 +1835,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
 
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1845,7 +1845,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Private session can't be published.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1859,7 +1859,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         sessionUnderTest.feedbackSessionName = "non-existant session";
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1868,7 +1868,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Trying to publish a non-existant session.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                     sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1984,7 +1984,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
@@ -2055,7 +2055,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if(!i.email.equals(instrToRemind.email)) {
+            if (!i.email.equals(instrToRemind.email)) {
                 // Only send notification (no reminder) if instructor is not selected
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
@@ -2146,7 +2146,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
-            if(fs.isPublished()) {
+            if (fs.isPublished()) {
                 fsLogic.unpublishFeedbackSession(fs.feedbackSessionName, fs.courseId);                
             }
         }
@@ -2155,7 +2155,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table){
         String tableString = "";
-        for(Map.Entry<String, boolean[]> entry : table.entrySet()) {
+        for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
             tableString += "{";
             tableString += entry.getKey().toString();
             tableString += "={";
@@ -2164,8 +2164,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             tableString += String.valueOf(entry.getValue()[1]);
             tableString += "}},";
         }
-        if(!tableString.isEmpty()) {
-            tableString = tableString.substring(0, tableString.length()-1);
+        if (!tableString.isEmpty()) {
+            tableString = tableString.substring(0, tableString.length() - 1);
         }
         return tableString;
     }

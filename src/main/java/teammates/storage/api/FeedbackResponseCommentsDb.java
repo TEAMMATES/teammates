@@ -403,7 +403,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
         
-        for(FeedbackResponseComment frComment : frcList) {
+        for (FeedbackResponseComment frComment : frcList) {
             frComment.setSendingState(newState);
         }
         
@@ -443,7 +443,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
-        for(FeedbackResponseComment comment : entities) {
+        for (FeedbackResponseComment comment : entities) {
             if (!JDOHelper.isDeleted(comment)) {
                 list.add(new FeedbackResponseCommentAttributes(comment));
             }
@@ -495,8 +495,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        for(FeedbackResponseComment frc : frcList) {
-            if(!JDOHelper.isDeleted(frc)
+        for (FeedbackResponseComment frc : frcList) {
+            if (!JDOHelper.isDeleted(frc)
                     && frc.getCourseId().equals(courseId)
                     && frc.getGiverEmail().equals(giverEmail)
                     && frc.getCreatedAt().equals(createdAt)) {

@@ -109,10 +109,10 @@ public class Version implements Comparable<Version> {
         if (s2 == null) {
             return -1;
         }
-        while(s1.length() < s2.length()) {
+        while (s1.length() < s2.length()) {
             s1 = "0" + s1;
         }
-        while(s2.length() < s1.length()) {
+        while (s2.length() < s1.length()) {
             s2 = "0" + s2;
         }
         return -s1.compareTo(s2);

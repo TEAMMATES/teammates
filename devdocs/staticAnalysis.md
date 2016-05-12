@@ -49,6 +49,18 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary an
 npm install -g eslint
 ```
 
+##### Suppressing ESLint warnings
+
+To introduce code that violates ESLint rules, wrap the violating code with `/* eslint-disable rule-name */` and re-enable it afterwards
+with `/* eslint-enable rule-name */`. The suppression should be as specific as possible, and the reason for violating the rule should be explained.
+
+An example to suppress the `camelcase` rule is as follows:
+```javascript
+/* eslint-disable camelcase */ // The variable name is provided by an external library, which does not follow camelcase.
+// violating codes go here
+/* eslint-enable camelcase */
+```
+
 ### blanket.js
 
 [blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.

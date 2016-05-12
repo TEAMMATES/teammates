@@ -192,7 +192,7 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> comments = getCommentEntitiesForRecipients(courseId, recipientType, receiverEmail);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
-        for(Comment comment : comments) {
+        for (Comment comment : comments) {
             if (!JDOHelper.isDeleted(comment)) {
                 commentAttributesList.add(new CommentAttributes(comment));
             }
@@ -514,7 +514,7 @@ public class CommentsDb extends EntitiesDb {
         
         List<CommentAttributes> list = new ArrayList<CommentAttributes>();
         List<Comment> entities = getAllCommentEntities();
-        for(Comment comment : entities) {
+        for (Comment comment : entities) {
             list.add(new CommentAttributes(comment));
         }
         return list;

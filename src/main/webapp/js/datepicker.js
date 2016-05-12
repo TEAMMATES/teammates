@@ -92,7 +92,7 @@ function getMaxDateForStartDate(endDate) {
 function getMaxDateForVisibleDate(startDate, publishDate) {
     var minDate = 0;
     
-    if (publishDate == null) {
+    if (publishDate === null || publishDate === undefined) {
         minDate = startDate;
     } else if (startDate > publishDate) {
         minDate = publishDate;

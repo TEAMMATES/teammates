@@ -223,7 +223,7 @@ public class InstructorsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        if(!currentInstructor.email.equals(instructor.email)){
+        if (!currentInstructor.email.equals(instructor.email)){
             fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
         }
     }
@@ -325,7 +325,7 @@ public class InstructorsLogic {
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
            throws EntityDoesNotExistException {
         
-        String joinLink="";
+        String joinLink = "";
         Emails emailMgr = new Emails();
 
         try {
@@ -347,17 +347,17 @@ public class InstructorsLogic {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        if (!error.isEmpty()) { errors.add(error); }
         
         //No validation for isInstructor and createdAt fields.
         return errors;

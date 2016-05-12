@@ -45,7 +45,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         final String joinedCourseMsg = "Action Instructor Joins Course"
                 + "<br/>Google ID: " + account.googleId
                 + "<br/>Key : " + StringHelper.decrypt(regkey);
-        if(statusToAdmin != null) {
+        if (statusToAdmin != null) {
             statusToAdmin += "<br/><br/>" + joinedCourseMsg;
         } else {
             statusToAdmin = joinedCourseMsg;
@@ -54,7 +54,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         /* Create redirection to instructor's homepage */
         RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         InstructorAttributes instructor  = logic.getInstructorForRegistrationKey(regkey);
-        if(instructor != null) {
+        if (instructor != null) {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);    
         }
         

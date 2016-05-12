@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 
 
-public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel>{
+public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel> {
     protected boolean isGiver; // if false, then participant is a recipient
     protected String participantIdentifier; // email, team name, or %GENERAL%
     protected String name; 

@@ -56,10 +56,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
             int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
             
-            for(int i = 0; i < numMcqChoicesCreated; i++) {
+            for (int i = 0; i < numMcqChoicesCreated; i++) {
                 String mcqChoice = HttpRequestHelper.getValueFromParamMap(
                                                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-                if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+                if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
                     mcqChoices.add(mcqChoice);
                     numOfMcqChoices++;
                 }
@@ -211,7 +211,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor){
+        switch(generateOptionsFor) {
             case NONE:
                 optionList = mcqChoices;
                 break;
@@ -313,7 +313,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if(this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
             String optionHelpText = String.format(
                 "<br>The options for this question is automatically generated from the list of all %s in this course.", 
                 generateOptionsFor.toString().toLowerCase());
@@ -372,7 +372,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for(String option : mcqChoices){
+        for (String option : mcqChoices){
             answerFrequency.put(option, 0);
         }
         
@@ -401,11 +401,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double) entry.getValue()/responses.size()));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size()));
         }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
@@ -460,7 +460,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
-                      + df.format(100*(double) entry.getValue()/responses.size()) + Const.EOL;
+                      + df.format(100 * (double) entry.getValue() / responses.size()) + Const.EOL;
         }
         
         csv += "Choice, Response Count, Percentage" + Const.EOL;

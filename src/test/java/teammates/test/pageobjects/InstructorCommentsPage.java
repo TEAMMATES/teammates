@@ -31,7 +31,7 @@ public class InstructorCommentsPage extends AppPage {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
-        try{
+        try {
             String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
             waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
         } catch (StaleElementReferenceException e){
@@ -140,7 +140,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -150,7 +150,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for(WebElement checkbox:checkboxes){
+        for (WebElement checkbox:checkboxes){
             checkbox.click();
         }
     }
@@ -256,8 +256,8 @@ public class InstructorCommentsPage extends AppPage {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
-        for(WebElement e : webElements) {
-            if(e.isDisplayed() != isVisible) {
+        for (WebElement e : webElements) {
+            if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }
@@ -305,13 +305,13 @@ public class InstructorCommentsPage extends AppPage {
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         int idNumber = commentTableIdSuffix.split("-").length;
-        if(idNumber == 4){
+        if (idNumber == 4){
             WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
             waitForElementPresence(errorSpan);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
-        } else if(idNumber == 3){
+        } else if (idNumber == 3){
             WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");

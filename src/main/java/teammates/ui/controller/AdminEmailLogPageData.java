@@ -86,7 +86,7 @@ public class AdminEmailLogPageData extends PageData {
     public void generateQueryParameters(String query){
         query = query.toLowerCase();
         
-        try{
+        try {
             q = parseQuery(query);
         } catch (Exception e){
             this.queryMessage = "Error with the query: " + e.getMessage();
@@ -102,7 +102,7 @@ public class AdminEmailLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         setVersions(new ArrayList<String>());
         
-        if(query == null || query.equals("")){
+        if (query == null || query.equals("")){
             return q;
         }
         
@@ -111,10 +111,10 @@ public class AdminEmailLogPageData extends PageData {
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
        
-        for(int i = 0; i < tokens.length; i++){           
+        for (int i = 0; i < tokens.length; i++){           
             String[] pair = tokens[i].split(":", -1);
             
-            if(pair.length != 2){
+            if (pair.length != 2){
                 throw new Exception("Invalid format");
             }
             
@@ -143,7 +143,7 @@ public class AdminEmailLogPageData extends PageData {
      */
     public boolean shouldShowLog(EmailLogEntry logEntry){
         
-        if(q == null){
+        if (q == null){
             if (this.queryMessage == null){
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
             }
@@ -151,38 +151,38 @@ public class AdminEmailLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if(q.isToDateInQuery){
-            if(logEntry.getTime() > q.toDateValue){
+        if (q.isToDateInQuery){
+            if (logEntry.getTime() > q.toDateValue){
                 return false;
             }
         }
-        if(q.isFromDateInQuery){
-            if(logEntry.getTime() < q.fromDateValue){
+        if (q.isFromDateInQuery){
+            if (logEntry.getTime() < q.fromDateValue){
                 return false;
             }
         }
-        if(q.isReceiverInQuery){
+        if (q.isReceiverInQuery){
             
             for (String keyString : q.receiverValues){
-                if(!logEntry.getReceiver().toLowerCase().contains(keyString.toLowerCase())){
+                if (!logEntry.getReceiver().toLowerCase().contains(keyString.toLowerCase())){
                     return false;
                 }
             }
             logEntry.highlightKeyStringInMessageInfoHtml(q.receiverValues, "receiver");
         }
-        if(q.isSubjectInQuery){
+        if (q.isSubjectInQuery){
     
             for (String keyString : q.subjectValues){
-                if(!logEntry.getSubject().toLowerCase().contains(keyString.toLowerCase())){
+                if (!logEntry.getSubject().toLowerCase().contains(keyString.toLowerCase())){
                     return false;
                 }
             }
             logEntry.highlightKeyStringInMessageInfoHtml(q.subjectValues, "subject");
         }
-        if(q.isInfoInQuery){
+        if (q.isInfoInQuery){
             
             for (String keyString : q.infoValues){
-                if(!logEntry.getContent().toLowerCase().contains(keyString.toLowerCase())){
+                if (!logEntry.getContent().toLowerCase().contains(keyString.toLowerCase())){
                     return false;
                 }
             }
@@ -198,7 +198,7 @@ public class AdminEmailLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters{        
+    private class QueryParameters {        
         public boolean isToDateInQuery;
         public long toDateValue;
         
@@ -226,7 +226,7 @@ public class AdminEmailLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception{
-            if(label.equals("after")){
+            if (label.equals("after")){
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 0:00");                          

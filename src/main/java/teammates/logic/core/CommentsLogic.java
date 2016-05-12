@@ -817,7 +817,7 @@ public class CommentsLogic {
             return;
         }
         
-        for(StudentAttributes stu : students) {
+        for (StudentAttributes stu : students) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, commentId, stu.email);
         }
     }
@@ -830,7 +830,7 @@ public class CommentsLogic {
             return;
         }
         
-        for(StudentAttributes stu : students) {
+        for (StudentAttributes stu : students) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
                                      commentId, stu.email);
         }
