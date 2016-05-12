@@ -38,7 +38,6 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        FEEDBACK_QUESTION_TEXT,
         ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
         EMAIL_SEND_DATE,
@@ -214,21 +213,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
                     "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
                     FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty.";
-    
-    /*
-     * =======================================================================
-     * Field: Feedback question text
-     * TODO: remove if this field is not used
-     */
-    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
-    public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
-    public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty. " +
-                            "If you require more characters for your question, " +
-                            "please use the instructions box below.";
-    
     
     /*
      * =======================================================================
@@ -432,10 +416,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case FEEDBACK_QUESTION_TEXT:
-            returnValue = getValidityInfoForSizeCappedNonEmptyString(
-                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
-            break;
         case GENDER:
             returnValue = getValidityInfoForGender((String) value);
             break;
