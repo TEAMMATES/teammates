@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,8 +109,8 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + EOL 
-                                  + instructor.toString() + EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+                                  + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
