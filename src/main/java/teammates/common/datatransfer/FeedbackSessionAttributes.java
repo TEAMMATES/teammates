@@ -193,7 +193,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // Early return if any null fields
         if (!errors.isEmpty()) { return errors; }
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
