@@ -823,7 +823,7 @@ public abstract class AppPage {
     private AppPage verifyHtml(By by, String filePath) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
+        if (filePath.charAt(0) == '/') {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         boolean isPart = by != null;

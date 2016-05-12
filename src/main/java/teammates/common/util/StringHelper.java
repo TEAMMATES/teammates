@@ -539,7 +539,7 @@ public class StringHelper {
             return null;
         }
         
-        if (!str.startsWith("[") || !str.endsWith("]")) {
+        if (str.charAt(0) != '[' || !str.endsWith("]")) {
             return str;
         }
         
