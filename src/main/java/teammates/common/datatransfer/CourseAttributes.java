@@ -28,20 +28,20 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public CourseAttributes(String courseId, String name) {
-        this.setId(Sanitizer.sanitizeTitle(courseId));
-        this.setName(Sanitizer.sanitizeTitle(name));
+        this.id = Sanitizer.sanitizeTitle(courseId);
+        this.name = Sanitizer.sanitizeTitle(name);
         this.isArchived = false;
     }
     
     public CourseAttributes(String courseId, String name, boolean archiveStatus) {
-        this.setId(Sanitizer.sanitizeTitle(courseId));
-        this.setName(Sanitizer.sanitizeTitle(name));
+        this.id = Sanitizer.sanitizeTitle(courseId);
+        this.name = Sanitizer.sanitizeTitle(name);
         this.isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
-        this.setId(course.getUniqueId());
-        this.setName(course.getName());
+        this.id = course.getUniqueId();
+        this.name = course.getName();
         this.createdAt = course.getCreatedAt();
         
         Boolean status = course.getArchiveStatus();
@@ -110,8 +110,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        setId(Sanitizer.sanitizeForHtml(getId()));
-        setName(Sanitizer.sanitizeForHtml(getName()));
+        this.id = Sanitizer.sanitizeForHtml(getId());
+        this.name = Sanitizer.sanitizeForHtml(getName());
     }
 
     @Override
