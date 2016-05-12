@@ -47,8 +47,8 @@ public class DataGenerator {
     public static final Integer MAX_TEAM_SIZE = 5;
     public static final Integer MIN_TEAM_SIZE = 3;
     
-    public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE =0;
-    public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE =0;
+    public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE = 0;
+    public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE = 0;
 
     public static final String START_TIME = "2012-04-01 11:59 PM UTC";
     public static final String END_TIME_PASSED = "2012-07-30 11:59 PM UTC";
@@ -76,7 +76,7 @@ public class DataGenerator {
      */
     public static void writeDataToFile(String data, String filePath) throws IOException {
         File f;
-        f=new File(filePath);
+        f = new File(filePath);
         // Create file if it does not exist
         if(!f.exists()){
             try {
@@ -101,7 +101,7 @@ public class DataGenerator {
     public static String generateData() {
         System.out.println("Start generating data!");
         //Create students
-        for (int i = 0; i< NUM_OF_STUDENTS; i++) {
+        for (int i = 0; i < NUM_OF_STUDENTS; i++) {
             studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
         }
         
@@ -127,7 +127,7 @@ public class DataGenerator {
         long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES+1)
                 +MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
         
-        for (int j =0; j < numOfInstr; j++) {
+        for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor
             String instrName = "Instr"+j + "_of_"+courseName;
             instructors.put(instrName, courseName);
@@ -162,16 +162,16 @@ public class DataGenerator {
         
         //Add teams
         int teamCount = 1;
-        while(studentEmailInCourse.size() >0) {
+        while(studentEmailInCourse.size() > 0) {
             long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
-            for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize; k++) {
+            for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
                 
-                String email =studentEmailInCourse.remove(0);
+                String email = studentEmailInCourse.remove(0);
                 
                 //add to team, add to students;
                 String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-                String studentID =PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
+                String studentID = PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
                 
                 students.add(studentID);
                 team.add(studentID);

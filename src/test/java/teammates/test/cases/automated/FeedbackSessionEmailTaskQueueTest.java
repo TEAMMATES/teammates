@@ -28,7 +28,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
  *  Tests the SystemParams.EMAIL_TASK_QUEUE, and SystemParams.SEND_EMAIL_TASK_QUEUE
  *  
  */
-@Test(sequential=true)
+@Test(sequential = true)
 public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final Logic logic = new Logic();

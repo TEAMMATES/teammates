@@ -66,7 +66,7 @@ public abstract class AppPage {
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     
-    static final long ONE_MINUTE_IN_MILLIS=60000;
+    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
@@ -702,7 +702,7 @@ public abstract class AppPage {
      * @return True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
-        try{
+        try {
             browser.driver.findElement(By.id(elementId));
             return true;
         } catch (NoSuchElementException e) {
@@ -711,7 +711,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementVisible(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -719,7 +719,7 @@ public abstract class AppPage {
     }
 
     public boolean isElementVisible(By by) {
-        try{
+        try {
             return browser.driver.findElement(by).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -727,7 +727,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementVisible(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -735,7 +735,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementEnabled(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -743,7 +743,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementEnabled(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -751,7 +751,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementSelected(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isSelected();
         } catch (NoSuchElementException e) {
             return false;
@@ -797,7 +797,7 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for(int row=1; row < splitString.length; row++){
+        for (int row = 1; row < splitString.length; row++){
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
@@ -843,7 +843,7 @@ public abstract class AppPage {
                 actual = getPageSource(by);
             }
             
-        } catch (IOException|AssertionError e) {
+        } catch (IOException | AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
@@ -1043,7 +1043,7 @@ public abstract class AppPage {
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
@@ -1055,7 +1055,7 @@ public abstract class AppPage {
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }

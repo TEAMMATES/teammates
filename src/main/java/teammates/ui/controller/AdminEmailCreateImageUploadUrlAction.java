@@ -41,7 +41,7 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
     public String getNewUploadUrl() throws EntityDoesNotExistException {     
         try {
             return generateNewUploadUrl();
-        } catch(BlobstoreFailureException e) {
+        } catch (BlobstoreFailureException e) {
             return null;
         } 
     }

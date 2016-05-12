@@ -91,7 +91,7 @@ public class UploadBackupData extends RemoteApiClient {
         
         String[] folders = getFolders();
 
-        for(String folder : folders) {
+        for (String folder : folders) {
             String[] backupFiles = getBackupFilesInFolder(folder);
             uploadData(backupFiles, folder);
         }
@@ -127,7 +127,7 @@ public class UploadBackupData extends RemoteApiClient {
     }
     
     private static void uploadData(String[] backupFiles, String folder) {
-        for(String backupFile : backupFiles) {
+        for (String backupFile : backupFiles) {
             if(coursesPersisted.contains(backupFile)) {
                 System.out.println(backupFile + " already persisted.");
                 continue;
@@ -181,7 +181,7 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
-            for(AccountAttributes accountData : accounts.values())
+            for (AccountAttributes accountData : accounts.values())
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
@@ -227,7 +227,7 @@ public class UploadBackupData extends RemoteApiClient {
         try {
             fqDb.createFeedbackQuestions(questions.values());
             
-            for(FeedbackQuestionAttributes question: questions.values()) {
+            for (FeedbackQuestionAttributes question: questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
             

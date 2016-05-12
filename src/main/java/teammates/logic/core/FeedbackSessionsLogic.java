@@ -928,7 +928,7 @@ public class FeedbackSessionsLogic {
                 
                 
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
-                                    fsrBundle.getFullNameFromRoster(response.giverEmail):
+                                    fsrBundle.getFullNameFromRoster(response.giverEmail) :
                                     response.giverEmail;
                 
                 possibleRecipientsForGiver = fsrBundle.getPossibleRecipients(question, giverIdentifier);
@@ -1212,7 +1212,7 @@ public class FeedbackSessionsLogic {
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         
         List<FeedbackSessionAttributes> feedbackSessions = getFeedbackSessionsForCourse(courseId);
-        for(FeedbackSessionAttributes session : feedbackSessions) {
+        for (FeedbackSessionAttributes session : feedbackSessions) {
             fsDb.updateInstructorRespondant(oldEmail, newEmail, session);
         }
     }
@@ -1220,7 +1220,7 @@ public class FeedbackSessionsLogic {
     public void updateRespondantsForStudent(String oldEmail, String newEmail, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
 
         List<FeedbackSessionAttributes> feedbackSessions = getFeedbackSessionsForCourse(courseId);
-        for(FeedbackSessionAttributes session : feedbackSessions) {
+        for (FeedbackSessionAttributes session : feedbackSessions) {
             fsDb.updateStudentRespondant(oldEmail, newEmail, session);
         }
     }
@@ -1243,7 +1243,7 @@ public class FeedbackSessionsLogic {
             
             if (!instructorQns.isEmpty()) {
                 List<String> questionIds = new ArrayList<String>();
-                for(FeedbackQuestionAttributes question : instructorQns){
+                for (FeedbackQuestionAttributes question : instructorQns){
                     questionIds.add(question.getId());
                 }
                 instructorQuestionsMap.put(instructor.email, questionIds);
@@ -1253,7 +1253,7 @@ public class FeedbackSessionsLogic {
         Set<String> respondingStudentList = new HashSet<String>();
         Set<String> respondingInstructorList = new HashSet<String>();
         List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        for(FeedbackResponseAttributes response : responses) {
+        for (FeedbackResponseAttributes response : responses) {
             List<String> instructorQuestions = instructorQuestionsMap.get(response.giverEmail);
             if(instructorQuestions != null && instructorQuestions.contains(response.feedbackQuestionId)){
                     respondingInstructorList.add(response.giverEmail);
@@ -1273,7 +1273,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessionsToUpdate =
                 fsDb.getFeedbackSessionsForCourse(instructor.courseId);
 
-        for(FeedbackSessionAttributes session : sessionsToUpdate){
+        for (FeedbackSessionAttributes session : sessionsToUpdate){
             try {
                 deleteInstructorRespondant(instructor.email, session.feedbackSessionName, session.courseId);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -1289,7 +1289,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessionsToUpdate =
                 fsDb.getFeedbackSessionsForCourse(student.course);
 
-        for(FeedbackSessionAttributes session : sessionsToUpdate) {
+        for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
                 deleteStudentRespondant(student.email, session.feedbackSessionName, session.courseId);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -2416,7 +2416,7 @@ public class FeedbackSessionsLogic {
         List<String> instructorNoResponses = new ArrayList<String>();
 
         if(!studentQns.isEmpty()){
-            for(StudentAttributes student : students){
+            for (StudentAttributes student : students){
                 studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
                 responseStatus.emailSectionTable.put(student.email, student.section);

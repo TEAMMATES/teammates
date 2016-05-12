@@ -20,7 +20,7 @@ import teammates.test.util.Priority;
  * SUT: {@link AdminAccountDetailsPage}
  */
 @Priority(1)
-public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
+public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminAccountDetailsPage detailsPage;
     private static DataBundle testData;

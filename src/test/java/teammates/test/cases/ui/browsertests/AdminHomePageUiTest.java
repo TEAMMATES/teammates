@@ -52,7 +52,7 @@ import com.google.appengine.api.datastore.Text;
  * SUT: {@link AdminHomePage}
  */
 @Priority(6)
-public class AdminHomePageUiTest extends BaseUiTestCase{
+public class AdminHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminHomePage homePage;
     private static InstructorCourseJoinConfirmationPage confirmationPage;

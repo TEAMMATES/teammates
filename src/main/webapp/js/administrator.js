@@ -4,7 +4,7 @@
  */
 
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
 var OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR = "administrator_addinstructor";

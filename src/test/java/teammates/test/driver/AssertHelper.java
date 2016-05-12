@@ -42,7 +42,7 @@ public class AssertHelper {
      */
     public static void assertContains(List<String> substringsExpected,
             String superstringActual) {
-        for(String substringExpected : substringsExpected) {
+        for (String substringExpected : substringsExpected) {
             if (!superstringActual.contains(substringExpected)) {
                 assertEquals(substringExpected, superstringActual);
             }

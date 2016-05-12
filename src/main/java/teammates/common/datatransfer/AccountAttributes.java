@@ -95,16 +95,16 @@ public class AccountAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfoForPersonName(name);
+        error = validator.getInvalidityInfoForPersonName(name);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfoForInstituteName(institute);
+        error = validator.getInvalidityInfoForInstituteName(institute);
         if(!error.isEmpty()) { errors.add(error); }
         
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);

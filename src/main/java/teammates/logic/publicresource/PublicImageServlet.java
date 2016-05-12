@@ -29,7 +29,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
         requestParameters = req.getParameterMap();
         String blobKey = getBlobKeyFromRequest();
         
-        try{      
+        try {      
             if (!blobKey.isEmpty()) {
                 resp.setContentType("image/png");
                 BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();

@@ -38,7 +38,7 @@ public class EmailLogEntry {
         this.time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        try{
+        try {
             this.receiver = tokens[1];
             this.subject = tokens[2];
             this.content = tokens[3];
@@ -128,7 +128,7 @@ public class EmailLogEntry {
             return text;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
+        for (String stringToHighlight : keyStringsToHighlight){
             if(text.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
