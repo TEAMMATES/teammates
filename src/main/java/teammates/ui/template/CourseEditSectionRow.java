@@ -162,7 +162,7 @@ public class CourseEditSectionRow {
                               + Const.ParamsNames.INSTRUCTOR_SECTION + positionOfNewSection;
                 
                 if (isSectionSpecial()) {
-                    boolean isPositionMatchedWithSection = (i + j == sectionIndex);
+                    boolean isPositionMatchedWithSection = i + j == sectionIndex;
                     ElementTag checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
                                                          sectionNames.get(positionOfNewSection),
                                                          isPositionMatchedWithSection);
