@@ -23,7 +23,7 @@ public class AdminAccountDeleteAction extends Action {
         ActionResult result = null;
         
         //TODO: We should extract these into separate actions e.g., AdminInstructorDowngradeAction
-        if(courseId == null && account == null){    
+        if (courseId == null && account == null){    
             //delete instructor status
             logic.downgradeInstructorToStudentCascade(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED, StatusMessageColor.SUCCESS));

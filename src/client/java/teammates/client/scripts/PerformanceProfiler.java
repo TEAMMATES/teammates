@@ -59,12 +59,12 @@ import com.google.gson.Gson;
 
 
 
-public class PerformanceProfiler extends Thread{
+public class PerformanceProfiler extends Thread {
     
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
     private final Integer NUM_OF_RUNS = 2;
-    private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
-    private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
+    private final Integer WAIT_TIME_TEST = 1000; //waiting time between tests, in ms
+    private final Integer WAIT_TIME_RUN = 5000; //waiting time between runs, in ms
     private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
     
     private String reportFilePath;
@@ -80,7 +80,7 @@ public class PerformanceProfiler extends Thread{
 
     public void run() {
         //Data used for profiling
-        String jsonString= "";
+        String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
         } catch (FileNotFoundException e1) {
@@ -90,11 +90,11 @@ public class PerformanceProfiler extends Thread{
 
         //Import previous results
         try {
-            results =importReportFile(reportFilePath);
+            results = importReportFile(reportFilePath);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        for (int i =0; i< NUM_OF_RUNS ; i++)
+        for (int i = 0; i < NUM_OF_RUNS; i++)
         {
             browser = BrowserPool.getBrowser();
             //overcome initial loading time with the below line
@@ -134,7 +134,7 @@ public class PerformanceProfiler extends Thread{
             String name = test.name();
             boolean customTimer = test.customTimer();
             Type type = method.getReturnType();
-            if(!results.containsKey(name))
+            if (!results.containsKey(name))
             {
                 results.put(name, new ArrayList<Float>());
             }
@@ -143,13 +143,13 @@ public class PerformanceProfiler extends Thread{
                 if (type.equals(String.class) && !customTimer)
                 {
                     long startTime = System.nanoTime();
-                    Object retVal = (String)method.invoke(this);
+                    Object retVal = (String) method.invoke(this);
                     long endTime = System.nanoTime();
-                    duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
+                    duration = (float) ((endTime - startTime) / 1000000.0); //in miliSecond
                     System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
                 } else if (type.equals(Long.class) && customTimer)
                 {
-                    duration = (float) (((Long)(method.invoke(this)))/1000000.0);
+                    duration = (float) (((Long) (method.invoke(this))) / 1000000.0);
                     System.out.print("Name: " +name + "\tTime: " + duration + "\n");
                 }
                 // Add new duration to the arrayList of the test.
@@ -191,7 +191,7 @@ public class PerformanceProfiler extends Thread{
         File reportFile = new File(filePath);
         
         // Create the report file if not existed
-        if(!reportFile.exists()){
+        if (!reportFile.exists()){
             try {
                 reportFile.createNewFile();
             } catch (IOException e) {
@@ -206,13 +206,13 @@ public class PerformanceProfiler extends Thread{
         while ((strLine = br.readLine()) != null)
         {
             System.out.println (strLine);
-            String[] strs= strLine.split("\\|");
+            String[] strs = strLine.split("\\|");
             
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");
             
             ArrayList<Float> arr = new ArrayList<Float>();
-            for(String str : durations) {
+            for (String str : durations) {
                 Float f = Float.parseFloat(str);
                 arr.add(f);
             }
@@ -246,8 +246,8 @@ public class PerformanceProfiler extends Thread{
                 total += f;
                 lineStr  += f + " , ";
             }
-            lineStr = lineStr.substring(0,lineStr.length()-3); //remove last comma
-            Float average = total/arr.size();
+            lineStr = lineStr.substring(0, lineStr.length() - 3); //remove last comma
+            Float average = total / arr.size();
             lineStr = str + "| " +average + " | " + lineStr +"\n";
             out.write(lineStr);
         }

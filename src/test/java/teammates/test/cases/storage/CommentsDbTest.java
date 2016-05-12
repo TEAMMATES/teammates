@@ -52,7 +52,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
 
         ______TS("fail : invalid params"); 
         c.courseId = "invalid id with space";
-        try{
+        try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e){
             assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT), 
@@ -140,7 +140,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         ______TS("null params case");
         retrievedComment.courseId = null;
-        try{
+        try {
             commentsDb.getCommentsForGiver(retrievedComment.courseId, retrievedComment.giverEmail);
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -149,7 +149,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.courseId = "any-course-id";
         retrievedComment.giverEmail = null;
         retrievedComment.recipients = null;
-        try{
+        try {
             commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType, retrievedComment.giverEmail);
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -171,7 +171,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.createEntity(c);
         
         ______TS("invalid comment attributes");
-        try{
+        try {
             commentsDb.updateComment(null);
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -180,9 +180,9 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("invalid comment attributes");
         c.recipients = new HashSet<String>();
         c.recipients.add("invalid receiver email");
-        try{
+        try {
             commentsDb.updateComment(c);
-        } catch(InvalidParametersException e) {
+        } catch (InvalidParametersException e) {
             assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT), 
                     e.getLocalizedMessage());
         }
@@ -190,10 +190,10 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("comment not exist");
         c.recipients = new HashSet<String>();
         c.recipients.add("receiver@mail.com");
-        c.setCommentId((long)-1); //non-existent comment
-        try{
+        c.setCommentId((long) -1); //non-existent comment
+        try {
             commentsDb.updateComment(c);
-        } catch(EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             assertTrue(e.getLocalizedMessage().contains(CommentsDb.ERROR_UPDATE_NON_EXISTENT));
         }
         

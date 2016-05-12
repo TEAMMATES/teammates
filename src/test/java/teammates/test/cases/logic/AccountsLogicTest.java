@@ -152,7 +152,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         accountToCreate = new AccountAttributes("", "name",
                 true, "test@email", "dev", spa);
-        try{
+        try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
         } catch (InvalidParametersException e){
@@ -182,7 +182,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("test getInstructorAccounts");
         
         
-        for(AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()){
             ______TS(aa.toString());
         }
         

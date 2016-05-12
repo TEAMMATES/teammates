@@ -39,7 +39,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public boolean isComplete;
 
     protected static Logger log = Utils.getLogger();
-	 
+    
     /**
      * Responses with identities of giver/recipients NOT hidden.
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
@@ -184,8 +184,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
             participantType = question.recipientType;
         }
-        boolean isTypeSelf = (participantType == FeedbackParticipantType.SELF);
-        boolean isTypeNone = (participantType == FeedbackParticipantType.NONE);
+        boolean isTypeSelf = participantType == FeedbackParticipantType.SELF;
+        boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 
         return isVisible || isTypeSelf || isTypeNone;
     }
@@ -214,6 +214,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getAnonEmailFromStudentEmail(String studentEmail) {
         String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
+    }
+    
+    public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
+        return "Anonymous " + type.toSingularFormString();
     }
 
     private String getAnonName(FeedbackParticipantType type, String name) {
@@ -431,8 +435,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
             return getPossibleGivers(fqa, student);
         } else if (isParticipantIdentifierInstructor(recipientParticipantIdentifier)) {
-            InstructorAttributes instructor = roster.getInstructorForEmail(recipientParticipantIdentifier);
-            return getPossibleGivers(fqa, instructor);
+            return getPossibleGiversForInstructor(fqa);
         } else if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch (fqa.giverType) {
                 case STUDENTS:
@@ -551,12 +554,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the possible givers for a INSTRUCTOR recipient for the question specified
      * @param fqa
-     * @param instructorRecipient
      * @return a list of possible givers that can give a response to the instructor 
      *         specified as the recipient
      */
-    private List<String> getPossibleGivers(FeedbackQuestionAttributes fqa,
-                                           InstructorAttributes instructorRecipient) {
+    private List<String> getPossibleGiversForInstructor(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType giverType = fqa.giverType;
         List<String> possibleGivers = new ArrayList<String>();
 
@@ -1129,7 +1130,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 recipientTeam = getTeamNameForEmail(response.recipientEmail);
-                if (recipientTeam == "") {
+                if (recipientTeam.isEmpty()) {
                     recipientTeam = getNameForEmail(response.recipientEmail);
                 }
                 questionId = null;
@@ -1183,7 +1184,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giverTeam = getTeamNameForEmail(response.giverEmail);
-                if (giverTeam == "") {
+                if (giverTeam.isEmpty()) {
                     giverTeam = getNameForEmail(response.giverEmail);
                 }
                 questionId = null;

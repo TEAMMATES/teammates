@@ -57,7 +57,7 @@
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <a id="btnLogout" class="nav logout" href="<%=Const.ViewURIs.LOGOUT%>">
+                    <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">
                         <span class="glyphicon glyphicon-user"></span> Logout
                         
                         (<span class="text-info" data-toggle="tooltip" data-placement="bottom"

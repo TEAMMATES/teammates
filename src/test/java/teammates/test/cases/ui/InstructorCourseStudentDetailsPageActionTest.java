@@ -22,7 +22,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
     }
     
@@ -68,7 +68,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        InstructorCourseStudentDetailsPageData pageData = (InstructorCourseStudentDetailsPageData)r.data;
+        InstructorCourseStudentDetailsPageData pageData = (InstructorCourseStudentDetailsPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(student1InCourse1.name, pageData.getStudentInfoTable().getName());
         assertEquals(student1InCourse1.email, pageData.getStudentInfoTable().getEmail());

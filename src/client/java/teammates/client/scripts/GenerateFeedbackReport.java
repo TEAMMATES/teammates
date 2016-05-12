@@ -27,7 +27,7 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         
         try {
             String fileContent = logic.getFeedbackSessionResultSummaryAsCsv("CourseID", "Session Name", "instructor@email.com");
-            FileHelper.writeToFile("result.csv",fileContent);
+            FileHelper.writeToFile("result.csv", fileContent);
         } catch (EntityDoesNotExistException | ExceedingRangeException e) {
             e.printStackTrace();
         }

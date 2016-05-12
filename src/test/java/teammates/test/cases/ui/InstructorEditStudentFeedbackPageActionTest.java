@@ -121,16 +121,16 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+                + "&user="+ idOfInstructor, 
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
                 + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
                 + "Moderating feedback session for student (" + student.email + ")<br>"
                 + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
+                + "/page/instructorEditStudentFeedbackPage", 
+                editPageAction.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         

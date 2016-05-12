@@ -38,3 +38,7 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+.checkstyle
+.pmd
+.ruleset

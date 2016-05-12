@@ -250,7 +250,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + 
-                    s2.email,e.getMessage());
+                    s2.email, e.getMessage());
         }
 
         ______TS("typical success case");
@@ -279,7 +279,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course , s.googleId));
+        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
         int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
@@ -318,7 +318,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "validTeamName";
         s.section = "validSectionName";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
@@ -336,7 +336,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "valid team name";
         s.section = "valid section name";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {

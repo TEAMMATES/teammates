@@ -44,7 +44,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
-import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

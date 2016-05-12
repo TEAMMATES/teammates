@@ -160,7 +160,7 @@ public class ActivityLogEntry {
     
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role){
         for (String name : automatedActions) {
-            if(name.toLowerCase().contains(servletName.toLowerCase())){
+            if (name.toLowerCase().contains(servletName.toLowerCase())){
                 role = "Auto";
             }
         }
@@ -212,35 +212,39 @@ public class ActivityLogEntry {
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
                             String requestUrl, StudentAttributes student, UserType userType){
         time = System.currentTimeMillis();
-        servletName = getActionName(requestUrl);
+        try {
+            servletName = getActionName(requestUrl);
+        } catch (Exception e) {
+            servletName = "error in getActionName for requestUrl : "+ requestUrl;
+        }
         action = servletName; //TODO: remove this?
         toShow = true;
         message = logMessage;
         url = requestUrl;    
        
-        if(userAccount != null && userAccount.googleId != null){                 
+        if (userAccount != null && userAccount.googleId != null){                 
             
-            if(userType.isInstructor && !userType.isStudent && !userType.isAdmin){
+            if (userType.isInstructor && !userType.isStudent && !userType.isAdmin){
                 role = "Instructor";
             } else if (!userType.isInstructor && userType.isStudent && !userType.isAdmin){
                 role = "Student";
             } else if (userType.isInstructor && userType.isStudent && !userType.isAdmin){
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
-                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else if (userType.isAdmin){
                 role = "Admin";
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : role;
                 role = servletName.toLowerCase().startsWith("student") ? "Student" : role;
-                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else {
                 role = "Unregistered";
             }
             
-            role = role + (isMasquerade? "(M)" : "");
+            role = role + (isMasquerade ? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
-        } else if(student != null){
+        } else if (student != null){
             if (student.course != null && !student.course.isEmpty()){
                 role = "Unregistered" + ":" + student.course;
             } else {
@@ -252,7 +256,7 @@ public class ActivityLogEntry {
         } else {
             
             //this is a shallow fix for logging redirected student to join authenticated action
-            if(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED.toLowerCase().contains(servletName.toLowerCase())){
+            if (Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED.toLowerCase().contains(servletName.toLowerCase())){
                 role = "Unregistered";
             } else {
                 role = "Unknown";
@@ -274,27 +278,27 @@ public class ActivityLogEntry {
     
     
     public String getIconRoleForShow(){
-        String iconRole="";
+        String iconRole = "";
         
-        if(role.contains("Instructor")){   
+        if (role.contains("Instructor")){   
            
-            if(role.contains("(M)")){
+            if (role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
                 iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
             } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
             }
-        } else if(role.contains("Student")){
+        } else if (role.contains("Student")){
             
-            if(role.contains("(M)")){
+            if (role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
                 iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
             } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
             }
-        } else if(role.contains("Unregistered")){
+        } else if (role.contains("Unregistered")){
             iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
-        } else if(role.contains("Auto")){
+        } else if (role.contains("Auto")){
             iconRole = "<span class = \"glyphicon glyphicon-cog\"></span>";
         } else {
             iconRole = role;
@@ -314,11 +318,7 @@ public class ActivityLogEntry {
      * @return action name in the URL e.g., "studentHome" in the above example.
      */
     public static String getActionName(String requestUrl) {
-        try {
-            return requestUrl.split("/")[2].split("\\?")[0];
-        } catch (Throwable e) {
-            return "error in getActionName for requestUrl : "+ requestUrl;
-        }
+        return requestUrl.split("/")[2].split("\\?")[0];
     }
 
 
@@ -342,19 +342,19 @@ public class ActivityLogEntry {
     }
     
     public String getPersonInfo(){    
-        if(url.contains("/student")){
-            if(googleId.contentEquals("Unregistered")){
+        if (url.contains("/student")){
+            if (googleId.contentEquals("Unregistered")){
                 return "[" + name +
                         " (Unregistered User) " + 
-                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
             }     
             return "[" + name +
                     " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
-        } else if(url.contains("/instructor")){
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
+        } else if (url.contains("/instructor")){
             return "[" + name +
                     " <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+                    " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]";
         } else { 
             return googleId; 
         }
@@ -389,14 +389,14 @@ public class ActivityLogEntry {
 
     public String getColorCode(Long timeTaken){
         
-        if(timeTaken == null){
+        if (timeTaken == null){
             return "";
         }
         
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if (timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
@@ -406,14 +406,14 @@ public class ActivityLogEntry {
     
     public String getTableCellColorCode(Long timeTaken){
         
-        if(timeTaken == null){
+        if (timeTaken == null){
             return "";
         }
         
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if (timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "danger";
         }    
         return colorCode;            
@@ -437,8 +437,8 @@ public class ActivityLogEntry {
     public String getUrlToShow(){
         String urlToShow = url;
         //If not in masquerade mode, add masquerade mode
-        if(!urlToShow.contains("user=")){
-            if(!urlToShow.contains("?")){
+        if (!urlToShow.contains("user=")){
+            if (!urlToShow.contains("?")){
                 urlToShow += "?user=" + googleId;
             } else {
                 urlToShow += "&user=" + googleId;
@@ -527,8 +527,8 @@ public class ActivityLogEntry {
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
-        if(actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+        if (actionTaken.length > 0) {
+            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
@@ -548,8 +548,8 @@ public class ActivityLogEntry {
     public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
-        if(actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+        if (actionTaken.length > 0) {
+            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
@@ -615,11 +615,11 @@ public class ActivityLogEntry {
     }
     
     private String getAvailableIdenficationString(){
-        if(!getGoogleId().contentEquals("Unregistered") && !getGoogleId().contentEquals("Unknown")){
+        if (!getGoogleId().contentEquals("Unregistered") && !getGoogleId().contentEquals("Unknown")){
             return getGoogleId();
-        } else if(getEmail() != null && !getEmail().contentEquals("Unknown")){
+        } else if (getEmail() != null && !getEmail().contentEquals("Unknown")){
             return getEmail();
-        } else if(getName() != null && !getName().contentEquals("Unknown")){
+        } else if (getName() != null && !getName().contentEquals("Unknown")){
             return getName();
         }
         return "";
@@ -627,12 +627,12 @@ public class ActivityLogEntry {
     
     public void highlightKeyStringInMessageInfoHtml(){
         
-        if(keyStringsToHighlight == null){
+        if (keyStringsToHighlight == null){
             return;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
-            if(message.toLowerCase().contains(stringToHighlight.toLowerCase())){
+        for (String stringToHighlight : keyStringsToHighlight){
+            if (message.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         

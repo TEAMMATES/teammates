@@ -185,7 +185,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
-        getViewResponseLink(courseId,sessionName).click();
+        getViewResponseLink(courseId, sessionName).click();
         waitForPageToLoad();
     }
     

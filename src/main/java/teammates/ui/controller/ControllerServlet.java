@@ -46,7 +46,7 @@ public class ControllerServlet extends HttpServlet {
     public final void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-        try{
+        try {
             /* We are using the Template Method Design Pattern here.
              * This method contains the high level logic of the the request processing.
              * Concrete details of the processing steps are to be implemented by child
@@ -119,7 +119,7 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
+        } catch (Throwable e) { // NOPMD, used as fallback
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));

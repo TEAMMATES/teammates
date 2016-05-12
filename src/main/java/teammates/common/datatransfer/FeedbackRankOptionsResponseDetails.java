@@ -24,7 +24,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                                        FeedbackQuestionDetails questionDetails, 
                                        String[] answer) {
         List<Integer> rankAnswer = new ArrayList<Integer>();
-        for (int i = 0; i < answer.length ; i++){
+        for (int i = 0; i < answer.length; i++){
             try {
                 rankAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
@@ -67,7 +67,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
         
-        StringBuilder htmlBuilder = new StringBuilder();
+        StringBuilder htmlBuilder = new StringBuilder(100);
         htmlBuilder.append("<ul>");
         
         for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
@@ -98,16 +98,16 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         StringBuilder csvBuilder = new StringBuilder();
         
-        for (int rank = 1; rank <= rankQuestion.options.size(); rank ++) {
+        for (int rank = 1; rank <= rankQuestion.options.size(); rank++) {
             if (!orderedOptions.containsKey(rank)) {
-                csvBuilder.append(",");
+                csvBuilder.append(',');
                 continue;
             }
             List<String> optionsWithGivenRank = orderedOptions.get(rank);
             
             String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
             
-            csvBuilder.append(optionsInCsv + ",");
+            csvBuilder.append(optionsInCsv).append(',');
         }
 
         csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma
@@ -117,7 +117,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
                                     FeedbackRankOptionsQuestionDetails rankQuestion) {
         SortedMap<Integer, List<String>> orderedOptions = new TreeMap<>();
-        for (int i = 0 ; i < answers.size() ; i++) {
+        for (int i = 0; i < answers.size(); i++) {
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
             
