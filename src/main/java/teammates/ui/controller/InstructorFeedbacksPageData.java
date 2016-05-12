@@ -138,7 +138,7 @@ public class InstructorFeedbacksPageData extends PageData {
                               String feedbackSessionName) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
-            courseIds.add(course.id);
+            courseIds.add(course.getId());
         }
         
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
@@ -262,17 +262,17 @@ public class InstructorFeedbacksPageData extends PageData {
             // True if this is a submission of the filled 'new session' form
             // for this course:
             boolean isFilledFormForSessionInThisCourse =
-                    newFeedbackSession != null && course.id.equals(newFeedbackSession.courseId);
+                    newFeedbackSession != null && course.getId().equals(newFeedbackSession.courseId);
 
             // True if this is for displaying an empty form for creating a
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse =
-                    courseIdForNewSession != null && course.id.equals(courseIdForNewSession);
+                    courseIdForNewSession != null && course.getId().equals(courseIdForNewSession);
             
 
-            if (instructors.get(course.id).isAllowedForPrivilege(
+            if (instructors.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                ElementTag option = createOption(course.id, course.id,  
+                ElementTag option = createOption(course.getId(), course.getId(),  
                                                  (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));
                 result.add(option);
             }

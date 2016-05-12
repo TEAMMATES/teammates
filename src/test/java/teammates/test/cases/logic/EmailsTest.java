@@ -109,8 +109,8 @@ public class EmailsTest extends BaseComponentTestCase {
         fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
         CourseAttributes c = new CourseAttributes();
-        c.id = "course-id";
-        c.name = "Course Name";
+        c.setId("course-id");
+        c.setName("Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";
@@ -144,7 +144,7 @@ public class EmailsTest extends BaseComponentTestCase {
         String encryptedKey = StringHelper.encrypt(s.key);
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
@@ -155,7 +155,7 @@ public class EmailsTest extends BaseComponentTestCase {
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
-                + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
+                + "{*}${status}{*}" + c.getId() + "{*}" + c.getName() + "{*}"
                 + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
                 + submitUrl, emailBody);
 
@@ -171,15 +171,15 @@ public class EmailsTest extends BaseComponentTestCase {
         assertFalse(emailBody.contains(submitUrl));
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
-                + "{*}is now open for viewing{*}" + c.id + "{*}"
-                + c.name + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}"
+                + "{*}is now open for viewing{*}" + c.getId() + "{*}"
+                + c.getName() + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}"
                 + reportUrl, emailBody);
 
         printEmail(email);
@@ -193,7 +193,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         emailBody = email.getContent().toString();
 
-        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
+        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.getId() + "{*}" + c.getName()
                 + "{*}" + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
                 + submitUrl, emailBody);
 
@@ -207,7 +207,7 @@ public class EmailsTest extends BaseComponentTestCase {
         emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
-                + "{*}is now open for viewing{*}" + c.id + "{*}" + c.name
+                + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
                 + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}" + reportUrl,
                 emailBody);
 
@@ -223,8 +223,8 @@ public class EmailsTest extends BaseComponentTestCase {
         assertFalse(emailBody.contains("${joinFragment}"));
         
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
-                + "The email below has been sent to students of course: " + c.id
-                + "{*}" + c.id + "{*}" + c.name
+                + "The email below has been sent to students of course: " + c.getId()
+                + "{*}" + c.getId() + "{*}" + c.getName()
                 + "{*}" + fsa.feedbackSessionName + "{*}" + deadline 
                 + "{*}{The student's unique submission url appears here}"
                 + "{*}{The student's unique submission url appears here}"
@@ -242,8 +242,8 @@ public class EmailsTest extends BaseComponentTestCase {
         assertFalse(emailBody.contains("${joinFragment}"));
         
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
-                + "The email below has been sent to students of course: " + c.id
-                + "{*}is now open for viewing{*}" + c.id + "{*}" + c.name
+                + "The email below has been sent to students of course: " + c.getId()
+                + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
                 + "{*}" + fsa.feedbackSessionName 
                 + "{*}{The student's unique results url appears here}"
                 + "{*}{The student's unique results url appears here}",
@@ -258,8 +258,8 @@ public class EmailsTest extends BaseComponentTestCase {
             MessagingException, GeneralSecurityException {
 
         CourseAttributes c = new CourseAttributes();
-        c.id = "course-id";
-        c.name = "Course Name";
+        c.setId("course-id");
+        c.setName("Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";
@@ -286,7 +286,7 @@ public class EmailsTest extends BaseComponentTestCase {
         String joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         String emailBody = email.getContent().toString();
 
-        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.getName()
                 + "{*}" + joinUrl + "{*}" + joinUrl + "{*}", emailBody);
         
         assertFalse(emailBody.contains("$"));
@@ -460,8 +460,8 @@ public class EmailsTest extends BaseComponentTestCase {
         fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
         CourseAttributes c = new CourseAttributes();
-        c.id = "course-id";
-        c.name = "Course Name";
+        c.setId("course-id");
+        c.setName("Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";

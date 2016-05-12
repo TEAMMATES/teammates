@@ -84,19 +84,19 @@ public class InstructorCoursesPageData extends PageData {
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs", "t_course_unarchive" + idx,
-                                                       getInstructorCourseArchiveLink(course.id, false, false), "", "", false);
+                                                       getInstructorCourseArchiveLink(course.getId(), false, false), "", "", false);
             
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", "t_course_delete" + idx,
-                                                   getInstructorCourseDeleteLink(course.id, false), Const.Tooltips.COURSE_DELETE,
-                                                   "return toggleDeleteCourseConfirmation('" + course.id + "');",
-                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                   getInstructorCourseDeleteLink(course.getId(), false), Const.Tooltips.COURSE_DELETE,
+                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+                                                   !instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
             
             actionsParam.add(unarchivedButton);
             actionsParam.add(deleteButton);
             
-            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                      Sanitizer.sanitizeForHtml(course.name), actionsParam);
+            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()), 
+                                                                      Sanitizer.sanitizeForHtml(course.getName()), actionsParam);
             archivedCoursesTable.getRows().add(row);
             
         }
@@ -115,27 +115,27 @@ public class InstructorCoursesPageData extends PageData {
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
-                                                   getInstructorCourseEnrollLink(course.id),
+                                                   getInstructorCourseEnrollLink(course.getId()),
                                                    Const.Tooltips.COURSE_ENROLL, "", 
-                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                   !instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
             
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
-                                                 getInstructorCourseDetailsLink(course.id), 
+                                                 getInstructorCourseDetailsLink(course.getId()), 
                                                  Const.Tooltips.COURSE_DETAILS, "", false);
             
             ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
-                                                 getInstructorCourseEditLink(course.id), 
+                                                 getInstructorCourseEditLink(course.getId()), 
                                                  Const.Tooltips.COURSE_EDIT, "", false);
             
             ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
-                                                    getInstructorCourseArchiveLink(course.id, true, false),
+                                                    getInstructorCourseArchiveLink(course.getId(), true, false),
                                                     Const.Tooltips.COURSE_ARCHIVE, "", false);
             
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
-                                                   getInstructorCourseDeleteLink(course.id, false),
-                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + course.id + "');",
-                                                   !(instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                   getInstructorCourseDeleteLink(course.getId(), false),
+                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+                                                   !(instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)));
             
             actionsParam.add(enrollButton);
@@ -144,9 +144,9 @@ public class InstructorCoursesPageData extends PageData {
             actionsParam.add(archiveButton);
             actionsParam.add(deleteButton);
             
-            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                  Sanitizer.sanitizeForHtml(course.name), 
-                                                                  this.getInstructorCourseStatsLink(course.id),
+            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()), 
+                                                                  Sanitizer.sanitizeForHtml(course.getName()), 
+                                                                  this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);
         }

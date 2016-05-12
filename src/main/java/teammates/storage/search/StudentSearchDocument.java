@@ -35,7 +35,7 @@ public class StudentSearchDocument extends SearchDocument {
         //studentTeam and studentSection
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(student.course).append(delim);
-        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
+        searchableTextBuilder.append(course != null ? course.getName() : "").append(delim);
         searchableTextBuilder.append(student.email).append(delim);
         searchableTextBuilder.append(student.name).append(delim);
         searchableTextBuilder.append(student.team).append(delim);

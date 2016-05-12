@@ -62,8 +62,8 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         data = new StudentCommentsPageData(account);
         
-        String courseId = sampleCourse.id;
-        String courseName = sampleCourse.name;
+        String courseId = sampleCourse.getId();
+        String courseName = sampleCourse.getName();
         List<String> coursePaginationList = Arrays.asList(courseId);
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         comments.add(dataBundle.comments.get("comment1FromI1C1toS1C1"));
@@ -105,7 +105,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<Comment> commentRows = new ArrayList<Comment>();
         String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
         for (CommentAttributes comment : comments) {
-            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.id, studentEmail, roster);
+            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(), studentEmail, roster);
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             commentRows.add(new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }

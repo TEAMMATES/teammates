@@ -107,7 +107,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
-        String courseId = dataBundle.courses.get("typicalCourse1").id;
+        String courseId = dataBundle.courses.get("typicalCourse1").getId();
         String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         for (FeedbackSessionAttributes fsa : allFsa) {
@@ -322,13 +322,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
         FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
-                "Copied Session", typicalCourse2.id,
+                "Copied Session", typicalCourse2.getId(),
                 session1InCourse1.feedbackSessionName,
                 session1InCourse1.courseId, instructor2OfCourse1.email);
         verifyPresentInDatastore(copiedSession);
         
         assertEquals("Copied Session", copiedSession.feedbackSessionName);
-        assertEquals(typicalCourse2.id, copiedSession.courseId);
+        assertEquals(typicalCourse2.getId(), copiedSession.courseId);
         List<FeedbackQuestionAttributes> questions1 = fqLogic.getFeedbackQuestionsForSession(session1InCourse1.feedbackSessionName, session1InCourse1.courseId);
         List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         

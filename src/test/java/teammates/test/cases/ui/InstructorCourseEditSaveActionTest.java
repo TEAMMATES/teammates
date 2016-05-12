@@ -29,7 +29,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
-        String courseName = CoursesLogic.inst().getCourse(courseId).name;
+        String courseName = CoursesLogic.inst().getCourse(courseId).getName();
         String statusMessage = "";
         String[] submissionParams;
         InstructorCourseEditSaveAction courseEditSaveAction;

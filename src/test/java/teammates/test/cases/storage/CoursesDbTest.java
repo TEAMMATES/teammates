@@ -41,8 +41,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Success: typical case");
         
         CourseAttributes c = new CourseAttributes();
-        c.id = "CDbT.tCC.newCourse";
-        c.name = "Basic Computing";
+        c.setId("CDbT.tCC.newCourse");
+        c.setName("Basic Computing");
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
         
@@ -57,7 +57,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a course with invalid parameter");
 
-        c.id = "Invalid id";
+        c.setId("Invalid id");
         try {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
@@ -66,8 +66,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
         }
 
-        c.id = "CDbT.tCC.newCourse";
-        c.name = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        c.setId("CDbT.tCC.newCourse");
+        c.setName(StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1));
         try {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
@@ -93,7 +93,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Success: get an existent course");
 
-        CourseAttributes retrieved = coursesDb.getCourse(c.id);
+        CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertNotNull(retrieved);
         
         ______TS("Failure: get a non-existent course");
@@ -126,8 +126,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Failure: update course with invalid parameters");
         
         CourseAttributes course = new CourseAttributes();
-        course.id = "";
-        course.name = "";
+        course.setId("");
+        course.setName("");
         course.isArchived = true;
         
         try {
@@ -143,8 +143,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("fail: non-exisitng course");
         
         course = new CourseAttributes();
-        course.id = "CDbT.non-exist-course";
-        course.name = "Non existing course";
+        course.setId("CDbT.non-exist-course");
+        course.setName("Non existing course");
         
         try {
             coursesDb.updateCourse(course);
@@ -160,7 +160,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
      
         coursesDb.updateCourse(course);
         
-        CourseAttributes courseRetrieved = coursesDb.getCourse(course.id);
+        CourseAttributes courseRetrieved = coursesDb.getCourse(course.getId());
         assertEquals(course.isArchived, courseRetrieved.isArchived);
     }
     
@@ -170,15 +170,15 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Success: delete an existing course");
 
-        coursesDb.deleteCourse(c.id);
+        coursesDb.deleteCourse(c.getId());
         
-        CourseAttributes deleted = coursesDb.getCourse(c.id);
+        CourseAttributes deleted = coursesDb.getCourse(c.getId());
         assertNull(deleted);
         
         ______TS("Failure: delete a non-existent courses");
 
         // Should fail silently
-        coursesDb.deleteCourse(c.id);
+        coursesDb.deleteCourse(c.getId());
 
         ______TS("Failure: null parameter");
 
@@ -193,8 +193,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CourseAttributes createNewCourse() throws InvalidParametersException {
         
         CourseAttributes c = new CourseAttributes();
-        c.id = "Computing101";
-        c.name = "Basic Computing";
+        c.setId("Computing101");
+        c.setName("Basic Computing");
         
         try {
             coursesDb.createEntity(c);

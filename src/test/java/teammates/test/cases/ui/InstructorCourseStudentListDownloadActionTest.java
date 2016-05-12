@@ -36,7 +36,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         verifyAssumptionFailure(submissionParams);
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, course.id
+                Const.ParamsNames.COURSE_ID, course.getId()
         };
         
         ______TS("Typical case: student list downloaded successfully");
@@ -47,8 +47,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals(expectedFileName, r.getFileName());
         // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         String[] fileContentLines = r.getFileContent().split(Const.EOL);
-        assertEquals("Course ID," + "\"" + course.id + "\"", fileContentLines[0]);
-        assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
+        assertEquals("Course ID," + "\"" + course.getId() + "\"", fileContentLines[0]);
+        assertEquals("Course Name," + "\"" + course.getName() + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);
@@ -73,8 +73,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals(expectedFileName, r.getFileName());
         // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         fileContentLines = r.getFileContent().split(Const.EOL);
-        assertEquals("Course ID," + "\"" + course.id + "\"", fileContentLines[0]);
-        assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
+        assertEquals("Course ID," + "\"" + course.getId() + "\"", fileContentLines[0]);
+        assertEquals("Course Name," + "\"" + course.getName() + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);
@@ -101,8 +101,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals(expectedFileName, r.getFileName());
         // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         fileContentLines = r.getFileContent().split(Const.EOL);
-        assertEquals("Course ID," + "\"" + course.id + "\"", fileContentLines[0]);
-        assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
+        assertEquals("Course ID," + "\"" + course.getId() + "\"", fileContentLines[0]);
+        assertEquals("Course Name," + "\"" + course.getName() + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);

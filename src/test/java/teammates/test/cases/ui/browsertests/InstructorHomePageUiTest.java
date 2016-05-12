@@ -185,7 +185,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
-        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         String instructorId = testData.accounts.get("account").googleId;
         
         ______TS("link: course enroll");
@@ -323,7 +323,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testArchiveCourseAction() throws Exception {
-        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").id;
+        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").getId();
 
         ______TS("archive course action: click and cancel");
         
@@ -355,7 +355,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("archive action failed");
         
-        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
         
         //delete the course, then submit archive request to it
         String archiveLinkString = homePage.getArchiveCourseLink(courseIdForCS2104);
@@ -381,7 +381,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
-        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         
         ______TS("Submit empty course list: Home Page");
         
@@ -457,7 +457,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("delete course action");
         
-        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
         assertNotNull(BackDoor.getCourse(courseId));
         
@@ -466,7 +466,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
         
         //delete the other course as well
-        courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         BackDoor.deleteCourse(courseId);
         
         homePage.clickHomeTab();

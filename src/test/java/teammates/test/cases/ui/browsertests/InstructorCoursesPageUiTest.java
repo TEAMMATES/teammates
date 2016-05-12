@@ -73,7 +73,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * If that previous test run fails, the entity persists and that will
          * break tests.
          */
-        BackDoor.deleteCourse(validCourse.id); // delete if it exists
+        BackDoor.deleteCourse(validCourse.getId()); // delete if it exists
     }
 
 
@@ -169,7 +169,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * 'Delete' is not a link, but an action.
          */
     
-        String courseId = testData.courses.get("CS2104").id;
+        String courseId = testData.courses.get("CS2104").getId();
         
         ______TS("view link");
         
@@ -244,13 +244,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
-        coursesPage.addCourse(validCourse.id, validCourse.name);
+        coursesPage.addCourse(validCourse.getId(), validCourse.getName());
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         
-        coursesPage.addCourse(validCourse.id, "different course name");
+        coursesPage.addCourse(validCourse.getId(), "different course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddDupIdFailed.html");
         

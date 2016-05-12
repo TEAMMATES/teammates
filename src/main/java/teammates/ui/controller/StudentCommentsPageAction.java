@@ -100,13 +100,13 @@ public class StudentCommentsPageAction extends Action {
         java.util.Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
-            coursePaginationList.add(course.id);
+            coursePaginationList.add(course.getId());
             if (courseId.isEmpty()) {
                 //if courseId not provided, select the newest course
-                courseId = course.id;
+                courseId = course.getId();
             }
-            if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+            if (course.getId().equals(courseId)) {
+                courseName = course.getId() + " : " + course.getName();
             }
         }
         if (courseName.equals("")) {

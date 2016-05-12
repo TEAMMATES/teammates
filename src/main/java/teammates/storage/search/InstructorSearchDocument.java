@@ -38,7 +38,7 @@ public class InstructorSearchDocument extends SearchDocument {
         // instructorGoogleId, instructorRole
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(instructor.courseId).append(delim);
-        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
+        searchableTextBuilder.append(course != null ? course.getName() : "").append(delim);
         searchableTextBuilder.append(instructor.name).append(delim);
         searchableTextBuilder.append(instructor.email).append(delim);
         searchableTextBuilder.append(instructor.googleId != null ? instructor.googleId : "").append(delim);

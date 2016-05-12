@@ -61,10 +61,10 @@ public class StudentHomePageDataTest {
     }
     
     private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
-        assertEquals(course.id, table.getCourseId());
-        assertEquals(course.name, table.getCourseName());
+        assertEquals(course.getId(), table.getCourseId());
+        assertEquals(course.getName(), table.getCourseName());
         assertEquals(1, table.getButtons().size());
-        testViewTeamButton(table.getButtons().get(0), course.id);
+        testViewTeamButton(table.getButtons().get(0), course.getId());
     }
     
     private void testViewTeamButton(ElementTag tag, String courseId) {

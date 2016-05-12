@@ -261,7 +261,7 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s]",
-                        course.id));
+                        course.getId()));
 
         String emailBody = template;
 
@@ -272,11 +272,11 @@ public class Emails {
         }
         
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
-        emailBody = emailBody.replace("${courseId}", course.id);
+        emailBody = emailBody.replace("${courseName}", course.getName());
+        emailBody = emailBody.replace("${courseId}", course.getId());
         
         String commentsPageUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
-                                        .withCourseId(course.id)
+                                        .withCourseId(course.getId())
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
 
@@ -362,20 +362,20 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", s.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
@@ -383,7 +383,7 @@ public class Emails {
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
@@ -406,17 +406,17 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
+        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.getId()+".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
@@ -440,26 +440,26 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                        .withCourseId(c.id)
+                                        .withCourseId(c.getId())
                                         .withSessionName(fs.feedbackSessionName)
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                                        .withCourseId(c.id)
+                                        .withCourseId(c.getId())
                                         .withSessionName(fs.feedbackSessionName)
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
@@ -475,12 +475,12 @@ public class Emails {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentJoinFragment(student, emailBody);
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -503,12 +503,12 @@ public class Emails {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -559,12 +559,12 @@ public class Emails {
         
         MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);    
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
         emailBody = emailBody.replace("${userName}", instructor.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");  
         return message;

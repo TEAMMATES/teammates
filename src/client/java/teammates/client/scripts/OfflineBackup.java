@@ -208,7 +208,7 @@ public class OfflineBackup extends RemoteApiClient {
         }
         
         FileHelper.appendToFile(currentFileName, "\t\"courses\":{\n");
-        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.id));
+        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.getId()));
         
         hasPreviousEntity = false;
         FileHelper.appendToFile(currentFileName, "\n\t},\n");

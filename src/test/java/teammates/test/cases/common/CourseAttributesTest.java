@@ -31,13 +31,13 @@ public class CourseAttributesTest extends BaseTestCase {
         
         String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH+1);
         String emptyName = "";
-        c.id = veryLongId;
-        c.name = emptyName;
+        c.setId(veryLongId);
+        c.setName(emptyName);
         
         assertEquals("invalid value", false, c.isValid());
         String errorMessage = 
-                String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
-                String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
+                String.format(COURSE_ID_ERROR_MESSAGE, c.getId(), REASON_TOO_LONG) + EOL + 
+                String.format(COURSE_NAME_ERROR_MESSAGE, c.getName(), REASON_EMPTY);
         assertEquals("invalid value", errorMessage, StringHelper.toString(c.getInvalidityInfo()));
     }
 
@@ -60,8 +60,8 @@ public class CourseAttributesTest extends BaseTestCase {
     public static CourseAttributes generateValidCourseAttributesObject() {
         CourseAttributes c;
         c = new CourseAttributes();
-        c.id = "valid-id-$_abc";
-        c.name = "valid-name";
+        c.setId("valid-id-$_abc");
+        c.setName("valid-name");
         return c;
     }
 
