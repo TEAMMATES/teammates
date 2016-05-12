@@ -205,11 +205,11 @@ public class DataGenerator {
         String output = "\"accounts\":{\n";
         for (String email : studentEmails) {
             email = email.split("@")[0];
-            output+="\t" + account(email);
-            output+=",\n";
+            output += "\t" + account(email);
+            output += ",\n";
         }
         output = output.substring(0, output.length() - 2);
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     
@@ -221,11 +221,11 @@ public class DataGenerator {
         for (String instructor : instructors.keySet()) {
             String course = PREFIX + instructors.get(instructor);
             instructor = PREFIX + instructor;
-            output+="\t" + instructor(instructor, "googleIdOf_" + instructor, "courseIdOf_" + course, "nameOf_" + instructor, "emailOf_" + instructor + "@gmail.com");
-            output+=",\n";
+            output += "\t" + instructor(instructor, "googleIdOf_" + instructor, "courseIdOf_" + course, "nameOf_" + instructor, "emailOf_" + instructor + "@gmail.com");
+            output += ",\n";
         }
         output = output.substring(0, output.length() - 2);
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     
@@ -236,11 +236,11 @@ public class DataGenerator {
         String output = "\"courses\":{\n";
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX + courses.get(i);
-            output+="\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
+            output += "\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
             if (i != courses.size() - 1)
-                output+=",\n";
+                output += ",\n";
         }
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     
@@ -255,12 +255,12 @@ public class DataGenerator {
             String team  = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
-            output+="\t" + student(student, email, "Student " + index + " in " + course,
+            output += "\t" + student(student, email, "Student " + index + " in " + course,
                     "Team " + team, email.split("@")[0], "comment", "courseIdOf_" + course, "profile");
             if (i != students.size() - 1)
-                output+=",\n";
+                output += ",\n";
         }
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     

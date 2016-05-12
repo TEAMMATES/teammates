@@ -616,7 +616,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String resultString = "";
         for (String s : result){
             if (!resultString.isEmpty()){
-                resultString+=", ";
+                resultString += ", ";
             }
             resultString += s;
         }
@@ -639,7 +639,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String resultString = "";
         for (String s : result){
             if (!resultString.isEmpty()){
-                resultString+=", ";
+                resultString += ", ";
             }
             resultString += s;
         }
