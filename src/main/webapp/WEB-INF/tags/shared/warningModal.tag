@@ -1,5 +1,4 @@
 <%@ tag description="Modal prompt with bootstrap warning color" %>
-<%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <div class="modal fade" id="warning-modal" tabindex="-1" role="dialog"
      aria-labelledby="warning-modal" aria-hidden="true">
