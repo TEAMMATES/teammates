@@ -133,7 +133,7 @@ public class StudentProfileAttributes extends EntityAttributes {
             }
         }
 
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
+        error = validator.getInvalidityInfoForGender(gender);
         if (!error.isEmpty()) {
             errors.add(error);
         }
