@@ -41,7 +41,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         };
         
         FeedbackSessionStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-        AjaxResult r = (AjaxResult)a.executeAndPostProcess();
+        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
        
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -63,7 +63,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         
         try {
-            r = (AjaxResult)a.executeAndPostProcess();
+            r = (AjaxResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             doesThrowUnauthorizedAccessException = true;
             exceptionMessage = e.getMessage();

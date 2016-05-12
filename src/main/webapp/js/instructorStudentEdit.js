@@ -14,7 +14,7 @@ function readyInstructorStudentEditPage() {
                     'from this student to be deleted. You may download the data before ' + 
                     'you make the changes. Are you sure you want to continue?');
         }
-    })
+    });
     
     $('#teamname').change(function() {
         $('#button_submit').attr('editStatus', 'mustDeleteResponses');

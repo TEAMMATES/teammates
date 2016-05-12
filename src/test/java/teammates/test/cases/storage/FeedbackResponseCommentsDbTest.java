@@ -339,7 +339,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         ______TS("typical success case");
         
-        String updatedEmail = "frcdb.updatedGiver@email.com";;
+        String updatedEmail = "frcdb.updatedGiver@email.com";
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, updatedEmail);
         assertNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
         assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail));

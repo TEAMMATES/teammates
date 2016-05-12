@@ -33,7 +33,7 @@ public class ImageResult extends ActionResult {
             BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
             blobstoreService.serve(new BlobKey(blobKey), resp);
         } else {
-            resp.sendError(1, "No image found");;
+            resp.sendError(1, "No image found");
         }
     }
 

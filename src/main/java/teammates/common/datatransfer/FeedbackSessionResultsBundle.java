@@ -215,6 +215,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
+    
+    public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
+        return "Anonymous " + type.toSingularFormString();
+    }
 
     private String getAnonName(FeedbackParticipantType type, String name) {
         String hash = getHashOfName(name);

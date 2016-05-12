@@ -260,10 +260,10 @@ function gotoUrlWithParam(url, param, value) {
  */
 function removeParamInUrl(url, param) {
     var indexOfParam = url.indexOf('?' + param);
-    indexOfParam = (indexOfParam == -1) ? url.indexOf('&' + param) : indexOfParam;
+    indexOfParam = indexOfParam == -1 ? url.indexOf('&' + param) : indexOfParam;
     var indexOfAndSign = url.indexOf('&', indexOfParam + 1);
     var urlBeforeParam = url.substr(0, indexOfParam);
-    var urlAfterParamValue = (indexOfAndSign == -1) ? '' : url.substr(indexOfAndSign);
+    var urlAfterParamValue = indexOfAndSign == -1 ? '' : url.substr(indexOfAndSign);
     return urlBeforeParam + urlAfterParamValue;
 }
 
