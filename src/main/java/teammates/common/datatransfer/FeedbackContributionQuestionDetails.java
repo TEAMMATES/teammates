@@ -651,7 +651,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * class (posDiff and negDiff).
      * Positive points will be green, negative will be red, 0 will be black.
      * This will also put N/A or Not Sure for respective points representation.
-     * The output will be E + x% for positive points, E-x% for negative points,
+     * The output will be E+x% for positive points, E-x% for negative points,
      * and just E for equal share.
      * Zero contribution will be printed as 0%
      * @param points
@@ -668,7 +668,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (points == 0) {
             return "<span class=\"color-negative\">0%</span>";
         } else if (points > 100) {
-            return "<span class=\"color-positive\">E + " + (points - 100) + "%</span>";
+            return "<span class=\"color-positive\">E +" + (points - 100) + "%</span>";
         } else if (points < 100) {
             return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
         } else {
@@ -904,7 +904,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else if (i == 0)
             return "<span class=\"color-negative\">0%</span>";
         else if (i > 100)
-            return "<span class=\"color-positive\">Equal Share + " + (i - 100) + "%</span>";
+            return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
         else if (i < 100)
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         else if (i == 100)
