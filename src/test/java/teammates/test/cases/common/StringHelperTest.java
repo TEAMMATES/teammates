@@ -277,7 +277,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
+        for (String str : stringsToMatch){
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }

@@ -120,7 +120,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
-        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
+        for (int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
             checkCommentsForStudentsTablesEqual(
                      expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
@@ -213,7 +213,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<Comment> expectedCommentRows = expected.getRows();
         List<Comment> actualCommentRows = actual.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
+        for (int i = 0; i < expectedCommentRows.size(); i++) {
             Comment expectedCommentRow = expectedCommentRows.get(i);
             Comment actualCommentRow = actualCommentRows.get(i);
             checkCommentRowsEqual(expectedCommentRow, actualCommentRow);
@@ -266,7 +266,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
         commentsForGiverList = getCommentsForGiverInCourse(giverEmail, courseId);
-        for(int i = 0; i < commentsForGiverList.size(); i++) {
+        for (int i = 0; i < commentsForGiverList.size(); i++) {
             canModifyCommentList.add(true);
         }
         String key = giverEmail;

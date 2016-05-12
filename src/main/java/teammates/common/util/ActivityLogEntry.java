@@ -278,7 +278,7 @@ public class ActivityLogEntry {
     
     
     public String getIconRoleForShow(){
-        String iconRole="";
+        String iconRole = "";
         
         if(role.contains("Instructor")){   
            
@@ -396,7 +396,7 @@ public class ActivityLogEntry {
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
@@ -413,7 +413,7 @@ public class ActivityLogEntry {
         String colorCode = "";
         if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "warning";
-        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+        } else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "danger";
         }    
         return colorCode;            
@@ -631,7 +631,7 @@ public class ActivityLogEntry {
             return;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
+        for (String stringToHighlight : keyStringsToHighlight){
             if(message.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());

@@ -56,7 +56,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
                            getFeedbackSessionsWithZeroResponseRate() :
                            fsDb.getAllFeedbackSessions();
         
-       for(FeedbackSessionAttributes session : feedbackSessions){
+       for (FeedbackSessionAttributes session : feedbackSessions){
            updateRespondantsForSession(session.feedbackSessionName, session.courseId);
        }   
     }
@@ -67,7 +67,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         
         List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondants = new ArrayList<FeedbackSessionAttributes>();
         
-        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             if (feedbackSession.respondingStudentList.size() != 0 || feedbackSession.respondingInstructorList.size() != 0) {
                 continue;
             }

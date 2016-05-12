@@ -115,7 +115,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         try {
             ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
@@ -134,7 +134,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         try {
             ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
             assertEquals(expectedString, uae.getMessage());
@@ -153,7 +153,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         try {
             ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }
@@ -171,7 +171,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         try {
             ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent instructor entity",
                          uae.getMessage());
         }

@@ -318,7 +318,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "validTeamName";
         s.section = "validSectionName";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
@@ -336,7 +336,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "valid team name";
         s.section = "valid section name";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {

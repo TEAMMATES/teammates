@@ -1,5 +1,5 @@
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
 var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";

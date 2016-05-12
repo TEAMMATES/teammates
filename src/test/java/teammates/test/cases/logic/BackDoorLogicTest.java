@@ -80,7 +80,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
         HashMap<String, AccountAttributes> accounts = data.accounts;
-        for(AccountAttributes expectedAccount : accounts.values()) {
+        for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
         }
         

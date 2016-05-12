@@ -234,7 +234,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<Comment> expectedCommentRows = expectedCommentsForStudentsTable.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
         
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
+        for (int i = 0; i < expectedCommentRows.size(); i++) {
             checkCommentRowsEqual(expectedCommentRows.get(i), actualCommentRows.get(i));
         }
     }

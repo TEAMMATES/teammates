@@ -66,12 +66,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, getId());
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, getId());
         if (!error.isEmpty()) { 
             errors.add(error); 
         }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_NAME, getName());
+        error = validator.getInvalidityInfo(FieldType.COURSE_NAME, getName());
         if (!error.isEmpty()) { 
             errors.add(error); 
         }

@@ -333,7 +333,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         
         assertEquals(questions1.size(), questions2.size());
-        for(int i = 0; i < questions1.size(); i++){
+        for (int i = 0; i < questions1.size(); i++){
             FeedbackQuestionAttributes question1 = questions1.get(i);
             FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
@@ -834,7 +834,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
         List<String> actualStrings = new ArrayList<String>();
-        for(FeedbackResponseAttributes response: results.responses) {
+        for (FeedbackResponseAttributes response: results.responses) {
             String giverName = results.getNameForEmail(response.giverEmail);
             String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
             giverName = results.appendTeamNameToName(giverName, giverTeamName);
@@ -1798,7 +1798,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("failure: already published");
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1822,7 +1822,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure: not published");
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1835,7 +1835,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
 
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1845,7 +1845,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Private session can't be published.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1859,7 +1859,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         sessionUnderTest.feedbackSessionName = "non-existant session";
         
-        try{
+        try {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -1868,7 +1868,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Trying to publish a non-existant session.", e.getMessage());
         }
         
-        try{
+        try {
             fsLogic.unpublishFeedbackSession(
                     sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
@@ -2155,7 +2155,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table){
         String tableString = "";
-        for(Map.Entry<String, boolean[]> entry : table.entrySet()) {
+        for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
             tableString += "{";
             tableString += entry.getKey().toString();
             tableString += "={";

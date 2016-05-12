@@ -35,7 +35,7 @@ public class CoursesDb extends EntitiesDb {
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
         
         List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
-        for(EntityAttributes entity : coursesToUpdate){
+        for (EntityAttributes entity : coursesToUpdate){
             CourseAttributes course = (CourseAttributes) entity;
             try {
                 updateCourse(course);

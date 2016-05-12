@@ -435,7 +435,7 @@ public class BackDoor {
         
         Gson gsonParser = Utils.getTeammatesGson();
         List<StudentAttributes> studentList = gsonParser
-                .fromJson(studentJson, new TypeToken<List<StudentAttributes>>(){}
+                .fromJson(studentJson, new TypeToken<List<StudentAttributes>>() { }
                 .getType());
         return studentList;
     }
@@ -579,7 +579,7 @@ public class BackDoor {
         
         Gson gsonParser = Utils.getTeammatesGson();
         List<FeedbackResponseAttributes> responseList = gsonParser
-                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
+                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>() {}
                 .getType());
         return responseList;
         
@@ -596,7 +596,7 @@ public class BackDoor {
         
         Gson gsonParser = Utils.getTeammatesGson();
         List<FeedbackResponseAttributes> responseList = gsonParser
-                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
+                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>() {}
                 .getType());
         return responseList;
     }

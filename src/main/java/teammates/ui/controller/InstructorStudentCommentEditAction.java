@@ -75,7 +75,7 @@ public class InstructorStudentCommentEditAction extends Action {
         }
         
         return !isFromCommentPage ? 
-               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)):
+               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)) :
                createRedirectResult(
                        (new PageData(account).getInstructorCommentsLink()) + "&" 
                      + Const.ParamsNames.COURSE_ID + "=" + courseId);

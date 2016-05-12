@@ -210,7 +210,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for(int i = 0; i < actualFrComments.size(); i++){
+        for (int i = 0; i < actualFrComments.size(); i++){
             if(actualFrComments.get(i).commentText.equals(frComment.commentText)){
                 actualFrComment = actualFrComments.get(i);
                 break;
