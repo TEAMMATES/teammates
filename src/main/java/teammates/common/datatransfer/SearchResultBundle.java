@@ -15,7 +15,7 @@ import com.google.appengine.api.search.ScoredDocument;
  */
 public abstract class SearchResultBundle {
     protected String extractContentFromQuotedString(String quotedString){
-        if(quotedString.matches("^\".*\"$")){
+        if (quotedString.matches("^\".*\"$")){
             return quotedString.substring(1, quotedString.length() - 1);
         } else {
             return quotedString;
@@ -35,7 +35,7 @@ public abstract class SearchResultBundle {
         List<ScoredDocument> filteredResults = new ArrayList<ScoredDocument>();
         for (ScoredDocument document : results){
             String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
-            if(courseIdSet.contains(resultCourseId)){
+            if (courseIdSet.contains(resultCourseId)){
                 filteredResults.add(document);
             }
         }

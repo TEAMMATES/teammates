@@ -116,7 +116,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public int compareTo(CourseAttributes o) {
-        if(o == null){
+        if (o == null){
             return 0;
         }
         return o.createdAt.compareTo(createdAt);

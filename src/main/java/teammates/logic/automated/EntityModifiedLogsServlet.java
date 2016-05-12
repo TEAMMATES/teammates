@@ -49,7 +49,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                 for (int i = 0; i < logList.size(); i++) {
                     AppLogLine currentLog = logList.get(i);
                     String logMessage = currentLog.getLogMessage();
-                    if(logMessage.contains("modified course::")) {
+                    if (logMessage.contains("modified course::")) {
                         String tokens[] = logMessage.split("::");
                         String courseId = tokens[1];
                       

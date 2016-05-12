@@ -458,7 +458,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 "e@y", 
                 "");
         
-        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
+        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6)+"@c.gov";
         testOnce("valid: max length", 
                 FieldType.EMAIL, 
                 maxLengthValue, 
@@ -685,7 +685,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 fieldType,
                 "course name of the student",
                 emptyValue, 
-                emptyStringAllowed? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+                emptyStringAllowed ? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {
@@ -694,7 +694,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if(!fieldName.isEmpty() && !expected.isEmpty()){
+        if (!fieldName.isEmpty() && !expected.isEmpty()){
             expected = "Invalid "+ fieldName + ": " + expected;
         }
         assertEquals(description, expected, 

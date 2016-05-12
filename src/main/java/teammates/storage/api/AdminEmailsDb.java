@@ -44,7 +44,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     public void updateAdminEmail(AdminEmailAttributes ae) throws InvalidParametersException, EntityDoesNotExistException{
-        if(!ae.isValid()){
+        if (!ae.isValid()){
             throw new InvalidParametersException(ae.getInvalidityInfo());
         }
         
@@ -105,7 +105,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException{
-        if(!newAdminEmail.isValid()){
+        if (!newAdminEmail.isValid()){
             throw new InvalidParametersException(newAdminEmail.getInvalidityInfo());
         }
         
@@ -138,7 +138,7 @@ public class AdminEmailsDb extends EntitiesDb {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         List<AdminEmail> entities = getAdminEmailEntities();
         Iterator<AdminEmail> it = entities.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             list.add(new AdminEmailAttributes(it.next()));
         }
         
@@ -195,7 +195,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -228,7 +228,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -258,7 +258,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()){
             AdminEmail adminEmail = it.next();
             
             if (!JDOHelper.isDeleted(adminEmail)) {
@@ -315,7 +315,7 @@ public class AdminEmailsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         AdminEmailAttributes adminEmailToGet = (AdminEmailAttributes) attributes;
         
-        if(adminEmailToGet.getEmailId() != null){
+        if (adminEmailToGet.getEmailId() != null){
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
         } else {
             return getAdminEmailEntity(adminEmailToGet.getSubject(),

@@ -178,7 +178,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         Map<String, StudentResultSummary> contribQnStats = feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
-        if(contribQnStats == null){
+        if (contribQnStats == null){
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);
             
@@ -188,7 +188,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                 anonContribQnStats.put(feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
             }
             for (Map.Entry<String, StudentResultSummary> entry : anonContribQnStats.entrySet()){
-                if(contribQnStats.get(entry.getKey()) == null){
+                if (contribQnStats.get(entry.getKey()) == null){
                     contribQnStats.put(entry.getKey(), entry.getValue());
                 }
             }
@@ -202,7 +202,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         Map<String, TeamEvalResult> contribQnStats = feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
-        if(contribQnStats == null){
+        if (contribQnStats == null){
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getTeamEvalResults(feedbackSessionResultsBundle, question);
             feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.put(question.getId(), contribQnStats);

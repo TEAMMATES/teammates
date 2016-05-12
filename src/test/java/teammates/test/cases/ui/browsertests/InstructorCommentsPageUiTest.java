@@ -90,7 +90,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void removePreExistComments() {
-        if(commentsPage.getPageSource().contains("added response comment")
+        if (commentsPage.getPageSource().contains("added response comment")
                 || commentsPage.getPageSource().contains("edited response comment")){
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
             commentsPage.clickCommentsPageLinkInHeader();
