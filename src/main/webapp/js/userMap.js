@@ -20,7 +20,7 @@ function handleData(err, countryCoordinates, userData) {
     userData.forEach(function(entry) {
         var countryName = entry[entry.length - 1];
         var countryCode = getCountryCode(countryName);
-        if (countryCode != null) {
+        if (countryCode !== undefined) {
             countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
         }
     });

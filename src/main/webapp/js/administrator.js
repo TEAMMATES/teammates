@@ -92,7 +92,7 @@ function isGoogleIDValid(googleID) {
     if (googleID.indexOf("\\") >= 0 || googleID.indexOf("'") >= 0
             || googleID.indexOf("\"") >= 0) {
         return false;
-    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) == null) {
+    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) === null) {
         return false;
     } else if (googleID.length > 29) {
         return false;

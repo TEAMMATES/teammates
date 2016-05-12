@@ -229,7 +229,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
-        if ($RowList[i].cells[colIdx - 1] == undefined || $RowList[i].cells[colIdx - 1] == null) {
+        if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
         
@@ -250,7 +250,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
-    if (comparator == null) {
+    if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
             comparator = sortNum;
         } else if (columnType === 2) {
@@ -466,7 +466,7 @@ function isWithinView(element) {
  *                 400 ms will be used if any other string is supplied.
  */
 function scrollToPosition(scrollPos, duration) {
-    if (duration === undefined) {
+    if (duration === undefined || duration === null) {
         $(window).scrollTop(scrollPos);
     } else {
         $('html, body').animate({ scrollTop: scrollPos }, duration);
@@ -624,7 +624,7 @@ function isValidGoogleId(googleId) {
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = matches != null && matches[0] === googleId;
+    isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -644,7 +644,7 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
 }
 
 /**
