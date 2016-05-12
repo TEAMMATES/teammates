@@ -73,7 +73,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         String errorString = "Error encountered while adjusting feedback session responses " +
                 "of %s in course : %s : %s\n%s";
         
-        if(feedbackSession != null) {
+        if (feedbackSession != null) {
             List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
                     .getFeedbackResponsesForSession(feedbackSession.feedbackSessionName,
                             feedbackSession.courseId);

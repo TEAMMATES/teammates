@@ -1,7 +1,7 @@
 function linkAjaxForResponseRate() {
     var responseRateClickHandler = function(e) {
-        var hyperlinkObject = $(this).clone(),
-            parentOfHyperlinkObject = $(this).parent();
+        var hyperlinkObject = $(this).clone();
+        var parentOfHyperlinkObject = $(this).parent();
         e.preventDefault();
         $.ajax({
             type: 'POST',
@@ -37,8 +37,9 @@ function linkAjaxForResponseRate() {
         var allRows = currentTable.find('tr:has(td)');
         var recentElements = allRows.filter(function(i) {
             return $(allRows[i]).find('td[class*="recent"]').length;
-        }),
-            nonRecentElements = allRows.filter(function(i) {
+        });
+
+        var nonRecentElements = allRows.filter(function(i) {
             return !$(allRows[i]).find('td[class*="recent"]').length;
         });
 

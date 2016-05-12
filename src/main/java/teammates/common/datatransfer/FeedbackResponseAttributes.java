@@ -110,10 +110,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         return errors;
     }
@@ -199,7 +199,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             return null;
         }
         
-        if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());

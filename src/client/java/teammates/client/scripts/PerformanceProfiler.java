@@ -134,7 +134,7 @@ public class PerformanceProfiler extends Thread {
             String name = test.name();
             boolean customTimer = test.customTimer();
             Type type = method.getReturnType();
-            if(!results.containsKey(name))
+            if (!results.containsKey(name))
             {
                 results.put(name, new ArrayList<Float>());
             }
@@ -191,7 +191,7 @@ public class PerformanceProfiler extends Thread {
         File reportFile = new File(filePath);
         
         // Create the report file if not existed
-        if(!reportFile.exists()){
+        if (!reportFile.exists()){
             try {
                 reportFile.createNewFile();
             } catch (IOException e) {
@@ -246,7 +246,7 @@ public class PerformanceProfiler extends Thread {
                 total += f;
                 lineStr  += f + " , ";
             }
-            lineStr = lineStr.substring(0, lineStr.length()-3); //remove last comma
+            lineStr = lineStr.substring(0, lineStr.length() - 3); //remove last comma
             Float average = total / arr.size();
             lineStr = str + "| " +average + " | " + lineStr +"\n";
             out.write(lineStr);

@@ -33,7 +33,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
             for (StudentAttributes student : largeScaleBundle.students.values()){
                 logic.createStudent(student);
                 index++;
-                if(index % 100 == 0){
+                if (index % 100 == 0){
                     logger.info("Create student " + index);
                 }
             }
@@ -42,7 +42,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
             for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
-                if(index % 100 == 0){
+                if (index % 100 == 0){
                     logger.info("Create response " + index);
                 }
             }
@@ -67,7 +67,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
     }
     
     private static DataBundle loadDataBundle(String pathToJsonFile){
-        if(pathToJsonFile.startsWith("/")){
+        if (pathToJsonFile.startsWith("/")){
             pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
         }
         String jsonString;

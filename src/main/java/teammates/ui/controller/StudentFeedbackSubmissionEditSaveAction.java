@@ -67,7 +67,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if(!isRegisteredStudent()) {
+        if (!isRegisteredStudent()) {
             // Always remains at student feedback submission edit page if user is unregistered
             // Link given to unregistered student already contains course id & session name
             return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);

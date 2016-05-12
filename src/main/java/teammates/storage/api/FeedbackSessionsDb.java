@@ -279,7 +279,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -303,7 +303,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -313,7 +313,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        if(fs.getRespondingInstructorList().contains(oldEmail)){
+        if (fs.getRespondingInstructorList().contains(oldEmail)){
             fs.getRespondingInstructorList().remove(oldEmail);
             fs.getRespondingInstructorList().add(newEmail);
         }
@@ -328,7 +328,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -358,7 +358,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -381,7 +381,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -405,7 +405,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -415,7 +415,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        if(fs.getRespondingStudentList().contains(oldEmail)){
+        if (fs.getRespondingStudentList().contains(oldEmail)){
             fs.getRespondingStudentList().remove(oldEmail);
             fs.getRespondingStudentList().add(newEmail);
         }
@@ -430,7 +430,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
@@ -454,7 +454,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         feedbackSession.sanitizeForSaving();
 
-        if(!feedbackSession.isValid()) {
+        if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
