@@ -71,7 +71,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             errors.add(error); 
         }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_NAME, name);
+        error= validator.getInvalidityInfoForCourseName(name);
         if (!error.isEmpty()) { 
             errors.add(error); 
         }
