@@ -432,9 +432,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case FEEDBACK_SESSION_NAME:
-            returnValue = getValidityInfoForFeedbackSessionName(value);
-            break;
         case FEEDBACK_QUESTION_TEXT:
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
                     FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
@@ -481,6 +478,18 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    /**
+     * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
+     * {@code COURSE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param feedbackSessionName
+     * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
+     *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
+     */
+    public String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
+        return getValidityInfoForAllowedName(
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
     }
 
     /**
@@ -793,17 +802,6 @@ public class FieldValidator {
         return errors;
     }
 
-    public String getValidityInfoForFeedbackSessionName(Object value) {
-        String returnValue;
-        returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
-        if(returnValue.equals("")){
-            returnValue = getValidityInfoForNonHtmlField(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
-        }
-        return returnValue;
-    }
-    
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = value;
         sanitizedValue = sanitizedValue.replace("<", "&lt;")
