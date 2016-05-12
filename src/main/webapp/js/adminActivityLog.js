@@ -38,7 +38,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {       
-                    $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime + "</mark>");
+                    $(link).parent().html(originalTime + "<mark><br>" + data.logLocalTime + "</mark>");
                 } else {
                     $(localTimeDisplay).html("Loading error, please retry");          
                 }

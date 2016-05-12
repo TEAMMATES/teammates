@@ -40,7 +40,7 @@
     ],
 
     "rules": {
-        ////////// Possible Errors //////////
+        ////////// Unnecessary/Unused Ops/Vars/Chars //////////
 
         "comma-dangle": 2,            // disallow trailing commas in object literals
         "no-extra-boolean-cast": 2,   // disallow double-negation boolean casts in a boolean context
@@ -48,7 +48,13 @@
         "no-extra-semi": 2,           // disallow unnecessary semicolons
         "no-unreachable": 2,          // disallow unreachable statements after a return, throw, continue, or break statement
         "no-unused-expressions": 2,   // disallow usage of expressions in statement position
+        "no-useless-call": 2,         // disallow unnecessary calls to .call() and .apply()
+        "no-useless-concat": 2,       // disallow unnecessary concatenation of literals or template literals
+        "no-useless-escape": 2,       // disallow unnecessary escape characters
         "semi": 2,                    // require use of semicolons instead of ASI
+
+
+        ////////// Possible Errors //////////
 
         "no-cond-assign": 0,          // disallow assignment in conditional expressions
         "no-console": 0,              // disallow use of console (off by default in the node environment)
