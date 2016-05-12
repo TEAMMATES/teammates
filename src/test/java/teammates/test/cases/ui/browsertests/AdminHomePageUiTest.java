@@ -112,7 +112,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .toAbsoluteString();
         assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
                      homePage.getMessageFromResultTable(2));
-        homePage.createInstructorByInstructorDetailsSingleLineForm(""); // to clear the first form
+        homePage.clearInstructorDetailsSingleLineForm();
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
