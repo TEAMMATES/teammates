@@ -69,7 +69,7 @@ public class CourseEditSectionRow {
      * A section is considered special if the instructor has special privileges
      * ie. privileges that are not defined at course level.
      * 
-     * @return true if the section is special; false otherwise.
+     * @return true if the section is special.
      */
     public boolean isSectionSpecial() {
         return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
