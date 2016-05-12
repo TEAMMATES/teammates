@@ -487,14 +487,9 @@ public abstract class AppPage {
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws Exception {
-        
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     public void click(By by) {

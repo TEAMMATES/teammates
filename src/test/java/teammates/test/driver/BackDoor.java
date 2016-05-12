@@ -147,7 +147,7 @@ public class BackDoor {
     }
     
     public static String putDocuments(DataBundle dataBundle) {
-        String json = Utils.getTeammatesGson().toJson(dataBundle);;
+        String json = Utils.getTeammatesGson().toJson(dataBundle);
         return putDocumentsInBackDoor(json);
     }
 

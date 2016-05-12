@@ -191,7 +191,7 @@ public class AdminInstructorAccountAddAction extends Action {
         
         try {
             backdoor.persistDataBundle(data);        
-        } catch (EntityDoesNotExistException | NullPointerException e){
+        } catch (EntityDoesNotExistException e){
             int elapsedTime = 0;
             if(PERSISTENCE_WAITING_DURATION > 0){
                 while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {

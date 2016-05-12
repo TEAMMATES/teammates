@@ -508,7 +508,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("standard delete");
         
-        StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");;
+        StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForStudent1 =
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email);
         responsesForStudent1
@@ -531,7 +531,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         remainingResponses.clear();
         
-        studentToDelete = typicalBundle.students.get("student2InCourse1");;
+        studentToDelete = typicalBundle.students.get("student2InCourse1");
         
         studentToDelete.team = "Team 1.3";
         StudentsLogic.inst().updateStudentCascadeWithoutDocument(studentToDelete.email, studentToDelete);
