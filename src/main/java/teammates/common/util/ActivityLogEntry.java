@@ -75,21 +75,33 @@ public class ActivityLogEntry {
     };
     
     /**
+     * updates class variables
+     */
+    private  void updateInfo(String servletName, String action, String role, String name, String googleId, String email, Boolean toShow, String message, String url){
+        
+        this.servletName =servletName;
+        this.action= action;
+        this.role= role;
+        this.name= name;
+        this.googleId= googleId;
+        this.email= email;
+        this.toShow= toShow;
+        this.message= message;
+        this.url= url;
+    }
+    
+    /**
      * Constructor that creates a empty ActivityLog
      */
-    public ActivityLogEntry(String servlet, String params, String link){
+    public ActivityLogEntry(String servlet, String params, String link) {
+        String Unknown = "Unknown";
+        String Message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
+                                        + params;
+
+        updateInfo(servlet, Unknown, Unknown, Unknown, Unknown, Unknown, true, Message, link);
         time = System.currentTimeMillis();
-        servletName = servlet;
-        action = "Unknown";
-        role = "Unknown";
-        name = "Unknown";
-        googleId = "Unknown";
-        email = "Unknown";
-        toShow = true;
-        message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
-                + params;
-        url = link;
-        id = "Unknown";
+        this.id = Unknown;
+
     }
     
     
@@ -113,46 +125,42 @@ public class ActivityLogEntry {
 
 
     private void initUsingAppLogMessage(String[] tokens) {
-        servletName = tokens[POSITION_OF_SERVLETNAME];
-        action = tokens[POSITION_OF_ACTION];
-        toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
-        role = tokens[POSITION_OF_ROLE];
-        name = tokens[POSITION_OF_NAME];
-        googleId = tokens[POSITION_OF_GOOGLEID];            
-        email = tokens[POSITION_OF_EMAIL];
-        message = tokens[POSITION_OF_MESSAGE];
-        url = tokens[POSITION_OF_URL];
-        
+
+        updateInfo(tokens[POSITION_OF_SERVLETNAME], tokens[POSITION_OF_ACTION], tokens[POSITION_OF_ROLE],
+                                        tokens[POSITION_OF_NAME], googleId = tokens[POSITION_OF_GOOGLEID],
+                                        tokens[POSITION_OF_EMAIL],
+                                        Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]),
+                                        tokens[POSITION_OF_MESSAGE], tokens[POSITION_OF_URL]);
+
         boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
         if (isLogWithTimeTakenAndId) {
-            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId) 
-                                 || tokens[POSITION_OF_ID].contains("%"));
-            //TODO the branch for old logs can be removed after V5.64
-            // this branch is needed to support older style logs when we did not have the log id  
+            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId)
+                                            || tokens[POSITION_OF_ID].contains("%"));
+            // TODO the branch for old logs can be removed after V5.64
+            // this branch is needed to support older style logs when we did not
+            // have the log id
             if (isOldLog) {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN
+                // HTML)|||URL|||TIME_TAKEN
                 timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
             } else {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN
+                // HTML)|||URL|||ID|||TIME_TAKEN
                 id = tokens[POSITION_OF_ID];
-                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim()) 
+                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim())
                                                 : null;
-            }                                           
+            }
         }
     }
 
 
     private void initAsFailure(AppLogLine appLog, Exception e) {
-        servletName = "Unknown";
-        action = "Unknown";
-        role = "Unknown";
-        name = "Unknown";
-        googleId = "Unknown";
-        email = "Unknown";
-        toShow = true;
-        message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
-                + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
-        url = "Unknown";
+        String Unknown = "Unknown";
+        String Message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
+                                        + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+
+        updateInfo(Unknown, Unknown, Unknown, Unknown, Unknown, Unknown, true, Message, Unknown);
+        time = System.currentTimeMillis();
         id = "Unknown" + "%" + formatTimeForId(new Date(time));
         timeTaken = null;
     }
@@ -182,30 +190,23 @@ public class ActivityLogEntry {
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail} 
      * will be used to construct the id.
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link, String unregisteredUserCourse, String unregisteredUserEmail) {
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
+                                    String unregisteredUserCourse, String unregisteredUserEmail) {
         time = System.currentTimeMillis();
-        servletName = servlet;
-        action = act;
-        toShow = true;
-        message = params;
-        url = link;
-        
-        if (acc == null){
-            role = "Unknown";
-            name = "Unknown";
-            email = "Unknown";
-            
+
+        String Unknown = "Unknown";
+        time = System.currentTimeMillis();
+
+        if (acc == null) {
             UserType userType = GateKeeper.inst().getCurrentUser();
-            googleId = userType != null ? userType.id : "Unknown";
-        
+            updateInfo(servlet, act, Unknown, Unknown, userType != null ? userType.id : "Unknown", Unknown,
+                                            true, params, link);
         } else {
-            role = acc.isInstructor ? "Instructor" : "Student"; 
-            name = acc.name;
-            googleId = acc.googleId;
-            email = acc.email;
+            updateInfo(servlet, act, acc.isInstructor ? "Instructor" : "Student", acc.name, acc.googleId,
+                                            acc.email, true, params, link);
         }
+
         id = generateLogId(googleId, unregisteredUserEmail, unregisteredUserCourse, time);
-        
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
