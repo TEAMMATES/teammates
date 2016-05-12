@@ -108,9 +108,7 @@ public class EmailsTest extends BaseComponentTestCase {
         fsa.feedbackSessionName = "Feedback Session Name";
         fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
-        CourseAttributes c = new CourseAttributes();
-        c.setId("course-id");
-        c.setName("Course Name");
+        CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";
@@ -257,9 +255,7 @@ public class EmailsTest extends BaseComponentTestCase {
     public void testGenerateStudentCourseJoinEmail() throws IOException,
             MessagingException, GeneralSecurityException {
 
-        CourseAttributes c = new CourseAttributes();
-        c.setId("course-id");
-        c.setName("Course Name");
+        CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";
@@ -459,9 +455,7 @@ public class EmailsTest extends BaseComponentTestCase {
         fsa.feedbackSessionName = "Feedback Session Name";
         fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
-        CourseAttributes c = new CourseAttributes();
-        c.setId("course-id");
-        c.setName("Course Name");
+        CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 
         StudentAttributes s = new StudentAttributes();
         s.name = "Student Name";

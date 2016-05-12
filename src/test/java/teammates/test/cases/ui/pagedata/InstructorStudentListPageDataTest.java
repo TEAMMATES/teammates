@@ -50,9 +50,7 @@ public class InstructorStudentListPageDataTest {
         displayArchive = false;
 
         // only course ID and name are used
-        sampleCourse = new CourseAttributes();
-        sampleCourse.setId("validCourseId");
-        sampleCourse.setName("Sample course name");
+        sampleCourse = new CourseAttributes("validCourseId", "Sample course name");
 
         isCourseArchived = false;
         isInstructorAllowedToModify = true;

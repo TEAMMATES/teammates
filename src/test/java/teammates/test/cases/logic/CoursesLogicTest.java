@@ -89,9 +89,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
 
-        CourseAttributes c = new CourseAttributes();
-        c.setId("Computing101-getthis");
-        c.setName("Basic Computing Getting");
+        CourseAttributes c = new CourseAttributes("Computing101-getthis", "Basic Computing Getting");
         coursesDb.createEntity(c);
 
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
@@ -181,20 +179,19 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("typical case: not a sample course");
         
-        CourseAttributes c = new CourseAttributes();
-        c.setId("course.id");
+        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course");
         
-        assertEquals(false, coursesLogic.isSampleCourse(c.getId()));
+        assertEquals(false, coursesLogic.isSampleCourse(notSampleCousre.getId()));
         
         ______TS("typical case: is a sample course");
         
-        c.setId(c.getId().concat("-demo3"));
-        assertEquals(true, coursesLogic.isSampleCourse(c.getId()));
+        CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course");
+        assertEquals(true, coursesLogic.isSampleCourse(sampleCourse.getId()));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
-        c.setId(c.getId().concat("-demo33"));
-        assertEquals(true, coursesLogic.isSampleCourse(c.getId()));
+        CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33", "sample course with additional -demo");
+        assertEquals(true, coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
          ______TS("Null parameter");
     
@@ -210,16 +207,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: not an existent course");
         
-        CourseAttributes c = new CourseAttributes();
-        c.setId("non-existent-course");
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
-        assertEquals(false, coursesLogic.isCoursePresent(c.getId()));
+        assertEquals(false, coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
         
-        c.setId("idOfTypicalCourse1");
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
 
-        assertEquals(true, coursesLogic.isCoursePresent(c.getId()));
+        assertEquals(true, coursesLogic.isCoursePresent(existingCourse.getId()));
 
         ______TS("Null parameter");
     
@@ -233,13 +229,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     public void testVerifyCourseIsPresent() throws Exception {
 
-        ______TS("typical case: verify an inexistent course");
+        ______TS("typical case: verify a non-existent course");
        
-        CourseAttributes c = new CourseAttributes();
-        c.setId("non-existent-course");
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
         try{
-            coursesLogic.verifyCourseIsPresent(c.getId());
+            coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: ", e.getMessage());
@@ -247,8 +242,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: verify an existent course");
        
-        c.setId("idOfTypicalCourse1");
-        coursesLogic.verifyCourseIsPresent(c.getId());
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
+        coursesLogic.verifyCourseIsPresent(existingCourse.getId());
         
         ______TS("Null parameter");
     
@@ -1027,9 +1022,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
          */
         ______TS("typical case");
         
-        CourseAttributes c = new CourseAttributes();
-        c.setId("Computing101-fresh");
-        c.setName("Basic Computing");
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing");
         coursesLogic.createCourse(c.getId(), c.getName());
         verifyPresentInDatastore(c);
         coursesLogic.deleteCourseCascade(c.getId());
@@ -1056,12 +1049,10 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("fails: account doesn't exist");
         
-        CourseAttributes c = new CourseAttributes();
-        c.setId("fresh-course-tccai");
-        c.setName("Fresh course for tccai");
+        CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt");       
+        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt");
         
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
@@ -1097,41 +1088,41 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.isInstructor = true;
         accountsDb.updateAccount(a);
         
-        c.setId("invalid id");
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai");
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);
         
         ______TS("fails: error during instructor creation due to duplicate instructor");
         
-        c.setId("fresh-course-tccai");
+        CourseAttributes courseWithDuplicateInstructor = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
         instructorsDb.createEntity(i); //create a duplicate instructor
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(courseWithDuplicateInstructor);
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
         i.email = "ins.for.iccai.gmail.tmt";
 
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(courseWithDuplicateInstructor);
        
         ______TS("success: typical case");
 
@@ -1140,14 +1131,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
-        coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
-        verifyPresentInDatastore(c);
+        coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
+        verifyPresentInDatastore(courseWithDuplicateInstructor);
         verifyPresentInDatastore(i);
         
         ______TS("Null parameter");
     
         try {
-            coursesLogic.createCourseAndInstructor(null, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

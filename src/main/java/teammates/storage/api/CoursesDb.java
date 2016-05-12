@@ -142,8 +142,7 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseAttributes entityToDelete = new CourseAttributes();
-        entityToDelete.setId(courseId);
+        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course");
         
         deleteEntity(entityToDelete);
     }

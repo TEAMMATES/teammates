@@ -28,9 +28,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
          */
 
         ______TS("success: typical case");
-        CourseAttributes c = new CourseAttributes();
-        c.setId("Computing101-fresh");
-        c.setName("Basic Computing");
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing");
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
@@ -47,13 +45,13 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         coursesDb.deleteEntity(c);
         
         ______TS("fails: invalid parameters");
-        c.setId("invalid id spaces");
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id spaces", "Basic Computing");
         try {
-            coursesDb.createEntity(c);
+            coursesDb.createEntity(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, c.getId(), REASON_INCORRECT_FORMAT), 
+                    String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
                     e.getMessage());
         } 
         
