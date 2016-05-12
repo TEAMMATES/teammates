@@ -35,9 +35,9 @@ $(document).ready(function() {
         $('#commentArea').hide();
     });
     
-    $('#comment_recipient_select').change(commentRecipientSelect_changeHandler);
+    $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
     
-    function commentRecipientSelect_changeHandler() {
+    function commentRecipientSelectChangeHandler() {
         //TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
         var selectedValue = $('#comment_recipient_select option:selected').val();
         if (selectedValue == 'PERSON') {
@@ -69,15 +69,15 @@ $(document).ready(function() {
     
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];
-        var _target = $(e.target);
+        var target = $(e.target);
         
-        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
-            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
+            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").includes("giverCheckbox") || 
-                _target.prop("class").includes("recipientCheckbox")) && _target.prop("checked")) {
-            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop("class").includes("giverCheckbox") || 
+                target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
+            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
         $('.answerCheckbox:checked').each(function() {
@@ -102,10 +102,10 @@ $(document).ready(function() {
         $('#button_add_comment').click();
         if (commentRecipient == "team") {
             $('#comment_recipient_select').val('TEAM');
-            commentRecipientSelect_changeHandler();
+            commentRecipientSelectChangeHandler();
         } else if (commentRecipient == "section") {
             $('#comment_recipient_select').val('SECTION');
-            commentRecipientSelect_changeHandler();
+            commentRecipientSelectChangeHandler();
         }
     }
 });
