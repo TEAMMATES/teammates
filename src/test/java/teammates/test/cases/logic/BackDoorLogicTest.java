@@ -21,7 +21,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.CourseAttributesTest;
 
 import com.google.gson.Gson;
 

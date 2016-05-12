@@ -233,7 +233,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
         CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
-        try{
+        try {
             coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
