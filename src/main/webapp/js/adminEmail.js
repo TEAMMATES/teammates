@@ -7,7 +7,7 @@ $(document).ready(function() {
     
     $(".navbar-fixed-top").css("zIndex", 0);
     
-    /* eslint-disable camelcase */
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
     tinymce.init({
         selector: "textarea",
         theme: "modern",
