@@ -495,6 +495,13 @@ public class FieldValidator {
         }
     }
 
+    /**
+     * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
+     * {@code PERSON_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param personName
+     * @return An explanation of why the {@code personName} is not acceptable.
+     *         Returns an empty string if the {@code personName} is acceptable.
+     */
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
