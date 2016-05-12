@@ -14,7 +14,7 @@ import java.nio.file.Paths;
  */
 public class FileHelper {
 
-    public static void writeToFile(String fileName, String fileContent) {
+    public static void writeToFile(final String fileName, final String fileContent) {
         try {
 
             File file = new File(fileName);
@@ -34,7 +34,7 @@ public class FileHelper {
         }
     }
     
-    public static void appendToFile(String fileName, String fileContent) {
+    public static void appendToFile(final String fileName, final String fileContent) {
         try {
 
             File file = new File(fileName);
@@ -54,12 +54,12 @@ public class FileHelper {
         }
     }
     
-    public static void deleteFile(String fileName) {
+    public static void deleteFile(final String fileName) {
        File file = new File(fileName);
        file.delete();
     }
 
-    public static String readFile(String path, Charset encoding) {
+    public static String readFile(final String path, final Charset encoding) {
         byte[] encoded = null;
         try {
             encoded = Files.readAllBytes(Paths.get(path));

@@ -11,7 +11,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
     WebElement studentEmail;
     
 
-    public InstructorCourseStudentDetailsViewPage(Browser browser) {
+    public InstructorCourseStudentDetailsViewPage(final Browser browser) {
         super(browser);
     }
 
@@ -20,7 +20,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
         return getPageSource().contains("<h1>Student Details</h1>");
     }
 
-    public void verifyIsCorrectPage(String email) {
+    public void verifyIsCorrectPage(final String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmail.getText());
     }

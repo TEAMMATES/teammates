@@ -90,7 +90,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
     }
     
-    private boolean isSessionTableHeaderCorrect(int tableNum) {
+    private boolean isSessionTableHeaderCorrect(final int tableNum) {
         int numColumns = sessionsPage.getNumberOfColumnsFromDataTable(tableNum);
         if (numColumns != 6) {
             return false;

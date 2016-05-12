@@ -4,7 +4,7 @@ public class AdminSearchStudentFeedbackSession {
     private String fsName;
     private String link;
     
-    public AdminSearchStudentFeedbackSession(String fsName, String link) {
+    public AdminSearchStudentFeedbackSession(final String fsName, final String link) {
         this.fsName = fsName;
         this.link = link;
     }

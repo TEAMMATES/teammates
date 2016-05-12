@@ -28,7 +28,7 @@ public class Comment {
     private String studentEmail;
     private int numComments;
 
-    public Comment(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
+    public Comment(final CommentAttributes comment, final String giverDisplay, final String recipientDisplay) {
         this.comment = comment;
         this.giverDisplay = giverDisplay;
         this.recipientDisplay = recipientDisplay;
@@ -54,7 +54,7 @@ public class Comment {
         return extraClass;
     }
 
-    public void withExtraClass(String extraClass) {
+    public void withExtraClass(final String extraClass) {
         this.extraClass = " " + extraClass;
     }
 
@@ -62,7 +62,7 @@ public class Comment {
         return withVisibilityIcon;
     }
 
-    public void setVisibilityIcon(String whoCanSeeComment) {
+    public void setVisibilityIcon(final String whoCanSeeComment) {
         if (!whoCanSeeComment.isEmpty()) {
             this.withVisibilityIcon = true;
             this.whoCanSeeComment = whoCanSeeComment;
@@ -77,7 +77,7 @@ public class Comment {
         return withNotificationIcon;
     }
 
-    public void setNotificationIcon(boolean isPendingNotification) {
+    public void setNotificationIcon(final boolean isPendingNotification) {
         this.withNotificationIcon = isPendingNotification;
     }
 
@@ -85,7 +85,7 @@ public class Comment {
         return withLinkToCommentsPage;
     }
 
-    public void withLinkToCommentsPage(String linkToCommentsPage) {
+    public void withLinkToCommentsPage(final String linkToCommentsPage) {
         this.withLinkToCommentsPage = true;
         this.linkToCommentsPage = linkToCommentsPage;
     }
@@ -98,7 +98,7 @@ public class Comment {
         return editDeleteEnabled;
     }
 
-    public void setEditDeleteEnabled(boolean isEditDeleteEnabledOnlyOnHover) {
+    public void setEditDeleteEnabled(final boolean isEditDeleteEnabledOnlyOnHover) {
         this.editDeleteEnabled = true;
         this.editDeleteEnabledOnlyOnHover = isEditDeleteEnabledOnlyOnHover;
     }
@@ -115,7 +115,7 @@ public class Comment {
         this.fromCommentsPage = true;
     }
 
-    public void setNotFromCommentsPage(String studentEmail) {
+    public void setNotFromCommentsPage(final String studentEmail) {
         this.fromCommentsPage = false;
         this.studentEmail = studentEmail;
     }
@@ -136,7 +136,7 @@ public class Comment {
         return numComments;
     }
 
-    public void setNumComments(int numComments) {
+    public void setNumComments(final int numComments) {
         this.numComments = numComments;
     }
 

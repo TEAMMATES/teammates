@@ -7,8 +7,8 @@ public class FeedbackResultsResponse {
     private String answer;
     private List<FeedbackResponseComment> comments;
     
-    public FeedbackResultsResponse(String giverName, String answer,
-                                    List<FeedbackResponseComment> comments) {
+    public FeedbackResultsResponse(final String giverName, final String answer,
+                                    final List<FeedbackResponseComment> comments) {
         this.giverName = giverName;
         this.answer = answer;
         this.comments = comments;

@@ -21,7 +21,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     @FindBy(id = "commentText")
     private WebElement commentTextBox;
 
-    public InstructorStudentRecordsPage(Browser browser) {
+    public InstructorStudentRecordsPage(final Browser browser) {
         super(browser);
     }
 
@@ -31,16 +31,16 @@ public class InstructorStudentRecordsPage extends AppPage {
         return source.contains("'s Records") && source.contains("<small class=\"muted\"> - ");
     }
 
-    public void verifyBelongsToStudent(String name) {
+    public void verifyBelongsToStudent(final String name) {
         assertTrue(getPageSource().contains(name));
     }
 
-    public void verifyIsCorrectPage(String studentName) {
+    public void verifyIsCorrectPage(final String studentName) {
         assertTrue(containsExpectedPageContents());
         verifyBelongsToStudent(studentName);
     }
 
-    public InstructorStudentRecordsPage addComment(String commentText) {
+    public InstructorStudentRecordsPage addComment(final String commentText) {
         addCommentLink.click();
         commentTextBox.sendKeys(commentText);
         saveCommentLink.click();
@@ -48,19 +48,19 @@ public class InstructorStudentRecordsPage extends AppPage {
         return this;
     }
 
-    public InstructorStudentRecordsPage clickDeleteCommentAndCancel(int id) {
+    public InstructorStudentRecordsPage clickDeleteCommentAndCancel(final int id) {
         clickAndCancel(getCommentDeleteLink(id));
         waitForPageToLoad();
         return this;
     }
 
-    public InstructorStudentRecordsPage clickDeleteCommentAndConfirm(int id) {
+    public InstructorStudentRecordsPage clickDeleteCommentAndConfirm(final int id) {
         clickAndConfirm(getCommentDeleteLink(id));
         waitForPageToLoad();
         return this;
     }
 
-    public InstructorStudentRecordsPage editComment(int id, String comment) {
+    public InstructorStudentRecordsPage editComment(final int id, final String comment) {
         getCommentEditLink(id).click();
         getCommentTextBox(id).clear();
         getCommentTextBox(id).sendKeys(comment);
@@ -77,7 +77,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         return display;
     }
 
-    public boolean verifyEditCommentButtonClick(int id) {
+    public boolean verifyEditCommentButtonClick(final int id) {
         getCommentEditLink(id).click();
         boolean display = getCommentTextBox(id).isEnabled()
                        && getCommentSaveLink(id).isDisplayed()
@@ -85,33 +85,33 @@ public class InstructorStudentRecordsPage extends AppPage {
         return display;
     }
     
-    public void clickEditCommentAndCancel(int id) {
+    public void clickEditCommentAndCancel(final int id) {
         getCommentEditLink(id).click();
         getCommentEditCancelLink(id).click();
     }
     
-    public void verifyCommentEditBoxNotVisible(int id) {
+    public void verifyCommentEditBoxNotVisible(final int id) {
         assertFalse(isElementVisible(By.id("commentTextEdit" + id)));
     }
 
-    private WebElement getCommentEditLink(int id) {
+    private WebElement getCommentEditLink(final int id) {
         return browser.driver.findElement(By.id("commentedit-" + id));
     }
 
-    private WebElement getCommentEditCancelLink(int id) {
+    private WebElement getCommentEditCancelLink(final int id) {
         return browser.driver.findElement(By.id("commentsave-" + id))
                              .findElement(By.xpath("./following-sibling::input"));
     }
 
-    private WebElement getCommentDeleteLink(int id) {
+    private WebElement getCommentDeleteLink(final int id) {
         return browser.driver.findElement(By.id("commentdelete-" + id));
     }
 
-    private WebElement getCommentTextBox(int id) {
+    private WebElement getCommentTextBox(final int id) {
         return browser.driver.findElement(By.id("commentText" + id));
     }
 
-    private WebElement getCommentSaveLink(int id) {
+    private WebElement getCommentSaveLink(final int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
     }
 
@@ -145,7 +145,7 @@ public class InstructorStudentRecordsPage extends AppPage {
      * @param isVisible true to check for expanded, false to check for collapsed.
      * @return true if all record panel bodies are equals to the visibility being checked.
      */
-    private boolean areAllRecordPanelBodiesVisibilityEquals(boolean isVisible) {
+    private boolean areAllRecordPanelBodiesVisibilityEquals(final boolean isVisible) {
         for (WebElement e : getStudentFeedbackPanels()) {
             if(e.isDisplayed() != isVisible) {
                 return false;

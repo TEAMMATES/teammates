@@ -35,7 +35,7 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     public abstract void doGet(HttpServletRequest req, HttpServletResponse resp);
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
+    public final void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException, ServletException {
               
         try {
@@ -52,11 +52,11 @@ public abstract class PublicResourcesServlet extends HttpServlet {
         return blobKey;
     }
     
-    protected String getRequestParamValue(String paramName) {
+    protected String getRequestParamValue(final String paramName) {
         return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
     }
     
-    protected void logMessage(HttpServletRequest request, String message) {
+    protected void logMessage(final HttpServletRequest request, final String message) {
         String url = HttpRequestHelper.getRequestedURL(request);
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url);
         log.log(Level.INFO, activityLogEntry.generateLogMessage());

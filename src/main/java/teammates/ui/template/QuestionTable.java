@@ -8,8 +8,8 @@ public class QuestionTable {
     private String additionalInfo;
     private List<ResponseRow> responseRows;
     
-    public QuestionTable(int questionNumber, String questionText, 
-                             String additionalInfo, List<ResponseRow> responseRows) {
+    public QuestionTable(final int questionNumber, final String questionText, 
+                             final String additionalInfo, final List<ResponseRow> responseRows) {
         this.questionNumber = questionNumber;
         this.questionText = questionText;
         this.additionalInfo = additionalInfo;

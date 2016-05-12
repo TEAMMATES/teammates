@@ -7,8 +7,8 @@ public class InstructorStudentListFilterBox {
     private List<InstructorStudentListFilterCourse> courses;
     private boolean displayArchive;
 
-    public InstructorStudentListFilterBox(List<InstructorStudentListFilterCourse> courses,
-                                          boolean displayArchive) {
+    public InstructorStudentListFilterBox(final List<InstructorStudentListFilterCourse> courses,
+                                          final boolean displayArchive) {
         this.courses = courses;
         this.displayArchive = displayArchive;
     }

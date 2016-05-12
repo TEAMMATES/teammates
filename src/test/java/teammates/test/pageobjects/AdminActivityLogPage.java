@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 
 public class AdminActivityLogPage extends AppPage {
 
-    public AdminActivityLogPage(Browser browser) {
+    public AdminActivityLogPage(final Browser browser) {
         super(browser);
   
     }
@@ -50,7 +50,7 @@ public class AdminActivityLogPage extends AppPage {
         return element.getAttribute("value");
     }
     
-    public void fillQueryBoxWithText(String query){
+    public void fillQueryBoxWithText(final String query){
         
         WebElement element = browser.driver.findElement(By.id("filterQuery"));
         fillTextBox(element, query);

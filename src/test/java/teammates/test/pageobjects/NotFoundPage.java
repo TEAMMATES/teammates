@@ -2,7 +2,7 @@ package teammates.test.pageobjects;
 
 public class NotFoundPage extends AppPage {
 
-    public NotFoundPage(Browser browser) {
+    public NotFoundPage(final Browser browser) {
         super(browser);
     }
 

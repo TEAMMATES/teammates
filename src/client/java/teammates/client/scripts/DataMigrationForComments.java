@@ -19,7 +19,7 @@ import teammates.storage.entity.Comment;
 
 public class DataMigrationForComments extends RemoteApiClient {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         DataMigrationForComments migrator = new DataMigrationForComments();
         migrator.doOperationRemotely();
     }
@@ -34,7 +34,7 @@ public class DataMigrationForComments extends RemoteApiClient {
         }
     }
 
-    private void updateCommentForInstructor(InstructorAttributes instructor) {
+    private void updateCommentForInstructor(final InstructorAttributes instructor) {
         List<Comment> comments = getCommentEntitiesForInstructor(instructor);
         for (Comment c : comments) {
             @SuppressWarnings("deprecation")
@@ -65,7 +65,7 @@ public class DataMigrationForComments extends RemoteApiClient {
     }
     
     protected List<Comment> getCommentEntitiesForInstructor(
-            InstructorAttributes instructor) {
+                                    final InstructorAttributes instructor) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");

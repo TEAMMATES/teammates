@@ -141,7 +141,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(final String... params) throws Exception {
         return (InstructorFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

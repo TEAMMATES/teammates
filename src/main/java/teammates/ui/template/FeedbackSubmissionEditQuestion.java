@@ -19,8 +19,8 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isRecipientNameHidden;
     private boolean isTeamQuestion;
     
-    public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
-                                    boolean isModeratedQuestion) {
+    public FeedbackSubmissionEditQuestion(final FeedbackQuestionAttributes questionAttributes, final int qnIndx,
+                                    final boolean isModeratedQuestion) {
         
         courseId = questionAttributes.courseId;
         questionNumber = questionAttributes.questionNumber;

@@ -8,8 +8,8 @@ public class AdminDraftEmailRow {
     private String subject;
     private String date;
     
-    public AdminDraftEmailRow(String emailId, AdminEmailActions actions, String addressReceiver,
-                                    String groupReceiver, String subject, String date) {
+    public AdminDraftEmailRow(final String emailId, final AdminEmailActions actions, final String addressReceiver,
+                                    final String groupReceiver, final String subject, final String date) {
         this.emailId = emailId;
         this.actions = actions;
         this.addressReceiver = addressReceiver;

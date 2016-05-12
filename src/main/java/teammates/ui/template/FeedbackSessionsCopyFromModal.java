@@ -16,9 +16,9 @@ public class FeedbackSessionsCopyFromModal {
     private String fsName;
     private List<ElementTag> coursesSelectField;
 
-    public FeedbackSessionsCopyFromModal(List<FeedbackSessionsTableRow> existingFeedbackSessions, 
-                                         String fsName, 
-                                         List<ElementTag> coursesSelectField) {
+    public FeedbackSessionsCopyFromModal(final List<FeedbackSessionsTableRow> existingFeedbackSessions, 
+                                         final String fsName, 
+                                         final List<ElementTag> coursesSelectField) {
         this.existingFeedbackSessions = existingFeedbackSessions;
         this.fsName = fsName;
         this.coursesSelectField = coursesSelectField;

@@ -93,7 +93,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * @param instructor the instructor to be checked
      * @param questionAttributes the question to be checked against
      */
-    private void checkSessionQuestionAccessPermission(InstructorAttributes instructor, FeedbackQuestionAttributes questionAttributes) {
+    private void checkSessionQuestionAccessPermission(final InstructorAttributes instructor, final FeedbackQuestionAttributes questionAttributes) {
         boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
@@ -159,7 +159,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * @return FeedbackSessionQuestionsBundle object
      */
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+    protected FeedbackSessionQuestionsBundle getDataBundle(final String userEmailForCourse)
             throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, courseId, userEmailForCourse);
@@ -183,7 +183,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * @return true
      */
     @Override
-    protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
+    protected boolean isSessionOpenForSpecificUser(final FeedbackSessionAttributes session) {
         // Feedback session closing date does not matter. Instructors can moderate at any time
         return true; 
     }

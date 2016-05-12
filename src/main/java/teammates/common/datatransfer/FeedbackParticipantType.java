@@ -24,8 +24,8 @@ public enum FeedbackParticipantType {
     private String displayNameRecipient;
     private String displayNameVisibility;
 
-    FeedbackParticipantType(boolean isGiver, boolean isRecipient, boolean isViewer,
-                            String displayNameGiver, String displayNameRecipient, String displayNameVisibility) {
+    FeedbackParticipantType(final boolean isGiver, final boolean isRecipient, final boolean isViewer,
+                            final String displayNameGiver, final String displayNameRecipient, final String displayNameVisibility) {
         this.validGiver = isGiver;
         this.validRecipient = isRecipient;
         this.validViewer = isViewer;

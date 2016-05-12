@@ -21,11 +21,11 @@ public class InstructorCopyFsToModal extends AppPage {
      * @return true if the modal for copying feedback sessions to multiple courses,
      *         identified by its html id, is present, otherwise false
      */
-    public static boolean isPresentOnPage(Browser browser) {
+    public static boolean isPresentOnPage(final Browser browser) {
         return !browser.driver.findElements(By.id("fsCopyModal")).isEmpty();
     }
     
-    public InstructorCopyFsToModal(Browser browser) {
+    public InstructorCopyFsToModal(final Browser browser) {
         super(browser);
     }
     
@@ -46,7 +46,7 @@ public class InstructorCopyFsToModal extends AppPage {
      * Populates the fields of the form by using the provided name, and selecting every course. 
      * @param newFsName feedback session name of the new session
      */
-    public void fillFormWithAllCoursesSelected(String newFsName) {
+    public void fillFormWithAllCoursesSelected(final String newFsName) {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
         List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
         for (WebElement e : coursesCheckBoxes) {
@@ -82,7 +82,7 @@ public class InstructorCopyFsToModal extends AppPage {
     /**
      * Verifies that the status message on the copy modal is the {@code expectedStatusMessage}
      */
-    public void verifyStatusMessage(String expectedStatusMessage) {
+    public void verifyStatusMessage(final String expectedStatusMessage) {
         assertEquals(expectedStatusMessage, getFsCopyStatus());
     }
     

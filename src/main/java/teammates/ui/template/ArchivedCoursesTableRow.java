@@ -7,7 +7,7 @@ public class ArchivedCoursesTableRow {
     private String courseName;
     private List<ElementTag> actions;
     
-    public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam, List<ElementTag> actionsParam) {
+    public ArchivedCoursesTableRow(final String courseIdParam, final String courseNameParam, final List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.actions = actionsParam;

@@ -13,7 +13,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 public class FeedbackRemindEmailWorkerServlet extends WorkerServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         String feedbackSessionName = HttpRequestHelper
                 .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_FEEDBACK);
         Assumption.assertNotNull(feedbackSessionName);

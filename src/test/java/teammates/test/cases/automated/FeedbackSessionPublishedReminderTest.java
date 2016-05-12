@@ -38,7 +38,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     public static class FeedbackSessionPublishedCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {
+        public int execute(final URLFetchRequest request) {
             
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
@@ -186,7 +186,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         }
     }
     
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+    private HashMap<String, String> createParamMapForAction(final FeedbackSessionAttributes fs) {
         //Prepare parameter map to be used with FeedbackSessionPublishedMailAction
         HashMap<String, String> paramMap = new HashMap<String, String>();
         

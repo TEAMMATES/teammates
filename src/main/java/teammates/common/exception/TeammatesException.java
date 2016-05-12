@@ -11,16 +11,16 @@ public class TeammatesException extends Exception {
         super();
     }
 
-    public TeammatesException(String message) {
+    public TeammatesException(final String message) {
         super(message);
     }
 
-    public TeammatesException(String errorcode, String message) {
+    public TeammatesException(final String errorcode, final String message) {
         super(message);
         errorCode = errorcode;
     }
 
-    public static String toStringWithStackTrace(Throwable e) {
+    public static String toStringWithStackTrace(final Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         return "\n" + sw.toString();

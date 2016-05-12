@@ -14,7 +14,7 @@ import com.google.appengine.api.search.ScoredDocument;
  * The search result bundle object. 
  */
 public abstract class SearchResultBundle {
-    protected String extractContentFromQuotedString(String quotedString){
+    protected String extractContentFromQuotedString(final String quotedString){
         if(quotedString.matches("^\".*\"$")){
             return quotedString.substring(1, quotedString.length() - 1);
         } else {
@@ -25,8 +25,8 @@ public abstract class SearchResultBundle {
     /**
      * This method must be called to filter out the search result for course Id.
      */
-    protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
-                                                     List<InstructorAttributes> instructors) {
+    protected List<ScoredDocument> filterOutCourseId(final Results<ScoredDocument> results,
+                                                     final List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
         for (InstructorAttributes ins:instructors){
             courseIdSet.add(ins.courseId);

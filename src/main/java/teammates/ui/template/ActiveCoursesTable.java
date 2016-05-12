@@ -14,7 +14,7 @@ public class ActiveCoursesTable {
         return rows;
     }
 
-    public void setRows(List<ActiveCoursesTableRow> rows) {
+    public void setRows(final List<ActiveCoursesTableRow> rows) {
         this.rows = rows;
     }
 }

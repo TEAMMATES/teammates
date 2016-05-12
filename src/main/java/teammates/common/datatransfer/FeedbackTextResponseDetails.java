@@ -13,14 +13,14 @@ public class FeedbackTextResponseDetails extends
         this.answer = "";
     }
     
-    public FeedbackTextResponseDetails(String answer) {
+    public FeedbackTextResponseDetails(final String answer) {
         super(FeedbackQuestionType.TEXT);
         this.answer = answer;
     }
 
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails, String[] answer) {
+    public void extractResponseDetails(final FeedbackQuestionType questionType,
+            final FeedbackQuestionDetails questionDetails, final String[] answer) {
         this.answer = answer[0];
     }
 
@@ -30,12 +30,12 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtml(final FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(answer);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerCsv(final FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(answer);
     }
 

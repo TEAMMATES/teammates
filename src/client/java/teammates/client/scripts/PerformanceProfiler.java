@@ -73,7 +73,7 @@ public class PerformanceProfiler extends Thread {
     private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
     private Browser browser;
     
-    public PerformanceProfiler (String path) {
+    public PerformanceProfiler (final String path) {
         reportFilePath = path;
     }
     
@@ -128,7 +128,7 @@ public class PerformanceProfiler extends Thread {
      * This function perform the method and print the return value for debugging
      * @param method
      */
-    public void performMethod(Method method) {
+    public void performMethod(final Method method) {
         if (method.isAnnotationPresent(PerformanceTest.class)) {
             PerformanceTest test = method.getAnnotation(PerformanceTest.class);
             String name = test.name();
@@ -174,7 +174,7 @@ public class PerformanceProfiler extends Thread {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         (new PerformanceProfiler(defaultReportPath)).start();
     }
     
@@ -185,7 +185,7 @@ public class PerformanceProfiler extends Thread {
      * @return HashMap<nameOfTest,durations> of the report stored in filePath 
      * @throws IOException
      */
-    private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException 
+    private static HashMap<String, ArrayList<Float>> importReportFile(final String filePath) throws IOException 
     {
         HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
         File reportFile = new File(filePath);
@@ -228,7 +228,7 @@ public class PerformanceProfiler extends Thread {
      * @param filePath 
      * @throws IOException
      */
-    private void printResult(String filePath) throws IOException
+    private void printResult(final String filePath) throws IOException
     {
         List<String> list = new ArrayList<String>();
         for (String str : results.keySet()) {

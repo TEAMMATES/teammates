@@ -83,7 +83,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
     }
         
     
-    private void deleteAccountIfNeeded(String wrongGoogleId){
+    private void deleteAccountIfNeeded(final String wrongGoogleId){
         Logic logic = new Logic();
         
         if(logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()

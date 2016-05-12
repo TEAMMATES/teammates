@@ -7,9 +7,9 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String href;
     private InstructorFeedbackSessionActions actions;
 
-    public InstructorHomeFeedbackSessionRow(String name, String tooltip, String status,
-            String startTime, String endTime, String href, boolean isRecent,
-            InstructorFeedbackSessionActions actions) {
+    public InstructorHomeFeedbackSessionRow(final String name, final String tooltip, final String status,
+            final String startTime, final String endTime, final String href, final boolean isRecent,
+            final InstructorFeedbackSessionActions actions) {
         super(name, tooltip, status);
         this.startTime = startTime;
         this.endTime = endTime;

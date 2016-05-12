@@ -12,7 +12,7 @@ public class StudentListTeamData {
     private String teamName;
     private List<StudentListStudentData> students;
 
-    public StudentListTeamData(TeamDetailsBundle team, Map<String, String> emailPhotoUrlMapping, String googleId) {
+    public StudentListTeamData(final TeamDetailsBundle team, final Map<String, String> emailPhotoUrlMapping, final String googleId) {
         this.teamName = team.name;
         List<StudentListStudentData> studentsDetails =
                                         new ArrayList<StudentListStudentData>();

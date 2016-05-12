@@ -12,7 +12,7 @@ public class FeedbackQuestionCopyTable {
     private String fsName;
     private List<FeedbackQuestionTableRow> questionRows;
 
-    public FeedbackQuestionCopyTable(String courseId, String fsName, List<FeedbackQuestionTableRow> questionRows) {
+    public FeedbackQuestionCopyTable(final String courseId, final String fsName, final List<FeedbackQuestionTableRow> questionRows) {
         this.courseId = courseId;
         this.fsName = fsName;
         this.questionRows = questionRows;

@@ -272,7 +272,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         }
     }
     
-    private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsEditSaveAction getAction(final String... params) throws Exception{
         return (InstructorCourseStudentDetailsEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
     

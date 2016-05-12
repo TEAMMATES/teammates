@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 public class AdminSearchPage extends AppPage {
     
-    public AdminSearchPage(Browser browser) {
+    public AdminSearchPage(final Browser browser) {
         super(browser);
     }
 
@@ -14,7 +14,7 @@ public class AdminSearchPage extends AppPage {
         return getPageSource().contains("<h1>Admin Search</h1>");
     }
     
-    public void inputSearchContent(String content) {
+    public void inputSearchContent(final String content) {
         WebElement inputBox = this.getSearchBox();
         inputBox.sendKeys(content);
     }

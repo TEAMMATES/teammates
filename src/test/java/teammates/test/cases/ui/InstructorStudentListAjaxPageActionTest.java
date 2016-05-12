@@ -56,7 +56,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         assertEquals(instructor.courseId, data.getCourseId());
     }
 
-    private InstructorStudentListAjaxPageAction getAction(String... params) throws Exception {
+    private InstructorStudentListAjaxPageAction getAction(final String... params) throws Exception {
         return (InstructorStudentListAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

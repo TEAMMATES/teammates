@@ -121,7 +121,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
     
 
-    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception{
+    private void testGenerateNextDemoCourseIdForLengthLimit(final int maximumIdLength) throws Exception{
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
         final Method generateNextDemoCourseId;
         generateNextDemoCourseId = a.getClass().getDeclaredMethod("generateNextDemoCourseId", String.class, int.class);
@@ -145,11 +145,11 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals("Case courseId input: index is '9', short ID boundary with maximumIdLength:" + maximumIdLength, strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10", generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9", maximumIdLength));
     }
 
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(final String... parameters) throws Exception {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
-    private String getDemoCourseIdRoot(String instructorEmail){
+    private String getDemoCourseIdRoot(final String instructorEmail){
         final String[] splitedEmail = instructorEmail.split("@");
         final String head = splitedEmail[0];
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);

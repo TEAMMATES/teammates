@@ -65,9 +65,9 @@ public class Instructor {
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, 
-                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName, 
-                      String instructorPrivilegesAsText) {
+    public Instructor(final String instructorGoogleId, final String courseId, final Boolean isArchived, final String instructorName, 
+                      final String instructorEmail, final String role, final boolean isDisplayedToStudents, final String displayedName, 
+                      final String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setIsArchived(isArchived);
@@ -85,9 +85,9 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-                      String key, String role, boolean isDisplayedToStudents, String displayedName, 
-                      String instructorPrivilegesAsText) {
+    public Instructor(final String instructorGoogleId, final String courseId, final String instructorName, final String instructorEmail, 
+                      final String key, final String role, final boolean isDisplayedToStudents, final String displayedName, 
+                      final String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
@@ -112,7 +112,7 @@ public class Instructor {
      * @param uniqueId
      *          The unique ID of the entity (format: googleId%courseId).
      */
-    public void setUniqueId(String uniqueId) {
+    public void setUniqueId(final String uniqueId) {
         this.id = uniqueId;
     }
 
@@ -120,7 +120,7 @@ public class Instructor {
         return googleId;
     }
 
-    public void setGoogleId(String instructorGoogleId) {
+    public void setGoogleId(final String instructorGoogleId) {
         this.googleId = instructorGoogleId;
     }
 
@@ -128,7 +128,7 @@ public class Instructor {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(final String courseId) {
         this.courseId = courseId;
     }
     
@@ -137,7 +137,7 @@ public class Instructor {
         return isArchived;
     }
     
-    public void setIsArchived(Boolean isArchived){
+    public void setIsArchived(final Boolean isArchived){
         this.isArchived = isArchived;
     }
 
@@ -145,7 +145,7 @@ public class Instructor {
         return name;
     }
 
-    public void setName(String instructorName) {
+    public void setName(final String instructorName) {
         this.name = instructorName;
     }
 
@@ -153,7 +153,7 @@ public class Instructor {
         return email;
     }
 
-    public void setEmail(String instructorEmail) {
+    public void setEmail(final String instructorEmail) {
         this.email = instructorEmail;
     }
     
@@ -161,7 +161,7 @@ public class Instructor {
         return registrationKey;
     }
     
-    public void setRegistrationKey(String key) {
+    public void setRegistrationKey(final String key) {
         this.registrationKey = key;
     }
     
@@ -189,7 +189,7 @@ public class Instructor {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
@@ -200,7 +200,7 @@ public class Instructor {
         return isDisplayedToStudents.booleanValue();
     }
 
-    public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
+    public void setIsDisplayedToStudents(final boolean shouldDisplayToStudents) {
         this.isDisplayedToStudents = Boolean.valueOf(shouldDisplayToStudents);
     }
 
@@ -208,7 +208,7 @@ public class Instructor {
         return displayedName;
     }
 
-    public void setDisplayedName(String displayedName) {
+    public void setDisplayedName(final String displayedName) {
         this.displayedName = displayedName;
     }
 
@@ -220,7 +220,7 @@ public class Instructor {
         }
     }
 
-    public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
+    public void setInstructorPrivilegeAsText(final String instructorPrivilegesAsText) {
         this.instructorPrivilegesAsText = new Text(instructorPrivilegesAsText);
     }
 }

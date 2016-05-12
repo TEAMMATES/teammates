@@ -20,7 +20,7 @@ public class LoginFilter implements Filter {
     private ArrayList<String> exclude;
     
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(final FilterConfig filterConfig) throws ServletException {
         String param = filterConfig.getInitParameter("ExcludedFiles");
         if(param == null) return;
         String[] excludedFiles = param.split("[|]");
@@ -34,8 +34,8 @@ public class LoginFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    public void doFilter(final ServletRequest request, final ServletResponse response,
+            final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         if(exclude.contains(req.getRequestURI())){

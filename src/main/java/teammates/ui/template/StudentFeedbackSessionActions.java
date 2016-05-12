@@ -13,8 +13,8 @@ public class StudentFeedbackSessionActions {
     private String tooltipText;
     private String buttonText;
 
-    public StudentFeedbackSessionActions(FeedbackSessionAttributes fs,
-            String feedbackResultsLink, String feedbackResponseEditLink, boolean hasSubmitted) {
+    public StudentFeedbackSessionActions(final FeedbackSessionAttributes fs,
+            final String feedbackResultsLink, final String feedbackResponseEditLink, final boolean hasSubmitted) {
         this.isSubmitted = hasSubmitted;
         this.isSessionVisible = fs.isVisible();
         this.isSessionPublished = fs.isPublished();

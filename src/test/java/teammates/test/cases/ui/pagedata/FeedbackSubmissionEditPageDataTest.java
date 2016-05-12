@@ -45,7 +45,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         printTestClassHeader();
     }
     
-    public void createData(StudentAttributes student) {        
+    public void createData(final StudentAttributes student) {        
         feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");      
         

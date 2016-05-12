@@ -36,7 +36,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
     public static class FeedbackSessionClosingCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {
+        public int execute(final URLFetchRequest request) {
             
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
@@ -193,7 +193,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         }
     }
     
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+    private HashMap<String, String> createParamMapForAction(final FeedbackSessionAttributes fs) {
         //Prepare parameter map to be used with FeedbackSessionClosingMailAction
         HashMap<String, String> paramMap = new HashMap<String, String>();
         

@@ -21,13 +21,13 @@ public class AdminSearchStudentRow {
     private List<AdminSearchStudentFeedbackSession> closedFeedbackSessions;
     private List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions;
     
-    public AdminSearchStudentRow(String id, String name, String institute, String courseName,
-                                 String courseId, String section, String team, String googleId,
-                                 String email, String comments, String viewRecentActionsId,
-                                 AdminSearchStudentLinks links,
-                                 List<AdminSearchStudentFeedbackSession> openFeedbackSessions,
-                                 List<AdminSearchStudentFeedbackSession> closedFeedbackSessions,
-                                 List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions) {
+    public AdminSearchStudentRow(final String id, final String name, final String institute, final String courseName,
+                                 final String courseId, final String section, final String team, final String googleId,
+                                 final String email, final String comments, final String viewRecentActionsId,
+                                 final AdminSearchStudentLinks links,
+                                 final List<AdminSearchStudentFeedbackSession> openFeedbackSessions,
+                                 final List<AdminSearchStudentFeedbackSession> closedFeedbackSessions,
+                                 final List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions) {
         this.id = id;
         this.name = name;
         this.institute = institute;

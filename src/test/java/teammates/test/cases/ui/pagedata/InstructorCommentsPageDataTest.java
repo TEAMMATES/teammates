@@ -167,7 +167,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(0, actualCommentsForStudentsTables.get(0).getRows().size());
     }
     
-    private List<CommentAttributes> getCommentsForGiverInCourse(String giverEmail, String courseId) {
+    private List<CommentAttributes> getCommentsForGiverInCourse(final String giverEmail, final String courseId) {
         List<CommentAttributes> commentsForGiverInCourseList = new ArrayList<CommentAttributes>();
         for (CommentAttributes comment : dataBundle.comments.values()) {
             if (comment.giverEmail.equals(giverEmail) && comment.courseId.equals(courseId)) {
@@ -177,7 +177,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return commentsForGiverInCourseList;
     }
 
-    private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+    private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(final String courseId) {
         List<FeedbackSessionAttributes> feedbackSessionsInCourse = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
             if (feedbackSession.courseId.equals(courseId)) {
@@ -187,7 +187,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return feedbackSessionsInCourse;
     }
 
-    private List<InstructorAttributes> getInstructorsInCourse(String courseId) {
+    private List<InstructorAttributes> getInstructorsInCourse(final String courseId) {
         List<InstructorAttributes> instructorsInCourse = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
             if (instructor.courseId.equals(courseId)) {
@@ -197,7 +197,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return instructorsInCourse;
     }
 
-    private List<StudentAttributes> getStudentsInCourse(String courseId) {
+    private List<StudentAttributes> getStudentsInCourse(final String courseId) {
         List<StudentAttributes> studentsInCourse = new ArrayList<StudentAttributes>();
         for (StudentAttributes student : dataBundle.students.values()) {
             if (student.course.equals(courseId)) {
@@ -207,7 +207,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return studentsInCourse;
     }
     
-    private void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
+    private void checkCommentsForStudentsTablesEqual(final CommentsForStudentsTable expected, final CommentsForStudentsTable actual) {
         assertEquals(expected.getGiverDetails(), actual.getGiverDetails());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
         List<Comment> expectedCommentRows = expected.getRows();
@@ -220,7 +220,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         }
     }
 
-    private void checkCommentRowsEqual(Comment expected, Comment actual) {
+    private void checkCommentRowsEqual(final Comment expected, final Comment actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
         assertEquals(expected.getCommentText(), actual.getCommentText());
@@ -261,8 +261,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     }
 
     private void setInstructorComments(
-            String giverEmail, String currentInstructorEmail, String courseId, 
-            Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions) {
+            final String giverEmail, final String currentInstructorEmail, final String courseId, 
+            final Map<String, List<CommentAttributes>> comments, final Map<String, List<Boolean>> commentModifyPermissions) {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
         commentsForGiverList = getCommentsForGiverInCourse(giverEmail, courseId);

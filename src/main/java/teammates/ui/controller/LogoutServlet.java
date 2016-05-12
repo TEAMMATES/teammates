@@ -18,13 +18,13 @@ import teammates.logic.api.Logic;
 public class LogoutServlet extends HttpServlet {
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
+    public final void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException, ServletException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
+    public final void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException, ServletException {
         String nextUrl = req.getParameter(Const.ParamsNames.NEXT_URL);
         if (nextUrl == null) {

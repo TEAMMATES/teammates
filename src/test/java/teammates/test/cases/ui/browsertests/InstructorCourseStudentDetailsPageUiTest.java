@@ -67,7 +67,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     }
 
 
-    private InstructorCourseStudentDetailsViewPage getCourseStudentDetailsPage(String studentStr) {
+    private InstructorCourseStudentDetailsViewPage getCourseStudentDetailsPage(final String studentStr) {
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
             .withUserId(instructorId)
             .withCourseId(courseId)

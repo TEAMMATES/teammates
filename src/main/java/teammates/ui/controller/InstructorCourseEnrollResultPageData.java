@@ -23,9 +23,9 @@ public class InstructorCourseEnrollResultPageData extends PageData {
     private String enrollStudents;
     private List<EnrollResultPanel> enrollResultPanelList;
     
-    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId, 
-                                                List<StudentAttributes>[] students, boolean hasSection, 
-                                                String enrollStudents) {
+    public InstructorCourseEnrollResultPageData(final AccountAttributes account, final String courseId, 
+                                                final List<StudentAttributes>[] students, final boolean hasSection, 
+                                                final String enrollStudents) {
         super(account);
         this.courseId = courseId;
         this.students = students;
@@ -82,7 +82,7 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         return enrollResultPanelList;
     }
     
-    private String getMessageForEnrollmentStatus(int enrollmentStatus) {
+    private String getMessageForEnrollmentStatus(final int enrollmentStatus) {
 
         UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
 

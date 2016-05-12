@@ -156,8 +156,8 @@ public class CommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    private void compareComments(CommentAttributes retrievedComment,
-            CommentAttributes anotherRetrievedComment) {
+    private void compareComments(final CommentAttributes retrievedComment,
+            final CommentAttributes anotherRetrievedComment) {
         assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
         assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
         assertEquals(retrievedComment.recipients, anotherRetrievedComment.recipients);
@@ -489,7 +489,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         recipientType = CommentParticipantType.PERSON;
     }
     
-    private void verifyExceptionThrownFromCreateEntity(CommentAttributes comment, String expectedMessage)
+    private void verifyExceptionThrownFromCreateEntity(final CommentAttributes comment, final String expectedMessage)
             throws EntityAlreadyExistsException {
         try {
             commentsDb.createEntity(comment);

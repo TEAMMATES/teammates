@@ -10,7 +10,7 @@ public abstract class TaskQueueWorkerAction {
     protected static Logger log = Utils.getLogger();
     protected HttpServletRequest request;
     
-    protected TaskQueueWorkerAction(HttpServletRequest request) {
+    protected TaskQueueWorkerAction(final HttpServletRequest request) {
         this.request = request;
     }
     

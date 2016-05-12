@@ -50,7 +50,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
     }
     
 
-    private AdminAccountDeleteAction getAction(String... params) throws Exception {
+    private AdminAccountDeleteAction getAction(final String... params) throws Exception {
         return (AdminAccountDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -23,7 +23,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy (id = "button_remind")
     private WebElement remindAllButton;
 
-    public InstructorCourseDetailsPage(Browser browser) {
+    public InstructorCourseDetailsPage(final Browser browser) {
         super(browser);
     }
 
@@ -36,7 +36,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return browser.driver.findElement(By.id("courseid")).getText();
     }
 
-    public InstructorCourseDetailsPage verifyIsCorrectPage(String courseId) {
+    public InstructorCourseDetailsPage verifyIsCorrectPage(final String courseId) {
         assertEquals(courseId, this.getCourseId());
         return this;
     }
@@ -66,7 +66,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return this;
     }
     
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentName) {
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(final String studentName) {
         int rowId = getStudentRowId(studentName);
         getViewLink(rowId).click();
         waitForPageToLoad();
@@ -74,7 +74,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
     
-    public InstructorCourseStudentDetailsViewPage clickAddCommentStudent(String studentName) {
+    public InstructorCourseStudentDetailsViewPage clickAddCommentStudent(final String studentName) {
         int rowId = getStudentRowId(studentName);
         getAddCommentDropDownLink(rowId).click();
         getAddCommentToStudentLink(rowId).click();
@@ -83,7 +83,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
     
-    public void submitCommentToCourse(String comment) {
+    public void submitCommentToCourse(final String comment) {
         clickAddCommentToCourseButton();
         WebElement commentTextForm = browser.driver.findElement(By.id("commentText"));
         commentTextForm.click();
@@ -97,7 +97,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         browser.driver.findElement(By.id("button_add_comment")).click();
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(final String studentName) {
         int rowId = getStudentRowId(studentName);
         getEditLink(rowId).click();
         waitForPageToLoad();
@@ -105,7 +105,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
     
-    public InstructorStudentRecordsPage clickAllRecordsLink(String studentName) {
+    public InstructorStudentRecordsPage clickAllRecordsLink(final String studentName) {
         int rowId = getStudentRowId(studentName);
         getAllRecordsLink(rowId).click();
         waitForPageToLoad();
@@ -113,46 +113,46 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorStudentRecordsPage.class);
     }
     
-    public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
+    public InstructorCourseDetailsPage clickRemindStudentAndCancel(final String studentName) {
         int rowId = getStudentRowId(studentName);
         clickAndCancel(getRemindLink(rowId));
         return this;
     }
     
-    public InstructorCourseDetailsPage clickRemindStudentAndConfirm(String studentName) {
+    public InstructorCourseDetailsPage clickRemindStudentAndConfirm(final String studentName) {
         int rowId = getStudentRowId(studentName);
         clickAndConfirm(getRemindLink(rowId));
         return this;
     }
     
-    public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
+    public InstructorCourseDetailsPage clickDeleteAndCancel(final String studentName) {
         int rowId = getStudentRowId(studentName);
         clickAndCancel(getDeleteLink(rowId));
         return this;
     }
     
-    public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
+    public InstructorCourseDetailsPage clickDeleteAndConfirm(final String studentName) {
         int rowId = getStudentRowId(studentName);
         clickAndConfirm(getDeleteLink(rowId));
         return this;
     }
     
-    private WebElement getViewLink(int studentNum) {
+    private WebElement getViewLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
     }
     
-    private WebElement getEditLink(int studentNum) {
+    private WebElement getEditLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(2)"));
     }
     
-    private WebElement getRemindLink(int studentNum) {
+    private WebElement getRemindLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
     }
     
-    private WebElement getDeleteLink(int studentNum) {
+    private WebElement getDeleteLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
         
@@ -163,7 +163,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         }
     }
     
-    private WebElement getAllRecordsLink(int studentNum) {
+    private WebElement getAllRecordsLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         
@@ -174,18 +174,18 @@ public class InstructorCourseDetailsPage extends AppPage {
         }
     }
     
-    private WebElement getAddCommentDropDownLink(int studentNum) {
+    private WebElement getAddCommentDropDownLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > a.dropdown-toggle"));
     }
     
-    private WebElement getAddCommentToStudentLink(int studentNum) {
+    private WebElement getAddCommentToStudentLink(final int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > ul.dropdown-menu"
                                                                             + "> li:nth-child(1) > a"));
     }
     
-    private int getStudentRowId(String studentName) {
+    private int getStudentRowId(final String studentName) {
         int studentCount = browser.driver.findElements(By.className("student_row")).size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(i);
@@ -196,7 +196,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return -1;
     }
 
-    private String getStudentNameInRow(int studentNum) {
+    private String getStudentNameInRow(final int studentNum) {
         return browser.driver.findElement(By.id(Const.ParamsNames.STUDENT_NAME + "-c0." + studentNum)).getText();
     }
 

@@ -20,7 +20,7 @@ public abstract class AdminEmailPageData extends PageData {
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
 
-    protected AdminEmailPageData(AccountAttributes account) {
+    protected AdminEmailPageData(final AccountAttributes account) {
         super(account);
     }
     
@@ -104,7 +104,7 @@ public abstract class AdminEmailPageData extends PageData {
         }
     }
     
-    private AdminSentEmailRow createAdminSentEmailRow(AdminEmailAttributes ae) {
+    private AdminSentEmailRow createAdminSentEmailRow(final AdminEmailAttributes ae) {
         String emailId = ae.getEmailId();
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
@@ -137,7 +137,7 @@ public abstract class AdminEmailPageData extends PageData {
         }
     }
     
-    private AdminDraftEmailRow createAdminDraftEmailRow(AdminEmailAttributes ae) {
+    private AdminDraftEmailRow createAdminDraftEmailRow(final AdminEmailAttributes ae) {
         String emailId = ae.getEmailId();
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
@@ -178,7 +178,7 @@ public abstract class AdminEmailPageData extends PageData {
         }
     }
     
-    private AdminTrashEmailRow createAdminTrashEmailRow(AdminEmailAttributes ae) {
+    private AdminTrashEmailRow createAdminTrashEmailRow(final AdminEmailAttributes ae) {
         String emailId = ae.getEmailId();
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";

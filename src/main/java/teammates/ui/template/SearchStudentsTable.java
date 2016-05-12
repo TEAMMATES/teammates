@@ -11,7 +11,7 @@ public class SearchStudentsTable {
     private List<StudentListSectionData> sections;
     private boolean hasSection;
     
-    public SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
+    public SearchStudentsTable(final String courseId, final List<StudentListSectionData> sections) {
         this.courseId = courseId;
         this.sections = sections;
         if (sections.size() == 1) {

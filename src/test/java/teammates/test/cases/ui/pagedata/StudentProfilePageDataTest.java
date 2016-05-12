@@ -57,7 +57,7 @@ public class StudentProfilePageDataTest {
         return new StudentProfilePageData(acct, isEditingPhoto);        
     }
     
-    private void testProfileEditBox(StudentProfileEditBox profileEditBox) {
+    private void testProfileEditBox(final StudentProfileEditBox profileEditBox) {
         assertEquals(acct.name, profileEditBox.getName());
         assertEquals(isEditingPhoto, profileEditBox.getEditingPhoto());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.shortName), profileEditBox.getShortName());
@@ -78,7 +78,7 @@ public class StudentProfilePageDataTest {
         assertEquals(pictureUrl, profileEditBox.getPictureUrl());
     }
 
-    private void testUploadPhotoModal(StudentProfileUploadPhotoModal uploadPhotoModal) {
+    private void testUploadPhotoModal(final StudentProfileUploadPhotoModal uploadPhotoModal) {
         assertEquals(acct.googleId, uploadPhotoModal.getGoogleId());
         assertEquals(pictureUrl, uploadPhotoModal.getPictureUrl());
         assertEquals(spa.pictureKey, uploadPhotoModal.getPictureKey());

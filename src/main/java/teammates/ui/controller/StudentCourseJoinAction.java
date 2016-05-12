@@ -60,7 +60,7 @@ public class StudentCourseJoinAction extends Action {
         return nextUrl;
     }
 
-    protected ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
+    protected ActionResult createRedirectToAuthenticatedJoinPage(final String nextUrl) {
         // send straight to next page as the user can choose to login as he wishes
         String redirectUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
                 .withRegistrationKey(regkey)
@@ -78,7 +78,7 @@ public class StudentCourseJoinAction extends Action {
      * The page type is assumed to be in the form of /page/ followed by alphabets
      * (case-insensitive) only, as per the design of {@link Const.ActionURIs}.
      */
-    public static String getPageTypeOfUrl(String url) {
+    public static String getPageTypeOfUrl(final String url) {
         /* 
          * Regex meaning: from the beginning of the string, tries to match /page/
          * followed by one or more case-insensitive alphabets, followed by ? and

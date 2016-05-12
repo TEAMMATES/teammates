@@ -16,8 +16,8 @@ public class StudentProfileEditBox {
     private String googleId;
     private String pictureUrl;
 
-    public StudentProfileEditBox(String name, String isEditingPhoto, StudentProfileAttributes profile, 
-                                 String googleId, String pictureUrl) {
+    public StudentProfileEditBox(final String name, final String isEditingPhoto, final StudentProfileAttributes profile, 
+                                 final String googleId, final String pictureUrl) {
         this.name = name;
         this.editingPhoto = isEditingPhoto;
         this.shortName = StringHelper.convertToEmptyStringIfNull(profile.shortName);

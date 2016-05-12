@@ -11,7 +11,7 @@ public class StudentHomePage extends AppPage {
     @FindBy(id = "button_join_course")
     protected WebElement joinButton;
 
-    public StudentHomePage(Browser browser) {
+    public StudentHomePage(final Browser browser) {
         super(browser);
     }
 
@@ -20,7 +20,7 @@ public class StudentHomePage extends AppPage {
         return containsExpectedPageContents(getPageSource());
     }
 
-    public static boolean containsExpectedPageContents(String pageSource) {
+    public static boolean containsExpectedPageContents(final String pageSource) {
         return pageSource.contains("<h1>Student Home</h1>");
     }
 
@@ -44,21 +44,21 @@ public class StudentHomePage extends AppPage {
         viewTeamLinks.get(0).click();
     }
     
-    public WebElement getViewFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getViewFeedbackButton(final String EvalOrFeedbackName) {
         
         int rowId = getEvalRowId(EvalOrFeedbackName);       
         WebElement button = browser.driver.findElement(By.id("viewFeedbackResults"+rowId));
         return button;
     }
 
-    public WebElement getEditFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getEditFeedbackButton(final String EvalOrFeedbackName) {
     
         int rowId = getEvalRowId(EvalOrFeedbackName);       
         WebElement button = browser.driver.findElement(By.id("editFeedbackResponses"+rowId));
         return button;
     }
     
-    public WebElement getSubmitFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getSubmitFeedbackButton(final String EvalOrFeedbackName) {
         
         int rowId = getEvalRowId(EvalOrFeedbackName);       
         WebElement button = browser.driver.findElement(By.id("submitFeedback"+rowId));
@@ -66,7 +66,7 @@ public class StudentHomePage extends AppPage {
     }
      
     
-    private int getEvalRowId(String name) {
+    private int getEvalRowId(final String name) {
         
         int id = 0;
         while (isElementPresent(By.id("evaluation" + id))) {

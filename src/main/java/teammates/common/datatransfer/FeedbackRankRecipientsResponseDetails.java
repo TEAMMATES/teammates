@@ -9,9 +9,9 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
     
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType, 
-                                       FeedbackQuestionDetails questionDetails, 
-                                       String[] answer) {
+    public void extractResponseDetails(final FeedbackQuestionType questionType, 
+                                       final FeedbackQuestionDetails questionDetails, 
+                                       final String[] answer) {
         this.setRankResponseDetails(Integer.parseInt(answer[0]));
     }
 
@@ -22,12 +22,12 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtml(final FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerCsv(final FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
         
         csvBuilder.append(answer);
@@ -35,7 +35,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
         return csvBuilder.toString();
     }
 
-    private void setRankResponseDetails(int answer) {
+    private void setRankResponseDetails(final int answer) {
         this.answer = answer;
     }
 

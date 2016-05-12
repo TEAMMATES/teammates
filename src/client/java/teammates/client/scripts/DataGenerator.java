@@ -62,7 +62,7 @@ public class DataGenerator {
     
     public static Random random = new Random();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         String data = generateData();
         writeDataToFile(data, TestProperties.TEST_DATA_FOLDER +"/"+ FILE_NAME);
     }
@@ -74,7 +74,7 @@ public class DataGenerator {
      * @param filePath - path to file
      * @throws IOException
      */
-    public static void writeDataToFile(String data, String filePath) throws IOException {
+    public static void writeDataToFile(final String data, final String filePath) throws IOException {
         File f;
         f = new File(filePath);
         // Create file if it does not exist
@@ -143,7 +143,7 @@ public class DataGenerator {
      * Randomly create students for a particular course
      * @param courseName
      */
-    public static void generateStudentsDataForCourse(String courseName) {
+    public static void generateStudentsDataForCourse(final String courseName) {
         // randomly get a number for student size for this course
         long numOfStudent = getDeviatedNumberOfStudentInCourse();
         //=====================================================================
@@ -266,7 +266,7 @@ public class DataGenerator {
     
 
     
-    public static String account(String acc) {
+    public static String account(final String acc) {
         String result = "\""+acc+"\":{";
         result += "\"googleId\":\""+acc+"\",";
         result += "\"name\":\""+acc+"\",";
@@ -279,7 +279,8 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a instructor entity
      */
-    public static String instructor (String objName, String googleId, String courseId, String name, String email) {
+    public static String instructor(final String objName, final String googleId, final String courseId,
+                                    final String name, final String email) {
         String result = "\""+objName+"\":{";
         result += "\"googleId\":\""+googleId+"\",";
         result += "\"courseId\":\""+courseId+"\",";
@@ -292,7 +293,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course (String objName, String id, String name){
+    public static String course (final String objName, final String id, final String name){
         String result = "\""+objName+"\":{";
         result += "\"id\":\""+id+"\",";
         result += "\"name\":\""+name+"\"";
@@ -303,8 +304,8 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a student entity
      */
-    public static String student (String objName, String email, String name, 
-            String team, String id, String comments, String course, String profile) {
+    public static String student (final String objName, final String email, final String name, 
+            final String team, final String id, final String comments, final String course, final String profile) {
         String result = "\""+objName+"\":{";
         result += "\"email\":\""+email+"\",";
         result += "\"name\":\""+name+"\",";

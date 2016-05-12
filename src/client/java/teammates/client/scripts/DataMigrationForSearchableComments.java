@@ -19,7 +19,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
 
     private Logic logic = new Logic();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         DataMigrationForSearchableComments migrator = new DataMigrationForSearchableComments();
         migrator.doOperationRemotely();
     }
@@ -34,7 +34,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         }
     }
 
-    private void updateCommentsForInstructor(InstructorAttributes instructor) {
+    private void updateCommentsForInstructor(final InstructorAttributes instructor) {
         List<Comment> comments = getCommentEntitiesForInstructor(instructor);
         for (Comment c : comments) {
             putCommentToSearchableDocument(new CommentAttributes(c));
@@ -47,7 +47,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     }
     
     protected List<Comment> getCommentEntitiesForInstructor(
-            InstructorAttributes instructor) {
+            final InstructorAttributes instructor) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
@@ -59,7 +59,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     }
     
     protected List<FeedbackResponseComment> getFrCommentEntitiesForInstructor(
-            InstructorAttributes instructor) {
+            final InstructorAttributes instructor) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
@@ -70,11 +70,11 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         return commentList;
     }
     
-    protected void putCommentToSearchableDocument(CommentAttributes comment) {
+    protected void putCommentToSearchableDocument(final CommentAttributes comment) {
         logic.putDocument(comment);
     }
     
-    protected void putFrCommentToSearchableDocument(FeedbackResponseCommentAttributes comment) {
+    protected void putFrCommentToSearchableDocument(final FeedbackResponseCommentAttributes comment) {
         logic.putDocument(comment);
     }
 

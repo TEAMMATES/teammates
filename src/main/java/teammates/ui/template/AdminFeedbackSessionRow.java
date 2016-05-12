@@ -11,10 +11,10 @@ public class AdminFeedbackSessionRow {
     private String courseId;
     private String feedbackSessionName;
     
-    public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
-                                    String sessionStartTime, String sessionEndTime,
-                                    String instructorHomePageViewLink, String creatorEmail,
-                                    String courseId, String feedbackSessionName) {
+    public AdminFeedbackSessionRow(final String sessionStatusForShow, final String feedbackSessionStatsLink,
+                                    final String sessionStartTime, final String sessionEndTime,
+                                    final String instructorHomePageViewLink, final String creatorEmail,
+                                    final String courseId, final String feedbackSessionName) {
         this.sessionStatusForShow = sessionStatusForShow;
         this.feedbackSessionStatsLink = feedbackSessionStatsLink;
         this.sessionStartTime = sessionStartTime;

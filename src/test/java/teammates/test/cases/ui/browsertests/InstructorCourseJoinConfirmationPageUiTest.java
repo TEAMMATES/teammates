@@ -125,7 +125,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private LoginPage createCorrectLoginPageType(String pageSource) {
+    private LoginPage createCorrectLoginPageType(final String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
@@ -135,7 +135,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         }
     }
 
-    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
+    private <T extends AppPage> T createNewPage(final Browser browser, final Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
             constructor = typeOfPage.getConstructor(Browser.class);

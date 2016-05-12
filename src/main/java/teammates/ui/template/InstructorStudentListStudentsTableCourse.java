@@ -11,10 +11,10 @@ public class InstructorStudentListStudentsTableCourse {
     private String instructorCourseEnrollLink;
     private boolean instructorAllowedToModify;
 
-    public InstructorStudentListStudentsTableCourse(boolean isCourseArchived, String courseId, String courseName,
-                                                    String googleId,
-                                                    String instructorCourseEnrollLink,
-                                                    boolean isInstructorAllowedToModify) {
+    public InstructorStudentListStudentsTableCourse(final boolean isCourseArchived, final String courseId, final String courseName,
+                                                    final String googleId,
+                                                    final String instructorCourseEnrollLink,
+                                                    final boolean isInstructorAllowedToModify) {
         this.courseArchived = isCourseArchived;
         this.courseId = courseId;
         this.courseName = Sanitizer.sanitizeForHtml(courseName);

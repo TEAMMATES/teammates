@@ -112,7 +112,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSubmitPage loginToInstructorEditStudentFeedbackPage(
-            String instructorName, String moderatedStudentEmail, String fsName) {
+            final String instructorName, final String moderatedStudentEmail, final String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE).
                 withUserId(testData.instructors.get(instructorName).googleId).
                 withCourseId(testData.feedbackSessions.get(fsName).courseId).

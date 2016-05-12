@@ -27,7 +27,7 @@ import teammates.storage.entity.AdminEmail;
 public class AdminEmailsDb extends EntitiesDb {
     private static final Logger log = Utils.getLogger();
     
-    public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
+    public Date creatAdminEmail(final AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
         try {
             AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
             return ae.getCreateDate();
@@ -43,7 +43,7 @@ public class AdminEmailsDb extends EntitiesDb {
        
     }
     
-    public void updateAdminEmail(AdminEmailAttributes ae) throws InvalidParametersException, EntityDoesNotExistException{
+    public void updateAdminEmail(final AdminEmailAttributes ae) throws InvalidParametersException, EntityDoesNotExistException{
         if(!ae.isValid()){
             throw new InvalidParametersException(ae.getInvalidityInfo());
         }
@@ -76,7 +76,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
      * @throws BlobstoreFailureException
      */
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+    public void deleteAdminEmailUploadedFile(final BlobKey key) throws BlobstoreFailureException {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class AdminEmailsDb extends EntitiesDb {
         deleteEntities(emailsInTrashBin);
     }
     
-    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException{
+    public void updateAdminEmailById(final AdminEmailAttributes newAdminEmail, final String emailId) throws InvalidParametersException, EntityDoesNotExistException{
         if(!newAdminEmail.isValid()){
             throw new InvalidParametersException(newAdminEmail.getInvalidityInfo());
         }
@@ -149,7 +149,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * get an admin email by email id
      * @return null if no matched email found
      */
-    public AdminEmailAttributes getAdminEmailById(String emailId){
+    public AdminEmailAttributes getAdminEmailById(final String emailId){
         
         AdminEmail matched = getAdminEmailEntity(emailId);
         
@@ -164,7 +164,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * get an admin email by subject and createDate
      * @return null if no matched email found
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate){
+    public AdminEmailAttributes getAdminEmail(final String subject, final Date createDate){
         
         AdminEmail matched = getAdminEmailEntity(subject, createDate);
         
@@ -278,7 +278,7 @@ public class AdminEmailsDb extends EntitiesDb {
         return adminEmailList;
     }
     
-    private AdminEmail getAdminEmailEntity(String adminEmailId){
+    private AdminEmail getAdminEmailEntity(final String adminEmailId){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
         
         Query q = getPM().newQuery(AdminEmail.class);
@@ -294,7 +294,7 @@ public class AdminEmailsDb extends EntitiesDb {
         return adminEmailList.get(0);
     }
     
-    private AdminEmail getAdminEmailEntity(String subject, Date createDate){
+    private AdminEmail getAdminEmailEntity(final String subject, final Date createDate){
         
         
         Query q = getPM().newQuery(AdminEmail.class);
@@ -312,7 +312,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     @Override
-    protected Object getEntity(EntityAttributes attributes) {
+    protected Object getEntity(final EntityAttributes attributes) {
         AdminEmailAttributes adminEmailToGet = (AdminEmailAttributes) attributes;
         
         if(adminEmailToGet.getEmailId() != null){

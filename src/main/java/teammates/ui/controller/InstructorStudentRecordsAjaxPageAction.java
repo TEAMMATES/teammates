@@ -74,8 +74,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }
 
-    private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
-                                        InstructorAttributes currentInstructor, StudentAttributes student) {
+    private void filterFeedbackSessions(final String courseId, final List<FeedbackSessionAttributes> feedbacks,
+                                        final InstructorAttributes currentInstructor, final StudentAttributes student) {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();

@@ -105,7 +105,7 @@ public class TestProperties {
         return TEAMMATES_URL.contains("localhost");
     }
 
-    public static String extractVersionNumber(String inputString) {
+    public static String extractVersionNumber(final String inputString) {
         String startTag = "<version>";
         String endTag = "</version>";
         int startPos = inputString.indexOf(startTag)+startTag.length();

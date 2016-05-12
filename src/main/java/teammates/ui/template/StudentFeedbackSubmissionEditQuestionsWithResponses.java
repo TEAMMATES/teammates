@@ -8,9 +8,9 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
     
-    public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
-                                    List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
-                                    int maxResponsesPossible) {
+    public StudentFeedbackSubmissionEditQuestionsWithResponses(final FeedbackSubmissionEditQuestion question,
+                                    final List<FeedbackSubmissionEditResponse> responses, final int numOfResponseBoxes,
+                                    final int maxResponsesPossible) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;

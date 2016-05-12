@@ -28,7 +28,7 @@ public class Course {
     private Boolean archiveStatus;
 
 
-    public Course(String courseId, String courseName, Boolean archiveStatus, Date createdAt) {
+    public Course(final String courseId, final String courseName, final Boolean archiveStatus, final Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (createdAt == null) {
@@ -43,7 +43,7 @@ public class Course {
         return ID;
     }
 
-    public void setUniqueId(String uniqueId) {
+    public void setUniqueId(final String uniqueId) {
         this.ID = uniqueId.trim();
     }
 
@@ -51,7 +51,7 @@ public class Course {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name.trim();
     }
 
@@ -59,7 +59,7 @@ public class Course {
         return this.createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(final Date createdAt) {
         this.createdAt = createdAt;
     }
     
@@ -67,7 +67,7 @@ public class Course {
         return archiveStatus;
     }
     
-    public void setArchiveStatus(Boolean status) {
+    public void setArchiveStatus(final Boolean status) {
         this.archiveStatus = status;
     }
 }

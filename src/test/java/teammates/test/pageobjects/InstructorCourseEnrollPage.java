@@ -15,7 +15,7 @@ public class InstructorCourseEnrollPage extends AppPage {
     @FindBy(id = "button_enroll")
     protected WebElement enrollButton;
 
-    public InstructorCourseEnrollPage(Browser browser) {
+    public InstructorCourseEnrollPage(final Browser browser) {
         super(browser);
     }
 
@@ -25,7 +25,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         return getPageSource().contains("<h1>Enroll Students for");
     }
 
-    public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){
+    public InstructorCourseEnrollPage verifyIsCorrectPage(final String courseId){
         getPageSource().contains("Enroll Students for "+courseId);
         return this;
     }
@@ -42,14 +42,14 @@ public class InstructorCourseEnrollPage extends AppPage {
         return spreadsheetLink.getAttribute("href");
     }
     
-    public InstructorCourseEnrollResultPage enroll(String enrollString) {
+    public InstructorCourseEnrollResultPage enroll(final String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
         enrollButton.click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollResultPage.class);
     }
 
-    public InstructorCourseEnrollPage enrollUnsuccessfully(String enrollString) {
+    public InstructorCourseEnrollPage enrollUnsuccessfully(final String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
         enrollButton.click();
         waitForPageToLoad();

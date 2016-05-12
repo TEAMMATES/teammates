@@ -826,14 +826,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
 
-    private void verifySameInstructor(InstructorAttributes instructor1, InstructorAttributes instructor2) {
+    private void verifySameInstructor(final InstructorAttributes instructor1, final InstructorAttributes instructor2) {
         assertEquals(instructor1.googleId, instructor2.googleId);
         assertEquals(instructor1.courseId, instructor2.courseId);
         assertEquals(instructor1.name, instructor2.name);
         assertEquals(instructor1.email, instructor2.email);
     }
     
-    private void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email)
+    private void verifyJoinInviteToInstructor(final InstructorAttributes instr, final MimeMessage email)
                                     throws MessagingException {
         assertEquals(instr.email, email.getAllRecipients()[0].toString());
         AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN, email.getSubject());

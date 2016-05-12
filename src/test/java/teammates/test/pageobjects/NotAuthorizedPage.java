@@ -2,7 +2,7 @@ package teammates.test.pageobjects;
 
 public class NotAuthorizedPage extends AppPage {
 
-    public NotAuthorizedPage(Browser browser) {
+    public NotAuthorizedPage(final Browser browser) {
         super(browser);
     }
 

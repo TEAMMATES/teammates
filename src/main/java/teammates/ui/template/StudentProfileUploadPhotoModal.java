@@ -6,7 +6,7 @@ public class StudentProfileUploadPhotoModal {
     private String pictureUrl;
     private String pictureKey;
     
-    public StudentProfileUploadPhotoModal(String googleId, String pictureUrl, String pictureKey) {
+    public StudentProfileUploadPhotoModal(final String googleId, final String pictureUrl, final String pictureKey) {
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
         this.pictureKey = pictureKey;

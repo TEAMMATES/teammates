@@ -8,8 +8,8 @@ public class AdminTrashEmailRow {
     private String subject;
     private String date;
     
-    public AdminTrashEmailRow(String emailId, AdminTrashEmailActions actions, String addressReceiver,
-                                    String groupReceiver, String subject, String date) {
+    public AdminTrashEmailRow(final String emailId, final AdminTrashEmailActions actions, final String addressReceiver,
+                                    final String groupReceiver, final String subject, final String date) {
         this.emailId = emailId;
         this.actions = actions;
         this.addressReceiver = addressReceiver;

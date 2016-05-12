@@ -86,7 +86,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorCourseStudentDetailsPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsPageAction getAction(final String... params) throws Exception{
         return (InstructorCourseStudentDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

@@ -19,7 +19,7 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         GenerateEmailsOfInstructors statistics = new GenerateEmailsOfInstructors();
         statistics.doOperationRemotely();
     }

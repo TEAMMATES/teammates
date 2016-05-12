@@ -12,7 +12,7 @@ public class StatusMessage implements Serializable {
     private String text;
     private String color;
     
-    public StatusMessage(String text, StatusMessageColor color) {
+    public StatusMessage(final String text, final StatusMessageColor color) {
         this.text = text;
         
         switch (color) {

@@ -22,7 +22,7 @@ import teammates.logic.core.Emails;
 @SuppressWarnings("serial")
 public class SendEmailWorkerServlet extends WorkerServlet {
     
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         //Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
         int responseCodeForRetry = 100;
         try {

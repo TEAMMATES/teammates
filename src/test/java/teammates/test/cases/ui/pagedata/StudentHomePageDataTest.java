@@ -44,7 +44,7 @@ public class StudentHomePageDataTest {
         testCourseTables(data.getCourseTables());
     }
 
-    public void testCourseTables(List<CourseTable> courseTables) {
+    public void testCourseTables(final List<CourseTable> courseTables) {
         assertEquals(courses.size(), courseTables.size());
         
         CourseDetailsBundle newCourse = courses.get(0);
@@ -60,14 +60,14 @@ public class StudentHomePageDataTest {
         testOldCourseTable(oldCourse, oldCourseTable);
     }
     
-    private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
+    private void testCourseTableMeta(final CourseAttributes course, final CourseTable table) {
         assertEquals(course.id, table.getCourseId());
         assertEquals(course.name, table.getCourseName());
         assertEquals(1, table.getButtons().size());
         testViewTeamButton(table.getButtons().get(0), course.id);
     }
     
-    private void testViewTeamButton(ElementTag tag, String courseId) {
+    private void testViewTeamButton(final ElementTag tag, final String courseId) {
         assertEquals("View Team", tag.getContent());
         assertEquals(2, tag.getAttributes().size());
         assertTrue(tag.getAttributes().get("href").startsWith(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE));
@@ -75,7 +75,7 @@ public class StudentHomePageDataTest {
         assertEquals(Const.Tooltips.STUDENT_COURSE_DETAILS, tag.getAttributes().get("title"));
     }
 
-    private void testNewCourseTable(CourseDetailsBundle newCourse, CourseTable courseTable) {
+    private void testNewCourseTable(final CourseDetailsBundle newCourse, final CourseTable courseTable) {
         assertEquals(newCourse.feedbackSessions.size(), courseTable.getRows().size());
         List<HomeFeedbackSessionRow> sessions = courseTable.getRows();
         HomeFeedbackSessionRow submittedRow = sessions.get(0);
@@ -92,7 +92,7 @@ public class StudentHomePageDataTest {
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
     }
     
-    private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
+    private void testOldCourseTable(final CourseDetailsBundle oldCourse, final CourseTable courseTable) {
         // Sessions in old course have multiple messages in tooltip as their end dates have passed.
         assertEquals(oldCourse.feedbackSessions.size(), courseTable.getRows().size());
         List<HomeFeedbackSessionRow> sessions = courseTable.getRows();
@@ -118,8 +118,8 @@ public class StudentHomePageDataTest {
                             "Closed");
     }
     
-    private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
-            String expectedTooltip, String expectedStatus) {
+    private void testFeedbackSession(final int index, final HomeFeedbackSessionRow row, final FeedbackSessionAttributes session,
+            final String expectedTooltip, final String expectedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.feedbackSessionName, studentRow.getName());
         assertEquals(TimeHelper.formatTime12H(session.endTime), studentRow.getEndTime());
@@ -129,7 +129,7 @@ public class StudentHomePageDataTest {
         testActions(studentRow.getActions(), session);
     }
     
-    private void testActions(StudentFeedbackSessionActions actions, FeedbackSessionAttributes session) {
+    private void testActions(final StudentFeedbackSessionActions actions, final FeedbackSessionAttributes session) {
         assertEquals(session.isVisible(), actions.isSessionVisible());
         assertEquals(session.isPublished(), actions.isSessionPublished());
         assertEquals(tooltipTextMap.get(session), actions.getTooltipText());
@@ -188,8 +188,8 @@ public class StudentHomePageDataTest {
         return new StudentHomePageData(new AccountAttributes(), courses, sessionSubmissionStatusMap);
     }
 
-    private FeedbackSessionAttributes createFeedbackSession(String name,
-            int offsetStart, int offsetEnd, int offsetPublish) {
+    private FeedbackSessionAttributes createFeedbackSession(final String name,
+            final int offsetStart, final int offsetEnd, final int offsetPublish) {
         FeedbackSessionAttributes session = new FeedbackSessionAttributes();
         session.feedbackSessionName = name;
         session.startTime = TimeHelper.getHoursOffsetToCurrentTime(offsetStart);
@@ -199,7 +199,7 @@ public class StudentHomePageDataTest {
         return session;
     }
 
-    private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sessions) {
+    private CourseDetailsBundle createCourseBundle(final CourseAttributes course, final FeedbackSessionAttributes... sessions) {
         CourseDetailsBundle courseBundle = new CourseDetailsBundle(course);
         for (FeedbackSessionAttributes session : sessions) {
             courseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(session));

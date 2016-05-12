@@ -34,7 +34,7 @@ public class InstructorStudentListPageAction extends Action {
         // Sort by creation date
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
+            public int compare(final CourseAttributes c1, final CourseAttributes c2) {
                 return c1.createdAt.compareTo(c2.createdAt);
             }
         });

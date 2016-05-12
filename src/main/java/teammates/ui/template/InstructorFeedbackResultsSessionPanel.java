@@ -15,10 +15,10 @@ public class InstructorFeedbackResultsSessionPanel {
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
 
-    public InstructorFeedbackResultsSessionPanel(FeedbackSessionAttributes session,
-                                                 String editLink,
-                                                 FeedbackSessionPublishButton feedbackSessionPublishButton,
-                                                 String selectedSection) {
+    public InstructorFeedbackResultsSessionPanel(final FeedbackSessionAttributes session,
+                                                 final String editLink,
+                                                 final FeedbackSessionPublishButton feedbackSessionPublishButton,
+                                                 final String selectedSection) {
         this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
         this.editLink = editLink;
@@ -61,7 +61,7 @@ public class InstructorFeedbackResultsSessionPanel {
         return selectedSection;
     }
     
-    private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
+    private String getResultsVisibleFromText(final FeedbackSessionAttributes feedbackSession) {
         if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
                 return TimeHelper.formatTime12H(feedbackSession.startTime);

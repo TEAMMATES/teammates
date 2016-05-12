@@ -18,8 +18,8 @@ public class FeedbackResponseRow {
     private String responseText;
     private List<FeedbackResponseComment> responseComments;
     
-    public FeedbackResponseRow(int fbIndex, int personIndex, String personType,
-                               FeedbackResponseAttributes response, FeedbackSessionResultsBundle results) {
+    public FeedbackResponseRow(final int fbIndex, final int personIndex, final String personType,
+                               final FeedbackResponseAttributes response, final FeedbackSessionResultsBundle results) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();

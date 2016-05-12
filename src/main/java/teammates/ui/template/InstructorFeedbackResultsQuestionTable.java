@@ -35,14 +35,14 @@ public class InstructorFeedbackResultsQuestionTable {
     private Map<String, Boolean> isColumnSortable;
 
     public InstructorFeedbackResultsQuestionTable(
-                                          boolean isHasResponses,
-                                          String questionStatisticsHtml,
-                                          List<InstructorFeedbackResultsResponseRow> responseRows,
-                                          FeedbackQuestionAttributes question,
-                                          String questionText,
-                                          String additionalInfoText,
-                                          List<ElementTag> columns,
-                                          Map<String, Boolean> isColumnSortable) {
+                                          final boolean isHasResponses,
+                                          final String questionStatisticsHtml,
+                                          final List<InstructorFeedbackResultsResponseRow> responseRows,
+                                          final FeedbackQuestionAttributes question,
+                                          final String questionText,
+                                          final String additionalInfoText,
+                                          final List<ElementTag> columns,
+                                          final Map<String, Boolean> isColumnSortable) {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
         
@@ -121,19 +121,19 @@ public class InstructorFeedbackResultsQuestionTable {
         return isColumnSortable;
     }
 
-    public void setShowResponseRows(boolean isShowResponseRows) {
+    public void setShowResponseRows(final boolean isShowResponseRows) {
         this.isShowResponseRows = isShowResponseRows;
     }
 
-    public void setCollapsible(boolean isCollapsible) {
+    public void setCollapsible(final boolean isCollapsible) {
         this.isCollapsible = isCollapsible;
     }
 
-    public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
+    public void setBoldQuestionNumber(final boolean isBoldQuestionNumber) {
         this.isBoldQuestionNumber = isBoldQuestionNumber;
     }
 
-    public void setAjaxClass(String ajaxClass) {
+    public void setAjaxClass(final String ajaxClass) {
         this.ajaxClass = ajaxClass;
     }
 
@@ -141,13 +141,13 @@ public class InstructorFeedbackResultsQuestionTable {
         return ajaxClass;
     }
 
-    public void setHasResponses(boolean isHasResponses) {
+    public void setHasResponses(final boolean isHasResponses) {
         this.isHasResponses = isHasResponses;
     }
 
-    public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
+    public static void sortByQuestionNumber(final List<InstructorFeedbackResultsQuestionTable> questionTables) {
         Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
-            public int compare(InstructorFeedbackResultsQuestionTable questionTable1, InstructorFeedbackResultsQuestionTable questionTable2) {
+            public int compare(final InstructorFeedbackResultsQuestionTable questionTable1, final InstructorFeedbackResultsQuestionTable questionTable2) {
                 return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
             }
         });

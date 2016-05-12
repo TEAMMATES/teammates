@@ -5,7 +5,7 @@ public class HomeFeedbackSessionRow {
     private String tooltip;
     private String status;
     
-    public HomeFeedbackSessionRow(String name, String tooltip, String status) {
+    public HomeFeedbackSessionRow(final String name, final String tooltip, final String status) {
         this.name = name;
         this.tooltip = tooltip;
         this.status = status;

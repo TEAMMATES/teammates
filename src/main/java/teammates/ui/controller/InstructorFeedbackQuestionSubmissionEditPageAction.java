@@ -28,13 +28,13 @@ public class InstructorFeedbackQuestionSubmissionEditPageAction extends Feedback
 
     @Override
     protected FeedbackSessionQuestionsBundle getDataBundle(
-            String userEmailForCourse) throws EntityDoesNotExistException {
+            final String userEmailForCourse) throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, courseId, feedbackQuestionId, userEmailForCourse);
     }
 
     @Override
-    protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs) {
+    protected boolean isSessionOpenForSpecificUser(final FeedbackSessionAttributes fs) {
         return fs.isOpened() || fs.isPrivateSession();
     }
 

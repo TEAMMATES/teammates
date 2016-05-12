@@ -33,7 +33,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     private final boolean isPreview = true;
     private final boolean isModifyingOnlyArchivedCourses = true;
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         DataMigrationForIsArchivedAttribute migrator = new DataMigrationForIsArchivedAttribute();
         migrator.doOperationRemotely();
     }
@@ -55,7 +55,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     
-    private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
+    private void migrateCourse(final CourseAttributes course) throws InvalidParametersException,
                                     EntityDoesNotExistException {
         if (course.isArchived) {
             if (!isPreview) {
@@ -92,7 +92,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      * @throws EntityDoesNotExistException 
      * @throws InvalidParametersException
      */
-    private void setInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+    private void setInstructorsIsArchivedInCourse(final CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertEquals(false, isPreview);
         Assumption.assertTrue(course.isArchived);
         
@@ -120,7 +120,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      * @throws EntityDoesNotExistException 
      * @throws InvalidParametersException
      */
-    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+    private void previewInstructorsIsArchivedInCourse(final CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertEquals(true, isPreview);
         Assumption.assertTrue(course.isArchived);
         

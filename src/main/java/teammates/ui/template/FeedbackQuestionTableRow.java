@@ -11,7 +11,7 @@ public class FeedbackQuestionTableRow {
     private String qnText;
     private String qnId;
     
-    public FeedbackQuestionTableRow(String courseId, String fsName, String qnType, String qnText, String qnId) {
+    public FeedbackQuestionTableRow(final String courseId, final String fsName, final String qnType, final String qnText, final String qnId) {
         this.courseId = courseId;
         this.fsName = fsName;
         this.qnType = qnType;

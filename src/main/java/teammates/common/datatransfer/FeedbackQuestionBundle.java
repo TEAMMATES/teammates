@@ -16,10 +16,10 @@ public class FeedbackQuestionBundle {
     public List<FeedbackResponseAttributes> responseList;
     public Map<String, String> recipientList;
 
-    public FeedbackQuestionBundle(FeedbackSessionAttributes feedbackSession,
-                                  FeedbackQuestionAttributes question,
-                                  List<FeedbackResponseAttributes> responseList,
-                                  Map<String, String> recipientList) {
+    public FeedbackQuestionBundle(final FeedbackSessionAttributes feedbackSession,
+                                  final FeedbackQuestionAttributes question,
+                                  final List<FeedbackResponseAttributes> responseList,
+                                  final Map<String, String> recipientList) {
         this.feedbackSession = feedbackSession;
         this.question = question;
         this.responseList = responseList;
@@ -35,7 +35,7 @@ public class FeedbackQuestionBundle {
     }
 
     private class recipientComparator implements Comparator<Map.Entry<String, String>> {
-        public int compare(Map.Entry<String, String> recipient1, Map.Entry<String, String> recipient2) {
+        public int compare(final Map.Entry<String, String> recipient1, final Map.Entry<String, String> recipient2) {
             // Sort by value (name) first.
             if (!recipient1.getValue().equals(recipient2.getValue())) {
                 return recipient1.getValue().compareTo(recipient2.getValue());
@@ -46,7 +46,7 @@ public class FeedbackQuestionBundle {
         }
     }
 
-    public Set<String> getRecipientEmails(String feedbackQuestionId) {
+    public Set<String> getRecipientEmails(final String feedbackQuestionId) {
         HashSet<String> result = new HashSet<String>();
 
         for (Entry<String, String> entry : this.recipientList.entrySet()) {

@@ -19,9 +19,9 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
 
     
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
-                                    String secondaryParticipantIdentifier,
-                                    String secondaryParticipantDisplayableName,
-                                    List<InstructorFeedbackResultsResponsePanel> responsePanels) {
+                                    final String secondaryParticipantIdentifier,
+                                    final String secondaryParticipantDisplayableName,
+                                    final List<InstructorFeedbackResultsResponsePanel> responsePanels) {
         this.secondaryParticipantIdentifier = secondaryParticipantIdentifier;
         this.secondaryParticipantDisplayableName = secondaryParticipantDisplayableName;
         this.responsePanels = responsePanels;
@@ -45,7 +45,7 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(String profilePictureLink) {
+    public void setProfilePictureLink(final String profilePictureLink) {
         this.profilePictureLink = profilePictureLink;
     }
 
@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
         return moderationButton;
     }
 
-    public void setModerationButton(InstructorFeedbackResultsModerationButton moderationButton) {
+    public void setModerationButton(final InstructorFeedbackResultsModerationButton moderationButton) {
         this.moderationButton = moderationButton;
     }
     

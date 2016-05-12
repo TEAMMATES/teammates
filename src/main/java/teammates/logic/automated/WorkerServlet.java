@@ -26,7 +26,7 @@ public abstract class WorkerServlet extends HttpServlet {
     protected String servletName = "unspecified";
     protected String action = "unspecified";
     
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    public void doPost(final HttpServletRequest req, final HttpServletResponse resp) {
         try {
             doGet(req, resp);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public abstract class WorkerServlet extends HttpServlet {
     
     public abstract void doGet(HttpServletRequest req, HttpServletResponse resp);
     
-    protected void logMessage(HttpServletRequest request, String message) {
+    protected void logMessage(final HttpServletRequest request, final String message) {
         String url = HttpRequestHelper.getRequestedURL(request);
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url);
         log.log(Level.INFO, activityLogEntry.generateLogMessage());

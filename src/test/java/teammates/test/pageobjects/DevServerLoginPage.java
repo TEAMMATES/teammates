@@ -15,7 +15,7 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPage(Browser browser){
+    public DevServerLoginPage(final Browser browser){
         super(browser);
     }
 
@@ -24,12 +24,12 @@ public class DevServerLoginPage extends LoginPage {
         return containsExpectedPageContents(getPageSource());
     }
     
-    public static boolean containsExpectedPageContents(String pageSource) {
+    public static boolean containsExpectedPageContents(final String pageSource) {
         return pageSource.contains("<h3>Not logged in</h3>");
     }
 
     @Override
-    public InstructorHomePage loginAsInstructor(String username, String password) {
+    public InstructorHomePage loginAsInstructor(final String username, final String password) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();
@@ -38,7 +38,7 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
-    public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
+    public AppPage loginAsInstructorUnsuccessfully(final String userName, final String password) {
             fillTextBox(emailTextBox, userName);
             loginButton.click();
             waitForPageToLoad();
@@ -48,7 +48,7 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public void loginAdminAsInstructor(
-            String adminUsername, String adminPassword, String instructorUsername) {
+            final String adminUsername, final String adminPassword, final String instructorUsername) {
         fillTextBox(emailTextBox, instructorUsername);
         isAdminCheckBox.click();
         loginButton.click();
@@ -57,12 +57,12 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
-    public StudentHomePage loginAsStudent(String username, String password) {
+    public StudentHomePage loginAsStudent(final String username, final String password) {
         return loginAsStudent(username, password, StudentHomePage.class);
     }
 
     @Override
-    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
+    public <T extends AppPage> T loginAsStudent(final String username, final String password, final Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();
@@ -71,7 +71,7 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
-    public StudentCourseJoinConfirmationPage loginAsJoiningStudent(String username, String password) {
+    public StudentCourseJoinConfirmationPage loginAsJoiningStudent(final String username, final String password) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();
@@ -80,7 +80,7 @@ public class DevServerLoginPage extends LoginPage {
     }
     
     @Override
-    public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password) {
+    public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(final String username, final String password) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();
@@ -89,7 +89,7 @@ public class DevServerLoginPage extends LoginPage {
     }
     
     @Override
-    public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(String username, String password) {
+    public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(final String username, final String password) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();

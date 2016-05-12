@@ -590,7 +590,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageModified.html");
     }
 
-    private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(String instructorName, String fsName) {
+    private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(final String instructorName, final String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.instructors.get(instructorName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).courseId)
@@ -599,7 +599,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
-            String studentName, String fsName) {
+            final String studentName, final String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.students.get(studentName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).courseId)
@@ -607,7 +607,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
-    private void moveToTeam(StudentAttributes student, String newTeam) {
+    private void moveToTeam(final StudentAttributes student, final String newTeam) {
         String backDoorOperationStatus;
         student.team = newTeam;
         backDoorOperationStatus = BackDoor.editStudent(student.email, student);

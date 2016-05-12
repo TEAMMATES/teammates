@@ -26,7 +26,7 @@ public class FeedbackQuestionFeedbackPathSettings {
         return giverParticipantOptions;
     }
 
-    public void setGiverParticipantOptions(List<ElementTag> giverParticipantOptions) {
+    public void setGiverParticipantOptions(final List<ElementTag> giverParticipantOptions) {
         this.giverParticipantOptions = giverParticipantOptions;
     }
 
@@ -34,7 +34,7 @@ public class FeedbackQuestionFeedbackPathSettings {
         return recipientParticipantOptions;
     }
 
-    public void setRecipientParticipantOptions(List<ElementTag> recipientParticipantOptions) {
+    public void setRecipientParticipantOptions(final List<ElementTag> recipientParticipantOptions) {
         this.recipientParticipantOptions = recipientParticipantOptions;
     }
 
@@ -42,7 +42,7 @@ public class FeedbackQuestionFeedbackPathSettings {
         return isNumberOfEntitiesToGiveFeedbackToChecked;
     }
 
-    public void setNumberOfEntitiesToGiveFeedbackToChecked(boolean isNumberOfEntitiesToGiveFeedbackToChecked) {
+    public void setNumberOfEntitiesToGiveFeedbackToChecked(final boolean isNumberOfEntitiesToGiveFeedbackToChecked) {
         this.isNumberOfEntitiesToGiveFeedbackToChecked = isNumberOfEntitiesToGiveFeedbackToChecked;
     }
 
@@ -50,7 +50,7 @@ public class FeedbackQuestionFeedbackPathSettings {
         return numOfEntitiesToGiveFeedbackToValue;
     }
 
-    public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
+    public void setNumOfEntitiesToGiveFeedbackToValue(final int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
     

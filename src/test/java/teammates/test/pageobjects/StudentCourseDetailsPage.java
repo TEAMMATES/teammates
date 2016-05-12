@@ -2,7 +2,7 @@ package teammates.test.pageobjects;
 
 public class StudentCourseDetailsPage extends AppPage {
 
-    public StudentCourseDetailsPage(Browser browser) {
+    public StudentCourseDetailsPage(final Browser browser) {
         super(browser);
     }
 

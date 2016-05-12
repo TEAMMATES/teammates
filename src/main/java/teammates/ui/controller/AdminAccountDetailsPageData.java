@@ -17,9 +17,9 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> instructorCourseListTable;
     private List<AdminAccountDetailsStudentCourseListTableRow> studentCourseListTable;
     
-    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation, 
-                                       List<CourseDetailsBundle> instructorCourseList, 
-                                       List<CourseAttributes> studentCourseList) {
+    public AdminAccountDetailsPageData(final AccountAttributes account, final AccountAttributes accountInformation, 
+                                       final List<CourseDetailsBundle> instructorCourseList, 
+                                       final List<CourseAttributes> studentCourseList) {
         super(account);
         this.accountInformation = accountInformation;
         this.instructorCourseListTable = createInstructorCourseListTable(instructorCourseList);
@@ -27,7 +27,7 @@ public class AdminAccountDetailsPageData extends PageData {
     }
     
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
-                                    List<CourseAttributes> studentCourseList) {
+                                    final List<CourseAttributes> studentCourseList) {
         List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = 
                         new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
         
@@ -44,7 +44,7 @@ public class AdminAccountDetailsPageData extends PageData {
     }
 
     private List<AdminAccountDetailsInstructorCourseListTableRow> createInstructorCourseListTable(
-                                                            List<CourseDetailsBundle> instructorCourseList) {
+                                                            final List<CourseDetailsBundle> instructorCourseList) {
         List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
         if (instructorCourseList != null) {
             for (CourseDetailsBundle courseDetails : instructorCourseList) {
@@ -68,7 +68,7 @@ public class AdminAccountDetailsPageData extends PageData {
         return studentCourseListTable;
     }
     
-    public static String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId){
+    public static String getAdminDeleteInstructorFromCourseLink(final String instructorId, final String courseId){
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -76,7 +76,7 @@ public class AdminAccountDetailsPageData extends PageData {
         return link;
     }
     
-    public static String getAdminDeleteStudentFromCourseLink(String studentId, String courseId){
+    public static String getAdminDeleteStudentFromCourseLink(final String studentId, final String courseId){
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_ID, studentId);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

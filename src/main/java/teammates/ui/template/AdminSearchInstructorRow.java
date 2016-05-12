@@ -12,9 +12,9 @@ public class AdminSearchInstructorRow {
     private String email;
     private String courseJoinLink;
     
-    public AdminSearchInstructorRow(String id, String name, String courseName, String courseId,
-                                    String googleId, String googleIdLink, String institute,
-                                    String viewRecentActionsId, String email, String courseJoinLink) {
+    public AdminSearchInstructorRow(final String id, final String name, final String courseName, final String courseId,
+                                    final String googleId, final String googleIdLink, final String institute,
+                                    final String viewRecentActionsId, final String email, final String courseJoinLink) {
         this.id = id;
         this.name = name;
         this.courseName = courseName;

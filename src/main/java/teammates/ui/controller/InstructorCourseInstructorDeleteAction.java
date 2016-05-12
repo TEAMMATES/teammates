@@ -59,7 +59,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
      * @param instructorToDeleteEmail is the email of the instructor who is being deleted
      * @return true if there is a joined instructor (other than the instructor to delete) with the privilege of modifying instructors
      */
-    private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
+    private boolean hasAlternativeInstructor(final String courseId, final String instructorToDeleteEmail) {
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 

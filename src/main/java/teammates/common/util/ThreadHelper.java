@@ -21,7 +21,7 @@ public class ThreadHelper {
     /**
      * Makes the thread sleep for the specified time. 
      */
-    public static void waitFor(int timeInMilliSeconds) {
+    public static void waitFor(final int timeInMilliSeconds) {
         try {
             Thread.sleep(timeInMilliSeconds);
         } catch (InterruptedException e) {

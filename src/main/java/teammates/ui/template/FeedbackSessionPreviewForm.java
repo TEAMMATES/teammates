@@ -15,7 +15,7 @@ public class FeedbackSessionPreviewForm {
     private List<ElementTag> studentToPreviewAsOptions;
     private List<ElementTag> instructorToPreviewAsOptions;
     
-    public FeedbackSessionPreviewForm(String courseId, String fsName, List<ElementTag> studentList, List<ElementTag> instructorList) {
+    public FeedbackSessionPreviewForm(final String courseId, final String fsName, final List<ElementTag> studentList, final List<ElementTag> instructorList) {
         this.courseId = courseId;
         this.fsName = fsName;
         this.studentToPreviewAsOptions = studentList;
@@ -26,7 +26,7 @@ public class FeedbackSessionPreviewForm {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(final String courseId) {
         this.courseId = courseId;
     }
 
@@ -34,7 +34,7 @@ public class FeedbackSessionPreviewForm {
         return fsName;
     }
 
-    public void setFsName(String fsName) {
+    public void setFsName(final String fsName) {
         this.fsName = fsName;
     }
 
@@ -42,7 +42,7 @@ public class FeedbackSessionPreviewForm {
         return studentToPreviewAsOptions;
     }
 
-    public void setStudentToPreviewAsOptions(List<ElementTag> studentToPreviewAsOptions) {
+    public void setStudentToPreviewAsOptions(final List<ElementTag> studentToPreviewAsOptions) {
         this.studentToPreviewAsOptions = studentToPreviewAsOptions;
     }
 
@@ -50,7 +50,7 @@ public class FeedbackSessionPreviewForm {
         return instructorToPreviewAsOptions;
     }
 
-    public void setInstructorToPreviewAsOptions(List<ElementTag> instructorToPreviewAsOptions) {
+    public void setInstructorToPreviewAsOptions(final List<ElementTag> instructorToPreviewAsOptions) {
         this.instructorToPreviewAsOptions = instructorToPreviewAsOptions;
     }
 

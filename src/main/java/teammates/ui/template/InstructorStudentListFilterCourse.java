@@ -5,7 +5,7 @@ public class InstructorStudentListFilterCourse {
     private String courseId;
     private String courseName;
 
-    public InstructorStudentListFilterCourse(String courseId, String courseName) {
+    public InstructorStudentListFilterCourse(final String courseId, final String courseName) {
         this.courseId = courseId;
         this.courseName = courseName;
     }

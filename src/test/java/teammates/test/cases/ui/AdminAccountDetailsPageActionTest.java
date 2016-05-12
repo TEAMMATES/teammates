@@ -52,7 +52,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     }
     
 
-    private AdminAccountDetailsPageAction getAction(String... params) throws Exception {
+    private AdminAccountDetailsPageAction getAction(final String... params) throws Exception {
         return (AdminAccountDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

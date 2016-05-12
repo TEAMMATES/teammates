@@ -80,7 +80,7 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profilePicEditPanDown")
     protected WebElement editPicturePanDown;
 
-    public StudentProfilePage(Browser browser) {
+    public StudentProfilePage(final Browser browser) {
         super(browser);
     }
 
@@ -95,7 +95,7 @@ public class StudentProfilePage extends AppPage {
         return changePageType(StudentProfilePage.class);
     }
 
-    public void fillProfilePic(String fileName) throws Exception {
+    public void fillProfilePic(final String fileName) throws Exception {
         showPictureEditor();
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
@@ -106,27 +106,27 @@ public class StudentProfilePage extends AppPage {
         waitForUploadEditModalVisible();
     }
 
-    public void fillShortName(String shortName) {
+    public void fillShortName(final String shortName) {
         fillTextBox(shortNameBox, shortName);
     }
 
-    public void fillEmail(String studentEmail) {
+    public void fillEmail(final String studentEmail) {
         fillTextBox(emailBox, studentEmail);
     }
 
-    public void fillInstitution(String studentInstitution) {
+    public void fillInstitution(final String studentInstitution) {
         fillTextBox(institutionBox, studentInstitution);
     }
 
-    public void fillNationality(String studentNationality) {
+    public void fillNationality(final String studentNationality) {
         fillTextBox(countryBox, studentNationality);
     }
 
-    public void fillMoreInfo(String moreInfo) {
+    public void fillMoreInfo(final String moreInfo) {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) throws Exception {
+    public void selectGender(final String gender) throws Exception {
         switch (gender) {
             case Const.GenderTypes.MALE:
                 genderMaleRadio.click();
@@ -142,8 +142,8 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) throws Exception {
+    public void editProfileThroughUi(final String fileName, final String shortName, final String email, final String institute,
+                                     final String nationality, final String gender, final String moreInfo) throws Exception {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -153,8 +153,8 @@ public class StudentProfilePage extends AppPage {
         submitEditedProfile();
     }
 
-    public void ensureProfileContains(String shortName, String email, String institute, String nationality,
-                                      String gender, String moreInfo) {
+    public void ensureProfileContains(final String shortName, final String email, final String institute, final String nationality,
+                                      final String gender, final String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -163,7 +163,7 @@ public class StudentProfilePage extends AppPage {
         assertEquals(moreInfo, moreInfoBox.getText());
     }
 
-    private void ensureGenderIsSelectedAs(String gender) {
+    private void ensureGenderIsSelectedAs(final String gender) {
         switch (gender) {
             case Const.GenderTypes.MALE:
                 assertTrue(genderMaleRadio.isSelected());
@@ -204,14 +204,14 @@ public class StudentProfilePage extends AppPage {
         editPictureSubmit.click();
     }
 
-    public void verifyPhotoSize(int height, int width) throws Exception {
+    public void verifyPhotoSize(final int height, final int width) throws Exception {
         assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight"))
                                                            .getAttribute("value"));
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
                                                           .getAttribute("value"));
     }
 
-    public void verifyUploadButtonState(boolean expectedState) {
+    public void verifyUploadButtonState(final boolean expectedState) {
         assertEquals(expectedState, uploadPictureSubmit.isEnabled());
         
     }

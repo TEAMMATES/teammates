@@ -82,7 +82,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         }
     }
 
-    private void testUpdatingNonExistentProfile(AccountAttributes a)
+    private void testUpdatingNonExistentProfile(final AccountAttributes a)
             throws Exception {
         ______TS("non-existent account");
         
@@ -98,7 +98,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         }
     }
 
-    private void testUpdateProfileSuccessNoChangesToProfile(AccountAttributes a)
+    private void testUpdateProfileSuccessNoChangesToProfile(final AccountAttributes a)
             throws Exception {
         ______TS("success case: same profile");
         profilesDb.updateStudentProfile(a.studentProfile);
@@ -107,7 +107,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
     }
 
-    private void testUpdateProfileSuccessWithNoPictureKey(AccountAttributes a)
+    private void testUpdateProfileSuccessWithNoPictureKey(final AccountAttributes a)
             throws Exception {
         ______TS("typical success case, no picture");
         a.studentProfile.moreInfo = "This is more than enough info...";
@@ -120,7 +120,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals(a.studentProfile.email, updatedProfile.email);
     }
 
-    private void testUpdateProfileSuccessInitiallyEmptyPictureKey(AccountAttributes a)
+    private void testUpdateProfileSuccessInitiallyEmptyPictureKey(final AccountAttributes a)
             throws Exception,
             EntityDoesNotExistException {
         ______TS("success case: add picture (initially empty)");
@@ -132,7 +132,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
     }
 
-    private void testUpdateProfileSuccessWithSamePictureKey(AccountAttributes a)
+    private void testUpdateProfileSuccessWithSamePictureKey(final AccountAttributes a)
             throws Exception {
         ______TS("success case: same pictureKey");
         a.studentProfile.shortName = "s";
@@ -176,7 +176,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         }
     }
 
-    private void testUpdateProfilePictureWithEmptyParameters(AccountAttributes a)
+    private void testUpdateProfilePictureWithEmptyParameters(final AccountAttributes a)
             throws EntityDoesNotExistException {
         ______TS("empty parameters");
         
@@ -210,7 +210,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private void testUpdateProfilePictureSuccessInitiallyEmpty(
-            AccountAttributes a) throws IOException,
+            final AccountAttributes a) throws IOException,
             EntityDoesNotExistException {
         ______TS("update picture key - initially empty");
         
@@ -223,7 +223,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private void testUpdateProfilePictureSuccessSamePictureKey(
-            AccountAttributes a) throws EntityDoesNotExistException {
+            final AccountAttributes a) throws EntityDoesNotExistException {
         ______TS("update picture key - same key; does nothing");
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
     }
@@ -237,12 +237,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private void testDeleteProfilePictureForProfileWithNoPicture(
-            AccountAttributes a) throws EntityDoesNotExistException {
+            final AccountAttributes a) throws EntityDoesNotExistException {
         ______TS("delete picture, currently empty - fails silently");
         profilesDb.deleteStudentProfilePicture(a.googleId);
     }
 
-    private void testDeletePictureSuccess(AccountAttributes a)
+    private void testDeletePictureSuccess(final AccountAttributes a)
             throws EntityDoesNotExistException, IOException {
         ______TS("delete picture");
         
@@ -258,7 +258,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
 
-    private String uploadDefaultPictureForProfile(String googleId)
+    private String uploadDefaultPictureForProfile(final String googleId)
             throws IOException {
         // we upload a small text file as the actual file does not matter here
         return GoogleCloudStorageHelper.writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt", "");

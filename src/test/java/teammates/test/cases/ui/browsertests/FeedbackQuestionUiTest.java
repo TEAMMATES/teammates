@@ -19,8 +19,8 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 
     public abstract void testDeleteQuestionAction();
     
-    protected InstructorFeedbackEditPage getFeedbackEditPage(String instructorId, String courseId, 
-            String feedbackSessionName, Browser browser) {
+    protected InstructorFeedbackEditPage getFeedbackEditPage(final String instructorId, final String courseId, 
+            final String feedbackSessionName, final Browser browser) {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
                 withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);

@@ -193,7 +193,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         assertEquals("", r.getStatusMessage());
     }
 
-    private InstructorFeedbackSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackSubmissionEditPageAction getAction(final String... params) throws Exception {
         return (InstructorFeedbackSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

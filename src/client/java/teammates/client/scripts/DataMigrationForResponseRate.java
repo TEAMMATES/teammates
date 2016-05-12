@@ -26,7 +26,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     // modify for preview
     boolean isPreview = true;
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
         
         DataMigrationForResponseRate migrator = new DataMigrationForResponseRate();
@@ -79,7 +79,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     }
     
     /* Operation for a specific session */
-    private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
+    private void updateRespondantsForSession(final String feedbackSessionName, final String courseId) {
         if (isPreview) {
             System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]"); 
             return;

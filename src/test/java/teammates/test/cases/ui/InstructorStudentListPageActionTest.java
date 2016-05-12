@@ -132,7 +132,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     }
 
-    private InstructorStudentListPageAction getAction(String... params) throws Exception {
+    private InstructorStudentListPageAction getAction(final String... params) throws Exception {
         return (InstructorStudentListPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

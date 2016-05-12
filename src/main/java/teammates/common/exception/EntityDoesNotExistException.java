@@ -2,7 +2,7 @@ package teammates.common.exception;
 
 @SuppressWarnings("serial")
 public class EntityDoesNotExistException extends Exception {
-    public EntityDoesNotExistException(String message) {
+    public EntityDoesNotExistException(final String message) {
         super(message);
     }
 }

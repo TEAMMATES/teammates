@@ -12,7 +12,7 @@ public class DownloadAllCourseData extends OfflineBackup {
 
    
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         DownloadAllCourseData downloadAllCourseData = new DownloadAllCourseData();
         downloadAllCourseData.doOperationRemotely();
     }

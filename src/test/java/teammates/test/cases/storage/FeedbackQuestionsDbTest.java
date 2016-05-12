@@ -403,7 +403,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         return fqa;
     }
 
-    private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
+    private List<FeedbackQuestionAttributes> createFeedbackQuestions(final int num) throws Exception {
         FeedbackQuestionAttributes fqa;
         List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
 
@@ -464,7 +464,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         return numberOfQuestionsToCreate;
     }
 
-    private void deleteFeedbackQuestions(int numToDelete) {
+    private void deleteFeedbackQuestions(final int numToDelete) {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         for (int i = 1; i <= numToDelete; i++) {
             fqa.questionNumber = i;

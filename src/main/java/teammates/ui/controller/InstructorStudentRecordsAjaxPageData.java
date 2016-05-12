@@ -12,8 +12,8 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
 
     private List<FeedbackResultsTable> resultsTables;
 
-    public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student,
-                                                List<FeedbackSessionResultsBundle> results) {
+    public InstructorStudentRecordsAjaxPageData(final AccountAttributes account, final StudentAttributes student,
+                                                final List<FeedbackSessionResultsBundle> results) {
         super(account, student);
         this.resultsTables = new ArrayList<FeedbackResultsTable>();
         for (int i = 0; i < results.size(); i++) {

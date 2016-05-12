@@ -285,7 +285,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         
     }
 
-    private InstructorFeedbackResultsPageAction getAction(String[] params) {
+    private InstructorFeedbackResultsPageAction getAction(final String[] params) {
         return (InstructorFeedbackResultsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 

@@ -41,7 +41,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         testActionInMasqueradeMode(student);
     }
 
-    private void testActionWithInvalidParameters(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionWithInvalidParameters(final AccountAttributes student) throws EntityDoesNotExistException {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters");
         
@@ -75,7 +75,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
-    private void testActionTypicalSuccess(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionTypicalSuccess(final AccountAttributes student) throws EntityDoesNotExistException {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
@@ -94,7 +94,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         verifyLogMessage(student, action, expectedProfile, false);
     }
 
-    private void testActionInMasqueradeMode(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionInMasqueradeMode(final AccountAttributes student) throws EntityDoesNotExistException {
 
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
@@ -117,8 +117,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
 
-    private void verifyLogMessage(AccountAttributes student, StudentProfileEditSaveAction action,
-                                  StudentProfileAttributes expectedProfile, boolean isMasquerade) {
+    private void verifyLogMessage(final AccountAttributes student, final StudentProfileEditSaveAction action,
+                                  final StudentProfileAttributes expectedProfile, final boolean isMasquerade) {
         expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
@@ -130,7 +130,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
-            String[] submissionParams) {
+            final String[] submissionParams) {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
@@ -144,7 +144,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         return spa;
     }
 
-    private StudentProfileEditSaveAction getAction(String[] submissionParams) {
+    private StudentProfileEditSaveAction getAction(final String[] submissionParams) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(uri, submissionParams);
     }
 

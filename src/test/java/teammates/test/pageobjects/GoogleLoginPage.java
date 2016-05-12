@@ -21,7 +21,7 @@ public class GoogleLoginPage extends LoginPage {
     private WebElement staySignedCheckbox;
 
 
-    public GoogleLoginPage(Browser browser){
+    public GoogleLoginPage(final Browser browser){
         super(browser);
     }
 
@@ -30,12 +30,12 @@ public class GoogleLoginPage extends LoginPage {
         return containsExpectedPageContents(getPageSource());
     }
     
-    public static boolean containsExpectedPageContents(String pageSource){
+    public static boolean containsExpectedPageContents(final String pageSource){
         return pageSource.contains("Sign in with your Google Account");
     }
 
     @Override
-    public InstructorHomePage loginAsInstructor(String username, String password) {
+    public InstructorHomePage loginAsInstructor(final String username, final String password) {
         completeGoogleLoginSteps(username, password);
         InstructorHomePage homePage = changePageType(InstructorHomePage.class);
         browser.isAdminLoggedIn = false;
@@ -44,7 +44,7 @@ public class GoogleLoginPage extends LoginPage {
 
     
     @Override
-    public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
+    public AppPage loginAsInstructorUnsuccessfully(final String userName, final String password) {
         completeGoogleLoginSteps(userName, password);
         browser.isAdminLoggedIn = false;
         return this;
@@ -52,25 +52,25 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     public void loginAdminAsInstructor(
-            String adminUsername, String adminPassword, String instructorUsername) {
+            final String adminUsername, final String adminPassword, final String instructorUsername) {
         completeGoogleLoginSteps(adminUsername, adminPassword);
         browser.isAdminLoggedIn = true;
     }
 
     @Override
-    public StudentHomePage loginAsStudent(String username, String password) {
+    public StudentHomePage loginAsStudent(final String username, final String password) {
         return loginAsStudent(username, password, StudentHomePage.class);
     }
 
     @Override
-    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
+    public <T extends AppPage> T loginAsStudent(final String username, final String password, final Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
         T page = changePageType(typeOfPage);
         browser.isAdminLoggedIn = false;
         return page;
     }
 
-    private void completeGoogleLoginSteps(String username, String password) {
+    private void completeGoogleLoginSteps(final String username, final String password) {
         submitCredentials(username, password);
         dealWithSignIntoChromePage();
         handleApprovalPageIfAny();
@@ -94,7 +94,7 @@ public class GoogleLoginPage extends LoginPage {
         }
     }
 
-    private void submitCredentials(String username, String password) {
+    private void submitCredentials(final String username, final String password) {
         fillTextBox(usernameTextBox, username);
         click(By.id("next"));
         waitForElementVisibility(passwordTextBox);
@@ -110,7 +110,7 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     public StudentCourseJoinConfirmationPage loginAsJoiningStudent(
-            String username, String password) {
+            final String username, final String password) {
         completeGoogleLoginSteps(username, password);
         browser.isAdminLoggedIn = false;
         return changePageType(StudentCourseJoinConfirmationPage.class);
@@ -118,7 +118,7 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(
-            String username, String password) {
+            final String username, final String password) {
         completeGoogleLoginSteps(username, password);
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
@@ -126,7 +126,7 @@ public class GoogleLoginPage extends LoginPage {
     
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(
-            String username, String password) {
+            final String username, final String password) {
         completeGoogleLoginSteps(username, password);
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);

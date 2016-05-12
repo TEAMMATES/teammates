@@ -7,8 +7,8 @@ public class FeedbackSessionRow {
     private String courseId;
     private List<QuestionTable> questionTables;
     
-    public FeedbackSessionRow(String feedbackSessionName, String courseId, 
-                                    List<QuestionTable> questionTables) {
+    public FeedbackSessionRow(final String feedbackSessionName, final String courseId, 
+                                    final List<QuestionTable> questionTables) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.questionTables = questionTables;

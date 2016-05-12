@@ -12,9 +12,9 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     private StudentInfoTable studentInfoTable;
     private String commentRecipient;
 
-    public InstructorCourseStudentDetailsPageData(AccountAttributes account, StudentAttributes student,
-            StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection,
-            String commentRecipient) {
+    public InstructorCourseStudentDetailsPageData(final AccountAttributes account, final StudentAttributes student,
+            final StudentProfileAttributes studentProfile, final boolean isAbleToAddComment, final boolean hasSection,
+            final String commentRecipient) {
         super(account);
         if (studentProfile != null) {
             String pictureUrl = getPictureUrl(studentProfile.pictureKey);

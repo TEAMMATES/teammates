@@ -37,7 +37,7 @@ public class TestNgTest extends BaseTestCase {
      * @param rootPath     Root path of test files
      * @return             HashMap containing <class name, package name>
      */
-    private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {       
+    private HashMap<String, String> getTestFiles(final String testNgXml, final String rootPath) {       
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because 
         // base classes are extended by the actual tests
         
@@ -51,7 +51,7 @@ public class TestNgTest extends BaseTestCase {
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
      */
-    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles, String... filesExcludedFromTestNg) {
+    private HashMap<String, String> excludeFilesNotInTestNg(final HashMap<String, String> testFiles, final String... filesExcludedFromTestNg) {
         for (String test : filesExcludedFromTestNg) {
             testFiles.remove(test);
         }
@@ -59,7 +59,7 @@ public class TestNgTest extends BaseTestCase {
         return testFiles;
     }
     
-    private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
+    private boolean isTestFileIncluded(final String testNgXml, final String packageName, final String testClassName) {
         return testNgXml.contains("<class name=\"" + packageName + "." + testClassName + "\" />");
     }
 
@@ -77,9 +77,9 @@ public class TestNgTest extends BaseTestCase {
      * @return                                HashMap containing <class name, package name> including 
      *                                        current file or tests in the current directory
      */
-    private HashMap<String, String> addFilesToTestsRecursively(String path, 
-                                                               boolean areFilesInCurrentDirExcluded, 
-                                                               String packageName, String testNgXml) {
+    private HashMap<String, String> addFilesToTestsRecursively(final String path, 
+                                                               final boolean areFilesInCurrentDirExcluded, 
+                                                               final String packageName, final String testNgXml) {
         
         HashMap<String, String> testFiles = new HashMap<String, String>();
         File folder = new File(path);
@@ -103,7 +103,7 @@ public class TestNgTest extends BaseTestCase {
         return testFiles;
     }
     
-    private boolean isPackageNameInTestNg(String packageName, String testNgXml) {
+    private boolean isPackageNameInTestNg(final String packageName, final String testNgXml) {
         return testNgXml.contains("<package name=\"" + packageName + "\" />");
     }
     

@@ -308,7 +308,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
-            FeedbackResponseCommentAttributes frComment, String expectedMessage) 
+            final FeedbackResponseCommentAttributes frComment, final String expectedMessage) 
             throws InvalidParametersException {
         try {
             frcLogic.createFeedbackResponseComment(frComment);
@@ -318,13 +318,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
+    private void verifyNullFromGetFrCommentForSession(final FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot = 
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         assertEquals(0, frCommentsGot.size());
     }
     
-    private void verifyNullFromGetFrComment(FeedbackResponseCommentAttributes frComment) {
+    private void verifyNullFromGetFrComment(final FeedbackResponseCommentAttributes frComment) {
         FeedbackResponseCommentAttributes frCommentGot = 
                 frcLogic.getFeedbackResponseComment(
                                  frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
@@ -332,7 +332,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyExceptionThrownWhenUpdateFrComment(
-            FeedbackResponseCommentAttributes frComment, String expectedString)
+            final FeedbackResponseCommentAttributes frComment, final String expectedString)
             throws EntityDoesNotExistException {
         try {
             frcLogic.updateFeedbackResponseComment(frComment);
@@ -343,7 +343,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void restoreFrCommentFromDataBundle(
-            FeedbackResponseCommentAttributes frComment, String existingFrCommentInDataBundle) {
+            final FeedbackResponseCommentAttributes frComment, final String existingFrCommentInDataBundle) {
         
         FeedbackResponseCommentAttributes existingFrComment = 
                 dataBundle.feedbackResponseComments.get(existingFrCommentInDataBundle);
@@ -357,8 +357,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void restoreFrCommentIdFromExistingOne(
-            FeedbackResponseCommentAttributes frComment,
-            FeedbackResponseCommentAttributes existingFrComment) {
+            final FeedbackResponseCommentAttributes frComment,
+            final FeedbackResponseCommentAttributes existingFrComment) {
         
         List<FeedbackResponseCommentAttributes> existingFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(
@@ -376,14 +376,14 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frComment.feedbackResponseId = existingFrCommentWithId.feedbackResponseId;
     }
     
-    private String getQuestionIdInDataBundle(String questionInDataBundle) {
+    private String getQuestionIdInDataBundle(final String questionInDataBundle) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionInDataBundle);
         question = fqLogic.getFeedbackQuestion(
                                    question.feedbackSessionName, question.courseId, question.questionNumber);
         return question.getId();
     }
     
-    private String getResponseIdInDataBundle(String responseInDataBundle, String questionInDataBundle) {
+    private String getResponseIdInDataBundle(final String responseInDataBundle, final String questionInDataBundle) {
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get(responseInDataBundle);
         response = frLogic.getFeedbackResponse(
                                    getQuestionIdInDataBundle(questionInDataBundle), 

@@ -23,7 +23,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public boolean isError;
     public String[] commentIds;
     
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
+    public InstructorFeedbackResponseCommentAjaxPageData(final AccountAttributes account) {
         super(account);
     }
 

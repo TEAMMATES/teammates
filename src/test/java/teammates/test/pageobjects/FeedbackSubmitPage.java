@@ -10,7 +10,7 @@ import teammates.common.util.Sanitizer;
 
 public class FeedbackSubmitPage extends AppPage {
 
-    public FeedbackSubmitPage(Browser browser) {
+    public FeedbackSubmitPage(final Browser browser) {
         super(browser);
     }
 
@@ -27,19 +27,19 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
     
-    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+    public boolean isCorrectPage (final String courseId, final String feedbackSessionName) {
         boolean isCorrectCourseId = this.getCourseId().equals(courseId);
         boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void selectRecipient(int qnNumber, int responseNumber, String recipientName) {
+    public void selectRecipient(final int qnNumber, final int responseNumber, final String recipientName) {
         Select selectElement = new Select(browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
         selectElement.selectByVisibleText(recipientName);
     }
     
-    public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
+    public void fillResponseTextBox(final int qnNumber, final int responseNumber, final String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         element.click();
@@ -50,7 +50,7 @@ public class FeedbackSubmitPage extends AppPage {
         jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
-    public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
+    public void fillResponseTextBox(final int qnNumber, final int responseNumber, final int responseSubNumber, final String text) {
         WebElement element = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         element.click();
@@ -59,13 +59,13 @@ public class FeedbackSubmitPage extends AppPage {
         jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
-    public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
+    public String getResponseTextBoxValue(final int qnNumber, final int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         return element.getAttribute("value");
     }
     
-    public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
+    public void selectResponseTextDropdown(final int qnNumber, final int responseNumber, final int responseSubNumber, final String text) {
         WebElement element = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" 
                       + qnNumber + "-" + responseNumber 
@@ -74,13 +74,13 @@ public class FeedbackSubmitPage extends AppPage {
         dropdown.selectByVisibleText(text);
     }
     
-    public String getConstSumMessage(int qnNumber, int responseNumber) {
+    public String getConstSumMessage(final int qnNumber, final int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
         return element.getText();
     }
     
-    public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
+    public void chooseMcqOption(final int qnNumber, final int responseNumber, String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         choiceName = Sanitizer.convertStringForXPath(choiceName);
@@ -88,7 +88,7 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
-    public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName){
+    public void toggleMsqOption(final int qnNumber, final int responseNumber, String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         choiceName = Sanitizer.convertStringForXPath(choiceName);
@@ -96,30 +96,30 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
-    public void chooseContribOption(int qnNumber, int responseNumber, String choiceName){
+    public void chooseContribOption(final int qnNumber, final int responseNumber, final String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
     }
     
-    public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
+    public void clickRubricRadio(final int qnIndex, final int respIndex, final int row, final int col) {
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
     
-    public void clickRubricCell(int qnIndex, int respIndex, int row, int col) {
+    public void clickRubricCell(final int qnIndex, final int respIndex, final int row, final int col) {
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
     }
     
-    public void clickRubricRadioMobile(int qnIndex, int respIndex, int row, int col) {
+    public void clickRubricRadioMobile(final int qnIndex, final int respIndex, final int row, final int col) {
         WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
 
-    public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
+    public boolean isRubricRadioMobileChecked(final int qnIndex, final int respIndex, final int row, final int col) {
         WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
         // getAttributes can return null when attribute does'nt exist
@@ -130,7 +130,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public boolean isRubricRadioChecked(int qnIndex, int respIndex, int row, int col) {
+    public boolean isRubricRadioChecked(final int qnIndex, final int respIndex, final int row, final int col) {
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
         // getAttributes can return null when attribute does'nt exist
@@ -141,7 +141,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public String getRankMessage(int qnNumber, int responseNumber) {
+    public String getRankMessage(final int qnNumber, final int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("rankMessage-" + qnNumber + "-" + responseNumber));
         return element.getText();

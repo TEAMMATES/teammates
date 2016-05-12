@@ -120,7 +120,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
      * @param feedbackSessionName
      * @param coursesIdToCopyTo
      */
-    private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
+    private List<String> filterConflictsInCourses(final String feedbackSessionName, final String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
         
         for (String courseIdToCopy: coursesIdToCopyTo) {
@@ -136,7 +136,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
+    private AjaxResult createAjaxResultWithErrorMessage(final String errorToUser) {
         isError = true;
         return createAjaxResult(new InstructorFeedbackEditCopyData(account, errorToUser));
     }

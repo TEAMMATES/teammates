@@ -20,13 +20,13 @@ public class GoogleCloudStorageHelper {
     private static GcsService gcsService;
     private static Logic logic = new Logic();
 
-    public static String writeFileToGcs(String googleId, String filename, String suffix) throws IOException {
+    public static String writeFileToGcs(final String googleId, final String filename, final String suffix) throws IOException {
         byte[] image = FileHelper.readFile(filename).getBytes();
         
         return writeDataToGcs(googleId, image, suffix);
     }
     
-    public static boolean doesFileExistInGcs(String googleId, boolean isGcsFilename) throws IOException {
+    public static boolean doesFileExistInGcs(final String googleId, final boolean isGcsFilename) throws IOException {
         if (isGcsFilename) {
             GcsFilename name = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
             try {
@@ -40,7 +40,7 @@ public class GoogleCloudStorageHelper {
         }
     }
     
-    public static boolean doesFileExistInGcs(BlobKey fileKey) {
+    public static boolean doesFileExistInGcs(final BlobKey fileKey) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().fetchData(fileKey, 0, 1);
             return true;
@@ -49,8 +49,8 @@ public class GoogleCloudStorageHelper {
         }
     }
 
-    public static String writeDataToGcs(String googleId, byte[] pictureData,
-            String suffix) throws IOException {
+    public static String writeDataToGcs(final String googleId, final byte[] pictureData,
+            final String suffix) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId + suffix);
         gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel =

@@ -515,7 +515,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     }
     
-    private InstructorStudentCommentEditAction getAction(String... params) throws Exception {
+    private InstructorStudentCommentEditAction getAction(final String... params) throws Exception {
         return (InstructorStudentCommentEditAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

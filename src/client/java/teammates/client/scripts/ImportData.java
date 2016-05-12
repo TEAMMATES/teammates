@@ -38,7 +38,7 @@ public class ImportData {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    public static void main(String args[]) throws Exception {
+    public static void main(final String args[]) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
@@ -77,7 +77,7 @@ public class ImportData {
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map)
+    private static String persist(@SuppressWarnings("rawtypes") final HashMap map)
     {
         DataBundle bundle = new DataBundle();
         int count = 0;

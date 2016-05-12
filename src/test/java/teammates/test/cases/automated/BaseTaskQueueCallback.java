@@ -12,7 +12,7 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
     public static int taskCount;
     
     @Override
-    public void initialize(Map<String, String> arg0) {
+    public void initialize(final Map<String, String> arg0) {
         taskCount = 0;
     }
     
@@ -20,7 +20,7 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
         taskCount = 0;
     }
     
-    public static boolean verifyTaskCount(int expectedCount) {
+    public static boolean verifyTaskCount(final int expectedCount) {
         for (int i = 0; i <= expectedCount; i++) {
             waitForTaskQueueExecution(1, 0);
             if(expectedCount == BaseTaskQueueCallback.taskCount){
@@ -31,11 +31,11 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
         return false;
     }
 
-    public static void waitForTaskQueueExecution(int expectedNumberOfTasks) {
+    public static void waitForTaskQueueExecution(final int expectedNumberOfTasks) {
         waitForTaskQueueExecution(expectedNumberOfTasks, 5);
     }
     
-    public static void waitForTaskQueueExecution(int tasks, int buffer) {
+    public static void waitForTaskQueueExecution(final int tasks, final int buffer) {
         /*
          *  Current rate of task execution is 1/s
          *  Wait for 1 more second to see if erroneous or unwanted tasks

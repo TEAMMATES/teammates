@@ -22,13 +22,13 @@ public class LoginServlet extends HttpServlet {
     protected static final Logger log = Utils.getLogger();
     
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
+    public final void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException, ServletException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
+    public final void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException, ServletException{
         Logic server = new Logic();
         UserType user = server.getCurrentUser();
@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private boolean isMasqueradeMode(UserType user) {
+    private boolean isMasqueradeMode(final UserType user) {
         return user!=null;
     }
 }

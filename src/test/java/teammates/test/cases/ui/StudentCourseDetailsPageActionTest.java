@@ -115,7 +115,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
     }
 
-    private StudentCourseDetailsPageAction getAction(String... params)throws Exception {   
+    private StudentCourseDetailsPageAction getAction(final String... params)throws Exception {   
         return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

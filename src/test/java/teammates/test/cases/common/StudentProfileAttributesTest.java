@@ -175,20 +175,20 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     // -------------------------------------------------------------------------------------------------------
 
     private StudentProfile createStudentProfileFrom(
-            StudentProfileAttributes profile) {
+            final StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender,
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
     }
 
     private StudentProfileAttributes createNewProfileAttributesFrom(
-            StudentProfileAttributes profile) {
+            final StudentProfileAttributes profile) {
         return new StudentProfileAttributes(profile.googleId, profile.shortName, profile.email,
                                             profile.institute, profile.nationality, profile.gender,
                                             profile.moreInfo, profile.pictureKey);
     }
 
-    private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) {
+    private List<String> generatedExpectedErrorMessages(final StudentProfileAttributes profile) {
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         // tests both the constructor and the invalidity info

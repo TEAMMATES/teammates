@@ -9,7 +9,7 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
     private String regkey;
     private String institute;
     
-    public InstructorCourseJoinConfirmationPageData(AccountAttributes account, String regkey, String institute) {
+    public InstructorCourseJoinConfirmationPageData(final AccountAttributes account, final String regkey, final String institute) {
         super(account);
         this.regkey = regkey;
         this.institute = institute;

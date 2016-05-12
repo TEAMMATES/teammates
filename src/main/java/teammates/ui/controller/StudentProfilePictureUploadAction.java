@@ -72,7 +72,7 @@ public class StudentProfilePictureUploadAction extends Action {
         return r;
     }
 
-    private String renameFileToGoogleId(BlobInfo blobInfo) throws IOException {
+    private String renameFileToGoogleId(final BlobInfo blobInfo) throws IOException {
         Assumption.assertNotNull(blobInfo);
 
         BlobKey blobKey = blobInfo.getBlobKey();
@@ -97,7 +97,7 @@ public class StudentProfilePictureUploadAction extends Action {
      * @throws IOException
      * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
      */
-    private String uploadFileToGcs(byte[] transformedImage) throws IOException {
+    private String uploadFileToGcs(final byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName, new GcsFileOptions.Builder()
@@ -134,7 +134,7 @@ public class StudentProfilePictureUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateProfilePicture(BlobInfo profilePic) {
+    private BlobInfo validateProfilePicture(final BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
@@ -150,7 +150,7 @@ public class StudentProfilePictureUploadAction extends Action {
         }
     }
 
-    private void deletePicture(BlobKey blobKey) {
+    private void deletePicture(final BlobKey blobKey) {
         if (blobKey == new BlobKey("")) {
             return;
         }

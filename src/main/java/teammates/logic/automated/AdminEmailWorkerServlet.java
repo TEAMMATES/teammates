@@ -24,7 +24,7 @@ import teammates.logic.core.Emails;
 public class AdminEmailWorkerServlet extends WorkerServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         
         
         String emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
@@ -59,7 +59,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws MessagingException, JSONException, IOException{
+    private void sendAdminEmail(final String emailContent, final String subject, final String receiverEmail) throws MessagingException, JSONException, IOException{
         
         Emails emailsManager = new Emails();
         

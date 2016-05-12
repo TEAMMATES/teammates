@@ -16,12 +16,12 @@ import javax.servlet.ServletResponse;
 public final class DatastoreFilter implements javax.servlet.Filter {
 
     @Override
-    public void init(FilterConfig config) {
+    public void init(final FilterConfig config) {
         Datastore.initialize();
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    public void doFilter(final ServletRequest request, final ServletResponse response,
+            final FilterChain chain) throws IOException, ServletException {
         //There was a Datastore.finishRequest() here inside a finally clause.
         //  It was removed at 4.19 because some requests span multiple entity
         //  groups. We are not allowed to apply transactions to such requests.

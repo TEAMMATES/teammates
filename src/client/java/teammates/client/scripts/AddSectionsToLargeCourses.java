@@ -57,7 +57,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
      */
     
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
         
         AddSectionsToLargeCourses migrator = new AddSectionsToLargeCourses();
@@ -103,7 +103,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return allCourses;
    }
 
-    public Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
+    public Set<String> filterLargeCoursesWithoutSections(final Set<String> courses) {
         Set<String> largeCoursesWithoutSections = new HashSet<String>();
         
         CourseDetailsBundle courseDetails = null;
@@ -128,7 +128,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     }
 
     
-    public void addSectionsToCourse(String courseId) {
+    public void addSectionsToCourse(final String courseId) {
         System.out.println("Course: [" + courseId + "] ");
         
         
@@ -171,7 +171,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         System.out.println();
     }
 
-    private void updateStudentSection(String currentSection, StudentAttributes student) {
+    private void updateStudentSection(final String currentSection, final StudentAttributes student) {
          
         try {
             System.out.println("Update " + student.email + " to section " + currentSection);
@@ -197,7 +197,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         }        
     }
     
-    private Student getStudent(String email, String courseId, PersistenceManager pm) {
+    private Student getStudent(final String email, final String courseId, final PersistenceManager pm) {
         
         String q = "SELECT FROM " + Student.class.getName() + " " +
                 "WHERE email == emailParam && courseID == courseIdParam" + " " +
@@ -208,7 +208,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return studentList.get(0);
     }
     
-    private void updateStudentToBeInSection(Student student, String sectionToChangeTo) throws InvalidParametersException, EntityDoesNotExistException {
+    private void updateStudentToBeInSection(final Student student, final String sectionToChangeTo) 
+                                    throws InvalidParametersException, EntityDoesNotExistException {
         if (isPreview) {
             return;
         }
@@ -217,7 +218,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     }
     
 
-    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
+    private void updateFeedbackResponsesToBeInSection(final List<FeedbackResponse> responses, 
+                                                      final StudentAttributes student, final String sectionName) {
         if (isPreview) {
             return;
         }
@@ -240,7 +242,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         // note that comments are not updated
     }
     
-    private List<FeedbackResponse> getResponsesForStudent(StudentAttributes student, PersistenceManager pm) {
+    private List<FeedbackResponse> getResponsesForStudent(final StudentAttributes student, final PersistenceManager pm) {
         String studentEmail = student.email;
         String studentTeam = student.team;
         String course = student.course;

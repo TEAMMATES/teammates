@@ -320,7 +320,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     private void verifyCommentsGotForStudent(
-            List<CommentAttributes> commentsForReceiver) {
+            final List<CommentAttributes> commentsForReceiver) {
         for (CommentAttributes comment : commentsForReceiver){
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.PERSON)
                     || comment.showCommentTo.contains(CommentParticipantType.TEAM)
@@ -330,8 +330,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     private void verifyCommentsGotForInstructor(
-            List<CommentAttributes> commentsForReceiver,
-            InstructorAttributes instructor) {
+            final List<CommentAttributes> commentsForReceiver,
+            final InstructorAttributes instructor) {
         for (CommentAttributes comment : commentsForReceiver){
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR)
                     || comment.courseId.equals(instructor.courseId));
@@ -396,32 +396,32 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     // TODO: add tests for those one level down api call if test coverage is considered
     
-    private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments){
+    private void verifyCommentsGiverNameVisible(final List<CommentAttributes> comments){
         for (CommentAttributes c: comments){
             assertTrue(!c.giverEmail.equals("Anonymous"));
         }
     }
     
-    private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments){
+    private void verifyCommentsGiverNameHidden(final List<CommentAttributes> comments){
         for (CommentAttributes c: comments){
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
-    private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments){
+    private void verifyCommentsRecipientNameHidden(final List<CommentAttributes> comments){
         for (CommentAttributes c: comments){
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
-    private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments){
+    private void verifyCommentsRecipientNameVisible(final List<CommentAttributes> comments){
         for (CommentAttributes c: comments){
             assertTrue(!c.recipients.iterator().next().equals("Anonymous"));
         }
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
-            CommentAttributes comment, String message) 
+            final CommentAttributes comment, final String message) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         try {
             commentsLogic.createComment(comment);
@@ -432,7 +432,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyExceptionThrownFromGetCommentsForGiver(
-            CommentAttributes comment, String message) {
+            final CommentAttributes comment, final String message) {
         try {
             commentsLogic.getCommentsForGiver(comment.courseId, comment.giverEmail);
             signalFailureToDetectException();
@@ -442,7 +442,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyExceptionThrownFromGetCommentsForReceiver(
-            CommentAttributes comment, String message) {
+            final CommentAttributes comment, final String message) {
         try {
             commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType, comment.recipients.iterator().next());
             signalFailureToDetectException();
@@ -451,7 +451,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
+    private void verifyExceptionThrownFromUpdateComment(final CommentAttributes c, final String message)
             throws EntityDoesNotExistException {
         try {
             commentsLogic.updateComment(c);

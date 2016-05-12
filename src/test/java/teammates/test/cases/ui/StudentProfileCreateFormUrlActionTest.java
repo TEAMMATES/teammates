@@ -33,7 +33,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         testGenerateUploadUrlSuccessMasqueradeMode(student);
     }
 
-    private void testGenerateUploadUrlSuccessTypical(AccountAttributes student)
+    private void testGenerateUploadUrlSuccessTypical(final AccountAttributes student)
             throws Exception {
         ______TS("Typical case");
 
@@ -47,7 +47,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         verifyLogMessage(student, action, result, false);
     }
 
-    private void testGenerateUploadUrlSuccessMasqueradeMode(AccountAttributes student)
+    private void testGenerateUploadUrlSuccessMasqueradeMode(final AccountAttributes student)
             throws Exception {
         ______TS("Typical case: masquerade mode");
 
@@ -66,8 +66,8 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         verifyLogMessage(student, action, result, true);
     }
 
-    private void verifyLogMessage(AccountAttributes student, StudentProfileCreateFormUrlAction action,
-                                  AjaxResult result, boolean isMasquerade) {
+    private void verifyLogMessage(final AccountAttributes student, final StudentProfileCreateFormUrlAction action,
+                                  final AjaxResult result, final boolean isMasquerade) {
         StudentProfileCreateFormUrlAjaxPageData data = (StudentProfileCreateFormUrlAjaxPageData) result.data;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileCreateFormUrl|||studentProfileCreateFormUrl"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||" + student.name
@@ -76,7 +76,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfileCreateFormUrlAction getAction(String... params) throws Exception {
+    private StudentProfileCreateFormUrlAction getAction(final String... params) throws Exception {
         return (StudentProfileCreateFormUrlAction) (gaeSimulation.getActionObject(uri, params));
     }
 

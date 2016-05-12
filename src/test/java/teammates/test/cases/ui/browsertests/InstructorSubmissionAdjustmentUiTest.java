@@ -115,7 +115,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
     }
     
-    private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
+    private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(final StudentAttributes student) {
         List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
         
         List<FeedbackResponseAttributes> studentReceiverResponses = BackDoor
@@ -144,8 +144,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         return returnList;
     }
     
-    private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,
-            String feedbackSessionName) {
+    private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(final StudentAttributes student,
+            final String feedbackSessionName) {
         List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
         
         List<FeedbackResponseAttributes> allResponseOfStudent = getAllTeamResponsesForStudent(student);

@@ -70,12 +70,12 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
-    private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
+    private String validateQuestionGiverRecipientVisibility(final FeedbackQuestionAttributes feedbackQuestion) {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
-    private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters,
-                                                                          String creatorEmail) {
+    private static FeedbackQuestionAttributes extractFeedbackQuestionData(final Map<String, String[]> requestParameters,
+                                                                          final String creatorEmail) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
         newQuestion.creatorEmail = creatorEmail;
@@ -142,7 +142,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return newQuestion;
     }
 
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
+    private static List<FeedbackParticipantType> getParticipantListFromParams(final String participantListParam) {
         List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
 
         if (participantListParam == null || participantListParam.isEmpty()) {

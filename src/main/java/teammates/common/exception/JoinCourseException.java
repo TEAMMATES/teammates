@@ -6,11 +6,11 @@ public class JoinCourseException extends TeammatesException {
         super();
     }
 
-    public JoinCourseException(String errorcode, String message) {
+    public JoinCourseException(final String errorcode, final String message) {
         super(errorcode, message);
     }
 
-    public JoinCourseException(String message) {
+    public JoinCourseException(final String message) {
         super(message);
     }
 }

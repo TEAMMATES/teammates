@@ -129,11 +129,11 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorCourseEditPageAction getAction(String... params) throws Exception {
+    private InstructorCourseEditPageAction getAction(final String... params) throws Exception {
         return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
-    private void verifySameInstructorList(List<InstructorAttributes> list1, List<CourseEditInstructorPanel> list2) {
+    private void verifySameInstructorList(final List<InstructorAttributes> list1, final List<CourseEditInstructorPanel> list2) {
         assertEquals(list1.size(), list2.size());
         
         for (int i = 0; i < list1.size(); i++) {

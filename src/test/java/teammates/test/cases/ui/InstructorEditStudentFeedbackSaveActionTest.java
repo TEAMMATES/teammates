@@ -607,7 +607,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }
     
-    private InstructorEditStudentFeedbackSaveAction getAction(String... params) throws Exception {
+    private InstructorEditStudentFeedbackSaveAction getAction(final String... params) throws Exception {
         return (InstructorEditStudentFeedbackSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

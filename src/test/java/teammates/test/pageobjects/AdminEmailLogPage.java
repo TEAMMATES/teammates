@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 public class AdminEmailLogPage extends AppPage {
 
-    public AdminEmailLogPage(Browser browser) {
+    public AdminEmailLogPage(final Browser browser) {
         super(browser);
     }
     

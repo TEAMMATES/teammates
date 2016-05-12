@@ -8,7 +8,7 @@ public class AdminAccountDetailsInstructorCourseListTableRow {
     private CourseDetailsBundle courseDetails;
     private ElementTag removeFromCourseButton;
     
-    public AdminAccountDetailsInstructorCourseListTableRow(String instructorId, CourseDetailsBundle courseDetails) {
+    public AdminAccountDetailsInstructorCourseListTableRow(final String instructorId, final CourseDetailsBundle courseDetails) {
         this.instructorId = instructorId;
         this.courseDetails = courseDetails;
         this.removeFromCourseButton = createRemoveButton();

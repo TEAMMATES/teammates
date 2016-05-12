@@ -12,8 +12,8 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
     
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails, String[] answer) {
+    public void extractResponseDetails(final FeedbackQuestionType questionType,
+            final FeedbackQuestionDetails questionDetails, final String[] answer) {
         try {
             double numscaleAnswer = Double.parseDouble(answer[0]);
             setAnswer(numscaleAnswer);
@@ -36,16 +36,16 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtml(final FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerCsv(final FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 
-    private void setAnswer(double answer) {
+    private void setAnswer(final double answer) {
         this.answer = answer;
     }
 

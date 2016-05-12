@@ -294,7 +294,7 @@ public class EmailsTest extends BaseComponentTestCase {
         printEmail(email);
     }
 
-    private void printEmail(MimeMessage email) throws MessagingException,
+    private void printEmail(final MimeMessage email) throws MessagingException,
             IOException {
         print("Here's the generated email (for your eyeballing pleasure):");
         print(".............[Start of email]..............");
@@ -428,8 +428,8 @@ public class EmailsTest extends BaseComponentTestCase {
                 emailBody);
     }
 
-    private void verifyEmail(StudentAttributes s, MimeMessage email,
-            String prefix, String textInEmail) throws MessagingException,
+    private void verifyEmail(final StudentAttributes s, final MimeMessage email,
+            final String prefix, final String textInEmail) throws MessagingException,
             IOException {
         assertEquals(s.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
@@ -438,8 +438,8 @@ public class EmailsTest extends BaseComponentTestCase {
         assertFalse(emailBody.contains("$"));
     }
     
-    private void verifyEmail(InstructorAttributes i, MimeMessage email,
-            String prefix, String textInEmail) throws MessagingException,
+    private void verifyEmail(final InstructorAttributes i, final MimeMessage email,
+            final String prefix, final String textInEmail) throws MessagingException,
             IOException {
         assertEquals(i.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
@@ -505,7 +505,7 @@ public class EmailsTest extends BaseComponentTestCase {
         testEmailAttributes(email, sendgridEmail);
     }
 
-    private void testEmailAttributes(MimeMessage email, Sendgrid sendgridEmail) throws MessagingException,
+    private void testEmailAttributes(final MimeMessage email, final Sendgrid sendgridEmail) throws MessagingException,
                                     IOException {
         // check receiver
         assertEquals(email.getAllRecipients()[0].toString(), sendgridEmail.getTos().get(0));

@@ -9,8 +9,8 @@ public class EnrollResultPanel {
     private String messageForEnrollmentStatus;
     private List<StudentAttributes> studentList;
     
-    public EnrollResultPanel(String panelClass, String messageForEnrollmentStatus,
-                                    List<StudentAttributes> studentList) {
+    public EnrollResultPanel(final String panelClass, final String messageForEnrollmentStatus,
+                                    final List<StudentAttributes> studentList) {
         this.panelClass = panelClass;
         this.messageForEnrollmentStatus = messageForEnrollmentStatus;
         this.studentList = studentList;

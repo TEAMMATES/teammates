@@ -72,7 +72,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
     }
     
-    private InstructorFeedbackEditCopyPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditCopyPageAction getAction(final String... params) throws Exception {
         return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

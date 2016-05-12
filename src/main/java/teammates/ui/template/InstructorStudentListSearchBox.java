@@ -8,7 +8,7 @@ public class InstructorStudentListSearchBox {
     private String searchKey;
     private String googleId;
 
-    public InstructorStudentListSearchBox(String instructorSearchLink, String searchKey, String googleId) {
+    public InstructorStudentListSearchBox(final String instructorSearchLink, final String searchKey, final String googleId) {
         this.instructorSearchLink = instructorSearchLink;
         this.searchKey = searchKey == null ? "" : Sanitizer.sanitizeForHtml(searchKey);
         this.googleId = googleId;

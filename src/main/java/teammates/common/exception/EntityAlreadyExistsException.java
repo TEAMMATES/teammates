@@ -5,11 +5,11 @@ public class EntityAlreadyExistsException extends TeammatesException {
     
     public Object existingEntity;
     
-    public EntityAlreadyExistsException(String message) {
+    public EntityAlreadyExistsException(final String message) {
         super(message);
     }
     
-    public EntityAlreadyExistsException(String message, Object entity) {
+    public EntityAlreadyExistsException(final String message, final Object entity) {
         this(message);
         this.existingEntity = entity;
     }

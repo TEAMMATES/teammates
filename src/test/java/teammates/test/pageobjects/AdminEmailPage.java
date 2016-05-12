@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import teammates.common.util.Const;
 
 public class AdminEmailPage extends AppPage {
-    public AdminEmailPage(Browser browser) {
+    public AdminEmailPage(final Browser browser) {
         super(browser);
     }
 
@@ -15,17 +15,17 @@ public class AdminEmailPage extends AppPage {
         return getPageSource().contains("<h1>Admin Email</h1>");
     }
     
-    public void inputRecipient(String recipient) {
+    public void inputRecipient(final String recipient) {
         WebElement recipientBox = this.getRecipientBox();
         recipientBox.sendKeys(recipient);
     }
     
-    public void inputSubject(String subject) {
+    public void inputSubject(final String subject) {
         WebElement subjectBox = this.getSubjectBox();
         subjectBox.sendKeys(subject);
     }
     
-    public void inputContent(String content) {
+    public void inputContent(final String content) {
         browser.driver.switchTo().frame("adminEmailBox_ifr");
         WebElement contentBox = browser.driver.findElement(By.cssSelector("body"));
         contentBox.sendKeys(content);

@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 
 public class AdminStudentGoogleIdResetPageData extends PageData {
-    public AdminStudentGoogleIdResetPageData(AccountAttributes account) {
+    public AdminStudentGoogleIdResetPageData(final AccountAttributes account) {
         super(account);
     }
     

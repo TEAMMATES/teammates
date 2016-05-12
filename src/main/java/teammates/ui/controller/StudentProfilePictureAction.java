@@ -46,7 +46,7 @@ public class StudentProfilePictureAction extends Action {
         return createImageResult(getPictureKeyForStudent(student));
     }
 
-    private StudentAttributes getStudentForGivenParameters(String courseId, String email)
+    private StudentAttributes getStudentForGivenParameters(final String courseId, final String email)
             throws EntityDoesNotExistException {
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
         if (student == null) {
@@ -75,7 +75,7 @@ public class StudentProfilePictureAction extends Action {
         return email;
     }
 
-    private String getPictureKeyForStudent(StudentAttributes student) {
+    private String getPictureKeyForStudent(final StudentAttributes student) {
         String blobKey = "";
         if (student.googleId.isEmpty()) {
             // unregistered student, so ignore the picture request

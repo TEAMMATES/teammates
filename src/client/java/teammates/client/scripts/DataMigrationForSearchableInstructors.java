@@ -12,7 +12,7 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
     
     private Logic logic = new Logic();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         DataMigrationForSearchableInstructors migrator = new DataMigrationForSearchableInstructors();
         migrator.doOperationRemotely();
     }
@@ -33,7 +33,7 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
         return logic.getAllInstructors();
     }
     
-    private void updateDocumentForInstructor(InstructorAttributes instructor){
+    private void updateDocumentForInstructor(final InstructorAttributes instructor){
         logic.putDocument(instructor);
     }
 

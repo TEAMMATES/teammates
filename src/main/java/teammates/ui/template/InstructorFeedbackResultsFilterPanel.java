@@ -17,10 +17,10 @@ public class InstructorFeedbackResultsFilterPanel {
     private String resultsLink;
     private List<String> sections;
     
-    public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
-                                    FeedbackSessionAttributes session, boolean isAllSectionsSelected,
-                                    String selectedSection, boolean isGroupedByTeam, String sortType,
-                                    String resultsLink, List<String> sections) {
+    public InstructorFeedbackResultsFilterPanel(final boolean isStatsShown,
+                                    final FeedbackSessionAttributes session, final boolean isAllSectionsSelected,
+                                    final String selectedSection, final boolean isGroupedByTeam, final String sortType,
+                                    final String resultsLink, final List<String> sections) {
         this.isStatsShown = isStatsShown;
         this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);

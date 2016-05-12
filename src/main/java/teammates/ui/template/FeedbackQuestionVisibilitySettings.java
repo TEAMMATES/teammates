@@ -12,10 +12,10 @@ public class FeedbackQuestionVisibilitySettings {
     public FeedbackQuestionVisibilitySettings() {
     }
     
-    public FeedbackQuestionVisibilitySettings(List<String> visibilityMessages,
-                                              Map<String, Boolean> responseVisibleFor,
-                                              Map<String, Boolean> giverNameVisibleFor,
-                                              Map<String, Boolean> recipientNameVisibleFor) {
+    public FeedbackQuestionVisibilitySettings(final List<String> visibilityMessages,
+                                              final Map<String, Boolean> responseVisibleFor,
+                                              final Map<String, Boolean> giverNameVisibleFor,
+                                              final Map<String, Boolean> recipientNameVisibleFor) {
         this.visibilityMessages = visibilityMessages;
         this.giverNameVisibleFor = giverNameVisibleFor;
         this.recipientNameVisibleFor = recipientNameVisibleFor;
@@ -26,7 +26,7 @@ public class FeedbackQuestionVisibilitySettings {
         return visibilityMessages;
     }
 
-    public void setVisibilityMessages(List<String> visibilityMessages) {
+    public void setVisibilityMessages(final List<String> visibilityMessages) {
         this.visibilityMessages = visibilityMessages;
     }
 
@@ -34,7 +34,7 @@ public class FeedbackQuestionVisibilitySettings {
         return giverNameVisibleFor;
     }
 
-    public void setGiverNameVisibleFor(Map<String, Boolean> isGiverNameVisible) {
+    public void setGiverNameVisibleFor(final Map<String, Boolean> isGiverNameVisible) {
         this.giverNameVisibleFor = isGiverNameVisible;
     }
 
@@ -42,7 +42,7 @@ public class FeedbackQuestionVisibilitySettings {
         return recipientNameVisibleFor;
     }
 
-    public void setRecipientNameVisibleFor(Map<String, Boolean> isRecipientNameVisible) {
+    public void setRecipientNameVisibleFor(final Map<String, Boolean> isRecipientNameVisible) {
         this.recipientNameVisibleFor = isRecipientNameVisible;
     }
 
@@ -50,7 +50,7 @@ public class FeedbackQuestionVisibilitySettings {
         return responseVisibleFor;
     }
 
-    public void setResponseVisibleFor(Map<String, Boolean> isResponseVisible) {
+    public void setResponseVisibleFor(final Map<String, Boolean> isResponseVisible) {
         this.responseVisibleFor = isResponseVisible;
     }
 }

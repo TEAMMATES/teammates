@@ -119,8 +119,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         }
     }
 
-    private void verifyFileContentForSession1InCourse1(String fileContent,
-                                                       FeedbackSessionAttributes session) {
+    private void verifyFileContentForSession1InCourse1(final String fileContent,
+                                                       final FeedbackSessionAttributes session) {
         /* This is what fileContent should look like:
         ==================================
         Course,idOfTypicalCourse1
@@ -155,8 +155,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
     }    
 
-    private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent,
-                                                                      FeedbackSessionAttributes session) {
+    private void verifyFileContentForSession1InCourse1WithNewLastName(final String fileContent,
+                                                                      final FeedbackSessionAttributes session) {
         /* This is what fileContent should look like:
         ==================================
         Course,idOfTypicalCourse1
@@ -191,8 +191,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
     }
 
-    private void verifyFileContentForSession1InCourse1WithinSection1(String fileContent,
-                                                                     FeedbackSessionAttributes session) {
+    private void verifyFileContentForSession1InCourse1WithinSection1(final String fileContent,
+                                                                     final FeedbackSessionAttributes session) {
         /* This is what fileContent should look like:
         ==================================
         Course,idOfTypicalCourse1
@@ -230,7 +230,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     }
 
-    private InstructorFeedbackResultsDownloadAction getAction(String[] params) {
+    private InstructorFeedbackResultsDownloadAction getAction(final String[] params) {
         return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(uri, params);
     }
 

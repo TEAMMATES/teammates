@@ -58,7 +58,7 @@ public class AdminEmail {
      * @param content
      *          html email content
      */
-    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content, Date sendDate){
+    public AdminEmail(final List<String> addressReceiver, final List<String> groupReceiver, final String subject, final Text content, final Date sendDate){
         this.emailId = null;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
@@ -69,27 +69,27 @@ public class AdminEmail {
         this.isInTrashBin = false;
     }
     
-    public void setAddressReceiver(List<String> receiver){
+    public void setAddressReceiver(final List<String> receiver){
         this.addressReceiver = receiver;
     }
     
-    public void setGroupReceiver(List<String> receiver){
+    public void setGroupReceiver(final List<String> receiver){
         this.groupReceiver = receiver;
     }
     
-    public void setSubject(String subject){
+    public void setSubject(final String subject){
         this.subject = subject;
     }
     
-    public void setContent(Text content){
+    public void setContent(final Text content){
         this.content = content;
     }
     
-    public void setIsInTrashBin(boolean isInTrashBin){
+    public void setIsInTrashBin(final boolean isInTrashBin){
         this.isInTrashBin = isInTrashBin;
     }
     
-    public void setSendDate(Date sendDate){
+    public void setSendDate(final Date sendDate){
         this.sendDate = sendDate;
     }
     

@@ -57,7 +57,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable instructorTable;
     private AdminSearchStudentTable studentTable;
     
-    public AdminSearchPageData(AccountAttributes account) {
+    public AdminSearchPageData(final AccountAttributes account) {
         super(account);
     }
     
@@ -96,7 +96,7 @@ public class AdminSearchPageData extends PageData {
         return new AdminSearchInstructorTable(rows);
     }
 
-    private AdminSearchInstructorRow createInstructorRow(InstructorAttributes instructor) {
+    private AdminSearchInstructorRow createInstructorRow(final InstructorAttributes instructor) {
         String id = createId(instructor);
         String name = instructor.name;
         String courseName = courseIdToCourseNameMap.get(instructor.courseId);
@@ -112,7 +112,7 @@ public class AdminSearchPageData extends PageData {
                                             institute, viewRecentActionsId, email, courseJoinLink);
     }
 
-    private String createId(InstructorAttributes instructor) {
+    private String createId(final InstructorAttributes instructor) {
         String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
@@ -121,7 +121,7 @@ public class AdminSearchPageData extends PageData {
         return id;
     }
     
-    private String createViewRecentActionsId(InstructorAttributes instructor) {
+    private String createViewRecentActionsId(final InstructorAttributes instructor) {
         String availableIdString = "";
         
         if (instructor.googleId != null && !instructor.googleId.trim().isEmpty()) {
@@ -145,7 +145,7 @@ public class AdminSearchPageData extends PageData {
         return new AdminSearchStudentTable(rows);
     }
 
-    private AdminSearchStudentRow createStudentRow(StudentAttributes student) {
+    private AdminSearchStudentRow createStudentRow(final StudentAttributes student) {
         String id = createId(student);
         String name = student.name;
         String institute = studentInstituteMap.get(student.getIdentificationString());
@@ -173,7 +173,7 @@ public class AdminSearchPageData extends PageData {
                                          publishedFeedbackSessions);
     }
 
-    private String createId(StudentAttributes student) {
+    private String createId(final StudentAttributes student) {
         String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
         id = id.replace(" ", "").replace("@", "");
         id = "student_" + id;
@@ -181,7 +181,7 @@ public class AdminSearchPageData extends PageData {
         return id;
     }
 
-    private String createViewRecentActionsId(StudentAttributes student) {
+    private String createViewRecentActionsId(final StudentAttributes student) {
         String availableIdString = "";
         
         if (student.googleId != null && !student.googleId.trim().isEmpty()) {
@@ -195,7 +195,7 @@ public class AdminSearchPageData extends PageData {
         return availableIdString;
     }
     
-    private AdminSearchStudentLinks createStudentLinks(StudentAttributes student) {
+    private AdminSearchStudentLinks createStudentLinks(final StudentAttributes student) {
         String detailsPageLink = studentRecordsPageLinkMap.get(student.getIdentificationString());
         String homePageLink = studentIdToHomePageLinkMap.get(student.googleId);
         String courseJoinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
@@ -204,7 +204,7 @@ public class AdminSearchPageData extends PageData {
     }
     
     private List<AdminSearchStudentFeedbackSession> createFeedbackSessionsList(
-                                    StudentAttributes student, FeedbackSessionState fsState) {
+                                    final StudentAttributes student, final FeedbackSessionState fsState) {
         
         List<AdminSearchStudentFeedbackSession> sessions = new ArrayList<AdminSearchStudentFeedbackSession>();
         List<String> links = new ArrayList<String>();

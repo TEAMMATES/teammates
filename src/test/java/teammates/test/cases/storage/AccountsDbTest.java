@@ -85,7 +85,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
     
     private List<AccountAttributes> createInstructorAccounts(
-            int numOfInstructors) throws Exception {
+            final int numOfInstructors) throws Exception {
         AccountAttributes a;
         List<AccountAttributes> result = new ArrayList<AccountAttributes>();
         for (int i = 0; i < numOfInstructors; i++) {
@@ -98,7 +98,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         return result;
     }
     
-    private void deleteInstructorAccounts(int numOfInstructors) {
+    private void deleteInstructorAccounts(final int numOfInstructors) {
         String googleId;
         for (int i = 0; i < numOfInstructors; i++) {
             googleId = "id." + i;

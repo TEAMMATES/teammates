@@ -28,7 +28,7 @@ public class AdminHomePage extends AppPage {
     WebElement submitButtonDetailsSingleLineForm;
     
     
-    public AdminHomePage(Browser browser) {
+    public AdminHomePage(final Browser browser) {
         super(browser);
     }
 
@@ -43,7 +43,7 @@ public class AdminHomePage extends AppPage {
      * @param attributesForNewAccount
      * @param isCreateCourse True if a sample course should be created for this account.
      */
-    public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
+    public AdminHomePage createInstructor(final String shortName, final InstructorAttributes attributesForNewAccount, final String institute) {
         if (shortName != null) {
             fillTextBox(shortNameTextBox, shortName);
         }
@@ -62,7 +62,7 @@ public class AdminHomePage extends AppPage {
         return this;
     }
 
-    public void createInstructorByInstructorDetailsSingleLineForm(String instructorDetails) {
+    public void createInstructorByInstructorDetailsSingleLineForm(final String instructorDetails) {
         if (instructorDetails != null) {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
@@ -70,7 +70,7 @@ public class AdminHomePage extends AppPage {
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }
     
-    public String getMessageFromResultTable(int index) {
+    public String getMessageFromResultTable(final int index) {
         return getCellValueFromDataTable(index, 5);
     }
 

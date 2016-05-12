@@ -6,7 +6,7 @@ public class AdminSentEmailTable {
     private int numEmailsSent;
     private List<AdminSentEmailRow> rows;
     
-    public AdminSentEmailTable(int numEmailsSent, List<AdminSentEmailRow> rows) {
+    public AdminSentEmailTable(final int numEmailsSent, final List<AdminSentEmailRow> rows) {
         this.numEmailsSent = numEmailsSent;
         this.rows = rows;
     }

@@ -17,7 +17,7 @@ public class QUnitPage extends AppPage {
     @FindBy(css = ".grand-total > .bl-cl:nth-child(2)")
     private WebElement coverage;
 
-    public QUnitPage(Browser browser) {
+    public QUnitPage(final Browser browser) {
         super(browser);
     }
 

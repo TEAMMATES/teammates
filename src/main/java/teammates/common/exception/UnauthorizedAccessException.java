@@ -6,7 +6,7 @@ public class UnauthorizedAccessException extends RuntimeException {
         super();
     }
 
-    public UnauthorizedAccessException(String message) {
+    public UnauthorizedAccessException(final String message) {
         super(message);
     }
 }

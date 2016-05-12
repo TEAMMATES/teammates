@@ -6,7 +6,7 @@ package teammates.test.pageobjects;
  */
 public class GenericAppPage extends AppPage {
 
-    public GenericAppPage(Browser browser) {
+    public GenericAppPage(final Browser browser) {
         super(browser);
     }
 

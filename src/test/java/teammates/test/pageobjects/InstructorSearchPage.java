@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 public class InstructorSearchPage extends AppPage {
     
-    public InstructorSearchPage(Browser browser) {
+    public InstructorSearchPage(final Browser browser) {
         super(browser);
     }
 
@@ -14,7 +14,7 @@ public class InstructorSearchPage extends AppPage {
         return getPageSource().contains("<h1>Search</h1>");
     }
     
-    public void inputSearchContent(String content) {
+    public void inputSearchContent(final String content) {
         WebElement inputBox = this.getSearchBox();
         inputBox.sendKeys(content);
     }
@@ -61,7 +61,7 @@ public class InstructorSearchPage extends AppPage {
         return browser.driver.findElement(By.id("students-check"));
     }
 
-    public void clickAndHoverPicture(String cellId) {
+    public void clickAndHoverPicture(final String cellId) {
         browser.driver.findElement(By.id(cellId)).findElement(By.tagName("a")).click();
     }
 

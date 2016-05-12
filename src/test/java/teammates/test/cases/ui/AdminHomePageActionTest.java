@@ -40,7 +40,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(final String... parameters) throws Exception {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 

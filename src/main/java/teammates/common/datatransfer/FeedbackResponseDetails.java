@@ -12,7 +12,7 @@ import java.util.Map;
 public abstract class FeedbackResponseDetails {
     public FeedbackQuestionType questionType;
     
-    public FeedbackResponseDetails(FeedbackQuestionType questionType) {
+    public FeedbackResponseDetails(final FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
     
@@ -44,7 +44,7 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerHtml(final FeedbackResponseAttributes response, final FeedbackQuestionAttributes question, final FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerHtml(question.getQuestionDetails());
     }
     
@@ -58,15 +58,15 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, 
-                                    FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerCsv(final FeedbackResponseAttributes response, final FeedbackQuestionAttributes question, 
+                                    final FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
     public static FeedbackResponseDetails createResponseDetails(
-            String[] answer, FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails,
-            Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+            final String[] answer, final FeedbackQuestionType questionType,
+            final FeedbackQuestionDetails questionDetails,
+            final Map<String, String[]> requestParameters, final int questionIndx, final int responseIndx) {
                                 
         FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(
                                                                    questionDetails, answer, requestParameters, questionIndx, responseIndx);                              

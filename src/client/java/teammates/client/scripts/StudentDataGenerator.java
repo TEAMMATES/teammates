@@ -14,7 +14,7 @@ public class StudentDataGenerator {
     private static int numberOfStudents;
     private static int numberOfTeams;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(final String args[]) throws Exception {
 
         exitIfParametersMissing(args);
         
@@ -28,13 +28,13 @@ public class StudentDataGenerator {
 
     }
 
-    private static void print(List<String> lines) {
+    private static void print(final List<String> lines) {
         for (String line : lines) {
             System.out.println(line);
         }
     }
 
-    private static void exitIfParametersMissing(String[] args) {
+    private static void exitIfParametersMissing(final String[] args) {
         if (args.length < 2) {
             System.out
                     .println("Command arguments are java generateStudentData <number of students> <number of teams>");
@@ -46,8 +46,8 @@ public class StudentDataGenerator {
      * 
      * @return Returns enroll lines, sorted by team name
      */
-    private static List<String> generateEnrollText(int numberOfStudents,
-            List<String> teamnames) {
+    private static List<String> generateEnrollText(final int numberOfStudents,
+            final List<String> teamnames) {
         List<String> lines = new ArrayList<String>();
         for (int i = 0; i < numberOfStudents; i++) {
 
@@ -62,7 +62,7 @@ public class StudentDataGenerator {
         return lines;
     }
 
-    private static List<String> generateTeamNames(int numberOfTeams) {
+    private static List<String> generateTeamNames(final int numberOfTeams) {
         ArrayList<String> teamnames = new ArrayList<String>();
         for (int i = 0; i < numberOfTeams; i++) {
             String team = generateRandomString(LENGTH_OF_TEAM_SUFFIX);
@@ -71,7 +71,7 @@ public class StudentDataGenerator {
         return teamnames;
     }
 
-    private static String generateRandomString(int length) {
+    private static String generateRandomString(final int length) {
         String name = "";
 
         for (int j = 0; j < length; j++) {

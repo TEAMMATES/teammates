@@ -78,7 +78,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
-    private InstructorCourseEnrollPageAction getAction(String... params) throws Exception {
+    private InstructorCourseEnrollPageAction getAction(final String... params) throws Exception {
         return (InstructorCourseEnrollPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

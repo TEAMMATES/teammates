@@ -27,7 +27,7 @@ public class FeedbackSessionTemplates {
      * Get the list of questions for the specified feedback session template
      */
     public static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
-            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
+            final String templateType, final String courseId, final String feedbackSessionName, final String creatorEmail) {
         Assumption.assertNotNull(templateType);
         
         if (!TEMPLATES.containsKey(templateType)) {

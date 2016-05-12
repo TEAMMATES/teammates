@@ -116,7 +116,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+    protected FeedbackSessionQuestionsBundle getDataBundle(final String userEmailForCourse)
             throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, userEmailForCourse);
@@ -132,7 +132,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
+    protected boolean isSessionOpenForSpecificUser(final FeedbackSessionAttributes session) {
         // Feedback session closing date does not matter. Instructors can moderate at any time
         return true; 
     }

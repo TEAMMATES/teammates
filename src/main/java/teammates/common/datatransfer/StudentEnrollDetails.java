@@ -21,8 +21,8 @@ public class StudentEnrollDetails {
         newSection = null;
     }
     
-    public StudentEnrollDetails(StudentAttributes.UpdateStatus updateStatus, String course,
-            String email, String oldTeam, String newTeam, String oldSection, String newSection) {
+    public StudentEnrollDetails(final StudentAttributes.UpdateStatus updateStatus, final String course,
+            final String email, final String oldTeam, final String newTeam, final String oldSection, final String newSection) {
         this.updateStatus = updateStatus;
         this.course = course;
         this.email = email;

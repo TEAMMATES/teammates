@@ -38,7 +38,7 @@ public class InstructorEntityViewer extends RemoteApiClient {
         pm.close();
     }
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         InstructorEntityViewer viewer = new InstructorEntityViewer();
         viewer.doOperationRemotely();
     }

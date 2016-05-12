@@ -18,7 +18,7 @@ public class EmailWorkerServlet extends WorkerServlet {
     
     private static Logger log = Utils.getLogger();
     
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         
         Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper
                 .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_TYPE));

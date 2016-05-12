@@ -7,8 +7,8 @@ public class AdminTrashEmailTable {
     private List<AdminTrashEmailRow> rows;
     private ElementTag emptyTrashButton;
     
-    public AdminTrashEmailTable(int numEmailsTrash, List<AdminTrashEmailRow> rows,
-                                                     String emptyTrashBinActionUrl) {
+    public AdminTrashEmailTable(final int numEmailsTrash, final List<AdminTrashEmailRow> rows,
+                                                     final String emptyTrashBinActionUrl) {
         this.numEmailsTrash = numEmailsTrash;
         this.rows = rows;
         this.emptyTrashButton = createEmptyTrashButton(emptyTrashBinActionUrl);
@@ -26,7 +26,7 @@ public class AdminTrashEmailTable {
         return emptyTrashButton;
     }  
     
-    private ElementTag createEmptyTrashButton(String emptyTrashBinActionUrl) {
+    private ElementTag createEmptyTrashButton(final String emptyTrashBinActionUrl) {
         return new ElementTag("", "class", "btn btn-danger btn-xs", "href", emptyTrashBinActionUrl);
     }
 }

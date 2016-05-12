@@ -16,7 +16,7 @@ import teammates.test.util.FileHelper;
 public class GenerateFeedbackReport extends RemoteApiClient {
     
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         GenerateFeedbackReport reportGenerator = new GenerateFeedbackReport();
         reportGenerator.doOperationRemotely();
     }

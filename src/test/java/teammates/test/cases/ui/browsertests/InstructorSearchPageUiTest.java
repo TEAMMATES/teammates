@@ -119,7 +119,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");        
     }
 
-    private InstructorSearchPage getInstructorSearchPage(String instructorId) {
+    private InstructorSearchPage getInstructorSearchPage(final String instructorId) {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 

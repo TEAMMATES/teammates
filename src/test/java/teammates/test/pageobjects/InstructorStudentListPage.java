@@ -20,7 +20,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "displayArchivedCourses_check")
     private WebElement displayArchiveOptions;
 
-    public InstructorStudentListPage(Browser browser) {
+    public InstructorStudentListPage(final Browser browser) {
         super(browser);
     }
 
@@ -29,14 +29,14 @@ public class InstructorStudentListPage extends AppPage {
         return getPageSource().contains("<h1>Student List</h1>");
     }
 
-    public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
+    public InstructorCourseEnrollPage clickEnrollStudents(final String courseId) {
         int courseNumber = getCourseNumber(courseId);
         getEnrollLink(courseNumber).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseId, String studentName) {
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         getViewLink(rowId).click();
         waitForPageToLoad();
@@ -44,7 +44,7 @@ public class InstructorStudentListPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(String courseId, String studentName) {
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         getEditLink(rowId).click();
         waitForPageToLoad();
@@ -52,7 +52,7 @@ public class InstructorStudentListPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPage clickViewRecordsStudent(String courseId, String studentName) {
+    public InstructorStudentRecordsPage clickViewRecordsStudent(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         getViewRecordsLink(rowId).click();
         waitForPageToLoad();
@@ -60,19 +60,19 @@ public class InstructorStudentListPage extends AppPage {
         return changePageType(InstructorStudentRecordsPage.class);
     }
 
-    public InstructorStudentListPage clickDeleteAndCancel(String courseId, String studentName) {
+    public InstructorStudentListPage clickDeleteAndCancel(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         clickAndCancel(getDeleteLink(rowId));
         return this;
     }
 
-    public InstructorStudentListPage clickDeleteAndConfirm(String courseId, String studentName) {
+    public InstructorStudentListPage clickDeleteAndConfirm(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         clickAndConfirm(getDeleteLink(rowId));
         return this;
     }
 
-    public InstructorStudentListPage clickShowPhoto(String courseId, String studentName) {
+    public InstructorStudentListPage clickShowPhoto(final String courseId, final String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         WebElement photoCell = browser.driver.findElement(By.id("studentphoto-c" + rowId));
         WebElement photoLink = photoCell.findElement(By.tagName("a"));
@@ -81,13 +81,13 @@ public class InstructorStudentListPage extends AppPage {
         return this;
     }
 
-    public void setSearchKey(String searchKey) {
+    public void setSearchKey(final String searchKey) {
         searchBox.clear();
         searchBox.sendKeys(searchKey);
         searchButton.click();
     }
 
-    public void checkCourse(int courseIdx) {
+    public void checkCourse(final int courseIdx) {
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
         waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
     }
@@ -96,7 +96,7 @@ public class InstructorStudentListPage extends AppPage {
         displayArchiveOptions.click();
     }
 
-    public void verifyProfilePhoto(String courseId, String studentName, String profilePhotoSrc) {
+    public void verifyProfilePhoto(final String courseId, final String studentName, final String profilePhotoSrc) {
         String rowId = getStudentRowId(courseId, studentName);
         assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                                     .findElement(By.tagName("img"))
@@ -110,7 +110,7 @@ public class InstructorStudentListPage extends AppPage {
                                                     .getAttribute("src"));
     }
 
-    private int getCourseNumber(String courseId) {
+    private int getCourseNumber(final String courseId) {
         int id = 0;
         while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
@@ -122,7 +122,7 @@ public class InstructorStudentListPage extends AppPage {
         return -1;
     }
 
-    public String getStudentRowId(String courseId, String studentName) {
+    public String getStudentRowId(final String courseId, final String studentName) {
         int courseNumber = getCourseNumber(courseId);
         int studentCount = browser.driver.findElements(By.cssSelector("tr[id^='student-c" + courseNumber + "']"))
                                          .size();
@@ -135,38 +135,38 @@ public class InstructorStudentListPage extends AppPage {
         return "";
     }
 
-    private String getStudentNameInRow(int courseNumber, int rowId) {
+    private String getStudentNameInRow(final int courseNumber, final int rowId) {
         String xpath = "//tr[@id='student-c" + courseNumber + "." + rowId + "']"
                      + "//td[@id='" + Const.ParamsNames.STUDENT_NAME + "-c" + courseNumber + "." + rowId + "']";
         return browser.driver.findElement(By.xpath(xpath)).getText();
     }
 
-    private WebElement getEnrollLink(int courseNumber) {
+    private WebElement getEnrollLink(final int courseNumber) {
         return browser.driver.findElement(By.id("panelHeading-" + courseNumber))
                              .findElement(By.className("course-enroll-for-test"));
     }
 
-    private WebElement getViewLink(String rowId) {
+    private WebElement getViewLink(final String rowId) {
         return getStudentLink("student-view-for-test", rowId);
     }
 
-    private WebElement getEditLink(String rowId) {
+    private WebElement getEditLink(final String rowId) {
         return getStudentLink("student-edit-for-test", rowId);
     }
 
-    private WebElement getViewRecordsLink(String rowId) {
+    private WebElement getViewRecordsLink(final String rowId) {
         return getStudentLink("student-records-for-test", rowId);
     }
 
-    private WebElement getDeleteLink(String rowId) {
+    private WebElement getDeleteLink(final String rowId) {
         return getStudentLink("student-delete-for-test", rowId);
     }
 
-    private WebElement getStudentLink(String className, String rowId) {
+    private WebElement getStudentLink(final String className, final String rowId) {
         return browser.driver.findElement(By.id("student-c" + rowId)).findElement(By.className(className));
     }
 
-    private String getElementText(By locator) {
+    private String getElementText(final By locator) {
         if (!isElementPresent(locator)) {
             return "";
         }

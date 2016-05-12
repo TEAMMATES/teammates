@@ -208,7 +208,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
-            String studentName, String fsName, String questionId) {
+            final String studentName, final String fsName, final String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
@@ -219,7 +219,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
-            StudentAttributes s, String fsName, String questionId) {
+            final StudentAttributes s, final String fsName, final String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)

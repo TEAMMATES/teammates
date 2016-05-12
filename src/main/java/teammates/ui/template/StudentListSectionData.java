@@ -16,9 +16,9 @@ public class StudentListSectionData {
     private boolean allowedToGiveCommentInSection;
     private List<StudentListTeamData> teams;
 
-    public StudentListSectionData(SectionDetailsBundle section, boolean isAllowedToViewStudentInSection,
-                                  boolean isAllowedToModifyStudent, boolean isAllowedToGiveCommentInSection,
-                                  Map<String, String> emailPhotoUrlMapping, String googleId) {
+    public StudentListSectionData(final SectionDetailsBundle section, final boolean isAllowedToViewStudentInSection,
+                                  final boolean isAllowedToModifyStudent, final boolean isAllowedToGiveCommentInSection,
+                                  final Map<String, String> emailPhotoUrlMapping, final String googleId) {
         this.sectionName = Sanitizer.sanitizeForHtml(section.name);
         this.allowedToViewStudentInSection = isAllowedToViewStudentInSection;
         this.allowedToModifyStudent = isAllowedToModifyStudent;

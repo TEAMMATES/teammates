@@ -32,7 +32,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         testActionInMasquerade(student);
     }
 
-    private void testActionSuccessTypical(AccountAttributes student) throws Exception {
+    private void testActionSuccessTypical(final AccountAttributes student) throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Typical case");
         String[] submissionParams = new String[] {};
@@ -48,7 +48,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         verifyLogMessage(student, action, false);
     }
 
-    private void testActionInMasquerade(AccountAttributes student)
+    private void testActionInMasquerade(final AccountAttributes student)
             throws Exception {
         gaeSimulation.loginAsAdmin("admin.user");
         ______TS("Typical case: masquerade mode");
@@ -76,16 +76,16 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     // -----------------------------------------------
     // -------------------------------------------------------------------------------------------------------
 
-    private void verifyAccountsAreSame(AccountAttributes student,
-            ShowPageResult result) {
+    private void verifyAccountsAreSame(final AccountAttributes student,
+            final ShowPageResult result) {
         PageData data = result.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
         student.createdAt = data.account.createdAt;
         assertEquals(student.toString(), data.account.toString());
     }
 
-    private void verifyLogMessage(AccountAttributes student,
-            StudentProfilePageAction action, boolean isMasquerade) {
+    private void verifyLogMessage(final AccountAttributes student,
+            final StudentProfilePageAction action, final boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + student.name + "|||" + student.googleId + "|||" + student.email
@@ -94,7 +94,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfilePageAction getAction(String... params)
+    private StudentProfilePageAction getAction(final String... params)
             throws Exception {
         return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
     }

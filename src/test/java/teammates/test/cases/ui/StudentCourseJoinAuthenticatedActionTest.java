@@ -270,7 +270,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     }
 
-    private StudentCourseJoinAuthenticatedAction getAction(String... params)
+    private StudentCourseJoinAuthenticatedAction getAction(final String... params)
             throws Exception {
 
         return (StudentCourseJoinAuthenticatedAction) (gaeSimulation

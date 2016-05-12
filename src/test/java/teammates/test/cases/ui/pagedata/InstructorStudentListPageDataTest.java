@@ -68,13 +68,13 @@ public class InstructorStudentListPageDataTest {
         return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
     }
     
-    private void testSearchBox(InstructorStudentListSearchBox searchBox) {
+    private void testSearchBox(final InstructorStudentListSearchBox searchBox) {
         assertEquals(acct.googleId, searchBox.getGoogleId());
         assertEquals(Sanitizer.sanitizeForHtml(searchKey), searchBox.getSearchKey());
         assertEquals(islpd.getInstructorSearchLink(), searchBox.getInstructorSearchLink());
     }
 
-    private void testFilterBox(InstructorStudentListFilterBox filterBox) {
+    private void testFilterBox(final InstructorStudentListFilterBox filterBox) {
         assertEquals(displayArchive, filterBox.isDisplayArchive());
 
         // sample data has only one course
@@ -83,7 +83,7 @@ public class InstructorStudentListPageDataTest {
         assertEquals(sampleCourse.name, course.getCourseName());
     }
 
-    private void testStudentsTable(List<InstructorStudentListStudentsTableCourse> studentsTable) {
+    private void testStudentsTable(final List<InstructorStudentListStudentsTableCourse> studentsTable) {
         // sample data has only one course
         InstructorStudentListStudentsTableCourse course = studentsTable.get(0);
         assertEquals(sampleCourse.id, course.getCourseId());
@@ -94,11 +94,11 @@ public class InstructorStudentListPageDataTest {
         assertEquals(isInstructorAllowedToModify, course.isInstructorAllowedToModify());
     }
 
-    private void testNumOfCourses(int numOfCourses) {
+    private void testNumOfCourses(final int numOfCourses) {
         assertEquals(coursesToDisplay.size(), numOfCourses);
     }
 
-    private void testNullSearchKeyHandler(InstructorStudentListPageData islpd) {
+    private void testNullSearchKeyHandler(final InstructorStudentListPageData islpd) {
         assertEquals("", islpd.getSearchBox().getSearchKey());
     }
 

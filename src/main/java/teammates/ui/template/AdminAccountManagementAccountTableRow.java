@@ -10,7 +10,7 @@ public class AdminAccountManagementAccountTableRow {
     private AccountAttributes account;
     private List<InstructorAttributes> instructorList;
     
-    public AdminAccountManagementAccountTableRow(AccountAttributes account, List<InstructorAttributes> instructorList) {
+    public AdminAccountManagementAccountTableRow(final AccountAttributes account, final List<InstructorAttributes> instructorList) {
         this.account = account;
         this.instructorList = instructorList;
     }

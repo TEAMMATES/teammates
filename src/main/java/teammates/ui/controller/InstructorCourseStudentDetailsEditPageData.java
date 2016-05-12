@@ -9,12 +9,12 @@ public class InstructorCourseStudentDetailsEditPageData extends  InstructorCours
     private String newEmail;
 
     public InstructorCourseStudentDetailsEditPageData(
-            AccountAttributes account, StudentAttributes student, boolean hasSection) {
+            final AccountAttributes account, final StudentAttributes student, final boolean hasSection) {
         this(account, student, student.email, hasSection);
     }
     
     public InstructorCourseStudentDetailsEditPageData(
-            AccountAttributes account, StudentAttributes student, String newEmail, boolean hasSection) {
+            final AccountAttributes account, final StudentAttributes student, final String newEmail, final boolean hasSection) {
         super(account, student, null, false, hasSection, null);
         this.newEmail = newEmail;
     }

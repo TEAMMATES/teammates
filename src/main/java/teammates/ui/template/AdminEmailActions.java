@@ -6,7 +6,7 @@ public class AdminEmailActions {
     private ElementTag editButton;
     private ElementTag deleteButton;
     
-    public AdminEmailActions(String emailId, String currentPage) {
+    public AdminEmailActions(final String emailId, final String currentPage) {
         this.editButton = createEditButton(emailId);
         this.deleteButton = createDeleteButton(emailId, currentPage);
     }
@@ -19,7 +19,7 @@ public class AdminEmailActions {
         return deleteButton;
     }
 
-    private ElementTag createEditButton(String emailId) {
+    private ElementTag createEditButton(final String emailId) {
         String content = "<span class=\"glyphicon glyphicon-edit\"></span>";
         String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
                           "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
@@ -27,7 +27,7 @@ public class AdminEmailActions {
         return new ElementTag(content, "target", "blank", "href", href);
     }
 
-    private ElementTag createDeleteButton(String emailId, String currentPage) {
+    private ElementTag createDeleteButton(final String emailId, final String currentPage) {
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>";
         String href = Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + "?" + Const.ParamsNames.ADMIN_EMAIL_ID 
                         + "=" + emailId + "&" + Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT + "=" + currentPage;

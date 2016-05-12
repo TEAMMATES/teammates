@@ -8,7 +8,7 @@ import teammates.common.util.Sanitizer;
 
 public class StudentProfilePicturePage extends AppPage {
 
-    public StudentProfilePicturePage(Browser browser) {
+    public StudentProfilePicturePage(final Browser browser) {
         super(browser);
     }
 

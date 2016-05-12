@@ -32,7 +32,7 @@ public class CoursesDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
     
-    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
+    public void createCourses(final Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
         
         List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
         for (EntityAttributes entity : coursesToUpdate){
@@ -52,7 +52,7 @@ public class CoursesDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public CourseAttributes getCourse(String courseId) {
+    public CourseAttributes getCourse(final String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
@@ -65,7 +65,7 @@ public class CoursesDb extends EntitiesDb {
         return new CourseAttributes(c);
     }
     
-    public List<CourseAttributes> getCourses(List<String> courseIds) {
+    public List<CourseAttributes> getCourses(final List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         List<Course> courses = getCourseEntities(courseIds);
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
@@ -107,7 +107,7 @@ public class CoursesDb extends EntitiesDb {
      * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
-    public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, 
+    public void updateCourse(final CourseAttributes courseToUpdate) throws InvalidParametersException, 
                                                                      EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
@@ -138,7 +138,7 @@ public class CoursesDb extends EntitiesDb {
      * <br> Preconditions: 
      * <br> * {@code courseId} is not null.
      */
-    public void deleteCourse(String courseId) {
+    public void deleteCourse(final String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
@@ -149,12 +149,12 @@ public class CoursesDb extends EntitiesDb {
     }
     
     @Override
-    protected Object getEntity(EntityAttributes attributes) {
+    protected Object getEntity(final EntityAttributes attributes) {
         return getCourseEntity(((CourseAttributes) attributes).id);
     }
 
 
-    private Course getCourseEntity(String courseId) {
+    private Course getCourseEntity(final String courseId) {
         Query q = getPM().newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
@@ -169,7 +169,7 @@ public class CoursesDb extends EntitiesDb {
         return courseList.get(0);
     }
     
-    private List<Course> getCourseEntities(List<String> courseIds) {
+    private List<Course> getCourseEntities(final List<String> courseIds) {
         if (courseIds.isEmpty()) {
             return new ArrayList<Course>();
         }

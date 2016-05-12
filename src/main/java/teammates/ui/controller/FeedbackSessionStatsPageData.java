@@ -6,7 +6,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 public class FeedbackSessionStatsPageData extends PageData {
     public FeedbackSessionDetailsBundle sessionDetails;
     
-    public FeedbackSessionStatsPageData(AccountAttributes account) {
+    public FeedbackSessionStatsPageData(final AccountAttributes account) {
         super(account);
     }
 }

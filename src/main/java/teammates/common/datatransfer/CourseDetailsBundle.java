@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class CourseDetailsBundle {
 
-    public CourseDetailsBundle(CourseAttributes courseData) {
+    public CourseDetailsBundle(final CourseAttributes courseData) {
         this.course = courseData;
     }
 
@@ -42,9 +42,9 @@ public class CourseDetailsBundle {
         return feedbackSessionAttributes;
     }
     
-    public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
+    public static void sortDetailedCoursesByCourseId(final List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+            public int compare(final CourseDetailsBundle obj1, final CourseDetailsBundle obj2) {
                 return obj1.course.id.compareTo(obj2.course.id);
             }
         });
@@ -54,9 +54,9 @@ public class CourseDetailsBundle {
     /**
      * Sorts courses based on course ID
      */ 
-    public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
+    public static void sortDetailedCourses(final List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+            public int compare(final CourseDetailsBundle obj1, final CourseDetailsBundle obj2) {
                 return obj1.course.id.compareTo(obj2.course.id);
             }
         });
@@ -65,9 +65,9 @@ public class CourseDetailsBundle {
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
      */
-    public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
+    public static void sortDetailedCoursesByCreationDate(final List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+            public int compare(final CourseDetailsBundle obj1, final CourseDetailsBundle obj2) {
                 return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
             }
         });

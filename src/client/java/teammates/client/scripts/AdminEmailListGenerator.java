@@ -64,7 +64,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                                                    .getPersistenceManagerFactory("transactions-optional")
                                                    .getPersistenceManager();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         AdminEmailListGenerator adminEmailListGenerator = new AdminEmailListGenerator();
         adminEmailListGenerator.doOperationRemotely();
     }
@@ -160,7 +160,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     
-    private Date getInputDate(String dateString) throws InvalidParametersException{
+    private Date getInputDate(final String dateString) throws InvalidParametersException{
         
         if(dateString == null){
             return null;
@@ -202,7 +202,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         writeEmailsIntoTextFile(studentEmailSet, instructorEmailSet);
     }
     
-    private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet){
+    private HashSet<String> addInstructorEmailIntoSet(final HashSet<String> instructorEmailSet){
         String q = "SELECT FROM " + Instructor.class.getName();
         List<?> allInstructors = (List<?>) pm.newQuery(q).execute();
         
@@ -223,7 +223,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return instructorEmailSet;
     }
     
-    private  HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet){
+    private  HashSet<String> addStudentEmailIntoSet(final HashSet<String> studentEmailSet){
         String q = "SELECT FROM " + Student.class.getName();
         List<?> allStudents = (List<?>) pm.newQuery(q).execute();
 
@@ -243,8 +243,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return studentEmailSet;
     }
     
-    private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
-                                         HashSet<String> instructorEmailSet){
+    private void writeEmailsIntoTextFile(final HashSet<String> studentEmailSet,
+                                         final HashSet<String> instructorEmailSet){
         
         try {
         
@@ -284,7 +284,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    private boolean isInstructorCreatedInRange(Instructor instructor){
+    private boolean isInstructorCreatedInRange(final Instructor instructor){
         
         Date instructorCreatedAt = getInstructorCreatedDate(instructor);
         
@@ -330,7 +330,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
 
-    private Date getInstructorCreatedDate(Instructor instructor){
+    private Date getInstructorCreatedDate(final Instructor instructor){
     
         if(instructor.getGoogleId() != null && !instructor.getGoogleId().isEmpty()){
             Account account = getAccountEntity(instructor.getGoogleId());
@@ -355,7 +355,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 }
 
     
-    private boolean isStudentCreatedInRange(Student student){
+    private boolean isStudentCreatedInRange(final Student student){
         
         Date studentCreatedAt = getStudentCreatedDate(student);
 
@@ -401,7 +401,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private Date getStudentCreatedDate(Student student){
+    private Date getStudentCreatedDate(final Student student){
         if(student.getGoogleId() != null && !student.getGoogleId().isEmpty()){
             Account account = getAccountEntity(student.getGoogleId());
             if (account != null){
@@ -424,7 +424,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private Course getCourseEntity(String courseId){
+    private Course getCourseEntity(final String courseId){
         
         Query q = pm.newQuery(Course.class);
         q.declareParameters("String courseIdParam");
@@ -440,7 +440,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return courseList.get(0);
     }
     
-    private Account getAccountEntity(String googleId) {
+    private Account getAccountEntity(final String googleId) {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
@@ -473,14 +473,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private String formatTime(Date date) {
+    private String formatTime(final Date date) {
         if (date == null)
             return "";
         return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy").format(date);
         
     }
     
-    private boolean isValidDate(int day, int month, int year){
+    private boolean isValidDate(final int day, final int month, final int year){
         
        boolean isDateValid = false; 
         
@@ -503,7 +503,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private int getMaxNumOfDayForMonth(int month, int year){
+    private int getMaxNumOfDayForMonth(final int month, final int year){
         
         DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue(); 
@@ -511,7 +511,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     
     
-    private Date getDate(int day, int month, int year){
+    private Date getDate(final int day, final int month, final int year){
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(year, month - 1, day, 0, 0, 0);

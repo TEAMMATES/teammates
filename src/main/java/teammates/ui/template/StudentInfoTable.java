@@ -12,7 +12,7 @@ public class StudentInfoTable {
     private boolean isAbleToAddComment;
     private boolean hasSection;
 
-    public StudentInfoTable(StudentAttributes student, boolean isAbleToAddComment, boolean hasSection) {
+    public StudentInfoTable(final StudentAttributes student, final boolean isAbleToAddComment, final boolean hasSection) {
         this.name = student.name;
         this.email = student.email;
         this.section = student.section;

@@ -10,7 +10,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 public class FeedbackSessionClosingRemindersServlet extends AutomatedRemindersServlet {
     
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         servletName = Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS;
         action = "send closing reminders";
 

@@ -128,7 +128,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("/page/somePage/somePage?key=abcdef", getPageTypeOfUrl("/page/somePage/somePage?key=abcdef"));
     }
 
-    private StudentCourseJoinAction getAction(String... params)
+    private StudentCourseJoinAction getAction(final String... params)
             throws Exception {
         return (StudentCourseJoinAction) (gaeSimulation.getActionObject(uri,
                 params));

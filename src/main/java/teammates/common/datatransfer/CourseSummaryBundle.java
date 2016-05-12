@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CourseSummaryBundle {
     
-    public CourseSummaryBundle(CourseAttributes courseData) {
+    public CourseSummaryBundle(final CourseAttributes courseData) {
         this.course = courseData;
     }
 
@@ -19,9 +19,9 @@ public class CourseSummaryBundle {
     /**
      * Sorts courses based on course ID
      */ 
-    public static void sortSummarizedCoursesByCourseId(List<CourseSummaryBundle> courses) {
+    public static void sortSummarizedCoursesByCourseId(final List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
-            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+            public int compare(final CourseSummaryBundle obj1, final CourseSummaryBundle obj2) {
                 return obj1.course.id.compareTo(obj2.course.id);
             }
         });
@@ -30,9 +30,9 @@ public class CourseSummaryBundle {
     /**
      * Sorts courses based on course name
      */ 
-    public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
+    public static void sortSummarizedCoursesByCourseName(final List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
-            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+            public int compare(final CourseSummaryBundle obj1, final CourseSummaryBundle obj2) {
                 return obj1.course.name.compareTo(obj2.course.name);
             }
         });
@@ -41,17 +41,17 @@ public class CourseSummaryBundle {
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
      */ 
-    public static void sortSummarizedCoursesByCreationDate(List<CourseSummaryBundle> courses) {
+    public static void sortSummarizedCoursesByCreationDate(final List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
-            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+            public int compare(final CourseSummaryBundle obj1, final CourseSummaryBundle obj2) {
                 return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
             }
         });
     }
     
-    public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
+    public static void sortSummarizedCourses(final List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
-            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+            public int compare(final CourseSummaryBundle obj1, final CourseSummaryBundle obj2) {
                 return obj1.course.id.compareTo(obj2.course.id);
             }
         });

@@ -9,8 +9,8 @@ public class FeedbackSubmissionEditResponse {
     private String submissionFormHtml;
     private String responseId;
     
-    public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
-                                    List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId) {
+    public FeedbackSubmissionEditResponse(final int responseIndx, final boolean isExistingResponse,
+                                    final List<String> recipientOptionsForQuestion, final String submissionFormHtml, final String responseId) {
         
         this.responseIndx = responseIndx;
         this.isExistingResponse = isExistingResponse;

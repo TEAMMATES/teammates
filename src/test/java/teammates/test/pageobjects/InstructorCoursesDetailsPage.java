@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 public class InstructorCoursesDetailsPage extends AppPage {
 
-    public InstructorCoursesDetailsPage(Browser browser) {
+    public InstructorCoursesDetailsPage(final Browser browser) {
         super(browser);
     }
 
@@ -14,7 +14,7 @@ public class InstructorCoursesDetailsPage extends AppPage {
         return getPageSource().contains("<h1>Course Details</h1>");
     }
     
-    public int getStudentCountForCourse(String courseId) {
+    public int getStudentCountForCourse(final String courseId) {
         WebElement cellWithStudentCount = browser.driver.findElement(By.id("total_students"));
         return Integer.parseInt(cellWithStudentCount.getText());
     }

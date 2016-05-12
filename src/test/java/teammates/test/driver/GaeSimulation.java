@@ -69,7 +69,7 @@ public class GaeSimulation {
     }
     
     public synchronized void setupWithTaskQueueCallbackClass(
-            Class<? extends LocalTaskQueueCallback> className) {
+            final Class<? extends LocalTaskQueueCallback> className) {
         System.out.println("Setting up GAE simulation");
         
         LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
@@ -93,7 +93,7 @@ public class GaeSimulation {
     
     /**Logs in the user to the GAE simulation environment without admin rights.
      */
-    public void loginUser(String userId) {
+    public void loginUser(final String userId) {
         helper.setEnvIsLoggedIn(true);
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
@@ -109,7 +109,7 @@ public class GaeSimulation {
 
     /**Logs in the user to the GAE simulation environment as an admin.
      */
-    public void loginAsAdmin(String userId) {
+    public void loginAsAdmin(final String userId) {
         loginUser(userId);
         helper.setEnvIsAdmin(true);
     }
@@ -117,7 +117,7 @@ public class GaeSimulation {
     /**Logs in the user to the GAE simulation environment as an instructor
      * (without admin rights). 
      */
-    public void loginAsInstructor(String userId) {
+    public void loginAsInstructor(final String userId) {
         loginUser(userId);
         Logic logic = new Logic();
         assertEquals(true, logic.getCurrentUser().isInstructor);
@@ -127,7 +127,7 @@ public class GaeSimulation {
     /**Logs in the user to the GAE simulation environment as a student 
      * (without admin rights or instructor rights).
      */
-    public void loginAsStudent(String userId) {
+    public void loginAsStudent(final String userId) {
         loginUser(userId);
         Logic logic = new Logic();
         assertEquals(true, logic.getCurrentUser().isStudent);
@@ -140,7 +140,7 @@ public class GaeSimulation {
      * received by the app.
      * @return an {@link Action} object that matches the parameters given.
      */
-    public Action getActionObject(String uri, String... parameters) {
+    public Action getActionObject(final String uri, final String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
         return new ActionFactory().getAction(req);
     }
@@ -165,7 +165,7 @@ public class GaeSimulation {
     }
 
 
-    private HttpServletRequest createWebRequest(String uri, String... parameters){
+    private HttpServletRequest createWebRequest(final String uri, final String... parameters){
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
         

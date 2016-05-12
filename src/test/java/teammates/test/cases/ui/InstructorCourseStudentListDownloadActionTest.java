@@ -115,7 +115,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
     }
     
-    private InstructorCourseStudentListDownloadAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentListDownloadAction getAction(final String... params) throws Exception{
             return (InstructorCourseStudentListDownloadAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

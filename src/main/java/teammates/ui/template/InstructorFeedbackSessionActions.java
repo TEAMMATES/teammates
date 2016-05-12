@@ -29,8 +29,8 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
-                                            InstructorAttributes instructor) {
+    public InstructorFeedbackSessionActions(final PageData data, final FeedbackSessionAttributes session, final String returnUrl,
+                                            final InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 

@@ -81,7 +81,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final FeedbackQuestionsLogic feedbackQuestionsLogic = new FeedbackQuestionsLogic();
     
-    public static void main(String args[]) throws Exception {
+    public static void main(final String args[]) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
         uploadBackupData.doOperationRemotely();
     }
@@ -102,7 +102,7 @@ public class UploadBackupData extends RemoteApiClient {
         String[] folders = backupFolder.list();
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
-            public int compare(String o1, String o2) {
+            public int compare(final String o1, final String o2) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
                  try {
                     Date firstDate = dateFormat.parse(o1);
@@ -120,13 +120,13 @@ public class UploadBackupData extends RemoteApiClient {
         return folders;
     }
     
-    private static String[] getBackupFilesInFolder(String folder) {
+    private static String[] getBackupFilesInFolder(final String folder) {
         String folderName = BACKUP_FOLDER + "/" + folder;
         File currentFolder = new File(folderName);   
         return currentFolder.list();
     }
     
-    private static void uploadData(String[] backupFiles, String folder) {
+    private static void uploadData(final String[] backupFiles, final String folder) {
         for (String backupFile : backupFiles) {
             if(coursesPersisted.contains(backupFile)) {
                 System.out.println(backupFile + " already persisted.");
@@ -179,7 +179,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
+    private static void persistAccounts(final HashMap<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values())
                 logic.createAccount(accountData.googleId, accountData.name, 
@@ -189,7 +189,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistCourses(HashMap<String, CourseAttributes> courses) {
+    private static void persistCourses(final HashMap<String, CourseAttributes> courses) {
         try {
             coursesDb.createCourses(courses.values());
         } catch (InvalidParametersException e) {
@@ -197,7 +197,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistInstructors(HashMap<String, InstructorAttributes> instructors) {
+    private static void persistInstructors(final HashMap<String, InstructorAttributes> instructors) {
         try {
             instructorsDb.createInstructors(instructors.values());
         } catch (InvalidParametersException e) {
@@ -205,7 +205,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistStudents(HashMap<String, StudentAttributes> students) {
+    private static void persistStudents(final HashMap<String, StudentAttributes> students) {
         try {
             studentsDb.createStudentsWithoutSearchability(students.values());
         } catch (InvalidParametersException e) {
@@ -213,7 +213,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackSessions(HashMap<String, FeedbackSessionAttributes> feedbackSessions) {
+    private static void persistFeedbackSessions(final HashMap<String, FeedbackSessionAttributes> feedbackSessions) {
         try {
             fbDb.createFeedbackSessions(feedbackSessions.values());
         } catch (InvalidParametersException e) {
@@ -221,7 +221,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackQuestions(HashMap<String, FeedbackQuestionAttributes> map) {
+    private static void persistFeedbackQuestions(final HashMap<String, FeedbackQuestionAttributes> map) {
         HashMap<String, FeedbackQuestionAttributes> questions = map;
 
         try {
@@ -236,7 +236,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackResponses(HashMap<String, FeedbackResponseAttributes> map) {
+    private static void persistFeedbackResponses(final HashMap<String, FeedbackResponseAttributes> map) {
         HashMap<String, FeedbackResponseAttributes> responses = map;
         
         try {
@@ -250,7 +250,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackResponseComments(HashMap<String, FeedbackResponseCommentAttributes> map) {
+    private static void persistFeedbackResponseComments(final HashMap<String, FeedbackResponseCommentAttributes> map) {
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = map;
 
         try {
@@ -264,7 +264,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistComments(HashMap<String, CommentAttributes> map) {
+    private static void persistComments(final HashMap<String, CommentAttributes> map) {
         HashMap<String, CommentAttributes> comments = map;
         try {
             commentsDb.createComments(comments.values());
@@ -274,7 +274,7 @@ public class UploadBackupData extends RemoteApiClient {
     }
     
     
-    private static void persistProfiles(HashMap<String, StudentProfileAttributes> studentProfiles) {
+    private static void persistProfiles(final HashMap<String, StudentProfileAttributes> studentProfiles) {
         HashMap<String, StudentProfileAttributes> profiles = studentProfiles;
         try {
             profilesDb.createEntities(profiles.values());
@@ -283,7 +283,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static FeedbackResponseAttributes adjustFeedbackResponseId(FeedbackResponseAttributes response) {
+    private static FeedbackResponseAttributes adjustFeedbackResponseId(final FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if(feedbackQuestionIds.containsKey(question.getId())) {
@@ -299,7 +299,7 @@ public class UploadBackupData extends RemoteApiClient {
         return response;
     }
     
-    private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
+    private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(final FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if(feedbackQuestionIds.containsKey(question.getId())) {

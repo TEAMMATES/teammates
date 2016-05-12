@@ -509,7 +509,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         loginAsInstructor(commonInstructor);
     }
     
-    private void loginAsInstructor(String googleId){
+    private void loginAsInstructor(final String googleId){
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
         

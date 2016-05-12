@@ -43,7 +43,7 @@ public class InstructorStudentListAjaxPageDataTest {
         }
     }
 
-    private void testSectionContent(StudentListSectionData section) {
+    private void testSectionContent(final StudentListSectionData section) {
         assertEquals(Sanitizer.sanitizeForHtml(sampleSection.name), section.getSectionName());
         assertEquals(sectionPrivileges.get(sampleSection.name)
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)
@@ -62,14 +62,14 @@ public class InstructorStudentListAjaxPageDataTest {
         }
     }
 
-    private void testTeamContent(StudentListTeamData team) {
+    private void testTeamContent(final StudentListTeamData team) {
         assertEquals(sampleTeam.name, team.getTeamName());
         for (StudentListStudentData student : team.getStudents()) {
             testStudentContent(student);
         }
     }
 
-    private void testStudentContent(StudentListStudentData student) {
+    private void testStudentContent(final StudentListStudentData student) {
         assertEquals(sampleStudent.name, student.getStudentName());
         assertEquals(sampleStudent.email, student.getStudentEmail());
         assertEquals("'" + Sanitizer.sanitizeForJs(sampleStudent.course) + "','"
@@ -122,28 +122,28 @@ public class InstructorStudentListAjaxPageDataTest {
                                                      sectionPrivileges, emailPhotoUrlMapping);
     }
 
-    private String getCourseStudentDetailsLink(String course, String email, String googleId) {
+    private String getCourseStudentDetailsLink(final String course, final String email, final String googleId) {
         return furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
                                                    course, email, googleId);
     }
 
-    private String getCourseStudentEditLink(String course, String email, String googleId) {
+    private String getCourseStudentEditLink(final String course, final String email, final String googleId) {
         return furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
                                                    course, email, googleId);
     }
 
-    private String getCourseStudentDeleteLink(String course, String email, String googleId) {
+    private String getCourseStudentDeleteLink(final String course, final String email, final String googleId) {
         return furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                                                    course, email, googleId);
     }
 
-    private String getCourseStudentRecordsLink(String course, String email, String googleId) {
+    private String getCourseStudentRecordsLink(final String course, final String email, final String googleId) {
         return furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
                                                    course, email, googleId);
     }
 
-    private String furnishLinkWithCourseEmailAndUserId(String link, String course, String studentEmail,
-                                                       String googleId) {
+    private String furnishLinkWithCourseEmailAndUserId(String link, final String course, final String studentEmail,
+                                                       final String googleId) {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

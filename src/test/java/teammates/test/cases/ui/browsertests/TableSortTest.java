@@ -189,7 +189,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.verifyContains(searchString);
     }
     
-    private void verifySortingOrder(By sortIcon, String... values) {
+    private void verifySortingOrder(final By sortIcon, final String... values) {
         //check if the rows match the given order of values
         page.click(sortIcon);
         String searchString = "";

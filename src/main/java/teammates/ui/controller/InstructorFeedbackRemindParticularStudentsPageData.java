@@ -9,8 +9,8 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
     private String fsName;
     
     public InstructorFeedbackRemindParticularStudentsPageData(
-                AccountAttributes account, FeedbackSessionResponseStatus responseStatus,
-                String courseId, String fsName) {
+                final AccountAttributes account, final FeedbackSessionResponseStatus responseStatus,
+                final String courseId, final String fsName) {
         super(account);
         this.responseStatus = responseStatus;
         this.courseId = courseId;

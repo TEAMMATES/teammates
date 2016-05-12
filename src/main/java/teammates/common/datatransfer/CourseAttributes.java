@@ -27,19 +27,19 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public CourseAttributes() {
     }
 
-    public CourseAttributes(String courseId, String name) {
+    public CourseAttributes(final String courseId, final String name) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
         this.isArchived = false;
     }
     
-    public CourseAttributes(String courseId, String name, boolean archiveStatus) {
+    public CourseAttributes(final String courseId, final String name, final boolean archiveStatus) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
         this.isArchived = archiveStatus;
     }
 
-    public CourseAttributes(Course course) {
+    public CourseAttributes(final Course course) {
         this.id = course.getUniqueId();
         this.name = course.getName();
         this.createdAt = course.getCreatedAt();
@@ -115,27 +115,27 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     @Override
-    public int compareTo(CourseAttributes o) {
+    public int compareTo(final CourseAttributes o) {
         if(o == null){
             return 0;
         }
         return o.createdAt.compareTo(createdAt);
     }
     
-    public static void sortById(List<CourseAttributes> courses) {
+    public static void sortById(final List<CourseAttributes> courses) {
         Collections.sort(courses, new Comparator<CourseAttributes>() {
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
+            public int compare(final CourseAttributes c1, final CourseAttributes c2) {
                 return c1.id.compareTo(c2.id);
             }
         });
     }
     
-    public static void sortByCreatedDate(List<CourseAttributes> courses) {
+    public static void sortByCreatedDate(final List<CourseAttributes> courses) {
         Collections.sort(courses, createdDateComparator);
     }
     
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
-        public int compare(CourseAttributes course1, CourseAttributes course2) {
+        public int compare(final CourseAttributes course1, final CourseAttributes course2) {
             if (course1.createdAt.compareTo(course2.createdAt) == 0) {
                 return course1.id.compareTo(course2.id);
             }

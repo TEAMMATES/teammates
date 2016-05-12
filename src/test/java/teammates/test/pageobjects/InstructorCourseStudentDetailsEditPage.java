@@ -26,7 +26,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     private WebElement submitButton;
     
 
-    public InstructorCourseStudentDetailsEditPage(Browser browser) {
+    public InstructorCourseStudentDetailsEditPage(final Browser browser) {
         super(browser);
     }
 
@@ -39,7 +39,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
      */
-    public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+    public InstructorCourseDetailsPage submitSuccessfully(final String studentName, final String teamName, final String studentEmail, final String comments) {
         fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
@@ -48,7 +48,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevent input field.
      */
-    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(final String studentName, final String teamName, final String studentEmail, final String comments) {
         fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return this;
     }
@@ -57,7 +57,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevant input field.
      */
-    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments) {
+    private void fillStudentDetailsForm(final String studentName, final String teamName, final String studentEmail, final String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -78,7 +78,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         }
     }
     
-    public void verifyIsCorrectPage(String email) {
+    public void verifyIsCorrectPage(final String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
     }

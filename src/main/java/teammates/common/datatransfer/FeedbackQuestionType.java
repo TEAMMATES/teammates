@@ -26,8 +26,8 @@ public enum FeedbackQuestionType {
         return getFeedbackQuestionDetailsInstance(null, null);
     }
 
-    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, 
-                                                                      Map<String, String[]> requestParameters) {
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(final String questionText, 
+                                                                      final Map<String, String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
 
         switch (this) {
@@ -77,9 +77,9 @@ public enum FeedbackQuestionType {
      *
      * @return FeedbackResponseDetails
      */
-    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(FeedbackQuestionDetails questionDetails,
-                                                                      String[] answer, Map<String, String[]> requestParameters,
-                                                                      int questionIndx, int responseIndx) {
+    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(final FeedbackQuestionDetails questionDetails,
+                                                                      final String[] answer, final Map<String, String[]> requestParameters,
+                                                                      final int questionIndx, final int responseIndx) {
         FeedbackResponseDetails feedbackResponseDetails = null;
 
         switch (this) {
@@ -149,8 +149,8 @@ public enum FeedbackQuestionType {
      * @param questionDetailsClass
      * @param responseDetailsClass
      */
-    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
-                                 Class<? extends FeedbackResponseDetails> responseDetailsClass) {
+    private FeedbackQuestionType(final Class<? extends FeedbackQuestionDetails> questionDetailsClass,
+                                 final Class<? extends FeedbackResponseDetails> responseDetailsClass) {
         this.questionDetailsClass = questionDetailsClass;
         this.responseDetailsClass = responseDetailsClass;
     }
@@ -177,7 +177,7 @@ public enum FeedbackQuestionType {
      * Returns CONSTSUM if passed CONSTSUM_OPTION or CONSTSUM_RECIPIENT as argument.
      * Any other string is returned as is.
      */
-    public static String standardizeIfConstSum(String questionType) {
+    public static String standardizeIfConstSum(final String questionType) {
         if (questionType.equals("CONSTSUM_OPTION") || questionType.equals("CONSTSUM_RECIPIENT")) {
             return "CONSTSUM";
         } else {

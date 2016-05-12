@@ -188,7 +188,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
-    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected){
+    private void fillNumScaleBoxWithRecheck(final boolean isMinScaleBox, final int scale, final int qnNumber, final String expected){
         int counter = 0;
         while(counter != 100) {
             if(isMinScaleBox){

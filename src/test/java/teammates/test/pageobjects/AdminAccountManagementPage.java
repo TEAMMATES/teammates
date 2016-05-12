@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 public class AdminAccountManagementPage extends AppPage {
 
-    public AdminAccountManagementPage(Browser browser) {
+    public AdminAccountManagementPage(final Browser browser) {
         super(browser);
     }
 
@@ -22,14 +22,14 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     public AdminAccountManagementPage clickDeleteInstructorStatus(
-            String instructorId) {
+            final String instructorId) {
         browser.driver.findElement(By.id(instructorId + "_delete")).click();
         waitForPageToLoad();
         return this;
     }
 
     public AdminAccountDetailsPage clickViewInstructorDetails(
-            String instructorId) {
+            final String instructorId) {
         browser.driver.findElement(By.id(instructorId + "_details")).click();
         waitForPageToLoad();
         switchToNewWindow();
@@ -37,7 +37,7 @@ public class AdminAccountManagementPage extends AppPage {
     }
     
     public AdminActivityLogPage clickViewRecentActions(
-            String instructorId) {
+            final String instructorId) {
         browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
         waitForPageToLoad();
         switchToNewWindow();
@@ -45,14 +45,14 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
-            String googleId) {
+            final String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndCancel(deleteAccountLink);
         return this;
     }
 
     public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(
-            String googleId) {
+            final String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndConfirm(deleteAccountLink);
         waitForPageToLoad();
@@ -63,7 +63,7 @@ public class AdminAccountManagementPage extends AppPage {
         assertTrue(containsExpectedPageContents());
     }
 
-    private WebElement getDeleteAccountLink(String googleId) {
+    private WebElement getDeleteAccountLink(final String googleId) {
         return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
     }
     

@@ -14,17 +14,17 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     
     public boolean areDuplicatesAllowed;
 
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
+    public FeedbackRankQuestionDetails(final FeedbackQuestionType questionType) {
         super(questionType);
     }
 
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
+    public FeedbackRankQuestionDetails(final FeedbackQuestionType questionType, final String questionText) {
         super(questionType, questionText);
     }
 
     @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                          FeedbackQuestionType questionType) {
+    public boolean extractQuestionDetails(final Map<String, String[]> requestParameters,
+                                          final FeedbackQuestionType questionType) {
         
         String areDuplicatesAllowedString 
             = HttpRequestHelper.getValueFromParamMap(requestParameters, 
@@ -64,8 +64,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * @param rankReceived
      */
     protected void updateOptionRanksMapping(
-                        Map<String, List<Integer>> optionRanks,
-                        String optionReceivingRanks, int rankReceived) {
+                        final Map<String, List<Integer>> optionRanks,
+                        final String optionReceivingRanks, final int rankReceived) {
         if (!optionRanks.containsKey(optionReceivingRanks)) {
             List<Integer> ranks = new ArrayList<Integer>();
             optionRanks.put(optionReceivingRanks, ranks);
@@ -79,7 +79,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Returns the list of points as as string to display
      * @param ranksReceived
      */
-    protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
+    protected String getListOfRanksReceivedAsString(final List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);
         String pointsReceived = "";
         
@@ -106,7 +106,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         return pointsReceived;
     }
 
-    protected double computeAverage(List<Integer> values) {
+    protected double computeAverage(final List<Integer> values) {
         double average = 0;
         for (double value : values) {
             average = average + value;
@@ -123,8 +123,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * @return a map of the option to the normalised rank of the response
      */
     protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
-                                                        Map<K, Integer> rankOfOption,
-                                                        List<K> options) {
+                                                        final Map<K, Integer> rankOfOption,
+                                                        final List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
         
         // group the options/feedback response by its rank 

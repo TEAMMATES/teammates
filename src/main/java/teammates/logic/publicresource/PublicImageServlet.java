@@ -21,7 +21,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         
         servletName = Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION;
         action = Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION;

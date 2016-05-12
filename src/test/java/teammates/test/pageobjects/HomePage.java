@@ -14,7 +14,7 @@ public class HomePage extends AppPage {
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
     
-    public HomePage(Browser    browser){
+    public HomePage(final Browser    browser){
         super(browser);
     }
 
@@ -55,7 +55,7 @@ public class HomePage extends AppPage {
         return createCorretLoginPageType(pageSource);
     }
 
-    private LoginPage createCorretLoginPageType(String pageSource) {
+    private LoginPage createCorretLoginPageType(final String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
             return changePageType(DevServerLoginPage.class);
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {

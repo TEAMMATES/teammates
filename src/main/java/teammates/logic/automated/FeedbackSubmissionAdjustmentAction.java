@@ -27,7 +27,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     private String enrollmentDetails;
     
     public FeedbackSubmissionAdjustmentAction(
-            HttpServletRequest request) {
+            final HttpServletRequest request) {
         super(request);
         
         this.courseId = HttpRequestHelper
@@ -43,7 +43,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         Assumption.assertNotNull(enrollmentDetails);
     }
 
-    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {    
+    public FeedbackSubmissionAdjustmentAction(final HashMap<String, String> paramMap) {    
         super(null);
         
         this.courseId = paramMap.get(ParamsNames.COURSE_ID); 

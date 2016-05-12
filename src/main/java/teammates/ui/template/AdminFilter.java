@@ -11,10 +11,10 @@ public class AdminFilter {
     private List<String> rangeEndMinuteOptions;
     private List<String> timeZoneOptions;
     
-    public AdminFilter(String rangeStart, List<String> rangeStartHourOptions,
-                       List<String> rangeStartMinuteOptions, String rangeEnd,
-                       List<String> rangeEndHourOptions, List<String> rangeEndMinuteOptions,
-                       List<String> timeZoneOptions) {
+    public AdminFilter(final String rangeStart, final List<String> rangeStartHourOptions,
+                       final List<String> rangeStartMinuteOptions, final String rangeEnd,
+                       final List<String> rangeEndHourOptions, final List<String> rangeEndMinuteOptions,
+                       final List<String> timeZoneOptions) {
         this.rangeStart = rangeStart;
         this.rangeStartHourOptions = rangeStartHourOptions;
         this.rangeStartMinuteOptions = rangeStartMinuteOptions;

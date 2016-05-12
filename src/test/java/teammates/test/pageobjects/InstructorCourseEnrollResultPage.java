@@ -8,7 +8,7 @@ public class InstructorCourseEnrollResultPage extends AppPage {
     @FindBy(id = "edit_enroll")
     WebElement editLink;
 
-    public InstructorCourseEnrollResultPage(Browser browser) {
+    public InstructorCourseEnrollResultPage(final Browser browser) {
         super(browser);
     }
 

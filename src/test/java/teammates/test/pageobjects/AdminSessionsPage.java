@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 public class AdminSessionsPage extends AppPage {
 
-    public AdminSessionsPage(Browser browser) {
+    public AdminSessionsPage(final Browser browser) {
         super(browser);
     }
 

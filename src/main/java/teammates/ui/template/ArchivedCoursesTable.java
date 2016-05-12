@@ -14,7 +14,7 @@ public class ArchivedCoursesTable {
         return rows;
     }
 
-    public void setRows(List<ArchivedCoursesTableRow> rows) {
+    public void setRows(final List<ArchivedCoursesTableRow> rows) {
         this.rows = rows;
     }
 }

@@ -14,11 +14,11 @@ public class InstructorHomePageData extends PageData {
     private List<CourseTable> courseTables;
     private String sortCriteria;
     
-    public InstructorHomePageData(AccountAttributes account) {
+    public InstructorHomePageData(final AccountAttributes account) {
         super(account);
     }
     
-    public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
+    public void init(final List<CourseSummaryBundle> courseList, final String sortCriteria) {
         this.sortCriteria = sortCriteria;
         this.isSortingDisabled = courseList.size() < 2;
         setCourseTables(courseList);
@@ -54,7 +54,7 @@ public class InstructorHomePageData extends PageData {
         return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
     
-    private void setCourseTables(List<CourseSummaryBundle> courses) {
+    private void setCourseTables(final List<CourseSummaryBundle> courses) {
         courseTables = new ArrayList<CourseTable>(); 
         for (CourseSummaryBundle courseDetails : courses) {
             courseTables.add(new CourseTable(courseDetails.course, null, null));

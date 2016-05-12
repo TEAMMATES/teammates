@@ -83,7 +83,7 @@ public class FeedbackQuestionFormTemplates {
      * * The array is in the form { "var1", "val1", "var2", "val2", ... } 
      * @return The populated template
      */
-    public static String populateTemplate(String template, String... values) {
+    public static String populateTemplate(final String template, final String... values) {
         String populatedTemplate = template;
         for (int i = 0; i < values.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(values[i], values[i+1]);

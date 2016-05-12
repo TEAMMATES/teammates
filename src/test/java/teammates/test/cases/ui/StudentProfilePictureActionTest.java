@@ -120,7 +120,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseUnauthorisedInstructor();
     }
 
-    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor)
+    protected void testActionWithEmailAndCourseSuccessTypical(final AccountAttributes instructor)
             throws Exception {
 
         ______TS("Typical case: using email and course");
@@ -219,8 +219,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     // -----------------------------------------------
     // -------------------------------------------------------------------------------------------------------
 
-    private void verifyLogMessageForActionWithEmailAndCourse(AccountAttributes instructor,
-                                                             boolean isMasquerade) {
+    private void verifyLogMessageForActionWithEmailAndCourse(final AccountAttributes instructor,
+                                                             final boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Instructor" + (isMasquerade ? "(M)" : "") + "|||"
                                   + instructor.name + "|||" + instructor.googleId + "|||"+ instructor.email
@@ -228,7 +228,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }
 
-    private void verifyLogMessageForActionWithBlobKey(boolean isMasquerade) {
+    private void verifyLogMessageForActionWithBlobKey(final boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + _account.name + "|||" + _account.googleId + "|||" + _student.email
@@ -236,7 +236,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }
 
-    private StudentProfilePictureAction getAction(String... params) throws Exception {
+    private StudentProfilePictureAction getAction(final String... params) throws Exception {
         return (StudentProfilePictureAction) (gaeSimulation.getActionObject(uri, params));
     }
 

@@ -6,15 +6,15 @@ import teammates.common.util.StringHelper;
 
 @SuppressWarnings("serial")
 public class InvalidParametersException extends TeammatesException {
-    public InvalidParametersException(String message) {
+    public InvalidParametersException(final String message) {
         super(message);
     }
 
-    public InvalidParametersException(List<String> messages) {
+    public InvalidParametersException(final List<String> messages) {
         super(StringHelper.toString(messages));
     }
 
-    public InvalidParametersException(String specificErrorcode, String message) {
+    public InvalidParametersException(final String specificErrorcode, final String message) {
         super(specificErrorcode, message);
     }
 }

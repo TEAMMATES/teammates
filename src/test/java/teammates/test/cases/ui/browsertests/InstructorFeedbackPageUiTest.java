@@ -1015,7 +1015,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
 
-    private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
+    private static InstructorFeedbacksPage getFeedbackPageForInstructor(final String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);    
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"));

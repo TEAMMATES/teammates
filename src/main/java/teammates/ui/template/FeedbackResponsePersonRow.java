@@ -11,9 +11,9 @@ public class FeedbackResponsePersonRow {
     private String personName;
     private List<FeedbackResponseRow> responses;
 
-    public FeedbackResponsePersonRow(int fbIndex, int personIndex, String personName, String personType,
-                                     List<FeedbackResponseAttributes> responses,
-                                     FeedbackSessionResultsBundle results) {
+    public FeedbackResponsePersonRow(final int fbIndex, final int personIndex, final String personName, final String personType,
+                                     final List<FeedbackResponseAttributes> responses,
+                                     final FeedbackSessionResultsBundle results) {
         this.personName = personName;
         this.responses = new ArrayList<FeedbackResponseRow>();
         for (FeedbackResponseAttributes response : responses) {

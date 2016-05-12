@@ -55,7 +55,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     public static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {
+        public int execute(final URLFetchRequest request) {
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
             assertTrue(paramMap.containsKey(ParamsNames.COURSE_ID));
@@ -282,7 +282,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(0, numberOfNewResponses);        
     }
 
-    private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
+    private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(final StudentAttributes student) {
         List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
         
         List<FeedbackResponseAttributes> studentReceiverResponses = FeedbackResponsesLogic.inst()
@@ -311,8 +311,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         return returnList;
     }
     
-    private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,
-            String feedbackSessionName) {
+    private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(final StudentAttributes student,
+            final String feedbackSessionName) {
         List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
         
         List<FeedbackResponseAttributes> allResponseOfStudent = getAllTeamResponsesForStudent(student);
@@ -326,8 +326,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         return returnList;
     }
     
-    private void verifyResponsesDoNotExistForEmailInCourse(String email,
-            String courseId) {
+    private void verifyResponsesDoNotExistForEmailInCourse(final String email,
+            final String courseId) {
         List<FeedbackSessionAttributes> allSessions = fsLogic
                 .getFeedbackSessionsForCourse(courseId); 
         

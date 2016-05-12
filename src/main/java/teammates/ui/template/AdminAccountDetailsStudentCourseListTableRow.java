@@ -8,7 +8,7 @@ public class AdminAccountDetailsStudentCourseListTableRow {
     private CourseAttributes courseDetails;
     private ElementTag removeFromCourseButton;
     
-    public AdminAccountDetailsStudentCourseListTableRow(String googleId, CourseAttributes courseDetails) {
+    public AdminAccountDetailsStudentCourseListTableRow(final String googleId, final CourseAttributes courseDetails) {
         this.googleId = googleId;
         this.courseDetails = courseDetails;
         this.removeFromCourseButton = createRemoveButton();

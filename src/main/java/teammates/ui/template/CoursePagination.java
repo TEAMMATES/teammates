@@ -10,8 +10,8 @@ public class CoursePagination {
     private String activeCourseClass;
     private String userCommentsLink;
     
-    public CoursePagination(String previousPageLink, String nextPageLink, List<String> coursePaginationList, 
-                            String activeCourse, String activeCourseClass, String userCommentsLink) {
+    public CoursePagination(final String previousPageLink, final String nextPageLink, final List<String> coursePaginationList, 
+                            final String activeCourse, final String activeCourseClass, final String userCommentsLink) {
         this.previousPageLink = previousPageLink;
         this.nextPageLink = nextPageLink;
         this.coursePaginationList = coursePaginationList;

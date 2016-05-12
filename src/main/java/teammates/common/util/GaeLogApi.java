@@ -15,7 +15,7 @@ public class GaeLogApi {
      * Retrieves logs using the query.
      * @return logs fetched from server.
      */
-    public List<AppLogLine> fetchLogs(AdminLogQuery query) {
+    public List<AppLogLine> fetchLogs(final AdminLogQuery query) {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query.getQuery());

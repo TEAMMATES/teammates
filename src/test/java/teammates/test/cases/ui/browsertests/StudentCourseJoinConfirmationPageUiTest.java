@@ -230,7 +230,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
 
-    private LoginPage createCorrectLoginPageType(String pageSource) {
+    private LoginPage createCorrectLoginPageType(final String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
@@ -240,7 +240,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         }
     }
 
-    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
+    private <T extends AppPage> T createNewPage(final Browser browser, final Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
             constructor = typeOfPage.getConstructor(Browser.class);
@@ -253,7 +253,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
 
     // continuously ask BackDoor to get the key until a legit key is returned
-    private String getKeyFromBackDoor(String courseId, String studentEmail) {
+    private String getKeyFromBackDoor(final String courseId, final String studentEmail) {
         int NUMBER_OF_REMAINING_RETRIES = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {

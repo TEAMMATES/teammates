@@ -4,7 +4,7 @@ package teammates.test.pageobjects;
 
 public abstract class LoginPage extends AppPage {
     
-    public LoginPage(Browser browser){
+    public LoginPage(final Browser browser){
         super(browser);
     }
 

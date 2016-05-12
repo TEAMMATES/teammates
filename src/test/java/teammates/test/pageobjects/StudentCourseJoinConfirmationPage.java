@@ -12,7 +12,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_cancel")
     protected WebElement cancelButton;
     
-    public StudentCourseJoinConfirmationPage(Browser browser) {
+    public StudentCourseJoinConfirmationPage(final Browser browser) {
         super(browser);
     }
     
@@ -25,7 +25,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
         return clickConfirmButton(StudentHomePage.class);
     }
     
-    public <T extends AppPage> T clickConfirmButton(Class<T> typeOfPage) {
+    public <T extends AppPage> T clickConfirmButton(final Class<T> typeOfPage) {
         confirmButton.click();
         waitForPageToLoad();
         return changePageType(typeOfPage);

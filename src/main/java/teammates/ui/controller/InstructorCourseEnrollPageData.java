@@ -9,7 +9,7 @@ public class InstructorCourseEnrollPageData extends PageData {
     private String courseId;
     private String enrollStudents;
     
-    public InstructorCourseEnrollPageData(AccountAttributes account, String courseId, String enrollStudents) {
+    public InstructorCourseEnrollPageData(final AccountAttributes account, final String courseId, final String enrollStudents) {
         super(account);
         this.courseId =  courseId;
         this.enrollStudents = enrollStudents;

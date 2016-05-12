@@ -64,7 +64,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
-    private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
+    private void deleteQuestion(final FeedbackQuestionAttributes updatedQuestion) {
         logic.deleteFeedbackQuestion(updatedQuestion.getId());
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">("
@@ -72,7 +72,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
-    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException, 
+    private void editQuestion(final FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException, 
                                                                                  EntityDoesNotExistException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
@@ -113,7 +113,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
      * @param feedbackQuestionAttributes
      * @return error message detailing the error, or an empty string if valid.
      */
-    public static String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+    public static String validateQuestionGiverRecipientVisibility(final FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
         
         FeedbackQuestionDetails questionDetails = null;
@@ -138,7 +138,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         return errorMsg;
     }
 
-    private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters) {
+    private static FeedbackQuestionAttributes extractFeedbackQuestionData(final Map<String, String[]> requestParameters) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
         
         newQuestion.setId(HttpRequestHelper.getValueFromParamMap(requestParameters, 
@@ -232,7 +232,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         return newQuestion;
     }
     
-    private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
+    private static boolean numberOfEntitiesIsUserDefined(final FeedbackParticipantType recipientType, final String nEntityTypes) {
         if (recipientType != FeedbackParticipantType.STUDENTS
             && recipientType != FeedbackParticipantType.TEAMS) {
             return false;
@@ -245,7 +245,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         return true;
     }
 
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
+    private static List<FeedbackParticipantType> getParticipantListFromParams(final String params) {
         List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
         
         if (params.isEmpty()) { return list; }    

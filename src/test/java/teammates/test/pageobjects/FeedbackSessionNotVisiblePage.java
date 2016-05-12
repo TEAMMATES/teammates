@@ -2,7 +2,7 @@ package teammates.test.pageobjects;
 
 public class FeedbackSessionNotVisiblePage extends AppPage {
 
-    public FeedbackSessionNotVisiblePage(Browser browser) {
+    public FeedbackSessionNotVisiblePage(final Browser browser) {
         super(browser);
     }
 

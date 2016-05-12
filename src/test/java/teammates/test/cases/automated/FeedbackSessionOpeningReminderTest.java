@@ -37,7 +37,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     public static class FeedbackSessionOpeningCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {
+        public int execute(final URLFetchRequest request) {
             
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
@@ -169,8 +169,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         }
     }
     
-    private void prepareAndSendOpeningMailForSession(FeedbackSessionAttributes session, int studentCount,
-                                                     int instructorCount) throws MessagingException {
+    private void prepareAndSendOpeningMailForSession(final FeedbackSessionAttributes session, final int studentCount,
+                                                     final int instructorCount) throws MessagingException {
         HashMap<String, String> paramMap = createParamMapForAction(session);
         EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
 
@@ -184,7 +184,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         }
     }
 
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+    private HashMap<String, String> createParamMapForAction(final FeedbackSessionAttributes fs) {
         //Prepare parameter map to be used with FeedbackSessionOpeningMailAction
         HashMap<String, String> paramMap = new HashMap<String, String>();
         

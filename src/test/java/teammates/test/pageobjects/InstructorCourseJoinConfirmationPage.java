@@ -10,7 +10,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_cancel")
     protected WebElement cancelButton;
     
-    public InstructorCourseJoinConfirmationPage(Browser browser) {
+    public InstructorCourseJoinConfirmationPage(final Browser browser) {
         super(browser);
     }
     

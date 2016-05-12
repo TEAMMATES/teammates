@@ -10,7 +10,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 public class FeedbackSessionPublishedRemindersServlet extends AutomatedRemindersServlet {
     
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
         servletName = Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS;
         action = "send published alert";
         

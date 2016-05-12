@@ -13,7 +13,7 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> receivedResponses;
     private List<FeedbackResponsePersonRow> givenResponses;
 
-    public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result) {
+    public FeedbackResultsTable(final int fbIndex, final String studentName, final FeedbackSessionResultsBundle result) {
         this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<FeedbackResponsePersonRow>();

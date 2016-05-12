@@ -8,8 +8,8 @@ public class ActiveCoursesTableRow {
     private String href;
     private List<ElementTag> actions;
     
-    public ActiveCoursesTableRow(String courseIdParam, String courseNameParam, 
-        String href, List<ElementTag> actionsParam) {
+    public ActiveCoursesTableRow(final String courseIdParam, final String courseNameParam, 
+        final String href, final List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.href = href;

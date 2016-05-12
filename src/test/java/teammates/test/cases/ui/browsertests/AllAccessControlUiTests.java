@@ -182,19 +182,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
 
-    private void loginStudent(String userName, String password) {
+    private void loginStudent(final String userName, final String password) {
         logout(browser);
         LoginPage loginPage = getHomePage(browser).clickStudentLogin();
         currentPage = loginPage.loginAsStudent(userName, password);
     }
     
-    private void loginInstructorUnsuccessfully(String userName, String password) {
+    private void loginInstructorUnsuccessfully(final String userName, final String password) {
         logout(browser);
         LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
     }
     
-    private void loginInstructor(String userName, String password) {
+    private void loginInstructor(final String userName, final String password) {
         logout(browser);
         LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
@@ -220,12 +220,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         verifyRedirectToForbidden(url);
     }
 
-    private void verifyCannotMasquerade(AppUrl url, String otherInstructorId) {
+    private void verifyCannotMasquerade(final AppUrl url, final String otherInstructorId) {
         AppUrl masqueradeUrl = url.withUserId(otherInstructorId);
         verifyRedirectToNotAuthorized(masqueradeUrl);
     }
 
-    private void verifyRedirectToWelcomeStrangerPage(AppUrl url, String unregUsername) {
+    private void verifyRedirectToWelcomeStrangerPage(final AppUrl url, final String unregUsername) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
@@ -234,7 +234,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
                 currentPage.getPageSource());
     }
 
-    private void verifyRedirectToForbidden(AppUrl url) {
+    private void verifyRedirectToForbidden(final AppUrl url) {
         if (TestProperties.inst().isDevServer()) {
             verifyRedirectToNotAuthorized(url);
         } else {
@@ -244,24 +244,24 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         }
     }
 
-    private void verifyRedirectToNotAuthorized(AppUrl url) {
+    private void verifyRedirectToNotAuthorized(final AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         currentPage.changePageType(NotAuthorizedPage.class);
     }
 
-    private void verifyRedirectToLogin(AppUrl url) {
+    private void verifyRedirectToLogin(final AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         assertTrue(isLoginPage(currentPage));
     }
 
-    private boolean isLoginPage(AppPage currentPage) {
+    private boolean isLoginPage(final AppPage currentPage) {
         return GoogleLoginPage.containsExpectedPageContents(currentPage.getPageSource())
                 || DevServerLoginPage.containsExpectedPageContents(currentPage.getPageSource());
     }
 
-    private void printUrl(String url) {
+    private void printUrl(final String url) {
         print("   " + url);
     }
 

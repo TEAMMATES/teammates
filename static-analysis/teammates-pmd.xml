@@ -208,7 +208,7 @@
    <!--<rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/AvoidInstantiatingObjectsInLoops"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/LocalVariableCouldBeFinal"/>-->
-   <!--<rule ref="rulesets/java/optimizations.xml/MethodArgumentCouldBeFinal"/>-->
+   <rule ref="rulesets/java/optimizations.xml/MethodArgumentCouldBeFinal"/>
    <!--<rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>-->
    <!--<rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith"/>-->

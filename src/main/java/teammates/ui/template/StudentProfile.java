@@ -12,7 +12,7 @@ public class StudentProfile {
     private String nationality;
     private String moreInfo;
 
-    public StudentProfile(String fullName, StudentProfileAttributes student, String pictureUrl) {
+    public StudentProfile(final String fullName, final StudentProfileAttributes student, final String pictureUrl) {
         this.pictureUrl = pictureUrl;
         this.name = fullName;
         this.shortName = student.shortName;

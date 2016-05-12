@@ -109,7 +109,7 @@ public class InstructorCommentsPageAction extends Action {
         session.setAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION, isDisplayArchivedCourse);
     }
 
-    private String getCoursePaginationList(List<String> coursePaginationList) 
+    private String getCoursePaginationList(final List<String> coursePaginationList) 
             throws EntityDoesNotExistException {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
@@ -162,9 +162,9 @@ public class InstructorCommentsPageAction extends Action {
         return giverEmailToCommentsMap;
     }
 
-    private void updateCommentList(CommentAttributes comment,
-                                   boolean isCurrentInstructorGiver,
-                                   List<CommentAttributes> commentList) {
+    private void updateCommentList(final CommentAttributes comment,
+                                   final boolean isCurrentInstructorGiver,
+                                   final List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
             if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
@@ -176,7 +176,7 @@ public class InstructorCommentsPageAction extends Action {
     }
     
     private Map<String, List<Boolean>> getGiverEmailToCanModifyCommentListMap(
-                                               Map<String, List<CommentAttributes>> comments) {
+                                               final Map<String, List<CommentAttributes>> comments) {
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new TreeMap<String, List<Boolean>>();
         for (String giverEmail : comments.keySet()) {
             List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
@@ -194,11 +194,11 @@ public class InstructorCommentsPageAction extends Action {
         return fsList;
     }
     
-    private boolean isCourseArchived(CourseAttributes course, String googleId) {
+    private boolean isCourseArchived(final CourseAttributes course, final String googleId) {
         return Logic.isCourseArchived(course.id, googleId);
     }
     
-    private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
+    private boolean isInstructorAllowedToModifyCommentInSection(final CommentAttributes comment) {
         return instructor != null 
                        && (comment.giverEmail.equals(instructor.email)
                                    || isInstructorAllowedForPrivilegeOnComment(
@@ -206,8 +206,8 @@ public class InstructorCommentsPageAction extends Action {
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
     }
     
-    private boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, InstructorAttributes instructor, 
-                                                             String courseId, String privilegeName) {
+    private boolean isInstructorAllowedForPrivilegeOnComment(final CommentAttributes comment, final InstructorAttributes instructor, 
+                                                             final String courseId, final String privilegeName) {
         // TODO: remember to come back and change this if later
         // CommentAttributes.recipients can have multiple later!!!
 

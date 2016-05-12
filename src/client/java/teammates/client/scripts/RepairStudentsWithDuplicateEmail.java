@@ -31,7 +31,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
         repairman.doOperationRemotely();
     }
@@ -49,7 +49,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         print("Total students with duplicate emails in all courses: " + duplicateEmailCount);
     }
 
-    private void repairCourseStudents(CourseAttributes course) {
+    private void repairCourseStudents(final CourseAttributes course) {
         List<StudentAttributes> studentList = getStudentsForCourse(course.id);
 
         Map<String, String> emailNameMap = new TreeMap<String, String>();
@@ -73,7 +73,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         print("[" + duplicateEmailRecord.size() + ": " + course.id + "]");
     }
 
-    private void print(String string) {
+    private void print(final String string) {
         System.out.println(string);
     }
     
@@ -92,7 +92,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         return courseDataList;
     }
 
-    private List<StudentAttributes> getStudentsForCourse(String courseId) {
+    private List<StudentAttributes> getStudentsForCourse(final String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
@@ -108,7 +108,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         return studentDataList;
     }
 
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
+    private List<Student> getStudentEntitiesForCourse(final String courseId) {
         Query q = pm.newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
