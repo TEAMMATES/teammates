@@ -124,7 +124,7 @@ public class Config {
     }
 
     private int getPersistenceCheckduration() {
-        return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
+        return Integer.valueOf(props.getProperty("app.persistence.checkduration"));
     }
 
     private String getSupportEmail() {
