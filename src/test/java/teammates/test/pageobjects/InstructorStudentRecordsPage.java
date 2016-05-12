@@ -147,7 +147,7 @@ public class InstructorStudentRecordsPage extends AppPage {
      */
     private boolean areAllRecordPanelBodiesVisibilityEquals(boolean isVisible) {
         for (WebElement e : getStudentFeedbackPanels()) {
-            if(e.isDisplayed() != isVisible) {
+            if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }

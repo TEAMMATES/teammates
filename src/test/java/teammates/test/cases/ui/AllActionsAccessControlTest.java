@@ -867,9 +867,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         List<CommentAttributes> comments = CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()){
             CommentAttributes commentAttributes = iterator.next();
-            if(!commentAttributes.giverEmail.equals(instructor.email)){
+            if (!commentAttributes.giverEmail.equals(instructor.email)){
                 iterator.remove();
             }
         }
@@ -1194,7 +1194,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         session.startTime = startTime;
         session.endTime = endTime;
-        if(isPublished){
+        if (isPublished){
             session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
             assertTrue(session.isPublished());
         } else {

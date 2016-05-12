@@ -1732,7 +1732,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Deprecated
     public String getGroupByTeam() {
-        return groupByTeam != null? groupByTeam : "null";
+        return groupByTeam != null ? groupByTeam : "null";
     }
     
     // TODO: swap groupByTeam to a normal boolean

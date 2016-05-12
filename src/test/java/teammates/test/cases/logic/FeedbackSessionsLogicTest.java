@@ -444,7 +444,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
                 newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            if(details.feedbackSession.feedbackSessionName.equals(
+            if (details.feedbackSession.feedbackSessionName.equals(
                     newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
                 stats = details.stats;
                 break;
@@ -1984,7 +1984,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
@@ -2055,7 +2055,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if(!i.email.equals(instrToRemind.email)) {
+            if (!i.email.equals(instrToRemind.email)) {
                 // Only send notification (no reminder) if instructor is not selected
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
@@ -2146,7 +2146,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
-            if(fs.isPublished()) {
+            if (fs.isPublished()) {
                 fsLogic.unpublishFeedbackSession(fs.feedbackSessionName, fs.courseId);                
             }
         }
@@ -2164,8 +2164,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             tableString += String.valueOf(entry.getValue()[1]);
             tableString += "}},";
         }
-        if(!tableString.isEmpty()) {
-            tableString = tableString.substring(0, tableString.length()-1);
+        if (!tableString.isEmpty()) {
+            tableString = tableString.substring(0, tableString.length() - 1);
         }
         return tableString;
     }

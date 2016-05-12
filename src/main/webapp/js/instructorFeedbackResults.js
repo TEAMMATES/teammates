@@ -7,10 +7,11 @@
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
@@ -83,10 +84,10 @@ function filterResults(searchText) {
 
     // a stack that stores parent panels that are pending on 
     // the search result from the child panels to decide show/hide
-    var showStack = new Array();
+    var showStack = [];
 
     // a stack that stores the parent panels that have been traversed so far
-    var parentStack = new Array();
+    var parentStack = [];
 
     for (var p = 0; p < allPanelText.length; p++) {
         var panelText = allPanelText[p];

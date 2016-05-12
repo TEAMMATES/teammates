@@ -47,13 +47,13 @@ public abstract class SearchQuery {
         // returns unnecessary search results in the case if someone searches
         // using an email. To avoid this, we check whether the input text is an
         // email, and if yes, we skip the sanitize process.
-        if(FieldValidator.isValidEmailAddress(queryString)){
+        if (FieldValidator.isValidEmailAddress(queryString)){
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
             sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
         }
         
-        if(!sanitizedQueryString.isEmpty()){
+        if (!sanitizedQueryString.isEmpty()){
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
             this.textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
@@ -68,16 +68,16 @@ public abstract class SearchQuery {
         String key = "";
         boolean isStartQuote = false;
         for (int i = 0; i < splitStrings.length; i++){
-            if(!splitStrings[i].equals("\"")){
-                if(isStartQuote){
+            if (!splitStrings[i].equals("\"")){
+                if (isStartQuote){
                     key += " " + splitStrings[i];
                 } else {
                     keywords.add(splitStrings[i]);
                 }
             } else {
-                if(isStartQuote){
+                if (isStartQuote){
                     isStartQuote = false;
-                    if(!key.trim().equals("")){
+                    if (!key.trim().equals("")){
                         keywords.add(key.trim());
                     }
                     key = "";
@@ -87,11 +87,11 @@ public abstract class SearchQuery {
             }
         }
         
-        if(isStartQuote && !key.trim().equals("")){
+        if (isStartQuote && !key.trim().equals("")){
             keywords.add(key.trim());
         }
 
-        if(keywords.size() < 1) return "";
+        if (keywords.size() < 1) return "";
         
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         
@@ -127,7 +127,7 @@ public abstract class SearchQuery {
         boolean isfirstElement = visibilityQueryString.isEmpty() ? true : false;
         
         for (String textQuery : textQueryStrings){
-            if(isfirstElement){
+            if (isfirstElement){
                 queryStringBuilder.append(textQuery);
                 isfirstElement = false;
             } else {
@@ -135,7 +135,7 @@ public abstract class SearchQuery {
             }
         }
         for (String dateQuery : dateQueryStrings){
-            if(isfirstElement){
+            if (isfirstElement){
                 queryStringBuilder.append(dateQuery);
                 isfirstElement = false;
             } else {

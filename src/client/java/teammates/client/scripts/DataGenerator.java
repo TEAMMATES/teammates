@@ -78,7 +78,7 @@ public class DataGenerator {
         File f;
         f = new File(filePath);
         // Create file if it does not exist
-        if(!f.exists()){
+        if (!f.exists()){
             try {
                 f.createNewFile();
             } catch (IOException e) {
@@ -162,7 +162,7 @@ public class DataGenerator {
         
         //Add teams
         int teamCount = 1;
-        while(studentEmailInCourse.size() > 0) {
+        while (studentEmailInCourse.size() > 0) {
             long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
             for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
@@ -208,7 +208,7 @@ public class DataGenerator {
             output+="\t"+account(email);
             output+=",\n";
         }
-        output = output.substring(0, output.length()-2);
+        output = output.substring(0, output.length() - 2);
         output+= "\n},";
         return output;
     }
@@ -224,7 +224,7 @@ public class DataGenerator {
             output+="\t"+instructor(instructor, "googleIdOf_"+instructor, "courseIdOf_"+course, "nameOf_"+instructor, "emailOf_"+instructor+"@gmail.com");
             output+=",\n";
         }
-        output = output.substring(0, output.length()-2);
+        output = output.substring(0, output.length() - 2);
         output+= "\n},";
         return output;
     }
@@ -237,7 +237,7 @@ public class DataGenerator {
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX+courses.get(i);
             output+="\t"+course(course, "courseIdOf_"+course, "nameOf_"+course);
-            if(i!=courses.size()-1)
+            if (i != courses.size() - 1)
                 output+=",\n";
         }
         output+= "\n},";
@@ -257,7 +257,7 @@ public class DataGenerator {
             String email = studentEmails.get(Integer.parseInt(index));
             output+="\t"+student(student, email, "Student "+index+ " in " +course,
                     "Team "+team, email.split("@")[0], "comment", "courseIdOf_"+course, "profile");
-            if(i!=students.size()-1)
+            if (i != students.size() - 1)
                 output+=",\n";
         }
         output+= "\n},";
@@ -335,7 +335,7 @@ public class DataGenerator {
     public static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;
         do {
-            num = (int) Math.floor(random.nextGaussian()*(STANDARD_DEVIATION_STUDENT_PER_COURSE) + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
+            num = (int) Math.floor(random.nextGaussian() * (STANDARD_DEVIATION_STUDENT_PER_COURSE) + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
         } while (num > MAX_NUM_OF_STUDENTS_PER_COURSE || num < MIN_NUM_OF_STUDENTS_PER_COURSE);
         return num;
     }

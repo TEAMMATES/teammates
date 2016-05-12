@@ -190,13 +190,13 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     
     private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected){
         int counter = 0;
-        while(counter != 100) {
-            if(isMinScaleBox){
+        while (counter != 100) {
+            if (isMinScaleBox){
                 feedbackEditPage.fillMinNumScaleBox(scale, qnNumber);
             } else {
                 feedbackEditPage.fillMaxNumScaleBox(scale, qnNumber);
             }
-            if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
+            if (expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
                 return;
             }
             counter++;

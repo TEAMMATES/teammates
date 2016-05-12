@@ -20,7 +20,7 @@ public class InstructorSearchDocument extends SearchDocument {
     
     @Override
     protected void prepareData() {
-        if(instructor == null){
+        if (instructor == null){
             return;
         }
         

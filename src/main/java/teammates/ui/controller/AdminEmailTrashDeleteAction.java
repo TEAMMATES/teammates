@@ -17,7 +17,7 @@ public class AdminEmailTrashDeleteAction extends Action {
         
         boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
         
-        if(emptyTrashBin){
+        if (emptyTrashBin){
             try {
                 logic.deleteAllEmailsInTrashBin();
                 statusToAdmin = "All emails in trash bin has been deleted";

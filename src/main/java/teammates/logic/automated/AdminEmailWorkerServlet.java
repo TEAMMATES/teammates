@@ -38,7 +38,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         String emailContent = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_CONTENT);
         String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
         
-        if(emailContent == null || emailSubject == null){
+        if (emailContent == null || emailSubject == null){
           log.info("Sending large email. Going to retrieve email content and subject from datastore.");
           AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
           Assumption.assertNotNull(adminEmail);
