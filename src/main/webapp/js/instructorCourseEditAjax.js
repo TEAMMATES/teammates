@@ -8,7 +8,6 @@ function editFormRequest(e) {
     var formData = form.serialize();
     var index = $(this).attr("id").replace("instrEditLink", "");
     var editForm = $("#accessControlEditDivForInstr" + index);
-    var saveButton = $("#btnSaveInstructor" + index);
 
     $.ajax({
         type: 'POST',

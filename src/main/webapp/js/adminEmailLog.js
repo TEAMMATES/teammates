@@ -25,7 +25,7 @@ function bindClickAction() {
     $("body").unbind('click', handler).on("click", ".log", handler);
 }
 
-var handler = function(event) {
+var handler = function() {
     $(this).next("#small").toggle();
     $(this).next("#small").next("#big").toggle();
 };

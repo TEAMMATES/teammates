@@ -577,7 +577,7 @@ function setStatusMessage(message, status) {
  * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-function appendStatusMessage(messages, error) {
+function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));

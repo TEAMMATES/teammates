@@ -409,7 +409,7 @@ function deleteComment(commentIdx) {
     return false;
 }
 
-function enableEdit(commentIdx, unusedParameter) {
+function enableEdit(commentIdx) {
     enableComment(commentIdx);
     return false;
 }

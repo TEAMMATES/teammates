@@ -81,10 +81,8 @@ function hideNewInstructorForm() {
 /**
  * Functions to trigger registration key sending to a specific instructor in the
  * course.
- * @param courseID
- * @param email
  */
-function toggleSendRegistrationKey(courseID, email) {
+function toggleSendRegistrationKey() {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 

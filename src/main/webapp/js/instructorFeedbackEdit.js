@@ -795,7 +795,6 @@ function bindCopyEvents() {
 function toggleVisibilityMessage(elem) {
     var $elementParent = $(elem).closest('form');
     var $options = $elementParent.find('.visibilityOptions');
-    var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
     var $giverType = $elementParent.find('select[name="givertype"]');
     var $recipientType = $elementParent.find('select[name="recipienttype"]');
@@ -859,7 +858,7 @@ function getVisibilityMessage(buttonElem) {
             $formVisibility.show();
             $formOptions.hide();
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function() {
             updateVisibilityMessageButton($form, false);
             $form.find('.visibilityOptionsLabel').click();
         }
@@ -1256,7 +1255,6 @@ function setDefaultContribQnVisibility(questionNumber) {
 
 function setContribQnVisibilityFormat(questionNumber) {
     var idSuffix = questionNumber ? questionNumber : 'New';
-    var idSuffix2 = questionNumber ? questionNumber : '';
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1454,7 +1452,6 @@ function addRubricCol(questionNumber) {
       +   '<textarea class=\'form-control\' rows=\'3\' id=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\' name=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\'>${description}</textarea>'
       + '</td>';
 
-    var rubricRowBodyFragments = '';
     // Create numberOfRows of <td>'s
     for (var rows = 0; rows < numberOfRows; rows++) {
         if (!$('#rubricRow' + idSuffix + '-' + rows).length) {
@@ -1533,7 +1530,6 @@ function removeRubricCol(index, questionNumber) {
 }
 
 function highlightRubricRow(index, questionNumber, highlight) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
@@ -1547,7 +1543,6 @@ function highlightRubricRow(index, questionNumber, highlight) {
 }
 
 function highlightRubricCol(index, questionNumber, highlight) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
