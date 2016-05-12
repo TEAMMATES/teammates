@@ -110,8 +110,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        this.id = Sanitizer.sanitizeForHtml(getId());
-        this.name = Sanitizer.sanitizeForHtml(getName());
+        id = Sanitizer.sanitizeForHtml(getId());
+        name = Sanitizer.sanitizeForHtml(getName());
     }
 
     @Override
