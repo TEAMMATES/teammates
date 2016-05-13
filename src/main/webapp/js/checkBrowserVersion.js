@@ -79,5 +79,5 @@ function checkBrowserVersion() {
                             "<td> - " + SAFARI + " " + SAFARI_LOWEST_VERSION + "+</td></tr></table>";
     }
     
- }
+}
 window.onload = checkBrowserVersion;

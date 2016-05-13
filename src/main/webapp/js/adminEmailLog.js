@@ -13,8 +13,8 @@ function toggleReference() {
     var button = $("#detailButton").attr("class");
     
     if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-    $("#referenceText").text("Hide Reference");
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
+        $("#referenceText").text("Hide Reference");
     } else {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
@@ -65,9 +65,9 @@ function submitFormAjax(offset) {
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                        // Inject new log row
-                        var logs = data.logs;
-                        jQuery.each(logs, function(i, value) {
+                    // Inject new log row
+                    var logs = data.logs;
+                    $.each(logs, function(i, value) {
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#emailLogsTable tr:last');
                         bindClickAction();

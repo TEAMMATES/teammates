@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
     
     $('input').click(function() {
-         this.select();
+        this.select();
     });
     
     $(".resetGoogleIdButton").click(function(e) {

@@ -161,9 +161,9 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, function(response, status, xhr) {
-      if (status == 'success') {
-          $(sender).removeAttr('onclick');
-      }
-      $(sender).find('div[class^="placeholder-img-loading"]').html('');
+        if (status == 'success') {
+            $(sender).removeAttr('onclick');
+        }
+        $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
 }

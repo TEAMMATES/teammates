@@ -166,11 +166,7 @@ function setupFsCopyModal() {
                 data: $this.serialize(),
                 beforeSend: function() {
                     $copyModalStatusMessage.removeClass("alert alert-danger");
-                    $copyModalStatusMessage.html($('<img>', {
-                                                       'class': 'margin-center-horizontal',
-                                                       'src': '/images/ajax-loader.gif'
-                                                       }
-                                                ));
+                    $copyModalStatusMessage.html('<img src="/images/ajax-loader.gif" class="margin-center-horizontal">');
                 },
                 error: function() {
                     $copyModalStatusMessage.addClass("alert alert-danger");

@@ -172,7 +172,7 @@
         "space-unary-ops": 2,                               // disallow space before/after unary operators
 
         "eol-last": 2,                                                  // enforce newline at the end of file, with no multiple empty lines
-        "indent": 0,                                                    // enforce consistent indentation
+        "indent": ["error", 4, { "SwitchCase": 1 }],                    // enforce consistent indentation of 4 spaces, including switch cases
         "no-irregular-whitespace": 2,                                   // disallow irregular whitespace outside of strings and comments
         "no-multi-spaces": 2,                                           // disallow use of multiple spaces
         "no-multiple-empty-lines": ["error", { "max": 1 }],             // disallow multiple empty lines

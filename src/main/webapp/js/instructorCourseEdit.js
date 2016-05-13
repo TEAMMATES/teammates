@@ -10,17 +10,17 @@ var instructorCourseEditInstructorAccessLevelWhenLoadingPage = [];
 var instructorCourseEditDefaultPrivilegeValuesForCustomRole = [];
 
 var instructorPrivilegeValues = [
-        'canmodifycourse',
-        'canmodifyinstructor',
-        'canmodifysession',
-        'canmodifystudent',
-        'canviewstudentinsection',
-        'cangivecommentinsection',
-        'canviewcommentinsection',
-        'canmodifycommentinsection',
-        'cansubmitsessioninsection',
-        'canviewsessioninsection',
-        'canmodifysessioncommentinsection'
+    'canmodifycourse',
+    'canmodifyinstructor',
+    'canmodifysession',
+    'canmodifystudent',
+    'canviewstudentinsection',
+    'cangivecommentinsection',
+    'canviewcommentinsection',
+    'canmodifycommentinsection',
+    'cansubmitsessioninsection',
+    'canviewsessioninsection',
+    'canmodifysessioncommentinsection'
 ];
 
 /**

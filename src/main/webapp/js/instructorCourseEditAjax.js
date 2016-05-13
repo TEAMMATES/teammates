@@ -24,7 +24,7 @@ function editFormRequest(e) {
             $(editButton).html(warningSign + ' ' + errorMsg);
         },
         success: function(data) {
-              var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
+            var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
             $(data).remove();
             $(editForm[0]).html(appendedData);
             displayIcon.html("");

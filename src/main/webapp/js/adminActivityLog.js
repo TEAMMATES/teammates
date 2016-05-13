@@ -4,8 +4,8 @@ function toggleReference() {
     var button = $("#detailButton").attr("class");
     
     if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-    $("#referenceText").text("Hide Reference");
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
+        $("#referenceText").text("Hide Reference");
     } else {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");

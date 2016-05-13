@@ -1261,9 +1261,7 @@ function setContribQnVisibilityFormat(questionNumber) {
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
     
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="answerCheckbox"]')
-                         .change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="answerCheckbox"]').change(function() {
         if (!$(this).prop('checked')) {
             if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
                                                 $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
@@ -1296,9 +1294,7 @@ function setContribQnVisibilityFormat(questionNumber) {
         }
     });
     
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="giverCheckbox"]')
-                         .change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
@@ -1306,9 +1302,7 @@ function setContribQnVisibilityFormat(questionNumber) {
         }
     });
     
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="recipientCheckbox"]')
-                         .change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
@@ -1316,9 +1310,7 @@ function setContribQnVisibilityFormat(questionNumber) {
         }
     });
     
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[name=receiverLeaderCheckbox]')
-                         .change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function() {
         $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });

@@ -57,11 +57,11 @@ $(document).ready(function() {
     
     $("#adminEmailFile").on("change paste keyup", function() {
         createImageUploadUrl();
-     });
+    });
     
     $("#adminEmailGroupReceiverList").on("change paste keyup", function() {
         createGroupReceiverListUploadUrl();
-     });
+    });
     
     $("#adminEmailGroupReceiverListUploadButton").on("click", function() {
         $("#adminEmailGroupReceiverList").click();
@@ -73,10 +73,10 @@ $(document).ready(function() {
     });
     
     $("#addressReceiverEmails").on("change keyup", function(e) {
-          if (e.which == 13) {
-              $("#addressReceiverEmails").val($("#addressReceiverEmails").val() + ",");
-          }
-        });
+        if (e.which == 13) {
+            $("#addressReceiverEmails").val($("#addressReceiverEmails").val() + ",");
+        }
+    });
     
     toggleSort($("#button_sort_date").parent());
 });
@@ -116,9 +116,9 @@ function submitGroupReceiverListUploadFormAjax() {
         url: $("#adminEmailReceiverListForm").attr("action"),
         data: formData,
         // Options to tell jQuery not to process data or worry about content-type.
-          cache: false,
-          contentType: false,
-          processData: false,
+        cache: false,
+        contentType: false,
+        processData: false,
           
         beforeSend: function() {
             showUploadingGif();
@@ -130,14 +130,14 @@ function submitGroupReceiverListUploadFormAjax() {
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                   if (data.isFileUploaded) {
-                       setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
-                       $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);
-                       $("#groupReceiverListFileKey").show();
-                       $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
-                   } else {
-                          setErrorMessage(data.ajaxStatus);
-                   }
+                    if (data.isFileUploaded) {
+                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
+                        $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);
+                        $("#groupReceiverListFileKey").show();
+                        $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
+                    } else {
+                        setErrorMessage(data.ajaxStatus);
+                    }
                    
                 } else {
                     setErrorMessage(data.ajaxStatus);
@@ -186,9 +186,9 @@ function submitImageUploadFormAjax() {
         url: $("#adminEmailFileForm").attr("action"),
         data: formData,
         // Options to tell jQuery not to process data or worry about content-type.
-          cache: false,
-          contentType: false,
-          processData: false,
+        cache: false,
+        contentType: false,
+        processData: false,
           
         beforeSend: function() {
             showUploadingGif();
@@ -200,13 +200,13 @@ function submitImageUploadFormAjax() {
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                   if (data.isFileUploaded) {
-                       url = data.fileSrcUrl;
-                       callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
-                       setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
-                   } else {
-                          setErrorMessage(data.ajaxStatus);
-                   }
+                    if (data.isFileUploaded) {
+                        url = data.fileSrcUrl;
+                        callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
+                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
+                    } else {
+                        setErrorMessage(data.ajaxStatus);
+                    }
                    
                 } else {
                     setErrorMessage(data.ajaxStatus);
@@ -231,12 +231,12 @@ function clearUploadFileInfo() {
     $("#adminEmailFileInput").html("<input type=\"file\" name=\"emailimagetoupload\" id=\"adminEmailFile\">");
     $("#adminEmailFile").on("change paste keyup", function() {
         createImageUploadUrl();
-     });
+    });
 }
 
 function clearUploadGroupReceiverListInfo() {
     $("#adminEmailGroupReceiverListInput").html("<input type=\"file\" name=\"emailgroupreceiverlisttoupload\" id=\"adminEmailGroupReceiverList\">");
     $("#adminEmailGroupReceiverList").on("change paste keyup", function() {
         createGroupReceiverListUploadUrl();
-     });
+    });
 }

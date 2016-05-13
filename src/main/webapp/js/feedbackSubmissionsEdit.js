@@ -49,8 +49,8 @@ $(document).ready(function() {
     });
                    
     $("input[id^='otherOptionText']").keyup(function() {
-    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
-    $('#' + idOfOtherOptionRadioButton).val($(this).val());
+        idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+        $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
@@ -278,11 +278,10 @@ function prepareDesktopRubricQuestions() {
         var $parentCell = $($rubricRadioInputs[i]).parent();
 
         $parentCell.hover(function() {
-                $(this).addClass('cell-hover');
-            }, function() {
-                $(this).removeClass('cell-hover');
-            }
-        );
+            $(this).addClass('cell-hover');
+        }, function() {
+            $(this).removeClass('cell-hover');
+        });
 
         $parentCell.click(function(event) {
             var $radioInput = $(this).find('[name^="rubricChoice-"]');
@@ -299,23 +298,23 @@ function prepareDesktopRubricQuestions() {
 
         // Bind refresh highlights on check
         $($rubricRadioInputs[i]).on('change', function(event, isSync) {
-                // Update all radio inputs in the same row.
-                var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
-                var tableRow = $(this).closest('tr');
+            // Update all radio inputs in the same row.
+            var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+            var tableRow = $(this).closest('tr');
 
-                if (tableRow.hasClass('row-answered')) {
-                    tableRow.removeClass('row-answered');
-                }
+            if (tableRow.hasClass('row-answered')) {
+                tableRow.removeClass('row-answered');
+            }
                 
-                for (var j = 0; j < $rowRadioInputs.length; j++) {
-                    updateRubricCellSelectedColor($rowRadioInputs[j]);
-                }
+            for (var j = 0; j < $rowRadioInputs.length; j++) {
+                updateRubricCellSelectedColor($rowRadioInputs[j]);
+            }
 
-                if (isSync === undefined) {
-                    // Sync mobile UI
-                    syncRubricsMobileUi(this);
-                }
-            });
+            if (isSync === undefined) {
+                // Sync mobile UI
+                syncRubricsMobileUi(this);
+            }
+        });
 
         // First time update of checked cells
         for (var j = 0; j < $rubricRadioInputs.length; j++) {
@@ -392,16 +391,16 @@ function syncRubricsMobileUi(changedInput) {
 /**
  * Syncs the desktop ui for rubrics on changes to the mobile ui
  */
- function syncRubricsDesktopUi(changedInput) {
-     var $changedInput = $(changedInput);
-     var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
-     var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
-     if ($changedInput.is(':checked')) {
-         $(desktopInputId).click();
-     } else {
-         $(desktopInputName).prop('checked', false);
-         $(desktopInputId).trigger('change', [true]);
-     }
+function syncRubricsDesktopUi(changedInput) {
+    var $changedInput = $(changedInput);
+    var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
+    var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
+    if ($changedInput.is(':checked')) {
+        $(desktopInputId).click();
+    } else {
+        $(desktopInputName).prop('checked', false);
+        $(desktopInputId).trigger('change', [true]);
+    }
 }
 
 /**

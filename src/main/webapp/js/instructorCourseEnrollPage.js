@@ -6,7 +6,7 @@ var loadUpFunction = function() {
     function isUserTyping(str) {
         return str.indexOf("\t") == -1 && str.indexOf("|") == -1;
     }
-  window.isUserTyping = isUserTyping;
+    window.isUserTyping = isUserTyping;
 
     var ENTER_KEYCODE = 13;
     var enrolTextbox;

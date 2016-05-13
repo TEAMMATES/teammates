@@ -20,8 +20,8 @@ $(document).ready(function() {
     
     // for redirecting from search page, hide the header and highlight the specific comment row
     if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0) {
-          $('.navbar').css('display', 'none');
-          highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
+        $('.navbar').css('display', 'none');
+        highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
     } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0) {
         // TODO: impl this, e.g. display a status msg that cannot find the comment etc
     }
@@ -30,14 +30,13 @@ $(document).ready(function() {
     var scrollEventCounter = 0;
     $(window).scroll(function() {
         if (isRedirectToSpecificComment() && scrollEventCounter > 0) {
-              $('.navbar').fadeIn("fast");
+            $('.navbar').fadeIn("fast");
         }
         scrollEventCounter++;
     });
     
     // show on hover for comment
-    $('.comments > .list-group-item').hover(
-       function() {
+    $('.comments > .list-group-item').hover(function() {
         $("a[type='button']", this).show();
     }, function() {
         $("a[type='button']", this).hide();
@@ -89,10 +88,10 @@ $(document).ready(function() {
             if (!$('#panel_all').prop("checked")) {
                 $('#giver_all').parent().parent().hide();
                 $('#status_all').parent().parent().hide();
-             } else {
-                 $('#giver_all').parent().parent().show();
-                 $('#status_all').parent().parent().show();
-             }
+            } else {
+                $('#giver_all').parent().parent().show();
+                $('#status_all').parent().parent().show();
+            }
         } else {
             $('#no-comment-panel').hide();
             $('#giver_all').parent().parent().show();
