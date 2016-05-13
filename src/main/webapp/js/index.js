@@ -18,7 +18,7 @@ var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful 
 var LOOP_INTERVAL = "5000"; //in milliseconds
 var CURRENT_TESTIMONIAL = 0;
 
-function instructorLogin () {
+function instructorLogin() {
     // send request
     requestInstructorLogin();
     // handle response
