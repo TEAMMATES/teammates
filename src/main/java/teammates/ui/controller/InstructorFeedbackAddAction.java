@@ -118,7 +118,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
-        for (FeedbackQuestionAttributes fqa : questions){
+        for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }

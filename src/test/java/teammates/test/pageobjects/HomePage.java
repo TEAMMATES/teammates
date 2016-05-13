@@ -14,7 +14,7 @@ public class HomePage extends AppPage {
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
     
-    public HomePage(Browser    browser){
+    public HomePage(Browser    browser) {
         super(browser);
     }
 

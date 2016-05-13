@@ -69,7 +69,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testPersistenceCheck();
         testLogin();
         testContent();
@@ -108,7 +108,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtml("/InstructorHomeHTMLPersistenceCheck.html");
     }
 
-    public void testLogin(){
+    public void testLogin() {
         
         ______TS("login");
         
@@ -138,7 +138,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
     
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         ______TS("content: no courses");
         
@@ -175,7 +175,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.createInstructor(instructor);
     }
     
-    public void testHelpLink() throws Exception{
+    public void testHelpLink() throws Exception {
         
         ______TS("link: help page");
         
@@ -184,7 +184,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCourseLinks(){
+    public void testCourseLinks() {
         String courseId = testData.courses.get("CHomeUiT.CS1101").id;
         String instructorId = testData.accounts.get("account").googleId;
         
@@ -232,7 +232,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     
     
-    public void testRemindActions(){
+    public void testRemindActions() {
         
         ______TS("remind action: AWAITING feedback session");
         
@@ -453,7 +453,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testDeleteCourseAction() throws Exception{
+    public void testDeleteCourseAction() throws Exception {
         
         ______TS("delete course action");
         
@@ -474,11 +474,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testSearchAction() throws Exception{
+    public void testSearchAction() throws Exception {
         // Tested in student list page
     }
     
-    public void testSortAction() throws Exception{
+    public void testSortAction() throws Exception {
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortById.html");
@@ -504,12 +504,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortSessionsByEndDate.html");
     }
     
-    private void loginAsCommonInstructor(){
+    private void loginAsCommonInstructor() {
         String commonInstructor = "CHomeUiT.instructor.tmms";
         loginAsInstructor(commonInstructor);
     }
     
-    private void loginAsInstructor(String googleId){
+    private void loginAsInstructor(String googleId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
         

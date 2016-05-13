@@ -191,7 +191,7 @@ public class PerformanceProfiler extends Thread {
         File reportFile = new File(filePath);
         
         // Create the report file if not existed
-        if (!reportFile.exists()){
+        if (!reportFile.exists()) {
             try {
                 reportFile.createNewFile();
             } catch (IOException e) {

@@ -74,7 +74,7 @@ public class StudentHomePage extends AppPage {
             WebElement element = browser.driver.findElement(By.id("evaluation" + id));
             WebElement text = element.findElement(By.tagName("td"));
 
-            if (text.getText().contains(name)){
+            if (text.getText().contains(name)) {
             return id;
             }
             

@@ -66,7 +66,7 @@ public class Config {
     /**
      * @return The app ID e.g., "teammatesv4"
      */
-    public String getAppId(){
+    public String getAppId() {
         return SystemProperty.applicationId.get();
     }
 
@@ -86,7 +86,7 @@ public class Config {
         return SystemProperty.environment.value() == SystemProperty.Environment.Value.Development;
     }
 
-    private static void initProperties(){
+    private static void initProperties() {
         APP_URL = instance.getAppUrl();
         GCS_BUCKETNAME = instance.getGcsBucketname();
         BACKDOOR_KEY = instance.getBackdoorKey();
@@ -119,7 +119,7 @@ public class Config {
         return props.getProperty("app.backdoor.key");
     }
 
-    private String getEncyptionKey(){
+    private String getEncyptionKey() {
         return props.getProperty("app.encryption.key");
     }
 

@@ -28,9 +28,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
     private static final Logger log = Utils.getLogger();
 
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException{
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException {
         List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
-        for (EntityAttributes entity : feedbackSessionsToUpdate){
+        for (EntityAttributes entity : feedbackSessionsToUpdate) {
             FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
             try {
                 updateFeedbackSession(session);
@@ -313,7 +313,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        if (fs.getRespondingInstructorList().contains(oldEmail)){
+        if (fs.getRespondingInstructorList().contains(oldEmail)) {
             fs.getRespondingInstructorList().remove(oldEmail);
             fs.getRespondingInstructorList().add(newEmail);
         }
@@ -415,7 +415,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        if (fs.getRespondingStudentList().contains(oldEmail)){
+        if (fs.getRespondingStudentList().contains(oldEmail)) {
             fs.getRespondingStudentList().remove(oldEmail);
             fs.getRespondingStudentList().add(newEmail);
         }
@@ -478,7 +478,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         deleteFeedbackSessionsForCourses(courseIds);
     }
     
-    public void deleteFeedbackSessionsForCourses(List<String> courseIds){
+    public void deleteFeedbackSessionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
         List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);

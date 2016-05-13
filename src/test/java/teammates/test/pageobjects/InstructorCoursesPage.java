@@ -36,7 +36,7 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
-    public InstructorCoursesPage(Browser browser){
+    public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
 
@@ -70,12 +70,12 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
     
-    public String fillCourseIdTextBox(String value){
+    public String fillCourseIdTextBox(String value) {
         fillTextBox(courseIdTextBox, value);
         return getTextBoxValue(courseIdTextBox);
     }
     
-    public String fillCourseNameTextBox(String value){
+    public String fillCourseNameTextBox(String value) {
         fillTextBox(courseNameTextBox, value);
         return getTextBoxValue(courseNameTextBox);
     }

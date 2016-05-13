@@ -78,7 +78,7 @@ public class DataGenerator {
         File f;
         f = new File(filePath);
         // Create file if it does not exist
-        if (!f.exists()){
+        if (!f.exists()) {
             try {
                 f.createNewFile();
             } catch (IOException e) {
@@ -232,7 +232,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for all courses
      */
-    public static String allCourses(){
+    public static String allCourses() {
         String output = "\"courses\":{\n";
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX + courses.get(i);
@@ -247,7 +247,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for all students
      */
-    public static String allStudents(){
+    public static String allStudents() {
         String output = "\"students\":{\n";
         for (int i = 0; i < students.size(); i++) {
             String student = students.get(i);
@@ -292,7 +292,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course (String objName, String id, String name){
+    public static String course (String objName, String id, String name) {
         String result = "\"" + objName + "\":{";
         result += "\"id\":\"" + id + "\",";
         result += "\"name\":\"" + name + "\"";

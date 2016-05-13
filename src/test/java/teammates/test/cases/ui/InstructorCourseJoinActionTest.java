@@ -32,7 +32,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     
     @SuppressWarnings("deprecation")
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null

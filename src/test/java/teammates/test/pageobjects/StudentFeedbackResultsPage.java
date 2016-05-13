@@ -14,7 +14,7 @@ public class StudentFeedbackResultsPage extends AppPage {
         return getPageSource().contains("<h1>Feedback Results - Student</h1>");
     }
     
-    public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId){
+    public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));    
         qnAdditionalInfoButton.click();
         // Check if links toggle properly.
@@ -22,7 +22,7 @@ public class StudentFeedbackResultsPage extends AppPage {
         return qnAdditionalInfo.isDisplayed();
     }
     
-    public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId){
+    public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));    
         return qnAdditionalInfoButton.getText();
     }
