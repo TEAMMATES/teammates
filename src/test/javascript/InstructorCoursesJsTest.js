@@ -1,6 +1,6 @@
 QUnit.module('instructorCourse.js');
 
-/*Explanation: This is a dummy function to create an outline view in Eclipse */
+/* Explanation: This is a dummy function to create an outline view in Eclipse */
 function testVerifyCourseData() {}
 
 QUnit.test('verifyCourseData()', function() {
@@ -10,12 +10,12 @@ QUnit.test('verifyCourseData()', function() {
 
 function testIsCourseIDValidChars() {}
 QUnit.test('isCourseIDValidChars(courseId)', function(assert) {
-    //valid cases
+    // valid cases
     assert.equal(isCourseIDValidChars('_$course1.2-3'),
         true,
         'Course Id valid');
 
-    //invalid cases
+    // invalid cases
     assert.equal(isCourseIDValidChars('CS10@@'),
         false,
         'Course Id has @ character');
@@ -48,12 +48,12 @@ QUnit.test('isCourseIDValidChars(courseId)', function(assert) {
 function testGetCourseIdInvalidityInfo() {}
 
 QUnit.test('getCourseIdInvalidityInfo(courseId)', function(assert) {
-    //valid cases
+    // valid cases
     assert.equal(getCourseIdInvalidityInfo(generateRandomString(COURSE_ID_MAX_LENGTH - 1) + '$   '),
         '',
         'Max-length course ID containing special characters and with extra whitespace padding');
 
-    //invalid cases
+    // invalid cases
     assert.equal(getCourseIdInvalidityInfo(''),
         DISPLAY_COURSE_COURSE_ID_EMPTY + '<br>',
         'Course Id empty');
@@ -71,12 +71,12 @@ QUnit.test('getCourseIdInvalidityInfo(courseId)', function(assert) {
 function testGetCourseNameInvalidityInfo() {}
 
 QUnit.test('getCourseNameInvalidityInfo(courseId)', function(assert) {
-    //valid cases
+    // valid cases
     assert.equal(getCourseNameInvalidityInfo(generateRandomString('   ' + COURSE_NAME_MAX_LENGTH - 2) + '$*   '),
         '',
         'Max-length course name containing special characters and with extra whitespace padding');
 
-    //invalid cases
+    // invalid cases
     assert.equal(getCourseNameInvalidityInfo('   '),
         DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>',
         'Course name empty');
