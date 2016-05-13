@@ -181,7 +181,6 @@
         "indent": ["error", 4, { "SwitchCase": 1 }],                    // enforce consistent indentation of 4 spaces, including switch cases
         "no-irregular-whitespace": 2,                                   // disallow irregular whitespace outside of strings and comments
         "no-multi-spaces": 2,                                           // disallow use of multiple spaces
-        "no-multiple-empty-lines": ["error", { "max": 1 }],             // disallow multiple empty lines
         "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
         "spaced-comment": ["error", "always"],                          // require a space immediately following the // in a line comment
 
@@ -212,6 +211,7 @@
         "func-style": 0,                // enforces use of function declarations or expressions (off by default)
         "max-nested-callbacks": 0,      // specify the maximum depth callbacks can be nested (off by default)
         "no-inline-comments": 0,        // disallow comments inline after code (off by default)
+        "no-multiple-empty-lines": 0,   // disallow multiple empty lines
         "no-nested-ternary": 0,         // disallow nested ternary expressions (off by default)
         "no-ternary": 0,                // disallow the use of ternary operators (off by default)
         "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely (off by default)
