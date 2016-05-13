@@ -1,6 +1,6 @@
 $(function() {
     $('.form-control').on('click', function() {
-        if ($(this).val() == $(this).attr('data-actual-value')) {
+        if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
     });
@@ -23,16 +23,16 @@ $(function() {
             });
             picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
-                 picture.guillotine('rotateLeft');
+                picture.guillotine('rotateLeft');
             });
             $('#profilePicEditZoomIn').click(function() {
-                 picture.guillotine('zoomIn');
+                picture.guillotine('zoomIn');
             });
             $('#profilePicEditZoomOut').click(function() {
-                 picture.guillotine('zoomOut');
+                picture.guillotine('zoomOut');
             });
             $('#profilePicEditRotateRight').click(function() {
-                 picture.guillotine('rotateRight');
+                picture.guillotine('rotateRight');
             });
 
             // Panning handlers based on approach outlined here
@@ -60,7 +60,7 @@ $(function() {
             /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
-            if ($('#profilePic').attr('data-edit') == "true") {
+            if ($('#profilePic').attr('data-edit') === "true") {
                 $('#studentPhotoUploader').modal({
                     show: true
                 });
@@ -69,11 +69,11 @@ $(function() {
     });
 });
 
-function finaliseEditPictureForm(event) {
-    var picture = $('#editableProfilePicture'),
-        transformData = picture.guillotine('getData'),
-        scaledWidth = picture.prop('naturalWidth') * transformData.scale,
-        scaledHeight = picture.prop('naturalHeight') * transformData.scale;
+function finaliseEditPictureForm() {
+    var picture = $('#editableProfilePicture');
+    var transformData = picture.guillotine('getData');
+    var scaledWidth = picture.prop('naturalWidth') * transformData.scale;
+    var scaledHeight = picture.prop('naturalHeight') * transformData.scale;
 
     $('#cropBoxLeftX').val(transformData.x);
     $('#cropBoxTopY').val(transformData.y);
@@ -85,7 +85,7 @@ function finaliseEditPictureForm(event) {
     $('#profilePictureEditForm').submit();
 }
 
-function finaliseUploadPictureForm(event) {
+function finaliseUploadPictureForm() {
     if ($('#studentPhoto').val() === "") {
         return;
     }

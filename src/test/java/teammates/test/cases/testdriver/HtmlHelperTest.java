@@ -27,21 +27,21 @@ public class HtmlHelperTest {
         HtmlHelper.assertSameHtml(expected, actual, false);
         
         expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD><BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
-        actual = expected.replace("<HEAD>", "    <HEAD>    \t"+EOL);
+        actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
         //change attribute order
         actual = expected.replace("language=\"JavaScript\" src=\"a.js\"", "  src=\"a.js\"   language=\"JavaScript\"  ");
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        actual = expected.replace("<P>", "<P>\n\n"+EOL+EOL);
+        actual = expected.replace("<P>", "<P>\n\n" + EOL + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        actual = expected.replace("<DIV></DIV></DIV>", EOL+EOL+"\n<DIV>\n\n</DIV></DIV>\n\n"+EOL);
+        actual = expected.replace("<DIV></DIV></DIV>", EOL + EOL + "\n<DIV>\n\n</DIV></DIV>\n\n" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActual.html");
         HtmlHelper.assertSameHtml(expected, actual, false);
 
     }
@@ -75,8 +75,8 @@ public class HtmlHelperTest {
         assertFalse(HtmlHelper.areSameHtml(expected, actual, false));
         
         //Test against areSameHtmlPart
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActualPart.html");
         assertFalse(HtmlHelper.areSameHtml(expected, actual, false));
     }
     
@@ -124,13 +124,13 @@ public class HtmlHelperTest {
         assertTrue(HtmlHelper.areSameHtml(expected, actual, true));
         
         //Same html structure
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActual.html");
         HtmlHelper.assertSameHtml(expected, actual, true);
         
         //Same after ignoring html & head & body tag
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActualPart.html");
         HtmlHelper.assertSameHtml(expected, actual, true);
         
         //other cases are tested in testComparison

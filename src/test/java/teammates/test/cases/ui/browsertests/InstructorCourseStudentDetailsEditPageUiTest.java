@@ -116,7 +116,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         
         editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
-        editPage.verifyStatus(Const.StatusMessages.STUDENT_EMAIL_CONFLIT+anotherStudent.name+"/"+anotherStudent.email); //??
+        editPage.verifyStatus(Const.StatusMessages.STUDENT_EMAIL_CONFLIT + anotherStudent.name + "/" + anotherStudent.email); //??
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data

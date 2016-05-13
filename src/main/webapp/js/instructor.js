@@ -4,7 +4,7 @@
  */
 
 // Initial load-up
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 $(document).ready(function() {
     bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
@@ -16,7 +16,7 @@ $(document).ready(function() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 });
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 /**
  * Function that shows confirmation dialog for deleting a course
@@ -56,10 +56,10 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  */
 function togglePublishEvaluation(name, isSendingPublishEmail) {
     if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?' +
+        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?' +
                    ' An email will be sent to students to inform them that the responses are ready for viewing.');
     }
-    return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?');
+    return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
 }
 
 /**
@@ -133,7 +133,7 @@ function setupFsCopyModal() {
                 $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." + 
+                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." +
                     "Please close the dialog window and try again.</p>");
             },
             success: function(data) {
@@ -141,7 +141,7 @@ function setupFsCopyModal() {
                 // If the user alt-clicks, the form does not send any parameters and results in an error.
                 // Prevent default form submission and submit using jquery.
                 $('#fscopy_submit').off('click')
-                                   .on('click', 
+                                   .on('click',
                                         function(event) {
                                             $('#fscopy_submit').prop('disabled', true);
                                             event.preventDefault();
@@ -153,7 +153,6 @@ function setupFsCopyModal() {
         });
     });
 
-    
     $('#instructorCopyModalForm').submit(
         function(e) {
             e.preventDefault();
@@ -167,15 +166,11 @@ function setupFsCopyModal() {
                 data: $this.serialize(),
                 beforeSend: function() {
                     $copyModalStatusMessage.removeClass("alert alert-danger");
-                    $copyModalStatusMessage.html($('<img>', {
-                                                       'class': 'margin-center-horizontal',
-                                                       'src': '/images/ajax-loader.gif'
-                                                       }
-                                                ));
+                    $copyModalStatusMessage.html('<img src="/images/ajax-loader.gif" class="margin-center-horizontal">');
                 },
                 error: function() {
                     $copyModalStatusMessage.addClass("alert alert-danger");
-                    $copyModalStatusMessage.text('There was an error during submission. ' 
+                    $copyModalStatusMessage.text('There was an error during submission. '
                                                  + 'Please close the dialog window and try again.');
                 },
                 success: function(data) {
@@ -194,7 +189,7 @@ function setupFsCopyModal() {
 }
 
 // Student Profile Picture
-//--------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 /**
  * @param elements:
@@ -305,13 +300,13 @@ function bindStudentPhotoHoverLink(elements) {
 }
 
 function bindDeleteButtons() {
-    $('body').on('click', '.session-delete-for-test', function(e) {
+    $('body').on('click', '.session-delete-for-test', function() {
 
         var $button = $(this);
         var courseId = $button.data('courseid');
         var feedbackSessionName = $button.data('fsname');
 
-        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName); 
+        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
     });
 }
 
@@ -324,7 +319,7 @@ function bindRemindButtons() {
 }
 
 function bindPublishButtons() {
-    $('body').on('click', '.session-publish-for-test', function(e) {
+    $('body').on('click', '.session-publish-for-test', function() {
  
         var $button = $(this);
         var feedbackSessionName = $button.data('fsname');
@@ -335,7 +330,7 @@ function bindPublishButtons() {
 }
 
 function bindUnpublishButtons() {
-    $('body').on('click', '.session-unpublish-for-test', function(e) {
+    $('body').on('click', '.session-unpublish-for-test', function() {
         return toggleUnpublishEvaluation($(this).data('fsname'));
     });
 }
@@ -407,4 +402,4 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
         children('img[src=""]').attr('src', resolvedLink);
 }
 
-//--------------------------------------------------------------------------
+// --------------------------------------------------------------------------

@@ -27,7 +27,7 @@ public class EmailWorkerServlet extends WorkerServlet {
         EmailAction emailObj = null;
         int responseCode = Response.SC_OK;
         
-        log.info("Email worker activated for :"+ HttpRequestHelper.printRequestParameters(req));
+        log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
         switch(typeOfMail) {
             case FEEDBACK_CLOSING:
@@ -47,7 +47,7 @@ public class EmailWorkerServlet extends WorkerServlet {
                 responseCode = Response.SC_INTERNAL_SERVER_ERROR;
         }
         
-        if(emailObj != null) {
+        if (emailObj != null) {
             emailObj.sendEmails();
         } else {
             log.severe("Email object is null");

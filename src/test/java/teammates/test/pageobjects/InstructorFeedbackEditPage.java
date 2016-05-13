@@ -975,8 +975,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue 
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        waitForElementVisibility(checkbox);
         checkbox.click();
-        
-        
     }
 }

@@ -1,5 +1,5 @@
 var STUDENT_LIMIT = 3000;
-var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT  + ' students. Please deselect some courses to view student list of other courses.';
+var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT + ' students. Please deselect some courses to view student list of other courses.';
 var numStudents = 0;
 
 function transportSectionChoices() {
@@ -59,9 +59,9 @@ var seeMoreRequest = function(e) {
     var courseCheck = $('#course_check-' + courseIdx);
     var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
     
-    if ($(panelHeading).attr('class').indexOf('ajax_submit') == -1) {
+    if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
-        if ($(panelCollapse[0]).attr('class').indexOf('checked') != -1) {
+        if ($(panelCollapse[0]).attr('class').indexOf('checked') !== -1) {
             $(panelCollapse[0]).collapse('hide');
             $(panelHeading).addClass('ajax_submit');
             $(panelBody[0]).html('');
@@ -80,7 +80,7 @@ var seeMoreRequest = function(e) {
         var courseIdx = $(formObject[0]).attr('class').split('-')[1];
         var formData = formObject.serialize();
         e.preventDefault();
-        if (displayIcon.html().indexOf('img') == -1) {
+        if (displayIcon.html().indexOf('img') === -1) {
             $.ajax({
                 type: 'POST',
                 url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
@@ -117,7 +117,7 @@ var seeMoreRequest = function(e) {
 
                     $(panelHeading).removeClass('ajax_submit');
                     displayIcon.html('');
-                    if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
+                    if ($(panelCollapse[0]).attr('class').indexOf("in") === -1) {
                         $(panelHeading).trigger('click');
                     }
                 }

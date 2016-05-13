@@ -147,9 +147,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if(view.equals("question")){//for instructor, only question view has stats.
+        if (view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
-        } else if(view.equals("student")){//Student view of stats.
+        } else if (view.equals("student")){//Student view of stats.
             return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
@@ -161,7 +161,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
-        if(responses.size() == 0 ){
+        if (responses.size() == 0 ){
             return "";
         }
     
@@ -192,7 +192,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String html = "";
         
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
-        if(currentUserTeamResults == null){
+        if (currentUserTeamResults == null){
             return "";
         }
 
@@ -223,7 +223,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if(responses.size() == 0 ){
+        if (responses.size() == 0 ){
             return "";
         }
     
@@ -321,7 +321,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         
         
-        if(responses.size() == 0 ){
+        if (responses.size() == 0 ){
             return "";
         }
     
@@ -405,7 +405,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
             
             //For sorting purposes
-            sortedMap.put(displayTeam +"-%-"+ displayName, contribFragmentString);
+            sortedMap.put(displayTeam + "-%-" + displayName, contribFragmentString);
             
         }
 
@@ -534,7 +534,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             for (FeedbackResponseAttributes response : teamResponseList){
                 int giverIndx = memberEmailList.indexOf(response.giverEmail);
                 int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
-                if(giverIndx == -1 || recipientIndx == -1){
+                if (giverIndx == -1 || recipientIndx == -1){
                     continue;
                 }
                 int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
@@ -554,7 +554,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         for (FeedbackResponseAttributes response : responses){
             String team = bundle.emailTeamNameTable.get(response.giverEmail);
-            if(teamResponses.containsKey(team)){
+            if (teamResponses.containsKey(team)){
                 teamResponses.get(team).add(response);
             }
         }
@@ -592,7 +592,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Get all actual responses for this question.
         responses = new ArrayList<FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes response : bundle.actualResponses){
-            if(response.feedbackQuestionId.equals(questionId)){
+            if (response.feedbackQuestionId.equals(questionId)){
                 responses.add(response);
             }
         }
@@ -602,7 +602,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < subs.length; i++){
-            if(i == index){
+            if (i == index){
                 continue;
             }
             result.add(getPointsAsColorizedHtml(subs[i]));
@@ -615,8 +615,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Collections.reverse(result);
         String resultString = "";
         for (String s : result){
-            if(!resultString.isEmpty()){
-                resultString+=", ";
+            if (!resultString.isEmpty()){
+                resultString += ", ";
             }
             resultString += s;
         }
@@ -626,7 +626,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private static String getNormalizedPointsListDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < subs.length; i++){
-            if(i == index){
+            if (i == index){
                 continue;
             }
             result.add(Integer.toString(subs[i]));
@@ -638,8 +638,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Collections.reverse(result);
         String resultString = "";
         for (String s : result){
-            if(!resultString.isEmpty()){
-                resultString+=", ";
+            if (!resultString.isEmpty()){
+                resultString += ", ";
             }
             resultString += s;
         }
@@ -690,7 +690,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                    + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S"
                    + "</span>";
         } else if (diff > 0) {
-            return "<span class=\"color-positive\">+" + diff + "%</span>";
+            return "<span class=\"color-positive\"> + " + diff + "%</span>";
         } else if (diff < 0) {
             return "<span class=\"color-negative\">" + diff + "%</span>";
         } else {
@@ -705,7 +705,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"CONTRIB\">"+Const.FeedbackQuestionTypeNames.CONTRIB+"</option>";
+        return "<option value = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</option>";
     }
 
     @Override
@@ -726,13 +726,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             // Valid answers: 0, 10, 20, .... 190, 200
             boolean isValidRange = frd.getAnswer() >= 0 && frd.getAnswer() <= 200;
             boolean isMultipleOf10 = frd.getAnswer() % 10 == 0;
-            if(isValidRange && isMultipleOf10) {
+            if (isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if(validAnswer == false){
+            if (validAnswer == false){
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
@@ -744,14 +744,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String errorMsg = "";
         
         // giver type can only be STUDENTS
-        if(feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
+        if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
             Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
-        if(feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+        if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
             Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
@@ -831,8 +831,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
                 + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
-        for (int i = 200; i >= 0; i-=10){
-            result += "<option "+
+        for (int i = 200; i >= 0; i -= 10){
+            result += "<option " +
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
                         (i == points ? "selected" : "") +
@@ -879,9 +879,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "Equal share"; // Do same
         else if (i > 0)
             return "Equal share - " + (100 - i) + "%"; // Do less
-        else if(i == 0)
+        else if (i == 0)
             return "0%"; // Do none
-        else if(i == Const.POINTS_NOT_SURE)
+        else if (i == Const.POINTS_NOT_SURE)
             return "Not Sure";
         else if (i == Const.POINTS_NOT_SUBMITTED)
             return "";
@@ -895,19 +895,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if(i == Const.INT_UNINITIALIZED)
+        if (i == Const.INT_UNINITIALIZED)
             return "<span class=\"color_neutral\">N/A</span>";
         else if (i == Const.POINTS_NOT_SUBMITTED)
             return "<span class=\"color_neutral\"></span>";
-        else if(i == Const.POINTS_NOT_SURE)
+        else if (i == Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
-        else if(i == 0)
+        else if (i == 0)
             return "<span class=\"color-negative\">0%</span>";
-        else if(i > 100)
-            return "<span class=\"color-positive\">Equal Share +"+(i-100)+"%</span>";
-        else if(i < 100)
-            return "<span class=\"color-negative\">Equal Share -"+(100-i)+"%</span>";
-        else if(i == 100)
+        else if (i > 100)
+            return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
+        else if (i < 100)
+            return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
+        else if (i == 100)
             return "<span class=\"color_neutral\">Equal Share</span>";
         else
             return "";

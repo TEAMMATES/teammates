@@ -40,15 +40,23 @@
     ],
 
     "rules": {
-        ////////// Possible Errors //////////
+        ////////// Unnecessary/Unused Ops/Vars/Chars //////////
 
-        "comma-dangle": 2,            // disallow trailing commas in object literals
-        "no-extra-boolean-cast": 2,   // disallow double-negation boolean casts in a boolean context
-        "no-extra-parens": 2,         // disallow unnecessary parentheses
-        "no-extra-semi": 2,           // disallow unnecessary semicolons
-        "no-unreachable": 2,          // disallow unreachable statements after a return, throw, continue, or break statement
-        "no-unused-expressions": 2,   // disallow usage of expressions in statement position
-        "semi": 2,                    // require use of semicolons instead of ASI
+        "comma-dangle": 2,                                  // disallow trailing commas in object literals
+        "no-empty": 2,                                      // disallow empty statements
+        "no-extra-boolean-cast": 2,                         // disallow double-negation boolean casts in a boolean context
+        "no-extra-parens": 2,                               // disallow unnecessary parentheses
+        "no-extra-semi": 2,                                 // disallow unnecessary semicolons
+        "no-unreachable": 2,                                // disallow unreachable statements after a return, throw, continue, or break statement
+        "no-unused-expressions": 2,                         // disallow usage of expressions in statement position
+        "no-unused-vars": ["error", { "vars": "local" }],   // disallow declaration of variables that are not used in the code
+        "no-useless-call": 2,                               // disallow unnecessary calls to .call() and .apply()
+        "no-useless-concat": 2,                             // disallow unnecessary concatenation of literals or template literals
+        "no-useless-escape": 2,                             // disallow unnecessary escape characters
+        "semi": 2,                                          // require use of semicolons instead of ASI
+
+
+        ////////// Possible Errors //////////
 
         "no-cond-assign": 0,          // disallow assignment in conditional expressions
         "no-console": 0,              // disallow use of console (off by default in the node environment)
@@ -56,19 +64,16 @@
         "no-control-regex": 0,        // disallow control characters in regular expressions
         "no-debugger": 0,             // disallow use of debugger
         "no-dupe-keys": 0,            // disallow duplicate keys when creating object literals
-        "no-empty": 0,                // disallow empty statements
         "no-empty-class": 0,          // disallow the use of empty character classes in regular expressions
         "no-ex-assign": 0,            // disallow assigning to the exception in a catch block
         "no-func-assign": 0,          // disallow overwriting functions written as function declarations
         "no-inner-declarations": 0,   // disallow function or variable declarations in nested blocks
         "no-invalid-regexp": 0,       // disallow invalid regular expression strings in the RegExp constructor
-        "no-irregular-whitespace": 0, // disallow irregular whitespace outside of strings and comments
         "no-negated-in-lhs": 0,       // disallow negation of the left operand of an in expression
         "no-obj-calls": 0,            // disallow the use of object properties of the global object (Math and JSON) as functions
         "no-regex-spaces": 0,         // disallow multiple spaces in a regular expression literal
         "no-reserved-keys": 0,        // disallow reserved words being used as object literal keys (off by default)
         "no-sparse-arrays": 0,        // disallow sparse arrays
-        "use-isnan": 0,               // disallow comparisons with the value NaN
         "valid-jsdoc": 0,             // Ensure JSDoc comments are valid (off by default)
         "valid-typeof": 0,            // Ensure that the results of typeof are compared against a valid string
 
@@ -85,13 +90,12 @@
         "consistent-return": 0,     // require return statements to either always or never specify values
         "curly": 0,                 // specify curly brace conventions for all control statements
         "dot-notation": 0,          // encourages use of dot notation whenever possible
-        "eqeqeq": 0,                // require the use of === and !==
+        "eqeqeq": 2,                // require the use of === and !==
         "guard-for-in": 0,          // make sure for-in loops have an if statement (off by default)
         "no-alert": 0,              // disallow the use of alert, confirm, and prompt
         "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
         "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression (off by default)
         "no-empty-label": 0,        // disallow use of labels for anything other then loops and switches
-        "no-eq-null": 0,            // disallow comparisons to null without a type-checking operator (off by default)
         "no-eval": 0,               // disallow use of eval()
         "no-extend-native": 0,      // disallow adding to native types
         "no-extra-bind": 0,         // disallow unnecessary function binding
@@ -101,12 +105,8 @@
         "no-labels": 0,             // disallow use of labeled statements
         "no-lone-blocks": 0,        // disallow unnecessary nested blocks
         "no-loop-func": 0,          // disallow creation of functions within loops
-        "no-multi-spaces": 0,       // disallow use of multiple spaces
         "no-multi-str": 0,          // disallow use of multiline strings
         "no-native-reassign": 0,    // disallow reassignments of native objects
-        "no-new": 0,                // disallow use of new operator when not part of the assignment or comparison
-        "no-new-func": 0,           // disallow use of new operator for Function object
-        "no-new-wrappers": 0,       // disallows creating new instances of String, Number, and Boolean
         "no-octal": 0,              // disallow use of octal literals
         "no-octal-escape": 0,       // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
         "no-process-env": 0,        // disallow use of process.env (off by default)
@@ -116,7 +116,6 @@
         "no-script-url": 0,         // disallow use of javascript: urls.
         "no-self-compare": 0,       // disallow comparisons where both sides are exactly the same (off by default)
         "no-sequences": 0,          // disallow use of comma operator
-        "no-void": 0,               // disallow use of void operator (off by default)
         "no-warning-comments": 0,   // disallow usage of configurable warning terms in comments, e.g. TODO or FIXME (off by default)
         "no-with": 0,               // disallow use of the with statement
         "radix": 0,                 // require use of the second argument for parseInt() (off by default)
@@ -132,6 +131,13 @@
         "strict": 0,          // controls location of Use Strict Directives
 
 
+        ////////// Voids //////////
+
+        "no-eq-null": 2,        // disallow comparisons to null without a type-checking operator
+        "no-undef-init": 2,     // disallow use of undefined when initializing variables
+        "use-isnan": 2,         // disallow comparisons with the value NaN
+
+
         ////////// Variables //////////
 
         "no-catch-shadow": 0,             // disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
@@ -140,9 +146,6 @@
         "no-shadow": 0,                   // disallow declaration of variables already declared in the outer scope
         "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
         "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block
-        "no-undef-init": 0,               // disallow use of undefined when initializing variables
-        "no-undefined": 0,                // disallow use of undefined variable (off by default)
-        "no-unused-vars": 0,              // disallow declaration of variables that are not used in the code
         "no-use-before-define": 0,        // disallow use of variables before they are defined
 
 
@@ -174,36 +177,48 @@
         "space-infix-ops": 2,                               // require space around operators
         "space-unary-ops": 2,                               // disallow space before/after unary operators
 
+        "eol-last": 2,                                                  // enforce newline at the end of file, with no multiple empty lines
+        "indent": ["error", 4, { "SwitchCase": 1 }],                    // enforce consistent indentation of 4 spaces, including switch cases
+        "no-irregular-whitespace": 2,                                   // disallow irregular whitespace outside of strings and comments
+        "no-multi-spaces": 2,                                           // disallow use of multiple spaces
+        "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
+        "spaced-comment": ["error", "always"],                          // require a space immediately following the // in a line comment
+
+
         ////////// Naming Conventions //////////
 
         "camelcase": 2,                 // require camel case names
         "new-cap": 2,                   // require a capital letter for constructors
         "no-underscore-dangle": 2,      // disallow dangling underscores in identifiers
 
+
+        ////////// Constructors //////////
+
+        "one-var": ["error", "never"],      // allow just one var statement per function
+        "new-parens": 2,                    // disallow the omission of parentheses when invoking a constructor with no arguments
+        "no-array-constructor": 2,          // disallow use of the Array constructor
+        "no-new": 2,                        // disallow use of new operator when not part of the assignment or comparison
+        "no-new-func": 2,                   // disallow use of new operator for Function object
+        "no-new-object": 2,                 // disallow use of the Object constructor
+        "no-new-wrappers": 2,               // disallows creating new instances of String, Number, and Boolean
+
+
         ////////// Stylistic Issues //////////
 
         "brace-style": 0,               // enforce one true brace style (off by default)
         "comma-style": 0,               // enforce one true comma style (off by default)
         "consistent-this": 0,           // enforces consistent naming when capturing the current execution context (off by default)
-        "eol-last": 0,                  // enforce newline at the end of file, with no multiple empty lines
         "func-style": 0,                // enforces use of function declarations or expressions (off by default)
         "max-nested-callbacks": 0,      // specify the maximum depth callbacks can be nested (off by default)
-        "new-parens": 0,                // disallow the omission of parentheses when invoking a constructor with no arguments
-        "no-array-constructor": 0,      // disallow use of the Array constructor
         "no-inline-comments": 0,        // disallow comments inline after code (off by default)
-        "no-multiple-empty-lines": 0,   // disallow multiple empty lines (off by default)
+        "no-multiple-empty-lines": 0,   // disallow multiple empty lines
         "no-nested-ternary": 0,         // disallow nested ternary expressions (off by default)
-        "no-new-object": 0,             // disallow use of the Object constructor
         "no-ternary": 0,                // disallow the use of ternary operators (off by default)
-        "no-trailing-spaces": 0,        // disallow trailing whitespace at the end of lines
-        "no-wrap-func": 0,              // disallow wrapping of non-IIFE statements in parens
-        "one-var": 0,                   // allow just one var statement per function (off by default)
         "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely (off by default)
         "padded-blocks": 0,             // enforce padding within blocks (off by default)
         "quote-props": 0,               // require quotes around object literal property names (off by default)
         "quotes": 0,                    // specify whether double or single quotes should be used
         "sort-vars": 0,                 // sort variables within the same declaration block (off by default)
-        "spaced-line-comment": 0,       // require or disallow a space immediately following the // in a line comment (off by default)
         "wrap-regex": 0,                // require regex literals to be wrapped in parentheses (off by default)
 
 

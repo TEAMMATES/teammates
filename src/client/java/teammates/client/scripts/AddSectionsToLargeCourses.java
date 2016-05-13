@@ -151,7 +151,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             String teamName = team.name;
             
             List<StudentAttributes> students = team.students;
-            System.out.println("Students in team " + teamName + " : "+students.size());
+            System.out.println("Students in team " + teamName + " : " + students.size());
             
             for (StudentAttributes student : students) {
                 updateStudentSection(currentSection, student);

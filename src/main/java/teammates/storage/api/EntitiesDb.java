@@ -76,7 +76,7 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         int elapsedTime = 0;
         Object createdEntity = getEntity(entityToAdd);
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0){
             while (createdEntity == null
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
@@ -113,7 +113,7 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if(getEntity(entityToAdd) != null){
+            if (getEntity(entityToAdd) != null){
                 entitiesToUpdate.add(entityToAdd);
             } else {
                 entities.add(entityToAdd.toEntity());
@@ -144,7 +144,7 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if(getEntity(entityToAdd) != null){
+            if (getEntity(entityToAdd) != null){
                 entitiesToUpdate.add(entityToAdd);
             } else {
                 entities.add(entityToAdd.toEntity());
@@ -226,7 +226,7 @@ public abstract class EntitiesDb {
         getPM().flush();
         
         // wait for the operation to persist
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToDelete);
             while (entityCheck != null
@@ -317,7 +317,7 @@ public abstract class EntitiesDb {
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
-            if(query.getFilterSize() > 0){
+            if (query.getFilterSize() > 0){
                 return SearchManager.searchDocuments(indexName, query.toQuery());
             } else {
                 return null;
