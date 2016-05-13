@@ -254,9 +254,32 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    }
+    public void testGetInvalidityInfoForSpecificFields() {
+        // behavior tests for the specific field validation methods
+        // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
+        // - ensures error messages are correctly interpolated and returned
+        testGetInvalidityInfoForPersonName();
     }
 
+    private void testGetInvalidityInfoForPersonName() {
+        invalidityInfoFor_validName_shouldBeEmptyString();
+        invalidityInfoFor_emptyName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validName_shouldBeEmptyString() {
+        String validName = "Mr Valid Name";
+        String actual = validator.getInvalidityInfoForPersonName(validName);
+        assertEquals("Valid person name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
+        String emptyName = "";
+        String actual = validator.getInvalidityInfoForPersonName(emptyName);
+        assertEquals("Empty person name should return appropriate error message",
+                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
+                                   FieldValidator.REASON_EMPTY),
+                     actual);
+    }
 
     @Test
     public void testGetValidityInfo_GOOGLE_ID() {
