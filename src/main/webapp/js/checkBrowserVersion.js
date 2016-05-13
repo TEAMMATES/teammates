@@ -16,8 +16,8 @@ var SAFARI_LOWEST_VERSION = 4;
 
 function checkBrowserVersion() {
     var nAgt = navigator.userAgent;
-    var browserName  = navigator.appName;
-    var fullVersion  = parseFloat(navigator.appVersion);
+    var browserName = navigator.appName;
+    var fullVersion = parseFloat(navigator.appVersion);
     var majorVersion = parseInt(navigator.appVersion, 10);
     var verOffset;
     var supported = true;

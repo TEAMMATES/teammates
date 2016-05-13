@@ -10,7 +10,7 @@ var loadUpFunction = function() {
 
     var ENTER_KEYCODE = 13;
     var enrolTextbox;
-    if ((enrolTextbox     = $('#enrollstudents')).length) {
+    if ((enrolTextbox = $('#enrollstudents')).length) {
         enrolTextbox = enrolTextbox[0];
         $(enrolTextbox).keydown(function(e) {
             var keycode = e.which || e.keyCode;

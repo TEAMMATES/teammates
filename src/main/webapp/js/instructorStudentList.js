@@ -177,7 +177,7 @@ function checkCourseBinding(e) {
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-'  + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().show();
