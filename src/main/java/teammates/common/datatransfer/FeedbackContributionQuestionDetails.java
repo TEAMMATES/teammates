@@ -188,7 +188,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
-        if (currentUserTeamResults == null){
+        if (currentUserTeamResults == null) {
             return "";
         }
 
