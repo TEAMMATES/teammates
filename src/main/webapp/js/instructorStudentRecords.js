@@ -123,16 +123,16 @@ function enableEdit(commentIdx, maxComments) {
 }
 
 function enableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).hide();
-    $('#' + 'plainCommentText' + commentIdx).hide();
+    $('#commentBar-' + commentIdx).hide();
+    $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
     $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
     $('textarea[id="commentText' + commentIdx + '"]').focus();
 }
 
 function disableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).show();
-    $('#' + 'plainCommentText' + commentIdx).show();
+    $('#commentBar-' + commentIdx).show();
+    $('#plainCommentText' + commentIdx).show();
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
@@ -160,7 +160,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function(response, status, xhr) {
+    targetDiv.load(url, function(response, status) {
       if (status === 'success') {
           $(sender).removeAttr('onclick');
       }
