@@ -262,6 +262,28 @@ public class FieldValidatorTest extends BaseTestCase {
         testGetInvalidityInfoForInstituteName();
         testGetInvalidityInfoForNationality();
         testGetInvalidityInfoForCourseName();
+        testGetInvalidityInfoForFeedbackSessionName();
+    }
+
+    private void testGetInvalidityInfoForFeedbackSessionName() {
+        invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString();
+        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
+        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
+        assertEquals("Feedback session with too long name should return appropriate error message",
+                     String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
+                                   tooLongFeedbackSessionName,
+                                   FieldValidator.REASON_TOO_LONG),
+                     actual);
+    }
+
+    private void invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString() {
+        String validFeedbackSessionName = "Valid feedback session name";
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
+        assertEquals("Valid feedback session name should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfoForCourseName() {
