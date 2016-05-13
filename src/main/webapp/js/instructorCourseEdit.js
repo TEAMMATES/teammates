@@ -10,17 +10,17 @@ var instructorCourseEditInstructorAccessLevelWhenLoadingPage = [];
 var instructorCourseEditDefaultPrivilegeValuesForCustomRole = [];
 
 var instructorPrivilegeValues = [
-        'canmodifycourse',
-        'canmodifyinstructor',
-        'canmodifysession',
-        'canmodifystudent',
-        'canviewstudentinsection',
-        'cangivecommentinsection',
-        'canviewcommentinsection',
-        'canmodifycommentinsection',
-        'cansubmitsessioninsection',
-        'canviewsessioninsection',
-        'canmodifysessioncommentinsection'
+    'canmodifycourse',
+    'canmodifyinstructor',
+    'canmodifysession',
+    'canmodifystudent',
+    'canviewstudentinsection',
+    'cangivecommentinsection',
+    'canviewcommentinsection',
+    'canmodifycommentinsection',
+    'cansubmitsessioninsection',
+    'canviewsessioninsection',
+    'canmodifysessioncommentinsection'
 ];
 
 /**
@@ -81,10 +81,8 @@ function hideNewInstructorForm() {
 /**
  * Functions to trigger registration key sending to a specific instructor in the
  * course.
- * @param courseID
- * @param email
  */
-function toggleSendRegistrationKey(courseID, email) {
+function toggleSendRegistrationKey() {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 
@@ -235,7 +233,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
     } else {
         // New Instructor?
         // Custom role's privilege will be empty
-        for (var i = 0; i < instructorPrivilegeValues.length; i++) {
+        for (var j = 0; j < instructorPrivilegeValues.length; j++) {
             $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop("checked", false);
         }
     }
@@ -307,7 +305,6 @@ function checkPrivilegesOfTutorForModal() {
     
     $("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Tutor");
 }
-
 
 /**
  * Function that shows confirmation dialog for deleting a instructor

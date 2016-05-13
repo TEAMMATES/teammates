@@ -25,7 +25,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
@@ -115,7 +115,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
     }
     
-    private InstructorCourseStudentListDownloadAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentListDownloadAction getAction(String... params) throws Exception {
             return (InstructorCourseStudentListDownloadAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

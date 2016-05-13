@@ -81,7 +81,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         try {
             coursesDb.createEntity(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         

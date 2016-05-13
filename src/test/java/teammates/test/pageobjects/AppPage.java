@@ -152,7 +152,7 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage){
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
         return createNewPage(currentBrowser, typeOfPage);
     }
@@ -161,14 +161,14 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage){
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
         return createNewPage(currentBrowser, typeOfPage);
     }
     
     /**
      * Gives an AppPage instance based on the given Browser.
      */
-    public static AppPage getNewPageInstance(Browser currentBrowser){
+    public static AppPage getNewPageInstance(Browser currentBrowser) {
         return getNewPageInstance(currentBrowser, GenericAppPage.class);
     }
 
@@ -176,14 +176,14 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfDestinationPage}.
      */
-    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage){
+    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage) {
         return getNewPageInstance(browser, url, typeOfDestinationPage);
     }
     
     /**
      * Simply loads the given URL. 
      */
-    public AppPage navigateTo(Url url){
+    public AppPage navigateTo(Url url) {
         browser.driver.get(url.toAbsoluteString());
         return this;
     }
@@ -213,7 +213,7 @@ public abstract class AppPage {
     /**
      * Waits until the element is not covered by any other element.
      */
-    public void waitForElementNotCovered(final WebElement element){
+    public void waitForElementNotCovered(final WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
@@ -222,7 +222,7 @@ public abstract class AppPage {
         });
     }
     
-    public void waitForElementVisibility(WebElement element){
+    public void waitForElementVisibility(WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -240,7 +240,7 @@ public abstract class AppPage {
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
-    public void waitForElementToDisappear(By by){
+    public void waitForElementToDisappear(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
@@ -295,7 +295,7 @@ public abstract class AppPage {
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By by){
+    public void waitForElementPresence(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
@@ -458,7 +458,7 @@ public abstract class AppPage {
     /**
      * Click the 'logout' link in the top menu of the page.
      */
-    public AppPage logout(){
+    public AppPage logout() {
         logoutButton.click();
         return this;
     }
@@ -526,7 +526,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
-        if(!checkBox.isSelected()){
+        if (!checkBox.isSelected()) {
             checkBox.click();
         }
     }
@@ -535,7 +535,7 @@ public abstract class AppPage {
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if(checkBox.isSelected()){
+        if (checkBox.isSelected()) {
             checkBox.click();
         }
     }
@@ -579,7 +579,7 @@ public abstract class AppPage {
      * status message in the page.
      */
     public String getStatus() {
-        return statusMessage == null? "" : statusMessage.getText();
+        return statusMessage == null ? "" : statusMessage.getText();
     }
 
     /** 
@@ -667,7 +667,7 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public void clickAndCancel(WebElement elementToClick){
+    public void clickAndCancel(WebElement elementToClick) {
         respondToAlertWithRetry(elementToClick, false);
         waitForPageToLoad();
     }
@@ -677,7 +677,7 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public void clickHiddenElementAndCancel(String elementId){
+    public void clickHiddenElementAndCancel(String elementId) {
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
@@ -782,7 +782,7 @@ public abstract class AppPage {
      * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
-    public void verifyTablePattern(int column, String patternString){
+    public void verifyTablePattern(int column, String patternString) {
         verifyTablePattern(0, column, patternString);
     }
     
@@ -793,11 +793,11 @@ public abstract class AppPage {
      * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
-    public void verifyTablePattern(int tableNum, int column, String patternString){
+    public void verifyTablePattern(int tableNum, int column, String patternString) {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for (int row = 1; row < splitString.length; row++){
+        for (int row = 1; row < splitString.length; row++) {
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
@@ -919,7 +919,7 @@ public abstract class AppPage {
      * Verifies the status message in the page is same as the one specified.
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyStatus(String expectedStatus){
+    public AppPage verifyStatus(String expectedStatus) {
         
         // The check is done multiple times with waiting times in between to account for
         // timing issues due to page load, inconsistencies in Selenium API, etc.
@@ -936,7 +936,7 @@ public abstract class AppPage {
                 if (expectedStatus.equals(getStatus())) {
                     break;
                 }
-            } catch (StaleElementReferenceException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
             }
@@ -973,10 +973,10 @@ public abstract class AppPage {
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
         
-        if (downloadedFile.exists()){ 
+        if (downloadedFile.exists()) { 
             downloadedFile.delete();
         }
-        if (downloadedFile.canWrite() == false){ 
+        if (downloadedFile.canWrite() == false) { 
             downloadedFile.setWritable(true);
         }
         
@@ -1041,7 +1041,7 @@ public abstract class AppPage {
         elementToClick.click();
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm) {
             alert.accept();
         } else {
             alert.dismiss();
@@ -1050,10 +1050,10 @@ public abstract class AppPage {
     
     private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
+        jsExecutor.executeScript("document.getElementById('" + hiddenElementIdToClick + "').click();");
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm) {
             alert.accept();
         } else {
             alert.dismiss();

@@ -21,7 +21,7 @@ function linkAjaxForCourseStats() {
                         .attr('data-placement', 'top')
                         .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
                         .html('Try again?')
-                        .click(courseStatsClickHandler);    
+                        .click(courseStatsClickHandler);
                 }
             },
             success: function(data) {

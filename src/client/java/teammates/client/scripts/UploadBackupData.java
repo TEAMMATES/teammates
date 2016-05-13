@@ -128,7 +128,7 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void uploadData(String[] backupFiles, String folder) {
         for (String backupFile : backupFiles) {
-            if(coursesPersisted.contains(backupFile)) {
+            if (coursesPersisted.contains(backupFile)) {
                 System.out.println(backupFile + " already persisted.");
                 continue;
             }
@@ -144,25 +144,25 @@ public class UploadBackupData extends RemoteApiClient {
                 if (!data.accounts.isEmpty()) {                  // Accounts
                     persistAccounts(data.accounts);
                 }                      
-                if (!data.courses.isEmpty()){                    // Courses
+                if (!data.courses.isEmpty()) {                    // Courses
                     persistCourses(data.courses);
                 } 
-                if (!data.instructors.isEmpty()){                // Instructors
+                if (!data.instructors.isEmpty()) {                // Instructors
                     persistInstructors(data.instructors);
                 } 
-                if (!data.students.isEmpty()){                   // Students
+                if (!data.students.isEmpty()) {                   // Students
                     persistStudents(data.students);
                 } 
-                if (!data.feedbackSessions.isEmpty()){           // Feedback sessions
+                if (!data.feedbackSessions.isEmpty()) {           // Feedback sessions
                     persistFeedbackSessions(data.feedbackSessions);
                 } 
-                if (!data.feedbackQuestions.isEmpty()){          // Feedback questions
+                if (!data.feedbackQuestions.isEmpty()) {          // Feedback questions
                     persistFeedbackQuestions(data.feedbackQuestions);
                 } 
                 if (!data.feedbackResponses.isEmpty()) {          // Feedback responses
                     persistFeedbackResponses(data.feedbackResponses);
                 } 
-                if (!data.feedbackResponseComments.isEmpty()){   // Feedback response comments
+                if (!data.feedbackResponseComments.isEmpty()) {   // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
                 } 
                 if (!data.comments.isEmpty()) {                   // Comments
@@ -286,7 +286,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static FeedbackResponseAttributes adjustFeedbackResponseId(FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
-        if(feedbackQuestionIds.containsKey(question.getId())) {
+        if (feedbackQuestionIds.containsKey(question.getId())) {
             response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
         } else {
             String newId = feedbackQuestionsLogic.getFeedbackQuestion(
@@ -302,7 +302,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
-        if(feedbackQuestionIds.containsKey(question.getId())) {
+        if (feedbackQuestionIds.containsKey(question.getId())) {
             response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
         } else {
             String newId = feedbackQuestionsLogic.getFeedbackQuestion(

@@ -52,7 +52,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         testInstructorSubmitPage();
         testStudentSubmitPage();
@@ -108,7 +108,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
 
         ______TS("test rubric question submission");
@@ -124,12 +124,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("test rubric question submission");
         
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
         // Select radio input
         submitPage.clickRubricRadio(1, 0, 0, 0);
@@ -394,11 +394,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
-        if(needAjax){
+        if (needAjax) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
         }
         
-        if(viewType != null){
+        if (viewType != null) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         

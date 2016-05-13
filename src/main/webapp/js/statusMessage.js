@@ -5,7 +5,7 @@ $(document).ready(function() {
     
     var navbar = document.getElementsByClassName('navbar')[0];
     
-    if (navbar != null) {
+    if (navbar !== undefined) {
         navbarHeight = navbar.offsetHeight;
     }
     

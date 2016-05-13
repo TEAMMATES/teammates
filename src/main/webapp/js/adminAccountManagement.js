@@ -1,4 +1,4 @@
-var entryPerPage = 200; 
+var entryPerPage = 200;
 
 var start = 0;
 var end = 0;
@@ -25,14 +25,14 @@ function updatePagination() {
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
-        if (currentPage >= 3 && currentPage + 1 == totalPages) {
+        if (currentPage >= 3 && currentPage + 1 === totalPages) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
         if (currentPage < 3) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
@@ -49,9 +49,9 @@ function updatePagination() {
         });
     }
     
-    $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+    $("div#pagination_top ul.pagination li a.pageNumber").each(function() {
         var pageNum = parseInt($(this).text());
-        if (pageNum == currentPage) {
+        if (pageNum === currentPage) {
             $(this).parent().attr("class", "active");
         } else {
             $(this).parent().attr("class", "");
@@ -64,13 +64,13 @@ function updatePagination() {
 function caculateTotalPages() {
     var a = parseInt(total / entryPerPage);
     var b = total % entryPerPage;
-    totalPages = b == 0 ? a : a + 1;
+    totalPages = b === 0 ? a : a + 1;
 }
 
 function updateEntriesCount() {
     var newText = start + "~" + (end > total ? total : end);
     
-    $("span#currentPageEntryCount").text(newText);    
+    $("span#currentPageEntryCount").text(newText);
     $("span#totalEntryCount").text(total);
 }
 
@@ -142,12 +142,10 @@ function goToNextPage() {
 }
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 37) { //LEFT
+    if (e.keyCode === 37) { // LEFT
         goToPreviousPage();
-     }
-    if (e.keyCode == 39) { //RIGHT
+    }
+    if (e.keyCode === 39) { // RIGHT
         goToNextPage();
-     }
- });
-
-
+    }
+});

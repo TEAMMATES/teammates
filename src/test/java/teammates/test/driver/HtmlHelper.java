@@ -16,7 +16,6 @@ import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -296,7 +295,7 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
-    private static boolean isVoidElement(String elementName){
+    private static boolean isVoidElement(String elementName) {
         return elementName.equals("br")
                 || elementName.equals("hr")
                 || elementName.equals("img")
@@ -367,7 +366,7 @@ public class HtmlHelper {
                       .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.BLOB_KEY + "=" + REGEX_BLOB_KEY,
                                   Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
+                                  + "\\?" + Const.ParamsNames.BLOB_KEY + "=\\${blobkey}")
                       .replaceAll("( type=\"hidden\"|"
                                   + " name=\"" + Const.ParamsNames.BLOB_KEY + "\"|"
                                   + " id=\"blobKey\"|"

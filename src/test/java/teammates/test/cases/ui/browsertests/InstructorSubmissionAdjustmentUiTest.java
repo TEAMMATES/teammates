@@ -59,7 +59,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAdjustmentOfSubsmission() throws Exception{
+    public void testAdjustmentOfSubsmission() throws Exception {
         
         //load the enrollPage
         loadEnrollmentPage();

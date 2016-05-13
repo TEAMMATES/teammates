@@ -9,7 +9,7 @@ $(document).ready(function() {
     });
     
     $('form[name="form_commentadd"]').submit(function() {
-        return checkComment(this);        
+        return checkComment(this);
     });
     
     function checkComment(form) {
@@ -38,9 +38,9 @@ $(document).ready(function() {
     $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
     
     function commentRecipientSelectChangeHandler() {
-        //TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
+        // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
         var selectedValue = $('#comment_recipient_select option:selected').val();
-        if (selectedValue == 'PERSON') {
+        if (selectedValue === 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');
             $('input[name="recipients"]').val($('#studentemail > p').text());
             $('#recipient-person').show();
@@ -48,7 +48,7 @@ $(document).ready(function() {
             $('#recipient-team').find('div[data-toggle="tooltip"]').text('Recipient\'s Team');
             $('#recipient-team').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
             $('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
-        } else if (selectedValue == 'TEAM') {
+        } else if (selectedValue === 'TEAM') {
             $('input[name="recipienttype"]').val('TEAM');
             $('input[name="recipients"]').val($('#teamname > p').text());
             $('#recipient-person').hide();
@@ -56,7 +56,7 @@ $(document).ready(function() {
             $('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
             $('#recipient-team').find('div[data-toggle="tooltip"]').text('Recipient Team');
             $('#recipient-team').show();
-        } else if (selectedValue == 'SECTION') {
+        } else if (selectedValue === 'SECTION') {
             $('input[name="recipienttype"]').val('SECTION');
             $('input[name="recipients"]').val($('#sectionname > p').text());
             $('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', true);
@@ -75,7 +75,7 @@ $(document).ready(function() {
             target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
+        if ((target.prop("class").includes("giverCheckbox") ||
                 target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
             target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
@@ -100,10 +100,10 @@ $(document).ready(function() {
     
     if (isShowCommentBox) {
         $('#button_add_comment').click();
-        if (commentRecipient == "team") {
+        if (commentRecipient === "team") {
             $('#comment_recipient_select').val('TEAM');
             commentRecipientSelectChangeHandler();
-        } else if (commentRecipient == "section") {
+        } else if (commentRecipient === "section") {
             $('#comment_recipient_select').val('SECTION');
             commentRecipientSelectChangeHandler();
         }

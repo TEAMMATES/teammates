@@ -44,7 +44,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         testGetInstructorForEmail();
         testGetInstructorsForEmail();
         testGetInstructorForGoogleId();
@@ -103,7 +103,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
+            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
                                 e.getMessage());
         }
         
@@ -255,7 +255,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
@@ -287,7 +287,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForGoogleId(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
@@ -316,7 +316,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForEmail(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
@@ -592,7 +592,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.updateInstructorByGoogleId(googleId, instructorUpdated);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor "+googleId+" does not belong to course "+courseId, e.getMessage());
+            assertEquals("Instructor " + googleId + " does not belong to course " + courseId, e.getMessage());
         }
         
         ______TS("failure: course doesn't exist");

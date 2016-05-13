@@ -1,5 +1,5 @@
 function isInCommentsPage() {
-    return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
+    return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
 var addCommentHandler = function(e) {
@@ -141,7 +141,7 @@ var deleteCommentHandler = function(e) {
         error: function() {
             if (editForm.is(':visible')) {
                 setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
-            } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+            } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                 frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">Failed to delete comment. Please try again.</div>");
             }
             submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -164,7 +164,7 @@ var deleteCommentHandler = function(e) {
             } else {
                 if (editForm.is(':visible')) {
                     setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
-                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                     frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
                 }
                 submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -192,7 +192,7 @@ function registerResponseCommentCheckboxEvent() {
             target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
+        if ((target.prop("class").includes("giverCheckbox") ||
              target.prop("class").includes("recipientCheckbox")) &&
              target.prop("checked")) {
             target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
@@ -227,7 +227,7 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 }
 
 function enableHoverToDisplayEditOptions() {
-    //show on hover for comment
+    // show on hover for comment
     $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
     });
@@ -251,34 +251,34 @@ function removeUnwantedVisibilityOptions(commentId) {
     for (var i = 0; i < checkboxesInInAddForm.length; i++) {
         valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
     }
-    if (valuesOfCheckbox.indexOf('GIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('GIVER') === -1) {
         $("#response-giver-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER') === -1) {
         $("#response-recipient-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') === -1) {
         $("#response-giver-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') === -1) {
         $("#response-recipient-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('STUDENTS') == -1) {
+    if (valuesOfCheckbox.indexOf('STUDENTS') === -1) {
         $("#response-students-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('INSTRUCTORS') == -1) {
+    if (valuesOfCheckbox.indexOf('INSTRUCTORS') === -1) {
         $("#response-instructors-" + commentId).remove();
     }
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().remove();
     }
 }
 
 function setFormErrorMessage(submitButton, msg) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().text(msg);
     } else {
         submitButton.next().after("<span id=\"errorMessage\" class=\"pull-right \"> " + msg + "</span>");
@@ -396,11 +396,11 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     
-    panelBody.load(url, function(response, status, xhr) {
+    panelBody.load(url, function(response, status) {
         if (status !== "success") {
             panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         } else {
-            updateBadgeForPendingComments(panelBody.children(":first").text());
+            updateBadgeForPendingComments(parseInt(panelBody.children(":first").text()));
             panelBody.children(":first").remove();
 
             $clickedElement.addClass("loaded");
@@ -420,13 +420,13 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
  * Clears the animation queue of the panel before collapsing/expanding the panel.
  */
 function toggleCollapsiblePanel(collapsiblePanel) {
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     collapsiblePanel.clearQueue();
     collapsiblePanel.collapse("toggle");
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
-    if (numberOfPendingComments == 0) {
+    if (numberOfPendingComments === 0) {
         $('.badge').parent().parent().hide();
     } else {
         $('.badge').parent().parent().show();
@@ -446,7 +446,7 @@ function registerCheckboxEventForVisibilityOptions() {
             target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
+        if ((target.prop("class").includes("giverCheckbox") ||
              target.prop("class").includes("recipientCheckbox")) &&
              target.prop("checked")) {
             target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);

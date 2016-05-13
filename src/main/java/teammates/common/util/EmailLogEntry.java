@@ -20,21 +20,21 @@ public class EmailLogEntry {
     
     public String logInfoAsHtml;
     
-    public EmailLogEntry(MimeMessage msg) throws Exception{
+    public EmailLogEntry(MimeMessage msg) throws Exception {
         
             this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
             this.subject = msg.getSubject();
             this.content = (String) msg.getContent(); 
     }
     
-    public EmailLogEntry(Sendgrid msg) throws Exception{
+    public EmailLogEntry(Sendgrid msg) throws Exception {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();
         this.content = msg.getHtml(); 
     }
     
-    public EmailLogEntry(AppLogLine appLog){
+    public EmailLogEntry(AppLogLine appLog) {
         this.time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
@@ -43,7 +43,7 @@ public class EmailLogEntry {
             this.subject = tokens[2];
             this.content = tokens[3];
             logInfoAsHtml = getLogInfoForTableRowAsHtml();
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             this.receiver = "";
             this.subject = "";
             this.content = "";
@@ -51,7 +51,7 @@ public class EmailLogEntry {
         }
     }
     
-    private String getLogInfoForTableRowAsHtml(){
+    private String getLogInfoForTableRowAsHtml() {
         return String.format(
                 "<tr class=\"log\"><td>%s</td><td>%s</td><td>%s</td></tr>"
                 + "<tr id=\"small\"><td colspan=\"3\"><ul class=\"list-group\">"
@@ -69,26 +69,26 @@ public class EmailLogEntry {
     /**
      * Generates a log message that will be logged in the server
      */
-    public String generateLogMessage(){
+    public String generateLogMessage() {
         //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
         return "TEAMMATESEMAILLOG|||" + this.receiver + "|||" + 
                this.subject + "|||" + this.content;
         
     }
     
-    public String getReceiver(){
+    public String getReceiver() {
         return this.receiver;
     }
     
-    public String getSubject(){
+    public String getSubject() {
         return this.subject;
     }
     
-    public long getTime(){
+    public long getTime() {
         return this.time;
     }
     
-    public String getContent(){
+    public String getContent() {
         return Sanitizer.sanitizeForHtml(this.content);
     }
     
@@ -96,40 +96,40 @@ public class EmailLogEntry {
         return StringHelper.recoverFromSanitizedText(content);
     }
     
-    public String getTimeForDisplay(){
+    public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
         appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
         return TimeHelper.formatTime12H(appCal.getTime());
     }
     
-    public void highlightKeyStringInMessageInfoHtml(String[] keyStringsToHighlight, String part){
-        if(keyStringsToHighlight == null){
+    public void highlightKeyStringInMessageInfoHtml(String[] keyStringsToHighlight, String part) {
+        if (keyStringsToHighlight == null) {
             return;
         }
         
-        if(part.contains("receiver")){
+        if (part.contains("receiver")) {
             this.receiver = hightlightTextWithKeyWords(keyStringsToHighlight, this.receiver);
         }
         
-        if(part.contains("subject")){
+        if (part.contains("subject")) {
             this.subject = hightlightTextWithKeyWords(keyStringsToHighlight, this.subject);
         }
         
-        if(part.contains("content")){
+        if (part.contains("content")) {
             this.content = hightlightTextWithKeyWords(keyStringsToHighlight, this.content);
         }
         
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
     
-    private String hightlightTextWithKeyWords(String[] keyStringsToHighlight, String text){
-        if(text == null){
+    private String hightlightTextWithKeyWords(String[] keyStringsToHighlight, String text) {
+        if (text == null) {
             return text;
         }
         
-        for (String stringToHighlight : keyStringsToHighlight){
-            if(text.toLowerCase().contains(stringToHighlight.toLowerCase())){
+        for (String stringToHighlight : keyStringsToHighlight) {
+            if (text.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
                 int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         

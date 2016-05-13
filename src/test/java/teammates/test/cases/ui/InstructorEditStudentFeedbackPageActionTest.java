@@ -98,7 +98,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
                 "?error=false" +
-                "&user="+ idOfInstructor,
+                "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         
@@ -121,7 +121,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
-                + "&user="+ idOfInstructor, 
+                + "&user=" + idOfInstructor, 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 

@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,8 +109,8 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + EOL 
-                                  + instructor.toString() + EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+                                  + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -131,9 +129,9 @@ public class CoursesLogic {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
+            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
     }
 
@@ -768,7 +766,7 @@ public class CoursesLogic {
         return export;
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);

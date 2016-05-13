@@ -18,7 +18,7 @@ public class ActionFactory {
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     
-    static{
+    static {
         map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
         map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
         map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
@@ -153,7 +153,7 @@ public class ActionFactory {
     private static Action getAction(String uri) {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
         
-        if(controllerClass == null){
+        if (controllerClass == null) {
             throw new PageNotFoundException(uri);
         }
         
