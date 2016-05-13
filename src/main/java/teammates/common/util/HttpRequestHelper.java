@@ -82,21 +82,22 @@ public class HttpRequestHelper {
 
     //TODO: rename to a better name
     public static String printRequestParameters(HttpServletRequest request) {
-        String requestParameters = "{";
+        StringBuilder requestParameters = new StringBuilder(); 
+        requestParameters.append('{');
         for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
             String paramet = new String(f.nextElement().toString());
-            requestParameters += paramet + "::";
+            requestParameters.append(paramet).append("::");
             String[] parameterValues = request.getParameterValues(paramet);
             for (int j = 0; j < parameterValues.length; j++){
-                requestParameters += parameterValues[j] + "//";
+                requestParameters.append(parameterValues[j]).append("//");
             }
-            requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
+            requestParameters.setLength(requestParameters.length() - 2);
+            requestParameters.append(", ");
         }
         if (!requestParameters.equals("{")) {
-            requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+            requestParameters.setLength(requestParameters.length() - 2);
         }
-        requestParameters += "}";
-        return requestParameters;
+        return requestParameters + "}";
     }
 
     /**
@@ -107,7 +108,7 @@ public class HttpRequestHelper {
         String link = req.getRequestURI();
         String query = req.getQueryString();
         if (query != null && !query.trim().isEmpty()){
-            link += "?" + query;
+            return link + "?" + query;
         }
         return link;
     }

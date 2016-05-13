@@ -65,30 +65,32 @@ public abstract class SearchQuery {
         String[] splitStrings = queryString.trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
-        String key = "";
+        StringBuilder key = new StringBuilder();
         boolean isStartQuote = false;
         for (int i = 0; i < splitStrings.length; i++){
             if(!splitStrings[i].equals("\"")){
                 if(isStartQuote){
-                    key += " " + splitStrings[i];
+                    key.append(' ').append(splitStrings[i]);
                 } else {
                     keywords.add(splitStrings[i]);
                 }
             } else {
                 if(isStartQuote){
+                    String trimmedKey = key.toString().trim();
                     isStartQuote = false;
-                    if(!key.trim().equals("")){
-                        keywords.add(key.trim());
+                    if (!trimmedKey.isEmpty()){
+                        keywords.add(trimmedKey);
                     }
-                    key = "";
+                    key.setLength(0);
                 } else {
                     isStartQuote = true;
                 }
             }
         }
         
-        if(isStartQuote && !key.trim().equals("")){
-            keywords.add(key.trim());
+        String trimmedKey = key.toString().trim();
+        if(isStartQuote && !trimmedKey.equals("")){
+            keywords.add(trimmedKey);
         }
 
         if(keywords.size() < 1) return "";
