@@ -336,12 +336,12 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
-        String string = "";
+        StringBuilder urlPart = new StringBuilder();
         for (int i = 0; i < array.size(); i++) {
-            string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
+            urlPart.append('&').append(token).append("[]=").append(URLEncoder.encode(array.get(i), "UTF-8"));
         }
 
-        return string;
+        return urlPart.toString();
     }
 
     /**
@@ -444,14 +444,15 @@ public class Sendgrid {
             }
         }
         
-        String request = this.domain + this.endpoint;
+        StringBuilder request = new StringBuilder(); 
+        request.append(this.domain).append(this.endpoint);
 
         if (this.getBccs().size() > 0) {
-            request += "?" +this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
+            request.append('?').append(this.arrayToUrlPart(this.getBccs(), "bcc").substring(1));
         }
         
         try {
-            URL url = new URL(request);
+            URL url = new URL(request.toString());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -462,11 +463,12 @@ public class Sendgrid {
             writer.flush();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line, response = "";
+            String line;
+            StringBuilder response = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
                 // Process line
-                response += line;
+                response.append(line);
             }
             reader.close();
             writer.close();
@@ -476,7 +478,7 @@ public class Sendgrid {
                 serverResponse = "success";
             } else {
                 // Server returned HTTP error code.
-                JSONObject apiResponse = new JSONObject(response);
+                JSONObject apiResponse = new JSONObject(response.toString());
                 JSONArray errorsObj = (JSONArray) apiResponse.get("errors");
                 
                 for (int i = 0; i < errorsObj.length(); i++) {
