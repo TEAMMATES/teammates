@@ -29,7 +29,7 @@ public class TimeHelper {
      *Note: No DST is handled here.
      */
     
-    static{
+    static {
         map("-12.0", "Baker Island, Howland Island");
         map("-11.0", "American Samoa, Niue");
         map("-10.0", "Hawaii, Cook Islands");
@@ -77,7 +77,7 @@ public class TimeHelper {
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
     
-    public static String getCitiesForTimeZone(String zone){
+    public static String getCitiesForTimeZone(String zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
@@ -384,7 +384,7 @@ public class TimeHelper {
      * Example: 1200 milliseconds ---> 0:1:200
      */
     
-    public static String convertToStandardDuration(Long timeInMilliseconds){
+    public static String convertToStandardDuration(Long timeInMilliseconds) {
      
         return timeInMilliseconds != null ? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,

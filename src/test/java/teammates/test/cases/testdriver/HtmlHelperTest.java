@@ -18,7 +18,7 @@ import teammates.test.driver.TestProperties;
 public class HtmlHelperTest {
     
     @Test
-    public void testComparison() throws SAXException, IOException, TransformerException{
+    public void testComparison() throws SAXException, IOException, TransformerException {
         String expected = "<html></html>";
         String actual = expected;
         HtmlHelper.assertSameHtml(expected, actual, false);
@@ -47,7 +47,7 @@ public class HtmlHelperTest {
     }
     
     @Test
-    public void testConvertToStandardHtml() throws Exception{
+    public void testConvertToStandardHtml() throws Exception {
         
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";

@@ -121,7 +121,7 @@ public class InstructorFeedbacksPage extends AppPage {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
     }
     
-    public void selectSessionType(String visibleText){
+    public void selectSessionType(String visibleText) {
         selectDropdownByVisibleValue(fsType, visibleText);
     }
 
@@ -137,48 +137,48 @@ public class InstructorFeedbacksPage extends AppPage {
         return this;
     }
 
-    public void clickSubmitButton(){
+    public void clickSubmitButton() {
         submitButton.click();
         waitForPageToLoad();
     }
     
-    public void clickEditUncommonSettingsButton(){
+    public void clickEditUncommonSettingsButton() {
         uncommonSettingsButton.click();
     }
     
-    public void clickCustomVisibleTimeButton(){
+    public void clickCustomVisibleTimeButton() {
         customSessionVisibleTimeButton.click();
     }
 
-    public void clickCustomPublishTimeButton(){
+    public void clickCustomPublishTimeButton() {
         customResultsVisibleTimeButton.click();
     }
     
-    public void clickNeverVisibleTimeButton(){
+    public void clickNeverVisibleTimeButton() {
         neverSessionVisibleTimeButton.click();
     }
     
-    public void clickNeverPublishTimeButton(){
+    public void clickNeverPublishTimeButton() {
         neverResultsVisibleTimeButton.click();
     }
     
-    public void clickManualPublishTimeButton(){
+    public void clickManualPublishTimeButton() {
         manualResultsVisibleTimeButton.click();
     }
     
-    public void clickDefaultVisibleTimeButton(){
+    public void clickDefaultVisibleTimeButton() {
         defaultSessionVisibleTimeButton.click();
     }
     
-    public void clickDefaultPublishTimeButton(){
+    public void clickDefaultPublishTimeButton() {
         defaultResultsVisibleTimeButton.click();
     }
     
-    public void clickCopyButton(){
+    public void clickCopyButton() {
         copyButton.click();
     }
     
-    public void clickCopySubmitButton(){
+    public void clickCopySubmitButton() {
         copySubmitButton.click();
         waitForPageToLoad();
     }
@@ -218,7 +218,7 @@ public class InstructorFeedbacksPage extends AppPage {
 
         double fractionalPart = timeZone % 1;
         
-        if (fractionalPart == 0.0){
+        if (fractionalPart == 0.0) {
             timeZoneString = Integer.toString((int) timeZone);
         }
         
@@ -407,7 +407,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
-    public void verifyResponseValue(String responseRate, String courseId, String sessionName){
+    public void verifyResponseValue(String responseRate, String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         try {
@@ -416,7 +416,7 @@ public class InstructorFeedbacksPage extends AppPage {
                             By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
                             + "]/td[contains(@class,'session-response-for-test')]")),
                             responseRate));
-        } catch (TimeoutException e){
+        } catch (TimeoutException e) {
             fail("Not expected message");
         }
     }

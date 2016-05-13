@@ -27,7 +27,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -88,7 +88,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

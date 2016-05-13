@@ -88,7 +88,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
     
     
-    public void testViewActionsLink(){
+    public void testViewActionsLink() {
         
         ______TS("Link: recent actions link");
         
@@ -111,7 +111,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         }
     }
     
-    public void testInputValidation(){
+    public void testInputValidation() {
         
         ______TS("invalid query format");
         

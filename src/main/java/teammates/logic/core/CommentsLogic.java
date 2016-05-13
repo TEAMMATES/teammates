@@ -709,7 +709,7 @@ public class CommentsLogic {
                                                  commentId, section);
                 }
             }
-        } else {//not visible to SECTION
+        } else { //not visible to SECTION
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
                 for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
@@ -760,7 +760,7 @@ public class CommentsLogic {
                                               commentId, team);
                 }
             }
-        } else {//not visible to TEAM
+        } else { //not visible to TEAM
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
                 for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
@@ -788,7 +788,7 @@ public class CommentsLogic {
                 addRecipientEmailsToList(studentCommentsAddedTable, recipientEmailList,
                                          commentId, recipientEmail);
             }
-        } else {//not visible to PERSON
+        } else { //not visible to PERSON
             for (String recipientEmail : pendingComment.recipients) {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, commentId, recipientEmail);
             }

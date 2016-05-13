@@ -29,7 +29,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll(){
+    public void testAll() {
         testContent();
         testFilterReference();
     }

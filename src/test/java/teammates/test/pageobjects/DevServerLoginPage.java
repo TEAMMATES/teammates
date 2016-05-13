@@ -15,7 +15,7 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPage(Browser browser){
+    public DevServerLoginPage(Browser browser) {
         super(browser);
     }
 

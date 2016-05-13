@@ -17,7 +17,7 @@ public class AdminEmailTrashPageData extends AdminEmailPageData {
     
     public List<AdminEmailAttributes> adminTrashEmailList;
     
-    public String getEmptyTrashBinActionUrl(){
+    public String getEmptyTrashBinActionUrl() {
         return Url.addParamToUrl(Const.ActionURIs.ADMIN_EMAIL_TRASH_DELETE, 
                                  Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN, 
                                  "true");

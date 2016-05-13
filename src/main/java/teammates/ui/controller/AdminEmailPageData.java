@@ -44,7 +44,7 @@ public abstract class AdminEmailPageData extends PageData {
         return trashEmailTable;
     }
     
-    public AdminEmailPageState getPageState(){
+    public AdminEmailPageState getPageState() {
         return this.state;
     }
     

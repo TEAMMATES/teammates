@@ -295,7 +295,7 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
-    private static boolean isVoidElement(String elementName){
+    private static boolean isVoidElement(String elementName) {
         return elementName.equals("br")
                 || elementName.equals("hr")
                 || elementName.equals("img")

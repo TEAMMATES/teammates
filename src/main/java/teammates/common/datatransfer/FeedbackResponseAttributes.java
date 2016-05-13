@@ -192,7 +192,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method retrieves the Feedback*ResponseDetails object for this response
      * @return The Feedback*ResponseDetails object representing the response's details
      */
-    public FeedbackResponseDetails getResponseDetails(){
+    public FeedbackResponseDetails getResponseDetails() {
         
         if (isMissingResponse()) {
             return null;

@@ -779,7 +779,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
         StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++){
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");

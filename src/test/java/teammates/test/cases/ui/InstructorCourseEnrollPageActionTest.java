@@ -25,7 +25,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;

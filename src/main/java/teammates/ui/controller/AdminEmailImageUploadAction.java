@@ -28,7 +28,7 @@ public class AdminEmailImageUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractImageKey();
         
-        if (blobInfo == null){
+        if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             log.info("Image Upload Failed");

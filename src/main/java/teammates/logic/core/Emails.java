@@ -227,7 +227,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
-            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException{
+            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException {
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
         Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
@@ -253,7 +253,7 @@ public class Emails {
     
     public MimeMessage generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
             StudentAttributes student, String template) 
-                    throws MessagingException, UnsupportedEncodingException{
+                    throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
 
         message.setSubject(String
@@ -535,7 +535,7 @@ public class Emails {
      * Generate the join link to be sent to the account requester's email
      * This method should only be used in adminHomePage for easy manual testing purpose
      */
-    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute){
+    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute) {
         
         String joinUrl = "";
         if (instructor != null) {
@@ -884,7 +884,7 @@ public class Emails {
     }
     
     
-    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException{
+    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
         
         mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
         return mail;
@@ -893,6 +893,7 @@ public class Emails {
     private boolean isYetToJoinCourse(StudentAttributes s) {
         return s.googleId == null || s.googleId.isEmpty();
     }
+
     
     public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);

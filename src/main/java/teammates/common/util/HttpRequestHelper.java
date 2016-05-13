@@ -87,7 +87,7 @@ public class HttpRequestHelper {
             String paramet = new String(f.nextElement().toString());
             requestParameters += paramet + "::";
             String[] parameterValues = request.getParameterValues(paramet);
-            for (int j = 0; j < parameterValues.length; j++){
+            for (int j = 0; j < parameterValues.length; j++) {
                 requestParameters += parameterValues[j] + "//";
             }
             requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
@@ -106,7 +106,7 @@ public class HttpRequestHelper {
     public static String getRequestedURL(HttpServletRequest req) {
         String link = req.getRequestURI();
         String query = req.getQueryString();
-        if (query != null && !query.trim().isEmpty()){
+        if (query != null && !query.trim().isEmpty()) {
             link += "?" + query;
         }
         return link;

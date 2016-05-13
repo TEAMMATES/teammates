@@ -30,7 +30,7 @@ public class InstructorCourseRemindAction extends Action {
     protected static final Logger log = Utils.getLogger();
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException{
+    public ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);

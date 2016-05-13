@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
         if (param == null) return;
         String[] excludedFiles = param.split("[|]");
         exclude = new ArrayList<String>();
-        for (int i = 0; i < excludedFiles.length; i++){
+        for (int i = 0; i < excludedFiles.length; i++) {
             exclude.add(excludedFiles[i].trim());
         }
         for (int i = 0; i < Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.size(); i++) {
@@ -36,7 +36,9 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
+
         HttpServletRequest req = (HttpServletRequest) request; 
+
         if (exclude.contains(req.getRequestURI())) {
             chain.doFilter(request, response);
             return;

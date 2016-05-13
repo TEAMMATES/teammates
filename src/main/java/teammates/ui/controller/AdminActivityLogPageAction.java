@@ -45,7 +45,7 @@ public class AdminActivityLogPageAction extends Action {
     private Long nextEndTimeToSearch;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException{
+    protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);

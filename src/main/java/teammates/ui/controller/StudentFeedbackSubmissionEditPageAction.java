@@ -76,7 +76,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return student;
     }
 
-    protected boolean isRegisteredStudent(){
+    protected boolean isRegisteredStudent() {
         return account.isUserRegistered();
     }
 }
