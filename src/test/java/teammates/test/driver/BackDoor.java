@@ -227,7 +227,7 @@ public class BackDoor {
      */
     public static AccountAttributes getAccountWithRetry(String googleId) {
         AccountAttributes a = getAccount(googleId);
-        if(a == null){
+        if (a == null){
             ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
             a = getAccount(googleId);
         }
@@ -383,7 +383,7 @@ public class BackDoor {
      */
     public static boolean isCourseNonExistent(String courseId) {
         CourseAttributes c = getCourse(courseId);
-        if(c != null){
+        if (c != null){
             ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
             c = getCourse(courseId);
         }

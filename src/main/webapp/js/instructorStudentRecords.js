@@ -66,7 +66,7 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox == 'yes') {
+    if (showCommentBox === 'yes') {
         $('#button_add_comment').click();
     }
 }
@@ -112,7 +112,7 @@ function hideAddCommentBox() {
 function enableEdit(commentIdx, maxComments) {
     var i = 1;
     while (i <= maxComments) {
-        if (commentIdx == i) {
+        if (commentIdx === i) {
             enableComment(i);
         } else {
             disableComment(i);
@@ -161,7 +161,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, function(response, status) {
-      if (status == 'success') {
+      if (status === 'success') {
           $(sender).removeAttr('onclick');
       }
       $(sender).find('div[class^="placeholder-img-loading"]').html('');

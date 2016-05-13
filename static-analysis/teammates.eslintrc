@@ -91,7 +91,7 @@
         "consistent-return": 0,     // require return statements to either always or never specify values
         "curly": 0,                 // specify curly brace conventions for all control statements
         "dot-notation": 0,          // encourages use of dot notation whenever possible
-        "eqeqeq": 0,                // require the use of === and !==
+        "eqeqeq": 2,                // require the use of === and !==
         "guard-for-in": 0,          // make sure for-in loops have an if statement (off by default)
         "no-alert": 0,              // disallow the use of alert, confirm, and prompt
         "no-caller": 0,             // disallow use of arguments.caller or arguments.callee

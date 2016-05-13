@@ -49,7 +49,7 @@ public class ImportData {
             
             if (!data.accounts.isEmpty()) {
                 status = persist(data.accounts); // Accounts
-            } else if(!data.instructors.isEmpty()) {            //Instructors
+            } else if (!data.instructors.isEmpty()) {            //Instructors
                 status = persist(data.instructors);
             } else if (!data.courses.isEmpty()){    //Courses
                 status = persist(data.courses);
@@ -60,7 +60,7 @@ public class ImportData {
                 System.out.print("\n Finish!");
                 break;
             }
-            long elapsedTimeMillis = System.currentTimeMillis()-start;
+            long elapsedTimeMillis = System.currentTimeMillis() - start;
 
             // Get elapsed time in seconds of the current request
             float elapsedTimeSec = elapsedTimeMillis / 1000F;
@@ -97,17 +97,17 @@ public class ImportData {
                 type = "AccountData";
                 AccountAttributes accountData = (AccountAttributes) obj;
                 bundle.accounts.put(key, accountData);
-            } else if(obj instanceof InstructorAttributes)
+            } else if (obj instanceof InstructorAttributes)
             {
                 type = "InstructorData";
                 InstructorAttributes instructorData = (InstructorAttributes) obj;
                 bundle.instructors.put(key, instructorData);
-            } else if(obj instanceof CourseAttributes)
+            } else if (obj instanceof CourseAttributes)
             {
                 type = "CourseData";
                 CourseAttributes courseData = (CourseAttributes) obj;
                 bundle.courses.put(key, courseData);
-            } else if(obj instanceof StudentAttributes)
+            } else if (obj instanceof StudentAttributes)
             {
                 type = "StudentData";
                 StudentAttributes studentData = (StudentAttributes) obj;
@@ -116,9 +116,9 @@ public class ImportData {
             count++;
             itr.remove();
             System.out.print(key + "\n");
-            if(type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
+            if (type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
                 break;
-            if(count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
+            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
                 break;
         }
         System.out.print(count+ " entities of type "+ type + " left " + map.size() +" \n" );

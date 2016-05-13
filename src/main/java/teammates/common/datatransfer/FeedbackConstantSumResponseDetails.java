@@ -39,13 +39,13 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerString() {
         String listString = answers.toString(); //[1, 2, 3] format
-        return listString.substring(1, listString.length()-1); //remove []
+        return listString.substring(1, listString.length() - 1); //remove []
     }
 
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        if(csQd.distributeToRecipients){
+        if (csQd.distributeToRecipients){
             return getAnswerString();
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
@@ -68,7 +68,7 @@ public class FeedbackConstantSumResponseDetails extends
         StringBuilder csvBuilder = new StringBuilder();
         
         for (int i = 0; i < answers.size(); i++) {
-            if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
+            if (!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
                 csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
@@ -79,7 +79,7 @@ public class FeedbackConstantSumResponseDetails extends
 
     private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
         this.answers = answers;
-        if(!distributeToRecipients){
+        if (!distributeToRecipients){
             Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
         }
     }

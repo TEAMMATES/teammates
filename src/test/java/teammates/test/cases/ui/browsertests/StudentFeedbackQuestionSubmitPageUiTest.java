@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -32,12 +33,14 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionAttributes fqOpen;
     private FeedbackQuestionAttributes fqClosed;
     private FeedbackQuestionAttributes fq;
+    private static Date fsOriginalEndTime;
 
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
+        fsOriginalEndTime = testData.feedbackSessions.get("Open Session").endTime;
         
         browser = BrowserPool.getBrowser();
     }
@@ -105,7 +108,9 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testSubmitAction() throws Exception {
-        removeAndRestoreTestDataOnServer(testData);
+        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
+        fs.endTime = fsOriginalEndTime;
+        BackDoor.editFeedbackSession(fs);
         
         ______TS("create new responses");
 
@@ -150,8 +155,6 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("Grace period session,successful submission within grace period");
 
-        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
-
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
         Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -183,8 +186,9 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("this is a response edited during grace period", submitPage.getTextArea(1, 0).getText());
 
         logout(browser);
-        testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
+        fs.endTime = fsOriginalEndTime;
+        BackDoor.editFeedbackSession(fs);
 
         ______TS("Grace period session,submission failure after grace period");
 

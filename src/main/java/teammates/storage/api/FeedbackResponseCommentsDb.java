@@ -496,7 +496,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         for (FeedbackResponseComment frc : frcList) {
-            if(!JDOHelper.isDeleted(frc)
+            if (!JDOHelper.isDeleted(frc)
                     && frc.getCourseId().equals(courseId)
                     && frc.getGiverEmail().equals(giverEmail)
                     && frc.getCreatedAt().equals(createdAt)) {

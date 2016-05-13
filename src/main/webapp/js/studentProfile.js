@@ -1,6 +1,6 @@
 $(function() {
     $('.form-control').on('click', function() {
-        if ($(this).val() == $(this).attr('data-actual-value')) {
+        if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
     });
@@ -60,7 +60,7 @@ $(function() {
             /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
-            if ($('#profilePic').attr('data-edit') == "true") {
+            if ($('#profilePic').attr('data-edit') === "true") {
                 $('#studentPhotoUploader').modal({
                     show: true
                 });

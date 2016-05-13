@@ -616,7 +616,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if(responses.isEmpty()){
+        if (responses.isEmpty()){
             return "";
         }
 

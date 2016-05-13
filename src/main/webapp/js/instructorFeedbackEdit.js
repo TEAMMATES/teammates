@@ -1122,7 +1122,7 @@ function updateNumScalePossibleValues(questionNumber) {
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + (possibleValuesCount - 1) * step;
     var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
-    if (roundToThreeDp(largestValueInRange) != max) {
+    if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');
         var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
                                    ' is not divisible by the specified increment.]';
