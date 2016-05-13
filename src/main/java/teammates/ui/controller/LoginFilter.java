@@ -46,7 +46,7 @@ public class LoginFilter implements Filter {
             Utils.getLogger().info("User is not logged in");
             String link = req.getRequestURI();
             String query = req.getQueryString();
-            if (query != null) link+="?"+query;
+            if (query != null) link += "?" + query;
             resp.sendRedirect(Logic.getLoginUrl(link));
         } else {
             chain.doFilter(request, response);

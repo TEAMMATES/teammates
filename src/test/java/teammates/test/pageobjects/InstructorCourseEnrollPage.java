@@ -26,7 +26,7 @@ public class InstructorCourseEnrollPage extends AppPage {
     }
 
     public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){
-        getPageSource().contains("Enroll Students for "+courseId);
+        getPageSource().contains("Enroll Students for " + courseId);
         return this;
     }
 

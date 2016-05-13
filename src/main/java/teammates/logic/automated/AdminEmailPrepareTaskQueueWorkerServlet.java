@@ -271,7 +271,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(adminEmail);       
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         
-        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "+
+        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: " +
                  indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
         
         int indexOfLastEmailList = 0;

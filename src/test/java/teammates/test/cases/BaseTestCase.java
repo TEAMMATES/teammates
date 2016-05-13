@@ -103,7 +103,7 @@ public class BaseTestCase {
     }
 
     protected void signalFailureToDetectException(String... messages) {
-        throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));
+        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
     }
 
     protected void ignoreExpectedException() {

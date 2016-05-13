@@ -15,21 +15,21 @@ public class AdminAccountDetailsPage extends AppPage {
     }
 
     public AdminAccountDetailsPage clickRemoveInstructorFromCourse(String courseId) {
-        this.waitForElementPresence(By.id("instructor_"+courseId));
-        browser.driver.findElement(By.id("instructor_"+courseId)).click();
+        this.waitForElementPresence(By.id("instructor_" + courseId));
+        browser.driver.findElement(By.id("instructor_" + courseId)).click();
         waitForPageToLoad();
         return this;
     }
     
     public AdminAccountDetailsPage clickRemoveStudentFromCourse(String courseId) {
-        browser.driver.findElement(By.id("student_"+courseId)).click();
+        browser.driver.findElement(By.id("student_" + courseId)).click();
         waitForPageToLoad();
         return this;
     }
 
     public void verifyIsCorrectPage(String instructorId) {
         assertTrue(containsExpectedPageContents());
-        assertTrue(getPageSource().contains("<p class=\"form-control-static\">"+instructorId+"</p>"));
+        assertTrue(getPageSource().contains("<p class=\"form-control-static\">" + instructorId + "</p>"));
     }
 
 }

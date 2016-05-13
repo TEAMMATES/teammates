@@ -39,7 +39,7 @@ public class AllJsTests extends BaseUiTestCase {
         int totalCases = page.getTotalCases();
         int failedCases = page.getFailedCases();
         
-        print("Executed "+totalCases+" JavaScript Unit tests...");
+        print("Executed " + totalCases + " JavaScript Unit tests...");
 
         assertTrue(failedCases == 0);
         assertTrue(totalCases != 0);
