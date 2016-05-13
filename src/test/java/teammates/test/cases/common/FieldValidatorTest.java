@@ -254,36 +254,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_COUNTRY() {
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.NATIONALITY,
-                NATIONALITY_MAX_LENGTH,
-                NATIONALITY_ERROR_MESSAGE,
-                false);
     }
-    
-    @Test
-    public void testGetValidityInfo_GENDER() {
-        verifyAssertError("null value", FieldType.GENDER, null);
-        
-        String validInput = "male";
-        String invalidInput = "random_value";
-        String emptyInput = "";
-        
-        testOnce("valid: accepted gender value",
-                FieldType.GENDER,
-                validInput,
-                "");
-        
-        testOnce("invalid: randomn gender value",
-                FieldType.GENDER,
-                invalidInput,
-                String.format(GENDER_ERROR_MESSAGE, invalidInput));
-        
-        testOnce("invalid: empty string",
-                FieldType.GENDER,
-                emptyInput,
-                String.format(GENDER_ERROR_MESSAGE, emptyInput));
     }
 
 
@@ -599,32 +570,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
         Assumption.assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-    }
-    
-    private void runGenericTestCasesForCappedSizeStringTypeField(
-            FieldType fieldType, 
-            int maxSize, 
-            String errorMessageFormat, 
-            boolean emptyStringAllowed) {
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(maxSize);
-        testOnce("valid: max length value", 
-                fieldType, 
-                maxLengthValue, 
-                "");
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long value, without fieldName parameter", 
-                fieldType, 
-                tooLongValue, 
-                String.format(errorMessageFormat, tooLongValue, REASON_TOO_LONG));
-        
-        String emptyValue = "";
-        testOnce("invalid: empty value, *with* fieldName parameter", 
-                fieldType,
-                "course name of the student",
-                emptyValue, 
-                emptyStringAllowed ? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {
