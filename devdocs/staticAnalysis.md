@@ -94,7 +94,7 @@ To run ESLint analysis on all JavaScript source files, run the following command
 ```
 ./gradlew -b travis.gradle eslint
 ```
-The violations will be printed to the console itself.
+The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
