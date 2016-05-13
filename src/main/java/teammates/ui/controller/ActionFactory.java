@@ -153,7 +153,7 @@ public class ActionFactory {
     private static Action getAction(String uri) {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
         
-        if(controllerClass == null){
+        if (controllerClass == null){
             throw new PageNotFoundException(uri);
         }
         

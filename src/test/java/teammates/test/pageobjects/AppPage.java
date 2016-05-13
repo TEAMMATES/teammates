@@ -526,7 +526,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
-        if(!checkBox.isSelected()){
+        if (!checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -535,7 +535,7 @@ public abstract class AppPage {
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if(checkBox.isSelected()){
+        if (checkBox.isSelected()){
             checkBox.click();
         }
     }
@@ -579,7 +579,7 @@ public abstract class AppPage {
      * status message in the page.
      */
     public String getStatus() {
-        return statusMessage == null? "" : statusMessage.getText();
+        return statusMessage == null ? "" : statusMessage.getText();
     }
 
     /** 
@@ -936,7 +936,7 @@ public abstract class AppPage {
                 if (expectedStatus.equals(getStatus())) {
                     break;
                 }
-            } catch (StaleElementReferenceException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
             }
@@ -1041,7 +1041,7 @@ public abstract class AppPage {
         elementToClick.click();
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
         } else {
             alert.dismiss();
@@ -1053,7 +1053,7 @@ public abstract class AppPage {
         jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm){
             alert.accept();
         } else {
             alert.dismiss();

@@ -5,7 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
         
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
-                                        new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         assertNotNull(question1);
@@ -112,7 +112,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         pageData = new StudentFeedbackResultsPageData(account, student);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered = 
-                                        new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         pageData.init(questionsWithResponsesUnregistered);
         
@@ -137,7 +137,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                                     Logic logic,
                                     Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses = 
-                                        new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionsWithResponses.entrySet()) {
             FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
            
