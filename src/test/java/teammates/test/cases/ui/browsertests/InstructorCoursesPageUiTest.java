@@ -278,7 +278,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         String patternString = "Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
-        patternString = "Software Engineering $^&*() {*}Programming Methodology{*}Programming Language Concept";
+        patternString = "Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
         
         patternString = "CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
