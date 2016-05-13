@@ -560,7 +560,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MSQ\">"+Const.FeedbackQuestionTypeNames.MSQ+"</option>";
+        return "<option value = \"MSQ\">" + Const.FeedbackQuestionTypeNames.MSQ + "</option>";
     }
 
     @Override
@@ -568,7 +568,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE &&
                 numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES){
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES+".");
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that msq options do not repeat. needed?
         

@@ -153,7 +153,7 @@ public class InstructorsDb extends EntitiesDb {
         Instructor i = getInstructorEntityForEmail(courseId, email);
     
         if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + courseId +"/"+ email );
+            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email );
             return null;
         }
     

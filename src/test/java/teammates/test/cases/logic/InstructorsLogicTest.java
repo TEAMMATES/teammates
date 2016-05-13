@@ -103,7 +103,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
+            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
                                 e.getMessage());
         }
         
@@ -592,7 +592,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.updateInstructorByGoogleId(googleId, instructorUpdated);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor "+googleId+" does not belong to course "+courseId, e.getMessage());
+            assertEquals("Instructor " + googleId + " does not belong to course " + courseId, e.getMessage());
         }
         
         ______TS("failure: course doesn't exist");

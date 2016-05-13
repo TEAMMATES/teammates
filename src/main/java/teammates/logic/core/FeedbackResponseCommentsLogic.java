@@ -351,7 +351,7 @@ public class FeedbackResponseCommentsLogic {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
-                                                + " is not a session for course "+ courseId + ".");
+                                                + " is not a session for course " + courseId + ".");
         }
     }
 
