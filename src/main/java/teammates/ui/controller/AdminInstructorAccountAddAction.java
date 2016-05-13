@@ -102,15 +102,22 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            String errorMessage = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
-            statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
-            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
-            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
-            errorMessage += "<br>" + message;
+            StringBuilder errorMessage = new StringBuilder(100);
+            errorMessage.append("<a href=")
+                        .append(retryUrl)
+                        .append(">Exception in Importing Data, Retry</a>");
+            
+            statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
+            
+            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>"
+                             + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
+            
+            errorMessage.append("<br>").append(message);
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
+            
             data.instructorAddingResultForAjax = false;
-            data.statusForAjax = errorMessage;
+            data.statusForAjax = errorMessage.toString();
             return createAjaxResult(data);
         }
         

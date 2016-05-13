@@ -177,7 +177,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
             if (question.giverType == FeedbackParticipantType.TEAMS
                 && isUserPartOfGiverTeam) {
-                giverName = "Your Team (" + giverName + ")";
+                giverName = new StringBuilder().append("Your Team (").append(giverName).append(")")
+                                               .toString();
             } else if (isUserGiver) {
                 giverName = "You";
             }

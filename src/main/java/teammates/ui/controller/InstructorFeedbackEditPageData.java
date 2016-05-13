@@ -256,12 +256,12 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return
      */
     public String getNewQuestionSpecificEditFormHtml() {
-        String newQuestionSpecificEditForms = "";
+        StringBuilder newQuestionSpecificEditForms = new StringBuilder();
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms +=
-                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms.append(
+                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml());
         }
-        return newQuestionSpecificEditForms;
+        return newQuestionSpecificEditForms.toString();
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {

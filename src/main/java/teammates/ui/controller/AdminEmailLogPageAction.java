@@ -115,10 +115,12 @@ public class AdminEmailLogPageAction extends Action {
         }
         nextEndTimeToSearch = query.getEndTime();
         
-        String status = "&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        String status = new StringBuilder().append("&nbsp;&nbsp;Total Logs gone through in last search: ")
+                                           .append(totalLogsSearched).append("<br>")
         //link for Next button, will fetch older logs
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                  + nextEndTimeToSearch + "');\">Search More</button>";
+                                           .append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('")
+                                           .append(nextEndTimeToSearch).append("');\">Search More</button>")
+                                           .toString();
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
         return emailLogs;
