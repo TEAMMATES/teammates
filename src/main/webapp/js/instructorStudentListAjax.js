@@ -55,9 +55,9 @@ var seeMoreRequest = function(e) {
     var panelCollapse = $(this).parent().children('.panel-collapse');
     var panelBody = $(panelCollapse[0]).children('.panel-body');
     var displayIcon = $(this).children('.display-icon');
-    var courseIdx = $(panelCollapse[0]).attr("id").split('-')[1];
-    var courseCheck = $('#course_check-' + courseIdx);
-    var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
+    var courseIndex = $(panelCollapse[0]).attr("id").split('-')[1];
+    var courseCheck = $('#course_check-' + courseIndex);
+    var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
     
     if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();

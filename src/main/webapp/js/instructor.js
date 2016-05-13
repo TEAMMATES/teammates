@@ -217,7 +217,7 @@ function bindErrorImages(elements) {
 function bindStudentPhotoLink(elements) {
     $(elements).on('click', function(event) {
         if (!event) {
-            var event = window.event;
+            event = window.event;
         }
         
         event.cancelBubble = true;

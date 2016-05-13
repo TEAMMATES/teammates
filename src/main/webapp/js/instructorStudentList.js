@@ -113,11 +113,11 @@ $(document).ready(function() {
             $('input[id^="course_check"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().remove();
-            var headings = $('.panel-heading');
-            for (var idx = 0; idx < headings.length; idx++) {
-                var className = $(headings[idx]).attr('class');
+            var heads = $('.panel-heading');
+            for (var i = 0; i < heads.length; i++) {
+                var className = $(heads[i]).attr('class');
                 if (className.indexOf('ajax_submit') === -1) {
-                    $(headings[idx]).trigger('click');
+                    $(heads[i]).trigger('click');
                 }
             }
         }

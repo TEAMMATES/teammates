@@ -1122,20 +1122,22 @@ function updateNumScalePossibleValues(questionNumber) {
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + (possibleValuesCount - 1) * step;
     var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
+    var possibleValuesString;
     if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');
-        var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
-                                   ' is not divisible by the specified increment.]';
 
         if (isNaN(min) || isNaN(max) || isNaN(step)) {
             possibleValuesString = '[Please enter valid numbers for all the options.]';
+        } else {
+            possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString()
+                                 + ' is not divisible by the specified increment.]';
         }
 
         $numScalePossibleValues.text(possibleValuesString);
         return false;
     }
     $numScalePossibleValues.css('color', 'black');
-    var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+    possibleValuesString = '[Based on the above settings, acceptable responses are: ';
     
     // step is 3 d.p. at most, so round it after * 1000. 
     if (possibleValuesCount > 6) {

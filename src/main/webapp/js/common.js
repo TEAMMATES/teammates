@@ -261,14 +261,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     store.sort(function(x, y) {
-        if (ascending === true) {
-            var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            }
-            return compareResult;
-        }
-        var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
+        var compareResult = ascending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
+                                      : comparator(y[0].toUpperCase(), x[0].toUpperCase());
         if (compareResult === 0) {
             return x[2] - y[2];
         }
@@ -284,8 +278,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     // Must push to target tbody else it will generate a new tbody for the table
-    for (var i = 0; i < store.length; i++) {
-        $tbody.get(0).appendChild(store[i][1]);
+    for (var j = 0; j < store.length; j++) {
+        $tbody.get(0).appendChild(store[j][1]);
     }
     
     store = null;
