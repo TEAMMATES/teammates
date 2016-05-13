@@ -69,7 +69,7 @@ public abstract class SearchQuery {
         boolean isStartQuote = false;
         for (int i = 0; i < splitStrings.length; i++){
             if (!splitStrings[i].equals("\"")) {
-                if(isStartQuote){
+                if (isStartQuote) {
                     key.append(' ').append(splitStrings[i]);
                 } else {
                     keywords.add(splitStrings[i]);

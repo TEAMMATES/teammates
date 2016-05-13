@@ -206,7 +206,7 @@ public class AdminActivityLogPageAction extends Action {
         
         String statusString = status.toString();
         data.setStatusForAjax(statusString );
-        statusToUser.add(new StatusMessage(statusString , StatusMessageColor.INFO));
+        statusToUser.add(new StatusMessage(statusString, StatusMessageColor.INFO));
     }
 
     /**

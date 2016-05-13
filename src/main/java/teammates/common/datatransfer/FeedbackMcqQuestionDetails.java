@@ -460,7 +460,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
                      .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100*(double) entry.getValue() / responses.size())).append(Const.EOL);
+                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
         }
         
         csv.append("Choice, Response Count, Percentage").append(Const.EOL)

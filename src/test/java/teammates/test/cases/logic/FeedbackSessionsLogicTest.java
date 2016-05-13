@@ -466,14 +466,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor2OfCourse1").googleId);
         
         detailsMap.clear();
-        actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
+            actualSessionsBuilder.append(details.feedbackSession.toString());
             detailsMap.put(
                     details.feedbackSession.feedbackSessionName + "%" +
                     details.feedbackSession.courseId,
                     details);
         }
+        actualSessions = actualSessionsBuilder.toString();
         
         AssertHelper.assertContains(expectedSessions, actualSessions);   
         

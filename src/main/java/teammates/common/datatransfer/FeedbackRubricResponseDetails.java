@@ -91,7 +91,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ").append(chosenChoice)
-                    .append(" <span class=\"color_neutral\"><i>(Choice ").append(chosenIndex+1)
+                    .append(" <span class=\"color_neutral\"><i>(Choice ").append(chosenIndex + 1)
                     .append(")</i></span><br>");
             }
             

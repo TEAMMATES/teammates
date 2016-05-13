@@ -286,14 +286,14 @@ public class ActivityLogEntry {
                 iconRole.append(
                     "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
-        } else if(role.contains("Student")){
+        } else if (role.contains("Student")) {
             iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>");
             if (role.contains("(M)")) {
                 iconRole.append("-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
-        } else if(role.contains("Unregistered")){
+        } else if (role.contains("Unregistered")) {
             iconRole.append("<span class = \"glyphicon glyphicon-user\"></span>");
-        } else if(role.contains("Auto")){
+        } else if (role.contains("Auto")) {
             iconRole.append("<span class = \"glyphicon glyphicon-cog\"></span>");
         } else {
             iconRole.append(role);

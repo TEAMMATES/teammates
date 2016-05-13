@@ -718,8 +718,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             possibleValuesString
                 .append(StringHelper.toDecimalFormatString(minScale)).append(", ")
                 .append(StringHelper.toDecimalFormatString(minScale + step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + 2*step)).append(", ..., ")
-                .append(StringHelper.toDecimalFormatString(maxScale - 2*step)).append(", ")
+                .append(StringHelper.toDecimalFormatString(minScale + 2 * step)).append(", ..., ")
+                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step)).append(", ")
                 .append(StringHelper.toDecimalFormatString(maxScale - step)).append(", ")
                 .append(StringHelper.toDecimalFormatString(maxScale));
         } else {

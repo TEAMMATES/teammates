@@ -314,7 +314,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         if (this.distributeToRecipients) {
             additionalInfo.append(this.getQuestionTypeDisplayName()).append("<br>");
-        } else if(numOfConstSumOptions > 0) {
+        } else if (numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
                 String optionFragment = 
@@ -509,7 +509,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else {
             for (int i = 0; i < points.size(); i++){
                 pointsReceived.append(points.get(i));
-                if(i != points.size() - 1) {
+                if (i != points.size() - 1) {
                     pointsReceived.append(" , ");
                 }
             }

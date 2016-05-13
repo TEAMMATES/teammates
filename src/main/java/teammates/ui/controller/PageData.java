@@ -743,7 +743,7 @@ public class PageData {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
-        } else if(session.isClosed()) {
+        } else if (session.isClosed()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
