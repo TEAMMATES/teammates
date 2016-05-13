@@ -277,7 +277,7 @@ public class ActivityLogEntry {
     }
     
     
-    public String getIconRoleForShow(){
+    public String getIconRoleForShow() {
         StringBuilder iconRole = new StringBuilder(100);
         
         if (role.contains("Instructor")) {
@@ -428,7 +428,7 @@ public class ActivityLogEntry {
    }
     
     
-    public String getUrlToShow(){
+    public String getUrlToShow() {
         //If not in masquerade mode, add masquerade mode
         if (!url.contains("user=")) {
             StringBuilder urlToShow = new StringBuilder(); 
@@ -586,7 +586,7 @@ public class ActivityLogEntry {
     }
     
     
-    public String getLogInfoForTableRowAsHtml(){
+    public String getLogInfoForTableRowAsHtml() {
         return "<tr" + (isFirstRow ? " id=\"first-row\"" : "" ) + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 

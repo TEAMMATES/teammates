@@ -524,7 +524,7 @@ public class StudentsLogic {
         }
 
         StringBuilder errorMessage = new StringBuilder(100);
-        for (String team : invalidTeamList){
+        for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
         }
         if (!errorMessage.equals("")) {

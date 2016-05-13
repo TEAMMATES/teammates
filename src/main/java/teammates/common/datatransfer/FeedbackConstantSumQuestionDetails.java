@@ -499,7 +499,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Collections.sort(points);
         StringBuilder pointsReceived = new StringBuilder();
         if (points.size() > 10) {
-            for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 5; i++) {
                 pointsReceived.append(points.get(i)).append(" , ");
             }
             pointsReceived.append("...");

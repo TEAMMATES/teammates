@@ -236,7 +236,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for all courses
      */
-    public static String allCourses(){
+    public static String allCourses() {
         StringBuilder output = new StringBuilder(100); 
         output.append("\"courses\":{\n");
         for (int i = 0; i < courses.size(); i++) {
@@ -251,7 +251,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for all students
      */
-    public static String allStudents(){
+    public static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100); 
         outputBuilder.append("\"students\":{\n");
         for (int i = 0; i < students.size(); i++) {
