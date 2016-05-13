@@ -83,7 +83,7 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The submission status of the student for a given feedback session as a String.
      */
-    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
+    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
@@ -104,19 +104,19 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The hover message to explain feedback session submission status.
      */
-    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
+    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         StringBuilder msg = new StringBuilder();
         
         Boolean isAwaiting = session.isWaitingToOpen();
         
         if (isAwaiting) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING);
-        } else if (hasSubmitted){
+        } else if (hasSubmitted) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
         }        
-        if (session.isClosed()){
+        if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
         if (session.isPublished()) {

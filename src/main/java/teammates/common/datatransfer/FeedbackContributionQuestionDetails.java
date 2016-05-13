@@ -147,9 +147,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if (view.equals("question")){//for instructor, only question view has stats.
+        if (view.equals("question")) { //for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
-        } else if (view.equals("student")){//Student view of stats.
+        } else if (view.equals("student")) { //Student view of stats.
             return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
@@ -161,7 +161,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ){
+        if (responses.size() == 0 ) {
             return "";
         }
     
@@ -190,7 +190,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
-        if (currentUserTeamResults == null){
+        if (currentUserTeamResults == null) {
             return "";
         }
 
@@ -219,7 +219,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ){
+        if (responses.size() == 0 ) {
             return "";
         }
     
@@ -252,7 +252,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses) {
             if (bundle.visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
@@ -262,7 +262,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         StringBuilder contribFragments = new StringBuilder();
         
-        for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
+        for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
             String name = bundle.roster.getStudentForEmail(email).name;
@@ -280,7 +280,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for (int i = 0; i < incomingPoints.length; i++){
+            for (int i = 0; i < incomingPoints.length; i++) {
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
             contribFragments.append(FeedbackQuestionFormTemplates.populateTemplate(
@@ -311,7 +311,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         
         
-        if (responses.size() == 0 ){
+        if (responses.size() == 0 ) {
             return "";
         }
     
@@ -344,7 +344,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses) {
             if (bundle.visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
@@ -356,7 +356,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         StringBuilder contribFragments = new StringBuilder();
         Map<String, String> sortedMap = new TreeMap<String, String>();
         
-        for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
+        for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
             String name = bundle.roster.getStudentForEmail(email).name;
@@ -381,7 +381,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for (int i = 0; i < incomingPoints.length; i++){
+            for (int i = 0; i < incomingPoints.length; i++) {
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
                      
@@ -402,7 +402,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
         }
 
-        for ( Map.Entry<String, String> entry : sortedMap.entrySet()){
+        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
             contribFragments.append(entry.getValue());
         }
         
@@ -435,7 +435,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return A Map with student email as key and StudentResultSummary as value for the specified question.
      */
     public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
-            FeedbackQuestionAttributes question){
+            FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
 
@@ -458,7 +458,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return A Map with student email as key and TeamEvalResult as value for the specified question.
      */
     public Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
-            FeedbackQuestionAttributes question){
+            FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
 
@@ -481,11 +481,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             Map<String, List<String>> teamMembersEmail,
             Map<String, TeamEvalResult> teamResults) {
         Map<String, StudentResultSummary> studentResults = new LinkedHashMap<String, StudentResultSummary>();
-        for (Map.Entry<String, TeamEvalResult> entry : teamResults.entrySet()){
+        for (Map.Entry<String, TeamEvalResult> entry : teamResults.entrySet()) {
             TeamEvalResult teamResult = entry.getValue();
             List<String> teamEmails = teamMembersEmail.get(entry.getKey());
             int i = 0;
-            for (String studentEmail : teamEmails){
+            for (String studentEmail : teamEmails) {
                 StudentResultSummary summary = new StudentResultSummary();
                 summary.claimedFromStudent = teamResult.claimed[i][i];
                 summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
@@ -503,7 +503,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     protected Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
-        for (String team : teamNames){
+        for (String team : teamNames) {
             TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(team));
             teamEvalResult.studentEmails = teamMembersEmail.get(team);
             teamResults.put(team, teamEvalResult);
@@ -515,22 +515,22 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             Map<String, List<String>> teamMembersEmail,
             Map<String, List<FeedbackResponseAttributes>> teamResponses) {
         Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String, int[][]>();
-        for (String team : teamNames){
+        for (String team : teamNames) {
             int teamSize = teamMembersEmail.get(team).size();
             teamSubmissionArray.put(team, new int[teamSize][teamSize]);
             //Initialize all as not submitted.
-            for (int i = 0; i < teamSize; i++){
-                for (int j = 0; j < teamSize; j++){
+            for (int i = 0; i < teamSize; i++) {
+                for (int j = 0; j < teamSize; j++) {
                     teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
                 }
             }
             //Fill in submitted points
             List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
-            for (FeedbackResponseAttributes response : teamResponseList){
+            for (FeedbackResponseAttributes response : teamResponseList) {
                 int giverIndx = memberEmailList.indexOf(response.giverEmail);
                 int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
-                if (giverIndx == -1 || recipientIndx == -1){
+                if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
                 int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
@@ -545,12 +545,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = 
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-        for (String teamName : teamNames){
+        for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }
-        for (FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses) {
             String team = bundle.emailTeamNameTable.get(response.giverEmail);
-            if (teamResponses.containsKey(team)){
+            if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
             }
         }
@@ -560,7 +560,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, List<String>> getTeamMembersEmail(
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
-        for (String teamName : teamNames){
+        for (String teamName : teamNames) {
             List<String> memberEmails = new ArrayList<String>(bundle.rosterTeamNameMembersTable.get(teamName));
             teamMembersEmail.put(teamName, memberEmails);
         }
@@ -571,7 +571,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
-        for (FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses) {
             String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giverEmail);
             if (!teamNames.contains(teamNameOfResponseGiver)) {
                 teamNames.add(teamNameOfResponseGiver);
@@ -587,18 +587,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String questionId = question.getId();
         //Get all actual responses for this question.
         responses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response : bundle.actualResponses){
-            if (response.feedbackQuestionId.equals(questionId)){
+        for (FeedbackResponseAttributes response : bundle.actualResponses) {
+            if (response.feedbackQuestionId.equals(questionId)) {
                 responses.add(response);
             }
         }
         return responses;
     }
     
-    private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
+    private static String getNormalizedPointsListColorizedDescending(int[] subs, int index) {
         List<String> result = new ArrayList<String>();
-        for (int i = 0; i < subs.length; i++){
-            if (i == index){
+        for (int i = 0; i < subs.length; i++) {
+            if (i == index) {
                 continue;
             }
             result.add(getPointsAsColorizedHtml(subs[i]));
@@ -609,6 +609,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         Collections.sort(result);
         Collections.reverse(result);
+
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
             if (resultString.length() != 0) {
@@ -619,10 +620,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return resultString.toString();
     }
     
-    private static String getNormalizedPointsListDescending(int[] subs, int index){
+    private static String getNormalizedPointsListDescending(int[] subs, int index) {
         List<String> result = new ArrayList<String>();
-        for (int i = 0; i < subs.length; i++){
-            if (i == index){
+        for (int i = 0; i < subs.length; i++) {
+            if (i == index) {
                 continue;
             }
             result.add(Integer.toString(subs[i]));
@@ -632,6 +633,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         Collections.sort(result);
         Collections.reverse(result);
+
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
             if (resultString.length() != 0) {
@@ -715,7 +717,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
-        for (FeedbackResponseAttributes response : responses){
+        for (FeedbackResponseAttributes response : responses) {
             boolean validAnswer = false;
             FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
             
@@ -728,7 +730,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if (validAnswer == false){
+            if (validAnswer == false) {
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
@@ -819,10 +821,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * Returns the options for contribution share in a team. 
      */
-    private String getContributionOptionsHtml(int points){
+    private String getContributionOptionsHtml(int points) {
         if (points == Const.INT_UNINITIALIZED) {
             points = Const.POINTS_NOT_SUBMITTED;
         }
+
         StringBuilder result = new StringBuilder(200);
         result.append("<option class=\"")
               .append(getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED))
@@ -850,13 +853,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * Return the CSS color of different point
      */
-    private String getContributionOptionsColor(int points){
+    private String getContributionOptionsColor(int points) {
         if (points == Const.POINTS_NOT_SURE
                 || points == Const.POINTS_EQUAL_SHARE
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
             return "color_neutral";
-        } else if ( points < Const.POINTS_EQUAL_SHARE){
+        } else if ( points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
         } else {

@@ -19,21 +19,21 @@ public class AdminEmailTrashAction extends Action {
         String redirect = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT);
         redirect = redirect == null ? Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE : redirect; // NOPMD
         
-        if (redirect.contains("sentpage")){
+        if (redirect.contains("sentpage")) {
             redirect = Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE;
-        } else if (redirect.contains("draftpage")){
+        } else if (redirect.contains("draftpage")) {
             redirect = Const.ActionURIs.ADMIN_EMAIL_DRAFT_PAGE;
         } else {
             redirect = Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE;
         }
         
-        if (emailId == null || emailId.isEmpty()){
+        if (emailId == null || emailId.isEmpty()) {
             statusToAdmin = "Invalid parameter : email id cannot be null or empty";
             statusToUser.add(new StatusMessage("Invalid parameter : email id cannot be null or empty", StatusMessageColor.DANGER));
             return createRedirectResult(redirect);     
         }
         
-        if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH)){
+        if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH)) {
             try {
                 logic.moveAdminEmailToTrashBin(emailId);
                 statusToAdmin = "Email with id" + emailId + " has been moved to trash bin";
@@ -44,7 +44,7 @@ public class AdminEmailTrashAction extends Action {
             
             return createRedirectResult(redirect);   
             
-        } else if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH)){
+        } else if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH)) {
             try {
                 logic.moveAdminEmailOutOfTrashBin(emailId);
                 statusToAdmin = "Email with id" + emailId + " has been moved out of trash bin";

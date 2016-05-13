@@ -40,7 +40,6 @@ function closeAllSections(count) {
 
 }
 
-
 jQuery(document).ready(function() {
 
     var offset = 220;
@@ -79,8 +78,8 @@ function toggleFilter() {
     var button = $("#detailButton").attr("class");
     
     if (button === "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-    $("#referenceText").text("Hide Filter");
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
+        $("#referenceText").text("Hide Filter");
     } else {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Filter");

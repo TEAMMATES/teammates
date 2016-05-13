@@ -27,7 +27,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         

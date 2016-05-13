@@ -130,7 +130,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
     }
     
-    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToAdd){
+    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToAdd) {
         List<String> sectionNames = null;
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);

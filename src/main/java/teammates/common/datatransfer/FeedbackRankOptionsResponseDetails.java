@@ -24,7 +24,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                                        FeedbackQuestionDetails questionDetails, 
                                        String[] answer) {
         List<Integer> rankAnswer = new ArrayList<Integer>();
-        for (int i = 0; i < answer.length; i++){
+        for (int i = 0; i < answer.length; i++) {
             try {
                 rankAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {

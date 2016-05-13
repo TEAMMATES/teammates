@@ -143,7 +143,7 @@ public class Sanitizer {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list){ 
+    public static List<String> sanitizeForHtml(List<String> list) { 
         List<String> sanitizedList = new ArrayList<String>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
@@ -154,7 +154,7 @@ public class Sanitizer {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set){ 
+    public static Set<String> sanitizeForHtml(Set<String> set) { 
         Set<String> sanitizedSet = new TreeSet<String>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));

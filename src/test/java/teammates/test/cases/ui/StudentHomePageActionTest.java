@@ -33,7 +33,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
@@ -168,7 +168,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }
 
-    private StudentHomePageAction getAction(String... params) throws Exception{
+    private StudentHomePageAction getAction(String... params) throws Exception {
             return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

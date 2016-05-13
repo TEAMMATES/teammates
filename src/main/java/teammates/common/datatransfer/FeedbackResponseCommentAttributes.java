@@ -120,7 +120,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
-    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
     
@@ -131,7 +131,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /** 
      * Use only to match existing and known Comment
      */
-    public void setId(Long id){
+    public void setId(Long id) {
         this.feedbackResponseCommentId = id;
     }
     

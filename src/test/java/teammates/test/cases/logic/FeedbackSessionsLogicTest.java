@@ -73,7 +73,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
@@ -103,7 +103,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor () throws Exception{        
+    public void testGetFeedbackSessionsListForInstructor () throws Exception {        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
@@ -119,7 +119,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testIsFeedbackSessionHasQuestionForStudents () throws Exception{
+    public void testIsFeedbackSessionHasQuestionForStudents () throws Exception {
         // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
         
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
@@ -333,7 +333,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         
         assertEquals(questions1.size(), questions2.size());
-        for (int i = 0; i < questions1.size(); i++){
+        for (int i = 0; i < questions1.size(); i++) {
             FeedbackQuestionAttributes question1 = questions1.get(i);
             FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
@@ -356,7 +356,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     session1InCourse1.feedbackSessionName,
                     session1InCourse1.courseId, instructor2OfCourse1.email);
             signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e){
+        } catch (EntityAlreadyExistsException e) {
             ignoreExpectedException();
         }
         
@@ -446,7 +446,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         for (FeedbackSessionDetailsBundle details : detailsList) {
             if (details.feedbackSession.feedbackSessionName.equals(
-                    newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
+                    newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)) {
                 stats = details.stats;
                 break;
             }
@@ -2156,16 +2156,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     // Stringifies the visibility table for easy testing/comparison.
-    private String tableToString(Map<String, boolean[]> table){
+    private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
             tableStringBuilder.append('{')
-                       .append(entry.getKey().toString())
-                       .append("={")
-                       .append(String.valueOf(entry.getValue()[0]))
-                       .append(',')
-                       .append(String.valueOf(entry.getValue()[1]))
-                       .append( "}},");
+                              .append(entry.getKey().toString())
+                              .append("={")
+                              .append(String.valueOf(entry.getValue()[0]))
+                              .append(',')
+                              .append(String.valueOf(entry.getValue()[1]))
+                              .append( "}},");
         }
         String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {

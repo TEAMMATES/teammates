@@ -27,7 +27,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -86,7 +86,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorCourseStudentDetailsPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

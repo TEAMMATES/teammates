@@ -107,7 +107,8 @@ public class HttpRequestHelper {
     public static String getRequestedURL(HttpServletRequest req) {
         String link = req.getRequestURI();
         String query = req.getQueryString();
-        if (query != null && !query.trim().isEmpty()){
+
+        if (query != null && !query.trim().isEmpty()) {
             return link + "?" + query;
         }
         return link;

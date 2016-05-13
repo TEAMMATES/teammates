@@ -89,12 +89,12 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
-    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
+    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -112,7 +112,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
         }
         
@@ -130,7 +130,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -142,7 +142,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                                          .append(newStudentLine).append(Const.EOL).append("\t").toString();
         
         int counter = 0;
-        while (counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
         
@@ -151,7 +151,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
 
             //Verify no tasks sent to the task queue
             if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())){
+                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())) {
                 break;
             }
             counter++;
@@ -175,7 +175,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         verifyPresentInDatastore(updatedAttributes);
 
         //Verify no tasks sent to task queue 
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -194,18 +194,18 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines = "Section | Team | Name | Email | Comment" + studentInTeam1.toEnrollmentString();
         
         counter = 0;
-        while (counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, studentInTeam1.course);
             
             //Verify scheduling of adjustment of responses
             if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())){
+                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())) {
                 break;
             }
             counter++;
         }
-        if (counter == 10){
+        if (counter == 10) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
                         fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size());
         }
@@ -234,7 +234,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
 
         //Verify no task sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
     }

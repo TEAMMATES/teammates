@@ -41,7 +41,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other MSQ question related UI tests here.
@@ -210,7 +210,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
 
         ______TS("MSQ: qn delete then cancel");
 

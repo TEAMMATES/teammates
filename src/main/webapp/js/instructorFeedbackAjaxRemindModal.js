@@ -12,7 +12,7 @@ $(document).ready(function() {
                 $('#remindModal input[type="submit"]').prop('disabled', true).prop('value', 'Loading...');
             },
             error: function() {
-                $('#studentList').html('Error retrieving student list.' + 
+                $('#studentList').html('Error retrieving student list.' +
                   'Please close the dialog window and try again.');
             },
             success: function(data) {

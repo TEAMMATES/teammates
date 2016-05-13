@@ -29,18 +29,18 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
      * @param results
      * @return studentResultBundle containing information related to matched students only.
      */   
-    public InstructorSearchResultBundle getInstructorsfromResults(Results<ScoredDocument> results){
+    public InstructorSearchResultBundle getInstructorsfromResults(Results<ScoredDocument> results) {
         if (results == null) {
             return this;
         }
         
         cursor = results.getCursor();
         
-        for (ScoredDocument doc:results){
+        for (ScoredDocument doc:results) {
             InstructorAttributes instructor = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(), 
                                                                   InstructorAttributes.class);
             
-            if (instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null){
+            if (instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null) {
                 instructorsLogic.deleteDocument(instructor);
                 continue;
             }
@@ -55,23 +55,23 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
     }
     
     
-    private void sortInstructorResultList(){
+    private void sortInstructorResultList() {
         
         Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
             @Override
-            public int compare(InstructorAttributes ins1, InstructorAttributes ins2){
+            public int compare(InstructorAttributes ins1, InstructorAttributes ins2) {
                 int compareResult = ins1.courseId.compareTo(ins2.courseId);
-                if (compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }               
                 
                 compareResult = ins1.role.compareTo(ins2.role);
-                if (compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                 
                 compareResult = ins1.name.compareTo(ins2.name);
-                if (compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                       

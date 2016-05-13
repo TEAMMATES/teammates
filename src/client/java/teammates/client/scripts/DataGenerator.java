@@ -78,7 +78,7 @@ public class DataGenerator {
         File f;
         f = new File(filePath);
         // Create file if it does not exist
-        if (!f.exists()){
+        if (!f.exists()) {
             try {
                 f.createNewFile();
             } catch (IOException e) {
@@ -260,10 +260,10 @@ public class DataGenerator {
             String team  = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
-            outputBuilder.append('\t').append(
-                                            student(student, email, "Student " + index + " in " + course,
-                                                    "Team " + team, email.split("@")[0], "comment", 
-                                                    "courseIdOf_" + course, "profile"));
+            outputBuilder.append('\t')
+                         .append(student(student, email, "Student " + index + " in " + course,
+                                        "Team " + team, email.split("@")[0], "comment", 
+                                        "courseIdOf_" + course, "profile"));
             if (i != students.size() - 1)
                 outputBuilder.append(",\n");
         }
@@ -292,7 +292,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course (String objName, String id, String name){
+    public static String course (String objName, String id, String name) {
         return "\"" + objName + "\":{\"id\":\"" + id + "\",\"name\":\"" + name + "\"}";
     }
     

@@ -146,7 +146,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                 if (possibleRespondent instanceof StudentAttributes) {
                     StudentAttributes student = (StudentAttributes) possibleRespondent;
                     nonRespondentsEmails.add(student.email);
-                } else if (possibleRespondent instanceof InstructorAttributes){
+                } else if (possibleRespondent instanceof InstructorAttributes) {
                     InstructorAttributes instructor = (InstructorAttributes) possibleRespondent;
                     nonRespondentsEmails.add(instructor.email);
                 }

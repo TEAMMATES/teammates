@@ -1,5 +1,5 @@
 var STUDENT_LIMIT = 3000;
-var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT  + ' students. Please deselect some courses to view student list of other courses.';
+var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT + ' students. Please deselect some courses to view student list of other courses.';
 var numStudents = 0;
 
 function transportSectionChoices() {
