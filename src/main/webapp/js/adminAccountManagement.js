@@ -49,7 +49,7 @@ function updatePagination() {
         });
     }
     
-    $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+    $("div#pagination_top ul.pagination li a.pageNumber").each(function() {
         var pageNum = parseInt($(this).text());
         if (pageNum === currentPage) {
             $(this).parent().attr("class", "active");
