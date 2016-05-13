@@ -142,7 +142,7 @@ $(document).ready(function() {
             $('input[id^="team_check-"]').parent().hide();
         }
         applyFilters();
-    }); 
+    });
 
     // Binding for 'Select All' team option
     $('#team_all').on('change', function() {
@@ -175,7 +175,7 @@ function checkCourseBinding(e) {
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-'  + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().show();

@@ -5,11 +5,11 @@ QUnit.test('toggleSendRegistrationKey(courseID, email)', function(assert) {
 });
 
 QUnit.test('toggleSendRegistrationKeysConfirmation(courseID)', function(assert) {
-    //gives a popup, can't be tested
+    // gives a popup, can't be tested
     assert.expect(0);
 });
 
 QUnit.test('toggleDeleteStudentConfirmation(courseId, studentName)', function(assert) {
-    //gives a popup, can't be tested
+    // gives a popup, can't be tested
     assert.expect(0);
 });

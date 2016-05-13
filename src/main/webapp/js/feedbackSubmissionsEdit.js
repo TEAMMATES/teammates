@@ -49,8 +49,8 @@ $(document).ready(function() {
     });
                    
     $("input[id^='otherOptionText']").keyup(function() {
-    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
-    $('#' + idOfOtherOptionRadioButton).val($(this).val());
+        idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+        $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
@@ -91,7 +91,7 @@ function updateMcqOtherOptionField() {
     }
 }
 
-//Saves the value in the other option textbox for MSQ questions
+// Saves the value in the other option textbox for MSQ questions
 function updateMsqOtherOptionField() {
     var msqQuestionNums = getQuestionTypeNumbers('MSQ');
     
@@ -145,11 +145,11 @@ function prepareMCQQuestions() {
                 if ($(this).data('text') === "otherOptionText") {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
-                    } else {                      
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");
+                    } else {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                    }                   
+                    }
                 } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
                     $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
@@ -212,7 +212,6 @@ function prepareMSQQuestions() {
                 updateOtherOptionAttributes($(this), indexSuffix);
             });
         }
-        
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
@@ -253,16 +252,15 @@ function prepareMSQQuestions() {
     }
 }
 
-function updateOtherOptionAttributes(otherOption, indexSuffix) {   
+function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");
     } else {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
 }
-
 
 function prepareRubricQuestions() {
     prepareDesktopRubricQuestions();
@@ -280,11 +278,10 @@ function prepareDesktopRubricQuestions() {
         var $parentCell = $($rubricRadioInputs[i]).parent();
 
         $parentCell.hover(function() {
-                $(this).addClass('cell-hover');
-            }, function() {
-                $(this).removeClass('cell-hover');
-            }
-        );
+            $(this).addClass('cell-hover');
+        }, function() {
+            $(this).removeClass('cell-hover');
+        });
 
         $parentCell.click(function(event) {
             var $radioInput = $(this).find('[name^="rubricChoice-"]');
@@ -301,23 +298,23 @@ function prepareDesktopRubricQuestions() {
 
         // Bind refresh highlights on check
         $($rubricRadioInputs[i]).on('change', function(event, isSync) {
-                // Update all radio inputs in the same row.
-                var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
-                var tableRow = $(this).closest('tr');
+            // Update all radio inputs in the same row.
+            var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+            var tableRow = $(this).closest('tr');
 
-                if (tableRow.hasClass('row-answered')) {
-                    tableRow.removeClass('row-answered');
-                }
+            if (tableRow.hasClass('row-answered')) {
+                tableRow.removeClass('row-answered');
+            }
                 
-                for (var j = 0; j < $rowRadioInputs.length; j++) {
-                    updateRubricCellSelectedColor($rowRadioInputs[j]);
-                }
+            for (var j = 0; j < $rowRadioInputs.length; j++) {
+                updateRubricCellSelectedColor($rowRadioInputs[j]);
+            }
 
-                if (isSync === undefined) {
-                    // Sync mobile UI
-                    syncRubricsMobileUi(this);
-                }
-            });
+            if (isSync === undefined) {
+                // Sync mobile UI
+                syncRubricsMobileUi(this);
+            }
+        });
 
         // First time update of checked cells
         for (var j = 0; j < $rubricRadioInputs.length; j++) {
@@ -394,16 +391,16 @@ function syncRubricsMobileUi(changedInput) {
 /**
  * Syncs the desktop ui for rubrics on changes to the mobile ui
  */
- function syncRubricsDesktopUi(changedInput) {
-     var $changedInput = $(changedInput);
-     var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
-     var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
-     if ($changedInput.is(':checked')) {
-         $(desktopInputId).click();
-     } else {
-         $(desktopInputName).prop('checked', false);
-         $(desktopInputId).trigger('change', [true]);
-     }
+function syncRubricsDesktopUi(changedInput) {
+    var $changedInput = $(changedInput);
+    var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
+    var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
+    if ($changedInput.is(':checked')) {
+        $(desktopInputId).click();
+    } else {
+        $(desktopInputName).prop('checked', false);
+        $(desktopInputId).trigger('change', [true]);
+    }
 }
 
 /**
@@ -821,14 +818,13 @@ function validateRankQuestions() {
     return true;
 }
 
-
 function updateRankMessageQn(qnNum) {
     var isDistributingToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
     var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val(), 10);
 
     var numOptions = isDistributingToRecipients ? numRecipients
-                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10); 
+                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10);
 
     var areAllAnswersUnique;
     var allocatedRanks;
@@ -840,7 +836,6 @@ function updateRankMessageQn(qnNum) {
         isAllOptionsRanked = true;
     }
 
-
     function updateRankMessages($messageElement) {
         $messageElement.removeClass('text-color-red text-color-green text-color-blue');
 
@@ -850,7 +845,7 @@ function updateRankMessageQn(qnNum) {
             message += ' The same rank should not be given multiple times. ';
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked) {
-            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. ' 
+            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. '
                                                                              : 'options. ');
             $messageElement.addClass('text-color-blue');
         }

@@ -79,10 +79,10 @@ function filterResults(searchText) {
     // Reduce white spaces to only 1 white space
     searchText = (searchText.split('\\s+')).join(' ');
 
-    // all panel text will be sorted in post-order 
+    // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
 
-    // a stack that stores parent panels that are pending on 
+    // a stack that stores parent panels that are pending on
     // the search result from the child panels to decide show/hide
     var showStack = [];
 
@@ -99,7 +99,7 @@ function filterResults(searchText) {
 
         var panelParent = $(panel).parent().closest('div.panel');
 
-        // reset traversed parent panel stack & pending parent panel stack 
+        // reset traversed parent panel stack & pending parent panel stack
         // to the parent of current panel
         while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
             parentStack.pop();
@@ -224,8 +224,8 @@ function bindCollapseEvents(panels, numPanels) {
 }
 
 /**
- * For ajax error handling. 
- * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting 
+ * For ajax error handling.
+ * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting
  * the user to retry.
  */
 function displayAjaxRetryMessageForPanelHeading($element) {
