@@ -239,17 +239,16 @@ public class PerformanceProfiler extends Thread {
         BufferedWriter out = new BufferedWriter(fstream);
 
         for (String str : list) {
-            String lineStr = "";
+            StringBuilder lineStrBuilder = new StringBuilder();
             ArrayList<Float> arr = results.get(str);
             Float total = 0.0f;
             for (Float f : arr) {
                 total += f;
-                lineStr  += f + " , ";
+                lineStrBuilder.append(f).append(" , ");
             }
-            lineStr = lineStr.substring(0, lineStr.length()-3); //remove last comma
+            String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length()-3); //remove last comma
             Float average = total / arr.size();
-            lineStr = str + "| " +average + " | " + lineStr +"\n";
-            out.write(lineStr);
+            out.write(str + "| " +average + " | " + lineStr +"\n");
         }
         out.close();
     }
@@ -543,40 +542,40 @@ public class PerformanceProfiler extends Thread {
     @PerformanceTest(name = "BD get student")
     public String getStudent()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
         for (String studentKey : set)
         {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.getStudentAsJson(student.course, student.email);
+            status.append(' ').append(BackDoor.getStudentAsJson(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD get key for student")
     public String getKeyForStudent()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
         for (String studentKey : set)
         {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.getKeyForStudent(student.course, student.email);
+            status.append(' ').append(BackDoor.getKeyForStudent(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD edit student")
     public String editStudent()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
         for (String studentKey : set)
         {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.editStudent(student.email, student);
+            status.append(' ').append(BackDoor.editStudent(student.email, student));
         }
-        return status;
+        return status.toString();
     }
     
 
@@ -584,40 +583,40 @@ public class PerformanceProfiler extends Thread {
     @PerformanceTest(name = "BD delete student")
     public String deleteStudent()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
         for (String studentKey : set)
         {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.deleteStudent(student.course, student.email);
+            status.append(' ').append(BackDoor.deleteStudent(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
     
     
     @PerformanceTest(name = "BD Delete Course")
     public String deleteCourse()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.courses.keySet();
         for (String courseKey : set)
         {
             CourseAttributes course = data.courses.get(courseKey);
-            status += " " +BackDoor.deleteCourse(course.id);
+            status.append(' ').append(BackDoor.deleteCourse(course.id));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD Delete Instructor")
     public String deleteInstructor()
     {
-        String status = "";
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.instructors.keySet();
         for (String instructorKey : set)
         {
             InstructorAttributes instructor = data.instructors.get(instructorKey);
-            status += BackDoor.deleteInstructor(instructor.email, instructor.courseId);
+            status.append(BackDoor.deleteInstructor(instructor.email, instructor.courseId));
         }
-        return status;
+        return status.toString();
     }
 }
