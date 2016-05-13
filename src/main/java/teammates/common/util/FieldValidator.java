@@ -107,7 +107,6 @@ public class FieldValidator {
     private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
     public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME+" should not be empty.";
     
-    
     /*
      * ======================================================================= 
      * Field: Nationality
@@ -115,10 +114,6 @@ public class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
-    public static final String NATIONALITY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+NATIONALITY_FIELD_NAME+" because it %s. " +
-                    "The value of "+NATIONALITY_FIELD_NAME+" should be no longer than "+
-                    NATIONALITY_MAX_LENGTH+" characters. It should not be empty.";
     
     /*
      * =======================================================================
