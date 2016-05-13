@@ -260,6 +260,31 @@ public class FieldValidatorTest extends BaseTestCase {
         // - ensures error messages are correctly interpolated and returned
         testGetInvalidityInfoForPersonName();
         testGetInvalidityInfoForInstituteName();
+        testGetInvalidityInfoForNationality();
+    }
+
+    private void testGetInvalidityInfoForNationality() {
+        invalidityInfoFor_validNationality_shouldBeEmptyString();
+        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
+        String invalidCharNationality = "{ Invalid Char Nationality";
+        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
+        assertEquals("Nationality with invalid characters should return appropriate error string",
+                      String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                    invalidCharNationality,
+                                    FieldValidator.NATIONALITY_FIELD_NAME,
+                                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                    FieldValidator.NATIONALITY_FIELD_NAME),
+                      actual);
+
+    }
+
+    private void invalidityInfoFor_validNationality_shouldBeEmptyString() {
+        String validNationality = "Martian";
+        String actual = validator.getInvalidityInfoForNationality(validNationality);
+        assertEquals("Valid nationality should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfoForInstituteName() {
