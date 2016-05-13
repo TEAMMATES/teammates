@@ -138,8 +138,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                 "(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollLines += newStudentLine + Const.EOL + "\t";
+        enrollLines = new StringBuilder().append("Section | Team | Name | Email | Comment").append(Const.EOL)
+                                         .append(newStudentLine).append(Const.EOL).append("\t").toString();
         
         int counter = 0;
         while(counter != 10){
@@ -191,8 +191,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
-        enrollLines = "Section | Team | Name | Email | Comment";
-        enrollLines += studentInTeam1.toEnrollmentString();
+        enrollLines = "Section | Team | Name | Email | Comment" + studentInTeam1.toEnrollmentString();
         
         counter = 0;
         while(counter != 10){
@@ -216,9 +215,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Reset task count in TaskQueue callback
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
-        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL;
         String invalidStudentId = "t1|n6|e6@g@";
-        invalidEnrollLine += invalidStudentId + Const.EOL;
+        String invalidEnrollLine = new StringBuilder().append("Team | Name | Email | Comment").append(Const.EOL)
+                                                      .append(invalidStudentId).append(Const.EOL).toString();
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);

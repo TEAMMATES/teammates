@@ -47,19 +47,22 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: add and edit students for non-empty course");        
         
-        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL;
-        // A new student
-        enrollString += "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL;
-        // A new student with extra spaces in the team and name
-        enrollString += "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
-                        + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL;
-        // A student to be modified
-        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
-                        + "New comment added" + Const.EOL;
-        // An existing student with no modification
-        enrollString += "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t" + Const.EOL;
-        // An existing student, now with extra spaces, should cause no modification
-        enrollString += "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
+        enrollString = new StringBuilder()
+                        .append("Section | Team | Name | Email | Comment").append(Const.EOL)
+                        // A new student
+                        .append("Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student").append(Const.EOL)
+                        // A new student with extra spaces in the team and name
+                        .append("Section 3 \t Team   1\tstudent  with   extra  spaces  \t")
+                        .append("studentWithExtraSpaces@gmail.tmt\t").append(Const.EOL)
+                        // A student to be modified
+                        .append("Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t")
+                        .append("New comment added").append(Const.EOL)
+                        // An existing student with no modification
+                        .append("Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t")
+                        .append(Const.EOL)
+                        // An existing student, now with extra spaces, should cause no modification
+                        .append("Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t")
+                        .toString();
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -157,8 +160,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         String studentWithoutEnoughParam = "Team 1\tStudentWithNoEmailInput";
         String studentWithInvalidEmail = "Team 2\tBenjamin Tan\tinvalid.email.tmt";
-        enrollString = "Team | Name | Email" + Const.EOL;
-        enrollString += studentWithoutEnoughParam + Const.EOL + studentWithInvalidEmail;
+        enrollString = new StringBuilder().append("Team | Name | Email").append(Const.EOL)
+                                          .append(studentWithoutEnoughParam).append(Const.EOL)
+                                          .append(studentWithInvalidEmail).toString();
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,

@@ -58,7 +58,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                      redirectResult.getDestinationWithParams());
 
         ______TS("Typical case: edit course name with valid characters");
-        courseName = courseName + " valid";
+        courseName = new StringBuilder().append(courseName).append(" valid").toString();
         submissionParams = new String[] {
             Const.ParamsNames.COURSE_ID, courseId,
             Const.ParamsNames.COURSE_NAME, courseName
