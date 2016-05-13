@@ -258,7 +258,7 @@ $(document).ready(function() {
         toggleCollapse(this, panels);
     });
 
-    $('#results-search-box').keyup(function(e) {
+    $('#results-search-box').keyup(function() {
         updateResultsFilter();
     });
 
@@ -280,7 +280,7 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function(e) {
+    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 

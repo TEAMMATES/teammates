@@ -1,26 +1,26 @@
 QUnit.module('instructor.js');
 
-QUnit.test('toggleDeleteCourseConfirmation(courseID)', function(assert) {
+QUnit.test('toggleDeleteCourseConfirmation(courseID)', function() {
     // gives a popup, can't be tested
     expect(0);
 });
 
-QUnit.test('toggleDeleteEvaluationConfirmation(courseID, name)', function(assert) {
+QUnit.test('toggleDeleteEvaluationConfirmation(courseID, name)', function() {
     // N/A, displays popup
     expect(0);
 });
 
-QUnit.test('togglePublishEvaluation(name)', function(assert) {
+QUnit.test('togglePublishEvaluation(name)', function() {
     // N/A, uses elements in the page
     expect(0);
 });
 
-QUnit.test('toggleUnpublishEvaluation(name)', function(assert) {
+QUnit.test('toggleUnpublishEvaluation(name)', function() {
     // N/A, uses elements in the page
     expect(0);
 });
 
-QUnit.test('toggleRemindStudents(evaluationName)', function(assert) {
+QUnit.test('toggleRemindStudents(evaluationName)', function() {
     // N/A, uses elements in the page
     expect(0);
 });

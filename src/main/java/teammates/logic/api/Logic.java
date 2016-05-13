@@ -1354,18 +1354,33 @@ public class Logic {
     }
 
     /**
-     * Validate if the list of modified students will not create conflicts for the sections
+     * Validates if the list of modified students will not create conflicts for both the sections and teams
      * in a course 
      * Preconditions: <br>
      * * All parameters are non-null
      */
-    public void validateSections(List<StudentAttributes> studentList, String courseId) 
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) 
             throws EntityDoesNotExistException, EnrollException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentList);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        studentsLogic.validateSections(studentList, courseId);
+        studentsLogic.validateSectionsAndTeams(studentList, courseId);
+    }
+    
+    /**
+     * Validates if the list of modified students will not create conflicts for the teams
+     * in a course 
+     * Preconditions: <br>
+     * * All parameters are non-null
+     */
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) 
+            throws EntityDoesNotExistException, EnrollException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentList);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        studentsLogic.validateTeams(studentList, courseId);
     }
     
     public void putDocument(StudentAttributes student){
