@@ -616,7 +616,7 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
