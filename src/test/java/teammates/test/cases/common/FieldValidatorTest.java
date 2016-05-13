@@ -258,102 +258,35 @@ public class FieldValidatorTest extends BaseTestCase {
         // behavior tests for the specific field validation methods
         // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
         // - ensures error messages are correctly interpolated and returned
-        testGetInvalidityInfoForPersonName();
-        testGetInvalidityInfoForInstituteName();
-        testGetInvalidityInfoForNationality();
-        testGetInvalidityInfoForCourseName();
-        testGetInvalidityInfoForFeedbackSessionName();
-        testGetInvalidityInfoForGender();
+        testGetInvalidityInfo_PersonName();
+        testGetInvalidityInfo_InstituteName();
+        testGetInvalidityInfo_Nationality();
+        testGetInvalidityInfo_CourseName();
+        testGetInvalidityInfo_FeedbackSessionName();
+        testGetInvalidityInfo_Gender();
     }
 
-    private void testGetInvalidityInfoForGender() {
-        invalidityInfoFor_validGender_shouldBeEmptyString();
-        invalidityInfoFor_invalidGender_shouldReturnErrorString();
+    private void testGetInvalidityInfo_PersonName() {
+        invalidityInfoFor_validName_shouldBeEmptyString();
+        invalidityInfoFor_emptyName_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
-        String invalidGender = "alpha male";
-        String actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Invalid gender should return appropriate error stirng",
-                     String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidGender),
+    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
+        String emptyPersonName = "";
+        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
+        assertEquals("Empty person name should return appropriate error message",
+                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
+                                   FieldValidator.REASON_EMPTY),
                      actual);
     }
 
-    private void invalidityInfoFor_validGender_shouldBeEmptyString() {
-        String validGender = "other";
-        String actual = validator.getInvalidityInfoForGender(validGender);
-        assertEquals("Valid gender should return empty string", "", actual);
+    private void invalidityInfoFor_validName_shouldBeEmptyString() {
+        String validPersonName = "Mr Valid Name";
+        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
+        assertEquals("Valid person name should return empty string", "", actual);
     }
 
-    private void testGetInvalidityInfoForFeedbackSessionName() {
-        invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString();
-        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
-        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
-        assertEquals("Feedback session with too long name should return appropriate error message",
-                     String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
-                                   tooLongFeedbackSessionName,
-                                   FieldValidator.REASON_TOO_LONG),
-                     actual);
-    }
-
-    private void invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString() {
-        String validFeedbackSessionName = "Valid feedback session name";
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
-        assertEquals("Valid feedback session name should return empty string", "", actual);
-    }
-
-    private void testGetInvalidityInfoForCourseName() {
-        invalidityInfoFor_validCourseName_shouldbeEmptyString();
-        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
-        String invalidCharCourseName = "Vertical Bar | Course";
-        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
-        assertEquals("Course name with invalid character should return appropriate error string",
-                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                   invalidCharCourseName,
-                                   FieldValidator.COURSE_NAME_FIELD_NAME,
-                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                   FieldValidator.COURSE_NAME_FIELD_NAME),
-                     actual);
-    }
-
-    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
-        String validCourseName = "Introduction to Valid Course";
-        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
-        assertEquals("Valid course name should return empty string", "", actual);
-    }
-
-    private void testGetInvalidityInfoForNationality() {
-        invalidityInfoFor_validNationality_shouldBeEmptyString();
-        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
-        String invalidCharNationality = "{ Invalid Char Nationality";
-        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
-        assertEquals("Nationality with invalid characters should return appropriate error string",
-                      String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                    invalidCharNationality,
-                                    FieldValidator.NATIONALITY_FIELD_NAME,
-                                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                    FieldValidator.NATIONALITY_FIELD_NAME),
-                      actual);
-
-    }
-
-    private void invalidityInfoFor_validNationality_shouldBeEmptyString() {
-        String validNationality = "Martian";
-        String actual = validator.getInvalidityInfoForNationality(validNationality);
-        assertEquals("Valid nationality should return empty string", "", actual);
-    }
-
-    private void testGetInvalidityInfoForInstituteName() {
+    private void testGetInvalidityInfo_InstituteName() {
         invalidityInfoFor_validInstituteName_shouldBeEmptyString();
         invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
     }
@@ -373,23 +306,89 @@ public class FieldValidatorTest extends BaseTestCase {
                      actual);
     }
 
-    private void testGetInvalidityInfoForPersonName() {
-        invalidityInfoFor_validName_shouldBeEmptyString();
-        invalidityInfoFor_emptyName_shouldReturnErrorString();
+    private void testGetInvalidityInfo_Nationality() {
+        invalidityInfoFor_validNationality_shouldBeEmptyString();
+        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_validName_shouldBeEmptyString() {
-        String validPersonName = "Mr Valid Name";
-        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
-        assertEquals("Valid person name should return empty string", "", actual);
+    private void invalidityInfoFor_validNationality_shouldBeEmptyString() {
+        String validNationality = "Martian";
+        String actual = validator.getInvalidityInfoForNationality(validNationality);
+        assertEquals("Valid nationality should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
-        String emptyPersonName = "";
-        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
-        assertEquals("Empty person name should return appropriate error message",
-                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
-                                   FieldValidator.REASON_EMPTY),
+    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
+        String invalidCharNationality = "{ Invalid Char Nationality";
+        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
+        assertEquals("Nationality with invalid characters should return appropriate error string",
+                      String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                    invalidCharNationality,
+                                    FieldValidator.NATIONALITY_FIELD_NAME,
+                                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                    FieldValidator.NATIONALITY_FIELD_NAME),
+                      actual);
+    }
+
+    private void testGetInvalidityInfo_CourseName() {
+        invalidityInfoFor_validCourseName_shouldbeEmptyString();
+        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
+        String validCourseName = "Introduction to Valid Course";
+        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
+        assertEquals("Valid course name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
+        String invalidCharCourseName = "Vertical Bar | Course";
+        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
+        assertEquals("Course name with invalid character should return appropriate error string",
+                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                   invalidCharCourseName,
+                                   FieldValidator.COURSE_NAME_FIELD_NAME,
+                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                                   FieldValidator.COURSE_NAME_FIELD_NAME),
+                     actual);
+    }
+
+    private void testGetInvalidityInfo_FeedbackSessionName() {
+        invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString();
+        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString() {
+        String validFeedbackSessionName = "Valid feedback session name";
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
+        assertEquals("Valid feedback session name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
+        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
+        assertEquals("Feedback session with too long name should return appropriate error message",
+                     String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
+                                   tooLongFeedbackSessionName,
+                                   FieldValidator.REASON_TOO_LONG),
+                     actual);
+    }
+
+    private void testGetInvalidityInfo_Gender() {
+        invalidityInfoFor_validGender_shouldBeEmptyString();
+        invalidityInfoFor_invalidGender_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validGender_shouldBeEmptyString() {
+        String validGender = "other";
+        String actual = validator.getInvalidityInfoForGender(validGender);
+        assertEquals("Valid gender should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
+        String invalidGender = "alpha male";
+        String actual = validator.getInvalidityInfoForGender(invalidGender);
+        assertEquals("Invalid gender should return appropriate error stirng",
+                     String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidGender),
                      actual);
     }
 
