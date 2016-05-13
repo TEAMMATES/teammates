@@ -283,9 +283,9 @@ public class PerformanceProfiler extends Thread {
     @PerformanceTest(name = "Instructor add eval",customTimer = true)
     public Long instructorAddEval() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.add(Calendar.DATE, + 1);
+        cal.add(Calendar.DATE, +1);
         Date date1 = cal.getTime();
-        cal.add(Calendar.DATE, + 2);
+        cal.add(Calendar.DATE, +2);
         Date date2 = cal.getTime();
         long startTime = System.nanoTime();
         browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
