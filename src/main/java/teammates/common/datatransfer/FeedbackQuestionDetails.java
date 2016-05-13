@@ -65,7 +65,7 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," +"Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + "," 
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
                + this.getCsvHeader() + Const.EOL;

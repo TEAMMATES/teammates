@@ -27,7 +27,7 @@ public class EmailWorkerServlet extends WorkerServlet {
         EmailAction emailObj = null;
         int responseCode = Response.SC_OK;
         
-        log.info("Email worker activated for :"+ HttpRequestHelper.printRequestParameters(req));
+        log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
         switch(typeOfMail) {
             case FEEDBACK_CLOSING:
