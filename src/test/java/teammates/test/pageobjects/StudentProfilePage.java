@@ -220,4 +220,10 @@ public class StudentProfilePage extends AppPage {
         waitForElementVisibility(uploadEditModal);
     }
 
+    public void closeEditPictureModal() {
+        WebElement closeButton = browser.driver.findElement(By.className("close"));
+        waitForElementVisibility(closeButton);
+        closeButton.click();
+    }
+
 }

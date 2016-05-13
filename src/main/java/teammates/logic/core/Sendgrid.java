@@ -10,7 +10,6 @@ package teammates.logic.core;
 import java.net.HttpURLConnection;
 import java.util.*;
 import java.io.IOException;
-import java.util.Iterator;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;

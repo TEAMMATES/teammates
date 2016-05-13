@@ -936,7 +936,7 @@ public abstract class AppPage {
                 if (expectedStatus.equals(getStatus())) {
                     break;
                 }
-            } catch (StaleElementReferenceException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
             }
