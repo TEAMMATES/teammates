@@ -448,7 +448,7 @@ public class StudentsLogic {
 
     }
     
-    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId){
+    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
