@@ -117,15 +117,18 @@ public abstract class EmailAction {
                 
         String url = HttpRequestHelper.getRequestedURL(req);
     
-        String message = "<span class=\"color_red\">Servlet Action failure in "    + actionName + "<br>";
-        message += e.getMessage() + "</span>";
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null, message, url);
+        StringBuilder message = new StringBuilder(100);
+        message.append("<span class=\"color_red\">Servlet Action failure in ").append(actionName).append("<br>")
+               .append(e.getMessage()).append("</span>");
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null,
+                                                                 message.toString(), url);
         log.log(Level.INFO, activityLogEntry.generateLogMessage());
         log.severe(e.getMessage());
     }
 
     private String generateLogMessage(List<MimeMessage> emailsSent) throws Exception {
-        String logMessage = "Emails sent to:<br/>";
+        StringBuilder logMessage = new StringBuilder(100);
+        logMessage.append("Emails sent to:<br/>");
         
         Iterator<Entry<String, EmailData>> extractedEmailIterator = 
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -136,14 +139,14 @@ public abstract class EmailAction {
             String userEmail = extractedEmail.getKey();
             EmailData emailData = extractedEmail.getValue();
             
-            logMessage += emailData.userName + "<span class=\"bold\"> (" 
-                                + userEmail + ")</span>.<br/>";
+            logMessage.append(emailData.userName).append("<span class=\"bold\"> (") 
+                      .append(userEmail).append(")</span>.<br/>");
             if (!emailData.regKey.isEmpty()) {
-                logMessage += emailData.regKey + "<br/>";
+                logMessage.append(emailData.regKey).append("<br/>");
             }
         }
         
-        return logMessage;
+        return logMessage.toString();
     }
     
     private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails) throws Exception {

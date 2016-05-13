@@ -37,7 +37,7 @@ public class CompileLogs {
                                      .minLogLevel(LogLevel.ERROR);
         
         Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
-        String message = "";
+        StringBuilder message = new StringBuilder();
 
         int numberOfErrors = 0;
 
@@ -51,14 +51,14 @@ public class CompileLogs {
                 
                 if (LogService.LogLevel.FATAL.equals(logLevel) || LogService.LogLevel.ERROR.equals(logLevel)) {
                     numberOfErrors++;
-                    message += numberOfErrors + ". " +
-                                "Error Type: " + currentLog.getLogLevel().toString() + "<br/>" +
-                                "Error Message: " + currentLog.getLogMessage() + "<br/><br/>";
+                    message.append(numberOfErrors)
+                           .append(". Error Type: ").append(currentLog.getLogLevel().toString())
+                           .append("<br/>Error Message: ").append(currentLog.getLogMessage()).append("<br/><br/>");
                 }
             }
         }
 
-        return message;
+        return message.toString();
     }
 
     public void sendEmail(String logs) {
