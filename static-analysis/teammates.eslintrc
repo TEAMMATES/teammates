@@ -51,7 +51,7 @@
         "no-sparse-arrays": 2,        // disallow sparse arrays
         "no-unexpected-multiline": 2, // disallow confusing multiline expressions
         "no-unsafe-finally": 0,       // disallow control flow statements in finally blocks
-        "valid-jsdoc": 0,             // Ensure JSDoc comments are valid (off by default)
+        "valid-jsdoc": 0,             // Ensure JSDoc comments are valid
         "valid-typeof": 2,            // Ensure that the results of typeof are compared against a valid string
 
 
@@ -64,18 +64,18 @@
 
         "accessor-pairs": 0,        // enforce getter and setter pairs in objects
         "array-callback-return": 0, // enforce return statements in callbacks of array methods
-        "block-scoped-var": 0,      // treat var statements as if they were block scoped (off by default)
-        "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program (off by default)
+        "block-scoped-var": 0,      // treat var statements as if they were block scoped
+        "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program
         "consistent-return": 0,     // require return statements to either always or never specify values
         "curly": 0,                 // specify curly brace conventions for all control statements
         "dot-location": 0,          // enforce consistent newlines before and after dots
         "dot-notation": 0,          // encourages use of dot notation whenever possible
         "eqeqeq": 2,                // require the use of === and !==
-        "guard-for-in": 0,          // make sure for-in loops have an if statement (off by default)
+        "guard-for-in": 0,          // make sure for-in loops have an if statement
         "no-alert": 0,              // disallow the use of alert, confirm, and prompt
         "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
         "no-case-declarations": 2,  // disallow lexical declarations in case clauses
-        "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression (off by default)
+        "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression
         "no-empty-function": 0,     // disallow empty functions
         "no-empty-pattern": 2,      // disallow empty destructuring patterns
         "no-eval": 0,               // disallow use of eval()
@@ -131,13 +131,13 @@
         ////////// Variables //////////
 
         "init-declarations": 0,           // require or disallow initialization in var declarations
-        "no-catch-shadow": 0,             // disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
+        "no-catch-shadow": 0,             // disallow the catch clause parameter name being the same as a variable in the outer scope
         "no-delete-var": 2,               // disallow deletion of variables
         "no-label-var": 0,                // disallow labels that share a name with a variable
         "no-restricted-globals": 0,       // disallow specified global variables
         "no-shadow": 0,                   // disallow declaration of variables already declared in the outer scope
         "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
-        "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block
+        "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block 
         "no-undefined": 0,                // disallow the use of undefined as an identifier
         "no-use-before-define": 0,        // disallow use of variables before they are defined
 
@@ -145,7 +145,6 @@
         ////////// Whitespace Styles //////////
 
         "array-bracket-spacing": 2,                         // disallow space inside array brackets
-        "block-spacing": 0,                                 // enforce consistent spacing inside single-line blocks
         "comma-spacing": 2,                                 // disallow space before comma, require space after comma
         "computed-property-spacing": 2,                     // disallow space inside property brackets
         "key-spacing": 2,                                   // disallow space before colon, require space after colon in object literal properties
@@ -181,6 +180,7 @@
 
         ////////// Stylistic Issues //////////
 
+        "block-spacing": 0,             // enforce consistent spacing inside single-line blocks
         "brace-style": 0,               // enforce one true brace style
         "comma-style": 0,               // enforce one true comma style
         "consistent-this": 0,           // enforces consistent naming when capturing the current execution context
@@ -216,7 +216,7 @@
         "one-var-declaration-per-line": 0, // require or disallow newlines around var declarations
         "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely
         "operator-linebreak": 0,        // enforce consistent linebreak style for operators
-        "padded-blocks": 0,             // enforce padding within blocks (off by default)
+        "padded-blocks": 0,             // enforce padding within blocks
         "quote-props": 0,               // require quotes around object literal property names
         "quotes": 0,                    // specify whether double or single quotes should be used
         "require-jsdoc": 0,             // require JSDoc comments
