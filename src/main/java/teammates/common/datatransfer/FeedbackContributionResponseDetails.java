@@ -91,7 +91,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
         
         
-        String responseAnswerHtml = "";
+        StringBuilder responseAnswerHtml = new StringBuilder();
         
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
@@ -109,21 +109,22 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                         + "Response Id: " + actualResponse.getId());
             }
         } else {
-            responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                    teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
-    
             if (response.giverEmail.equals(response.recipientEmail)) {
                 StudentResultSummary studentResult = stats.get(response.giverEmail);
-                responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                        studentResult.claimedToInstructor);
+                responseAnswerHtml.append(FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                                  studentResult.claimedToInstructor));
                 if (studentResult != null) {
                     //For CONTRIB qns, We want to show PC if giver == recipient.
                     int pc = studentResult.perceivedToInstructor;
-                    responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+                    responseAnswerHtml.append(
+                            FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc));
                 }
+            } else {
+                responseAnswerHtml.append(FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                                teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
             }
         }
-        return responseAnswerHtml;
+        return responseAnswerHtml.toString();
     }
     
     private String getContributionQuestionResponseAnswerCsv(

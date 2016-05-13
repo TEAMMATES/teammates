@@ -369,7 +369,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         String html = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices){
@@ -402,14 +402,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double) entry.getValue() / responses.size()));
+                                "${percentage}", df.format(100*(double) entry.getValue() / responses.size())));
         }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments);
+                "${fragments}", fragments.toString());
         
         return html;
     }
@@ -424,8 +424,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder csv = new StringBuilder(100);
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices) {
@@ -458,16 +458,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
-                      + entry.getValue().toString() + ","
-                      + df.format(100*(double) entry.getValue() / responses.size()) + Const.EOL;
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
+                     .append(entry.getValue().toString()).append(',')
+                     .append(df.format(100*(double) entry.getValue() / responses.size())).append(Const.EOL);
         }
         
-        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        csv.append("Choice, Response Count, Percentage").append(Const.EOL)
+           .append(fragments.toString());
         
-        csv += fragments;
-        
-        return csv;
+        return csv.toString();
     }
     
     @Override

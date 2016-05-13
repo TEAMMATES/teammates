@@ -222,9 +222,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     private String getAnonName(FeedbackParticipantType type, String name) {
         String hash = getHashOfName(name);
-        String anonName = type.toSingularFormString();
-        anonName = "Anonymous " + anonName + " " + hash;
-        return anonName;
+        String typeSingularForm = type.toSingularFormString();
+        return "Anonymous " + typeSingularForm + " " + hash;
     }
 
     private String getHashOfName(String name) {

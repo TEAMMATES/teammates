@@ -62,10 +62,10 @@ public class StudentAttributesFactory {
         int fieldCount = locateColumnIndexes(headerRow);
 
         if (fieldCount < MIN_FIELD_COUNT || !hasTeam || !hasName || !hasEmail) {
-            String missingField = "";
-            missingField = hasTeam ? missingField : missingField + " <mark>Team</mark>";
-            missingField = hasName ? missingField : missingField + " <mark>Name</mark>";
-            missingField = hasEmail ? missingField : missingField + " <mark>Email</mark>";
+            StringBuilder missingField = new StringBuilder(100);
+            missingField.append(hasTeam ? missingField : missingField).append(" <mark>Team</mark>")
+                        .append(hasName ? missingField : missingField).append(" <mark>Name</mark>")
+                        .append(hasEmail ? missingField : missingField).append(" <mark>Email</mark>");
             throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField);
         }
     }

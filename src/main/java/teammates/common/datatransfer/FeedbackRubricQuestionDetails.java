@@ -686,7 +686,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
-        String detailedResponsesRow = "";
+        StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "", chosenChoiceValue = "";
@@ -699,21 +699,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
-            detailedResponsesRow += Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
-                                    + "," + Sanitizer.sanitizeForCsv(chosenIndexString)
-                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceValue)
-                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
-                                    + Const.EOL;
+            detailedResponsesRow
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))).append(',')
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))).append(',')
+                .append(Sanitizer.sanitizeForCsv(chosenIndexString)).append(',')
+                .append(Sanitizer.sanitizeForCsv(chosenChoiceValue)).append(',')
+                .append(Sanitizer.sanitizeForCsv(chosenChoiceNumber))
+                .append(Const.EOL);
         }
         
-        return detailedResponsesRow;
+        return detailedResponsesRow.toString();
     }
 
     @Override

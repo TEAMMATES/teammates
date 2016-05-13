@@ -256,7 +256,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
         
         String html = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder(100);
         
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
@@ -270,16 +270,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             String option = entry.getKey();
             
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                                                                         "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
                                                                         "${ranksReceived}", ranksReceived,
-                                                                        "${averageRank}", df.format(average));
+                                                                        "${averageRank}", df.format(average)));
         
         }
  
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
                                                              "${optionRecipientDisplayName}", "Option",
-                                                             "${fragments}", fragments);
+                                                             "${fragments}", fragments.toString());
         
         return html;
     }
@@ -294,8 +294,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
@@ -305,14 +304,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
           
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
-            fragments += option + "," + df.format(average) + Const.EOL;
+            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
             
         }
-        
-        csv += "Option" + ", Average Rank" + Const.EOL 
-             + fragments + Const.EOL;
-        
-        return csv;
+
+        return "Option" + ", Average Rank" + Const.EOL 
+               + fragments.toString() + Const.EOL;
     }
 
     /**

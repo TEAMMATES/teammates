@@ -310,10 +310,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-        String additionalInfo = "";
+        StringBuilder additionalInfo = new StringBuilder();
         
         if(this.distributeToRecipients) {
-            additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
+            additionalInfo.append(this.getQuestionTypeDisplayName()).append("<br>");
         } else if(numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
@@ -324,26 +324,26 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 optionListHtml.append(optionFragment);
             }
             optionListHtml.append("</ul>");
-            additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+            additionalInfo.append(FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
-                "${msqAdditionalInfoFragments}", optionListHtml.toString());
+                "${msqAdditionalInfoFragments}", optionListHtml.toString()));
         
         }
         //Point information
-        additionalInfo += pointsPerOption? "Points per "+(distributeToRecipients?"recipient" : "option")+": " + points : "Total points: " + points;
+        additionalInfo.append(pointsPerOption 
+                              ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points 
+                              : "Total points: " + points);
 
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
-                "${questionAdditionalInfo}", additionalInfo);
+                "${questionAdditionalInfo}", additionalInfo.toString());
         
-        
-        return html;
     }
 
     @Override
@@ -358,8 +358,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return "";
         }
         
-        String html = "";
-        String fragments = "";
+        StringBuilder html = new StringBuilder();
+        StringBuilder fragments = new StringBuilder();
         List<String> options = constSumOptions;
         
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
@@ -377,34 +377,34 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
-                fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
-                        "${averagePoints}", df.format(average));
+                        "${averagePoints}", df.format(average)));
             
             } else {
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                                     "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
-                                    "${averagePoints}", df.format(average));
+                                    "${averagePoints}", df.format(average)));
             }
         }
         
         if (distributeToRecipients) {
-            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+            html.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     "${optionRecipientDisplayName}", "Recipient",
-                    "${fragments}", fragments);
+                    "${fragments}", fragments.toString()));
         } else {
-            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+            html.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                     "${optionRecipientDisplayName}", "Option",
-                    "${fragments}", fragments);
+                    "${fragments}", fragments.toString()));
         }
         
         
-        return html;
+        return html.toString();
     }
     
     
@@ -417,8 +417,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder csv = new StringBuilder();
+        StringBuilder fragments = new StringBuilder();
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
@@ -436,15 +436,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments += option + "," + 
-                         df.format(average) + Const.EOL;
+            fragments.append(option).append(',')
+                     .append(df.format(average)).append(Const.EOL);
             
         }
         
-        csv += (distributeToRecipients? "Team, Recipient" : "Option") + ", Average Points" + Const.EOL; 
-        csv += fragments + Const.EOL;
+        csv.append(distributeToRecipients ? "Team, Recipient" : "Option").append(", Average Points").append(Const.EOL) 
+           .append(fragments).append(Const.EOL);
         
-        return csv;
+        return csv.toString();
     }
 
     /**
@@ -497,24 +497,24 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      */
     private String getListOfPointsAsString(List<Integer> points) {
         Collections.sort(points);
-        String pointsReceived = "";
+        StringBuilder pointsReceived = new StringBuilder();
         if(points.size() > 10){
             for (int i = 0; i < 5; i++){
-                pointsReceived += points.get(i) + " , ";
+                pointsReceived.append(points.get(i)).append(" , ");
             }
-            pointsReceived += "...";
+            pointsReceived.append("...");
             for (int i = points.size() - 5; i < points.size(); i++){
-                pointsReceived += " , " + points.get(i);
+                pointsReceived.append(" , ").append(points.get(i));
             }
         } else {
             for (int i = 0; i < points.size(); i++){
-                pointsReceived += points.get(i);
+                pointsReceived.append(points.get(i));
                 if(i != points.size() - 1){
-                    pointsReceived += " , ";
+                    pointsReceived.append(" , ");
                 }
             }
         }
-        return pointsReceived;
+        return pointsReceived.toString();
     }
 
     private double computeAverage(List<Integer> points) {
