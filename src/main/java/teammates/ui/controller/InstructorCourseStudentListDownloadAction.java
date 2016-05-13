@@ -19,7 +19,7 @@ public class InstructorCourseStudentListDownloadAction extends Action {
         String fileContent = logic.getCourseStudentListAsCsv(courseId, account.googleId);
         String fileName = courseId + "_studentList";
         
-        statusToAdmin = "Students data for Course "+ courseId + " was downloaded";
+        statusToAdmin = "Students data for Course " + courseId + " was downloaded";
         
         return createFileDownloadResult(fileName, fileContent);
     }

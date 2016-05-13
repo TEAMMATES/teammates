@@ -56,10 +56,10 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  */
 function togglePublishEvaluation(name, isSendingPublishEmail) {
     if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?' +
+        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?' +
                    ' An email will be sent to students to inform them that the responses are ready for viewing.');
     }
-    return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?');
+    return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
 }
 
 /**
@@ -305,7 +305,7 @@ function bindStudentPhotoHoverLink(elements) {
 }
 
 function bindDeleteButtons() {
-    $('body').on('click', '.session-delete-for-test', function(e) {
+    $('body').on('click', '.session-delete-for-test', function() {
 
         var $button = $(this);
         var courseId = $button.data('courseid');
@@ -324,7 +324,7 @@ function bindRemindButtons() {
 }
 
 function bindPublishButtons() {
-    $('body').on('click', '.session-publish-for-test', function(e) {
+    $('body').on('click', '.session-publish-for-test', function() {
  
         var $button = $(this);
         var feedbackSessionName = $button.data('fsname');
@@ -335,7 +335,7 @@ function bindPublishButtons() {
 }
 
 function bindUnpublishButtons() {
-    $('body').on('click', '.session-unpublish-for-test', function(e) {
+    $('body').on('click', '.session-unpublish-for-test', function() {
         return toggleUnpublishEvaluation($(this).data('fsname'));
     });
 }

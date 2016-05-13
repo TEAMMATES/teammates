@@ -87,7 +87,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + student1InCourse1.email + 
-                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
+                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" + 
                 "New Email: " + newStudentEmail + 
                 "<br>New Team: " + newStudentTeam + 
                 "<br>Comments: " + newStudentComments + 
@@ -124,7 +124,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + newStudentEmail + 
-                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
+                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" + 
                 "New Email: " + newStudentEmailToBeTrimmed.trim() + 
                 "<br>New Team: " + newStudentTeamToBeTrimmed.trim() + 
                 "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() + 

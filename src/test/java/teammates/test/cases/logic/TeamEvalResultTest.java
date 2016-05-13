@@ -462,12 +462,12 @@ public class TeamEvalResultTest extends BaseTestCase {
     private void verifyCalculatePoints(int[][] input, int[][] expected) {
         TeamEvalResult t = new TeamEvalResult(input);
         String actual = pointsToString(t.normalizedClaimed)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + pointsToString(t.normalizedPeerContributionRatio)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + Arrays.toString(t.normalizedAveragePerceived) + EOL
                 + "=======================" + EOL
-                +pointsToString(t.denormalizedAveragePerceived);
+                + pointsToString(t.denormalizedAveragePerceived);
         actual = replaceMagicNumbers(actual);
         AssertJUnit.assertEquals(pointsToString(expected), actual);
     }

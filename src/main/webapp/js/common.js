@@ -577,7 +577,7 @@ function setStatusMessage(message, status) {
  * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-function appendStatusMessage(messages, error) {
+function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));
@@ -839,7 +839,7 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') != -1) {
+    if (className.indexOf('glyphicon-chevron-up') !== -1) {
         hideSingleCollapse($(e.currentTarget).attr('data-target'));
     } else {
         showSingleCollapse($(e.currentTarget).attr('data-target'));

@@ -388,7 +388,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -444,7 +444,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -477,7 +477,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
+        return "<option value = \"MCQ\">" + Const.FeedbackQuestionTypeNames.MCQ + "</option>";
     }
 
     @Override

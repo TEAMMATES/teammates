@@ -3,7 +3,7 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down") {
+    if (button === "glyphicon glyphicon-chevron-down") {
     $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Reference");
     } else {
@@ -38,7 +38,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {       
-                    $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime + "</mark>");
+                    $(link).parent().html(originalTime + "<mark><br>" + data.logLocalTime + "</mark>");
                 } else {
                     $(localTimeDisplay).html("Loading error, please retry");          
                 }

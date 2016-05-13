@@ -468,7 +468,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         cal.setTime(now);
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
         
-        System.out.print(formatTime(cal.getTime())+ "\n");
+        System.out.print(formatTime(cal.getTime()) + "\n");
         return formatTime(cal.getTime());
         
     }
