@@ -79,7 +79,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -264,9 +264,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
-        } else if(recipientType == FeedbackParticipantType.TEAMS){
+        } else if (recipientType == FeedbackParticipantType.TEAMS){
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
-        } else if(recipientType == FeedbackParticipantType.STUDENTS){
+        } else if (recipientType == FeedbackParticipantType.STUDENTS){
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
             response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {

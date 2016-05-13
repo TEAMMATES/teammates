@@ -178,7 +178,7 @@ public class AdminSessionsPageData extends PageData {
             status +=  "[Grace Period]";   
         }
           
-        status = status.isEmpty()? "No Status" : status;
+        status = status.isEmpty() ? "No Status" : status;
         
         return status;
         

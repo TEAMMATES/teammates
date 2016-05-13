@@ -243,14 +243,14 @@ public class FeedbackResponseCommentsLogic {
                 return true;
             } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
+            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
                 return true;
-            } else if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
+            } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
+            } else if (type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
                     && responseRecipientTeam.equals(currentUserTeam)) {
                 return true;
-            } else if(type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
+            } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
                 return true;
             }
         }   
@@ -351,7 +351,7 @@ public class FeedbackResponseCommentsLogic {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
-                                                + " is not a session for course "+ courseId + ".");
+                                                + " is not a session for course " + courseId + ".");
         }
     }
 

@@ -7,10 +7,11 @@
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
@@ -78,15 +79,15 @@ function filterResults(searchText) {
     // Reduce white spaces to only 1 white space
     searchText = (searchText.split('\\s+')).join(' ');
 
-    // all panel text will be sorted in post-order 
+    // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
 
-    // a stack that stores parent panels that are pending on 
+    // a stack that stores parent panels that are pending on
     // the search result from the child panels to decide show/hide
-    var showStack = new Array();
+    var showStack = [];
 
     // a stack that stores the parent panels that have been traversed so far
-    var parentStack = new Array();
+    var parentStack = [];
 
     for (var p = 0; p < allPanelText.length; p++) {
         var panelText = allPanelText[p];
@@ -98,7 +99,7 @@ function filterResults(searchText) {
 
         var panelParent = $(panel).parent().closest('div.panel');
 
-        // reset traversed parent panel stack & pending parent panel stack 
+        // reset traversed parent panel stack & pending parent panel stack
         // to the parent of current panel
         while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
             parentStack.pop();
@@ -109,7 +110,7 @@ function filterResults(searchText) {
         }
 
         // current panel text matches with the search text
-        if ($(panelText).text().toLowerCase().indexOf(searchText) != -1) {
+        if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
             // pop and show all parent panels from the showStack
             while (showStack.length > 0) {
                 var s = showStack.pop();
@@ -164,7 +165,7 @@ function toggleCollapse(e, panels) {
         isExpandingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
-            if ($(panels[idx]).attr('class').indexOf('in') == -1) {
+            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
 
                 // The timeout value '50' is being used in InstructorFeedbackResultsPage.verifyAllResultsPanelBodyVisibility()
                 // and InstructorFeedbackResultsPageUiTest.testPanelsCollapseExpand()
@@ -183,7 +184,7 @@ function toggleCollapse(e, panels) {
         isCollapsingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
-            if ($(panels[idx]).attr('class').indexOf('in') != -1) {
+            if ($(panels[idx]).attr('class').indexOf('in') !== -1) {
                 setTimeout(hideSingleCollapse, 100 * i, panels[idx]);
                 i++;
             }
@@ -206,11 +207,11 @@ function bindCollapseEvents(panels, numPanels) {
     for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
-        if (heading.length != 0 && bodyCollapse.length != 0) {
+        if (heading.length !== 0 && bodyCollapse.length !== 0) {
             numPanels++;
             // $(heading[0]).attr('data-toggle', 'collapse');
             // Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
-            if ($(heading[0]).attr('class') == 'panel-heading') {
+            if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
             }
             $(heading[0]).attr('data-target', '#panelBodyCollapse-' + numPanels);
@@ -223,8 +224,8 @@ function bindCollapseEvents(panels, numPanels) {
 }
 
 /**
- * For ajax error handling. 
- * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting 
+ * For ajax error handling.
+ * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting
  * the user to retry.
  */
 function displayAjaxRetryMessageForPanelHeading($element) {
@@ -257,13 +258,13 @@ $(document).ready(function() {
         toggleCollapse(this, panels);
     });
 
-    $('#results-search-box').keyup(function(e) {
+    $('#results-search-box').keyup(function() {
         updateResultsFilter();
     });
 
     // prevent submitting form when enter is pressed.
     $('#results-search-box').keypress(function(e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             return false;
         }
     });
@@ -279,7 +280,7 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function(e) {
+    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 

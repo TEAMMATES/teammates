@@ -77,7 +77,6 @@ var FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
 var FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
 var FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
 
-
 // Used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
@@ -229,7 +228,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
-        if ($RowList[i].cells[colIdx - 1] == undefined || $RowList[i].cells[colIdx - 1] == null) {
+        if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
         
@@ -250,7 +249,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
-    if (comparator == null) {
+    if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
             comparator = sortNum;
         } else if (columnType === 2) {
@@ -438,19 +437,18 @@ function getPointValue(s, ditchZero) {
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-
 /**
  * Checks if element is within browser's viewport.
- * @return true if it is within the viewport, false otherwise 
+ * @return true if it is within the viewport, false otherwise
  */
 function isWithinView(element) {
-    var viewHeight = window.innerHeight,
-        viewTop = window.scrollY,
-        viewBottom = viewTop + viewHeight;
+    var viewHeight = window.innerHeight;
+    var viewTop = window.scrollY;
+    var viewBottom = viewTop + viewHeight;
     
-    var elementHeight = element.offsetHeight,
-        elementTop = element.offsetTop,
-        elementBottom = elementTop + elementHeight;
+    var elementHeight = element.offsetHeight;
+    var elementTop = element.offsetTop;
+    var elementBottom = elementTop + elementHeight;
     
     return viewHeight >= elementHeight
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
@@ -466,7 +464,7 @@ function isWithinView(element) {
  *                 400 ms will be used if any other string is supplied.
  */
 function scrollToPosition(scrollPos, duration) {
-    if (duration === undefined) {
+    if (duration === undefined || duration === null) {
         $(window).scrollTop(scrollPos);
     } else {
         $('html, body').animate({ scrollTop: scrollPos }, duration);
@@ -476,7 +474,7 @@ function scrollToPosition(scrollPos, duration) {
 /**
  * Scrolls to an element.
  * Possible options are as follows:
- * 
+ *
  * @param element - element to scroll to
  * @param options - associative array with optional values:
  *                  * type: ['top'|'view'], defaults to 'top';
@@ -491,24 +489,24 @@ function scrollToElement(element, options) {
     var defaultOptions = { type: 'top', offset: 0, duration: 0 };
     
     options = options || {};
-    var type = options.type || defaultOptions.type,
-        offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
-        duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    var type = options.type || defaultOptions.type;
+    var offset = options.offset !== undefined ? options.offset : defaultOptions.offset;
+    var duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
     
     var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
         return;
     }
     
-    var navbar = document.getElementsByClassName('navbar')[0],
-        navbarHeight = navbar ? navbar.offsetHeight : 0;
-    var footer = document.getElementById('footerComponent'),
-        footerHeight = footer ? footer.offsetHeight : 0;
+    var navbar = document.getElementsByClassName('navbar')[0];
+    var navbarHeight = navbar ? navbar.offsetHeight : 0;
+    var footer = document.getElementById('footerComponent');
+    var footerHeight = footer ? footer.offsetHeight : 0;
     var windowHeight = window.innerHeight - navbarHeight - footerHeight;
     
-    var isElementTallerThanWindow = windowHeight < element.offsetHeight,
-        isFromAbove = window.scrollY < element.offsetTop,
-        isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
+    var isElementTallerThanWindow = windowHeight < element.offsetHeight;
+    var isFromAbove = window.scrollY < element.offsetTop;
+    var isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
     
     // default offset - from navbar / footer
     if (options.offset === undefined) {
@@ -575,9 +573,9 @@ function setStatusMessage(message, status) {
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
- * 
+ *
  */
-function appendStatusMessage(messages, error) {
+function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));
@@ -613,7 +611,7 @@ function sanitizeGoogleId(googleId) {
 /**
  * Check if the GoogleID is valid
  * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
- * 
+ *
  * @param googleId
  * @return {Boolean}
  */
@@ -624,7 +622,7 @@ function isValidGoogleId(googleId) {
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = matches != null && matches[0] === googleId;
+    isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -644,7 +642,7 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
 }
 
 /**
@@ -749,12 +747,11 @@ function sanitizeForJs(string) {
     return string;
 }
 
-
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section
  * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
- * @param searchKeyId - Id of searchKey input field 
- * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
+ * @param searchKeyId - Id of searchKey input field
+ * @param sectionToHighlight - sections to higlight separated by ',' (comma)
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
@@ -784,7 +781,7 @@ if (!String.prototype.includes) {
 
 /**
  * Checks if the input value is a blank string
- * 
+ *
  * @param str
  * @returns true if the input is a blank string, false otherwise
  */
@@ -798,16 +795,16 @@ function isBlank(str) {
 /**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
  * clickedElement must be at least the parent of the chevron.
- */ 
+ */
 function toggleChevron(clickedElement) {
     var $clickedElement = $(clickedElement);
     var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
     var $chevronContainer = $clickedElement.find(".glyphicon");
 
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
 
-    if (isChevronDown) { 
+    if (isChevronDown) {
         setChevronToUp($chevronContainer);
     } else {
         setChevronToDown($chevronContainer);
@@ -839,7 +836,7 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') != -1) {
+    if (className.indexOf('glyphicon-chevron-up') !== -1) {
         hideSingleCollapse($(e.currentTarget).attr('data-target'));
     } else {
         showSingleCollapse($(e.currentTarget).attr('data-target'));

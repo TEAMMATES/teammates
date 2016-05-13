@@ -124,12 +124,12 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
                         "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
                         "%</span>";
         } else {
@@ -742,7 +742,7 @@ public class PageData {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
         } else if (session.isWaitingToOpen()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
-        } else if(session.isClosed()) {
+        } else if (session.isClosed()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
         }
         
@@ -781,7 +781,7 @@ public class PageData {
         StringBuilder peopleCanView = new StringBuilder(100);
         for (int i = 0; i < comment.showCommentTo.size(); i++){
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
+            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
@@ -790,21 +790,21 @@ public class PageData {
                 peopleCanView.append("recipient, ");
                 break;
             case TEAM :
-                if(comment.recipientType == CommentParticipantType.TEAM) {
+                if (comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
             case SECTION :
-                if(comment.recipientType == CommentParticipantType.SECTION) {
+                if (comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
             case COURSE :
-                if(comment.recipientType == CommentParticipantType.COURSE) {
+                if (comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
@@ -818,7 +818,7 @@ public class PageData {
             }
         }
         String peopleCanViewString = peopleCanView.toString();
-        if(peopleCanViewString.isEmpty()) {
+        if (peopleCanViewString.isEmpty()) {
             return peopleCanViewString;
         }
         return removeEndComma(peopleCanViewString);

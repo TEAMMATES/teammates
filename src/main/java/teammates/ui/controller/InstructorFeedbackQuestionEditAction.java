@@ -67,7 +67,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
         logic.deleteFeedbackQuestion(updatedQuestion.getId());
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">("
+        statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber + " for session:<span class=\"bold\">("
                         + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
@@ -96,7 +96,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber 
+            statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber 
                             + " for session:<span class=\"bold\">("
                             + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                             + updatedQuestion.courseId + "]</span> edited.<br>"

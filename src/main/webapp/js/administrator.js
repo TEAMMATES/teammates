@@ -1,5 +1,5 @@
-/* 
- * This Javascript file is included in all administrator pages. Functions here 
+/*
+ * This Javascript file is included in all administrator pages. Functions here
  * should be common to the administrator pages.
  */
 
@@ -42,7 +42,7 @@ function verifyInstructorData() {
     $('[name="' + INSTRUCTOR_EMAIL + '"]').val(email);
     $('[name="' + INSTRUCTOR_INSTITUTION + '"]').val(institution);
 
-    if (googleID == "" || name == "" || email == "") {
+    if (googleID === "" || name === "" || email === "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!isValidGoogleId(googleID)) {
@@ -74,7 +74,7 @@ function getXMLObject() {
         }
     }
 
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
 
@@ -82,7 +82,7 @@ function getXMLObject() {
 }
 
 function handleLogout() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }
@@ -92,7 +92,7 @@ function isGoogleIDValid(googleID) {
     if (googleID.indexOf("\\") >= 0 || googleID.indexOf("'") >= 0
             || googleID.indexOf("\"") >= 0) {
         return false;
-    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) == null) {
+    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) === null) {
         return false;
     } else if (googleID.length > 29) {
         return false;
@@ -116,7 +116,6 @@ function showHideErrorMessage(s) {
     $("#" + s).toggle();
 }
 
-
 function toggleDeleteAccountConfirmation(googleId) {
     var rawList = document.getElementById('courses_' + googleId).innerHTML;
     var list = rawList.replace(/<br>/g, "\n").trim() + "\n\n";
@@ -139,8 +138,6 @@ jQuery(document).ready(function() {
             jQuery('.back-to-top-right').fadeOut(duration);
         }
     });
-
-
 
     jQuery('.back-to-top-left').click(function(event) {
         event.preventDefault();

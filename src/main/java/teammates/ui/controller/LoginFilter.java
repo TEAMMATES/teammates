@@ -22,7 +22,7 @@ public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         String param = filterConfig.getInitParameter("ExcludedFiles");
-        if(param == null) return;
+        if (param == null) return;
         String[] excludedFiles = param.split("[|]");
         exclude = new ArrayList<String>();
         for (int i = 0; i < excludedFiles.length; i++){
@@ -36,19 +36,20 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        
-        if(exclude.contains(req.getRequestURI())){
+        HttpServletRequest req = (HttpServletRequest) request; 
+        if (exclude.contains(req.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }
-        if(!Logic.isUserLoggedIn()){
+        if (!Logic.isUserLoggedIn()) {
             Utils.getLogger().info("User is not logged in");
             String link = req.getRequestURI();
             String query = req.getQueryString();
-            if(query!=null) link+="?"+query;
+
+            if (query != null) link += "?" + query;
             
             HttpServletResponse resp = (HttpServletResponse) response;
+
             resp.sendRedirect(Logic.getLoginUrl(link));
         } else {
             chain.doFilter(request, response);

@@ -39,14 +39,14 @@ public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient 
             // and makes it rewrite the entity to the database.
             // This re-creates indexes for the entity in the process.
             JDOHelper.makeDirty(instructor, "isArchived");
-            System.out.println(++i + ". Touched "+instructor.getEmail());
+            System.out.println(++i + ". Touched " + instructor.getEmail());
         }
         
         // Generate registration key if null
         i = 0;
         for (Instructor instructor : instructorList) {
             instructor.setGeneratedKeyIfNull();
-            System.out.println(++i + ". Added key for "+instructor.getEmail());
+            System.out.println(++i + ". Added key for " + instructor.getEmail());
         }
         
         

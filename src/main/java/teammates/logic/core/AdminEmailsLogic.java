@@ -76,7 +76,7 @@ public class AdminEmailsLogic {
         
         AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
         
-        if(adminEmailToUpdate != null){
+        if (adminEmailToUpdate != null){
             adminEmailToUpdate.isInTrashBin = true;
             adminEmailsDb.updateAdminEmail(adminEmailToUpdate);
         }
@@ -94,7 +94,7 @@ public class AdminEmailsLogic {
         
         AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
         
-        if(adminEmailToUpdate != null){
+        if (adminEmailToUpdate != null){
             adminEmailToUpdate.isInTrashBin = false;
             adminEmailsDb.updateAdminEmail(adminEmailToUpdate);
         }

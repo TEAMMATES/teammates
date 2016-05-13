@@ -26,15 +26,13 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     private int numberOfResults;
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
-    public CommentSearchResultBundle(){}
-    
     /**
      * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection.
      * The list of InstructorAttributes is used to filter out the search result.
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if(results == null) return this;
+        if (results == null) return this;
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
@@ -47,7 +45,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
-            if(commentsLogic.getComment(comment.getCommentId()) == null){
+            if (commentsLogic.getComment(comment.getCommentId()) == null){
                 commentsLogic.deleteDocument(comment);
                 continue;
             }
@@ -58,7 +56,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             boolean isGiver = giverEmailList.contains(comment.giverEmail);
             String giverAsKey = comment.giverEmail + comment.courseId;
             
-            if(!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)){
+            if (!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)){
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
             } else if (isGiver) {
@@ -67,14 +65,14 @@ public class CommentSearchResultBundle extends SearchResultBundle {
                 giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
             }
             
-            if(!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)){
+            if (!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)){
                 recipientName = "Anonymous";
             } else {
                 recipientName = extractContentFromQuotedString(recipientName);
             }
             
             List<CommentAttributes> commentList = giverCommentTable.get(giverAsKey);
-            if(commentList == null){
+            if (commentList == null){
                 commentList = new ArrayList<CommentAttributes>();
                 giverCommentTable.put(giverAsKey, commentList);
             }

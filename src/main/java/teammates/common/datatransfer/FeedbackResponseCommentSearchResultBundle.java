@@ -44,8 +44,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     
-    public FeedbackResponseCommentSearchResultBundle(){}
-    
     public Map<String, List<FeedbackQuestionAttributes>> getQuestions() {
         return questions;
     }
@@ -56,7 +54,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
-        if(results == null) return this;
+        if (results == null) return this;
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
@@ -73,13 +71,13 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
                     FeedbackResponseCommentAttributes.class);
-            if(frcLogic.getFeedbackResponseComment(comment.getId()) == null){
+            if (frcLogic.getFeedbackResponseComment(comment.getId()) == null){
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             comment.sendingState = CommentSendingState.SENT;
             List<FeedbackResponseCommentAttributes> commentList = comments.get(comment.feedbackResponseId);
-            if(commentList == null){
+            if (commentList == null){
                 commentList = new ArrayList<FeedbackResponseCommentAttributes>();
                 comments.put(comment.feedbackResponseId, commentList);
             }
@@ -89,16 +87,16 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackResponseAttributes response = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
                     FeedbackResponseAttributes.class);
-            if(frLogic.getFeedbackResponse(response.getId()) == null){
+            if (frLogic.getFeedbackResponse(response.getId()) == null){
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             List<FeedbackResponseAttributes> responseList = responses.get(response.feedbackQuestionId);
-            if(responseList == null){
+            if (responseList == null){
                 responseList = new ArrayList<FeedbackResponseAttributes>();
                 responses.put(response.feedbackQuestionId, responseList);
             }
-            if(!isAdded.contains(response.getId())){
+            if (!isAdded.contains(response.getId())){
                 isAdded.add(response.getId());
                 responseList.add(response);
             }
@@ -107,16 +105,16 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackQuestionAttributes question = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(), 
                     FeedbackQuestionAttributes.class);
-            if(fqLogic.getFeedbackQuestion(question.getId()) == null){
+            if (fqLogic.getFeedbackQuestion(question.getId()) == null){
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             List<FeedbackQuestionAttributes> questionList = questions.get(question.feedbackSessionName);
-            if(questionList == null){
+            if (questionList == null){
                 questionList = new ArrayList<FeedbackQuestionAttributes>();
                 questions.put(question.feedbackSessionName, questionList);
             }
-            if(!isAdded.contains(question.getId())){
+            if (!isAdded.contains(question.getId())){
                 isAdded.add(question.getId());
                 questionList.add(question);
             }
@@ -125,11 +123,11 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackSessionAttributes session = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
                     FeedbackSessionAttributes.class);
-            if(fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null){
+            if (fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null){
                 frcLogic.deleteDocument(comment);
                 continue;
             }
-            if(!isAdded.contains(session.feedbackSessionName)){
+            if (!isAdded.contains(session.feedbackSessionName)){
                 isAdded.add(session.feedbackSessionName);
                 sessions.put(session.getSessionName(), session);
             }
@@ -198,7 +196,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = null;
         for (FeedbackQuestionAttributes qn:questions.get(response.feedbackSessionName)){
-            if(qn.getId().equals(response.feedbackQuestionId)){
+            if (qn.getId().equals(response.feedbackQuestionId)){
                 question = qn;
                 break;
             }
@@ -209,24 +207,24 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response, 
             FeedbackResponseCommentAttributes comment){
         //in the old ver, name is always visible
-        if(comment.isVisibilityFollowingFeedbackQuestion){
+        if (comment.isVisibilityFollowingFeedbackQuestion){
             return true;
         }
         
         //comment giver can always see
-        if(instructorEmails.contains(comment.giverEmail)){
+        if (instructorEmails.contains(comment.giverEmail)){
             return true;
         }
         
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         for (FeedbackParticipantType type:showNameTo){
-            if(type == FeedbackParticipantType.GIVER
+            if (type == FeedbackParticipantType.GIVER
                     && instructorEmails.contains(response.giverEmail)){
                 return true;
-            } else if(type == FeedbackParticipantType.INSTRUCTORS
+            } else if (type == FeedbackParticipantType.INSTRUCTORS
                     && instructorCourseIdList.contains(response.courseId)){
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER
+            } else if (type == FeedbackParticipantType.RECEIVER
                     && instructorEmails.contains(response.recipientEmail)){
                 return true;
             }
@@ -236,14 +234,14 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo){
         //giver can always see
-        if(instructorEmails.contains(response.giverEmail)){
+        if (instructorEmails.contains(response.giverEmail)){
             return true;
         }
         for (FeedbackParticipantType type:showNameTo){
-            if(type == FeedbackParticipantType.INSTRUCTORS
+            if (type == FeedbackParticipantType.INSTRUCTORS
                     && instructorCourseIdList.contains(response.courseId)){
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER
+            } else if (type == FeedbackParticipantType.RECEIVER
                     && instructorEmails.contains(response.recipientEmail)){
                 return true;
             }

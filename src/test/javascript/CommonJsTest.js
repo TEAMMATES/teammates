@@ -84,8 +84,8 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
 
-    //isError = false: class = overflow-auto alert alert-warning
-    //isError = true: class = overflow-auto alert alert-danger
+    // isError = false: class = overflow-auto alert alert-warning
+    // isError = true: class = overflow-auto alert alert-danger
 
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
@@ -158,7 +158,7 @@ QUnit.test('isValidGoogleId(googleId)', function(assert) {
     assert.equal(isValidGoogleId(' hello@GMail.COm \t\n '), false, 'hello@gmail.com - invalid');
     assert.equal(isValidGoogleId('wrong!'), false, 'wrong! - invalid');
     assert.equal(isValidGoogleId('not*correct'), false, 'not*correct - invalid');
-    assert.equal(isValidGoogleId('is/not\correct'), false, 'is/not\correct - invalid');
+    assert.equal(isValidGoogleId('is/not\\correct'), false, 'is/not\\correct - invalid');
 });
 
 QUnit.test('isEmailValid(email)', function(assert) {
@@ -170,7 +170,7 @@ QUnit.test('isEmailValid(email)', function(assert) {
 });
 
 QUnit.test('isNameValid(name)', function(assert) {
-    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-\/ \\  '), true,
+    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true,
         'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
     assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
         'Maximum characters - valid');

@@ -8,7 +8,6 @@ function editFormRequest(e) {
     var formData = form.serialize();
     var index = $(this).attr("id").replace("instrEditLink", "");
     var editForm = $("#accessControlEditDivForInstr" + index);
-    var saveButton = $("#btnSaveInstructor" + index);
 
     $.ajax({
         type: 'POST',
@@ -24,7 +23,7 @@ function editFormRequest(e) {
             $(editButton).html(warningSign + ' ' + errorMsg);
         },
         success: function(data) {
-              var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
+            var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
             $(data).remove();
             $(editForm[0]).html(appendedData);
             displayIcon.html("");
@@ -33,7 +32,7 @@ function editFormRequest(e) {
             $(editButton).off('click');
             $(editButton).click({ instructorIndex: parseInt(index), total: instructorSize }, enableEditInstructor);
             $(editButton).trigger('click');
-        }    
+        }
     });
 
 }

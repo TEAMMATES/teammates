@@ -3,9 +3,9 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-    $("#referenceText").text("Hide Reference");
+    if (button === "glyphicon glyphicon-chevron-down") {
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
+        $("#referenceText").text("Hide Reference");
     } else {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
@@ -18,7 +18,7 @@ $(function() {
 
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = "logTimeInAdminTimeZone=" + time
-                 + "&logRole=" + role 
+                 + "&logRole=" + role
                  + "&logGoogleId=" + googleId;
     
     var link = $(entry);
@@ -33,14 +33,14 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
             $(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            $(localTimeDisplay).html("Loading error, please retry");          
+            $(localTimeDisplay).html("Loading error, please retry");
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {       
-                    $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime + "</mark>");
+                if (!data.isError) {
+                    $(link).parent().html(originalTime + "<mark><br>" + data.logLocalTime + "</mark>");
                 } else {
-                    $(localTimeDisplay).html("Loading error, please retry");          
+                    $(localTimeDisplay).html("Loading error, please retry");
                 }
                 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
@@ -87,7 +87,6 @@ function submitFormAjax(searchTimeOffset) {
         }
     });
 }
-
 
 function setFormErrorMessage(button, msg) {
     button.after("&nbsp;&nbsp;&nbsp;" + msg);

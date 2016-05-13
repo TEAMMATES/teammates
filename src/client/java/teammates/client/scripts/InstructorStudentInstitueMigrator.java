@@ -46,7 +46,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
         }
               
         
-        if(accountsList.size() == 0){
+        if (accountsList.size() == 0){
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
          
         }
@@ -57,7 +57,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     
     private void updateProgressIndicator(int total){
         counter++;
-        if(counter % PROGRESS_STEP == 0 || counter == total){
+        if (counter % PROGRESS_STEP == 0 || counter == total){
             System.out.printf("total accounts modified %d/%d \n", counter, total);
         }
     }

@@ -76,7 +76,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         InstructorFeedbackQuestionCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE+ "?courseid="+ instructor1ofCourse1.courseId
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      rr.getDestinationWithParams());
 

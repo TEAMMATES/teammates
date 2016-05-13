@@ -30,7 +30,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
      * @return studentResultBundle containing information related to matched students only.
      */   
     public InstructorSearchResultBundle getInstructorsfromResults(Results<ScoredDocument> results){
-        if(results == null) {
+        if (results == null) {
             return this;
         }
         
@@ -40,7 +40,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
             InstructorAttributes instructor = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(), 
                                                                   InstructorAttributes.class);
             
-            if(instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null){
+            if (instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null){
                 instructorsLogic.deleteDocument(instructor);
                 continue;
             }
@@ -61,17 +61,17 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
             @Override
             public int compare(InstructorAttributes ins1, InstructorAttributes ins2){
                 int compareResult = ins1.courseId.compareTo(ins2.courseId);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }               
                 
                 compareResult = ins1.role.compareTo(ins2.role);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                 
                 compareResult = ins1.name.compareTo(ins2.name);
-                if(compareResult != 0){
+                if (compareResult != 0){
                     return compareResult;
                 }
                       

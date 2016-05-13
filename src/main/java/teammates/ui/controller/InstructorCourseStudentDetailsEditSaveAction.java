@@ -53,8 +53,17 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         student.comments = Sanitizer.sanitizeTextField(student.comments);
         
         try {
-            student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
-            logic.validateSections(Arrays.asList(student), courseId);
+            StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);
+            student.updateWithExistingRecord(originalStudentAttribute);
+            
+            boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
+            boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
+            if (isSectionChanged) {
+                logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
+            } else if (isTeamChanged) {
+                logic.validateTeams(Arrays.asList(student), courseId);
+            }
+            
             logic.updateStudent(studentEmail, student);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "

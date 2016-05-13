@@ -60,7 +60,7 @@ public class SearchManager {
             return result.getResults().get(0).getCode() == StatusCode.OK;
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
-            if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
+            if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
                 log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
                         + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
@@ -99,7 +99,7 @@ public class SearchManager {
     private static Index getIndex(String indexName) {
         Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
-        if(index == null){
+        if (index == null){
             IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
             index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
             indicesTable.put(indexName, index);
