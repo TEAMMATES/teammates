@@ -172,8 +172,6 @@ function triggerAjax(e) {
 // Binding check for course selection
 function checkCourseBinding(e) {
     var courseIdx = $(e).attr('id').split('-')[1];
-    var heading = $('#panelHeading-' + courseIdx);
-    var haveAjaxRequest = heading.attr('class').indexOf('ajax_submit') !== -1;
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
@@ -334,7 +332,7 @@ function filterEmails() {
  * TODO: expand to fuzzy search
  */
 $.extend($.expr[':'], {
-    'containsIN': function(elem, i, match, array) {
+    'containsIN': function(elem) {
         return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
     }
 });

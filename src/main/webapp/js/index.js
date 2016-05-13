@@ -113,7 +113,7 @@ function formatNumber(number) {
     number += '';
     var expression = /(\d+)(\d{3})/;
     while (expression.test(number)) {
-        number = number.replace(expression, '$1' + ',' + '$2');
+        number = number.replace(expression, '$1,$2');
     }
     return number;
 }

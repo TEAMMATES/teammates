@@ -245,9 +245,8 @@ function enableQuestion(number) {
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
     $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + number).show();
-    $('#' + 'button_question_submit-' + number).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
-    // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
+    $('#button_question_submit-' + number).show();
 }
 
 function enableNewQuestion() {
@@ -283,9 +282,8 @@ function enableNewQuestion() {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
-    $('#' + 'button_question_submit-' + number).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
-    // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
+    $('#button_question_submit-' + number).show();
 }
 
 /**
@@ -319,7 +317,7 @@ function disableQuestion(number) {
 
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).show();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).hide();
-    $('#' + 'button_question_submit-' + number).hide();
+    $('#button_question_submit-' + number).hide();
 }
 
 /**
@@ -479,7 +477,7 @@ function prepareQuestionForm(type) {
         case 'CONSTSUM_OPTION':
             $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
             $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
-            $('#constSumOption_Recipient' + '--1').hide();
+            $('#constSumOption_Recipient--1').hide();
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
             
             hideAllNewQuestionForms();
@@ -488,17 +486,17 @@ function prepareQuestionForm(type) {
             break;
         case 'CONSTSUM_RECIPIENT':
             $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
-            $('#constSumOption_Option' + '--1').hide();
+            $('#constSumOption_Option--1').hide();
             hideConstSumOptionTable(-1);
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
             
             hideAllNewQuestionForms();
             
             $('#constSumForm').show();
-            var optionText = $('#constSum_labelText-' + '-1').text();
-            $('#constSum_labelText-' + '-1').text(optionText.replace('option', 'recipient'));
-            var tooltipText = $('#constSum_tooltipText-' + '-1').attr('data-original-title');
-            $('#constSum_tooltipText-' + '-1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
+            var optionText = $('#constSum_labelText--1').text();
+            $('#constSum_labelText--1').text(optionText.replace('option', 'recipient'));
+            var tooltipText = $('#constSum_tooltipText--1').attr('data-original-title');
+            $('#constSum_tooltipText--1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
             break;
         case 'CONTRIB':
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
@@ -520,7 +518,7 @@ function prepareQuestionForm(type) {
         case 'RANK_OPTIONS':
             $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
             $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
-            $('#rankOption_Recipient' + '--1').hide();
+            $('#rankOption_Recipient--1').hide();
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
             
             hideAllNewQuestionForms();
@@ -529,7 +527,7 @@ function prepareQuestionForm(type) {
             break;
         case 'RANK_RECIPIENTS':
             $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
-            $('#rankOption_Option' + '--1').hide();
+            $('#rankOption_Option--1').hide();
             hideRankOptionTable(-1);
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
             
@@ -795,7 +793,6 @@ function bindCopyEvents() {
 function toggleVisibilityMessage(elem) {
     var $elementParent = $(elem).closest('form');
     var $options = $elementParent.find('.visibilityOptions');
-    var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
     var $giverType = $elementParent.find('select[name="givertype"]');
     var $recipientType = $elementParent.find('select[name="recipienttype"]');
@@ -859,7 +856,7 @@ function getVisibilityMessage(buttonElem) {
             $formVisibility.show();
             $formOptions.hide();
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function() {
             updateVisibilityMessageButton($form, false);
             $form.find('.visibilityOptionsLabel').click();
         }
@@ -1253,7 +1250,6 @@ function setDefaultContribQnVisibility(questionNumber) {
 
 function setContribQnVisibilityFormat(questionNumber) {
     var idSuffix = questionNumber ? questionNumber : 'New';
-    var idSuffix2 = questionNumber ? questionNumber : '';
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1343,8 +1339,8 @@ function addRubricRow(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
-    var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
+    var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
+    var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
 
     var newRowNumber = numberOfRows + 1;
 
@@ -1395,7 +1391,7 @@ function addRubricRow(questionNumber) {
     $(newRubricRow).insertAfter(lastRow);
 
     // Increment
-    $('#' + 'rubricNumRows' + idSuffix).val(newRowNumber);
+    $('#rubricNumRows' + idSuffix).val(newRowNumber);
     
     if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
         $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
@@ -1406,8 +1402,8 @@ function addRubricCol(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
-    var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
+    var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
+    var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
     
     var newColNumber = numberOfCols + 1;
 
@@ -1441,7 +1437,6 @@ function addRubricCol(questionNumber) {
         + '<textarea class=\'form-control\' rows=\'3\' id=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\' name=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\'>${description}</textarea>'
       + '</td>';
 
-    var rubricRowBodyFragments = '';
     // Create numberOfRows of <td>'s
     for (var rows = 0; rows < numberOfRows; rows++) {
         if (!$('#rubricRow' + idSuffix + '-' + rows).length) {
@@ -1462,7 +1457,7 @@ function addRubricCol(questionNumber) {
     }
 
     // Increment
-    $('#' + 'rubricNumCols' + idSuffix).val(newColNumber);
+    $('#rubricNumCols' + idSuffix).val(newColNumber);
     
     if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
         $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
@@ -1520,7 +1515,6 @@ function removeRubricCol(index, questionNumber) {
 }
 
 function highlightRubricRow(index, questionNumber, highlight) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
@@ -1534,7 +1528,6 @@ function highlightRubricRow(index, questionNumber, highlight) {
 }
 
 function highlightRubricCol(index, questionNumber, highlight) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);

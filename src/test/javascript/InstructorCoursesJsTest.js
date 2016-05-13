@@ -3,7 +3,7 @@ QUnit.module('instructorCourse.js');
 /* Explanation: This is a dummy function to create an outline view in Eclipse */
 function testVerifyCourseData() {}
 
-QUnit.test('verifyCourseData()', function(assert) {
+QUnit.test('verifyCourseData()', function() {
     // 'The method has only two paths and both are tested by UI tests
     expect(0);
 });

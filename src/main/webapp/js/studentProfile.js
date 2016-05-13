@@ -69,7 +69,7 @@ $(function() {
     });
 });
 
-function finaliseEditPictureForm(event) {
+function finaliseEditPictureForm() {
     var picture = $('#editableProfilePicture');
     var transformData = picture.guillotine('getData');
     var scaledWidth = picture.prop('naturalWidth') * transformData.scale;
@@ -85,7 +85,7 @@ function finaliseEditPictureForm(event) {
     $('#profilePictureEditForm').submit();
 }
 
-function finaliseUploadPictureForm(event) {
+function finaliseUploadPictureForm() {
     if ($('#studentPhoto').val() === "") {
         return;
     }

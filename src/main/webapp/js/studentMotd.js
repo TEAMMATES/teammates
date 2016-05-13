@@ -5,7 +5,7 @@ $(document).ready(function() {
         success: function(data) {
             $('#student-motd').html(data);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function() {
             $('#student-motd-container').html('');
         }
     });
