@@ -39,11 +39,9 @@ QUnit.test('isDate(date)', function(assert) {
     assert.equal(isDate('02 Apr 2012'), true, 'Valid Date string without time');
     assert.equal(isDate('    12/12/01'), true, 'With Spacing in front');
     assert.equal(isDate('12 12 01       '), true, 'With Spacing behind');
-    assert.equal(isDate('            12-12-01       '), false, 'With Spacing,' +
-        ' invalid on Firefox and valid on Chrome');
+    assert.equal(isDate('            12-12-01       '), false, 'With Spacing, invalid on Firefox and valid on Chrome');
     assert.equal(isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
-    assert.equal(isDate('    a      12 12 2001'), false,
-        '    a      12 12 2001 - not in proper format');
+    assert.equal(isDate('    a      12 12 2001'), false, '    a      12 12 2001 - not in proper format');
     assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 

@@ -24,9 +24,9 @@ $(document).ready(function() {
  * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-    return confirm('Are you sure you want to delete the course: ' + courseID + '? ' +
-            'This operation will delete all students and sessions in this course. ' +
-            'All instructors of this course will not be able to access it hereafter as well.');
+    return confirm('Are you sure you want to delete the course: ' + courseID + '? '
+                   + 'This operation will delete all students and sessions in this course. '
+                   + 'All instructors of this course will not be able to access it hereafter as well.');
 }
 
 /**
@@ -56,8 +56,8 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  */
 function togglePublishEvaluation(name, isSendingPublishEmail) {
     if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?' +
-                   ' An email will be sent to students to inform them that the responses are ready for viewing.');
+        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?'
+                       + ' An email will be sent to students to inform them that the responses are ready for viewing.');
     }
     return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
 }
@@ -133,8 +133,8 @@ function setupFsCopyModal() {
                 $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." +
-                    "Please close the dialog window and try again.</p>");
+                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list."
+                                      + "Please close the dialog window and try again.</p>");
             },
             success: function(data) {
                 $('#courseList').html(data);
@@ -277,8 +277,8 @@ function bindStudentPhotoHoverLink(elements) {
             // this is so that the user can hover over the
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout(function(obj) {
-                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
-                    $(obj).siblings('.popover').find(':hover').length === 0) {
+                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0
+                    || $(obj).siblings('.popover').find(':hover').length === 0) {
 
                     $(obj).popover('hide');
                 }
@@ -292,9 +292,9 @@ function bindStudentPhotoHoverLink(elements) {
         trigger: 'manual',
         placement: 'top',
         content: function() {
-            return '<a class="cursor-pointer" onclick="' +
-                'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">' +
-                'View Photo</a>';
+            return '<a class="cursor-pointer" onclick="'
+                   + 'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
+                   + 'View Photo</a>';
         }
     });
 }

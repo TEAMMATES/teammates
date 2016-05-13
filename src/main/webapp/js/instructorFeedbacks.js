@@ -11,9 +11,8 @@ function checkFeedbackQuestion(form) {
                                .find(':selected')
                                .val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
-        if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked')
-                   .val() === 'custom' &&
-                !$(form).find('.numberOfEntitiesBox').val()) {
+        if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom'
+                && !$(form).find('.numberOfEntitiesBox').val()) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER);
             return false;
         }
@@ -23,9 +22,9 @@ function checkFeedbackQuestion(form) {
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
-        if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() ||
-                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val() ||
-                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
+        if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
+                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
+                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
             return false;
         }
@@ -111,9 +110,9 @@ function formatDigit(num) {
  * @returns {String}
  */
 function convertDateToDDMMYYYY(date) {
-    return formatDigit(date.getDate()) + '/' +
-           formatDigit(date.getMonth() + 1) + '/' +
-           date.getFullYear();
+    return formatDigit(date.getDate()) + '/'
+           + formatDigit(date.getMonth() + 1) + '/'
+           + date.getFullYear();
 }
 
 /**
@@ -243,10 +242,10 @@ function bindUncommonSettingsEvents() {
 }
 
 function updateUncommonSettingsInfo() {
-    var info = 'Session is visible at submission opening time, ' +
-               'responses are only visible when you publish the results.<br>' +
-               'Emails are sent when session opens (within 15 mins), ' +
-               '24 hrs before session closes and when results are published.';
+    var info = 'Session is visible at submission opening time, '
+             + 'responses are only visible when you publish the results.<br>'
+             + 'Emails are sent when session opens (within 15 mins), '
+             + '24 hrs before session closes and when results are published.';
 
     $('#uncommonSettingsInfoText').html(info);
 }

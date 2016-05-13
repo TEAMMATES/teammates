@@ -102,13 +102,11 @@ QUnit.test('checkAddCourseParam(courseID, courseName)', function(assert) {
         'Course name too long');
 
     assert.equal(checkAddCourseParam('', '', ''),
-        DISPLAY_COURSE_COURSE_ID_EMPTY + '<br>' +
-        DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>',
+        DISPLAY_COURSE_COURSE_ID_EMPTY + '<br>' + DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>',
         'both values are invalid');
 
     assert.equal(checkAddCourseParam('invalid course id', generateRandomString(COURSE_NAME_MAX_LENGTH + 1), 'googid|Instructor1|'),
-        DISPLAY_COURSE_INVALID_ID + '<br>' +
-        DISPLAY_COURSE_LONG_NAME + '<br>',
+        DISPLAY_COURSE_INVALID_ID + '<br>' + DISPLAY_COURSE_LONG_NAME + '<br>',
         'both values are invalid');
 
 });
