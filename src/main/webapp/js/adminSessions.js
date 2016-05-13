@@ -6,7 +6,7 @@ function toggleContent(id) {
 
     var pill = $("#pill_" + id).attr("class");
 
-    if (pill == 'active') {
+    if (pill === 'active') {
         $("#pill_" + id).attr("class", " ");
         jQuery('#badge_' + id).fadeIn(duration);
     } else {
@@ -21,7 +21,7 @@ function openAllSections(count) {
     for (var i = 1; i <= count; i++) {
 
         var pill = $("#pill_" + i).attr("class");
-        if (pill != 'active') {
+        if (pill !== 'active') {
             toggleContent(i);
         }
     }
@@ -33,7 +33,7 @@ function closeAllSections(count) {
     for (var i = 1; i <= count; i++) {
 
         var pill = $("#pill_" + i).attr("class");
-        if (pill == 'active') {
+        if (pill === 'active') {
             toggleContent(i);
         }
     }
@@ -77,7 +77,7 @@ function toggleFilter() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down") {
+    if (button === "glyphicon glyphicon-chevron-down") {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
         $("#referenceText").text("Hide Filter");
     } else {

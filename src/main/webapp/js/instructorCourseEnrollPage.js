@@ -4,7 +4,7 @@ var loadUpFunction = function() {
     var notified = false;
 
     function isUserTyping(str) {
-        return str.indexOf("\t") == -1 && str.indexOf("|") == -1;
+        return str.indexOf("\t") === -1 && str.indexOf("|") === -1;
     }
     window.isUserTyping = isUserTyping;
 
@@ -14,7 +14,7 @@ var loadUpFunction = function() {
         enrolTextbox = enrolTextbox[0];
         $(enrolTextbox).keydown(function(e) {
             var keycode = e.which || e.keyCode;
-            if (keycode == ENTER_KEYCODE) {
+            if (keycode === ENTER_KEYCODE) {
                 if (isUserTyping(e.target.value) && !notified) {
                     notified = true;
                     alert(typingErrMsg);

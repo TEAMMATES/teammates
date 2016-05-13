@@ -23,7 +23,7 @@ function checkBrowserVersion() {
     var supported = true;
 
     // In MSIE, the true version is after "MSIE" in userAgent
-    if ((verOffset = nAgt.indexOf("MSIE")) != -1) {
+    if ((verOffset = nAgt.indexOf("MSIE")) !== -1) {
         browserName = MICROSOFT_INTERNET_EXPLORER;
         fullVersion = nAgt.substring(verOffset + 5);
         majorVersion = parseInt(fullVersion, 10);
@@ -32,7 +32,7 @@ function checkBrowserVersion() {
         }
     }
     // In Chrome, the true version is after "Chrome"
-    else if ((verOffset = nAgt.indexOf("Chrome")) != -1) {
+    else if ((verOffset = nAgt.indexOf("Chrome")) !== -1) {
         browserName = CHROME;
         fullVersion = nAgt.substring(verOffset + 7);
         majorVersion = parseInt(fullVersion, 10);
@@ -41,10 +41,10 @@ function checkBrowserVersion() {
         }
     }
     // In Safari, the true version is after "Safari" or after "Version"
-    else if ((verOffset = nAgt.indexOf("Safari")) != -1) {
+    else if ((verOffset = nAgt.indexOf("Safari")) !== -1) {
         browserName = SAFARI;
         fullVersion = nAgt.substring(verOffset + 7);
-        if ((verOffset = nAgt.indexOf("Version")) != -1) {
+        if ((verOffset = nAgt.indexOf("Version")) !== -1) {
             fullVersion = nAgt.substring(verOffset + 8);
         }
         majorVersion = parseInt(fullVersion, 10);
@@ -53,7 +53,7 @@ function checkBrowserVersion() {
         }
     }
     // In Firefox, the true version is after "Firefox"
-    else if ((verOffset = nAgt.indexOf("Firefox")) != -1) {
+    else if ((verOffset = nAgt.indexOf("Firefox")) !== -1) {
         browserName = FIREFOX;
         fullVersion = nAgt.substring(verOffset + 8);
         majorVersion = parseInt(fullVersion, 10);

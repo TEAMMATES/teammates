@@ -42,7 +42,7 @@ function verifyInstructorData() {
     $('[name="' + INSTRUCTOR_EMAIL + '"]').val(email);
     $('[name="' + INSTRUCTOR_INSTITUTION + '"]').val(institution);
 
-    if (googleID == "" || name == "" || email == "") {
+    if (googleID === "" || name === "" || email === "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!isValidGoogleId(googleID)) {
@@ -74,7 +74,7 @@ function getXMLObject() {
         }
     }
 
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
 
@@ -82,7 +82,7 @@ function getXMLObject() {
 }
 
 function handleLogout() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }

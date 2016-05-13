@@ -3,7 +3,7 @@ $(document).ready(function() {
     var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
     
     function isRedirectToSpecificComment() {
-        return $(location).attr('href').indexOf('#') != -1;
+        return $(location).attr('href').indexOf('#') !== -1;
     }
     
     function getRedirectSpecificCommentRow() {
@@ -22,7 +22,7 @@ $(document).ready(function() {
     if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0) {
         $('.navbar').css('display', 'none');
         highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
-    } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0) {
+    } else if (isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length === 0) {
         // TODO: impl this, e.g. display a status msg that cannot find the comment etc
     }
     
@@ -71,7 +71,7 @@ $(document).ready(function() {
     // Binding for changes in the panel check boxes
     $("input[id^=panel_check]").change(function() {
         // based on the selected panel_check check boxes, check/uncheck panel_all check box
-        if ($("input[id^='panel_check']:checked").length == $("input[id^='panel_check']").length) {
+        if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
             $("#panel_all").prop("checked", true);
         } else {
             $("#panel_all").prop("checked", false);
@@ -82,7 +82,7 @@ $(document).ready(function() {
     
     function filterPanel() {
         // if no panel_check checkboxes are checked, show the no-comment box to user
-        if ($("input[id^='panel_check']:checked").length == 0) {
+        if ($("input[id^='panel_check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if (!$('#panel_all').prop("checked")) {
@@ -128,7 +128,7 @@ $(document).ready(function() {
     // Binding for changes in the giver checkboxes.
     $("input[id^=giver_check]").change(function() {
         // based on the selected checkboxes, check/uncheck giver_all checkbox
-        if ($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length) {
+        if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
             $("#giver_all").prop("checked", true);
             $("#status_all").prop("disabled", false);
             $("input[id^=status_check]").prop("disabled", false);
@@ -175,7 +175,7 @@ $(document).ready(function() {
     // Binding for changes in the status checkboxes.
     $("input[id^=status_check]").change(function() {
         // based on the selected checkboxes, check/uncheck status_all checkbox
-        if ($("input[id^='status_check']:checked").length == $("input[id^='status_check']").length) {
+        if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
             $("#status_all").prop("checked", true);
             $("#giver_all").prop("disabled", false);
             $("input[id^=giver_check]").prop("disabled", false);
@@ -222,7 +222,7 @@ $(document).ready(function() {
         // to show feedback question + feedback session panel
         // if not all list elements are hidden within fbResponse, then show fbResponse
         if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
-            if ($(comment).parent().find('li[style*="display: none"]').length != $(comment).parent().find('li').length) {
+            if ($(comment).parent().find('li[style*="display: none"]').length !== $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.show();
@@ -231,13 +231,13 @@ $(document).ready(function() {
                 commentListRegionForFeedbackResponse.prev().prev().prev().show();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
-                if (feedbackQuestion.find('tr[style*="display: none"]').length != feedbackQuestion.find('tr').length) {
+                if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
                     // if not all responses are hidden within fbQuestion, then show the fbQuestion
                     feedbackQuestion.show();
                     
                     var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length != feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if not all questions are hidden within fbSession, then show the fbsession's body
                         feedbackSessionPanelBody.show();
                     }
@@ -249,7 +249,7 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length != studentCommentPanel.find('div[class*="giver_display-by"]').length)
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length)
             {
                 studentCommentPanelBody.show();
             }
@@ -265,7 +265,7 @@ $(document).ready(function() {
         // to hide feedback question + feedback session panel
         // if all list elements are hidden within fbResponse, then hide fbResponse
         if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
-            if ($(comment).parent().find('li[style*="display: none"]').length == $(comment).parent().find('li').length) {
+            if ($(comment).parent().find('li[style*="display: none"]').length === $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.hide();
@@ -274,13 +274,13 @@ $(document).ready(function() {
                 commentListRegionForFeedbackResponse.prev().prev().prev().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
-                if (feedbackQuestion.find('tr[style*="display: none"]').length == feedbackQuestion.find('tr').length) {
+                if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
                     // if all responses are hidden within fbQuestion, then hide the fbQuestion
                     feedbackQuestion.hide();
                     
                     var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length == feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if all questions are hidden within fbSession, then hide the fbsession's body
                         feedbackSessionPanelBody.hide();
                     }
@@ -292,7 +292,7 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length == studentCommentPanel.find('div[class*="giver_display-by"]').length)
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length)
             {
                 studentCommentPanelBody.hide();
             }
@@ -332,10 +332,10 @@ $(document).ready(function() {
      */
     function removeParamInUrl(url, param) {
         var indexOfParam = url.indexOf("?" + param);
-        indexOfParam = indexOfParam == -1 ? url.indexOf("&" + param) : indexOfParam;
+        indexOfParam = indexOfParam === -1 ? url.indexOf("&" + param) : indexOfParam;
         var indexOfAndSign = url.indexOf("&", indexOfParam + 1);
         var urlBeforeParam = url.substr(0, indexOfParam);
-        var urlAfterParamValue = indexOfAndSign == -1 ? "" : url.substr(indexOfAndSign);
+        var urlAfterParamValue = indexOfAndSign === -1 ? "" : url.substr(indexOfAndSign);
         return urlBeforeParam + urlAfterParamValue;
     }
     

@@ -35,14 +35,14 @@ function requestInstructorLogin() {
 }
 
 function handleInstructorLogin() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function handleStudentLogin() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }
@@ -70,7 +70,7 @@ function getXMLObject() {
             xmlHttp = false;
         }
     }
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
     return xmlHttp;
