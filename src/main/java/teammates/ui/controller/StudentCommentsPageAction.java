@@ -97,7 +97,7 @@ public class StudentCommentsPageAction extends Action {
             throws EntityDoesNotExistException {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        java.util.Collections.sort(courses);
+        Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             coursePaginationList.add(course.getId());

@@ -1,10 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.datatransfer.FeedbackParticipantType.INSTRUCTORS;
-import static teammates.common.datatransfer.FeedbackParticipantType.SELF;
-import static teammates.common.datatransfer.FeedbackParticipantType.STUDENTS;
-import static teammates.common.datatransfer.FeedbackParticipantType.TEAMS;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -236,7 +231,7 @@ public class FeedbackQuestionsLogic {
         
         if (isInstructor) {
             questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                            feedbackSessionName, courseId, INSTRUCTORS));
+                            feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         }
         Collections.sort(questions);
         return questions;
@@ -269,11 +264,11 @@ public class FeedbackQuestionsLogic {
         String courseId = fsa.courseId;
         
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                                       feedbackSessionName, courseId, INSTRUCTORS));
+                                       feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         
         // Return all self (creator) questions
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
-                courseId, SELF));
+                courseId, FeedbackParticipantType.SELF));
         
         Collections.sort(questions);
         return questions;
@@ -314,10 +309,10 @@ public class FeedbackQuestionsLogic {
         
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSessionName, courseId, STUDENTS));
+                        feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS));
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSessionName, courseId, TEAMS));
+                        feedbackSessionName, courseId, FeedbackParticipantType.TEAMS));
         
         Collections.sort(questions);
         return questions;
@@ -356,7 +351,7 @@ public class FeedbackQuestionsLogic {
         
         List<FeedbackQuestionAttributes> questions =
                 fqDb.getFeedbackQuestionsForGiverType(
-                feedbackSessionName, courseId, TEAMS);
+                feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
         
         List<FeedbackQuestionAttributes> unansweredQuestions =
                 new ArrayList<FeedbackQuestionAttributes>();

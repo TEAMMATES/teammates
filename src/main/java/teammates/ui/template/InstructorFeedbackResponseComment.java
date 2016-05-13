@@ -2,8 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.ui.template.FeedbackResponseComment;
-
 public class InstructorFeedbackResponseComment {
     private List<FeedbackResponseComment> feedbackResponseComments;
     private String answerHtml;

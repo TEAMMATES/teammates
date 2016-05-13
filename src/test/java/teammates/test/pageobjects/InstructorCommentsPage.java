@@ -123,12 +123,16 @@ public class InstructorCommentsPage extends AppPage {
         jsExecutor.executeScript("document.getElementById('"+"commentedit-"+i+"').click();");
     }
     
-    public void clickStudentCommentVisibilityEdit(int row){
-        browser.driver.findElement(By.id("visibility-options-trigger" + row)).click();
+    public void clickStudentCommentVisibilityEdit(int row) {
+        WebElement visibilityEditButton = browser.driver.findElement(By.id("visibility-options-trigger" + row));
+        waitForElementVisibility(visibilityEditButton);
+        visibilityEditButton.click();
     }
     
-    public void clickResponseCommentVisibilityEdit(String suffix){
-        browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix)).click();
+    public void clickResponseCommentVisibilityEdit(String suffix) {
+        WebElement visibilityEditButton = browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix));
+        waitForElementVisibility(visibilityEditButton);
+        visibilityEditButton.click();
     }
     
     public void clickAllCheckboxes(int row){

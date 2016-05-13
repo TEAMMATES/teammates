@@ -374,6 +374,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student = dataBundle.students.get("student4InCourse1");
         // try to create the entity in case it does not exist
         BackDoor.createStudent(student);
+        verifyPresentInDatastore(student);
         
         String originalEmail = student.email;
         student.name = "New name";
