@@ -259,6 +259,27 @@ public class FieldValidatorTest extends BaseTestCase {
         // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
         // - ensures error messages are correctly interpolated and returned
         testGetInvalidityInfoForPersonName();
+        testGetInvalidityInfoForInstituteName();
+    }
+
+    private void testGetInvalidityInfoForInstituteName() {
+        invalidityInfoFor_validInstituteName_shouldBeEmptyString();
+        invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validInstituteName_shouldBeEmptyString() {
+        String validInstituteName = "Institute of Valid Name";
+        String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
+        assertEquals("Valid institute name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString() {
+        String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
+        assertEquals("Too long institute name should return appropriate error message",
+                     String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
+                                   FieldValidator.REASON_TOO_LONG),
+                     actual);
     }
 
     private void testGetInvalidityInfoForPersonName() {
@@ -267,14 +288,14 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void invalidityInfoFor_validName_shouldBeEmptyString() {
-        String validName = "Mr Valid Name";
-        String actual = validator.getInvalidityInfoForPersonName(validName);
+        String validPersonName = "Mr Valid Name";
+        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
         assertEquals("Valid person name should return empty string", "", actual);
     }
 
     private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
-        String emptyName = "";
-        String actual = validator.getInvalidityInfoForPersonName(emptyName);
+        String emptyPersonName = "";
+        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
         assertEquals("Empty person name should return appropriate error message",
                      String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
                                    FieldValidator.REASON_EMPTY),
