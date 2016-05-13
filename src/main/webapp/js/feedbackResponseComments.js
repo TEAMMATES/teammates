@@ -1,5 +1,5 @@
 function isInCommentsPage() {
-    return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
+    return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
 var addCommentHandler = function(e) {
@@ -48,7 +48,7 @@ var addCommentHandler = function(e) {
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
                     removeFormErrorMessage(submitButton);
-                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left", "15px");
                     addFormRow.prev().show();
                     addFormRow.hide();
                 }
@@ -92,7 +92,7 @@ var editCommentHandler = function(e) {
         },
         success: function(data) {
             if (!data.isError) {
-                if(isInCommentsPage()) {
+                if (isInCommentsPage()) {
                     reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Update editted comment
@@ -141,7 +141,7 @@ var deleteCommentHandler = function(e) {
         error: function() {
             if (editForm.is(':visible')) {
                 setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
-            } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+            } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                 frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">Failed to delete comment. Please try again.</div>");
             }
             submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -164,7 +164,7 @@ var deleteCommentHandler = function(e) {
             } else {
                 if (editForm.is(':visible')) {
                     setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
-                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                } else if (frCommentList.parent().find("div.delete_error_msg").length === 0) {
                     frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
                 }
                 submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
@@ -178,7 +178,7 @@ function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]', editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
     
-    $("div[id^=plainCommentText]").css("margin-left","15px");
+    $("div[id^=plainCommentText]").css("margin-left", "15px");
 }
 
 function registerResponseCommentCheckboxEvent() {
@@ -186,25 +186,25 @@ function registerResponseCommentCheckboxEvent() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        var _target = $(e.target);
+        var target = $(e.target);
         
-        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
-            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
+            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").includes("giverCheckbox") || 
-             _target.prop("class").includes("recipientCheckbox")) &&
-             _target.prop("checked")) {
-            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop("class").includes("giverCheckbox") || 
+             target.prop("class").includes("recipientCheckbox")) &&
+             target.prop("checked")) {
+            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(", "));
         
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(", "));
@@ -212,18 +212,18 @@ function registerResponseCommentCheckboxEvent() {
 }
 
 function updateVisibilityOptionsForResponseComment(formObject, data) {
-    formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop("checked", (data.comment.showCommentTo.indexOf("GIVER") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("GIVER") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showCommentTo.indexOf("STUDENTS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showGiverNameTo.indexOf("STUDENTS") !== -1));
-    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showCommentTo.indexOf("INSTRUCTORS") !== -1));
-    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop("checked", data.comment.showCommentTo.indexOf("GIVER") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop("checked", data.comment.showGiverNameTo.indexOf("GIVER") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop("checked", data.comment.showCommentTo.indexOf("RECEIVER") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop("checked", data.comment.showGiverNameTo.indexOf("RECEIVER") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop("checked", data.comment.showCommentTo.indexOf("STUDENTS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop("checked", data.comment.showGiverNameTo.indexOf("STUDENTS") !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop("checked", data.comment.showCommentTo.indexOf("INSTRUCTORS") !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1);
 }
 
 function enableHoverToDisplayEditOptions() {
@@ -251,34 +251,34 @@ function removeUnwantedVisibilityOptions(commentId) {
     for (var i = 0; i < checkboxesInInAddForm.length; i++) {
         valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
     }
-    if (valuesOfCheckbox.indexOf('GIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('GIVER') === -1) {
         $("#response-giver-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER') === -1) {
         $("#response-recipient-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') === -1) {
         $("#response-giver-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') == -1) {
+    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') === -1) {
         $("#response-recipient-team-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('STUDENTS') == -1) {
+    if (valuesOfCheckbox.indexOf('STUDENTS') === -1) {
         $("#response-students-" + commentId).remove();
     }
-    if (valuesOfCheckbox.indexOf('INSTRUCTORS') == -1) {
+    if (valuesOfCheckbox.indexOf('INSTRUCTORS') === -1) {
         $("#response-instructors-" + commentId).remove();
     }
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().remove();
     }
 }
 
 function setFormErrorMessage(submitButton, msg) {
-    if (submitButton.next().next().attr("id") == "errorMessage") {
+    if (submitButton.next().next().attr("id") === "errorMessage") {
         submitButton.next().next().text(msg);
     } else {
         submitButton.next().after("<span id=\"errorMessage\" class=\"pull-right \"> " + msg + "</span>");
@@ -396,11 +396,11 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     
-    panelBody.load(url, function( response, status, xhr ) {
+    panelBody.load(url, function(response, status, xhr) {
         if (status !== "success") {
             panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         } else {
-            updateBadgeForPendingComments(panelBody.children(":first").text());
+            updateBadgeForPendingComments(parseInt(panelBody.children(":first").text()));
             panelBody.children(":first").remove();
 
             $clickedElement.addClass("loaded");
@@ -426,7 +426,7 @@ function toggleCollapsiblePanel(collapsiblePanel) {
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
-    if (numberOfPendingComments == 0) {
+    if (numberOfPendingComments === 0) {
         $('.badge').parent().parent().hide();
     } else {
         $('.badge').parent().parent().show();
@@ -440,31 +440,31 @@ function registerCheckboxEventForVisibilityOptions() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        var _target = $(e.target);
+        var target = $(e.target);
         
-        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
-            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
+            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").includes("giverCheckbox") || 
-             _target.prop("class").includes("recipientCheckbox")) &&
-             _target.prop("checked")) {
-            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop("class").includes("giverCheckbox") || 
+             target.prop("class").includes("recipientCheckbox")) &&
+             target.prop("checked")) {
+            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showcommentsto']").val(visibilityOptions.join(", "));
         
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showgiverto']").val(visibilityOptions.join(", "));
         
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showrecipientto']").val(visibilityOptions.join(", "));

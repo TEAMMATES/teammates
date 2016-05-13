@@ -24,7 +24,7 @@ function checkFeedbackQuestion(form) {
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() ||
-                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()||
+                !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val() ||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
             return false;
@@ -32,10 +32,9 @@ function checkFeedbackQuestion(form) {
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
-        } else {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
-            return false;
         }
+        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+        return false;
     }
     return true;
 }
@@ -43,9 +42,8 @@ function checkFeedbackQuestion(form) {
 function getQuestionNumFromEditForm(form) {
     if ($(form).attr('name') === 'form_addquestions') {
         return -1;
-    } else {
-        return extractQuestionNumFromEditFormId($(form).attr('id'));
     }
+    return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
 function extractQuestionNumFromEditFormId(id) {
@@ -81,7 +79,7 @@ function selectDefaultTimeOptions() {
 
     var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
-    var currentTime = (parseInt(hours) + 1);
+    var currentTime = parseInt(hours) + 1;
     var timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
@@ -256,15 +254,11 @@ function updateUncommonSettingsInfo() {
 }
 
 function isDefaultSetting() {
-    if ($('#sessionVisibleFromButton_atopen').prop('checked') &&
-            $('#resultsVisibleFromButton_later').prop('checked') &&
-            $('#sendreminderemail_open').prop('checked') &&
-            $('#sendreminderemail_closing').prop('checked') &&
-            $('#sendreminderemail_published').prop('checked')) {
-        return true;
-    } else {
-        return false;
-    }
+    return $('#sessionVisibleFromButton_atopen').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked')
+           && $('#sendreminderemail_open').prop('checked')
+           && $('#sendreminderemail_closing').prop('checked')
+           && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {
@@ -292,7 +286,7 @@ function formatSessionVisibilityGroup() {
     var $sessionVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']');
     $sessionVisibilityBtnGroup.change(function() {
         collapseIfPrivateSession();
-        if ($sessionVisibilityBtnGroup.filter(':checked').val() == 'custom') {
+        if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
         } else {
@@ -310,7 +304,7 @@ function formatSessionVisibilityGroup() {
 function formatResponsesVisibilityGroup() {
     var $responsesVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + ']');
     $responsesVisibilityBtnGroup.change(function() {
-        if ($responsesVisibilityBtnGroup.filter(':checked').val() == 'custom') {
+        if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
         } else {
@@ -335,7 +329,7 @@ function toggleDisabledAndStoreLast(id, bool) {
  * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
  */
 function collapseIfPrivateSession() {
-    if ($('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']').filter(':checked').val() == 'never') {
+    if ($('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']').filter(':checked').val() === 'never') {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
     } else {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();

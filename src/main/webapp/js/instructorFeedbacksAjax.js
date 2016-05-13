@@ -43,7 +43,7 @@ var ajaxRequest = function(e) {
     });
 };
 
-$(document).ready(function(){
+$(document).ready(function() {
     oldStatus = $(".statusMessage").clone();
     $('#ajaxForSessions').submit(ajaxRequest);
 });

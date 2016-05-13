@@ -61,7 +61,7 @@ public class BackDoorLogic extends Logic {
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     public String putDocumentsForStudents(DataBundle dataBundle) {
-        for(StudentAttributes student : dataBundle.students.values()){
+        for (StudentAttributes student : dataBundle.students.values()){
             student = getStudentForEmail(student.course, student.email);
             putDocument(student);
             ThreadHelper.waitFor(50);
@@ -138,7 +138,7 @@ public class BackDoorLogic extends Logic {
         
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for(FeedbackSessionAttributes session : sessions.values()){
+        for (FeedbackSessionAttributes session : sessions.values()){
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
@@ -146,7 +146,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         
-        for(FeedbackQuestionAttributes question : questionList){
+        for (FeedbackQuestionAttributes question : questionList){
             question.removeIrrelevantVisibilityOptions();
         }
         fqDb.createFeedbackQuestions(questionList);
@@ -392,15 +392,19 @@ public class BackDoorLogic extends Logic {
     * Therefore the question number corresponding to the created response 
     * should be inserted in the json file in place of the actual response ID.<br />
     * This method will then generate the correct ID and replace the field.
+     * @throws EntityDoesNotExistException 
     **/
-    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) {
+    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) throws EntityDoesNotExistException {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
-            response.feedbackQuestionId = 
-                feedbackQuestionsLogic.getFeedbackQuestion(
-                        response.feedbackSessionName, response.courseId,
-                        qnNumber).getId();
+            FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId, qnNumber);
+            if (question == null) {
+                throw new EntityDoesNotExistException("question has not persisted yet");
+            }
+            response.feedbackQuestionId = question.getId();
+            
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
@@ -475,10 +479,10 @@ public class BackDoorLogic extends Logic {
 
     private void deleteCourses(Collection<CourseAttributes> courses) {  
         List<String> courseIds = new ArrayList<String>();
-        for(CourseAttributes course : courses){
+        for (CourseAttributes course : courses){
             courseIds.add(course.id);
         }
-        if(!courseIds.isEmpty()){
+        if (!courseIds.isEmpty()){
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
@@ -498,34 +502,34 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes a : dataBundle.accounts.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getAccount(a.googleId);
-                if(retreived == null){
+                if (retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
             }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ a.toString());
+            if (retreived != null) {
+                log.warning("Object did not get deleted in time \n" + a.toString());
             }
         }
         
         for (CourseAttributes c : dataBundle.courses.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getCourse(c.id);
-                if(retreived == null){
+                if (retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
             }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ c.toString());
+            if (retreived != null) {
+                log.warning("Object did not get deleted in time \n" + c.toString());
             }
         }
         
@@ -533,18 +537,18 @@ public class BackDoorLogic extends Logic {
         for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
-                if(retreived == null){
+                if (retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
-                    if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); }
+                    if (retryCount % 10 == 0) { log.info("Waiting for delete to persist"); }
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
             }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ f.toString());
+            if (retreived != null) {
+                log.warning("Object did not get deleted in time \n" + f.toString());
             }
         }
         
@@ -554,34 +558,34 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes s : dataBundle.students.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getStudentForEmail(s.course, s.email);
-                if(retreived == null){
+                if (retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
             }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ s.toString());
+            if (retreived != null) {
+                log.warning("Object did not get deleted in time \n" + s.toString());
             }
         }
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
-                if(retreived == null){
+                if (retreived == null){
                     break;
-                }else {
+                } else {
                     retryCount++;
                     ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
             }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ i.toString());
+            if (retreived != null) {
+                log.warning("Object did not get deleted in time \n" + i.toString());
             }
         }
     }
@@ -590,7 +594,7 @@ public class BackDoorLogic extends Logic {
         try {
             BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
             return BackDoorServlet.RETURN_VALUE_TRUE;
-        } catch(IllegalArgumentException | BlobstoreFailureException e) {
+        } catch (IllegalArgumentException | BlobstoreFailureException e) {
             return BackDoorServlet.RETURN_VALUE_FALSE;
         }
     }

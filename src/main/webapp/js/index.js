@@ -1,5 +1,5 @@
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
 var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
@@ -35,14 +35,14 @@ function requestInstructorLogin() {
 }
 
 function handleInstructorLogin() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function handleStudentLogin() {
-    if (xmlhttp.status == 200) {
+    if (xmlhttp.status === 200) {
         var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
         window.location = url.firstChild.nodeValue;
     }
@@ -70,7 +70,7 @@ function getXMLObject() {
             xmlHttp = false;
         }
     }
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
     return xmlHttp;
@@ -105,7 +105,7 @@ onload = function() {
     var currentDate = new Date();
     e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
 
-    setInterval(loopTestimonials,LOOP_INTERVAL);
+    setInterval(loopTestimonials, LOOP_INTERVAL);
 };
 
 // Format large number with commas

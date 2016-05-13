@@ -38,7 +38,7 @@ public class EmailLogEntry {
         this.time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        try{
+        try {
             this.receiver = tokens[1];
             this.subject = tokens[2];
             this.content = tokens[3];
@@ -52,36 +52,18 @@ public class EmailLogEntry {
     }
     
     private String getLogInfoForTableRowAsHtml(){
-
-        StringBuilder str = new StringBuilder();
-        str.append("<tr class=\"log\">");
-        str.append("<td>" + this.receiver + "</td>");
-        str.append("<td>" + this.subject + "</td>");
-        str.append("<td>" + this.getTimeForDisplay() + "</td>");
-        str.append("</tr>");
-        str.append("<tr id=\"small\">");
-        str.append("<td colspan=\"3\">");
-        str.append("<ul class=\"list-group\">");
-        str.append("<li class=\"list-group-item list-group-item-info\">");
-        str.append("<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\"");
-        str.append(" readonly>");
-        str.append("</li>");
-        str.append("</ul>    ");
-        str.append("</td>");
-        str.append("</tr>");
-        str.append("<tr id=\"big\" style=\"display:none;\">");
-        str.append("<td colspan=\"3\">");
-        str.append("<div class=\"well\">");
-        str.append("<ul class=\"list-group\">");
-        str.append("<li class=\"list-group-item list-group-item-success\"><small>");
-        str.append(this.content + "</small>");
-        str.append("</li>");
-        str.append("</ul>");
-        str.append("</div>");
-        str.append("</td>");
-        str.append("</tr>");
-        
-        return str.toString();
+        return String.format(
+                "<tr class=\"log\"><td>%s</td><td>%s</td><td>%s</td></tr>"
+                + "<tr id=\"small\"><td colspan=\"3\"><ul class=\"list-group\">"
+                + "<li class=\"list-group-item list-group-item-info\">,"
+                + "<input type=\"text\" value=\"%s\" class=\"form-control\" readonly></li>"
+                + "</ul></td></tr>"
+                + "<tr id=\"big\" style=\"display:none;\">"
+                + "<td colspan=\"3\"><div class=\"well\"><ul class=\"list-group\"><li class=\"list-group-item list-group-item-success\">"
+                + "<small>%s</small>"
+                + "</li></ul></div></td>"
+                + "</tr>",
+                this.receiver, this.subject, this.getTimeForDisplay(), this.getContent(), this.content);
     }
     
     /**
@@ -122,19 +104,19 @@ public class EmailLogEntry {
     }
     
     public void highlightKeyStringInMessageInfoHtml(String[] keyStringsToHighlight, String part){
-        if(keyStringsToHighlight == null){
+        if (keyStringsToHighlight == null){
             return;
         }
         
-        if(part.contains("receiver")){
+        if (part.contains("receiver")){
             this.receiver = hightlightTextWithKeyWords(keyStringsToHighlight, this.receiver);
         }
         
-        if(part.contains("subject")){
+        if (part.contains("subject")){
             this.subject = hightlightTextWithKeyWords(keyStringsToHighlight, this.subject);
         }
         
-        if(part.contains("content")){
+        if (part.contains("content")){
             this.content = hightlightTextWithKeyWords(keyStringsToHighlight, this.content);
         }
         
@@ -142,12 +124,12 @@ public class EmailLogEntry {
     }
     
     private String hightlightTextWithKeyWords(String[] keyStringsToHighlight, String text){
-        if(text == null){
+        if (text == null){
             return text;
         }
         
-        for(String stringToHighlight : keyStringsToHighlight){
-            if(text.toLowerCase().contains(stringToHighlight.toLowerCase())){
+        for (String stringToHighlight : keyStringsToHighlight){
+            if (text.toLowerCase().contains(stringToHighlight.toLowerCase())){
                 
                 int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         

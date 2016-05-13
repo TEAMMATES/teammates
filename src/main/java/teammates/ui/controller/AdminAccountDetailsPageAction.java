@@ -21,7 +21,7 @@ public class AdminAccountDetailsPageAction extends Action {
         AccountAttributes accountInformation = logic.getAccount(googleId);
 
         List<CourseDetailsBundle> instructorCourseList;
-        try{
+        try {
             instructorCourseList = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(googleId).values());
         } catch (EntityDoesNotExistException e){
             //Not an instructor of any course
@@ -29,16 +29,16 @@ public class AdminAccountDetailsPageAction extends Action {
         }
         
         List<CourseAttributes> studentCourseList;
-        try{
+        try {
             studentCourseList = logic.getCoursesForStudentAccount(googleId);
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             //Not a student of any course
             studentCourseList = null;
         }
         
         AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation, 
                                                                            instructorCourseList, studentCourseList);
-        statusToAdmin = "adminAccountDetails Page Load<br>"+ 
+        statusToAdmin = "adminAccountDetails Page Load<br>" + 
                 "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, data);

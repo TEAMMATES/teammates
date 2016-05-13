@@ -6,7 +6,7 @@ function toggleContent(id) {
 
     var pill = $("#pill_" + id).attr("class");
 
-    if (pill == 'active') {
+    if (pill === 'active') {
         $("#pill_" + id).attr("class", " ");
         jQuery('#badge_' + id).fadeIn(duration);
     } else {
@@ -21,7 +21,7 @@ function openAllSections(count) {
     for (var i = 1; i <= count; i++) {
 
         var pill = $("#pill_" + i).attr("class");
-        if (pill != 'active') {
+        if (pill !== 'active') {
             toggleContent(i);
         }
     }
@@ -33,7 +33,7 @@ function closeAllSections(count) {
     for (var i = 1; i <= count; i++) {
 
         var pill = $("#pill_" + i).attr("class");
-        if (pill == 'active') {
+        if (pill === 'active') {
             toggleContent(i);
         }
     }
@@ -58,7 +58,7 @@ jQuery(document).ready(function() {
     jQuery('.back-to-top-left').click(function(event) {
         event.preventDefault();
         jQuery('html, body').animate({
-            scrollTop : 0
+            scrollTop: 0
         }, duration);
         return false;
     });
@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
     jQuery('.back-to-top-right').click(function(event) {
         event.preventDefault();
         jQuery('html, body').animate({
-            scrollTop : 0
+            scrollTop: 0
         }, duration);
         return false;
     });
@@ -78,11 +78,11 @@ function toggleFilter() {
     
     var button = $("#detailButton").attr("class");
     
-    if(button == "glyphicon glyphicon-chevron-down"){
-    $("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
+    if (button === "glyphicon glyphicon-chevron-down") {
+    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
     $("#referenceText").text("Hide Filter");
-    }else{
-        $("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
+    } else {
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Filter");
     }
 }

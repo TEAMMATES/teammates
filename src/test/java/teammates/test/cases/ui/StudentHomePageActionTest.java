@@ -58,7 +58,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" 
                                     + "|||true|||Unregistered|||null|||unreg.user|||null" 
                                     + "|||Servlet Action Failure :Student with Google ID "
-                                    + "unreg.user does not exist|||/page/studentHomePage" ;
+                                    + "unreg.user does not exist|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("registered student with no courses");
@@ -97,7 +97,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||Unregistered|||Student Without Courses|||googleId.without.courses"
                              + "|||googleId.without.courses@email.tmt|||Servlet Action Failure "
                              + ":Student with Google ID googleId.without.courses does not exist"
-                             + "|||/page/studentHomePage" ;
+                             + "|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -123,7 +123,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||Student(M)|||Student in two courses|||student2InCourse1"
                              + "|||student2InCourse1@gmail.tmt"
                              + "|||studentHome Page Load<br>Total courses: 2"
-                             + "|||/page/studentHomePage" ;
+                             + "|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -134,7 +134,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(1, data.getCourseTables().size());
         assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
         

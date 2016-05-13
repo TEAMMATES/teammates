@@ -97,7 +97,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         Set<String> allCourses = new HashSet<String>();
         
-        for(Course course : courses) {
+        for (Course course : courses) {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;
@@ -151,7 +151,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             String teamName = team.name;
             
             List<StudentAttributes> students = team.students;
-            System.out.println("Students in team " + teamName + " : "+students.size());
+            System.out.println("Students in team " + teamName + " : " + students.size());
             
             for (StudentAttributes student : students) {
                 updateStudentSection(currentSection, student);

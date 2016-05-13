@@ -81,23 +81,20 @@ public class Emails {
 
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo
-                .append("to="
-                        + message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString());
-        messageInfo.append("|from=" + message.getFrom()[0].toString());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=")
+                   .append(message.getRecipients(Message.RecipientType.TO)[0]
+                                .toString())
+                   .append("|from=").append(message.getFrom()[0].toString())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
     public static String getEmailInfo(Sendgrid message) {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo.append("to=" + message.getTos().get(0));
-        messageInfo.append("|from=" + message.getFrom());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=").append(message.getTos().get(0))
+                   .append("|from=").append(message.getFrom())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
@@ -243,7 +240,7 @@ public class Emails {
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
-            if(s == null) continue;
+            if (s == null) continue;
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
@@ -416,7 +413,7 @@ public class Emails {
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
+        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: " + c.id + ".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
@@ -514,8 +511,8 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
-                             throws AddressException,MessagingException,UnsupportedEncodingException {
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute) 
+                             throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
@@ -525,7 +522,7 @@ public class Emails {
         
         String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
         emailBody = emailBody.replace("${userName}", shortName);
-        emailBody = emailBody.replace("${joinUrl}",joinUrl);
+        emailBody = emailBody.replace("${joinUrl}", joinUrl);
         messageToUser.setContent(emailBody, "text/html");
 
         return messageToUser;
@@ -905,7 +902,7 @@ public class Emails {
     
         ArrayList<Object> data = new ArrayList<Object>();
         
-        try{
+        try {
             for (int i = 0; i < emails.size(); i++){
                 Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
                 for (int j = 0; j < recipients.length; j++){
@@ -913,7 +910,7 @@ public class Emails {
                 }
             }
         } catch (Exception e){
-            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders", e);
         }
         
         return data;
@@ -953,7 +950,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }

@@ -47,8 +47,8 @@ public class DataGenerator {
     public static final Integer MAX_TEAM_SIZE = 5;
     public static final Integer MIN_TEAM_SIZE = 3;
     
-    public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE =0;
-    public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE =0;
+    public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE = 0;
+    public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE = 0;
 
     public static final String START_TIME = "2012-04-01 11:59 PM UTC";
     public static final String END_TIME_PASSED = "2012-07-30 11:59 PM UTC";
@@ -64,7 +64,7 @@ public class DataGenerator {
 
     public static void main(String[] args) throws IOException {
         String data = generateData();
-        writeDataToFile(data,TestProperties.TEST_DATA_FOLDER +"/"+ FILE_NAME);
+        writeDataToFile(data, TestProperties.TEST_DATA_FOLDER + "/" + FILE_NAME);
     }
     
     /**
@@ -74,11 +74,11 @@ public class DataGenerator {
      * @param filePath - path to file
      * @throws IOException
      */
-    public static void writeDataToFile(String data,String filePath) throws IOException {
+    public static void writeDataToFile(String data, String filePath) throws IOException {
         File f;
-        f=new File(filePath);
+        f = new File(filePath);
         // Create file if it does not exist
-        if(!f.exists()){
+        if (!f.exists()){
             try {
                 f.createNewFile();
             } catch (IOException e) {
@@ -101,13 +101,13 @@ public class DataGenerator {
     public static String generateData() {
         System.out.println("Start generating data!");
         //Create students
-        for (int i = 0; i< NUM_OF_STUDENTS; i ++) {
-            studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
+        for (int i = 0; i < NUM_OF_STUDENTS; i++) {
+            studentEmails.add(PREFIX + "Stu" + i + "Email@gmail.com");
         }
         
         // Create courses
         for (int i = 0; i < NUM_OF_COURSES; i++) {
-            String courseName = "Course"+i;
+            String courseName = "Course" + i;
             courses.add(courseName);
             generateDataForCourse(courseName);
         }
@@ -124,12 +124,12 @@ public class DataGenerator {
      */
     public static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
-        long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES+1)
-                +MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
+        long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
+                + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
         
-        for (int j =0 ; j < numOfInstr; j ++) {
+        for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor
-            String instrName = "Instr"+j + "_of_"+courseName;
+            String instrName = "Instr" + j + "_of_" + courseName;
             instructors.put(instrName, courseName);
 
         }
@@ -162,22 +162,22 @@ public class DataGenerator {
         
         //Add teams
         int teamCount = 1;
-        while(studentEmailInCourse.size() >0) {
-            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
+        while (studentEmailInCourse.size() > 0) {
+            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
-            for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize ; k ++) {
+            for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
                 
-                String email =studentEmailInCourse.remove(0);
+                String email = studentEmailInCourse.remove(0);
                 
                 //add to team, add to students;
                 String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-                String studentID =PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
+                String studentID = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
                 
                 students.add(studentID);
                 team.add(studentID);
             }
 
-            teamCount ++;
+            teamCount++;
             teams.add(team);
         }
     }
@@ -205,11 +205,11 @@ public class DataGenerator {
         String output = "\"accounts\":{\n";
         for (String email : studentEmails) {
             email = email.split("@")[0];
-            output+="\t"+account(email);
-            output+=",\n";
+            output += "\t" + account(email);
+            output += ",\n";
         }
-        output = output.substring(0,output.length()-2);
-        output+= "\n},";
+        output = output.substring(0, output.length() - 2);
+        output += "\n},";
         return output;
     }
     
@@ -221,11 +221,11 @@ public class DataGenerator {
         for (String instructor : instructors.keySet()) {
             String course = PREFIX + instructors.get(instructor);
             instructor = PREFIX + instructor;
-            output+="\t"+instructor(instructor,"googleIdOf_"+instructor,"courseIdOf_"+course,"nameOf_"+instructor, "emailOf_"+instructor+"@gmail.com");
-            output+=",\n";
+            output += "\t" + instructor(instructor, "googleIdOf_" + instructor, "courseIdOf_" + course, "nameOf_" + instructor, "emailOf_" + instructor + "@gmail.com");
+            output += ",\n";
         }
-        output = output.substring(0,output.length()-2);
-        output+= "\n},";
+        output = output.substring(0, output.length() - 2);
+        output += "\n},";
         return output;
     }
     
@@ -235,12 +235,12 @@ public class DataGenerator {
     public static String allCourses(){
         String output = "\"courses\":{\n";
         for (int i = 0; i < courses.size(); i++) {
-            String course = PREFIX+courses.get(i);
-            output+="\t"+course(course,"courseIdOf_"+course, "nameOf_"+course);
-            if(i!=courses.size()-1)
-                output+=",\n";
+            String course = PREFIX + courses.get(i);
+            output += "\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
+            if (i != courses.size() - 1)
+                output += ",\n";
         }
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     
@@ -253,24 +253,24 @@ public class DataGenerator {
             String student = students.get(i);
             String index = student.split("Stu")[1].split("Team")[0];
             String team  = student.split("Team")[1].split("_")[0];
-            String course = PREFIX+student.split("_in_")[1];
+            String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
-            output+="\t"+student(student, email, "Student "+index+ " in " +course,
-                    "Team "+team, email.split("@")[0], "comment", "courseIdOf_"+course, "profile");
-            if(i!=students.size()-1)
-                output+=",\n";
+            output += "\t" + student(student, email, "Student " + index + " in " + course,
+                    "Team " + team, email.split("@")[0], "comment", "courseIdOf_" + course, "profile");
+            if (i != students.size() - 1)
+                output += ",\n";
         }
-        output+= "\n},";
+        output += "\n},";
         return output;
     }
     
 
     
     public static String account(String acc) {
-        String result = "\""+acc+"\":{";
-        result += "\"googleId\":\""+acc+"\",";
-        result += "\"name\":\""+acc+"\",";
-        result += "\"email\":\""+acc+"@gmail.com\",";
+        String result = "\"" + acc + "\":{";
+        result += "\"googleId\":\"" + acc + "\",";
+        result += "\"name\":\"" + acc + "\",";
+        result += "\"email\":\"" + acc + "@gmail.com\",";
         result += "\"institute\":\"\"";
           result += "}";
           return result;
@@ -280,11 +280,11 @@ public class DataGenerator {
      * @return Json string presentation for a instructor entity
      */
     public static String instructor (String objName, String googleId, String courseId, String name, String email) {
-        String result = "\""+objName+"\":{";
-        result += "\"googleId\":\""+googleId+"\",";
-        result += "\"courseId\":\""+courseId+"\",";
-        result += "\"name\":\""+name+"\",";
-        result += "\"email\":\""+email+"\"";
+        String result = "\"" + objName + "\":{";
+        result += "\"googleId\":\"" + googleId + "\",";
+        result += "\"courseId\":\"" + courseId + "\",";
+        result += "\"name\":\"" + name + "\",";
+        result += "\"email\":\"" + email + "\"";
           result += "}";
           return result;
     }
@@ -292,10 +292,10 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course (String objName,String id, String name){
-        String result = "\""+objName+"\":{";
-        result += "\"id\":\""+id+"\",";
-        result += "\"name\":\""+name+"\"";
+    public static String course (String objName, String id, String name){
+        String result = "\"" + objName + "\":{";
+        result += "\"id\":\"" + id + "\",";
+        result += "\"name\":\"" + name + "\"";
           result += "}";
           return result;
     }
@@ -303,16 +303,16 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a student entity
      */
-    public static String student (String objName, String email,String name, 
-            String team,String id, String comments , String course , String profile) {
-        String result = "\""+objName+"\":{";
-        result += "\"email\":\""+email+"\",";
-        result += "\"name\":\""+name+"\",";
-        result += "\"team\":\""+team+"\",";
-        result += "\"id\":\""+id+"\",";
-        result += "\"comments\":\""+comments+"\",";
-        result += "\"course\":\""+course+"\",";
-        result += "\"profile\":{\"value\": \""+name+"\"}";
+    public static String student (String objName, String email, String name, 
+            String team, String id, String comments, String course, String profile) {
+        String result = "\"" + objName + "\":{";
+        result += "\"email\":\"" + email + "\",";
+        result += "\"name\":\"" + name + "\",";
+        result += "\"team\":\"" + team + "\",";
+        result += "\"id\":\"" + id + "\",";
+        result += "\"comments\":\"" + comments + "\",";
+        result += "\"course\":\"" + course + "\",";
+        result += "\"profile\":{\"value\": \"" + name + "\"}";
           result += "}";
           return result;
     }
@@ -326,7 +326,7 @@ public class DataGenerator {
      */
     public static String emailFromStudentId(String id) {
         String index = id.split("Team")[0].split("Stu")[1];
-        return PREFIX+"Stu"+index+"Email@gmail.com";
+        return PREFIX + "Stu" + index + "Email@gmail.com";
     }
     
     /**
@@ -335,7 +335,7 @@ public class DataGenerator {
     public static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;
         do {
-            num = (int) Math.floor(random.nextGaussian()*(STANDARD_DEVIATION_STUDENT_PER_COURSE) + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
+            num = (int) Math.floor(random.nextGaussian() * (STANDARD_DEVIATION_STUDENT_PER_COURSE) + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
         } while (num > MAX_NUM_OF_STUDENTS_PER_COURSE || num < MIN_NUM_OF_STUDENTS_PER_COURSE);
         return num;
     }

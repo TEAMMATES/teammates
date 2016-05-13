@@ -80,11 +80,11 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         InstructorCoursesPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
+        InstructorCoursesPageData pageData = (InstructorCoursesPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
@@ -106,7 +106,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?error=false&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
         assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
         assertEquals(false, r.isError);

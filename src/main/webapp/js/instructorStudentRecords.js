@@ -26,19 +26,19 @@ $(document).ready(function() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
-        table.find('.answerCheckbox:checked').each(function () {
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showcommentsto"]').val(visibilityOptions.join(", "));
 
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showgiverto"]').val(visibilityOptions.join(", "));
 
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find('input[name="showrecipientto"]').val(visibilityOptions.join(", "));
@@ -66,7 +66,7 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox == 'yes') {
+    if (showCommentBox === 'yes') {
         $('#button_add_comment').click();
     }
 }
@@ -76,7 +76,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-'+commentIdx).submit();
+    $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
 
@@ -112,7 +112,7 @@ function hideAddCommentBox() {
 function enableEdit(commentIdx, maxComments) {
     var i = 1;
     while (i <= maxComments) {
-        if (commentIdx == i) {
+        if (commentIdx === i) {
             enableComment(i);
         } else {
             disableComment(i);
@@ -137,8 +137,8 @@ function disableComment(commentIdx) {
 }
 
 function textAreaAdjust(o) {
-    o.style.height = '1px';
-    o.style.height = (o.scrollHeight+5) + 'px';
+    var height = o.scrollHeight + 5;
+    o.style.height = height + 'px';
 }
 
 /**
@@ -150,9 +150,8 @@ function deleteComment(commentIdx) {
     if (confirm('Are you sure you want to delete this comment?')) {
         document.getElementById(COMMENT_EDITTYPE + '-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    } else {
-        return false;
     }
+    return false;
 }
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
@@ -161,8 +160,8 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function( response, status, xhr ) {
-      if (status == 'success') {
+    targetDiv.load(url, function(response, status, xhr) {
+      if (status === 'success') {
           $(sender).removeAttr('onclick');
       }
       $(sender).find('div[class^="placeholder-img-loading"]').html('');

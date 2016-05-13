@@ -250,7 +250,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
         String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseId);
-        return (keyToSend.equals(keyReceivedInEmail));
+        return keyToSend.equals(keyReceivedInEmail);
     }
 
     @AfterClass

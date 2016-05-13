@@ -185,7 +185,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
-        getViewResponseLink(courseId,sessionName).click();
+        getViewResponseLink(courseId, sessionName).click();
         waitForPageToLoad();
     }
     
@@ -239,7 +239,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
         // Select grace period
         if (gracePeriod != -1) {
-            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
+            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
         }
     
         clickSubmitButton();
@@ -526,7 +526,7 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
         return browser.driver.findElement(
                 By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
-                + (int) (rowIndex + 1)+ "]//a[contains(@class,'" + className + "')]"));
+                + (int) (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {

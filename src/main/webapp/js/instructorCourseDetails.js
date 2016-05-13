@@ -6,8 +6,8 @@ $(document).ready(function() {
     }
     
     //auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', function (e) {
-        selectElementContents( document.getElementById('detailsTable') );
+    $('#studentTableWindow').on('shown.bs.modal', function(e) {
+        selectElementContents(document.getElementById('detailsTable'));
     });
 });
 
@@ -20,16 +20,16 @@ function submitFormAjax() {
     var ajaxStatus = $('#ajaxStatus');
     
     $.ajax({
-        type : 'POST',
-        url :   "/page/instructorCourseDetailsPage?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: "/page/instructorCourseDetailsPage?" + formData,
+        beforeSend: function() {
             content.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             ajaxStatus.html("Failed to load student table. Please try again.");
             content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");         
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
                     var table = data.studentListHtmlTableAsString;                                     
@@ -84,10 +84,11 @@ function toggleDeleteStudentConfirmation(courseId, studentName) {
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
@@ -103,4 +104,4 @@ function selectElementContents(el) {
     }
 }
 
-var isShowCommentBox = false
+var isShowCommentBox = false;

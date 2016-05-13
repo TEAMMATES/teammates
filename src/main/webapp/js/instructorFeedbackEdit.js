@@ -37,7 +37,7 @@ function readyFeedbackEditPage() {
     // Bind destructive changes
     $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function() {
         var editStatus = $(this).parents('form').attr('editStatus');
-        if(editStatus === 'hasResponses') {
+        if (editStatus === 'hasResponses') {
             $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
         }
     });
@@ -62,7 +62,7 @@ function readyFeedbackEditPage() {
 }
 
 function bindFeedbackSessionEditFormSubmission() {
-    $('#form_feedbacksession').submit(function( event ) {
+    $('#form_feedbacksession').submit(function(event) {
         // Prevent form submission
         event.preventDefault();
         
@@ -85,7 +85,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 }
                 
                 // focus on status message
-                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
+                scrollToElement($("#statusMessagesToUser"), { offset: ($('.navbar').height() + 30) * -1 });
             }
         });
     });
@@ -244,7 +244,7 @@ function enableQuestion(number) {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT+'-' + number).show();
+    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + number).show();
     $('#' + 'button_question_submit-' + number).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
@@ -336,9 +336,8 @@ function deleteQuestion(number) {
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete'); 
         $('#form_editquestion-' + number).submit();
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 /**
@@ -374,7 +373,7 @@ function formatNumberBoxes() {
         var value = $(this).val();
         
         formatNumberBox(value, qnNumber);
-    }
+    };
     $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
                                                              .change(modifyVisibility);
     
@@ -431,7 +430,7 @@ function showNewQuestionFrame(type) {
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    scrollToElement($('#questionTableNew')[0], {duration: 1000});
+    scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
@@ -448,7 +447,7 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
-    switch(type) {
+    switch (type) {
         case 'TEXT':
             $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
             
@@ -539,6 +538,9 @@ function prepareQuestionForm(type) {
             
             $('#rankRecipientsForm').show();
             break;
+        default:
+            // do nothing if the question type is not recognized, which should not happen
+            break;
     }
 }
 
@@ -570,7 +572,7 @@ function formatCheckBoxes() {
                                      .prop('checked', true);
         }
     });
-    $('input[name=receiverLeaderCheckbox]').change(function () {
+    $('input[name=receiverLeaderCheckbox]').change(function() {
         $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
@@ -603,7 +605,7 @@ function copyOptions() {
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
-    $currRadioButtons.each(function (index) {
+    $currRadioButtons.each(function(index) {
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
     });
     
@@ -720,7 +722,7 @@ function getQuestionLink(qnNumber) {
 }
 
 function toParameterFormat(str) {
-    return str.replace(/\s/g,'+');
+    return str.replace(/\s/g, '+');
 }
 
 function bindCopyButton() {
@@ -833,7 +835,7 @@ function getVisibilityMessage(buttonElem) {
     var formData = $form.serialize();
     
     var $formOptions = $form.find('.visibilityOptions');
-    var $formVisibility = $form.find('.visibilityMessage') 
+    var $formVisibility = $form.find('.visibilityMessage'); 
     
     if (previousFormDataMap[qnNumber] === formData) {
         $formOptions.hide();
@@ -910,7 +912,7 @@ function getQuestionIdSuffix(questionNumber) {
     var isValidQuestionNumber = questionNumber > 0 ||
                                 questionNumber === newQuestionNumber;
     
-    var idSuffix = isValidQuestionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
     return idSuffix;
 }
 
@@ -927,16 +929,16 @@ function addMcqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
     
-    $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"mcqOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"radio\" disabled>"
         +       "</span>"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_MCQCHOICE + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_MCQCHOICE + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control mcqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
-        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeMcqOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -975,7 +977,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
         $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').hide();
@@ -994,7 +996,7 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = getQuestionIdSuffix(questionNumber);
 
-    if($(idOfQuestion).attr('editStatus') === "hasResponses") {
+    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
     }
 }
@@ -1019,16 +1021,16 @@ function addMsqOption(questionNumber) {
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"msqOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
         +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_MSQCHOICE + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_MSQCHOICE + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
-        +                   "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeMsqOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -1068,7 +1070,7 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
         $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").hide();
@@ -1123,42 +1125,41 @@ function updateNumScalePossibleValues(questionNumber) {
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + (possibleValuesCount - 1) * step;
     var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
-    if (roundToThreeDp(largestValueInRange) != max) {
+    if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');
         var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
                                    ' is not divisible by the specified increment.]';
 
         if (isNaN(min) || isNaN(max) || isNaN(step)) {
-            possibleValuesString = '[Please enter valid numbers for all the options.]'
+            possibleValuesString = '[Please enter valid numbers for all the options.]';
         }
 
         $numScalePossibleValues.text(possibleValuesString);
         return false;
-    } else {
-        $numScalePossibleValues.css('color', 'black');
-        var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
-        
-        // step is 3 d.p. at most, so round it after * 1000. 
-        if (possibleValuesCount > 6) {
-            possibleValuesString += min.toString() + ', ' +
-                                    (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
-                                    (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
-                                    (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
-                                    (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
-                                    max.toString();       
-        } else {
-            possibleValuesString += min.toString();
-            var cur = min + step;
-            while ((max - cur) >= -1e-9) {
-                possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
-                cur += step;
-            }
-        }
-        
-        possibleValuesString += ']';
-        $numScalePossibleValues.text(possibleValuesString);
-        return true;
     }
+    $numScalePossibleValues.css('color', 'black');
+    var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+    
+    // step is 3 d.p. at most, so round it after * 1000. 
+    if (possibleValuesCount > 6) {
+        possibleValuesString += min.toString() + ', ' +
+                                (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
+                                (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
+                                (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
+                                (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
+                                max.toString();       
+    } else {
+        possibleValuesString += min.toString();
+        var cur = min + step;
+        while (max - cur >= -1e-9) {
+            possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
+            cur += step;
+        }
+    }
+    
+    possibleValuesString += ']';
+    $numScalePossibleValues.text(possibleValuesString);
+    return true;
 }
 
 /**
@@ -1181,13 +1182,13 @@ function addConstSumOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group width-100-pc\">"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control constSumOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button class=\"btn btn-default removeOptionLink\" id=\"constSumRemoveOptionLink\" "
-        +                   "onclick=\"removeConstSumOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeConstSumOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -1277,9 +1278,9 @@ function setContribQnVisibilityFormat(questionNumber) {
                                      .prop('checked', false);
             } else {
                 $(this).parent().parent().find('input[class*="giverCheckbox"]')
-                                         .prop('checked',false);
+                                         .prop('checked', false);
                 $(this).parent().parent().find('input[class*="recipientCheckbox"]')
-                                         .prop('checked',false);
+                                         .prop('checked', false);
             }
             
         }
@@ -1305,7 +1306,7 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                     .prop('checked',true)
+                                     .prop('checked', true)
                                      .trigger('change');
         }
     });
@@ -1315,14 +1316,14 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .change(function() {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                     .prop('checked',true)
+                                     .prop('checked', true)
                                      .trigger('change');
         }
     });
     
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('[name=receiverLeaderCheckbox]')
-                         .change(function () {
+                         .change(function() {
         $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
@@ -1330,7 +1331,7 @@ function setContribQnVisibilityFormat(questionNumber) {
 }
 
 function fixContribQnGiverRecipient(questionNumber) {
-    var idSuffix = questionNumber ? ('-' + questionNumber) : '';
+    var idSuffix = questionNumber ? '-' + questionNumber : '';
     var $giverType = $('#givertype' + idSuffix);
     var $recipientType = $('#recipienttype' + idSuffix);
 
@@ -1464,7 +1465,7 @@ function addRubricCol(questionNumber) {
         var fragment = rubricRowFragmentTemplate;
         fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
         fragment = replaceAll(fragment, '${row}', rows);
-        fragment = replaceAll(fragment, '${col}', newColNumber-1);
+        fragment = replaceAll(fragment, '${col}', newColNumber - 1);
         fragment = replaceAll(fragment, '${description}', '');
         fragment = replaceAll(fragment,
                               '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
@@ -1494,7 +1495,7 @@ function removeRubricRow(index, questionNumber) {
     
     var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
     if (!confirm('Are you sure you want to ' + delStr + ' the row?')) {
-        return
+        return;
     }
     
     if (numberOfRows <= 1) {
@@ -1519,7 +1520,7 @@ function removeRubricCol(index, questionNumber) {
     
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
     if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
-        return
+        return;
     }
     
     if (numberOfCols <= 1) {
@@ -1580,13 +1581,13 @@ function addRankOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div id=\"rankOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+    $("<div id=\"rankOptionRow-" + curNumberOfChoiceCreated + idSuffix + "\">"
         +   "<div class=\"input-group\">"
-        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+"\" "
-        +               "id=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control rankOptionTextBox\">"
+        +       "<input type=\"text\" name=\"" + FEEDBACK_QUESTION_RANKOPTION + "-" + curNumberOfChoiceCreated + "\" "
+        +               "id=\"" + FEEDBACK_QUESTION_RANKOPTION + "-" + curNumberOfChoiceCreated + idSuffix + "\" class=\"form-control rankOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button class=\"btn btn-default removeOptionLink\" id=\"rankRemoveOptionLink\" "
-        +                   "onclick=\"removeRankOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeRankOption(" + curNumberOfChoiceCreated + "," + questionNumber + ")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"

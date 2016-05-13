@@ -20,7 +20,7 @@ function handleData(err, countryCoordinates, userData) {
     userData.forEach(function(entry) {
         var countryName = entry[entry.length - 1];
         var countryCode = getCountryCode(countryName);
-        if (countryCode != null) {
+        if (countryCode !== undefined) {
             countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
         }
     });
@@ -115,11 +115,11 @@ function handleData(err, countryCoordinates, userData) {
     });
 
     map.addPlugin('pins', function(layer, data, options) {
-        var self = this,
-            fillData = this.options.fills,
-            svg = this.svg;
+        var self = this;
+        var fillData = this.options.fills;
+        var svg = this.svg;
 
-        if (!data || (data && !data.slice)) {
+        if (!data || data && !data.slice) {
             handleError();
             return;
         }

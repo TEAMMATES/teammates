@@ -2,7 +2,6 @@ package teammates.logic.automated;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,11 +45,6 @@ public abstract class EmailAction {
         emailsToBeSent = null;
     }
     
-    //For testing only
-    public EmailAction(HashMap<String, String> paramMap) {
-        req = null;
-        emailsToBeSent = null;
-    }
     
     public void sendEmails() {
         try {
@@ -71,7 +65,7 @@ public abstract class EmailAction {
             logActivityFailure(req, e);    
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
         } finally {
-            if(isError){
+            if (isError){
                 try {
                     doPostProcessingForUnsuccesfulSend();
                 } catch (EntityDoesNotExistException e) {
@@ -167,7 +161,7 @@ public abstract class EmailAction {
     
     private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
-        int endIndex = emailContent.indexOf(",");
+        int endIndex = emailContent.indexOf(',');
         return emailContent.substring(startIndex, endIndex);
     }
     

@@ -63,12 +63,12 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT+"?error=false&" +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&" +
                 "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        InstructorCourseStudentDetailsEditPageData pageData = (InstructorCourseStudentDetailsEditPageData)r.data;
+        InstructorCourseStudentDetailsEditPageData pageData = (InstructorCourseStudentDetailsEditPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(student1InCourse1.name, pageData.getStudentInfoTable().getName());
         assertEquals(student1InCourse1.email, pageData.getStudentInfoTable().getEmail());

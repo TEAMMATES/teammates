@@ -51,7 +51,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                                   "student1InIESFPTCourse@gmail.tmt",
                                                   "student1InIESFPTCourse@gmail.tmt");  
         
-        assertEquals("Student 1 self feedback.",fr.getResponseDetails().getAnswerString());
+        assertEquals("Student 1 self feedback.", fr.getResponseDetails().getAnswerString());
      
         submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
 

@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSession {
 
     // Format is feedbackSessionName%courseId
+    // PMD.UnusedPrivateField is suppressed as feedbackSessionId is persisted to the database
+    @SuppressWarnings("PMD.UnusedPrivateField")
     @PrimaryKey
     @Persistent
     private transient String feedbackSessionId;
@@ -267,7 +269,7 @@ public class FeedbackSession {
     
     public boolean isOpeningEmailEnabled() {
         // Legacy data might not have this field
-        if(isOpeningEmailEnabled == null) { 
+        if (isOpeningEmailEnabled == null) { 
             isOpeningEmailEnabled = true;
         }
         
@@ -280,7 +282,7 @@ public class FeedbackSession {
     
     public boolean isClosingEmailEnabled() {
         // Legacy data might not have this field
-        if(isClosingEmailEnabled == null) {
+        if (isClosingEmailEnabled == null) {
             isClosingEmailEnabled = true;
         }
         
@@ -293,7 +295,7 @@ public class FeedbackSession {
     
     public boolean isPublishedEmailEnabled() {
         // Legacy data might not have this field
-        if(isPublishedEmailEnabled == null) {
+        if (isPublishedEmailEnabled == null) {
             isPublishedEmailEnabled = true;
         }
         
@@ -334,7 +336,7 @@ public class FeedbackSession {
                 + ", sentPublishedEmail=" + sentPublishedEmail 
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
 }

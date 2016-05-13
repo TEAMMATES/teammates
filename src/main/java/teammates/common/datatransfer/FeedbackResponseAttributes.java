@@ -109,11 +109,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        if (!error.isEmpty()) { errors.add(error); }
         
         return errors;
     }
@@ -175,7 +175,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = teammates.common.util.Utils.getTeammatesGson();
+        Gson gson = Utils.getTeammatesGson();
         
         if (responseDetails == null) {
             // There was error extracting response data from http request
@@ -199,12 +199,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             return null;
         }
         
-        if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
     }
@@ -227,7 +227,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>(){
+        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
             public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
                 return fr1.getId().compareTo(fr2.getId());
             }

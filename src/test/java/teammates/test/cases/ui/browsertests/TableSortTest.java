@@ -160,7 +160,7 @@ public class TableSortTest extends BaseUiTestCase {
 
         String searchString = "";
         for (int i = 0; i < idList.length; i++) {
-            searchString += idList[i]+"{*}";
+            searchString += idList[i] + "{*}";
         }
         page.verifyContains(searchString);
 
@@ -184,7 +184,7 @@ public class TableSortTest extends BaseUiTestCase {
 
         searchString = "";
         for (int i = 0; i < reversedIdList.length; i++) {
-            searchString += reversedIdList[i]+"{*}";
+            searchString += reversedIdList[i] + "{*}";
         }
         page.verifyContains(searchString);
     }
@@ -194,7 +194,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(sortIcon);
         String searchString = "";
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i]+"{*}";
+            searchString += values[i] + "{*}";
         }
         page.verifyContains(searchString);
         
@@ -202,7 +202,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(sortIcon);
         searchString = "";
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i-1]+"{*}";
+            searchString += values[i - 1] + "{*}";
         }
         page.verifyContains(searchString);
     }

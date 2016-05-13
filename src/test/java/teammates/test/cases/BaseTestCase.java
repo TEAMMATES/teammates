@@ -53,7 +53,7 @@ public class BaseTestCase {
     }
     
     protected static DataBundle loadDataBundle(String pathToJsonFile){
-        if(pathToJsonFile.startsWith("/")){
+        if (pathToJsonFile.startsWith("/")){
             pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
         }
         try {
@@ -103,7 +103,7 @@ public class BaseTestCase {
     }
 
     protected void signalFailureToDetectException(String... messages) {
-        throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));
+        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
     }
 
     protected void ignoreExpectedException() {

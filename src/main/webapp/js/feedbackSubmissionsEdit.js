@@ -39,18 +39,18 @@ $(document).ready(function() {
     
         if ($(this).data('text') === "otherOptionText") {
             // Other option is selected by the student
-            $('#'+idOfOtherOptionText).prop('disabled', false);
-            $('#'+idOfOtherOptionFlag).val("1");
+            $('#' + idOfOtherOptionText).prop('disabled', false);
+            $('#' + idOfOtherOptionFlag).val("1");
         } else {
             // Any option except the other option is selected
-            $('#'+idOfOtherOptionText).prop('disabled', true);
-            $('#'+idOfOtherOptionFlag).val("0");
+            $('#' + idOfOtherOptionText).prop('disabled', true);
+            $('#' + idOfOtherOptionFlag).val("0");
         }
     });
                    
-    $("input[id^='otherOptionText']").keyup(function () {
-    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text','');
-    $('#'+idOfOtherOptionRadioButton).val($(this).val());
+    $("input[id^='otherOptionText']").keyup(function() {
+    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+    $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
@@ -109,7 +109,7 @@ function updateMsqOtherOptionField() {
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('.moderated-question').length > 0) {
-        scrollToElement($('.moderated-question')[0], {duration: 1000});
+        scrollToElement($('.moderated-question')[0], { duration: 1000 });
     }
 }
 
@@ -139,10 +139,10 @@ function prepareMCQQuestions() {
                 var indexSuffix = name.substring(name.indexOf("-"));
           
                 // toggle the radio button checked state
-                $(this).attr('checked', (radioStates[name][val] = !radioStates[name][val]));
+                $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') == "otherOptionText") {
+                if ($(this).data('text') === "otherOptionText") {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
@@ -150,12 +150,10 @@ function prepareMCQQuestions() {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
                     }                   
-                } else { // Predefined option is selected
+                } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
-                    if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
-                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                    }
+                    $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
+                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
@@ -236,7 +234,7 @@ function prepareMSQQuestions() {
 
         // reset "none of the above" if any option is clicked
         var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""], '
-                        +'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
+                        + 'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
 
         $options.click(function() {
             var noneOfTheAboveOption = $(this).closest('table').find(
@@ -358,7 +356,7 @@ function prepareMobileRubricQuestions() {
     $rubricRadioInputs.closest('label').mousedown(function(e) {
         var $self = $(this);
         var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
-        if($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
+        if ($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
             var uncheck = function() {
                 setTimeout(function() {
                     $radioInput.prop('checked', false);
@@ -419,10 +417,8 @@ function updateRubricCellSelectedColor(radioInput) {
     if ($(radioInput).prop('checked')) {
         cell.addClass('cell-selected');
         tableRow.addClass('row-answered');
-    } else {
-        if (cell.hasClass('cell-selected')) {
-            cell.removeClass('cell-selected');
-        }
+    } else if (cell.hasClass('cell-selected')) {
+        cell.removeClass('cell-selected');
     }
 }
 
@@ -535,7 +531,7 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
         } else {
-            message = 'Over allocated ' + (-remainingPoints) + ' points.';
+            message = 'Over allocated ' + -remainingPoints + ' points.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
@@ -615,7 +611,7 @@ function validateConstSumQuestions() {
 
             // indicate the question number where the errors are located at
             if ($('p[id^="constSumMessage-' + qnNum + '-"].text-color-red').length > 0) {
-                statusMessage += (errorCount === 0) ? '' : ',';
+                statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
                 errorCount++;
@@ -722,9 +718,8 @@ function isAnswerBlank(question, response) {
     if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
         return !$answer.is(':checked');
-    } else {
-        return $answer.val().trim() === '';
     }
+    return $answer.val().trim() === '';
 }
 
 // Checks that there are no responses written to an unspecified recipient
@@ -734,7 +729,7 @@ function validateAllAnswersHaveRecipient() {
     });
 
     var isAllAnswersToMissingRecipientEmpty = true;
-    var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
+    var statusMessage = FEEDBACK_MISSING_RECIPIENT;
     var errorCount = 0;
 
     // for every response without a recipient, check that the response is empty
@@ -747,7 +742,7 @@ function validateAllAnswersHaveRecipient() {
         var answer = $('[name=responsetext-' + question + '-' + response + ']');
 
         if (!isAnswerBlank(question, response)) {
-            statusMessage += (errorCount == 0) ? '' : ',';
+            statusMessage += errorCount === 0 ? '' : ',';
             statusMessage += ' ';
             statusMessage += question;
             errorCount++;
@@ -793,9 +788,9 @@ function prepareRankQuestions() {
 }
 
 function updateRankMessages() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
-    for (var i = 0; i < rankQuestionNums.length; i++) {;
+    for (var i = 0; i < rankQuestionNums.length; i++) {
         var qnNum = rankQuestionNums[i];
         updateRankMessageQn(qnNum);
     }
@@ -806,7 +801,7 @@ function validateRankQuestions() {
 
     // if any of the rank questions has an error.
     if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
+        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
         var statusMessage = 'Please fix the error(s) for rank question(s)';
         var errorCount = 0;
 
@@ -815,7 +810,7 @@ function validateRankQuestions() {
 
             // indicate the question number where the errors are located at
             if ($('p[id^="rankMessage-' + qnNum + '-"].text-color-red').length > 0) {
-                statusMessage += (errorCount === 0) ? '' : ',';
+                statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
                 errorCount++;
