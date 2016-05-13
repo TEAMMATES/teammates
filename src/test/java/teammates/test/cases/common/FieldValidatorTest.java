@@ -261,6 +261,30 @@ public class FieldValidatorTest extends BaseTestCase {
         testGetInvalidityInfoForPersonName();
         testGetInvalidityInfoForInstituteName();
         testGetInvalidityInfoForNationality();
+        testGetInvalidityInfoForCourseName();
+    }
+
+    private void testGetInvalidityInfoForCourseName() {
+        invalidityInfoFor_validCourseName_shouldbeEmptyString();
+        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
+        String invalidCharCourseName = "Vertical Bar | Course";
+        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
+        assertEquals("Course name with invalid character should return appropriate error string",
+                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                   invalidCharCourseName,
+                                   FieldValidator.COURSE_NAME_FIELD_NAME,
+                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                                   FieldValidator.COURSE_NAME_FIELD_NAME),
+                     actual);
+    }
+
+    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
+        String validCourseName = "Introduction to Valid Course";
+        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
+        assertEquals("Valid course name should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfoForNationality() {
