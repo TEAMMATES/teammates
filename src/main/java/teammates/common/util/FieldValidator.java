@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Const;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.

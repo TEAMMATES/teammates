@@ -16,7 +16,6 @@ import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;

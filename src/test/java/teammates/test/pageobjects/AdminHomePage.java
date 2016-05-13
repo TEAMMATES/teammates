@@ -70,6 +70,10 @@ public class AdminHomePage extends AppPage {
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }
     
+    public void clearInstructorDetailsSingleLineForm() {
+        fillTextBox(detailsSingleLineTextBox, "");        
+    }
+    
     public String getMessageFromResultTable(int index) {
         return getCellValueFromDataTable(index, 5);
     }

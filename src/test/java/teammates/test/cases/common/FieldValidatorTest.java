@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
@@ -279,12 +278,12 @@ public class FieldValidatorTest extends BaseTestCase {
         testOnce("invalid: randomn gender value",
                 FieldType.GENDER,
                 invalidInput,
-                String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidInput));
+                String.format(GENDER_ERROR_MESSAGE, invalidInput));
         
         testOnce("invalid: empty string",
                 FieldType.GENDER,
                 emptyInput,
-                String.format(FieldValidator.GENDER_ERROR_MESSAGE, emptyInput));
+                String.format(GENDER_ERROR_MESSAGE, emptyInput));
     }
 
 
