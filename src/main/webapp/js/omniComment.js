@@ -249,8 +249,7 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length)
-            {
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
                 studentCommentPanelBody.show();
             }
         }
@@ -292,8 +291,7 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length)
-            {
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
                 studentCommentPanelBody.hide();
             }
         }
