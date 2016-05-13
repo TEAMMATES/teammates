@@ -228,7 +228,7 @@ public class DataGenerator {
                                             "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
         }
-        String output = outputBuilder.substring(0, outputBuilder.length()-2);
+        String output = outputBuilder.substring(0, outputBuilder.length() - 2);
         return output + "\n},";
 
     }

@@ -248,7 +248,7 @@ public class PerformanceProfiler extends Thread {
             }
             String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
             Float average = total / arr.size();
-            out.write(str + "| " +average + " | " + lineStr +"\n");
+            out.write(str + "| " + average + " | " + lineStr + "\n");
         }
         out.close();
     }
