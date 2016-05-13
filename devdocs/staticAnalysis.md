@@ -16,6 +16,14 @@ This document will cover an overview of these tools and how to run them in local
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
+#####Configuring Checkstyle Eclipse plugin  
+
+1. In `Project > Properties`, go to the `Checkstyle` tab.
+2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
+3. In the `Main` tab, uncheck `Use simple configuration`.
+4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
+5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
+
 ### PMD
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
@@ -89,6 +97,8 @@ Alternatively, run the tools via Gradle:
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
+
+To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
