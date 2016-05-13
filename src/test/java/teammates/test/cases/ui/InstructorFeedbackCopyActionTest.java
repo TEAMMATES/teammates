@@ -150,9 +150,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty."
-                + " The value of feedback session name should be no longer than 38 characters. It should not be empty.|||"
-                + "/page/instructorFeedbackCopy";
+                + "Servlet Action Failure : "
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + "|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

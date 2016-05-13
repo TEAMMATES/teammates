@@ -25,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -1103,7 +1104,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
+            assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
+                                       FieldValidator.REASON_INCORRECT_FORMAT),
+                         e.getMessage());
         }
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);

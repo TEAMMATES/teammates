@@ -9,6 +9,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackAddAction;
@@ -88,8 +90,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
         
+        String tooLongName = StringHelper.generateStringOfLength(FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "123456789012345678901234567890123456789", 0);
+                         instructor1ofCourse1.courseId, tooLongName, 0);
         a = getAction(params);
         pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
@@ -101,10 +104,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Servlet Action Failure : \"123456789012345678901234567890123456789\" "
-                + "is not acceptable to TEAMMATES as feedback session name because it is too long. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackAdd";
+                + "instr1@course1.tmt|||Servlet Action Failure : "
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
+                                tooLongName, FieldValidator.REASON_TOO_LONG)
+                + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

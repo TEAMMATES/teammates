@@ -20,6 +20,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -103,8 +104,9 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
-                                e.getMessage());
+            assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instr.email,
+                                       FieldValidator.REASON_INCORRECT_FORMAT),
+                         e.getMessage());
         }
         
         ______TS("failure: null parameters");
