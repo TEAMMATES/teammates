@@ -16,7 +16,7 @@ $(document).ready(function() {
     $(".studentRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if ($(this).attr("class") == "studentRow active") {
+        if ($(this).attr("class") === "studentRow active") {
             $(this).attr("class", "studentRow");
         } else {
             $(this).attr("class", "studentRow active");
@@ -28,7 +28,7 @@ $(document).ready(function() {
     $(".instructorRow").click(function() {
 
         var rawId = $(this).attr("id");
-        if ($(this).attr("class") == "instructorRow active") {
+        if ($(this).attr("class") === "instructorRow active") {
             $(this).attr("class", "instructorRow");
         } else {
             $(this).attr("class", "instructorRow active");

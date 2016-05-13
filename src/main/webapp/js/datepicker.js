@@ -10,7 +10,7 @@ $(document).ready(function() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: today,
-        onSelect: function(date, inst) {
+        onSelect: function() {
             var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker("getDate"), 
                     $('#publishdate').datepicker("getDate"));
             $("#visibledate").datepicker("option", "maxDate", newVisibleDate);
@@ -33,7 +33,7 @@ $(document).ready(function() {
         gotoCurrent: true,
         defaultDate: yesterday,
         maxDate: today,
-        onSelect: function(date) {
+        onSelect: function() {
             var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker("getDate"));
             $("#publishdate").datepicker("option", "minDate", newPublishDate);
         }

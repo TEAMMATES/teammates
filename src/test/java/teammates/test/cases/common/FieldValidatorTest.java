@@ -50,7 +50,7 @@ public class FieldValidatorTest extends BaseTestCase {
                         maxLength, 
                         StringHelper.generateStringOfLength(maxLength)));
         
-        String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
+        String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
@@ -125,7 +125,7 @@ public class FieldValidatorTest extends BaseTestCase {
                         maxLength, 
                         untrimmedValue));
         
-        String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
+        String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
@@ -220,7 +220,7 @@ public class FieldValidatorTest extends BaseTestCase {
         
         ______TS("failure: too long");
         
-        String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
+        String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
@@ -457,7 +457,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 "e@y", 
                 "");
         
-        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6)+"@c.gov";
+        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
         testOnce("valid: max length", 
                 FieldType.EMAIL, 
                 maxLengthValue, 
@@ -694,14 +694,14 @@ public class FieldValidatorTest extends BaseTestCase {
     
     private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
         if (!fieldName.isEmpty() && !expected.isEmpty()){
-            expected = "Invalid "+ fieldName + ": " + expected;
+            expected = "Invalid " + fieldName + ": " + expected;
         }
         assertEquals(description, expected, 
                 validator.getInvalidityInfo(fieldType, fieldName, value));
     }
 
     private void verifyAssertError(String description, FieldType fieldType, String value) {
-        String errorMessage = "Did not throw the expected AssertionError for "+ description;
+        String errorMessage = "Did not throw the expected AssertionError for " + description;
         try {
             validator.getInvalidityInfo(fieldType, value);
             signalFailureToDetectException(errorMessage);

@@ -24,7 +24,7 @@ $(document).ready(function() {
                 params[paramValue[0]] = paramValue[1];
             }
 
-            if ('user' in params == false) {
+            if ('user' in params === false) {
                 params['user'] = $('input[name="user"]').val();
             }
 

@@ -512,7 +512,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ a.toString());
+                log.warning("Object did not get deleted in time \n" + a.toString());
             }
         }
         
@@ -529,7 +529,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ c.toString());
+                log.warning("Object did not get deleted in time \n" + c.toString());
             }
         }
         
@@ -548,7 +548,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ f.toString());
+                log.warning("Object did not get deleted in time \n" + f.toString());
             }
         }
         
@@ -568,7 +568,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ s.toString());
+                log.warning("Object did not get deleted in time \n" + s.toString());
             }
         }
         
@@ -585,7 +585,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ i.toString());
+                log.warning("Object did not get deleted in time \n" + i.toString());
             }
         }
     }

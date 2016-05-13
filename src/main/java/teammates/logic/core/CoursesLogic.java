@@ -131,7 +131,7 @@ public class CoursesLogic {
 
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
         if (!isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
+            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
     }
 

@@ -826,8 +826,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Team 1.2=",
                 "Team 1.4=",
                 "FSRTest.instr1@course1.tmt=Instructors",
-                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946"+ Const.TEAM_OF_EMAIL_OWNER,
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508"+ Const.TEAM_OF_EMAIL_OWNER);
+                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946" + Const.TEAM_OF_EMAIL_OWNER,
+                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508" + Const.TEAM_OF_EMAIL_OWNER);
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailTeamNameTable.size());
         
@@ -886,17 +886,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                getResponseId("qn1.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn2.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn2.resp3", responseBundle)+"={true,true}",
-                getResponseId("qn3.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn4.resp2", responseBundle)+"={true,true}",
-                getResponseId("qn4.resp3", responseBundle)+"={false,true}",
-                getResponseId("qn5.resp1", responseBundle)+"={true,false}",
-                getResponseId("qn7.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn7.resp2", responseBundle)+"={true,true}",
-                getResponseId("qn8.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn8.resp2", responseBundle)+"={true,true}");
+                getResponseId("qn1.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn2.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn2.resp3", responseBundle) + "={true,true}",
+                getResponseId("qn3.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn4.resp2", responseBundle) + "={true,true}",
+                getResponseId("qn4.resp3", responseBundle) + "={false,true}",
+                getResponseId("qn5.resp1", responseBundle) + "={true,false}",
+                getResponseId("qn7.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn7.resp2", responseBundle) + "={true,true}",
+                getResponseId("qn8.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn8.resp2", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(11, results.visibilityTable.size());
         
@@ -967,16 +967,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                getResponseId("qn2.resp1", responseBundle)+"={false,false}",
-                getResponseId("qn2.resp2", responseBundle)+"={false,false}",
-                getResponseId("qn2.resp3", responseBundle)+"={false,false}",
-                getResponseId("qn3.resp1", responseBundle)+"={true,false}",
-                getResponseId("qn3.resp2", responseBundle)+"={false,false}",
-                getResponseId("qn4.resp1", responseBundle)+"={true,true}",
-                getResponseId("qn4.resp2", responseBundle)+"={true,true}",
-                getResponseId("qn4.resp3", responseBundle)+"={true,true}",
-                getResponseId("qn5.resp1", responseBundle)+"={false,true}",
-                getResponseId("qn6.resp1", responseBundle)+"={true,true}");
+                getResponseId("qn2.resp1", responseBundle) + "={false,false}",
+                getResponseId("qn2.resp2", responseBundle) + "={false,false}",
+                getResponseId("qn2.resp3", responseBundle) + "={false,false}",
+                getResponseId("qn3.resp1", responseBundle) + "={true,false}",
+                getResponseId("qn3.resp2", responseBundle) + "={false,false}",
+                getResponseId("qn4.resp1", responseBundle) + "={true,true}",
+                getResponseId("qn4.resp2", responseBundle) + "={true,true}",
+                getResponseId("qn4.resp3", responseBundle) + "={true,true}",
+                getResponseId("qn5.resp1", responseBundle) + "={false,true}",
+                getResponseId("qn6.resp1", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(10, results.visibilityTable.size());
         
@@ -1023,10 +1023,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                getResponseId("qn3.resp1", responseBundle)+"={true,false}",
-                getResponseId("qn4.resp3", responseBundle)+"={true,true}",
-                getResponseId("qn2.resp3", responseBundle)+"={false,false}",
-                getResponseId("qn2.resp1", responseBundle)+"={false,false}");
+                getResponseId("qn3.resp1", responseBundle) + "={true,false}",
+                getResponseId("qn4.resp3", responseBundle) + "={true,true}",
+                getResponseId("qn2.resp3", responseBundle) + "={false,false}",
+                getResponseId("qn2.resp1", responseBundle) + "={false,false}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
@@ -1085,8 +1085,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                getResponseId("p.qn1.resp1", responseBundle)+"={true,true}",
-                getResponseId("p.qn2.resp1", responseBundle)+"={true,false}");
+                getResponseId("p.qn1.resp1", responseBundle) + "={true,true}",
+                getResponseId("p.qn2.resp1", responseBundle) + "={true,false}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(2, results.visibilityTable.size());
         

@@ -45,7 +45,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        int _23hours59min_InMilliSeconds = (60 * 23+59) * 60 * 1000;
+        int _23hours59min_InMilliSeconds = (60 * 23 + 59) * 60 * 1000;
         closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
 
         //Opening time for one feedback session already set to some time in the past.

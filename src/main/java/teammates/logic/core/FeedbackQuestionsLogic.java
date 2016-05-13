@@ -61,7 +61,7 @@ public class FeedbackQuestionsLogic {
         if (fqa.questionNumber < 0){
             fqa.questionNumber = questions.size() + 1;
         }
-        adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
+        adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
         createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
     }
     
@@ -590,7 +590,7 @@ public class FeedbackQuestionsLogic {
                 }
             }
         } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()){
-            for (int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
+            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++){
                 FeedbackQuestionAttributes question = questions.get(i - 1);
                 question.questionNumber -= 1;
                 try {

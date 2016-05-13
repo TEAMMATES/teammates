@@ -117,7 +117,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                 
         browser.driver.get(joinLink);
         instructorHome = createNewPage(browser, InstructorHomePage.class);
-        instructorHome.verifyStatus(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+ " has already joined this course");
+        instructorHome.verifyStatus(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
     }
     
     @AfterClass

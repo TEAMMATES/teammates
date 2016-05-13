@@ -142,7 +142,7 @@ function prepareMCQQuestions() {
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') == "otherOptionText") {
+                if ($(this).data('text') === "otherOptionText") {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
@@ -353,7 +353,7 @@ function prepareMobileRubricQuestions() {
 
     // setup unchecking when clicking on selected radio button
     // reference: http://stackoverflow.com/a/6246260
-    $rubricRadioInputs.closest('label').mousedown(function(e) {
+    $rubricRadioInputs.closest('label').mousedown(function() {
         var $self = $(this);
         var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
         if ($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
@@ -464,7 +464,7 @@ function prepareConstSumQuestions() {
 }
 
 function getQuestionTypeNumbers(qnType) {
-    var questions = $('input[name^="questiontype-"]').filter(function(index) {
+    var questions = $('input[name^="questiontype-"]').filter(function() {
         return $(this).val() === qnType;
     });
 
@@ -724,7 +724,7 @@ function isAnswerBlank(question, response) {
 
 // Checks that there are no responses written to an unspecified recipient
 function validateAllAnswersHaveRecipient() {
-    var blankRecipients = $('select[name^="responserecipient-"]').filter(function(index) {
+    var blankRecipients = $('select[name^="responserecipient-"]').filter(function() {
         return $(this).val() === '';
     });
 
@@ -739,10 +739,8 @@ function validateAllAnswersHaveRecipient() {
         var question = $(recipient).attr('name').split('-')[1];
         var response = $(recipient).attr('name').split('-')[2];
 
-        var answer = $('[name=responsetext-' + question + '-' + response + ']');
-
         if (!isAnswerBlank(question, response)) {
-            statusMessage += errorCount == 0 ? '' : ',';
+            statusMessage += errorCount === 0 ? '' : ',';
             statusMessage += ' ';
             statusMessage += question;
             errorCount++;
@@ -779,10 +777,6 @@ function prepareRankQuestions() {
             $('[id^="rankInfo-' + qnNum + '-"]').hide();
         }
 
-        if (isRankingRecipients) {
-            var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
-
-        }
     }
     updateRankMessages();
 }
@@ -884,7 +878,7 @@ function updateRankMessageQn(qnNum) {
     function updateDropdownOptions(qnNum, recipientIndex) {
         var dropdownSelect = $('select[id^="responsetext-' + qnNum + '-' + recipientIndex + '-"]');
 
-        dropdownSelect.find('option').each(function(index) {
+        dropdownSelect.find('option').each(function() {
             if (allocatedRanks.hasOwnProperty($(this).val())) {
                 $(this).addClass('color_neutral');
             } else {

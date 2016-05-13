@@ -235,7 +235,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
         studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt", "", courseId));
         try {
-            studentsLogic.validateSections(studentList, courseId);
+            studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
             Assumption.fail("This exception is not expected: " + e.getMessage());
         }
@@ -248,7 +248,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentList.add(addedStudent);
         }
         try {
-            studentsLogic.validateSections(studentList, courseId);
+            studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
             assertEquals(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, "Section 1"), e.getMessage());
         }
@@ -258,7 +258,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         studentList = new ArrayList<StudentAttributes>();
         studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
         try {
-            studentsLogic.validateSections(studentList, courseId);
+            studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
             assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students", 
                     e.getMessage());
@@ -683,7 +683,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = headerLine + EOL +"t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
+        lines = headerLine + EOL + "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
@@ -739,7 +739,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(line_t10));
-            AssertHelper.assertContains("Same email address as the student in line \""+line_t9+"\"", e.getMessage());    
+            AssertHelper.assertContains("Same email address as the student in line \"" + line_t9 + "\"", e.getMessage());    
         }
         
         

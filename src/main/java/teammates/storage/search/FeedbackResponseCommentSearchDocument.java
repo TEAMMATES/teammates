@@ -192,7 +192,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName +" "+ giverAsInstructor.name : comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
             .setId(comment.getId().toString())
             .build();
         return doc;

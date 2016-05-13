@@ -30,7 +30,7 @@ function linkAjaxForResponseRate() {
     $('td[class*="session-response-for-test"] > a').click(responseRateClickHandler);
 
 
-    $(".table").each(function(idx) {
+    $(".table").each(function() {
         //this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
         
@@ -44,7 +44,7 @@ function linkAjaxForResponseRate() {
         });
 
         var sortedElements = $.merge(recentElements, nonRecentElements);
-        sortedElements.each(function(idx) {
+        sortedElements.each(function() {
             currentTable.get(0).appendChild(this);
         });
     });

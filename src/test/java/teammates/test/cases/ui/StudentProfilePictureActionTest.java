@@ -223,7 +223,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                                                              boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Instructor" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + instructor.name + "|||" + instructor.googleId + "|||"+ instructor.email
+                                  + instructor.name + "|||" + instructor.googleId + "|||" + instructor.email
                                   + "|||Requested Profile Picture by instructor/other students|||/page/studentProfilePic";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }

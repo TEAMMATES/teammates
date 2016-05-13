@@ -29,7 +29,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("valid value", true, validCourse.isValid());
         
         
-        String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH+1);
+        String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName);
         

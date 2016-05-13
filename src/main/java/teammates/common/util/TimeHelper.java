@@ -186,7 +186,7 @@ public class TimeHelper {
         } else if (optionValue.length() == 2) {
             return optionValue + "00H";
         } else {
-            throw new RuntimeException("Unrecognized time option: "+optionValue);
+            throw new RuntimeException("Unrecognized time option: " + optionValue);
         }
     }
 
@@ -432,7 +432,7 @@ public class TimeHelper {
         String amOrPm = intHour >= 12 ? "PM" : "AM";
         intHour = intHour >= 13 ? intHour - 12 : intHour;
         
-        String formatedStr = date + " "+ intHour + ":" + min + " " + amOrPm + " UTC";
+        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
 
         return formatedStr;
 

@@ -205,7 +205,7 @@ public class InstructorHomePage extends AppPage {
     
     public WebElement getViewResponseLink(String courseId, String evalName) {
         int evaluationRowId = getEvaluationRowId(courseId, evalName);
-        String xpathExp = "//tr[@id='session"+ evaluationRowId +"']/td[contains(@class,'session-response-for-test')]/a";
+        String xpathExp = "//tr[@id='session" + evaluationRowId + "']/td[contains(@class,'session-response-for-test')]/a";
 
         return browser.driver.findElement(By.xpath(xpathExp));
     }
@@ -360,7 +360,7 @@ public class InstructorHomePage extends AppPage {
         waitForElementPresence(element);
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("document.getElementById('"+id+"').setAttribute('data-actionlink', '"+newActionLink+"')");
+        js.executeScript("document.getElementById('" + id + "').setAttribute('data-actionlink', '" + newActionLink + "')");
         
     }
     
