@@ -694,7 +694,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if (!fieldName.isEmpty() && !expected.isEmpty()){
+        if (!fieldName.isEmpty() && !expected.isEmpty()) {
             expected = "Invalid " + fieldName + ": " + expected;
         }
         assertEquals(description, expected, 

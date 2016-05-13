@@ -36,16 +36,16 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for (InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins:instructors) {
             giverEmailList.add(ins.email);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults){
+        for (ScoredDocument doc:filteredResults) {
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
-            if (commentsLogic.getComment(comment.getCommentId()) == null){
+            if (commentsLogic.getComment(comment.getCommentId()) == null) {
                 commentsLogic.deleteDocument(comment);
                 continue;
             }
@@ -56,7 +56,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             boolean isGiver = giverEmailList.contains(comment.giverEmail);
             String giverAsKey = comment.giverEmail + comment.courseId;
             
-            if (!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)){
+            if (!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
             } else if (isGiver) {
@@ -65,14 +65,14 @@ public class CommentSearchResultBundle extends SearchResultBundle {
                 giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
             }
             
-            if (!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)){
+            if (!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
                 recipientName = "Anonymous";
             } else {
                 recipientName = extractContentFromQuotedString(recipientName);
             }
             
             List<CommentAttributes> commentList = giverCommentTable.get(giverAsKey);
-            if (commentList == null){
+            if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
                 giverCommentTable.put(giverAsKey, commentList);
             }

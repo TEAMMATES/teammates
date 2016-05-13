@@ -126,7 +126,7 @@ public class CommentAttributesTest extends BaseTestCase {
         ______TS("Sanitize potentially harmful characters");
         
         comment.sanitizeForSaving();
-        for (String recipientId : comment.recipients){
+        for (String recipientId : comment.recipients) {
             assertEquals(Sanitizer.sanitizeForHtml(invalidRecipientId), recipientId);
         }
     }

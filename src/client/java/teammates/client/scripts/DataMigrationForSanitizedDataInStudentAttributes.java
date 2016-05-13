@@ -101,7 +101,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         return hasSanitizedData;
     }
 
-    private boolean isSanitizedString(String s){
+    private boolean isSanitizedString(String s) {
         if (s == null) return false;
         if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
             || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {

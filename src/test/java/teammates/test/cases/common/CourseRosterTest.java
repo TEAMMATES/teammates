@@ -14,7 +14,7 @@ import teammates.test.cases.BaseTestCase;
 public class CourseRosterTest extends BaseTestCase {
     
     @Test
-    public void allTests(){
+    public void allTests() {
 
         ______TS("No students");
         

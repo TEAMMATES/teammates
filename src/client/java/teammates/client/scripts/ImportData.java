@@ -51,9 +51,9 @@ public class ImportData {
                 status = persist(data.accounts); // Accounts
             } else if (!data.instructors.isEmpty()) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()){    //Courses
+            } else if (!data.courses.isEmpty()) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()){    //Students
+            } else if (!data.students.isEmpty()) {    //Students
                 status = persist(data.students);
             } else {    
                 // No more data, break the loop

@@ -40,7 +40,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other ConstSumRecipient question related UI tests here.
@@ -117,7 +117,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));

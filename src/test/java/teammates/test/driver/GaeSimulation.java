@@ -147,7 +147,7 @@ public class GaeSimulation {
 
     /** Refreshes the datastore by recreating it from scratch. */
     public void resetDatastore() {
-        if (helper != null){
+        if (helper != null) {
             helper.tearDown();
         }
         helper.setUp();
@@ -165,7 +165,7 @@ public class GaeSimulation {
     }
 
 
-    private HttpServletRequest createWebRequest(String uri, String... parameters){
+    private HttpServletRequest createWebRequest(String uri, String... parameters) {
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
         

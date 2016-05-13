@@ -133,11 +133,11 @@ public class Instructor {
     }
     
     
-    public Boolean getIsArchived(){
+    public Boolean getIsArchived() {
         return isArchived;
     }
     
-    public void setIsArchived(Boolean isArchived){
+    public void setIsArchived(Boolean isArchived) {
         this.isArchived = isArchived;
     }
 

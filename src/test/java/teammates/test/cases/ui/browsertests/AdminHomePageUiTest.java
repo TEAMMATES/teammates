@@ -66,7 +66,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception{
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
         testContent();
         //no links to check
         testCreateInstructorAction();
@@ -266,7 +266,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if (!TestProperties.inst().TEAMMATES_URL.contains("local")){
+        if (!TestProperties.inst().TEAMMATES_URL.contains("local")) {
             
             BackDoor.deleteCourse(demoCourseId);
             BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
