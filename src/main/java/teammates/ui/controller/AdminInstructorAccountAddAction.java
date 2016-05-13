@@ -105,7 +105,7 @@ public class AdminInstructorAccountAddAction extends Action {
             StringBuilder errorMessage = new StringBuilder(100);
             errorMessage.append("<a href=")
                         .append(retryUrl)
-                        .append(">Exception in Importing Data, Retry</a>");
+                        .append(">Exception in Importing Data, Retry</a>"); // NOPMD
             
             statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
             
