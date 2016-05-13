@@ -129,7 +129,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String name = ""; //invalid name
         boolean isInstructor = false;
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
+        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
         
         AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
