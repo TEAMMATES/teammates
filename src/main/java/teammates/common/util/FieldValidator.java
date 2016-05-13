@@ -470,14 +470,24 @@ public class FieldValidator {
 
     /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
-     * {@code COURSE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code COURSE_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no unsantized
+     * HTML characters
      * @param feedbackSessionName
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
      */
     public String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
-        return getValidityInfoForAllowedName(
+        String errorsFromAllowedNameValidation = getValidityInfoForAllowedName(
                 FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
+
+        // return early if error already exists because session name is too long etc.
+        if (!errorsFromAllowedNameValidation.equals("")) {
+            return errorsFromAllowedNameValidation;
+        }
+
+        // checks for unsantized HTML characters
+        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName);
+        return errorsFromNonHtmlValidation;
     }
 
     /**
