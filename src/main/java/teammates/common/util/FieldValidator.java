@@ -481,7 +481,7 @@ public class FieldValidator {
                 FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
 
         // return early if error already exists because session name is too long etc.
-        if (!errorsFromAllowedNameValidation.equals("")) {
+        if (!errorsFromAllowedNameValidation.isEmpty()) {
             return errorsFromAllowedNameValidation;
         }
 
