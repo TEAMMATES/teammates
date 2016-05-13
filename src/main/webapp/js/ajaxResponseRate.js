@@ -30,7 +30,7 @@ function linkAjaxForResponseRate() {
     $('td[class*="session-response-for-test"] > a').click(responseRateClickHandler);
 
     $(".table").each(function(idx) {
-        //this is bound to current object in question
+        // this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
         
         var allRows = currentTable.find('tr:has(td)');
@@ -48,7 +48,7 @@ function linkAjaxForResponseRate() {
         });
     });
     
-    //recent class will only be appended to 'td' element with class 't_session_response'
+    // recent class will only be appended to 'td' element with class 't_session_response'
     $('.table .recent a').click();
 }
 

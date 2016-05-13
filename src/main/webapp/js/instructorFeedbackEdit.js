@@ -155,7 +155,7 @@ function toggleVisibilityOptions(elem) {
     var $options = $elementParent.find('.visibilityOptions');
     var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
-    //enable edit
+    // enable edit
     $elementParent.find('[id|="questionedittext"]').click();
 
     if ($options.is(':hidden')) {
@@ -1236,15 +1236,15 @@ function setDefaultContribQnVisibility(questionNumber) {
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
-    //All except STUDENTS can see answer
+    // All except STUDENTS can see answer
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('[class*="answerCheckbox' + idSuffix2 + '"]')
                          .not('[value="STUDENTS"]').prop('checked', true);
-    //Only instructor can see giver
+    // Only instructor can see giver
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('[class*="giverCheckbox' + idSuffix2 + '"]')
                          .filter('[value="INSTRUCTORS"]').prop('checked', true);
-    //Recipient and instructor can see recipient
+    // Recipient and instructor can see recipient
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('[class*="recipientCheckbox' + idSuffix2 + '"]')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
@@ -1257,7 +1257,7 @@ function setContribQnVisibilityFormat(questionNumber) {
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
-    //Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
+    // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
     
@@ -1330,7 +1330,7 @@ function fixContribQnGiverRecipient(questionNumber) {
     var $giverType = $('#givertype' + idSuffix);
     var $recipientType = $('#recipienttype' + idSuffix);
 
-    //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
+    // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();
     $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
 
@@ -1419,7 +1419,7 @@ function addRubricCol(questionNumber) {
     
     var newColNumber = numberOfCols + 1;
 
-    //Insert header <th>
+    // Insert header <th>
     var rubricHeaderFragmentTemplate =
        "<th class=\"rubricCol-${qnIndex}-${col}\">"
           + "<div class=\"input-group\">"

@@ -10,7 +10,7 @@ $(document).ready(function() {
     
     setupFsCopyModal();
     
-    //Click event binding for radio buttons
+    // Click event binding for radio buttons
     var $radioButtons = $('label[name="sortby"]');
     $.each($radioButtons, function() {
         $(this).click(function() {

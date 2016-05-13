@@ -801,7 +801,7 @@ function toggleChevron(clickedElement) {
     var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
     var $chevronContainer = $clickedElement.find(".glyphicon");
 
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
 
     if (isChevronDown) {

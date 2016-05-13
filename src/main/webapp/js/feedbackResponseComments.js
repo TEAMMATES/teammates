@@ -227,7 +227,7 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 }
 
 function enableHoverToDisplayEditOptions() {
-    //show on hover for comment
+    // show on hover for comment
     $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
     });
@@ -420,7 +420,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
  * Clears the animation queue of the panel before collapsing/expanding the panel.
  */
 function toggleCollapsiblePanel(collapsiblePanel) {
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     collapsiblePanel.clearQueue();
     collapsiblePanel.collapse("toggle");
 }

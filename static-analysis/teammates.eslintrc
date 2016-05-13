@@ -177,7 +177,7 @@
         "no-multi-spaces": 2,                                           // disallow use of multiple spaces
         "no-multiple-empty-lines": ["error", { "max": 1 }],             // disallow multiple empty lines
         "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
-        "spaced-line-comment": 0,                                       // require or disallow a space immediately following the // in a line comment
+        "spaced-comment": ["error", "always"],                          // require a space immediately following the // in a line comment
 
 
         ////////// Naming Conventions //////////

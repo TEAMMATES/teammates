@@ -142,10 +142,10 @@ function goToNextPage() {
 }
 
 $(document).keydown(function(e) {
-    if (e.keyCode == 37) { //LEFT
+    if (e.keyCode == 37) { // LEFT
         goToPreviousPage();
      }
-    if (e.keyCode == 39) { //RIGHT
+    if (e.keyCode == 39) { // RIGHT
         goToNextPage();
      }
  });

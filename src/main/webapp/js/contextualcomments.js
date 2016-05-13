@@ -38,7 +38,7 @@ $(document).ready(function() {
     $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
     
     function commentRecipientSelectChangeHandler() {
-        //TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
+        // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
         var selectedValue = $('#comment_recipient_select option:selected').val();
         if (selectedValue == 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');

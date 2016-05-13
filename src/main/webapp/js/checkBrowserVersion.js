@@ -1,4 +1,4 @@
-//Browser Compatibility and support
+// Browser Compatibility and support
 var MICROSOFT_INTERNET_EXPLORER = "Microsoft Internet Explorer";
 var MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION = 9;
 var CHROME = "Chrome";

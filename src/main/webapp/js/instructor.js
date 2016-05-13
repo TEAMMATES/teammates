@@ -4,7 +4,7 @@
  */
 
 // Initial load-up
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 $(document).ready(function() {
     bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
@@ -16,7 +16,7 @@ $(document).ready(function() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 });
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 /**
  * Function that shows confirmation dialog for deleting a course
@@ -193,7 +193,7 @@ function setupFsCopyModal() {
 }
 
 // Student Profile Picture
-//--------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 /**
  * @param elements:
@@ -406,4 +406,4 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
         children('img[src=""]').attr('src', resolvedLink);
 }
 
-//--------------------------------------------------------------------------
+// --------------------------------------------------------------------------

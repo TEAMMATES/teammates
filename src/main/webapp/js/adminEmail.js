@@ -115,7 +115,7 @@ function submitGroupReceiverListUploadFormAjax() {
         enctype: "multipart/form-data",
         url: $("#adminEmailReceiverListForm").attr("action"),
         data: formData,
-        //Options to tell jQuery not to process data or worry about content-type.
+        // Options to tell jQuery not to process data or worry about content-type.
           cache: false,
           contentType: false,
           processData: false,
@@ -185,7 +185,7 @@ function submitImageUploadFormAjax() {
         enctype: "multipart/form-data",
         url: $("#adminEmailFileForm").attr("action"),
         data: formData,
-        //Options to tell jQuery not to process data or worry about content-type.
+        // Options to tell jQuery not to process data or worry about content-type.
           cache: false,
           contentType: false,
           processData: false,

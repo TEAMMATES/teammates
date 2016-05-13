@@ -91,7 +91,7 @@ function updateMcqOtherOptionField() {
     }
 }
 
-//Saves the value in the other option textbox for MSQ questions
+// Saves the value in the other option textbox for MSQ questions
 function updateMsqOtherOptionField() {
     var msqQuestionNums = getQuestionTypeNumbers('MSQ');
     

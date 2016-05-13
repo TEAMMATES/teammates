@@ -84,8 +84,8 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
 
-    //isError = false: class = overflow-auto alert alert-warning
-    //isError = true: class = overflow-auto alert alert-danger
+    // isError = false: class = overflow-auto alert alert-warning
+    // isError = true: class = overflow-auto alert alert-danger
 
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');

@@ -5,7 +5,7 @@ $(document).ready(function() {
         toggleSort($("#button_sortstudentteam"));
     }
     
-    //auto select the html table when modal is shown
+    // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function(e) {
         selectElementContents(document.getElementById('detailsTable'));
     });
