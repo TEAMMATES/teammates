@@ -441,10 +441,9 @@ public class StudentsLogic {
         }
         
         StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(getSectionInvalidityInfo(mergedList))
-                    .append(getTeamInvalidityInfo(mergedList));
+        errorMessage.append(getTeamInvalidityInfo(mergedList));
 
-        if (!errorMessage.equals("")) {
+        if (errorMessage.length() > 0) {
             throw new EnrollException(errorMessage.toString());
         }
 
@@ -527,7 +526,7 @@ public class StudentsLogic {
         for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
         }
-        if (!errorMessage.equals("")) {
+        if (errorMessage.length() != 0) {
             errorMessage.append("Please use the enroll page to edit multiple students");
         }
 
