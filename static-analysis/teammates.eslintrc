@@ -171,9 +171,9 @@
         "space-infix-ops": 2,                               // require space around operators
         "space-unary-ops": 2,                               // disallow space before/after unary operators
 
-        "eol-last": 0,                                                  // enforce newline at the end of file, with no multiple empty lines
+        "eol-last": 2,                                                  // enforce newline at the end of file, with no multiple empty lines
         "indent": 0,                                                    // enforce consistent indentation
-        "no-irregular-whitespace": 0,                                   // disallow irregular whitespace outside of strings and comments
+        "no-irregular-whitespace": 2,                                   // disallow irregular whitespace outside of strings and comments
         "no-multi-spaces": 0,                                           // disallow use of multiple spaces
         "no-multiple-empty-lines": ["error", { "max": 1 }],             // disallow multiple empty lines
         "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
