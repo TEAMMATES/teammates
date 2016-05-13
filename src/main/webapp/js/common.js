@@ -839,7 +839,7 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') != -1) {
+    if (className.indexOf('glyphicon-chevron-up') !== -1) {
         hideSingleCollapse($(e.currentTarget).attr('data-target'));
     } else {
         showSingleCollapse($(e.currentTarget).attr('data-target'));

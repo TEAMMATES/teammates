@@ -49,7 +49,7 @@ $(document).ready(function() {
         file_picker_callback: function(callback, value, meta) {
 
             // Provide image and alt text for the image dialog
-            if (meta.filetype == 'image') {
+            if (meta.filetype === 'image') {
                 $("#adminEmailFile").click();
                 callbackFunction = callback;
             }
@@ -76,7 +76,7 @@ $(document).ready(function() {
     });
     
     $("#addressReceiverEmails").on("change keyup", function(e) {
-          if (e.which == 13) {
+          if (e.which === 13) {
               $("#addressReceiverEmails").val($("#addressReceiverEmails").val() + ",");
           }
         });
