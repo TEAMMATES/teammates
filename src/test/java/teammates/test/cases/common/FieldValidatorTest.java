@@ -275,8 +275,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String emptyPersonName = "";
         String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
         assertEquals("Empty person name should return appropriate error message",
-                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
-                                   FieldValidator.REASON_EMPTY),
+                     String.format(PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
+                                   REASON_EMPTY),
                      actual);
     }
 
@@ -301,8 +301,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
         assertEquals("Too long institute name should return appropriate error message",
-                     String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
-                                   FieldValidator.REASON_TOO_LONG),
+                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
+                                   REASON_TOO_LONG),
                      actual);
     }
 
@@ -321,11 +321,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCharNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
         assertEquals("Nationality with invalid characters should return appropriate error string",
-                      String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                      String.format(INVALID_NAME_ERROR_MESSAGE,
                                     invalidCharNationality,
-                                    FieldValidator.NATIONALITY_FIELD_NAME,
-                                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                    FieldValidator.NATIONALITY_FIELD_NAME),
+                                    NATIONALITY_FIELD_NAME,
+                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                    NATIONALITY_FIELD_NAME),
                       actual);
     }
 
@@ -344,11 +344,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCharCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
         assertEquals("Course name with invalid character should return appropriate error string",
-                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
                                    invalidCharCourseName,
-                                   FieldValidator.COURSE_NAME_FIELD_NAME,
-                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                   FieldValidator.COURSE_NAME_FIELD_NAME),
+                                   COURSE_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR,
+                                   COURSE_NAME_FIELD_NAME),
                      actual);
     }
 
@@ -367,9 +367,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
         assertEquals("Feedback session with too long name should return appropriate error message",
-                     String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
+                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
                                    tooLongFeedbackSessionName,
-                                   FieldValidator.REASON_TOO_LONG),
+                                   REASON_TOO_LONG),
                      actual);
     }
 
@@ -388,7 +388,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Invalid gender should return appropriate error stirng",
-                     String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidGender),
+                     String.format(GENDER_ERROR_MESSAGE, invalidGender),
                      actual);
     }
 
