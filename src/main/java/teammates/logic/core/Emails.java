@@ -240,7 +240,7 @@ public class Emails {
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
-            if(s == null) continue;
+            if (s == null) continue;
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
@@ -413,7 +413,7 @@ public class Emails {
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
+        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: " + c.id + ".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);

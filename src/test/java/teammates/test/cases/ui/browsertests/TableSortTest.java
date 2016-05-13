@@ -202,7 +202,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(sortIcon);
         searchString = new StringBuilder();
         for (int i = values.length; i > 0; i--) {
-            searchString.append(values[i-1]).append("{*}");
+            searchString.append(values[i - 1]).append("{*}");
         }
         page.verifyContains(searchString.toString());
     }

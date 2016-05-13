@@ -65,7 +65,7 @@ public class AccountsDb extends EntitiesDb {
     public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if(updateAccount){
+        if (updateAccount){
             for (EntityAttributes entity : accountsToUpdate){
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
@@ -157,7 +157,7 @@ public class AccountsDb extends EntitiesDb {
             
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
+            if (!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }

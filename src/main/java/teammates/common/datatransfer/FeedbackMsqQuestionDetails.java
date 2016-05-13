@@ -57,7 +57,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             for (int i = 0; i < numMsqChoicesCreated; i++) {
                 String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
-                if(msqChoice != null && !msqChoice.trim().isEmpty()) {
+                if (msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
                     numOfMsqChoices++;
                 }
@@ -341,14 +341,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if(this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
             String optionHelpText = String.format(
                 "<br>The options for this question is automatically generated from the list of all %s in this course.", 
                 generateOptionsFor.toString().toLowerCase());
             optionListHtml.append(optionHelpText);
         }
         
-        if(numOfMsqChoices > 0){
+        if (numOfMsqChoices > 0){
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment = 
@@ -390,11 +390,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if(view.equals("student")){
+        if (view.equals("student")){
             return "";
         }
         
-        if(responses.size() == 0){
+        if (responses.size() == 0){
             return "";
         }
         
@@ -438,7 +438,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 
-                if(!answerFrequency.containsKey(answerString)){
+                if (!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
                     answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
@@ -461,7 +461,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double) entry.getValue() / numChoicesSelected)));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+
         }
         //Use same template as MCQ for now, until they need to be different.
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
@@ -476,7 +477,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if(responses.size() == 0){
+        if (responses.size() == 0){
             return "";
         }
         
@@ -519,7 +520,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
-                if(!answerFrequency.containsKey(answerString)){
+                if (!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
                     answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
@@ -541,8 +542,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
             fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
                      .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100*(double) entry.getValue() / numChoicesSelected)).append(Const.EOL);
-                    
+                     .append(df.format(100 * (double) entry.getValue() / numChoicesSelected)).append(Const.EOL);
         }
 
         csv.append("Choice, Response Count, Percentage").append(Const.EOL)
@@ -559,15 +559,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MSQ\">"+Const.FeedbackQuestionTypeNames.MSQ+"</option>";
+        return "<option value = \"MSQ\">" + Const.FeedbackQuestionTypeNames.MSQ + "</option>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if(generateOptionsFor == FeedbackParticipantType.NONE &&
+        if (generateOptionsFor == FeedbackParticipantType.NONE &&
                 numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES){
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES+".");
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that msq options do not repeat. needed?
         
@@ -581,10 +581,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-            if(!otherEnabled){
+            if (!otherEnabled){
                 List<String> validChoices = msqChoices;
                 validChoices.add("");
-                if(!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
                     errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
                 }
             }

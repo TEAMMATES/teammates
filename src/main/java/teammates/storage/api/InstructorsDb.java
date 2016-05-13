@@ -45,21 +45,21 @@ public class InstructorsDb extends EntitiesDb {
      */
     
     public void putDocument(InstructorAttributes instructor){
-        if(instructor.key == null){
+        if (instructor.key == null){
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
         // defensive coding for legacy data
-        if(instructor.key != null) {
+        if (instructor.key != null) {
             putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
         }
     }
     
     public void deleteDocument(InstructorAttributes instructorToDelete){
-        if(instructorToDelete.key == null){
+        if (instructorToDelete.key == null){
             InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
             
             // handle legacy data which do not have key attribute (key == null)
-            if(instructor.key != null) {
+            if (instructor.key != null) {
                 deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
             }
         } else {
@@ -78,7 +78,7 @@ public class InstructorsDb extends EntitiesDb {
     
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
         
-        if(queryString.trim().isEmpty()){
+        if (queryString.trim().isEmpty()){
             return new InstructorSearchResultBundle();
         }
         
@@ -99,7 +99,7 @@ public class InstructorsDb extends EntitiesDb {
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
         for (InstructorAttributes instructor: instructorsToAdd){
-            if(!instructorsToUpdate.contains(instructor)){
+            if (!instructorsToUpdate.contains(instructor)){
                 putDocument(instructor);
             }
         }
@@ -153,7 +153,7 @@ public class InstructorsDb extends EntitiesDb {
         Instructor i = getInstructorEntityForEmail(courseId, email);
     
         if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + courseId +"/"+ email );
+            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email );
             return null;
         }
     
@@ -210,7 +210,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)){
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -232,7 +232,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)){
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -253,7 +253,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)){
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -272,7 +272,7 @@ public class InstructorsDb extends EntitiesDb {
         List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Instructor instructor = it.next();
             
             if (!JDOHelper.isDeleted(instructor)) {
@@ -380,7 +380,7 @@ public class InstructorsDb extends EntitiesDb {
         getPM().flush();
   
         // Check delete operation persisted
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
             Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
             while (instructorCheck != null
@@ -397,7 +397,7 @@ public class InstructorsDb extends EntitiesDb {
         }
         
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-        if(instructorCheck != null){
+        if (instructorCheck != null){
             putDocument(new InstructorAttributes(instructorCheck));
         }
 

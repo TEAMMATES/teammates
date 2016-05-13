@@ -145,7 +145,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 name = getAnonName(participantType, name);
 
                 emailNameTable.put(anonEmail, name);
-                emailTeamNameTable.put(anonEmail, name+ Const.TEAM_OF_EMAIL_OWNER);
+                emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
 
                 response.recipientEmail = anonEmail;
             }

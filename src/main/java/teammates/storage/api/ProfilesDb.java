@@ -66,7 +66,7 @@ public class ProfilesDb extends EntitiesDb {
         validateNewProfile(newSpa);
         
         StudentProfile profileToUpdate = getCurrentProfileFromDb(newSpa.googleId);
-        if(hasNoNewChangesToProfile(newSpa, profileToUpdate)) return;
+        if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) return;
 
         updateProfileWithNewValues(newSpa, profileToUpdate);
         closePM();

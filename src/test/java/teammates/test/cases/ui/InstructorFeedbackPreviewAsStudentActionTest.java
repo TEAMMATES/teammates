@@ -53,7 +53,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
                      "?error=false" +
-                     "&user="+ idOfInstructor,
+                     "&user=" + idOfInstructor,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 

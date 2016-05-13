@@ -86,11 +86,11 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 chosenChoice = "<span class=\"color_neutral\"><i>" + 
                         Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
                         "</i></span>";
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i+1)).append(") ")
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ")
                     .append(chosenChoice).append("<br>");
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i+1)).append(") ").append(chosenChoice)
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ").append(chosenChoice)
                     .append(" <span class=\"color_neutral\"><i>(Choice ").append(chosenIndex+1)
                     .append(")</i></span><br>");
             }

@@ -65,7 +65,7 @@ public abstract class EmailAction {
             logActivityFailure(req, e);    
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
         } finally {
-            if(isError){
+            if (isError){
                 try {
                     doPostProcessingForUnsuccesfulSend();
                 } catch (EntityDoesNotExistException e) {

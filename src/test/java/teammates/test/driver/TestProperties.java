@@ -108,7 +108,7 @@ public class TestProperties {
     public static String extractVersionNumber(String inputString) {
         String startTag = "<version>";
         String endTag = "</version>";
-        int startPos = inputString.indexOf(startTag)+startTag.length();
+        int startPos = inputString.indexOf(startTag) + startTag.length();
         int endPos = inputString.indexOf(endTag);
         
         return inputString.substring(startPos, endPos).replace("-", ".").trim();

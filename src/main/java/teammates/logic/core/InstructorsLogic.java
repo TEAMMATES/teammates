@@ -80,7 +80,7 @@ public class InstructorsLogic {
         
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
-        log.info("going to create instructor :\n"+instructorToAdd.toString());
+        log.info("going to create instructor :\n" + instructorToAdd.toString());
         
         return instructorsDb.createInstructor(instructorToAdd);
     }
@@ -223,7 +223,7 @@ public class InstructorsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        if(!currentInstructor.email.equals(instructor.email)){
+        if (!currentInstructor.email.equals(instructor.email)){
             fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
         }
     }
@@ -348,16 +348,16 @@ public class InstructorsLogic {
         String error;
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { errors.add(error); }
         
         //No validation for isInstructor and createdAt fields.
         return errors;

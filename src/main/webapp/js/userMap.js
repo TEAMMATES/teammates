@@ -116,7 +116,6 @@ function handleData(err, countryCoordinates, userData) {
 
     map.addPlugin('pins', function(layer, data, options) {
         var self = this;
-        var fillData = this.options.fills;
         var svg = this.svg;
 
         if (!data || data && !data.slice) {
@@ -142,7 +141,7 @@ function handleData(err, countryCoordinates, userData) {
                 self.updatePopup($this, datum, options, svg);
             }
         })
-        .on('mouseout', function(datum) {
+        .on('mouseout', function() {
             var $this = d3.select(this);
 
             if (options.highlightOnHover) {
@@ -197,7 +196,7 @@ function getTooltipContent(data) {
          + '</div>';
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
     d3.json('/js/countryCoordinates.json', function(countryCoordinates) {
         d3.json('/js/userMapData.json', function(err, userData) {
             handleData(err, countryCoordinates, userData);

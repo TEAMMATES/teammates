@@ -255,7 +255,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());

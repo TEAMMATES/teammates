@@ -507,7 +507,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionDetails.questionType == FeedbackQuestionType.TEXT) {
             questionMetaData = new Text(questionDetails.questionText);
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
         }
     }
@@ -523,7 +523,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextQuestionDetails(questionMetaData.getValue());
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
         }
     }

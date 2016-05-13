@@ -186,7 +186,7 @@ public class TimeHelper {
         } else if (optionValue.length() == 2) {
             return optionValue + "00H";
         } else {
-            throw new RuntimeException("Unrecognized time option: "+optionValue);
+            throw new RuntimeException("Unrecognized time option: " + optionValue);
         }
     }
 
@@ -315,7 +315,7 @@ public class TimeHelper {
         Date currentDate = new Date();
         int differenceInDays;
         
-        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
+        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
         
         return differenceInDays > 365;
     }
@@ -386,7 +386,7 @@ public class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds){
      
-        return timeInMilliseconds !=null? String.format("%d:%d:%d",
+        return timeInMilliseconds != null ? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";
@@ -432,7 +432,7 @@ public class TimeHelper {
         String amOrPm = intHour >= 12 ? "PM" : "AM";
         intHour = intHour >= 13 ? intHour - 12 : intHour;
         
-        String formatedStr = date + " "+ intHour + ":" + min + " " + amOrPm + " UTC";
+        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
 
         return formatedStr;
 

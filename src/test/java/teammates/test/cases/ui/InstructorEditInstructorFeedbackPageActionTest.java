@@ -97,7 +97,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFPAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible "+
+            assertEquals("Feedback session [First feedback session] is not accessible " +
                          "to instructor [" + moderatedInstructor.email + "] " +
                          "for privilege [canmodifysession]", e.getMessage());
         }

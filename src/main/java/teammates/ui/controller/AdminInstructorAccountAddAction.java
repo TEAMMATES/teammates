@@ -200,7 +200,7 @@ public class AdminInstructorAccountAddAction extends Action {
             backdoor.persistDataBundle(data);        
         } catch (EntityDoesNotExistException e){
             int elapsedTime = 0;
-            if(PERSISTENCE_WAITING_DURATION > 0){
+            if (PERSISTENCE_WAITING_DURATION > 0){
                 while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -268,7 +268,7 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while(logic.getCourse(proposedCourseId) != null){
+        while (logic.getCourse(proposedCourseId) != null){
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;
@@ -304,12 +304,12 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-        if(isFirstCourseId){
+        if (isFirstCourseId){
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
         } else {
             final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if(isFirstTimeDuplicate){
+            if (isFirstTimeDuplicate){
                 return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
                                                  maximumIdLength);
             } else {

@@ -59,6 +59,6 @@ public class StudentSearchQuery extends SearchQuery {
         }
         courseIdLimit.append(')');
 
-        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":"+ courseIdLimit.toString();
+        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();
     }
 }

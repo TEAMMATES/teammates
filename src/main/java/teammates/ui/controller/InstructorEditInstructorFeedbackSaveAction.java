@@ -80,7 +80,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]." + 
-                            "(deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                            "(deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -102,7 +102,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
             isError = true;
             throw new UnauthorizedAccessException(
                     "Feedback session [" + feedbackSessionName + 
-                    "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
+                    "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
         }
     }
 
