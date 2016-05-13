@@ -263,6 +263,26 @@ public class FieldValidatorTest extends BaseTestCase {
         testGetInvalidityInfoForNationality();
         testGetInvalidityInfoForCourseName();
         testGetInvalidityInfoForFeedbackSessionName();
+        testGetInvalidityInfoForGender();
+    }
+
+    private void testGetInvalidityInfoForGender() {
+        invalidityInfoFor_validGender_shouldBeEmptyString();
+        invalidityInfoFor_invalidGender_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
+        String invalidGender = "alpha male";
+        String actual = validator.getInvalidityInfoForGender(invalidGender);
+        assertEquals("Invalid gender should return appropriate error stirng",
+                     String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidGender),
+                     actual);
+    }
+
+    private void invalidityInfoFor_validGender_shouldBeEmptyString() {
+        String validGender = "other";
+        String actual = validator.getInvalidityInfoForGender(validGender);
+        assertEquals("Valid gender should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfoForFeedbackSessionName() {
