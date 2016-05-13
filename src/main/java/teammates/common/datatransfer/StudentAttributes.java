@@ -286,7 +286,7 @@ public class StudentAttributes extends EntityAttributes {
         if (this.email == null) {
             this.email = originalStudent.email;
         }
-        String abc ;
+        String abc;
 
         if (this.name == null) {
             this.name = originalStudent.name;
