@@ -49,8 +49,6 @@
         "no-regex-spaces": 2,         // disallow multiple spaces in a regular expression literal
         "no-sparse-arrays": 2,        // disallow sparse arrays
         "no-unexpected-multiline": 2, // disallow confusing multiline expressions
-        "no-unsafe-finally": 0,       // disallow control flow statements in finally blocks
-        "valid-jsdoc": 0,             // Ensure JSDoc comments are valid
         "valid-typeof": 2,            // Ensure that the results of typeof are compared against a valid string
 
 
@@ -61,62 +59,12 @@
         "no-lonely-if": 2,          // disallow if as the only statement in an else block
         "default-case": 2,          // require default case in switch statements
 
-        "accessor-pairs": 0,        // enforce getter and setter pairs in objects
-        "array-callback-return": 0, // enforce return statements in callbacks of array methods
-        "block-scoped-var": 0,      // treat var statements as if they were block scoped
-        "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program
-        "consistent-return": 0,     // require return statements to either always or never specify values
-        "curly": 0,                 // specify curly brace conventions for all control statements
-        "dot-location": 0,          // enforce consistent newlines before and after dots
-        "dot-notation": 0,          // encourages use of dot notation whenever possible
         "eqeqeq": 2,                // require the use of === and !==
-        "guard-for-in": 0,          // make sure for-in loops have an if statement
-        "no-alert": 0,              // disallow the use of alert, confirm, and prompt
-        "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
         "no-case-declarations": 2,  // disallow lexical declarations in case clauses
-        "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression
-        "no-empty-function": 0,     // disallow empty functions
         "no-empty-pattern": 2,      // disallow empty destructuring patterns
-        "no-eval": 0,               // disallow use of eval()
-        "no-extend-native": 0,      // disallow adding to native types
-        "no-extra-bind": 0,         // disallow unnecessary function binding
-        "no-extra-label": 0,        // disallow unnecessary labels
-        "no-floating-decimal": 0,   // disallow the use of leading or trailing decimal points in numeric literals
-        "no-implicit-coercion": 0,  // disallow shorthand type conversions
-        "no-implicit-globals": 0,   // disallow var and named function declarations in the global scope
-        "no-implied-eval": 0,       // disallow use of eval()-like methods
-        "no-invalid-this": 0,       // disallow this keywords outside of classes or class-like objects
-        "no-iterator": 0,           // disallow usage of __iterator__ property
-        "no-labels": 0,             // disallow use of labeled statements
-        "no-lone-blocks": 0,        // disallow unnecessary nested blocks
-        "no-loop-func": 0,          // disallow creation of functions within loops
-        "no-magic-numbers": 0,      // disallow magic numbers
-        "no-multi-str": 0,          // disallow use of multiline strings
-        "no-native-reassign": 0,    // disallow reassignments of native objects
         "no-octal": 2,              // disallow use of octal literals
-        "no-octal-escape": 0,       // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
-        "no-process-env": 0,        // disallow use of process.env
-        "no-proto": 0,              // disallow usage of __proto__ property
         "no-redeclare": 2,          // disallow declaring the same variable more then once
-        "no-return-assign": 0,      // disallow use of assignment in return statement
-        "no-script-url": 0,         // disallow use of javascript: urls.
         "no-self-assign": 2,        // disallow assignments where both sides are exactly the same
-        "no-self-compare": 0,       // disallow comparisons where both sides are exactly the same
-        "no-sequences": 0,          // disallow use of comma operator
-        "no-throw-literal": 0,      // disallow throwing literals as exceptions
-        "no-unmodified-loop-condition": 0, // disallow unmodified loop conditions
-        "no-void": 0,               // disallow void operators
-        "no-warning-comments": 0,   // disallow usage of configurable warning terms in comments, e.g. TODO or FIXME
-        "no-with": 0,               // disallow use of the with statement
-        "radix": 0,                 // require use of the second argument for parseInt()
-        "vars-on-top": 0,           // requires to declare all vars on top of their containing scope
-        "wrap-iife": 0,             // require immediate function invocation to be wrapped in parentheses
-        "yoda": 0,                  // require or disallow Yoda conditions
-
-
-        ////////// Strict Mode //////////
-
-        "strict": 0,          // controls location of Use Strict Directives
 
 
         ////////// Voids //////////
@@ -128,16 +76,10 @@
 
         ////////// Variables //////////
 
-        "init-declarations": 0,           // require or disallow initialization in var declarations
-        "no-catch-shadow": 0,             // disallow the catch clause parameter name being the same as a variable in the outer scope
         "no-delete-var": 2,               // disallow deletion of variables
-        "no-label-var": 0,                // disallow labels that share a name with a variable
-        "no-restricted-globals": 0,       // disallow specified global variables
-        "no-shadow": 0,                   // disallow declaration of variables already declared in the outer scope
-        "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
-        "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block 
-        "no-undefined": 0,                // disallow the use of undefined as an identifier
-        "no-use-before-define": 0,        // disallow use of variables before they are defined
+        "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block
+
+        // no-undef is recommended to be turned on but currently we used too many variables from other scripts
 
 
         ////////// Whitespace Styles //////////
@@ -183,6 +125,16 @@
         "no-new-wrappers": 2,               // disallows creating new instances of String, Number, and Boolean
 
 
+        // These rules are not enforced (and not in the recommended list provided by ESLint either),
+        // but kept here for reference and possible change in policy in the future
+
+
+        ////////// Possible Errors //////////
+
+        "no-unsafe-finally": 0,       // disallow control flow statements in finally blocks
+        "valid-jsdoc": 0,             // Ensure JSDoc comments are valid
+
+
         ////////// Stylistic Issues //////////
 
         "block-spacing": 0,             // enforce consistent spacing inside single-line blocks
@@ -224,8 +176,73 @@
         "quotes": 0,                    // specify whether double or single quotes should be used
         "require-jsdoc": 0,             // require JSDoc comments
         "sort-vars": 0,                 // sort variables within the same declaration block
-        "wrap-regex": 0                 // require regex literals to be wrapped in parentheses
+        "wrap-regex": 0,                // require regex literals to be wrapped in parentheses
 
+
+        ////////// Best Practices //////////
+
+        "accessor-pairs": 0,        // enforce getter and setter pairs in objects
+        "array-callback-return": 0, // enforce return statements in callbacks of array methods
+        "block-scoped-var": 0,      // treat var statements as if they were block scoped
+        "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program
+        "consistent-return": 0,     // require return statements to either always or never specify values
+        "curly": 0,                 // specify curly brace conventions for all control statements
+        "dot-location": 0,          // enforce consistent newlines before and after dots
+        "dot-notation": 0,          // encourages use of dot notation whenever possible
+        "guard-for-in": 0,          // make sure for-in loops have an if statement
+        "no-alert": 0,              // disallow the use of alert, confirm, and prompt
+        "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
+        "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression
+        "no-empty-function": 0,     // disallow empty functions
+        "no-eval": 0,               // disallow use of eval()
+        "no-extend-native": 0,      // disallow adding to native types
+        "no-extra-bind": 0,         // disallow unnecessary function binding
+        "no-extra-label": 0,        // disallow unnecessary labels
+        "no-floating-decimal": 0,   // disallow the use of leading or trailing decimal points in numeric literals
+        "no-implicit-coercion": 0,  // disallow shorthand type conversions
+        "no-implicit-globals": 0,   // disallow var and named function declarations in the global scope
+        "no-implied-eval": 0,       // disallow use of eval()-like methods
+        "no-invalid-this": 0,       // disallow this keywords outside of classes or class-like objects
+        "no-iterator": 0,           // disallow usage of __iterator__ property
+        "no-labels": 0,             // disallow use of labeled statements
+        "no-lone-blocks": 0,        // disallow unnecessary nested blocks
+        "no-loop-func": 0,          // disallow creation of functions within loops
+        "no-magic-numbers": 0,      // disallow magic numbers
+        "no-multi-str": 0,          // disallow use of multiline strings
+        "no-native-reassign": 0,    // disallow reassignments of native objects
+        "no-octal-escape": 0,       // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
+        "no-process-env": 0,        // disallow use of process.env
+        "no-proto": 0,              // disallow usage of __proto__ property
+        "no-return-assign": 0,      // disallow use of assignment in return statement
+        "no-script-url": 0,         // disallow use of javascript: urls.
+        "no-self-compare": 0,       // disallow comparisons where both sides are exactly the same
+        "no-sequences": 0,          // disallow use of comma operator
+        "no-throw-literal": 0,      // disallow throwing literals as exceptions
+        "no-unmodified-loop-condition": 0, // disallow unmodified loop conditions
+        "no-void": 0,               // disallow void operators
+        "no-warning-comments": 0,   // disallow usage of configurable warning terms in comments, e.g. TODO or FIXME
+        "no-with": 0,               // disallow use of the with statement
+        "radix": 0,                 // require use of the second argument for parseInt()
+        "vars-on-top": 0,           // requires to declare all vars on top of their containing scope
+        "wrap-iife": 0,             // require immediate function invocation to be wrapped in parentheses
+        "yoda": 0,                  // require or disallow Yoda conditions
+
+
+        ////////// Strict Mode //////////
+
+        "strict": 0,          // controls location of Use Strict Directives
+
+
+        ////////// Variables //////////
+
+        "init-declarations": 0,           // require or disallow initialization in var declarations
+        "no-catch-shadow": 0,             // disallow the catch clause parameter name being the same as a variable in the outer scope
+        "no-label-var": 0,                // disallow labels that share a name with a variable
+        "no-restricted-globals": 0,       // disallow specified global variables
+        "no-shadow": 0,                   // disallow declaration of variables already declared in the outer scope
+        "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
+        "no-undefined": 0,                // disallow the use of undefined as an identifier
+        "no-use-before-define": 0         // disallow use of variables before they are defined
 
     }
 }
