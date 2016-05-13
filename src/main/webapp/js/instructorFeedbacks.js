@@ -94,11 +94,9 @@ function selectDefaultTimeOptions() {
     }
 }
 
-
 function isTimeZoneIntialized() {
     return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
 }
-
 
 /**
  * Format a number to be two digits

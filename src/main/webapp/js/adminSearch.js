@@ -64,7 +64,6 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                  + "&courseid=" + studentCourseId
                  + "&googleid=" + wrongGoogleId;
     
-    
     var googleIdEntry = $(button).parent().parent().children().find(".homePageLink");
     var originalButton = $(button).html();
     
@@ -89,8 +88,6 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                         googleIdEntry.html(originalGoogleIdEntry);
                         $(button).html(originalButton);
                     }
-                    
-                    
                 } else {
                     $(button).html("An Error Occurred, Please Retry");          
                 }

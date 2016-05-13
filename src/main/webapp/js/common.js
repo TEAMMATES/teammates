@@ -77,7 +77,6 @@ var FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
 var FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
 var FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
 
-
 // Used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
@@ -438,7 +437,6 @@ function getPointValue(s, ditchZero) {
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-
 /**
  * Checks if element is within browser's viewport.
  * @return true if it is within the viewport, false otherwise 
@@ -748,7 +746,6 @@ function sanitizeForJs(string) {
     string = replaceAll(string, '\'', '\\\'');
     return string;
 }
-
 
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section

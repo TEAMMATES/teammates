@@ -2,7 +2,6 @@ $(document).ready(function() {
     $('#ajaxForCourses').trigger('submit');
 });
 
-
 /**
  * Pre-processes and validates the user's input.
  * @returns {Boolean} True if it is OK to proceed with the form submission.
@@ -58,7 +57,6 @@ function getCourseIdInvalidityInfo(courseId) {
     return invalidityInfo;
 }
 
-
 function getCourseNameInvalidityInfo(courseName) {
     
     courseName = courseName.trim();
@@ -79,5 +77,3 @@ function getCourseNameInvalidityInfo(courseName) {
 function isCourseIDValidChars(courseId) {
     return courseId.match(/^[a-zA-Z_$0-9.-]+$/) !== null;
 }
-
-

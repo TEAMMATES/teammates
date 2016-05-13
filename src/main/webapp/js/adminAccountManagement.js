@@ -149,5 +149,3 @@ $(document).keydown(function(e) {
         goToNextPage();
      }
  });
-
-

@@ -269,7 +269,6 @@ function enableNewQuestion() {
     $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
 
-
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
@@ -543,7 +542,6 @@ function prepareQuestionForm(type) {
             break;
     }
 }
-
 
 /**
  * Binds each question's check box field such that the user
@@ -900,7 +898,6 @@ function formatVisibilityMessageHtml(visibilityMessage) {
     return htmlString;
 }
 
-
 /**
  *  ===========================================================================
  *  Code for specific question types
@@ -1044,7 +1041,6 @@ function addMsqOption(questionNumber) {
         $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
-
 
 function removeMsqOption(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
@@ -1227,7 +1223,6 @@ function removeConstSumOption(index, questionNumber) {
     }
 }
 
-
 /**
  * ----------------------------------------------------------------------------
  * Contribution Question
@@ -1352,7 +1347,6 @@ function fixContribQnGiverRecipient(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-
 function addRubricRow(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = getQuestionIdSuffix(questionNumber);
@@ -1396,7 +1390,6 @@ function addRubricRow(questionNumber) {
         rubricRowBodyFragments += fragment;
     }
 
-    
     // Create new rubric row
     var newRubricRow = rubricRowTemplate;
     newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNumber);

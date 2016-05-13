@@ -308,7 +308,6 @@ function checkPrivilegesOfTutorForModal() {
     $("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Tutor");
 }
 
-
 /**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID

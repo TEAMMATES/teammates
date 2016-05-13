@@ -88,7 +88,6 @@ function submitFormAjax(searchTimeOffset) {
     });
 }
 
-
 function setFormErrorMessage(button, msg) {
     button.after("&nbsp;&nbsp;&nbsp;" + msg);
 }

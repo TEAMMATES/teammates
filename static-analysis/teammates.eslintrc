@@ -175,7 +175,7 @@
         "indent": 0,                                        // enforce consistent indentation
         "no-irregular-whitespace": 0,                       // disallow irregular whitespace outside of strings and comments
         "no-multi-spaces": 0,                               // disallow use of multiple spaces
-        "no-multiple-empty-lines": 0,                       // disallow multiple empty lines
+        "no-multiple-empty-lines": ["error", { "max": 1 }], // disallow multiple empty lines
         "no-trailing-spaces": 0,                            // disallow trailing whitespace at the end of lines
         "spaced-line-comment": 0,                           // require or disallow a space immediately following the // in a line comment
 

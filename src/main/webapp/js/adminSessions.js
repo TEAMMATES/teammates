@@ -40,7 +40,6 @@ function closeAllSections(count) {
 
 }
 
-
 jQuery(document).ready(function() {
 
     var offset = 220;

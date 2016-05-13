@@ -30,7 +30,6 @@ $(document).ready(function() {
         "Webdings=webdings;" +
         "Wingdings=wingdings,zapf dingbats",
         
-        
         document_base_url: $("#documentBaseUrl").text(),
         relative_urls: false,
         convert_urls: false,
@@ -41,8 +40,6 @@ $(document).ready(function() {
             "emoticons template paste textcolor colorpicker textpattern"
         ],
         
-        
-               
         toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         toolbar2: "print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen",
         
@@ -84,8 +81,6 @@ $(document).ready(function() {
     toggleSort($("#button_sort_date").parent());
 });
 
-
-
 function createGroupReceiverListUploadUrl() {
     
     $.ajax({
@@ -107,13 +102,8 @@ function createGroupReceiverListUploadUrl() {
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }
-                               
-
             }, 500);
-
         }
-        
-        
     });
 }
 
@@ -152,19 +142,12 @@ function submitGroupReceiverListUploadFormAjax() {
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }
-                               
-
             }, 500);
-            
-            
         }
-        
         
     });
     clearUploadGroupReceiverListInfo();
 }
-
-
 
 function createImageUploadUrl() {
     
@@ -187,12 +170,9 @@ function createImageUploadUrl() {
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }
-                               
-
             }, 500);
 
         }
-        
         
     });
 }
@@ -231,20 +211,13 @@ function submitImageUploadFormAjax() {
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }
-                               
-
             }, 500);
             
-            
         }
-        
         
     });
     clearUploadFileInfo();
 }
-
-
-
 
 function setErrorMessage(message) {
     setStatusMessage(message, StatusType.DANGER);
@@ -267,8 +240,3 @@ function clearUploadGroupReceiverListInfo() {
         createGroupReceiverListUploadUrl();
      });
 }
-
-
-
-
-

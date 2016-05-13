@@ -153,7 +153,6 @@ function setupFsCopyModal() {
         });
     });
 
-    
     $('#instructorCopyModalForm').submit(
         function(e) {
             e.preventDefault();

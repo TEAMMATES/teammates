@@ -212,7 +212,6 @@ function prepareMSQQuestions() {
                 updateOtherOptionAttributes($(this), indexSuffix);
             });
         }
-        
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
@@ -262,7 +261,6 @@ function updateOtherOptionAttributes(otherOption, indexSuffix) {
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
 }
-
 
 function prepareRubricQuestions() {
     prepareDesktopRubricQuestions();
@@ -827,7 +825,6 @@ function validateRankQuestions() {
     return true;
 }
 
-
 function updateRankMessageQn(qnNum) {
     var isDistributingToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
     var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
@@ -845,7 +842,6 @@ function updateRankMessageQn(qnNum) {
         areAllAnswersUnique = true;
         isAllOptionsRanked = true;
     }
-
 
     function updateRankMessages($messageElement) {
         $messageElement.removeClass('text-color-red text-color-green text-color-blue');

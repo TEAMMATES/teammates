@@ -29,7 +29,6 @@ function linkAjaxForResponseRate() {
     };
     $('td[class*="session-response-for-test"] > a').click(responseRateClickHandler);
 
-
     $(".table").each(function(idx) {
         //this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);

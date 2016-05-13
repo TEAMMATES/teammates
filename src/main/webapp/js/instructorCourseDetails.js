@@ -11,7 +11,6 @@ $(document).ready(function() {
     });
 });
 
-
 function submitFormAjax() {
 
     var formObject = $("#csvToHtmlForm");
@@ -44,7 +43,6 @@ function submitFormAjax() {
         }
     });
 }
-
 
 /**
  * Functions to trigger registration key sending to a specific student in the

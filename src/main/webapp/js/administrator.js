@@ -116,7 +116,6 @@ function showHideErrorMessage(s) {
     $("#" + s).toggle();
 }
 
-
 function toggleDeleteAccountConfirmation(googleId) {
     var rawList = document.getElementById('courses_' + googleId).innerHTML;
     var list = rawList.replace(/<br>/g, "\n").trim() + "\n\n";
@@ -139,8 +138,6 @@ jQuery(document).ready(function() {
             jQuery('.back-to-top-right').fadeOut(duration);
         }
     });
-
-
 
     jQuery('.back-to-top-left').click(function(event) {
         event.preventDefault();
