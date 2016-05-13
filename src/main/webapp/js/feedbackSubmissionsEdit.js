@@ -579,17 +579,17 @@ function updateConstSumMessageQn(qnNum) {
             allUnique = true;
             remainingPoints = points;
 
-            var $constSumMessageElement = $('#constSumMessage-' + qnNum + '-' + j);
+            var $constSumMsgElement = $('#constSumMessage-' + qnNum + '-' + j);
 
-            for (var i = 0; i < numOptions; i++) {
-                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + i).val());
+            for (var k = 0; k < numOptions; k++) {
+                var ptsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + k).val());
 
-                updateSumBasedOn(pointsAllocated);
+                updateSumBasedOn(ptsAllocated);
             }
 
             remainingPoints = points - sum;
 
-            checkAndDisplayMessage($constSumMessageElement);
+            checkAndDisplayMessage($constSumMsgElement);
         }
     }
 }
@@ -892,25 +892,25 @@ function updateRankMessageQn(qnNum) {
             var rankAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val(), 10);
             updateAllocatedRanks(rankAllocated);
         }
-        for (var i = 0; i < numOptions; i++) {
-            updateDropdownOptions(qnNum, i);
+        for (var j = 0; j < numOptions; j++) {
+            updateDropdownOptions(qnNum, j);
         }
 
         updateRankMessages($rankMessageElement);
     } else {
         // for Rank options question
-        for (var i = 0; i < numRecipients; i++) {
+        for (var i1 = 0; i1 < numRecipients; i1++) {
             resetState();
 
-            var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + i);
+            var $rankMsgElement = $('#rankMessage-' + qnNum + '-' + i1);
 
-            for (var j = 0; j < numOptions; j++) {
-                var rankAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val(), 10);
-                updateAllocatedRanks(rankAllocated);
+            for (var j1 = 0; j1 < numOptions; j1++) {
+                var rankAlloc = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i1 + '-' + j1).val(), 10);
+                updateAllocatedRanks(rankAlloc);
             }
 
-            updateDropdownOptions(qnNum, i);
-            updateRankMessages($rankMessageElement);
+            updateDropdownOptions(qnNum, i1);
+            updateRankMessages($rankMsgElement);
         }
     }
 }
