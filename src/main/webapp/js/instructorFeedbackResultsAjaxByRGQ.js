@@ -28,16 +28,16 @@ $(document).ready(function() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success: function(data) {
-                if (numPanels == 0) {
+                if (numPanels === 0) {
                     numPanels += $('.panel-collapse').length;
                 }
 
-                if (typeof data == 'undefined') {
+                if (typeof data === 'undefined') {
                     $(panelBody[0]).html('The results is too large to be viewed. Please choose to view the results by questions or download the results.');
                 } else {
                     var appendedSection = $(data).find('#sectionBody-0').html();
                     $(data).remove();
-                    if (typeof appendedSection != 'undefined') {
+                    if (typeof appendedSection !== 'undefined') {
                         $(panelBody[0]).html(appendedSection);
                     } else {
                         $(panelBody[0]).html('There are no responses for this feedback session yet or you do not have access to the responses collected so far.');

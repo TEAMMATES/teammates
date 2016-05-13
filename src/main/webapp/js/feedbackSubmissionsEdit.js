@@ -142,7 +142,7 @@ function prepareMCQQuestions() {
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') == "otherOptionText") {
+                if ($(this).data('text') === "otherOptionText") {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
@@ -742,7 +742,7 @@ function validateAllAnswersHaveRecipient() {
         var answer = $('[name=responsetext-' + question + '-' + response + ']');
 
         if (!isAnswerBlank(question, response)) {
-            statusMessage += errorCount == 0 ? '' : ',';
+            statusMessage += errorCount === 0 ? '' : ',';
             statusMessage += ' ';
             statusMessage += question;
             errorCount++;
