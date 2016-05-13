@@ -26,16 +26,16 @@ function submitFormAjax() {
         },
         error: function() {
             ajaxStatus.html("Failed to load student table. Please try again.");
-            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");         
+            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");
         },
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                    var table = data.studentListHtmlTableAsString;                                     
+                    var table = data.studentListHtmlTableAsString;
                     content.html("<small>" + table + "</small>");
                 } else {
                     ajaxStatus.html(data.errorMessage);
-                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
+                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");
                 }
 
                 setStatusMessage(data.statusForAjax);
@@ -50,8 +50,8 @@ function submitFormAjax() {
  * Currently no confirmation dialog is shown.
  */
 function toggleSendRegistrationKey() {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES " 
-                   + "sends an automatic invite to students at the opening time of each" 
+    return confirm("Usually, there is no need to use this feature because TEAMMATES "
+                   + "sends an automatic invite to students at the opening time of each"
                    + " session. Send a join request anyway?");
 }
 
@@ -61,9 +61,9 @@ function toggleSendRegistrationKey() {
  * @param courseID
  */
 function toggleSendRegistrationKeysConfirmation(courseID) {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES" 
-                   + " sends an automatic invite to students at the opening time of" 
-                   + " each session. Send a join request to all yet-to-join students in " 
+    return confirm("Usually, there is no need to use this feature because TEAMMATES"
+                   + " sends an automatic invite to students at the opening time of"
+                   + " each session. Send a join request to all yet-to-join students in "
                    + courseID + " anyway?");
 }
 

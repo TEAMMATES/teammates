@@ -9,7 +9,7 @@ var loadUpFunction = function() {
   window.isUserTyping = isUserTyping;
 
     var ENTER_KEYCODE = 13;
-    var enrolTextbox; 
+    var enrolTextbox;
     if ((enrolTextbox     = $('#enrollstudents')).length) {
         enrolTextbox = enrolTextbox[0];
         $(enrolTextbox).keydown(function(e) {

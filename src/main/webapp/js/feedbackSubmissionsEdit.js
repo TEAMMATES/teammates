@@ -145,11 +145,11 @@ function prepareMCQQuestions() {
                 if ($(this).data('text') == "otherOptionText") {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");                       
-                    } else {                      
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");
+                    } else {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
                         $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
-                    }                   
+                    }
                 } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
                     $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
@@ -252,10 +252,10 @@ function prepareMSQQuestions() {
     }
 }
 
-function updateOtherOptionAttributes(otherOption, indexSuffix) {   
+function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");
     } else {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
@@ -831,7 +831,7 @@ function updateRankMessageQn(qnNum) {
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val(), 10);
 
     var numOptions = isDistributingToRecipients ? numRecipients
-                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10); 
+                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10);
 
     var areAllAnswersUnique;
     var allocatedRanks;
@@ -852,7 +852,7 @@ function updateRankMessageQn(qnNum) {
             message += ' The same rank should not be given multiple times. ';
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked) {
-            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. ' 
+            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. '
                                                                              : 'options. ');
             $messageElement.addClass('text-color-blue');
         }

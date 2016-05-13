@@ -45,7 +45,7 @@ $(document).ready(function() {
     
     //check submit text before submit
     $('form.form_comment').submit(function() {
-        return checkComment(this);        
+        return checkComment(this);
     });
     
     //open or close show more options
@@ -361,7 +361,7 @@ $(document).ready(function() {
             target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
+        if ((target.prop("class").includes("giverCheckbox") ||
                 target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
             target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }

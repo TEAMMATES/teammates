@@ -31,7 +31,7 @@ function checkAddCourseParam(courseId, courseName) {
     errorMessages += getCourseIdInvalidityInfo(courseId);
     errorMessages += getCourseNameInvalidityInfo(courseName);
     
-    return errorMessages;    
+    return errorMessages;
 }
 
 function getCourseIdInvalidityInfo(courseId) {

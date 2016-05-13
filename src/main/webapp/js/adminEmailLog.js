@@ -60,14 +60,14 @@ function submitFormAjax(offset) {
         },
         error: function() {
             setFormErrorMessage(button, "Failed to load older logs. Please try again.");
-            button.html("Retry");            
+            button.html("Retry");
         },
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                        // Inject new log row                  
-                        var logs = data.logs;                    
-                        jQuery.each(logs, function(i, value) {                        
+                        // Inject new log row
+                        var logs = data.logs;
+                        jQuery.each(logs, function(i, value) {
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#emailLogsTable tr:last');
                         bindClickAction();

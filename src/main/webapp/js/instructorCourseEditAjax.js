@@ -33,7 +33,7 @@ function editFormRequest(e) {
             $(editButton).off('click');
             $(editButton).click({ instructorIndex: parseInt(index), total: instructorSize }, enableEditInstructor);
             $(editButton).trigger('click');
-        }    
+        }
     });
 
 }

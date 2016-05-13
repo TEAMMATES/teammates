@@ -142,7 +142,7 @@ $(document).ready(function() {
             $('input[id^="team_check-"]').parent().hide();
         }
         applyFilters();
-    }); 
+    });
 
     // Binding for 'Select All' team option
     $('#team_all').on('change', function() {

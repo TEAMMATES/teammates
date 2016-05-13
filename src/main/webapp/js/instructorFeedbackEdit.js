@@ -31,7 +31,7 @@ function readyFeedbackEditPage() {
         }
     });
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);        
+        return checkFeedbackQuestion(this);
     });
 
     // Bind destructive changes
@@ -94,7 +94,7 @@ function bindFeedbackSessionEditFormSubmission() {
 /**
  * Disables the editing of feedback session details.
  */
-function disableEditFS() {    
+function disableEditFS() {
     // Save then disable fields
     getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
@@ -279,7 +279,7 @@ function enableNewQuestion() {
         $('#msqChoiceTable-' + number).show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
-    }       
+    }
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
@@ -332,7 +332,7 @@ function deleteQuestion(number) {
         location.reload();
         return false;
     } else if (confirm('Are you sure you want to delete this question?')) {
-        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete'); 
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete');
         $('#form_editquestion-' + number).submit();
         return true;
     }
@@ -352,7 +352,7 @@ function cancelEdit(number) {
 }
 
 /**
- * Formats all questions to hide the 'Number of Recipients Box' 
+ * Formats all questions to hide the 'Number of Recipients Box'
  * when participant type is not STUDENTS OR TEAMS, and show
  * it when it is. Formats the label for the number box to fit
  * the selection as well.
@@ -379,7 +379,7 @@ function formatNumberBoxes() {
 }
 
 /**
- * Hides/shows the "Number of Recipients Box" of the question 
+ * Hides/shows the "Number of Recipients Box" of the question
  * depending on the participant type and formats the label text for it.
  * @param value, qnNumber
  */
@@ -577,7 +577,7 @@ function formatCheckBoxes() {
 }
 
 /**
- * Copy options (Feedback giver, recipient, and all check boxes) 
+ * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
  */
 function copyOptions() {
@@ -640,7 +640,7 @@ function disableRow(elem, row) {
     var $tdElements = $($table.children().children()[row]).children();
     
     if ($tdElements.parent().prop('tagName') === 'hide') {
-        return; 
+        return;
     }
     $tdElements.unwrap().wrapAll('<hide>');
     $tdElements.parent().hide();
@@ -665,12 +665,12 @@ function feedbackRecipientUpdateVisibilityOptions(elem) {
 }
 
 /**
- * Returns true if "recipient's team members" visibility option 
+ * Returns true if "recipient's team members" visibility option
  * is not applicable for the recipient type
  */
 function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
+    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS'
+           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS'
            || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
@@ -833,7 +833,7 @@ function getVisibilityMessage(buttonElem) {
     var formData = $form.serialize();
     
     var $formOptions = $form.find('.visibilityOptions');
-    var $formVisibility = $form.find('.visibilityMessage'); 
+    var $formVisibility = $form.find('.visibilityMessage');
     
     if (previousFormDataMap[qnNumber] === formData) {
         $formOptions.hide();
@@ -863,7 +863,7 @@ function getVisibilityMessage(buttonElem) {
             updateVisibilityMessageButton($form, false);
             $form.find('.visibilityOptionsLabel').click();
         }
-    });    
+    });
 }
 
 function updateVisibilityMessageButton($form, isLoadSuccessful) {
@@ -884,8 +884,8 @@ function getVisibilityMessageIfPreviewIsActive(buttonElem) {
     var $form = $(buttonElem).closest('form');
     
     if ($form.find('.visibilityMessageButton').hasClass('active')) {
-        getVisibilityMessage(buttonElem);    
-    }         
+        getVisibilityMessage(buttonElem);
+    }
 }
 
 function formatVisibilityMessageHtml(visibilityMessage) {
@@ -1136,14 +1136,14 @@ function updateNumScalePossibleValues(questionNumber) {
     $numScalePossibleValues.css('color', 'black');
     var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
     
-    // step is 3 d.p. at most, so round it after * 1000. 
+    // step is 3 d.p. at most, so round it after * 1000.
     if (possibleValuesCount > 6) {
         possibleValuesString += min.toString() + ', ' +
                                 (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
                                 (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
                                 (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
                                 (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
-                                max.toString();       
+                                max.toString();
     } else {
         possibleValuesString += min.toString();
         var cur = min + step;
@@ -1376,7 +1376,7 @@ function addRubricRow(questionNumber) {
       + "</td>";
 
     var rubricRowBodyFragments = '';
-    // Create numberOfCols of <td>'s 
+    // Create numberOfCols of <td>'s
     for (var cols = 0; cols < numberOfCols; cols++) {
         if (!$('.rubricCol' + idSuffix + '-' + cols).length) {
             continue;
@@ -1420,7 +1420,7 @@ function addRubricCol(questionNumber) {
     var newColNumber = numberOfCols + 1;
 
     //Insert header <th>
-    var rubricHeaderFragmentTemplate = 
+    var rubricHeaderFragmentTemplate =
        "<th class=\"rubricCol-${qnIndex}-${col}\">"
       +     "<div class=\"input-group\">"
       +         "<input type=\"text\" class=\"col-sm-12 form-control\" value=\"${rubricChoiceValue}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"

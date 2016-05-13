@@ -56,11 +56,11 @@ $(document).ready(function() {
     /* eslint-enable camelcase */
     
     $("#adminEmailFile").on("change paste keyup", function() {
-        createImageUploadUrl();        
+        createImageUploadUrl();
      });
     
     $("#adminEmailGroupReceiverList").on("change paste keyup", function() {
-        createGroupReceiverListUploadUrl();        
+        createGroupReceiverListUploadUrl();
      });
     
     $("#adminEmailGroupReceiverListUploadButton").on("click", function() {
@@ -94,9 +94,9 @@ function createGroupReceiverListUploadUrl() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {                   
-                    $("#adminEmailReceiverListForm").attr("action", data.nextUploadUrl);                  
-                    setStatusMessage(data.ajaxStatus);   
+                if (!data.isError) {
+                    $("#adminEmailReceiverListForm").attr("action", data.nextUploadUrl);
+                    setStatusMessage(data.ajaxStatus);
                     submitGroupReceiverListUploadFormAjax();
                     
                 } else {
@@ -132,7 +132,7 @@ function submitGroupReceiverListUploadFormAjax() {
                 if (!data.isError) {
                    if (data.isFileUploaded) {
                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
-                       $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
+                       $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);
                        $("#groupReceiverListFileKey").show();
                        $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
                    } else {
@@ -162,9 +162,9 @@ function createImageUploadUrl() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {                   
-                    $("#adminEmailFileForm").attr("action", data.nextUploadUrl);                  
-                    setStatusMessage(data.ajaxStatus);   
+                if (!data.isError) {
+                    $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
+                    setStatusMessage(data.ajaxStatus);
                     submitImageUploadFormAjax();
                     
                 } else {

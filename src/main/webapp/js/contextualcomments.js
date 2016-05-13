@@ -9,7 +9,7 @@ $(document).ready(function() {
     });
     
     $('form[name="form_commentadd"]').submit(function() {
-        return checkComment(this);        
+        return checkComment(this);
     });
     
     function checkComment(form) {
@@ -75,7 +75,7 @@ $(document).ready(function() {
             target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
+        if ((target.prop("class").includes("giverCheckbox") ||
                 target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
             target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }

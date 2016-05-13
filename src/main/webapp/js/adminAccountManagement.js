@@ -1,4 +1,4 @@
-var entryPerPage = 200; 
+var entryPerPage = 200;
 
 var start = 0;
 var end = 0;
@@ -25,14 +25,14 @@ function updatePagination() {
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
         if (currentPage >= 3 && currentPage + 1 == totalPages) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
         if (currentPage < 3) {
             $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
@@ -70,7 +70,7 @@ function caculateTotalPages() {
 function updateEntriesCount() {
     var newText = start + "~" + (end > total ? total : end);
     
-    $("span#currentPageEntryCount").text(newText);    
+    $("span#currentPageEntryCount").text(newText);
     $("span#totalEntryCount").text(total);
 }
 

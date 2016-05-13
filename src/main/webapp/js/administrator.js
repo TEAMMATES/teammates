@@ -1,5 +1,5 @@
-/* 
- * This Javascript file is included in all administrator pages. Functions here 
+/*
+ * This Javascript file is included in all administrator pages. Functions here
  * should be common to the administrator pages.
  */
 

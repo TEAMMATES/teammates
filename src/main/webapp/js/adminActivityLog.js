@@ -18,7 +18,7 @@ $(function() {
 
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = "logTimeInAdminTimeZone=" + time
-                 + "&logRole=" + role 
+                 + "&logRole=" + role
                  + "&logGoogleId=" + googleId;
     
     var link = $(entry);
@@ -33,14 +33,14 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
             $(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            $(localTimeDisplay).html("Loading error, please retry");          
+            $(localTimeDisplay).html("Loading error, please retry");
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {       
+                if (!data.isError) {
                     $(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime + "</mark>");
                 } else {
-                    $(localTimeDisplay).html("Loading error, please retry");          
+                    $(localTimeDisplay).html("Loading error, please retry");
                 }
                 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);

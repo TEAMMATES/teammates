@@ -133,7 +133,7 @@ function setupFsCopyModal() {
                 $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." + 
+                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." +
                     "Please close the dialog window and try again.</p>");
             },
             success: function(data) {
@@ -141,7 +141,7 @@ function setupFsCopyModal() {
                 // If the user alt-clicks, the form does not send any parameters and results in an error.
                 // Prevent default form submission and submit using jquery.
                 $('#fscopy_submit').off('click')
-                                   .on('click', 
+                                   .on('click',
                                         function(event) {
                                             $('#fscopy_submit').prop('disabled', true);
                                             event.preventDefault();
@@ -174,7 +174,7 @@ function setupFsCopyModal() {
                 },
                 error: function() {
                     $copyModalStatusMessage.addClass("alert alert-danger");
-                    $copyModalStatusMessage.text('There was an error during submission. ' 
+                    $copyModalStatusMessage.text('There was an error during submission. '
                                                  + 'Please close the dialog window and try again.');
                 },
                 success: function(data) {
@@ -310,7 +310,7 @@ function bindDeleteButtons() {
         var courseId = $button.data('courseid');
         var feedbackSessionName = $button.data('fsname');
 
-        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName); 
+        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
     });
 }
 
