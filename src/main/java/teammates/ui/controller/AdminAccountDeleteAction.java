@@ -23,21 +23,21 @@ public class AdminAccountDeleteAction extends Action {
         ActionResult result = null;
         
         //TODO: We should extract these into separate actions e.g., AdminInstructorDowngradeAction
-        if(courseId == null && account == null){    
+        if (courseId == null && account == null) {    
             //delete instructor status
             logic.downgradeInstructorToStudentCascade(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
             
-        } else if (courseId == null && account != null){
+        } else if (courseId == null && account != null) {
             //delete entire account
             logic.deleteAccount(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
             
-        } else if (courseId != null && instructorId != null){
+        } else if (courseId != null && instructorId != null) {
             //remove instructor from course
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
             logic.deleteInstructor(courseId, instructor.email);

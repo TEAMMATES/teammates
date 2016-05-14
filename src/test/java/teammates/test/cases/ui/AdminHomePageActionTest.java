@@ -21,7 +21,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         ______TS("Normal case: starting with a blank adminHome page");
         final String adminUserId = "admin.user";
@@ -41,7 +41,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
     
     private Action getAction(String... parameters) throws Exception {
-        return (Action)gaeSimulation.getActionObject(uri, parameters);
+        return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
 

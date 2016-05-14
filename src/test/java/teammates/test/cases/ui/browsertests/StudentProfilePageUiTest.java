@@ -115,7 +115,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyHtmlMainContent("/studentProfilePageFilled.html");
         
-        profilePage.click(By.className("close"));
+        profilePage.closeEditPictureModal();
     }
 
     private void testActions() throws Exception {

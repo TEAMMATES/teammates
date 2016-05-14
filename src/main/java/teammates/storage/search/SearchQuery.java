@@ -29,55 +29,55 @@ public abstract class SearchQuery {
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
     
-    protected void setOptions(QueryOptions options){
+    protected void setOptions(QueryOptions options) {
         this.options = options;
     }
     
     /*
      * Return how many query strings a SearchQuery object has
      */
-    public int getFilterSize(){
+    public int getFilterSize() {
         return textQueryStrings.size() + dateQueryStrings.size();
     }
     
-    protected SearchQuery setTextFilter(String textField, String queryString){
+    protected SearchQuery setTextFilter(String textField, String queryString) {
         String sanitizedQueryString;
         
         // The sanitize process considers the '.'(dot) as a space and this
         // returns unnecessary search results in the case if someone searches
         // using an email. To avoid this, we check whether the input text is an
         // email, and if yes, we skip the sanitize process.
-        if(FieldValidator.isValidEmailAddress(queryString)){
+        if (FieldValidator.isValidEmailAddress(queryString)) {
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
             sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
         }
         
-        if(!sanitizedQueryString.isEmpty()){
+        if (!sanitizedQueryString.isEmpty()) {
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
             this.textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
         return this;
     }
     
-    private String prepareOrQueryString(String queryString){
+    private String prepareOrQueryString(String queryString) {
         queryString = queryString.replaceAll("\"", " \" ");
         String[] splitStrings = queryString.trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
         String key = "";
         boolean isStartQuote = false;
-        for(int i = 0; i < splitStrings.length; i++){
-            if(!splitStrings[i].equals("\"")){
-                if(isStartQuote){
+        for (int i = 0; i < splitStrings.length; i++) {
+            if (!splitStrings[i].equals("\"")) {
+                if (isStartQuote) {
                     key += " " + splitStrings[i];
                 } else {
                     keywords.add(splitStrings[i]);
                 }
             } else {
-                if(isStartQuote){
+                if (isStartQuote) {
                     isStartQuote = false;
-                    if(!key.trim().equals("")){
+                    if (!key.trim().equals("")) {
                         keywords.add(key.trim());
                     }
                     key = "";
@@ -87,21 +87,21 @@ public abstract class SearchQuery {
             }
         }
         
-        if(isStartQuote && !key.trim().equals("")){
+        if (isStartQuote && !key.trim().equals("")) {
             keywords.add(key.trim());
         }
 
-        if(keywords.size() < 1) return "";
+        if (keywords.size() < 1) return "";
         
-        StringBuilder preparedQueryString = new StringBuilder("("+ "\"" + keywords.get(0) + "\"");
+        StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         
-        for(int i = 1; i < keywords.size(); i++){
+        for (int i = 1; i < keywords.size(); i++) {
             preparedQueryString.append(OR).append("\"" + keywords.get(i) + "\"");
         }
         return preparedQueryString.toString() + ")";
     }
     
-    protected SearchQuery setDateFilter(String dateField, String startTime, String endTime){
+    protected SearchQuery setDateFilter(String dateField, String startTime, String endTime) {
         this.dateQueryStrings.add(startTime + " <= " + dateField + AND + dateField + " <= " + endTime);
         return this;
     }
@@ -109,7 +109,7 @@ public abstract class SearchQuery {
     /*
      * Build the {@link Query} object
      */
-    public Query toQuery(){
+    public Query toQuery() {
         String queryString = buildQueryString();
         return Query.newBuilder()
                 .setOptions(options)
@@ -117,25 +117,25 @@ public abstract class SearchQuery {
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         return buildQueryString();
     }
     
-    private String buildQueryString(){
+    private String buildQueryString() {
         StringBuilder queryStringBuilder = new StringBuilder(visibilityQueryString);
         
         boolean isfirstElement = visibilityQueryString.isEmpty() ? true : false;
         
-        for(String textQuery : textQueryStrings){
-            if(isfirstElement){
+        for (String textQuery : textQueryStrings) {
+            if (isfirstElement) {
                 queryStringBuilder.append(textQuery);
                 isfirstElement = false;
             } else {
                 queryStringBuilder.append(AND).append(textQuery);
             }
         }
-        for(String dateQuery : dateQueryStrings){
-            if(isfirstElement){
+        for (String dateQuery : dateQueryStrings) {
+            if (isfirstElement) {
                 queryStringBuilder.append(dateQuery);
                 isfirstElement = false;
             } else {

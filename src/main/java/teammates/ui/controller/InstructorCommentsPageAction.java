@@ -89,14 +89,14 @@ public class InstructorCommentsPageAction extends Action {
 
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
-        if (!isViewingDraft) {//view by Course
+        if (!isViewingDraft) { //view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
-        } else {//view by Draft
+        } else { //view by Draft
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
         }
-        isViewingDraft = false;//TODO: handle the draft page
+        isViewingDraft = false; //TODO: handle the draft page
     }
 
     private void getDisplayArchivedOptionFromSession() {
@@ -134,9 +134,9 @@ public class InstructorCommentsPageAction extends Action {
 
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap() throws EntityDoesNotExistException {
         List<CommentAttributes> comments;
-        if (isViewingDraft) {//for comment drafts
+        if (isViewingDraft) { //for comment drafts
             comments = logic.getCommentDrafts(account.email);
-        } else {//for normal comments
+        } else { //for normal comments
             comments = logic.getCommentsForInstructor(instructor);
         }
 

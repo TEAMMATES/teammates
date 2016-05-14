@@ -406,7 +406,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid="+ instructor1ofCourse1.courseId
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 

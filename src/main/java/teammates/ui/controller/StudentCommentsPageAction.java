@@ -47,7 +47,7 @@ public class StudentCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         
         //check accessibility with courseId
-        if (!isJoinedCourse(courseId, account.googleId)) {
+        if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();
@@ -97,7 +97,7 @@ public class StudentCommentsPageAction extends Action {
             throws EntityDoesNotExistException {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        java.util.Collections.sort(courses);
+        Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             coursePaginationList.add(course.id);
@@ -125,7 +125,7 @@ public class StudentCommentsPageAction extends Action {
                 new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
-        for(FeedbackSessionAttributes fs : fsList) {
+        for (FeedbackSessionAttributes fs : fsList) {
             if (!fs.isPublished()) {
                 continue;
             }

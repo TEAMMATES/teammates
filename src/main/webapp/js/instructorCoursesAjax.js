@@ -1,7 +1,7 @@
 var isFetchingCourses = false;
 var needsRetrying = false;
 
-$(document).ready(function(){
+$(document).ready(function() {
     var ajaxRequest = function(e) {
         if (isFetchingCourses) {
             return;

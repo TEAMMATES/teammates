@@ -1,12 +1,12 @@
 /**
  * Generates HTML text for a row containing instructor's information
  * and status of the action.
- * 
- * @param {String} shortName 
+ *
+ * @param {String} shortName
  * @param {String} name
  * @param {String} email
  * @param {String} institution
- * @param {bool} isSuccess is a flag to show the action is successful or not. 
+ * @param {bool} isSuccess is a flag to show the action is successful or not.
  * The color and status of the row is affected by its value.
  * @param {String} status
  * @returns {String} a HTML row of action result table
@@ -66,12 +66,12 @@ function enableAddInstructorForm() {
  */
 function addInstructorByAjaxRecursively() {
     $.ajax({
-        type : 'POST',
-        url :   "/admin/adminInstructorAccountAdd?" + paramsList[paramsCounter],
-        beforeSend : function() {
+        type: 'POST',
+        url: "/admin/adminInstructorAccountAdd?" + paramsList[paramsCounter],
+        beforeSend: function() {
             disableAddInstructorForm();
         },
-        error : function() {
+        error: function() {
             var rowText = createRowForResultTable("-", "-", "-", "-", false, "Cannot send Ajax Request!");
             $("#addInstructorResultTable tbody").append(rowText);
             if (isInputFromFirstPanel) {
@@ -87,12 +87,12 @@ function addInstructorByAjaxRecursively() {
                 enableAddInstructorForm();
             }
         },
-        success : function(data) {
-            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName, 
-                                                  data.instructorEmail,data.instructorInstitution,
+        success: function(data) {
+            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName,
+                                                  data.instructorEmail, data.instructorInstitution,
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $("#addInstructorResultTable tbody").append(rowText);
-            if ((!data.instructorAddingResultForAjax) && (isInputFromFirstPanel)) {
+            if (!data.instructorAddingResultForAjax && isInputFromFirstPanel) {
                 var instructorsToBeRetried = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
                 $("#addInstructorDetailsSingleLine").val(instructorsToBeRetried);
             }
@@ -120,8 +120,8 @@ function addInstructorFromFirstFormByAjax() {
     if (multipleLineText.length > 0) {
         instructorDetailsList = multipleLineText.split("\n");
         paramsList = [];
-        for(var i = 0; i < instructorDetailsList.length; i++) {
-            instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g,"|");
+        for (var i = 0; i < instructorDetailsList.length; i++) {
+            instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, "|");
             paramsList[i] = "instructordetailssingleline=" + instructorDetailsList[i];
         }
     }

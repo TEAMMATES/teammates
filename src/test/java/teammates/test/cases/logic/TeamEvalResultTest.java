@@ -15,10 +15,10 @@ import static teammates.logic.core.TeamEvalResult.NSU;
 import static teammates.logic.core.TeamEvalResult.pointsToString;
 import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 
-public class TeamEvalResultTest extends BaseTestCase{
+public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+    public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         printTestClassHeader();
     }
 
@@ -281,7 +281,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
 
     @Test
-    public void testNormalizeValues(){
+    public void testNormalizeValues() {
         
         verifyNormalized(new double[] {}, new double[] {});
         verifyNormalized(new double[] {100}, new double[] {100});
@@ -297,7 +297,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 
     @Test 
-    public void testExcludeSelfRatings(){
+    public void testExcludeSelfRatings() {
         
         AssertJUnit.assertEquals(pointsToString(new double[][]{{NA}}),
                 pointsToString(TeamEvalResult.removeSelfRatings(new double[][]{{1}})));
@@ -318,7 +318,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testAverageColumns(){
+    public void testAverageColumns() {
         
         double[][] input = 
             {{ 10, 20,  0, NA }, 
@@ -347,7 +347,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testSum(){
+    public void testSum() {
         
         AssertJUnit.assertEquals(6, TeamEvalResult.sum(new double[]{1, 2, 3}), 0.001);
         AssertJUnit.assertEquals(0, TeamEvalResult.sum(new double[]{}), 0.001);
@@ -364,7 +364,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testCalculatePerceivedForStudent(){
+    public void testCalculatePerceivedForStudent() {
         
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{}),
@@ -405,7 +405,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testIsSanitized(){
+    public void testIsSanitized() {
         
         
         AssertJUnit.assertEquals(true, TeamEvalResult.isSanitized(new int[]{}));
@@ -415,7 +415,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testPurgeValuesCorrespondingToSpecialValuesInFilter(){
+    public void testPurgeValuesCorrespondingToSpecialValuesInFilter() {
         
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
@@ -462,12 +462,12 @@ public class TeamEvalResultTest extends BaseTestCase{
     private void verifyCalculatePoints(int[][] input, int[][] expected) {
         TeamEvalResult t = new TeamEvalResult(input);
         String actual = pointsToString(t.normalizedClaimed)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + pointsToString(t.normalizedPeerContributionRatio)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + Arrays.toString(t.normalizedAveragePerceived) + EOL
                 + "=======================" + EOL
-                +pointsToString(t.denormalizedAveragePerceived);
+                + pointsToString(t.denormalizedAveragePerceived);
         actual = replaceMagicNumbers(actual);
         AssertJUnit.assertEquals(pointsToString(expected), actual);
     }

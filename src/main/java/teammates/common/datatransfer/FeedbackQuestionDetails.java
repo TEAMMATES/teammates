@@ -65,7 +65,7 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," +"Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + "," 
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
                + this.getCsvHeader() + Const.EOL;
@@ -77,13 +77,13 @@ public abstract class FeedbackQuestionDetails {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details
         String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
         String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))

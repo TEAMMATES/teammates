@@ -52,7 +52,7 @@ public class AdminActivityLogPageData extends PageData {
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
         for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
         }
         return excludedList;
     }
@@ -254,7 +254,7 @@ public class AdminActivityLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception{
+    private QueryParameters parseQuery(String query) throws Exception {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
@@ -373,7 +373,7 @@ public class AdminActivityLogPageData extends PageData {
         int remainder = totalNumOfActions % totalColumns;
         
         if (remainder > 0) {
-            rowsPerCol ++;
+            rowsPerCol++;
         }
         
         return rowsPerCol;
@@ -415,7 +415,7 @@ public class AdminActivityLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters{        
+    private class QueryParameters {        
                 
         public boolean isRequestInQuery;
         public String[] requestValues;
@@ -451,7 +451,7 @@ public class AdminActivityLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception{
+        public void add(String label, String[] values) throws Exception {
             if (label.equals("request")) {
                 isRequestInQuery = true;
                 requestValues = values;
@@ -496,7 +496,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public boolean isPersonSpecified() {
-        return ((q != null) && (q.isPersonInQuery));
+        return q != null && q.isPersonInQuery;
     }
     
     public String getPersonSpecified() {

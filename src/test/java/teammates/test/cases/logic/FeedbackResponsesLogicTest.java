@@ -56,7 +56,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testIsNameVisibleTo();
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
@@ -154,7 +154,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
             signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
-        } catch (EntityAlreadyExistsException e){
+        } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(
                     "Error trying to update recipient for response, as another response with the same recipient already exists.", 
                         e.getMessage());
@@ -218,7 +218,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
             signalFailureToDetectException("Should have detected that this response does not exist");
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
                         "Trying to update a feedback response that does not exist.", 
                         e.getMessage());
@@ -270,8 +270,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
                             getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                            studentToUpdate.email).size()
-                    , 1);
+                            studentToUpdate.email).size(), 1);
         
         ______TS("test updateFeedbackResponseForChangingTeam for recipient type = giver's team members including giver");
         FeedbackQuestionAttributes questionToTeamMembersAndSelf = 
@@ -509,7 +508,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("standard delete");
         
-        StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");;
+        StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForStudent1 =
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email);
         responsesForStudent1
@@ -532,7 +531,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         remainingResponses.clear();
         
-        studentToDelete = typicalBundle.students.get("student2InCourse1");;
+        studentToDelete = typicalBundle.students.get("student2InCourse1");
         
         studentToDelete.team = "Team 1.3";
         StudentsLogic.inst().updateStudentCascadeWithoutDocument(studentToDelete.email, studentToDelete);
@@ -595,7 +594,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         return getQuestionFromDatastore(typicalBundle, jsonId);
     }
     
-    private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId){
+    private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId) {
         FeedbackResponseAttributes response =
                                         dataBundle.feedbackResponses.get(jsonId);
         
@@ -608,7 +607,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 qnId, response.giverEmail, response.recipientEmail);
     }
     
-    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
+    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId) {
         return getResponseFromDatastore(typicalBundle, jsonId);
     }
     

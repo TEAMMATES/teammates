@@ -20,7 +20,7 @@ function handleData(err, countryCoordinates, userData) {
     userData.forEach(function(entry) {
         var countryName = entry[entry.length - 1];
         var countryCode = getCountryCode(countryName);
-        if (countryCode != null) {
+        if (countryCode !== undefined) {
             countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
         }
     });
@@ -31,9 +31,9 @@ function handleData(err, countryCoordinates, userData) {
         }
     }
 
-    //set the institution count in the page
+    // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = userData.length;
-    //set the country count in the page
+    // set the country count in the page
     document.getElementById('totalCountryCount').innerHTML = countriesArr.length;
     
     // Data format example
@@ -115,11 +115,10 @@ function handleData(err, countryCoordinates, userData) {
     });
 
     map.addPlugin('pins', function(layer, data, options) {
-        var self = this,
-            fillData = this.options.fills,
-            svg = this.svg;
+        var self = this;
+        var svg = this.svg;
 
-        if (!data || (data && !data.slice)) {
+        if (!data || data && !data.slice) {
             handleError();
             return;
         }
@@ -142,7 +141,7 @@ function handleData(err, countryCoordinates, userData) {
                 self.updatePopup($this, datum, options, svg);
             }
         })
-        .on('mouseout', function(datum) {
+        .on('mouseout', function() {
             var $this = d3.select(this);
 
             if (options.highlightOnHover) {
@@ -197,7 +196,7 @@ function getTooltipContent(data) {
          + '</div>';
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
     d3.json('/js/countryCoordinates.json', function(countryCoordinates) {
         d3.json('/js/userMapData.json', function(err, userData) {
             handleData(err, countryCoordinates, userData);

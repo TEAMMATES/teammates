@@ -19,7 +19,7 @@ import teammates.common.util.Utils;
 * the servlet.
 */
 @SuppressWarnings("serial")
-public abstract class WorkerServlet extends HttpServlet{
+public abstract class WorkerServlet extends HttpServlet {
     
     protected static Logger log = Utils.getLogger();
     
@@ -29,7 +29,7 @@ public abstract class WorkerServlet extends HttpServlet{
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             doGet(req, resp);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.severe("Exception occured while performing " + servletName + e.getMessage());
         }
     }

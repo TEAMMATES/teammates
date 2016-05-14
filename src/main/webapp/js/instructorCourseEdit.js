@@ -10,17 +10,17 @@ var instructorCourseEditInstructorAccessLevelWhenLoadingPage = [];
 var instructorCourseEditDefaultPrivilegeValuesForCustomRole = [];
 
 var instructorPrivilegeValues = [
-        'canmodifycourse',
-        'canmodifyinstructor',
-        'canmodifysession',
-        'canmodifystudent',
-        'canviewstudentinsection',
-        'cangivecommentinsection',
-        'canviewcommentinsection',
-        'canmodifycommentinsection',
-        'cansubmitsessioninsection',
-        'canviewsessioninsection',
-        'canmodifysessioncommentinsection'
+    'canmodifycourse',
+    'canmodifyinstructor',
+    'canmodifysession',
+    'canmodifystudent',
+    'canviewstudentinsection',
+    'cangivecommentinsection',
+    'canviewcommentinsection',
+    'canmodifycommentinsection',
+    'cansubmitsessioninsection',
+    'canviewsessioninsection',
+    'canmodifysessioncommentinsection'
 ];
 
 /**
@@ -70,7 +70,7 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
-    scrollToElement($('#panelAddInstructor')[0], {duration: 1000});
+    scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
 }
 
 function hideNewInstructorForm() {
@@ -81,10 +81,8 @@ function hideNewInstructorForm() {
 /**
  * Functions to trigger registration key sending to a specific instructor in the
  * course.
- * @param courseID
- * @param email
  */
-function toggleSendRegistrationKey(courseID, email) {
+function toggleSendRegistrationKey() {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 
@@ -217,9 +215,9 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
-    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1];
+    var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
     
-    if ((instrNum <= numOfInstr) && (instrNum <= instructorCourseEditInstructorAccessLevelWhenLoadingPage.length)) {
+    if (instrNum <= numOfInstr && instrNum <= instructorCourseEditInstructorAccessLevelWhenLoadingPage.length) {
         if (originalRole === 'Custom') {
             // 'Custom' => 'Not Custom' => 'Custom'
             // restore old values
@@ -235,7 +233,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
     } else {
         // New Instructor?
         // Custom role's privilege will be empty
-        for (var i = 0; i < instructorPrivilegeValues.length; i++) {
+        for (var j = 0; j < instructorPrivilegeValues.length; j++) {
             $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop("checked", false);
         }
     }
@@ -308,7 +306,6 @@ function checkPrivilegesOfTutorForModal() {
     $("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Tutor");
 }
 
-
 /**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID
@@ -320,14 +317,13 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
     if (isDeleteOwnself) {
         return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
                     "You will not be able to access the course anymore.");
-    } else {
-        return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
-                    "He/she will not be able to access the course anymore.");
     }
+    return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
+                    "He/she will not be able to access the course anymore.");
 }
 
-function bindChangingRole(index){
-    $("input[id^='instructorroleforinstructor" + index + "']").change(function(){
+function bindChangingRole(index) {
+    $("input[id^='instructorroleforinstructor" + index + "']").change(function() {
         var idAttr = $(this).attr('id');
         var instrNum = parseInt(idAttr.substring(27));
         var role = $(this).attr("value");
@@ -335,7 +331,7 @@ function bindChangingRole(index){
     });
 }
 
-$(function(){
+$(function() {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
     for (var i = 0; i < numOfInstr; i++) {
         var instrNum = i + 1;

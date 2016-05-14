@@ -180,12 +180,12 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
-        return (otherStudent != null) && otherStudent.email.equals(this.email)
-                && otherStudent.course.equals(this.course)
-                && otherStudent.name.equals(this.name)
-                && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team)
-                && otherStudent.section.equals(this.section);
+        return otherStudent != null && otherStudent.email.equals(this.email)
+               && otherStudent.course.equals(this.course)
+               && otherStudent.name.equals(this.name)
+               && otherStudent.comments.equals(this.comments)
+               && otherStudent.team.equals(this.team)
+               && otherStudent.section.equals(this.section);
     }
 
     public List<String> getInvalidityInfo() {
@@ -383,5 +383,25 @@ public class StudentAttributes extends EntityAttributes {
      **/
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Checks whether the edit form of student has changed the section value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if section value has changed from its original value.
+     */
+    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
+        return this.section != null && !this.section.equals(originalStudentAttribute.section);
+    }
+    
+    /**
+     * Checks whether the edit form of student has changed the team value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if team value has changed from its original value.
+     */
+    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
+        return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
 }

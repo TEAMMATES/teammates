@@ -1,4 +1,4 @@
-function linkAjaxForCourseStats(){
+function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function(e) {
         var row = $(this).parent().parent();
         var ajaxCols = $(row).children('td[id^="course-stats"]');
@@ -21,7 +21,7 @@ function linkAjaxForCourseStats(){
                         .attr('data-placement', 'top')
                         .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
                         .html('Try again?')
-                        .click(courseStatsClickHandler);    
+                        .click(courseStatsClickHandler);
                 }
             },
             success: function(data) {

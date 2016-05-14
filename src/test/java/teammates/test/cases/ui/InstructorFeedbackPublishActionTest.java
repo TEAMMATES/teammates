@@ -69,8 +69,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         
@@ -83,8 +83,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         

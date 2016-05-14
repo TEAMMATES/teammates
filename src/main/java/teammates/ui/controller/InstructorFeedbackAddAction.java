@@ -63,7 +63,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             try {
                 createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName,
                                                 fs.creatorEmail, feedbackSessionType);
-            } catch(InvalidParametersException e) {
+            } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
@@ -118,7 +118,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
-        for (FeedbackQuestionAttributes fqa : questions){
+        for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }

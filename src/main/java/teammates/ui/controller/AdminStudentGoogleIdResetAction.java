@@ -31,7 +31,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         
         AdminStudentGoogleIdResetPageData data = new AdminStudentGoogleIdResetPageData(account);
         
-        if(studentEmail != null && studentCourseId != null){
+        if (studentEmail != null && studentCourseId != null) {
             try {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
                 logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
@@ -47,7 +47,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
             
             StudentAttributes updatedStudent = logic.getStudentForEmail(studentCourseId, studentEmail);
      
-            if(updatedStudent.googleId == null || updatedStudent.googleId.isEmpty()){
+            if (updatedStudent.googleId == null || updatedStudent.googleId.isEmpty()) {
                 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET, StatusMessageColor.SUCCESS));
                 statusToUser.add(new StatusMessage("Email : " + studentEmail, StatusMessageColor.SUCCESS));
@@ -83,11 +83,11 @@ public class AdminStudentGoogleIdResetAction extends Action {
     }
         
     
-    private void deleteAccountIfNeeded(String wrongGoogleId){
+    private void deleteAccountIfNeeded(String wrongGoogleId) {
         Logic logic = new Logic();
         
-        if(logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
-           && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()){
+        if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
+           && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccount(wrongGoogleId);
         }
     }

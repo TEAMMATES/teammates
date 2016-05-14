@@ -3,11 +3,11 @@ QUnit.module('instructorStudentList.js');
 function testFilterSection() {}
 QUnit.test('filterSection()', function(assert) {
 
-    if(!$('#show_email').is(':checked')) {
+    if (!$('#show_email').is(':checked')) {
         $('#show_email').click();
     }
 
-    //Manually reset view first
+    // Manually reset view first
     $('tr[id^="student-c"]').show();
     $('#emails').show();
     $('.div[id^="course-"]').show();
@@ -75,20 +75,20 @@ QUnit.test('filterSection()', function(assert) {
 
 function testFilterTeam() {}
 QUnit.test('filterTeam()', function(assert) {
-    //Initialize by checking the options box and show email
-    if(!$('#option_check').is(':checked')) {
+    // Initialize by checking the options box and show email
+    if (!$('#option_check').is(':checked')) {
         $('#option_check').click();
     }
-    if(!$('#show_email').is(':checked')) {
+    if (!$('#show_email').is(':checked')) {
         $('#show_email').click();
     }
 
-    //Manually reset view first
+    // Manually reset view first
     $('tr[id^="student-c"]').show();
     $('#emails').show();
     $('.div[id^="course-"]').show();
 
-    //Deselect 2 team, and select back using Select All
+    // Deselect 2 team, and select back using Select All
     $('#team_check-0-0-0').click();
     $('#team_check-1-0-0').click();
     assert.equal($('#studentteam-c0\\.0\\.0').is(':hidden'), true, 'Team not selected is hidden');
@@ -125,7 +125,7 @@ QUnit.test('filterTeam()', function(assert) {
 
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus duplicate) should be visible again');
 
-    //Deselect 1 team, and select back using the specific course check
+    // Deselect 1 team, and select back using the specific course check
     $('#team_check-1-0-2').click();
     assert.equal($('#studentteam-c1\\.0\\.2').is(':hidden'), true, 'Team not selected is hidden');
     assert.equal($('#team_all').is(':checked'), false, 'Select all check should be removed');
@@ -153,12 +153,12 @@ QUnit.test('filterTeam()', function(assert) {
 
 function testFilterEmails() {}
 QUnit.test('filterEmails()', function(assert) {
-    //The method has been tested by UI test, and testFilter(Course|Team|Name) above.
+    // The method has been tested by UI test, and testFilter(Course|Team|Name) above.
     assert.expect(0);
 });
 
 function testToggleDeleteStudentConfirmation() {}
 QUnit.test('toggleDeleteStudentConfirmation(courseId, studentName)', function(assert) {
-    //gives a popup, can't be tested
+    // gives a popup, can't be tested
     assert.expect(0);
 });

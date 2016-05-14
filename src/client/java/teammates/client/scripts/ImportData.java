@@ -32,14 +32,14 @@ public class ImportData {
     
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST =1000 ;//ms
+    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
     
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
     public static void main(String args[]) throws Exception {
-        jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
+        jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
         String status = "";
@@ -49,24 +49,24 @@ public class ImportData {
             
             if (!data.accounts.isEmpty()) {
                 status = persist(data.accounts); // Accounts
-            } else if(!data.instructors.isEmpty()) {            //Instructors
+            } else if (!data.instructors.isEmpty()) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()){    //Courses
+            } else if (!data.courses.isEmpty()) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()){    //Students
+            } else if (!data.students.isEmpty()) {    //Students
                 status = persist(data.students);
             } else {    
                 // No more data, break the loop
                 System.out.print("\n Finish!");
                 break;
             }
-            long elapsedTimeMillis = System.currentTimeMillis()-start;
+            long elapsedTimeMillis = System.currentTimeMillis() - start;
 
             // Get elapsed time in seconds of the current request
-            float elapsedTimeSec = elapsedTimeMillis/1000F;
-            System.out.print(status + " in "+elapsedTimeSec +" s\n");
+            float elapsedTimeSec = elapsedTimeMillis / 1000F;
+            System.out.print(status + " in " + elapsedTimeSec + " s\n");
 
-        }while (true);
+        } while (true);
         
     }
     
@@ -80,7 +80,7 @@ public class ImportData {
     private static String persist(@SuppressWarnings("rawtypes") HashMap map)
     {
         DataBundle bundle = new DataBundle();
-        int count =0;
+        int count = 0;
         @SuppressWarnings("unchecked")
         Set<String> set = map.keySet();
         @SuppressWarnings("rawtypes")
@@ -95,33 +95,33 @@ public class ImportData {
             if (obj instanceof AccountAttributes)
             {
                 type = "AccountData";
-                AccountAttributes accountData = (AccountAttributes)obj;
+                AccountAttributes accountData = (AccountAttributes) obj;
                 bundle.accounts.put(key, accountData);
-            } else if(obj instanceof InstructorAttributes)
+            } else if (obj instanceof InstructorAttributes)
             {
                 type = "InstructorData";
-                InstructorAttributes instructorData = (InstructorAttributes)obj;
+                InstructorAttributes instructorData = (InstructorAttributes) obj;
                 bundle.instructors.put(key, instructorData);
-            } else if(obj instanceof CourseAttributes)
+            } else if (obj instanceof CourseAttributes)
             {
                 type = "CourseData";
-                CourseAttributes courseData = (CourseAttributes)obj;
+                CourseAttributes courseData = (CourseAttributes) obj;
                 bundle.courses.put(key, courseData);
-            } else if(obj instanceof StudentAttributes)
+            } else if (obj instanceof StudentAttributes)
             {
                 type = "StudentData";
-                StudentAttributes studentData = (StudentAttributes)obj;
+                StudentAttributes studentData = (StudentAttributes) obj;
                 bundle.students.put(key, studentData);
             } 
-            count ++;
+            count++;
             itr.remove();
             System.out.print(key + "\n");
-            if(type.equals("EvaluationData")&& count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
+            if (type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
                 break;
-            if(count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
+            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
                 break;
         }
-        System.out.print(count+ " entities of type "+ type + " left " + map.size() +" \n" );
+        System.out.print(count + " entities of type " + type + " left " + map.size() + " \n" );
         
         String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
         

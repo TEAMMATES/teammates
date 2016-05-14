@@ -40,7 +40,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{    
+    public void allTests() throws Exception {    
         testContent();
         testSearch();        
     }
@@ -49,8 +49,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         ______TS("content: default search page");
         
-        String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
-        searchPage = getAdminSearchPage(instructorId);
+        searchPage = getAdminSearchPage();
         
         assertTrue(isPageTitleCorrect());
         assertTrue(isSearchPanelPresent());
@@ -104,7 +103,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         assertTrue(isSearchDataDisplayCorrect());
     }
 
-    private AdminSearchPage getAdminSearchPage(String instructorId) {
+    private AdminSearchPage getAdminSearchPage() {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
 
         return loginAdminToPage(browser, commentsPageUrl, AdminSearchPage.class);
@@ -125,7 +124,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return statusMessage.equals("Search key cannot be empty");
     }
     
-    private boolean isOnlyOneResultVisible(){
+    private boolean isOnlyOneResultVisible() {
         return searchPage.getStatus().equals("Total results found: 1");
     }
         
@@ -140,7 +139,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private boolean isSearchDataDisplayCorrect() {
         if (searchPage.isElementPresent(By.className("table"))) {
             int numSearchDataTables = browser.driver.findElements(By.className("table")).size();
-            for (int i = 0 ; i < numSearchDataTables ; i++) {
+            for (int i = 0; i < numSearchDataTables; i++) {
                 if (!isSearchTableHeaderCorrect(i)) {
                     return false;
                 }
@@ -172,7 +171,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Options");
             actualSessionTableHeaders = new ArrayList<String>();
             
-            for (int i = 0 ; i < numColumns ; i++) {
+            for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }
             
@@ -190,7 +189,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Comments",
                                                        "Options");
             actualSessionTableHeaders = new ArrayList<String>();
-            for (int i = 0 ; i < numColumns ; i++) {
+            for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }
             

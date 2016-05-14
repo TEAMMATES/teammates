@@ -22,6 +22,11 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
+#####Suppressing PMD warnings
+To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
+the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.      
+
 ### FindBugs
 
 [FindBugs](http://findbugs.sourceforge.net) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
@@ -42,6 +47,18 @@ ESLint is a node.js package, currently not supported for Eclipse Java EE project
 To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
 ```
 npm install -g eslint
+```
+
+##### Suppressing ESLint warnings
+
+To introduce code that violates ESLint rules, wrap the violating code with `/* eslint-disable rule-name */` and re-enable it afterwards
+with `/* eslint-enable rule-name */`. The suppression should be as specific as possible, and the reason for violating the rule should be explained.
+
+An example to suppress the `camelcase` rule is as follows:
+```javascript
+/* eslint-disable camelcase */ // The variable name is provided by an external library, which does not follow camelcase.
+// violating codes go here
+/* eslint-enable camelcase */
 ```
 
 ### blanket.js

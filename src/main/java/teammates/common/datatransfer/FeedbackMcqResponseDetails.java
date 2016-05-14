@@ -26,7 +26,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
          * if "other" is selected by the student, "0" if "other" is not
          * selected, null if "other" is disabled by the instructor
          */ 
-        isOther = (answer.length < 2 || answer[1] == null) ? false : answer[1].equals("1");
+        isOther = answer.length >= 2 && answer[1] != null && answer[1].equals("1");
         
         if (isOther) {
             this.answer = "Other";
@@ -48,7 +48,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
          * if "other" is selected by the student, "0" if "other" is not
          * selected, null if "other" is disabled by the instructor
          */
-        isOther = (answer.length < 2 || answer[1] == null) ? false : answer[1].equals("1");
+        isOther = answer.length >= 2 && answer[1] != null && answer[1].equals("1");
 
         if (isOther) {
             this.answer = "Other";
@@ -61,7 +61,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerString() {
-        if(isOther){
+        if (isOther) {
             return otherFieldContent;
         } else {
             return answer;

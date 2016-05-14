@@ -29,7 +29,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("valid value", true, c.isValid());
         
         
-        String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH+1);
+        String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         c.id = veryLongId;
         c.name = emptyName;
@@ -42,17 +42,17 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo(){
+    public void testGetValidityInfo() {
         //already tested in testValidate() above
     }
     
     @Test
-    public void testIsValid(){
+    public void testIsValid() {
         //already tested in testValidate() above
     }
     
     @Test
-    public void testToString(){
+    public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
         assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
     }

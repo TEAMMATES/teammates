@@ -79,4 +79,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
                 feedbackQuestionId);
         return result;
     }
+
+    @Override
+    protected void checkAdditionalConstraints() {
+    }
 }

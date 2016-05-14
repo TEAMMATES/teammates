@@ -22,22 +22,22 @@ $(document).ready(function() {
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
             beforeSend: function() {
-                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
             error: function() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success: function(data) {
-                if (numPanels == 0) {
+                if (numPanels === 0) {
                     numPanels += $('.panel-collapse').length;
                 }
 
-                if (typeof data == 'undefined') {
+                if (typeof data === 'undefined') {
                     $(panelBody[0]).html('The results is too large to be viewed. Please choose to view the results by questions or download the results.');
                 } else {
                     var appendedSection = $(data).find('#sectionBody-0').html();
                     $(data).remove();
-                    if (typeof appendedSection != 'undefined') {
+                    if (typeof appendedSection !== 'undefined') {
                         $(panelBody[0]).html(appendedSection);
                     } else {
                         $(panelBody[0]).html('There are no responses for this feedback session yet or you do not have access to the responses collected so far.');
@@ -59,12 +59,12 @@ $(document).ready(function() {
                 $('a[id^="collapse-panels-button-section-"],a[id^="collapse-panels-button-team-"]').off('click');
                 $('a[id^="collapse-panels-button-section-"]').on('click', function() {
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');
-                    var childPanelType = (isGroupByTeam) ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
+                    var childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
 
-                $('a[id^="collapse-panels-button-team-"]').on('click', function(){
+                $('a[id^="collapse-panels-button-team-"]').on('click', function() {
                     var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
