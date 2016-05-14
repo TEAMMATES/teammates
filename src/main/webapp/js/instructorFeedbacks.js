@@ -110,9 +110,7 @@ function formatDigit(num) {
  * @returns {String}
  */
 function convertDateToDDMMYYYY(date) {
-    return formatDigit(date.getDate()) + '/'
-           + formatDigit(date.getMonth() + 1) + '/'
-           + date.getFullYear();
+    return formatDigit(date.getDate()) + '/' + formatDigit(date.getMonth() + 1) + '/' + date.getFullYear();
 }
 
 /**
