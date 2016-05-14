@@ -14,6 +14,7 @@
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
     </module>
+    <module name="GenericWhitespace"/>
   </module>
   <module name="FileTabCharacter"/>
 </module>
