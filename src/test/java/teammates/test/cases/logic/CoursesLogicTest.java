@@ -1,7 +1,6 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertNotSame;
-import static org.testng.AssertJUnit.assertSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
