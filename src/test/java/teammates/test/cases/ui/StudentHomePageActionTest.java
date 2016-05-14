@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -48,7 +49,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                         r.getStatusMessage());
         
@@ -86,7 +87,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="
                                           + studentWithoutCourses.googleId, 
                                           r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                           r.getStatusMessage());
         
@@ -112,7 +113,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/studentHome.jsp?error=false&user=" + studentId, 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;

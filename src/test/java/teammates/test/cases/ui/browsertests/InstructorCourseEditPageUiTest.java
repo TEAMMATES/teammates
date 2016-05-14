@@ -110,17 +110,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     private void testEditInstructorLink() {
         ______TS("edit instructor link");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        assertTrue(courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
         ______TS("add new instructor link");
-        assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
+        assertTrue(courseEditPage.clickShowNewInstructorFormButton());
         
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Manager"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Observer"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Manager"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Observer"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
     }
 
     private void testInputValidation() {
@@ -310,12 +310,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
         courseEditPage.clickSaveInstructorButton(instructorIndex);

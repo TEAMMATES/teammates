@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -1233,8 +1234,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                             + Utils.getTeammatesGson().toJson(expectedStudent)
                             + "\n actual \n"
                             + Utils.getTeammatesGson().toJson(enrollmentResult);
-        assertEquals(errorMessage, true, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
-                                             && enrollmentResult.updateStatus == status);
+        assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
+                                 && enrollmentResult.updateStatus == status);
     }
 
 }

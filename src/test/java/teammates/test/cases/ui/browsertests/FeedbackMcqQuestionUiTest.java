@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -87,12 +88,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
 
         // TODO: Check that after deleting, the value is cleared
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
@@ -104,8 +105,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
         feedbackEditPage.clickAddQuestionButton();
@@ -122,24 +123,24 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: add mcq option");
         
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
         feedbackEditPage.clickAddMoreMcqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
 
         ______TS("MCQ: remove mcq option");
 
         feedbackEditPage.fillMcqOption(2, "Choice 3");
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
 
         ______TS("MCQ: add mcq option after remove");
 
         feedbackEditPage.clickAddMoreMcqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-3--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-3--1"));
         feedbackEditPage.clickAddMoreMcqOptionLink();
         feedbackEditPage.fillMcqOption(4, "Choice 5");
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
 
     public void testAddQuestionAction() throws Exception {
@@ -160,11 +161,11 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 1);
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickRemoveMcqOptionLink(0, 1);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
@@ -172,26 +173,26 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: edit to generated options");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 1);
-        assertEquals(true, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+        assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
-        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.clickGenerateOptionsCheckbox(1);
-        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
-        assertEquals(false, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+        assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 "mcqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
@@ -201,10 +202,10 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: change generated type");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
-        assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
-        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.selectMcqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(
                 "mcqGenerateForSelect-1",
