@@ -1,8 +1,11 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNotSame;
+import static org.testng.AssertJUnit.assertSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1184,7 +1187,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
+        assertNotSame(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size(), 0);
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);

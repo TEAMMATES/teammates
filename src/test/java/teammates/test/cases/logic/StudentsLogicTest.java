@@ -118,7 +118,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
         
         assertEquals("Team 1.1</td></div>'\"", team.name);
-        assertTrue(team.students != null);
+        assertNotNull(team.students);
         assertEquals(4, team.students.size());
         
         ______TS("Typical case: get team of non-existing student");

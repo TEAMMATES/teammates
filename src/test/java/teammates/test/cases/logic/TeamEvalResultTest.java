@@ -18,7 +18,7 @@ import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public static void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         printTestClassHeader();
     }
 
