@@ -245,7 +245,10 @@ public class InstructorFeedbacksPage extends AppPage {
         clickSubmitButton();
     }
     
-    public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
+        String copyButtonId = "button_copy";
+        this.waitForTextContainedInElementPresence(
+                By.id(copyButtonId), "Copy from previous feedback sessions");     
         clickCopyButton();        
         this.waitForElementVisibility(copiedFsNameTextBox);        
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       

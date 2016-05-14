@@ -39,20 +39,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <filter-name>DatastoreFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!--<filter>
-        <description>Filter that do the login part for each JSP page</description>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>teammates.ui.controller.LoginFilter</filter-class>
-        <init-param>
-            <description>Files excluded from login check. "|"-separated</description>
-            <param-name>ExcludedFiles</param-name>
-            <param-value></param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        <url-pattern>/page/*</url-pattern>
-    </filter-mapping>-->
 
     <servlet>
         <servlet-name>appstats</servlet-name>
