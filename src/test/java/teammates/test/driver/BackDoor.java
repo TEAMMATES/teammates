@@ -263,7 +263,7 @@ public class BackDoor {
         return status;
     }
     
-    public static String uploadAndUpdateStudentProfilePicture (String googleId, String pictureKey) {
+    public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureKey) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
         params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
         params.put(BackDoorServlet.PARAMETER_PICTURE_DATA, pictureKey);

@@ -184,7 +184,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackEditSaveAction getAction (String... params) throws Exception {
+    private InstructorFeedbackEditSaveAction getAction(String... params) throws Exception {
         return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 }

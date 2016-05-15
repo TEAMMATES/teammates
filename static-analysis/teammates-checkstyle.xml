@@ -14,6 +14,9 @@
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
     </module>
+    <module name="MethodParamPad">
+      <property name="tokens" value="CTOR_DEF,ENUM_CONSTANT_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
 </module>
