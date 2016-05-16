@@ -17,6 +17,12 @@ eclipse {
     }
 }
 
+eclipseProject {
+    onlyIf {
+        !(new File(".project")).exists()    
+    }
+}
+
 task clean << {
   def testOutputDir = new File("test-output")
   testOutputDir.deleteDir()
