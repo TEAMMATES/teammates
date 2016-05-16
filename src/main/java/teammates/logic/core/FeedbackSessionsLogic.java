@@ -407,8 +407,7 @@ public class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId,
-                                                                     userEmail);
+        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session for student that does not exist.");
@@ -450,8 +449,7 @@ public class FeedbackSessionsLogic {
                     "Trying to get a feedback session that does not exist.");
         }
         
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId,
-                                        userEmail);
+        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session for student that does not exist.");
@@ -2065,7 +2063,7 @@ public class FeedbackSessionsLogic {
         boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
         boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
         boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
-        boolean isComplete = params.get("range") != null ? false : true;
+        boolean isComplete = params.get("range") == null;
         
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get("range") != null) {

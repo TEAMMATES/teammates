@@ -809,8 +809,7 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
-        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId,
-                                                                     studentEmail);
+        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, studentEmail);
         if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(

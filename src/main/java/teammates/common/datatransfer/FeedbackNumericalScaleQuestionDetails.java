@@ -221,9 +221,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         String statsTitle = "Response Summary";
-        String templateToUse = showAvgExcludingSelf ? 
-                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE :
-                               FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
+        String templateToUse = showAvgExcludingSelf 
+                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
+                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
@@ -357,9 +357,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam, 
                                           hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
-        String templateToUse = showAvgExcludingSelf ? 
-                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE : 
-                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
+        String templateToUse = showAvgExcludingSelf 
+                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
+                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
