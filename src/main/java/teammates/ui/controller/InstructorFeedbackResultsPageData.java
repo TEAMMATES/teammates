@@ -49,26 +49,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
-    private boolean isLargeNumberOfRespondents = false;
+    private boolean isLargeNumberOfRespondents;
     
-    private FeedbackSessionResultsBundle bundle = null;
-    private InstructorAttributes instructor = null;
-    private List<String> sections = null;
-    private String selectedSection = null;
-    private String sortType = null;
-    private String groupByTeam = null;
-    private String showStats = null;
+    private FeedbackSessionResultsBundle bundle;
+    private InstructorAttributes instructor;
+    private List<String> sections;
+    private String selectedSection;
+    private String sortType;
+    private String groupByTeam;
+    private String showStats;
     private int startIndex = -1;
     
     private FieldValidator validator = new FieldValidator();
-    private String feedbackSessionName = null;
+    private String feedbackSessionName;
     
-    private String displayableFsName = null;
-    private String displayableCourseId = null;
+    private String displayableFsName;
+    private String displayableCourseId;
     
     // used for html table ajax loading
-    private String ajaxStatus = null;
-    private String sessionResultsHtmlTableAsString = null;
+    private String ajaxStatus;
+    private String sessionResultsHtmlTableAsString;
     
 
     // for question view

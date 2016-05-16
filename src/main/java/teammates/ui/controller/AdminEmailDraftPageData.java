@@ -13,5 +13,5 @@ public class AdminEmailDraftPageData extends AdminEmailPageData {
         this.state = AdminEmailPageState.DRAFT;
     }
     
-    public List<AdminEmailAttributes> draftEmailList = null;
+    public List<AdminEmailAttributes> draftEmailList;
 }

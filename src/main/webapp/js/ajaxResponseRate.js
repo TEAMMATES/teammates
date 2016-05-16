@@ -21,8 +21,8 @@ function linkAjaxForResponseRate() {
             success: function(data) {
                 setTimeout(function() {
                     var type = data.sessionDetails ? 'sessionDetails' : 'evaluationDetails';
-                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / ' +
-                                                 data[type].stats.expectedTotal);
+                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / '
+                                                 + data[type].stats.expectedTotal);
                 }, 500);
             }
         });

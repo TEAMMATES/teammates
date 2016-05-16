@@ -143,10 +143,10 @@ function addInstructorFromSecondFormByAjax() {
     
     var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val() + '|' + $('#instructorInstitution').val();
     instructorDetailsList = [instructorDetails];
-    var params = 'instructorshortname=' + $('#instructorShortName').val() +
-                 '&instructorname=' + $('#instructorName').val() +
-                 '&instructoremail=' + $('#instructorEmail').val() +
-                 '&instructorinstitution=' + $('#instructorInstitution').val();
+    var params = 'instructorshortname=' + $('#instructorShortName').val()
+               + '&instructorname=' + $('#instructorName').val()
+               + '&instructoremail=' + $('#instructorEmail').val()
+               + '&instructorinstitution=' + $('#instructorInstitution').val();
     paramsList = [params];
     
     paramsCounter = 0;
