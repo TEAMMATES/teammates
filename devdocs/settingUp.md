@@ -8,6 +8,7 @@
 * [Running client scripts](#running-client-scripts)
 * [Troubleshooting](#troubleshooting)
 * [Tool stack](#toolStack)
+* [Config points](#config-points)
 
 ## Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
@@ -305,7 +306,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 
-####Config points
+## Config points
 There are several files used to configure various aspects of the system.
 
 **main:**
