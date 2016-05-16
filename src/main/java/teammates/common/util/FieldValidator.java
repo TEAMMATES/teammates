@@ -61,10 +61,10 @@ public class FieldValidator {
      */
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. " +
-            "An email address contains some text followed by one '@' sign followed by some more text. " +
-            "It cannot be longer than " + EMAIL_MAX_LENGTH + " characters. " +
-            "It cannot be empty and it cannot have spaces.";
+            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. " 
+            + "An email address contains some text followed by one '@' sign followed by some more text. " 
+            + "It cannot be longer than " + EMAIL_MAX_LENGTH + " characters. " 
+            + "It cannot be empty and it cannot have spaces.";
     
     public static final String EMAIL_TAKEN_MESSAGE = 
             "Trying to update to an email that is already used by: %s/%s";
@@ -76,9 +76,9 @@ public class FieldValidator {
     public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
     public static final String PERSON_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " +
-            "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " +
-            PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " 
+            + PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -97,9 +97,9 @@ public class FieldValidator {
     private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + EMAIL_SUBJECT_FIELD_NAME + " because it %s. " +
-                    "The value of " + EMAIL_SUBJECT_FIELD_NAME + " should be no longer than " +
-                    EMAIL_SUBJECT_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + EMAIL_SUBJECT_FIELD_NAME + " because it %s. " 
+            + "The value of " + EMAIL_SUBJECT_FIELD_NAME + " should be no longer than " 
+            + EMAIL_SUBJECT_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * ======================================================================= 
@@ -117,9 +117,9 @@ public class FieldValidator {
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
     public static final String NATIONALITY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + NATIONALITY_FIELD_NAME + " because it %s. " +
-                    "The value of " + NATIONALITY_FIELD_NAME + " should be no longer than " +
-                    NATIONALITY_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + NATIONALITY_FIELD_NAME + " because it %s. " 
+            + "The value of " + NATIONALITY_FIELD_NAME + " should be no longer than " 
+            + NATIONALITY_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -128,9 +128,9 @@ public class FieldValidator {
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + COURSE_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + COURSE_NAME_FIELD_NAME + " should be no longer than " +
-                    COURSE_NAME_MAX_LENGTH + " characters. It should not be empty.";    
+            "\"%s\" is not acceptable to TEAMMATES as " + COURSE_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + COURSE_NAME_FIELD_NAME + " should be no longer than " 
+            + COURSE_NAME_MAX_LENGTH + " characters. It should not be empty.";    
     
     /*
      * =======================================================================
@@ -153,22 +153,22 @@ public class FieldValidator {
      */
     public static final int COURSE_ID_MAX_LENGTH = 40;
     public static final String COURSE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. " +
-                    "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
-                    "It cannot be longer than " + COURSE_ID_MAX_LENGTH + " characters. " +
-                    "It cannot be empty or contain spaces.";  
+            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. " 
+            + "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " 
+            + "It cannot be longer than " + COURSE_ID_MAX_LENGTH + " characters. " 
+            + "It cannot be empty or contain spaces.";  
     /*
      * =======================================================================
      * Field instructor permission role
      */
     public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
-            "\"%s\" is not accepted to TEAMMATES as a role %s." +
-                    "Role can be one of the following: " + 
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
+            "\"%s\" is not accepted to TEAMMATES as a role %s." 
+            + "Role can be one of the following: " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", "
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
     
@@ -211,9 +211,9 @@ public class FieldValidator {
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " +
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " 
+            + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -223,11 +223,11 @@ public class FieldValidator {
     private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
     public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
     public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " +
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty. " +
-                            "If you require more characters for your question, " +
-                            "please use the instructions box below.";
+            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " 
+            + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty. " 
+            + "If you require more characters for your question, " 
+            + "please use the instructions box below.";
     
     
     /*
@@ -236,10 +236,10 @@ public class FieldValidator {
      */    
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. " +
-            "A Google ID must be a valid id already registered with Google. " +
-            "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. " +
-            "It cannot be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. " 
+            + "A Google ID must be a valid id already registered with Google. " 
+            + "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. " 
+            + "It cannot be empty.";
     
     /*
      * ======================================================================= 
@@ -248,9 +248,9 @@ public class FieldValidator {
     private static final String GENDER_FIELD_NAME = "gender";
     private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " +
-            "Values have to be one of: " + Const.GenderTypes.MALE + ", " +
-            Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " 
+            + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
+            + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     /*
      * =======================================================================
@@ -259,9 +259,9 @@ public class FieldValidator {
     private static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
     public static final String INSTITUTE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + INSTITUTE_NAME_FIELD_NAME + " because it %s. " +
-            "The value of " + INSTITUTE_NAME_FIELD_NAME + " should be no longer than " +
-            INSTITUTE_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + INSTITUTE_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + INSTITUTE_NAME_FIELD_NAME + " should be no longer than " 
+            + INSTITUTE_NAME_MAX_LENGTH + " characters. It should not be empty.";
 
     /*
      * =======================================================================
@@ -271,9 +271,9 @@ public class FieldValidator {
     private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " because it %s. " +
-                    "The value of " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " should be no longer than " +
-                    STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
+            "\"%s\" is not acceptable to TEAMMATES as " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " because it %s. " 
+            + "The value of " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " should be no longer than " 
+            + STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
@@ -295,9 +295,9 @@ public class FieldValidator {
     private static final String TEAM_NAME_FIELD_NAME = "a team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + TEAM_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + TEAM_NAME_FIELD_NAME + " should be no longer than " +
-                    TEAM_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + TEAM_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + TEAM_NAME_FIELD_NAME + " should be no longer than " 
+            + TEAM_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -306,9 +306,9 @@ public class FieldValidator {
     private static final String SECTION_NAME_FIELD_NAME = "a section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + SECTION_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + SECTION_NAME_FIELD_NAME + " should be no longer than " +
-                    SECTION_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + SECTION_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + SECTION_NAME_FIELD_NAME + " should be no longer than " 
+            + SECTION_NAME_MAX_LENGTH + " characters. It should not be empty.";
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
@@ -378,21 +378,21 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "The value of %s should be no longer than %d characters. " +
-            "It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "The value of %s should be no longer than %d characters. " 
+            + "It should not be empty.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-                    "The value of %s should be no longer than %d characters.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "The value of %s should be no longer than %d characters.";
     
     public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
-                    "Please only use alphabets, numbers and whitespace in %s.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " 
+            + "Please only use alphabets, numbers and whitespace in %s.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";

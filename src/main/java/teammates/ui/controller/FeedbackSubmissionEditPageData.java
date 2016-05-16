@@ -185,9 +185,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         // Add an empty option first.
         result.add(
-            "<option value=\"\" " +
-            (currentlySelectedOption == null ? "selected>" : ">") +
-            "</option>"
+            "<option value=\"\" " 
+            + (currentlySelectedOption == null ? "selected>" : ">") 
+            + "</option>"
         );
         
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {

@@ -300,9 +300,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.constSumOptions.add("");
         this.constSumOptions.add("");
 
-        return "<div id=\"constSumForm\">" +
-                    this.getQuestionSpecificEditFormHtml(-1) + 
-               "</div>";
+        return "<div id=\"constSumForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1) 
+             + "</div>";
     }
 
     @Override
@@ -436,8 +436,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments += option + "," + 
-                         df.format(average) + Const.EOL;
+            fragments += option + "," + df.format(average) + Const.EOL;
             
         }
         
@@ -569,8 +568,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" +
-               "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
+        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" 
+               + "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
     }
 
     @Override

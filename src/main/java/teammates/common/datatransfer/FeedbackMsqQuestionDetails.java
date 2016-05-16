@@ -331,9 +331,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices.add("");
         this.msqChoices.add("");
         
-        return "<div id=\"msqForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"msqForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1) 
+             + "</div>";
     }
 
     @Override

@@ -127,9 +127,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         this.maxScale = 5;
         this.step = 1;
         
-        return "<div id=\"numScaleForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"numScaleForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1) 
+             + "</div>";
     }
 
     @Override

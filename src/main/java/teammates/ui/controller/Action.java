@@ -258,9 +258,9 @@ public abstract class Action {
                 account.googleId = paramRequestedUserId;
             }
         } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id +
-                      " is trying to masquerade as " + paramRequestedUserId +
-                      " without admin permission.");
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                    + " is trying to masquerade as " + paramRequestedUserId
+                    + " without admin permission.");
         }
         
         return account;

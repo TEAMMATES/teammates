@@ -62,9 +62,9 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
             data.setModeratedQuestionId(moderatedQuestionId);
         }
 
-        statusToAdmin = "Moderating feedback session for instructor (" + instructorUnderModeration.email + ")<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Moderating feedback session for instructor (" + instructorUnderModeration.email + ")<br>" 
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
         
         data.bundle.hideUnmoderatableQuestions();
         data.init(courseId);

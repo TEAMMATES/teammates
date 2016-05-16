@@ -249,8 +249,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + 
-                    s2.email, e.getMessage());
+            assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email, 
+                         e.getMessage());
         }
 
         ______TS("typical success case");

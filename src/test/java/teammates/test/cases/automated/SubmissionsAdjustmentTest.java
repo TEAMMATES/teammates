@@ -134,8 +134,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
-        ______TS("enroll new students to existing course" +
-                "(to check the cascade logic of the SUT)");
+        ______TS("enroll new students to existing course(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
         enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;

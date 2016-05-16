@@ -83,9 +83,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>" + 
-                        Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
-                        "</i></span>";
+                chosenChoice = "<span class=\"color_neutral\"><i>" 
+                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE 
+                             + "</i></span>";
                 html += StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>";
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));

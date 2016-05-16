@@ -93,8 +93,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         
-        String instructorDetails = instructor.name + " | " + instructor.email + "\n" + 
-                                   instructor.name + " | " + instructor.email + " | " + institute;
+        String instructorDetails = instructor.name + " | " + instructor.email + "\n" 
+                                 + instructor.name + " | " + instructor.email + " | " + institute;
         
         ______TS("action fail & success: add multiple instructors");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);

@@ -391,9 +391,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setDescription(1, 2, "Occasionally misses deadlines.");
         setDescription(1, 3, "Tasks are always completed before the deadline.");
         
-        return "<div id=\"rubricForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"rubricForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
     
     private void initializeRubricDescriptions() {

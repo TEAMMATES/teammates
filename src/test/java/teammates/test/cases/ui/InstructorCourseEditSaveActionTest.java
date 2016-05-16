@@ -53,8 +53,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=false&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE 
+                     + "?error=false&user=" + instructorId + "&courseid=" + courseId, 
                      redirectResult.getDestinationWithParams());
 
         ______TS("Typical case: edit course name with valid characters");
@@ -71,8 +71,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=false&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE 
+                     + "?error=false&user=" + instructorId + "&courseid=" + courseId, 
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with empty string");
@@ -89,8 +89,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, courseName, FieldValidator.REASON_EMPTY);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE 
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId, 
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
@@ -108,8 +108,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME, 
                                       FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR, FieldValidator.COURSE_NAME_FIELD_NAME);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE 
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId, 
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with name containing | and %");
@@ -127,8 +127,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME, 
                                       FieldValidator.REASON_CONTAINS_INVALID_CHAR, FieldValidator.COURSE_NAME_FIELD_NAME);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE 
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId, 
                      redirectResult.getDestinationWithParams());
     }
 

@@ -21,8 +21,8 @@ public class AdminEmailActions {
 
     private ElementTag createEditButton(String emailId) {
         String content = "<span class=\"glyphicon glyphicon-edit\"></span>";
-        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
-                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
+        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE
+                + "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
         
         return new ElementTag(content, "target", "blank", "href", href);
     }

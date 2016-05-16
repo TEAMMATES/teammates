@@ -102,10 +102,10 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
-                "?error=false&user=ICJAT.instr" + 
-                "&key=" + StringHelper.encrypt(newInstructor.key),
-                        pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
+                     + "?error=false&user=ICJAT.instr" 
+                     + "&key=" + StringHelper.encrypt(newInstructor.key),
+                     pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         

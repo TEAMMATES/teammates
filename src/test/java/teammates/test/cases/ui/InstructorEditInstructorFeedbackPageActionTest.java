@@ -55,11 +55,11 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" +
-                "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" +
-                "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" +
-                "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||" +
-                "/page/instructorEditInstructorFeedbackPage",
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" 
+                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" 
+                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" 
+                + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||" 
+                + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFPAction.getLogMessage());
         
         ______TS("success: another feedback");
@@ -76,11 +76,11 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" +
-                "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" +
-                "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" +
-                "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||" +
-                "/page/instructorEditInstructorFeedbackPage",
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" 
+                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" 
+                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" 
+                + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||" 
+                + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFPAction.getLogMessage());
         
         ______TS("failure: does not have privilege (helper can't moderate instructor)");
@@ -97,9 +97,9 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFPAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible " +
-                         "to instructor [" + moderatedInstructor.email + "] " +
-                         "for privilege [canmodifysession]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible " 
+                         + "to instructor [" + moderatedInstructor.email + "] " 
+                         + "for privilege [canmodifysession]", e.getMessage());
         }
 
         ______TS("failure: accessing non-existent moderatedinstructor email");
@@ -116,8 +116,8 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFPAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Instructor Email " + moderatedInstructorEmail + 
-                         " does not exist in " + courseId + ".", edne.getMessage());
+            assertEquals("Instructor Email " + moderatedInstructorEmail 
+                         + " does not exist in " + courseId + ".", edne.getMessage());
         }
     }
 

@@ -303,9 +303,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices.add("");
         this.mcqChoices.add("");
         
-        return "<div id=\"mcqForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"mcqForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
 
     @Override
