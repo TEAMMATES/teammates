@@ -192,9 +192,7 @@ task eslint(type: Exec) {
     def command = ["eslint"]
     def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
     def configFile = ["-c", "static-analysis/teammates.eslintrc"]
-    def outputFormat = ["-f", "html"]
-    def outputFile = ["-o", "${buildDir}/reports/eslint.html"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + outputFormat + outputFile
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile
 }
 
 checkstyle {
@@ -204,6 +202,7 @@ checkstyle {
 
 pmd {
     toolVersion = "5.4.1"
+    consoleOutput = true
     ruleSetFiles = files("static-analysis/teammates-pmd.xml")
     ruleSets = []
 }

@@ -396,7 +396,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.deleteCommentsByStudentEmail(courseId1, student2);
         List<CommentAttributes> comments = commentsDb.getCommentsForGiver(courseId1, instr1);
         assertEquals(1, comments.size());
-        assertEquals(true, comments.get(0).recipients.contains(student1));
+        assertTrue(comments.get(0).recipients.contains(student1));
         
         ______TS("success: delete team comments");
         

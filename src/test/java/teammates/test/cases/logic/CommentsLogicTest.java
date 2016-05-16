@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -398,7 +399,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
         for (CommentAttributes c: comments) {
-            assertTrue(!c.giverEmail.equals("Anonymous"));
+            assertFalse(c.giverEmail.equals("Anonymous"));
         }
     }
     
@@ -416,7 +417,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
         for (CommentAttributes c: comments) {
-            assertTrue(!c.recipients.iterator().next().equals("Anonymous"));
+            assertFalse(c.recipients.iterator().next().equals("Anonymous"));
         }
     }
     

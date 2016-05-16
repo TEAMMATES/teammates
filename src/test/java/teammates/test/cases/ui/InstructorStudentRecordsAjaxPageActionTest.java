@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -47,7 +48,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfInstructor3",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
@@ -69,7 +70,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfHelperOfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         data = (InstructorStudentRecordsAjaxPageData) r.data;

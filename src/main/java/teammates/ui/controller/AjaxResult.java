@@ -41,7 +41,7 @@ public class AjaxResult extends ActionResult {
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         
-        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);
+        req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
 
         addStatusMessagesToPageData(req);
 

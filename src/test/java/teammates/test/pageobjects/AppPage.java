@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
@@ -983,7 +984,7 @@ public abstract class AppPage {
         response.getEntity().getContent().close();
  
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
-        assertEquals(true, new File(downloadedFileAbsolutePath).exists());
+        assertTrue(new File(downloadedFileAbsolutePath).exists());
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);

@@ -167,7 +167,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
     
-        String currentUserEmail = studentEmail;
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
         responses = getActualResponses(question, bundle);
@@ -190,15 +189,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-        
-        String html = "";
-        
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
         if (currentUserTeamResults == null) {
             return "";
         }
 
-        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(currentUserEmail);
+        String html = "";
+        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
         int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
