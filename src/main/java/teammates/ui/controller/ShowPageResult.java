@@ -50,7 +50,7 @@ public class ShowPageResult extends ActionResult {
          *  section is a {@code jsp:include} and cannot see parameters encoded 
          *  in the URL
          */ 
-        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);
+        req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
         
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
