@@ -760,6 +760,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return null;
+        return "";
     }
 }
