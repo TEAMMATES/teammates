@@ -24,7 +24,7 @@ public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
     
-    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+    public boolean isCorrectPage(String courseId, String feedbackSessionName) {
         boolean isCorrectCourseId = this.getCourseId().equals(courseId);
         boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
