@@ -5,49 +5,49 @@ $(document).ready(function() {
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    $("#startdate").datepicker({
-        dateFormat: "dd/mm/yy",
+    $('#startdate').datepicker({
+        dateFormat: 'dd/mm/yy',
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: today,
         onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker("getDate"),
-                    $('#publishdate').datepicker("getDate"));
-            $("#visibledate").datepicker("option", "maxDate", newVisibleDate);
+            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
+                    $('#publishdate').datepicker('getDate'));
+            $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
             
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker("getDate"));
-            $("#publishdate").datepicker("option", "minDate", newPublishDate);
+            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
+            $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         }
     });
 
-    $("#enddate").datepicker({
-        dateFormat: "dd/mm/yy",
+    $('#enddate').datepicker({
+        dateFormat: 'dd/mm/yy',
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow
     });
 
-    $("#visibledate").datepicker({
-        dateFormat: "dd/mm/yy",
+    $('#visibledate').datepicker({
+        dateFormat: 'dd/mm/yy',
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
         maxDate: today,
         onSelect: function() {
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker("getDate"));
-            $("#publishdate").datepicker("option", "minDate", newPublishDate);
+            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
+            $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         }
     });
 
-    $("#publishdate").datepicker({
-        dateFormat: "dd/mm/yy",
+    $('#publishdate').datepicker({
+        dateFormat: 'dd/mm/yy',
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,
         onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker("getDate"),
-                    $('#publishdate').datepicker("getDate"));
-            $("#visibledate").datepicker("option", "maxDate", newVisibleDate);
+            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
+                    $('#publishdate').datepicker('getDate'));
+            $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
         }
     });
     

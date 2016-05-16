@@ -7,10 +7,10 @@ $(document).ready(function() {
  * @returns {Boolean} True if it is OK to proceed with the form submission.
  */
 function verifyCourseData() {
-    var courseID = $("#" + COURSE_ID).val();
-    var courseName = $("#" + COURSE_NAME).val();
+    var courseID = $('#' + COURSE_ID).val();
+    var courseName = $('#' + COURSE_NAME).val();
     
-    var allErrorMessage = "";
+    var allErrorMessage = '';
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
     if (allErrorMessage.length > 0) {
@@ -27,7 +27,7 @@ function verifyCourseData() {
  * Returns an empty string if all three inputs are valid.
  */
 function checkAddCourseParam(courseId, courseName) {
-    var errorMessages = "";
+    var errorMessages = '';
     errorMessages += getCourseIdInvalidityInfo(courseId);
     errorMessages += getCourseNameInvalidityInfo(courseName);
     
@@ -36,21 +36,21 @@ function checkAddCourseParam(courseId, courseName) {
 
 function getCourseIdInvalidityInfo(courseId) {
     
-    var invalidityInfo = "";
+    var invalidityInfo = '';
     
     courseId = courseId.trim();
     
-    if (courseId === "") {
-        invalidityInfo = DISPLAY_COURSE_COURSE_ID_EMPTY + "<br>";
+    if (courseId === '') {
+        invalidityInfo = DISPLAY_COURSE_COURSE_ID_EMPTY + '<br>';
     } else {
         // long courseId
         if (courseId.length > COURSE_ID_MAX_LENGTH) {
-            invalidityInfo += DISPLAY_COURSE_LONG_ID + "<br>";
+            invalidityInfo += DISPLAY_COURSE_LONG_ID + '<br>';
         }
         
         // invalid courseId
         if (!isCourseIDValidChars(courseId)) {
-            invalidityInfo += DISPLAY_COURSE_INVALID_ID + "<br>";
+            invalidityInfo += DISPLAY_COURSE_INVALID_ID + '<br>';
         }
     }
     
@@ -61,13 +61,13 @@ function getCourseNameInvalidityInfo(courseName) {
     
     courseName = courseName.trim();
     
-    if (courseName === "") {
-        return DISPLAY_COURSE_COURSE_NAME_EMPTY + "<br>";
+    if (courseName === '') {
+        return DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>';
     } else if (courseName.length > COURSE_NAME_MAX_LENGTH) {
-        return DISPLAY_COURSE_LONG_NAME + "<br>";
+        return DISPLAY_COURSE_LONG_NAME + '<br>';
     }
     
-    return "";
+    return '';
 }
 
 /**

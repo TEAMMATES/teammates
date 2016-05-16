@@ -104,6 +104,7 @@
         "no-irregular-whitespace": 2,                                   // disallow irregular whitespace outside of strings and comments
         "no-multi-spaces": 2,                                           // disallow use of multiple spaces
         "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
+        "quotes": ["error", "single", { "avoidEscape": true }],         // require single quotes to be used unless it necessitates escaping
         "spaced-comment": ["error", "always"],                          // require a space immediately following the // in a line comment
 
 
@@ -173,7 +174,6 @@
         "operator-linebreak": 0,        // enforce consistent linebreak style for operators
         "padded-blocks": 0,             // enforce padding within blocks
         "quote-props": 0,               // require quotes around object literal property names
-        "quotes": 0,                    // specify whether double or single quotes should be used
         "require-jsdoc": 0,             // require JSDoc comments
         "sort-vars": 0,                 // sort variables within the same declaration block
         "wrap-regex": 0,                // require regex literals to be wrapped in parentheses

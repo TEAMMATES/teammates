@@ -134,7 +134,7 @@ function setupFsCopyModal() {
             },
             error: function() {
                 $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." +
-                    "Please close the dialog window and try again.</p>");
+                    'Please close the dialog window and try again.</p>');
             },
             success: function(data) {
                 $('#courseList').html(data);
@@ -165,20 +165,20 @@ function setupFsCopyModal() {
                 url: $this.prop('action'),
                 data: $this.serialize(),
                 beforeSend: function() {
-                    $copyModalStatusMessage.removeClass("alert alert-danger");
+                    $copyModalStatusMessage.removeClass('alert alert-danger');
                     $copyModalStatusMessage.html('<img src="/images/ajax-loader.gif" class="margin-center-horizontal">');
                 },
                 error: function() {
-                    $copyModalStatusMessage.addClass("alert alert-danger");
+                    $copyModalStatusMessage.addClass('alert alert-danger');
                     $copyModalStatusMessage.text('There was an error during submission. '
                                                  + 'Please close the dialog window and try again.');
                 },
                 success: function(data) {
-                    var isError = data.errorMessage !== "";
+                    var isError = data.errorMessage !== '';
                     if (!isError && data.redirectUrl) {
                         window.location.href = data.redirectUrl;
                     } else {
-                        $copyModalStatusMessage.addClass("alert alert-danger");
+                        $copyModalStatusMessage.addClass('alert alert-danger');
                         $copyModalStatusMessage.text(data.errorMessage);
                         $('#fscopy_submit').prop('disabled', false);
                     }
@@ -270,7 +270,7 @@ function bindStudentPhotoHoverLink(elements) {
         mouseenter(function() {
             $(this).popover('show');
             $(this).siblings('.popover').on('mouseleave', function() {
-                $(this).siblings('.profile-pic-icon-hover').popover("hide");
+                $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
         }).
         mouseleave(function() {

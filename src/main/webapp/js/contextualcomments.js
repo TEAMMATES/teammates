@@ -65,19 +65,19 @@ $(document).ready(function() {
         }
     }
     
-    $("input[type=checkbox]").on("click", visibilityOptionsHandler);
+    $('input[type=checkbox]').on('click', visibilityOptionsHandler);
     
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];
         var target = $(e.target);
         
-        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
-            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
+            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
         }
-        if ((target.prop("class").includes("giverCheckbox") ||
-                target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
-            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop('class').includes('giverCheckbox') ||
+                target.prop('class').includes('recipientCheckbox')) && target.prop('checked')) {
+            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         $('.answerCheckbox:checked').each(function() {
@@ -100,10 +100,10 @@ $(document).ready(function() {
     
     if (isShowCommentBox) {
         $('#button_add_comment').click();
-        if (commentRecipient === "team") {
+        if (commentRecipient === 'team') {
             $('#comment_recipient_select').val('TEAM');
             commentRecipientSelectChangeHandler();
-        } else if (commentRecipient === "section") {
+        } else if (commentRecipient === 'section') {
             $('#comment_recipient_select').val('SECTION');
             commentRecipientSelectChangeHandler();
         }
