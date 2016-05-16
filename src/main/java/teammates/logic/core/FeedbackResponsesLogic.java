@@ -524,7 +524,7 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesToUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (isRecipientTypeTeamMembers(question) ) {
+            if (isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
             }
         }
