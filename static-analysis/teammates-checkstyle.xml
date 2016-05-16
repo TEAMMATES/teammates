@@ -19,7 +19,7 @@
     </module>
     <module name="GenericWhitespace"/>
     <module name="OperatorWrap">
-      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,BXOR,MINUS,STAR,BAND,LAND,MOD,PLUS,LT,SL,LE,EQUAL,GT,GE,SR,BSR,BOR,LOR,LITERAL_INSTANCEOF"/>
+      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,DIV_ASSIGN,BXOR,BXOR_ASSIGN,MINUS,STAR,STAR_ASSIGN,BAND,LAND,BAND_ASSIGN,MOD,MOD_ASSIGN,PLUS,PLUS_ASSIGN,LT,SL,SL_ASSIGN,LE,MINUS_ASSIGN,EQUAL,GT,GE,SR,SR_ASSIGN,BSR,BSR_ASSIGN,BOR,BOR_ASSIGN,LOR,LITERAL_INSTANCEOF"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>
