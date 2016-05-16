@@ -331,16 +331,16 @@ public class AccountsLogic {
 
     public void makeAccountNonInstructor(String googleId) {
         AccountAttributes account = accountsDb.getAccount(googleId, true);
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
+        } else {
             account.isInstructor = false;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while removing instruction privileges from account :" + account.toString());
+                                                "while removing instruction privileges from account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
         }
     }
 
@@ -348,16 +348,16 @@ public class AccountsLogic {
         
         AccountAttributes account = accountsDb.getAccount(googleId, true);
         
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
+        } else {
             account.isInstructor = true;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while adding instruction privileges to account :" + account.toString());
+                                                "while adding instruction privileges to account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
         }
     }
 

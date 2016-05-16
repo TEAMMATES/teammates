@@ -825,10 +825,10 @@ public class Emails {
                 EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 
         String joinUrl;
-        if (s != null) {    
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        } else {
+        if (s == null) {    
             joinUrl = "{The join link unique for each student appears here}";
+        } else {
+            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         }
 
         emailBody = emailBody.replace("${joinUrl}", joinUrl);
@@ -841,14 +841,13 @@ public class Emails {
                 EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
 
         String joinUrl;
-        if (s != null) {    
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        } else {
+        if (s == null) {    
             joinUrl = "{The join link unique for each student appears here}";
+        } else {
+            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         }
 
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
+        return emailBody.replace("${joinUrl}", joinUrl);
     }
     
     

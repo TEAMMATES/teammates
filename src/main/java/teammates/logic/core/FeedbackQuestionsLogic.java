@@ -385,9 +385,11 @@ public class FeedbackQuestionsLogic {
         
         String giverTeam = null;
         
-        if (studentGiver != null) {
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
             giverTeam = studentGiver.team;
-        } else if (instructorGiver != null) {
+        } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             giverTeam = giver;
@@ -678,6 +680,8 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
      * 
+     * Silently fails if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
@@ -688,10 +692,7 @@ public class FeedbackQuestionsLogic {
             deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
                                         questionToDeleteById.courseId, 
                                         questionToDeleteById.questionNumber, false);
-        } else {
-            // Silently fail if question does not exist.
-        }
-        
+        } 
     }
 
     /**
@@ -699,6 +700,8 @@ public class FeedbackQuestionsLogic {
      * Cascade the deletion of all existing responses for the question and then
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
+     * 
+     * Silently fail if question does not exist.
      * 
      * @param feedbackQuestionId
      */
@@ -710,10 +713,7 @@ public class FeedbackQuestionsLogic {
             deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
                                         questionToDeleteById.courseId, 
                                         questionToDeleteById.questionNumber, true);
-        } else {
-            // Silently fail if question does not exist.
-        }
-        
+        } 
     }
     
     /**

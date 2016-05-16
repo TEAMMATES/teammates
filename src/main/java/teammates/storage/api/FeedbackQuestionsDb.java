@@ -330,11 +330,11 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         if (feedbackQuestionToGet.getId() != null) {
             return getFeedbackQuestionEntity(feedbackQuestionToGet.getId());
-        } else {
-            return getFeedbackQuestionEntity(
-                    feedbackQuestionToGet.feedbackSessionName,
-                    feedbackQuestionToGet.courseId,
-                    feedbackQuestionToGet.questionNumber);
-        }
+        } 
+        
+        return getFeedbackQuestionEntity(
+                feedbackQuestionToGet.feedbackSessionName,
+                feedbackQuestionToGet.courseId,
+                feedbackQuestionToGet.questionNumber);
     }
 }
