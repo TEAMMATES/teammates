@@ -1,8 +1,21 @@
+apply plugin: "eclipse"
+
 def libsVersion = "5.60"
 def libsUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV${libsVersion}.zip"
 def libsPath = "libs/libsV${libsVersion}.zip"
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
+
+eclipse {
+    project {
+        natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
+        buildCommand "org.eclipse.jdt.core.javabuilder"
+        buildCommand "com.google.gdt.eclipse.core.webAppProjectValidator"
+        buildCommand "com.google.appengine.eclipse.core.enhancerbuilder"
+        buildCommand "com.google.appengine.eclipse.core.projectValidator"
+        buildCommand "org.eclipse.wst.validation.validationbuilder"
+    }
+}
 
 task clean << {
   def testOutputDir = new File("test-output")
@@ -91,7 +104,7 @@ task updateLibs {
 }
 
 task setup {
-    dependsOn updateLibs, createConfigs
+    dependsOn eclipseProject, updateLibs, createConfigs
 }
 
 defaultTasks "setup"
