@@ -79,11 +79,10 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 if (packageName.contains("teammates.test.cases.ui")) {
                     return -1000000;
                 }
-                if (index != -1) {
-                    return -index;
-                } else {
+                if (index == -1) {
                     return 0;
-                }
+                } 
+                return -index;
             }
 
             public int compare(IMethodInstance m1, IMethodInstance m2) {

@@ -867,18 +867,18 @@ public abstract class AppPage {
     }
     
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
-        if (content != null && !content.isEmpty()) {
-            TestProperties.inst().verifyReadyForGodMode();
-            try {
-                String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-                saveCurrentPage(filePath, processedPageSource);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        } else {
+        if (content == null || content.isEmpty()) { 
             return false;
         }
+        
+        TestProperties.inst().verifyReadyForGodMode();
+        try {
+            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+            saveCurrentPage(filePath, processedPageSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
     
     /**
