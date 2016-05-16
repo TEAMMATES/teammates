@@ -73,25 +73,27 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         String errorString = "Error encountered while adjusting feedback session responses " +
                 "of %s in course : %s : %s\n%s";
         
-        if (feedbackSession != null) {
-            List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
-                    .getFeedbackResponsesForSession(feedbackSession.feedbackSessionName,
-                            feedbackSession.courseId);
-            
-            for (FeedbackResponseAttributes response : allResponses) {
-                try {
-                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
-                } catch (Exception e) {
-                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
-                            ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
-                    return false;
-                }
-            } 
-            return true;
-        } else {
+        if (feedbackSession == null) {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));
             return false;
-        }    
+        }
+        
+        List<FeedbackResponseAttributes> allResponses = 
+                                        FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
+                                                                        feedbackSession.feedbackSessionName,
+                                                                        feedbackSession.courseId);
+        
+        for (FeedbackResponseAttributes response : allResponses) {
+            try {
+                stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
+            } catch (Exception e) {
+                log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
+                                                ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
+                return false;
+            }
+        } 
+        return true;
+           
     }
 
 }
