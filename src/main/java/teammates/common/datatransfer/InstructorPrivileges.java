@@ -470,9 +470,9 @@ public final class InstructorPrivileges {
 
         if (!this.courseLevel.containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.courseLevel.get(privilegeName).booleanValue();
         }
+        
+        return this.courseLevel.get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
@@ -484,9 +484,8 @@ public final class InstructorPrivileges {
         }
         if (!this.sectionLevel.get(sectionName).containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.sectionLevel.get(sectionName).get(privilegeName).booleanValue();
-        }
+        } 
+        return this.sectionLevel.get(sectionName).get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
@@ -499,9 +498,8 @@ public final class InstructorPrivileges {
         }
         if (!this.sessionLevel.get(sectionName).get(sessionName).containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue();
         }
+        return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {

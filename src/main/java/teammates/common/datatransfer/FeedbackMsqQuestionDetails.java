@@ -419,10 +419,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -439,10 +439,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 numChoicesSelected++;
                 
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }               
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
             
             // restore other answer if any
@@ -502,10 +501,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -520,10 +518,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                
             }
             
             // restore other answer if any

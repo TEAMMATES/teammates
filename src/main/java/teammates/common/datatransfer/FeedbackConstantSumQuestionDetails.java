@@ -90,7 +90,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         points = Integer.parseInt(pointsString);
         forceUnevenDistribution = forceUnevenDistributionString != null && forceUnevenDistributionString.equals("on"); 
         
-        if (!distributeToRecipients) {
+        if (distributeToRecipients) {
+            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
+        } else {
             String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
             int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
@@ -103,8 +105,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
             this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
-        } else {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
         }
         return true;
     }
@@ -135,10 +135,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public String getQuestionTypeDisplayName() {
-        if (!distributeToRecipients) {
-            return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
-        } else {
+        if (distributeToRecipients) {
             return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;    
+        } else {
+            return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
         }
     }
 

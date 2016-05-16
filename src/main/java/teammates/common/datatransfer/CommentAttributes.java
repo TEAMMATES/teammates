@@ -48,7 +48,7 @@ public class CommentAttributes extends EntityAttributes
                              Set<String> recipients, Date createdAt, Text commentText) {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
-        this.recipientType = recipientType != null ? recipientType : CommentParticipantType.PERSON;
+        this.recipientType = recipientType == null ? CommentParticipantType.PERSON : recipientType;
         this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
@@ -62,16 +62,16 @@ public class CommentAttributes extends EntityAttributes
         this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
-        this.sendingState = comment.getSendingState() != null ? comment.getSendingState() : CommentSendingState.SENT;
+        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.showCommentTo = comment.getShowCommentTo();
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                                        comment.getLastEditorEmail() : comment.getGiverEmail();
-        this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
+        this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
+                                                                    : comment.getLastEditorEmail();
+        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt() ;
     }
 
     public Long getCommentId() {
@@ -324,13 +324,13 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
-            String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-            return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
-                    "at " + displayTimeAs + ")";
-        } else {
+        if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
             return "";
         }
+        String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
+        return "(last edited " +
+                (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
+                "at " + displayTimeAs + ")";
+        
     }
 }
