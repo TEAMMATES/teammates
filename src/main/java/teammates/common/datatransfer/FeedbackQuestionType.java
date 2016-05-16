@@ -16,6 +16,9 @@ public enum FeedbackQuestionType {
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
+    
+    private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
+    private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
@@ -138,9 +141,6 @@ public enum FeedbackQuestionType {
 
         return feedbackResponseDetails;
     }
-
-    private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
-    private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
      * Constructor for FeedbackQuestionType.

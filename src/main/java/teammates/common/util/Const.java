@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * this class contains several nested classes, each containing a specific
  * category of constants.
  */
-
+@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public class Const {
     
     public static class SystemParams {

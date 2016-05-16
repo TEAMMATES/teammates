@@ -15,11 +15,6 @@ import java.util.List;
  *
  */
 public class CourseDetailsBundle {
-
-    public CourseDetailsBundle(CourseAttributes courseData) {
-        this.course = courseData;
-    }
-
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
     
@@ -29,6 +24,11 @@ public class CourseDetailsBundle {
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
+
+    public CourseDetailsBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
+
     
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle

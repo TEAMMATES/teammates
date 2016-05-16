@@ -7,14 +7,14 @@ import java.util.List;
 
 public class CourseSummaryBundle {
     
-    public CourseSummaryBundle(CourseAttributes courseData) {
-        this.course = courseData;
-    }
-
     public CourseAttributes course;
     public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
+    
+    public CourseSummaryBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
     
     /**
      * Sorts courses based on course ID
