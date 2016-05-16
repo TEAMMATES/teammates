@@ -53,7 +53,7 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackSessionsLogic {
 
-    private static FeedbackSessionsLogic instance = null;
+    private static FeedbackSessionsLogic instance;
 
     @SuppressWarnings("unused")
     private static Logger log = Utils.getLogger();
@@ -402,13 +402,12 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId,
-                userEmail);
 
         if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }
+        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session for student that does not exist.");
@@ -444,13 +443,13 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId,
-                userEmail);
-
+        
         if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }
+        
+        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session for student that does not exist.");
@@ -568,9 +567,7 @@ public class FeedbackSessionsLogic {
 
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
         
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+        
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -582,6 +579,8 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
                         courseId);
         
+        CourseRoster roster = new CourseRoster(new StudentsDb().getStudentsForCourse(courseId),
+                                               new InstructorsDb().getInstructorsForCourse(courseId));
         return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
     
@@ -1787,10 +1786,6 @@ public class FeedbackSessionsLogic {
                     "Trying to view non-existent feedback session.");
         }
 
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
-                        courseId);
-
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -1821,6 +1816,8 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, roster, responseComments);
         }
 
+        List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(
+                                                                    feedbackSessionName, courseId);
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
         for (FeedbackQuestionAttributes question : allQuestions) {
 
@@ -1915,13 +1912,6 @@ public class FeedbackSessionsLogic {
             UserType.Role role, CourseRoster roster, Map<String, String> params)
             throws EntityDoesNotExistException {
         
-        boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
-        boolean isComplete = (params.get("range") != null) ? false : true;
-        boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
-        boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
-        boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
-        String section = params.get("section");
-        
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -1970,6 +1960,10 @@ public class FeedbackSessionsLogic {
                     emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                     visibilityTable, responseStatus, roster, responseComments);
         }
+        
+        boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
+        
+        String section = params.get("section");
         
         if (params.get("questionId") != null) {
             String questionId = params.get("questionId");
@@ -2065,6 +2059,12 @@ public class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
+        
+        boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
+        boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
+        boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
+        boolean isComplete = params.get("range") == null;
+        
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get("range") != null) {
             long range = Long.parseLong(params.get("range"));

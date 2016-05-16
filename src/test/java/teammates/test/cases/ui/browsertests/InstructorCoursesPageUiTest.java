@@ -212,8 +212,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         //one invalid case
         coursesPage.addCourse("", "")
-            .verifyStatus(Const.StatusMessages.COURSE_COURSE_ID_EMPTY + "\n"
-                    + Const.StatusMessages.COURSE_COURSE_NAME_EMPTY);
+            .verifyStatus(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + "\n"
+                    + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);

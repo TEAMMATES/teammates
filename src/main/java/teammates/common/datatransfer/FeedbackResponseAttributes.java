@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
-    private String feedbackResponseId = null;
+    private String feedbackResponseId;
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -193,11 +193,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @return The Feedback*ResponseDetails object representing the response's details
      */
     public FeedbackResponseDetails getResponseDetails() {
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if (isMissingResponse()) {
             return null;
         }
+        
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON

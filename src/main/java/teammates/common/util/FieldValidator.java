@@ -651,14 +651,13 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
         if (value.length() > maxLength) {
+            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
             return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
@@ -875,7 +874,6 @@ public class FieldValidator {
     private String getValidityInfoForInstructorRole(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -885,6 +883,7 @@ public class FieldValidator {
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
+            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, sanitizedValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
         }
         
