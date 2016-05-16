@@ -6,11 +6,12 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentProfilePageData;
 import teammates.ui.template.StudentProfileEditBox;
 import teammates.ui.template.StudentProfileUploadPhotoModal;
 
-public class StudentProfilePageDataTest {
+public class StudentProfilePageDataTest extends BaseTestCase {
     
     private StudentProfileAttributes spa;
     private AccountAttributes acct;

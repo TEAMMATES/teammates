@@ -10,10 +10,11 @@ import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.FileHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
-public class HtmlHelperTest {
+public class HtmlHelperTest extends BaseTestCase {
     
     @Test
     public void testComparison() throws SAXException, IOException, TransformerException {

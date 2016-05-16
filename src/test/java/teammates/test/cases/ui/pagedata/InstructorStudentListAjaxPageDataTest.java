@@ -14,12 +14,13 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorStudentListAjaxPageData;
 import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
-public class InstructorStudentListAjaxPageDataTest {
+public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
 
     private InstructorStudentListAjaxPageData islapd;
     

@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
@@ -21,7 +22,7 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
-public class StudentHomePageDataTest {
+public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
     
     private FeedbackSessionAttributes submittedSession;
