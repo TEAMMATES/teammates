@@ -197,7 +197,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateGroupReceiverListFile (BlobInfo groupReceiverListFile) {
+    private BlobInfo validateGroupReceiverListFile(BlobInfo groupReceiverListFile) {
         
         if (!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());

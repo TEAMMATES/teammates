@@ -490,8 +490,8 @@ public class FeedbackResponsesLogic {
             FeedbackResponse createdResponseEntity = 
                     (FeedbackResponse) frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
-            frcLogic.updateFeedbackResponseCommentsForChangingResponseId
-                    (oldResponse.getId(), createdResponseEntity.getId());
+            frcLogic.updateFeedbackResponseCommentsForChangingResponseId(
+                    oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
             throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
