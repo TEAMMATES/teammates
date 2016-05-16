@@ -24,7 +24,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingID() throws Exception{
+    public void testTableSortingID() throws Exception {
         verifySortingOrder(By.id("button_sortid"),
             
                 "-13.5",
@@ -46,7 +46,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingName() throws Exception{
+    public void testTableSortingName() throws Exception {
         
         verifySortingOrder(By.id("button_sortname"),
                 
@@ -69,7 +69,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingDate() throws Exception{
+    public void testTableSortingDate() throws Exception {
         
         verifySortingOrder(    By.id("button_sortdate"),
                 
@@ -92,7 +92,7 @@ public class TableSortTest extends BaseUiTestCase {
 
 
     @Test
-    public void testTableSortingDiff() throws Exception{
+    public void testTableSortingDiff() throws Exception {
         
         verifySortingOrder(By.id("button_sortDiff"),
                 
@@ -115,7 +115,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingPoint() throws Exception{
+    public void testTableSortingPoint() throws Exception {
         verifySortingOrder(By.id("button_sortPoint"),
         
                 "E -99%",

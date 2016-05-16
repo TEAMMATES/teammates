@@ -51,7 +51,7 @@ public class BackDoor {
     private void ____SYSTEM_level_methods______________________________() {
     }
 
-    public static String putDocumentsForStudents(String dataBundleJson){
+    public static String putDocumentsForStudents(String dataBundleJson) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS_FOR_STUDENTS);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         String status = makePOSTRequest(params);
@@ -227,7 +227,7 @@ public class BackDoor {
      */
     public static AccountAttributes getAccountWithRetry(String googleId) {
         AccountAttributes a = getAccount(googleId);
-        if (a == null){
+        if (a == null) {
             ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
             a = getAccount(googleId);
         }
@@ -263,7 +263,7 @@ public class BackDoor {
         return status;
     }
     
-    public static String uploadAndUpdateStudentProfilePicture (String googleId, String pictureKey) {
+    public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureKey) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
         params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
         params.put(BackDoorServlet.PARAMETER_PICTURE_DATA, pictureKey);
@@ -383,7 +383,7 @@ public class BackDoor {
      */
     public static boolean isCourseNonExistent(String courseId) {
         CourseAttributes c = getCourse(courseId);
-        if (c != null){
+        if (c != null) {
             ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
             c = getCourse(courseId);
         }

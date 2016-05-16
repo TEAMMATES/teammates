@@ -1,5 +1,7 @@
 package teammates.test.cases.common;
 
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
@@ -24,23 +26,23 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testIsWhiteSpace() {
 
-        assertEquals(true, StringHelper.isWhiteSpace(""));
-        assertEquals(true, StringHelper.isWhiteSpace("       "));
-        assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(""));
+        assertTrue(StringHelper.isWhiteSpace("       "));
+        assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
     
     @Test
     public void testIsMatching() {
-        assertEquals(true, StringHelper.isMatching("\u00E0", "à"));
-        assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
-        assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
+        assertTrue(StringHelper.isMatching("\u00E0", "à"));
+        assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
+        assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
    
     
     @Test 
-    public void testIsAnyMatching(){
+    public void testIsAnyMatching() {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
         
@@ -101,7 +103,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test 
-    public void testToStringForStringLists(){
+    public void testToStringForStringLists() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
@@ -127,7 +129,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testSplitName(){
+    public void testSplitName() {
         
             
         String fullName = "singleWord";
@@ -176,7 +178,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test 
-    public void testRemoveExtraSpace(){
+    public void testRemoveExtraSpace() {
         
        String str = "";
        assertEquals("", StringHelper.removeExtraSpace(str));
@@ -198,7 +200,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testRecoverFromSanitizedText(){        
+    public void testRecoverFromSanitizedText() {        
         String str = null;
         assertEquals(null, StringHelper.recoverFromSanitizedText(str));
         
@@ -276,8 +278,8 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for (String str : stringsToMatch){
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult) {
+        for (String str : stringsToMatch) {
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }

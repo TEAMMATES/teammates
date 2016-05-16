@@ -43,7 +43,7 @@ public class CoursesLogic {
      */ 
     
     //TODO: There's no need for this class to be a Singleton.
-    private static CoursesLogic instance = null;
+    private static CoursesLogic instance;
     
     private static final Logger log = Utils.getLogger();
     
@@ -129,7 +129,7 @@ public class CoursesLogic {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
@@ -766,7 +766,7 @@ public class CoursesLogic {
         return export;
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);

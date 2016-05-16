@@ -17,7 +17,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 public class AdminSessionsPageAction extends Action {
     
@@ -34,13 +33,11 @@ public class AdminSessionsPageAction extends Action {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        Logic logic = new Logic();
-        
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
         

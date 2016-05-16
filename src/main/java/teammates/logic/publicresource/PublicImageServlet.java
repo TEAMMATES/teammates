@@ -50,7 +50,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 resp.sendError(1, "No image found");
             }
             
-        } catch (IOException e){
+        } catch (IOException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
         }
     }

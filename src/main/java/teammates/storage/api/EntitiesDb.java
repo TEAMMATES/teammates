@@ -76,7 +76,7 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         int elapsedTime = 0;
         Object createdEntity = getEntity(entityToAdd);
-        if (Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             while (createdEntity == null
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
@@ -106,14 +106,14 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for (EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null){
+            if (getEntity(entityToAdd) != null) {
                 entitiesToUpdate.add(entityToAdd);
             } else {
                 entities.add(entityToAdd.toEntity());
@@ -137,14 +137,14 @@ public abstract class EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>(); 
         
-        for (EntityAttributes entityToAdd : entitiesToAdd){
+        for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
             
             if (!entityToAdd.isValid()) {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null){
+            if (getEntity(entityToAdd) != null) {
                 entitiesToUpdate.add(entityToAdd);
             } else {
                 entities.add(entityToAdd.toEntity());
@@ -226,7 +226,7 @@ public abstract class EntitiesDb {
         getPM().flush();
         
         // wait for the operation to persist
-        if (Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToDelete);
             while (entityCheck != null
@@ -251,7 +251,7 @@ public abstract class EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         List<Object> entities = new ArrayList<Object>();
-        for (EntityAttributes entityToDelete : entitiesToDelete){
+        for (EntityAttributes entityToDelete : entitiesToDelete) {
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
@@ -303,10 +303,10 @@ public abstract class EntitiesDb {
     }
     
     //the followings APIs are used by Teammates' search engine
-    protected void putDocument(String indexName, SearchDocument document){
+    protected void putDocument(String indexName, SearchDocument document) {
         try {
             SearchManager.putDocument(indexName, document.build());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
         }
     }
@@ -317,26 +317,26 @@ public abstract class EntitiesDb {
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
-            if (query.getFilterSize() > 0){
+            if (query.getFilterSize() > 0) {
                 return SearchManager.searchDocuments(indexName, query.toQuery());
             } else {
                 return null;
             }
-        } catch (SearchQueryException e){
+        } catch (SearchQueryException e) {
             log.info("Unsupported query for this query string: " + query.toString());
             return null;
         }
     }
     
-    protected void deleteDocument(String indexName, String documentId){
+    protected void deleteDocument(String indexName, String documentId) {
         try {
             SearchManager.deleteDocument(indexName, documentId);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
         }
     }
     
-    protected void deleteDocuments(String indexName, String[] documentId){
+    protected void deleteDocuments(String indexName, String[] documentId) {
         SearchManager.deleteDocuments(indexName, documentId);
     }
 }

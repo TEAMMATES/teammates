@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -21,7 +22,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         ______TS("case: view admin acount management page");
         
@@ -37,7 +38,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user", 
                      result.getDestinationWithParams());
-        assertEquals(false, result.isError);      
+        assertFalse(result.isError);      
                 
     }
     

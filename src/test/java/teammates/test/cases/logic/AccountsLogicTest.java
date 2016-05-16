@@ -50,7 +50,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testGetInstructorAccounts() throws Exception{
+    public void testGetInstructorAccounts() throws Exception {
         
         ______TS("success case");
         
@@ -155,7 +155,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
-        } catch (InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             ignoreExpectedException();
         }
         
@@ -182,7 +182,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("test getInstructorAccounts");
         
         
-        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()) {
             ______TS(aa.toString());
         }
         
@@ -438,7 +438,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -456,7 +456,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes (null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
+        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
         
         instructorsLogic.createInstructor(newIns);  
         
@@ -464,7 +464,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);

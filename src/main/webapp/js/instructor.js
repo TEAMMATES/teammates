@@ -24,9 +24,9 @@ $(document).ready(function() {
  * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-    return confirm('Are you sure you want to delete the course: ' + courseID + '? ' +
-            'This operation will delete all students and sessions in this course. ' +
-            'All instructors of this course will not be able to access it hereafter as well.');
+    return confirm('Are you sure you want to delete the course: ' + courseID + '? '
+                   + 'This operation will delete all students and sessions in this course. '
+                   + 'All instructors of this course will not be able to access it hereafter as well.');
 }
 
 /**
@@ -56,8 +56,8 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  */
 function togglePublishEvaluation(name, isSendingPublishEmail) {
     if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?' +
-                   ' An email will be sent to students to inform them that the responses are ready for viewing.');
+        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?'
+                       + ' An email will be sent to students to inform them that the responses are ready for viewing.');
     }
     return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
 }
@@ -133,8 +133,8 @@ function setupFsCopyModal() {
                 $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." +
-                    "Please close the dialog window and try again.</p>");
+                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list."
+                                      + "Please close the dialog window and try again.</p>");
             },
             success: function(data) {
                 $('#courseList').html(data);
@@ -212,7 +212,7 @@ function bindErrorImages(elements) {
 function bindStudentPhotoLink(elements) {
     $(elements).on('click', function(event) {
         if (!event) {
-            var event = window.event;
+            event = window.event;
         }
         
         event.cancelBubble = true;
@@ -227,17 +227,17 @@ function bindStudentPhotoLink(elements) {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
             
-            $(this).removeClass('hidden').
-                parent().attr('data-link', '').
-                popover({
+            $(this).removeClass('hidden')
+                .parent().attr('data-link', '')
+                .popover({
                     html: true,
                     trigger: 'manual',
                     placement: 'top',
                     content: function() {
                         return '<img class="profile-pic" src="' + resolvedLink + '">';
                     }
-                }).
-                mouseenter(function() {
+                })
+                .mouseenter(function() {
                     $(this).popover('show');
                     $(this).siblings('.popover').on('mouseleave', function() {
                         $(this).siblings('.profile-pic-icon-click').popover('hide');
@@ -266,19 +266,19 @@ function bindStudentPhotoLink(elements) {
  * class: profile-pic-icon-hover
  */
 function bindStudentPhotoHoverLink(elements) {
-    $(elements).
-        mouseenter(function() {
+    $(elements)
+        .mouseenter(function() {
             $(this).popover('show');
             $(this).siblings('.popover').on('mouseleave', function() {
                 $(this).siblings('.profile-pic-icon-hover').popover("hide");
             });
-        }).
-        mouseleave(function() {
+        })
+        .mouseleave(function() {
             // this is so that the user can hover over the
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout(function(obj) {
-                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
-                    $(obj).siblings('.popover').find(':hover').length === 0) {
+                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0
+                    || $(obj).siblings('.popover').find(':hover').length === 0) {
 
                     $(obj).popover('hide');
                 }
@@ -292,9 +292,9 @@ function bindStudentPhotoHoverLink(elements) {
         trigger: 'manual',
         placement: 'top',
         content: function() {
-            return '<a class="cursor-pointer" onclick="' +
-                'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">' +
-                'View Photo</a>';
+            return '<a class="cursor-pointer" onclick="'
+                   + 'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
+                   + 'View Photo</a>';
         }
     });
 }
@@ -353,10 +353,10 @@ function loadProfilePictureForHoverEvent(obj) {
         
         // this is to show the picture immediately for the one
         // the user just clicked on
-        $(this).parent().
-            popover('show').
+        $(this).parent()
+            .popover('show')
             // this is to handle the manual hide action of the popover
-            siblings('.popover').on('mouseleave', function() {
+            .siblings('.popover').on('mouseleave', function() {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
     });
@@ -372,19 +372,19 @@ function loadProfilePictureForHoverEvent(obj) {
  * @param resolvedLink
  */
 function updateHoverShowPictureEvents(actualLink, resolvedLink) {
-    $('.profile-pic-icon-hover[data-link="' + actualLink + '"]').
-        attr('data-link', '').
-        off('mouseenter mouseleave').
-        popover('destroy').
-        popover({
+    $('.profile-pic-icon-hover[data-link="' + actualLink + '"]')
+        .attr('data-link', '')
+        .off('mouseenter mouseleave')
+        .popover('destroy')
+        .popover({
             html: true,
             trigger: 'manual',
             placement: 'top',
             content: function() {
                 return '<img class="profile-pic" src="' + resolvedLink + '">';
             }
-        }).
-        mouseenter(function() {
+        })
+        .mouseenter(function() {
             $(this).popover('show');
             $(this).siblings('.popover').on('mouseleave', function() {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
@@ -398,8 +398,8 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
                     }
                 }, 200, this);
             });
-        }).
-        children('img[src=""]').attr('src', resolvedLink);
+        })
+        .children('img[src=""]').attr('src', resolvedLink);
 }
 
 // --------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -27,7 +28,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -49,6 +50,6 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
                          + "?error=false&user=idOfInstructor1OfCourse1", 
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
     }    
 }

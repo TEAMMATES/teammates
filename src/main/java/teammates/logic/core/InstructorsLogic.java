@@ -37,7 +37,7 @@ public class InstructorsLogic {
     
     private static Logger log = Utils.getLogger();
     
-    private static InstructorsLogic instance = null;
+    private static InstructorsLogic instance;
     
     public static InstructorsLogic inst() {
         if (instance == null) {
@@ -51,11 +51,11 @@ public class InstructorsLogic {
      * ====================================
      */
     
-    public void putDocument(InstructorAttributes instructor){
+    public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
     
-    public void deleteDocument(InstructorAttributes instructor){
+    public void deleteDocument(InstructorAttributes instructor) {
         instructorsDb.deleteDocument(instructor);
     }
     
@@ -67,7 +67,7 @@ public class InstructorsLogic {
      * @param cursorString
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
         return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
     } 
     
@@ -87,7 +87,7 @@ public class InstructorsLogic {
     
     
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
-           throws InvalidParametersException, EntityDoesNotExistException{
+           throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
@@ -165,7 +165,7 @@ public class InstructorsLogic {
         if (instructorList.isEmpty()) {
             return true;
         } else if (instructorList.size() == 1 &&
-                coursesLogic.isSampleCourse(instructorList.get(0).courseId)){
+                coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
             return true;
         } else {
             return false;
@@ -223,7 +223,7 @@ public class InstructorsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        if (!currentInstructor.email.equals(instructor.email)){
+        if (!currentInstructor.email.equals(instructor.email)) {
             fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
         }
     }

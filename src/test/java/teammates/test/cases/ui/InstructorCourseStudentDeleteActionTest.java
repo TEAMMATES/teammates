@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -27,7 +28,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -44,7 +45,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) action.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.STUDENT_DELETED, redirectResult.getStatusMessage());
         
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorCourseStudentDelete|||instructorCourseStudentDelete|||"
@@ -55,7 +56,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseStudentDeleteAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDeleteAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
     

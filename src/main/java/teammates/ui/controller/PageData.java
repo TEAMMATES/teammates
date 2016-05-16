@@ -85,11 +85,11 @@ public class PageData {
         return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
     }
     
-    public static String truncate (String untruncatedString, int truncateLength) {
+    public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
     
-    public static String displayDateTime (Date date) {
+    public static String displayDateTime(Date date) {
         return TimeHelper.formatTime12H(date);
     }
     
@@ -779,7 +779,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
         StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++){
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
@@ -908,9 +908,9 @@ public class PageData {
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
-            return "" + (int) num;
+            return Integer.toString((int) num);
         } else {
-            return "" + num;
+            return Double.toString(num);
         }
     }
     

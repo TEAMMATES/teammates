@@ -233,7 +233,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
     } else {
         // New Instructor?
         // Custom role's privilege will be empty
-        for (var i = 0; i < instructorPrivilegeValues.length; i++) {
+        for (var j = 0; j < instructorPrivilegeValues.length; j++) {
             $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop("checked", false);
         }
     }
@@ -315,11 +315,11 @@ function checkPrivilegesOfTutorForModal() {
  */
 function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
     if (isDeleteOwnself) {
-        return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
-                    "You will not be able to access the course anymore.");
+        return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? "
+                       + "You will not be able to access the course anymore.");
     }
-    return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
-                    "He/she will not be able to access the course anymore.");
+    return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? "
+                   + "He/she will not be able to access the course anymore.");
 }
 
 function bindChangingRole(index) {

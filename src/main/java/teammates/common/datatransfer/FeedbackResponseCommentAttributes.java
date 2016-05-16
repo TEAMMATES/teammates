@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId = null;
+    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -34,7 +34,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
-    public boolean isVisibilityFollowingFeedbackQuestion = false;
+    public boolean isVisibilityFollowingFeedbackQuestion;
     public Date createdAt;
     public Text commentText;
     public String lastEditorEmail;
@@ -120,7 +120,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
-    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
     
@@ -131,7 +131,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /** 
      * Use only to match existing and known Comment
      */
-    public void setId(Long id){
+    public void setId(Long id) {
         this.feedbackResponseCommentId = id;
     }
     

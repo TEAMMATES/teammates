@@ -44,7 +44,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetActionName(){
+    public void testGetActionName() {
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse"));
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse?user=x"));
         try {

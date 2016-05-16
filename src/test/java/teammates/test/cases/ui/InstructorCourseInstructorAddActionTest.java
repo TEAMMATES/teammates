@@ -1,5 +1,7 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -57,11 +59,11 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
-        assertEquals(true, instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
         
         InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
@@ -79,7 +81,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
-        assertEquals(true, redirectResult.isError);
+        assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
@@ -103,7 +105,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
-        assertEquals(true, redirectResult.isError);
+        assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL, newInvalidInstructorEmail), redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
@@ -132,11 +134,11 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                 newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
-        assertEquals(true, instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
         
         instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);

@@ -484,11 +484,11 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
-        if (needAjax){
+        if (needAjax) {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
         }
         
-        if (viewType != null){
+        if (viewType != null) {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         

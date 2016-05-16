@@ -40,7 +40,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other NumScale question related UI tests here.
@@ -162,7 +162,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);
@@ -175,7 +175,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
@@ -188,15 +188,15 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
-    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected){
+    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected) {
         int counter = 0;
         while (counter != 100) {
-            if (isMinScaleBox){
+            if (isMinScaleBox) {
                 feedbackEditPage.fillMinNumScaleBox(scale, qnNumber);
             } else {
                 feedbackEditPage.fillMaxNumScaleBox(scale, qnNumber);
             }
-            if (expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
+            if (expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))) {
                 return;
             }
             counter++;

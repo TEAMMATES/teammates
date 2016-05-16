@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -30,13 +31,13 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         ______TS("Typical case, 2 courses");
-        if (CoursesLogic.inst().isCoursePresent("new-course")){
+        if (CoursesLogic.inst().isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
         
@@ -47,7 +48,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
@@ -76,7 +77,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
@@ -108,7 +109,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                      + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
                      + "to create or unarchive a course.",
                      r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
@@ -124,7 +125,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     }
     
     
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception{
+    private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
             return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

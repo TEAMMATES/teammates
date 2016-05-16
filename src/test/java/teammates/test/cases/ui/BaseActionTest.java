@@ -117,9 +117,9 @@ public class BaseActionTest extends BaseComponentTestCase {
     
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        List<String> paramList = Arrays.asList(typicalCase); 
         if (order == 0) return typicalCase;
         
+        List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
         int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
@@ -205,10 +205,10 @@ public class BaseActionTest extends BaseComponentTestCase {
      * @param key Key to modify
      * @param value Value to set
      */
-    protected void modifyParamValue(String[] params, String key, String value){
-        for (int i = 0; i < params.length; i += 2){
-            if (params[i] == key){
-                if (i + 1 >= params.length){
+    protected void modifyParamValue(String[] params, String key, String value) {
+        for (int i = 0; i < params.length; i += 2) {
+            if (params[i] == key) {
+                if (i + 1 >= params.length) {
                     Assumption.fail("Cannot find parameter to modify.");
                 } else {
                     params[i + 1] = value;
@@ -238,7 +238,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      * full range of user types.
      */
     @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks(){};
+    private void __________high_level_access_controll_checks() {};
     
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -255,7 +255,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         //we omit checking for admin access because these are covered by UI tests
     }
     
-    protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) throws Exception{
+    protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredUsers(submissionParams);
         verifyAccessibleForStudents(submissionParams);
@@ -264,7 +264,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
-    protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) throws Exception{
+    protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
@@ -297,7 +297,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      * one user types.
      */
     @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks(){};
+    private void __________mid_level_access_controll_checks() {};
     
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
@@ -617,7 +617,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      * These methods are not aware of the user type.
      */
     @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks(){};
+    private void __________low_level_access_controll_checks() {};
     
     /**
      * Verifies that the {@link Action} matching the {@code params} is 

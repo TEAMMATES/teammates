@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -27,7 +28,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -65,7 +66,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS + "?error=false&" +
                 "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorCourseStudentDetailsPageData pageData = (InstructorCourseStudentDetailsPageData) r.data;
@@ -86,7 +87,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorCourseStudentDetailsPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

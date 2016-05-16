@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -41,7 +42,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll(){
+    public void testAll() {
         testContent();
         //no input validation to check
         testViewAccountDetailsLink();
@@ -83,17 +84,17 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testDeleteInstructorStatusAction(){
+    public void testDeleteInstructorStatusAction() {
         
         ______TS("action: delete instructor status");
         
         String idOfInstructorToDelete = "AAMgtUiT.instr1";
         accountsPage.clickDeleteInstructorStatus(idOfInstructorToDelete)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
-        assertEquals(false, BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
+        assertFalse(BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 
-    public void testDeleteInstructorAccountAction(){
+    public void testDeleteInstructorAccountAction() {
         
         ______TS("action: delete account");
         

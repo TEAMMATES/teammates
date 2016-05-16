@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -40,7 +41,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other ConstSumRecipient question related UI tests here.
@@ -72,7 +73,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillConstSumPointsBox("", -1);
         
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
-        assertEquals(false, feedbackEditPage.isElementVisible("constSumOptionTable--1"));
+        assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
         
         feedbackEditPage.getDeleteQuestionLink(-1).click();
         assertEquals("", feedbackEditPage.getStatus());
@@ -106,7 +107,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("in total:", 1);
@@ -117,7 +118,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));

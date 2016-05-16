@@ -16,7 +16,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailImageUploadAction extends Action {
     
-    AdminEmailComposePageData data = null;
+    AdminEmailComposePageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -28,7 +28,7 @@ public class AdminEmailImageUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractImageKey();
         
-        if (blobInfo == null){
+        if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             log.info("Image Upload Failed");
@@ -74,7 +74,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateImage (BlobInfo image) {
+    private BlobInfo validateImage(BlobInfo image) {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deleteImage(image.getBlobKey());
             isError = true;

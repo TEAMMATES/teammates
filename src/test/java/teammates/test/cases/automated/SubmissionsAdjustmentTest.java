@@ -1,5 +1,6 @@
 package teammates.test.cases.automated;
 
+import static org.testng.AssertJUnit.assertNotSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -89,12 +90,12 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
-    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
+    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -112,7 +113,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
         }
         
@@ -130,7 +131,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -142,7 +143,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines += newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
-        while (counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
         
@@ -151,7 +152,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
 
             //Verify no tasks sent to the task queue
             if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())){
+                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())) {
                 break;
             }
             counter++;
@@ -175,7 +176,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         verifyPresentInDatastore(updatedAttributes);
 
         //Verify no tasks sent to task queue 
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -187,7 +188,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
-        assertTrue(student1responses.size() != 0);
+        assertNotSame(student1responses.size(), 0);
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
@@ -195,18 +196,18 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines += studentInTeam1.toEnrollmentString();
         
         counter = 0;
-        while (counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, studentInTeam1.course);
             
             //Verify scheduling of adjustment of responses
             if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())){
+                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())) {
                 break;
             }
             counter++;
         }
-        if (counter == 10){
+        if (counter == 10) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
                         fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size());
         }
@@ -222,7 +223,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);
-            assertTrue(false);
+            signalFailureToDetectException("Expected EnrollException");
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
 
@@ -235,7 +236,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
 
         //Verify no task sent to the task queue
-        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
     }
@@ -248,9 +249,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        int oldNumberOfResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
+        assertNotSame(oldNumberOfResponsesForSession, 0);
         
         String oldTeam = student.team;
         String oldSection = student.section;
@@ -260,8 +261,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         student.section = newSection;
         
         
-        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
+        StudentEnrollDetails enrollDetails = 
+                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email, 
+                                         oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
         Gson gsonBuilder = Utils.getTeammatesGson();
@@ -277,8 +279,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        int numberOfNewResponses = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
+        int numberOfNewResponses = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);        
     }
 

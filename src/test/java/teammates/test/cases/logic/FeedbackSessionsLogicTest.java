@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -73,7 +74,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
@@ -103,7 +104,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor () throws Exception{        
+    public void testGetFeedbackSessionsListForInstructor() throws Exception {        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
@@ -119,7 +120,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testIsFeedbackSessionHasQuestionForStudents () throws Exception{
+    public void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
         // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
         
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
@@ -131,17 +132,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals ("Trying to check a feedback session that does not exist.", 
+            assertEquals("Trying to check a feedback session that does not exist.", 
                     edne.getMessage());
         }
         
         ______TS("session contains students");
         
-        assertTrue (fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.feedbackSessionName, sessionWithStudents.courseId));
+        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.feedbackSessionName, sessionWithStudents.courseId));
         
         ______TS("session does not contain students");
         
-        assertFalse (fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.feedbackSessionName, sessionWithoutStudents.courseId));
+        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.feedbackSessionName, sessionWithoutStudents.courseId));
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
@@ -333,7 +334,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         
         assertEquals(questions1.size(), questions2.size());
-        for (int i = 0; i < questions1.size(); i++){
+        for (int i = 0; i < questions1.size(); i++) {
             FeedbackQuestionAttributes question1 = questions1.get(i);
             FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
@@ -356,7 +357,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     session1InCourse1.feedbackSessionName,
                     session1InCourse1.courseId, instructor2OfCourse1.email);
             signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e){
+        } catch (EntityAlreadyExistsException e) {
             ignoreExpectedException();
         }
         
@@ -445,7 +446,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         for (FeedbackSessionDetailsBundle details : detailsList) {
             if (details.feedbackSession.feedbackSessionName.equals(
-                    newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
+                    newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)) {
                 stats = details.stats;
                 break;
             }
@@ -549,7 +550,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 3);
+        assertSame(actualSessions.size(), 3);
         
         // Course 2 only has an instructor session and a private session.
         // The private session is not viewable to students,
@@ -575,14 +576,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 6);
+        assertSame(actualSessions.size(), 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
         
         assertEquals(actualSessions.get(0).toString(),
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
-        assertTrue(actualSessions.size() == 1);
+        assertSame(actualSessions.size(), 1);
 
         
         ______TS("Private session viewing");
@@ -2153,7 +2154,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     // Stringifies the visibility table for easy testing/comparison.
-    private String tableToString(Map<String, boolean[]> table){
+    private String tableToString(Map<String, boolean[]> table) {
         String tableString = "";
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
             tableString += "{";

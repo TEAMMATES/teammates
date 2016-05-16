@@ -45,7 +45,7 @@ public class AdminActivityLogPageAction extends Action {
     private Long nextEndTimeToSearch;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException{
+    protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
@@ -54,8 +54,6 @@ public class AdminActivityLogPageAction extends Action {
         if (searchTimeOffset == null) {
             searchTimeOffset = "";
         }
-        String filterQuery = getRequestParamValue("filterQuery");
-        String courseIdFromSearchPage = getRequestParamValue("courseId");
         
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
@@ -84,6 +82,7 @@ public class AdminActivityLogPageAction extends Action {
 //      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.       
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
+        String filterQuery = getRequestParamValue("filterQuery");
         if (filterQuery == null) {
             filterQuery = "";
         }
@@ -105,6 +104,7 @@ public class AdminActivityLogPageAction extends Action {
             logs = searchLogsWithTimeIncrement(query, data);
         }
         
+        String courseIdFromSearchPage = getRequestParamValue("courseId");
         generateStatusMessage(versionToQuery, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
@@ -272,13 +272,13 @@ public class AdminActivityLogPageAction extends Action {
     }
 
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
-        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
         if (userRole != null && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
             return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
         
         Logic logic = new Logic();
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         if (userGoogleId != null && !userGoogleId.isEmpty()) {
             try {
                 localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));

@@ -27,12 +27,12 @@ public class DataMigrationForSearchableStudents extends RemoteApiClient {
         }
     }
     
-    private List<StudentAttributes> getAllStudents(){
+    private List<StudentAttributes> getAllStudents() {
        
         return logic.getAllStudents();
     }
     
-    private void updateDocumentForStudent(StudentAttributes student){
+    private void updateDocumentForStudent(StudentAttributes student) {
         logic.putDocument(student);
     }
 

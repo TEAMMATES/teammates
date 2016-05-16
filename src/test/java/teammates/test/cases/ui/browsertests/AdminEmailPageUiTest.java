@@ -32,7 +32,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{    
+    public void allTests() throws Exception {    
         testCompose();
         testSent();
         testDraft();

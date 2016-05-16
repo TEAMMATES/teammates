@@ -23,8 +23,8 @@ function readyFeedbackEditPage() {
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
-            if (!confirm('Editing these fields will result in all existing responses for' +
-                         ' this question to be deleted. Are you sure you want to continue?')) {
+            if (!confirm('Editing these fields will result in all existing responses for'
+                         + ' this question to be deleted. Are you sure you want to continue?')) {
                 event.stopImmediatePropagation();
                 return false;
             }
@@ -341,9 +341,9 @@ function deleteQuestion(number) {
  * Allows users to cancel editing questions
  */
 function cancelEdit(number) {
-    var confirmationMsg = number === -1 ?
-            'Are you sure you want to cancel adding this question?' :
-            'Are you sure you want to cancel your changes?';
+    var confirmationMsg = number === -1
+                        ? 'Are you sure you want to cancel adding this question?'
+                        : 'Are you sure you want to cancel your changes?';
     if (confirm(confirmationMsg)) {
         location.reload();
     }
@@ -704,15 +704,15 @@ function getQuestionLink(qnNumber) {
     
     var giverType = $('#givertype-' + qnNumber).val();
     
-    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS' ?
-                    '/page/studentFeedbackQuestionSubmissionEditPage' :
-                    '/page/instructorFeedbackQuestionSubmissionEditPage';
+    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS'
+                  ? '/page/studentFeedbackQuestionSubmissionEditPage'
+                  : '/page/instructorFeedbackQuestionSubmissionEditPage';
     
-    var questionLink = window.location.protocol + '//' +
-                        window.location.host + actionUrl +
-                        '?courseid=' + courseid +
-                        '&fsname=' + fsname +
-                        '&questionid=' + questionId;
+    var questionLink = window.location.protocol + '//'
+                     + window.location.host + actionUrl
+                     + '?courseid=' + courseid
+                     + '&fsname=' + fsname
+                     + '&questionid=' + questionId;
     
     setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
 }
@@ -903,8 +903,7 @@ function formatVisibilityMessageHtml(visibilityMessage) {
 
 function getQuestionIdSuffix(questionNumber) {
     var newQuestionNumber = -1;
-    var isValidQuestionNumber = questionNumber > 0 ||
-                                questionNumber === newQuestionNumber;
+    var isValidQuestionNumber = questionNumber > 0 || questionNumber === newQuestionNumber;
     
     var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
     return idSuffix;
@@ -1118,29 +1117,31 @@ function updateNumScalePossibleValues(questionNumber) {
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + (possibleValuesCount - 1) * step;
     var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
+    var possibleValuesString;
     if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');
-        var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
-                                   ' is not divisible by the specified increment.]';
 
         if (isNaN(min) || isNaN(max) || isNaN(step)) {
             possibleValuesString = '[Please enter valid numbers for all the options.]';
+        } else {
+            possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString()
+                                 + ' is not divisible by the specified increment.]';
         }
 
         $numScalePossibleValues.text(possibleValuesString);
         return false;
     }
     $numScalePossibleValues.css('color', 'black');
-    var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+    possibleValuesString = '[Based on the above settings, acceptable responses are: ';
     
     // step is 3 d.p. at most, so round it after * 1000.
     if (possibleValuesCount > 6) {
-        possibleValuesString += min.toString() + ', ' +
-                                (Math.round((min + step) * 1000) / 1000).toString() + ', ' +
-                                (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
-                                (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
-                                (Math.round((max - step) * 1000) / 1000).toString() + ', ' +
-                                max.toString();
+        possibleValuesString += min.toString() + ', '
+                              + (Math.round((min + step) * 1000) / 1000).toString() + ', '
+                              + (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., '
+                              + (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', '
+                              + (Math.round((max - step) * 1000) / 1000).toString() + ', '
+                              + max.toString();
     } else {
         possibleValuesString += min.toString();
         var cur = min + step;
@@ -1259,8 +1260,9 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="answerCheckbox"]').change(function() {
         if (!$(this).prop('checked')) {
-            if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
-                                                $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
+            if ($(this).val() === 'RECEIVER'
+                    || $(this).val() === 'OWN_TEAM_MEMBERS'
+                    || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
                 $currentQuestionTable.find('input.visibilityCheckbox')
                                      .filter('input[class*="giverCheckbox"],input[class*="recipientCheckbox"]')
                                      .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
@@ -1274,15 +1276,17 @@ function setContribQnVisibilityFormat(questionNumber) {
             
         }
         
-        if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
-                                            $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
+        if ($(this).val() === 'RECEIVER'
+                || $(this).val() === 'OWN_TEAM_MEMBERS'
+                || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
                                  .filter('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
         }
         
-        if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
-                                            $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
+        if ($(this).val() === 'RECEIVER'
+                || $(this).val() === 'OWN_TEAM_MEMBERS'
+                || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
                                  .filter('[class*="answerCheckbox"]')
                                  .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')

@@ -70,10 +70,10 @@ public class PerformanceProfiler extends Thread {
     private String reportFilePath;
     private DataBundle data;
     private Gson gson = Utils.getTeammatesGson();
-    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
+    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
     private Browser browser;
     
-    public PerformanceProfiler (String path) {
+    public PerformanceProfiler(String path) {
         reportFilePath = path;
     }
     
@@ -191,7 +191,7 @@ public class PerformanceProfiler extends Thread {
         File reportFile = new File(filePath);
         
         // Create the report file if not existed
-        if (!reportFile.exists()){
+        if (!reportFile.exists()) {
             try {
                 reportFile.createNewFile();
             } catch (IOException e) {
@@ -205,7 +205,7 @@ public class PerformanceProfiler extends Thread {
         String strLine;
         while ((strLine = br.readLine()) != null)
         {
-            System.out.println (strLine);
+            System.out.println(strLine);
             String[] strs = strLine.split("\\|");
             
             String testName = strs[0];

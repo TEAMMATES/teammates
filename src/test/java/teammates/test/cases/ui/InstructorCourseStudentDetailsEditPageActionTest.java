@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -27,7 +28,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -65,7 +66,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&" +
                 "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorCourseStudentDetailsEditPageData pageData = (InstructorCourseStudentDetailsEditPageData) r.data;
@@ -88,7 +89,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

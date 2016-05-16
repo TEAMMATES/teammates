@@ -52,7 +52,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         testInstructorSubmitPage();
         testStudentSubmitPage();
@@ -223,7 +223,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
@@ -236,7 +236,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSuccess.html");
         
         ______TS("RUBRIC: edit sub-questions success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit sub-question for row 1
         feedbackEditPage.fillRubricSubQuestionBox("New(0) sub-question text", 1, 0);
@@ -262,7 +262,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
 
         ______TS("RUBRIC: edit choices success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit choice for col 1
         feedbackEditPage.fillRubricChoiceBox("New(0) choice", 1, 0);
@@ -287,7 +287,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
 
         ______TS("RUBRIC: edit descriptions success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit description for 0-0
         feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
@@ -331,7 +331,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // try to remove everything
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
@@ -394,11 +394,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
-        if (needAjax){
+        if (needAjax) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
         }
         
-        if (viewType != null){
+        if (viewType != null) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         

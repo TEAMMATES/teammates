@@ -23,21 +23,21 @@ public class AdminActivityLogPageData extends PageData {
     private Long toDateValue;
     private Long fromDateValue;
     private String logLocalTime;
-    private boolean isFromDateSpecifiedInQuery = false;
+    private boolean isFromDateSpecifiedInQuery;
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
      * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowAll = false;
+    private boolean ifShowAll;
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowTestData = false;
+    private boolean ifShowTestData;
     
     private String statusForAjax;
     private QueryParameters q;
@@ -254,7 +254,7 @@ public class AdminActivityLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception{
+    private QueryParameters parseQuery(String query) throws Exception {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
@@ -451,7 +451,7 @@ public class AdminActivityLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception{
+        public void add(String label, String[] values) throws Exception {
             if (label.equals("request")) {
                 isRequestInQuery = true;
                 requestValues = values;

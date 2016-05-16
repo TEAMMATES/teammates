@@ -48,7 +48,7 @@ public class StudentsLogic {
     private static int SECTION_SIZE_LIMIT = 100;
     private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance = null;
+    private static StudentsLogic instance;
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -127,7 +127,7 @@ public class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
     
-    public void deleteDocument(StudentAttributes student){
+    public void deleteDocument(StudentAttributes student) {
         studentsDb.deleteDocument(student);
     }
 
@@ -144,7 +144,7 @@ public class StudentsLogic {
      * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
         return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
     }
     
@@ -448,7 +448,7 @@ public class StudentsLogic {
 
     }
     
-    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId){
+    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
@@ -465,10 +465,10 @@ public class StudentsLogic {
         return mergedList;
     }
     
-    public String getSectionForTeam(String courseId, String teamName){
+    public String getSectionForTeam(String courseId, String teamName) {
 
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
-        if (students.isEmpty()){
+        if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
         } else {
             return students.get(0).section;
@@ -481,25 +481,25 @@ public class StudentsLogic {
 
         List<String> invalidSectionList = new ArrayList<String>();
         int studentsCount = 1;
-        for (int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.section.equals(previousStudent.section)){
+            if (currentStudent.section.equals(previousStudent.section)) {
                 studentsCount++;
             } else {
-                if (studentsCount > SECTION_SIZE_LIMIT){
+                if (studentsCount > SECTION_SIZE_LIMIT) {
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if (i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
+            if (i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT) {
                 invalidSectionList.add(currentStudent.section);
             }
         }
 
         String errorMessage = "";
-        for (String section: invalidSectionList){
+        for (String section: invalidSectionList) {
             errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
         }
 
@@ -511,21 +511,21 @@ public class StudentsLogic {
         StudentAttributes.sortByTeamName(mergedList);
 
         List<String> invalidTeamList = new ArrayList<String>();
-        for (int i = 1; i < mergedList.size(); i++){
+        for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
-                if (!invalidTeamList.contains(currentStudent.team)){
+            if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)) {
+                if (!invalidTeamList.contains(currentStudent.team)) {
                     invalidTeamList.add(currentStudent.team);    
                 }
             }
         }
 
         String errorMessage = "";
-        for (String team : invalidTeamList){
+        for (String team : invalidTeamList) {
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
-        if (!errorMessage.equals("")){
+        if (!errorMessage.equals("")) {
             errorMessage += "Please use the enroll page to edit multiple students";
         }
 
@@ -621,11 +621,11 @@ public class StudentsLogic {
         return emailsSent;
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail){
+    public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
 
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail){
+    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, false);
     }
 
@@ -681,13 +681,13 @@ public class StudentsLogic {
             }
         
             if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
-                    isSectionChanged(enrollment.oldSection, enrollment.newSection)){
+                    isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
     }
     
-    public void putDocument(StudentAttributes student){
+    public void putDocument(StudentAttributes student) {
         studentsDb.putDocument(student);
     }
     
@@ -747,7 +747,7 @@ public class StudentsLogic {
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
                 
-                if (isStudentEmailDuplicated(student.email, studentEmailList)){
+                if (isStudentEmailDuplicated(student.email, studentEmailList)) {
                     String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray), 
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
@@ -764,14 +764,14 @@ public class StudentsLogic {
     }
     
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            ArrayList<String> studentEmailList, String[] linesArray){
+            ArrayList<String> studentEmailList, String[] linesArray) {
         List<String> info = new ArrayList<String>();
         info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
         return info;
     }
     
     private boolean isStudentEmailDuplicated(String email, 
-            ArrayList<String> studentEmailList){
+            ArrayList<String> studentEmailList) {
         boolean isEmailDuplicated = studentEmailList.contains(email);
         return isEmailDuplicated;
     }
