@@ -303,11 +303,11 @@ public class TimeHelper {
             return false;
         }
         
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
-            date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-            date.equals(Const.TIME_REPRESENTS_LATER) ||
-            date.equals(Const.TIME_REPRESENTS_NEVER) ||
-            date.equals(Const.TIME_REPRESENTS_NOW);
+        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) 
+               || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+               || date.equals(Const.TIME_REPRESENTS_LATER)
+               || date.equals(Const.TIME_REPRESENTS_NEVER)
+               || date.equals(Const.TIME_REPRESENTS_NOW);
         
     }
 

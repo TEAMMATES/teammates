@@ -226,8 +226,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         String studentTeam = student.team;
         
         for (FeedbackResponse response : responses) {
-            if (response.getRecipientEmail().equals(studentEmail) ||
-                response.getRecipientEmail().equals(studentTeam)) {
+            if (response.getRecipientEmail().equals(studentEmail) 
+                || response.getRecipientEmail().equals(studentTeam)) {
                 
                 response.setRecipientSection(sectionName);
             } 

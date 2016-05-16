@@ -257,9 +257,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
+            if (bundle.visibilityTable.get(response.getId())[1] == false 
+                && type != FeedbackParticipantType.SELF 
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -355,9 +355,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
+            if (bundle.visibilityTable.get(response.getId())[1] == false 
+                && type != FeedbackParticipantType.SELF
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }

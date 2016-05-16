@@ -387,8 +387,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         // Replace general identifier with "General"
-        if (!isHiddenRecipient && !isRecipientCurrentUser && 
-            hasAtLeastTwoResponsesOtherThanCurrentUser) {
+        if (!isHiddenRecipient && !isRecipientCurrentUser 
+            && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return isRecipientGeneral ? "General" : recipientName;
         }
         return null;
@@ -405,8 +405,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         // Display other recipients' team name
-        if (!isHiddenRecipient && !isRecipientCurrentUser && 
-            hasAtLeastTwoResponsesOtherThanCurrentUser) {
+        if (!isHiddenRecipient && !isRecipientCurrentUser
+            && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return recipientTeamName;
         }
         return null;
@@ -416,11 +416,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean isRecipientStudent, String currentUserEmail,
             boolean isRecipientTeam, String currentUserTeam) {
         
-        if (isRecipientStudent && numResponses.containsKey(currentUserEmail) &&
-                numResponses.get(currentUserEmail) >= 1) {
+        if (isRecipientStudent && numResponses.containsKey(currentUserEmail) 
+            && numResponses.get(currentUserEmail) >= 1) {
             return currentUserEmail;
-        } else if (isRecipientTeam && numResponses.containsKey(currentUserTeam) && 
-                numResponses.get(currentUserTeam) >= 1) {
+        } else if (isRecipientTeam && numResponses.containsKey(currentUserTeam) 
+                   && numResponses.get(currentUserTeam) >= 1) {
             return currentUserTeam;
         } else {
             return "";
@@ -619,9 +619,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                type != FeedbackParticipantType.SELF &&
-                type != FeedbackParticipantType.NONE) {
+            if (bundle.visibilityTable.get(response.getId())[1] == false
+                && type != FeedbackParticipantType.SELF
+                && type != FeedbackParticipantType.NONE) {
                 
                 hiddenRecipients.add(response.recipientEmail);
             }
@@ -660,8 +660,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 continue;
             }
 
-            if (hasAtLeastTwoResponses(numResponses, recipient) && 
-                !recipient.equals(currentUserIdentifier)) {
+            if (hasAtLeastTwoResponses(numResponses, recipient)
+                && !recipient.equals(currentUserIdentifier)) {
                 
                 isAtLeastTwoResponsesOtherThanCurrentUser = true;
                 break;

@@ -303,8 +303,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         for (FeedbackResponseAttributes response : studentGiverResponses) {
             FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
                     .getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS || 
-                question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }
@@ -337,8 +337,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                     .getFeedbackResponsesForSession(eachSession.feedbackSessionName, courseId);
             
             for (FeedbackResponseAttributes eachResponse : allResponses) {
-                if (eachResponse.recipientEmail.equals(email) ||
-                    eachResponse.giverEmail.equals(email)) {
+                if (eachResponse.recipientEmail.equals(email) || eachResponse.giverEmail.equals(email)) {
                     fail("Cause : Feedback response for "
                          + email + " found on system");
                 }

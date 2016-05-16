@@ -814,8 +814,8 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
-        if (question.recipientType.isTeam() &&
-                question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (question.recipientType.isTeam()
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(

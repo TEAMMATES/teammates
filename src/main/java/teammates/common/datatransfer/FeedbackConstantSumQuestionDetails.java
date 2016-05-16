@@ -531,9 +531,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
-        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions ||
-            this.constSumOptions.containsAll(newConstSumDetails.constSumOptions) == false ||
-            newConstSumDetails.constSumOptions.containsAll(this.constSumOptions) == false) {
+        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
+            || this.constSumOptions.containsAll(newConstSumDetails.constSumOptions) == false
+            || newConstSumDetails.constSumOptions.containsAll(this.constSumOptions) == false) {
             return true;
         }
         
@@ -604,8 +604,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         int numOfResponseSpecific = fqa.numberOfEntitiesToGiveFeedbackTo;
         int maxResponsesPossible = numRecipients;
-        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS ||
-                numOfResponseSpecific > maxResponsesPossible) {
+        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS
+            || numOfResponseSpecific > maxResponsesPossible) {
             numOfResponseSpecific = maxResponsesPossible;
         }
         numRecipients = numOfResponseSpecific;

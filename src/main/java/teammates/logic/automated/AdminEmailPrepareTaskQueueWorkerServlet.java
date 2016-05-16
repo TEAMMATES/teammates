@@ -178,8 +178,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if (!lastStringOfLastAddedList.contains("@") ||
-                   !firstStringOfNewList.contains("@")) {
+                if (!lastStringOfLastAddedList.contains("@")
+                    || !firstStringOfNewList.contains("@")) {
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
                    //simply append the right part to the left part(last item of the list from last reading)

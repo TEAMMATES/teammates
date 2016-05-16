@@ -275,25 +275,25 @@ public abstract class Action {
 
     private boolean isPageNotCourseJoinRelated() {
         String currentURI = request.getRequestURI();
-        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) 
+               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) 
+               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
     }
 
     private boolean isHomePage() {
         String currentURI = request.getRequestURI();
-        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) ||
-               currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) 
+               || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
-        return student != null &&
-               !student.isRegistered();
+        return student != null && !student.isRegistered();
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {
-        boolean userNeedsRegistrationForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI()) &&
-                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userNeedsRegistrationForPage = 
+                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI()) 
+                && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotRegistered = user.createdAt == null;
         return userNeedsRegistrationForPage && userIsNotRegistered;
     }
@@ -538,9 +538,9 @@ public abstract class Action {
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
-        return loggedInUser != null && requestedUserId != null &&
-               !requestedUserId.trim().equals("null") &&
-               !loggedInUser.googleId.equals(requestedUserId);
+        return loggedInUser != null && requestedUserId != null 
+               && !requestedUserId.trim().equals("null")
+               && !loggedInUser.googleId.equals(requestedUserId);
     }
     
     // ===================== Utility methods used by some child classes========
