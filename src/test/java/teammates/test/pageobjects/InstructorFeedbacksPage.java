@@ -562,7 +562,7 @@ public class InstructorFeedbacksPage extends AppPage {
                              .getText();
     }
 
-    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
+    private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
         browser.driver.findElement(locator).click();
         waitForPageToLoad();
         return changePageType(destinationPageType);
