@@ -277,14 +277,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
+        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                       FieldValidator.REASON_EMPTY);
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
                 + "Servlet Action Failure : "
-                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                FieldValidator.REASON_EMPTY)
                 + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -304,14 +306,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
+        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                       FieldValidator.REASON_EMPTY);
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
                 + "Servlet Action Failure : "
-                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                FieldValidator.REASON_EMPTY)
                 + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -332,14 +336,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
+        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                       FieldValidator.REASON_EMPTY);
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
                 + "Servlet Action Failure : "
-                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                FieldValidator.REASON_EMPTY)
                 + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -359,14 +365,16 @@ public class InstructorFeedbackEditCopyActionTest extends
  
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
+        expectedString = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                       FieldValidator.REASON_EMPTY);
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
                 + "Servlet Action Failure : "
-                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                FieldValidator.REASON_EMPTY)
                 + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         

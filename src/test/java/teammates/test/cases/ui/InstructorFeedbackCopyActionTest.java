@@ -151,7 +151,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : "
-                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY)
+                + String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                FieldValidator.REASON_EMPTY)
                 + "|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
