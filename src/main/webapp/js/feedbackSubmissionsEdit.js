@@ -10,7 +10,7 @@ var WARNING_MODAL_MESSAGE = '#warning-modal-message';
 var WARNING_MODAL_OK = '#warning-modal-ok';
 
 // text displayed to user
-var SESSION_CLOSED = 'Feedback Session Closed';
+var SESSION_NOT_OPEN = 'Feedback Session Not Open';
 var OKAY = 'Okay';
 
 function isPreview() {
@@ -930,7 +930,7 @@ function updateRankMessageQn(qnNum) {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        showWarningModal(SESSION_CLOSED, getWarningMessage(), OKAY);
+        showWarningModal(SESSION_NOT_OPEN, getWarningMessage(), OKAY);
     }
 }
 
