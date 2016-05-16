@@ -67,7 +67,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
         
         if (feedbackObject == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
-                       + " for course : " + courseId + " could not be fetched" );
+                       + " for course : " + courseId + " could not be fetched");
             return null;
         } else {
             /*

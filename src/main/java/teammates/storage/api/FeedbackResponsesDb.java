@@ -105,7 +105,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         if (fr == null) {
             log.warning("Trying to get non-existent response: " +
                     feedbackQuestionId + "/" + "from: " +
-                    giverEmail + " to: " + receiverEmail );
+                    giverEmail + " to: " + receiverEmail);
             return null;
         }
         return fr;        
@@ -743,7 +743,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses.get(0);
     }
     
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section) {
         
         List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
@@ -770,7 +770,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(
                 String feedbackQuestionId) {
     
         Query q = getPM().newQuery(FeedbackResponse.class);
@@ -784,7 +784,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(
                 String feedbackQuestionId, long range) {
     
         Query q = getPM().newQuery(FeedbackResponse.class);

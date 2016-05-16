@@ -65,7 +65,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
         
         if (feedbackObject == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
-                                            + " for course : " + courseId + " could not be fetched" );
+                                            + " for course : " + courseId + " could not be fetched");
             return null;
         } 
          /*
@@ -73,7 +73,6 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
           * and the actual sending of emails
           */
         Emails emailManager = new Emails();
-        
         return emailManager.generateFeedbackSessionPublishedEmails(feedbackObject);
     }
     

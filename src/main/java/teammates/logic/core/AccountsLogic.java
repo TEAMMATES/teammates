@@ -178,7 +178,7 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute );
+        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
         
         if (account == null) {
             createAccount(new AccountAttributes(googleId,
@@ -332,7 +332,7 @@ public class AccountsLogic {
     public void makeAccountNonInstructor(String googleId) {
         AccountAttributes account = accountsDb.getAccount(googleId, true);
         if (account == null) {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         } else {
             account.isInstructor = false;
             try {
@@ -349,7 +349,7 @@ public class AccountsLogic {
         AccountAttributes account = accountsDb.getAccount(googleId, true);
         
         if (account == null) {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         } else {
             account.isInstructor = true;
             try {

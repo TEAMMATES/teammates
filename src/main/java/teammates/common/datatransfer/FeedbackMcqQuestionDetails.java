@@ -399,7 +399,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, Integer> entry : answerFrequency.entrySet() ) {
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
