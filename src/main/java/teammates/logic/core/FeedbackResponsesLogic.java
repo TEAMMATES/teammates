@@ -73,8 +73,8 @@ public class FeedbackResponsesLogic {
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, String section){
-        if(section == null){
+            String feedbackSessionName, String courseId, String section) {
+        if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
@@ -82,8 +82,8 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSection(
-            String feedbackSessionName, String courseId, String section){
-        if(section == null){
+            String feedbackSessionName, String courseId, String section) {
+        if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             return frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
@@ -91,8 +91,8 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSection(
-            String feedbackSessionName, String courseId, String section){
-        if(section == null){
+            String feedbackSessionName, String courseId, String section) {
+        if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             return frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
@@ -120,7 +120,7 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
             String feedbackSessionName, String courseId, String section,
             long range) {
-        if(section == null) {
+        if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(
                     feedbackSessionName, courseId, range);
         } else {
@@ -132,7 +132,7 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
             String feedbackSessionName, String courseId, String section,
             long range) {
-        if(section == null) {
+        if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(
                     feedbackSessionName, courseId, range);
         } else {
@@ -151,7 +151,7 @@ public class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
             String feedbackQuestionId, String section) {
-        if(section == null){
+        if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
         return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
@@ -165,7 +165,7 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestionInSection(
             String feedbackQuestionId, String userEmail, String section) {
         
-        if(section == null){
+        if (section == null) {
             return getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
         }
         return frDb.getFeedbackResponsesForReceiverForQuestionInSection(
@@ -180,7 +180,7 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionInSection(
             String feedbackQuestionId, String userEmail, String section) {
         
-        if(section == null){
+        if (section == null) {
             return getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
         }
         return frDb.getFeedbackResponsesFromGiverForQuestionInSection(
@@ -192,7 +192,7 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
     }
 
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
+    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
 
         return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
     }
@@ -606,17 +606,17 @@ public class FeedbackResponsesLogic {
         boolean isReceiverSameForResponseAndEnrollment = feedbackResponse.getRecipientEmail()
                 .equals(enrollment.email);
         
-        if(isGiverSameForResponseAndEnrollment){
+        if (isGiverSameForResponseAndEnrollment) {
             feedbackResponse.setGiverSection(enrollment.newSection);
         }
         
-        if(isReceiverSameForResponseAndEnrollment){
+        if (isReceiverSameForResponseAndEnrollment) {
             feedbackResponse.setRecipientSection(enrollment.newSection);  
         }
         
         frDb.commitOutstandingChanges();
         
-        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){      
+        if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {      
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
     }
@@ -785,8 +785,8 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> teamResponses =
                 new ArrayList<FeedbackResponseAttributes>();
         
-        for(StudentAttributes studentInTeam : studentsInTeam){
-            if(studentInTeam.email.equals(student.email)){
+        for (StudentAttributes studentInTeam : studentsInTeam) {
+            if (studentInTeam.email.equals(student.email)) {
                 continue;
             }
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);

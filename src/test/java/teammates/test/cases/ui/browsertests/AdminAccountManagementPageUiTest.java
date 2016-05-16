@@ -26,7 +26,7 @@ import teammates.test.pageobjects.BrowserPool;
  * Covers the 'accounts management' view for admins.
  * SUT: {@link AdminAccountManagementPage}
  */
-public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
+public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppUrl accountsPageUrl;
     private static AdminAccountManagementPage accountsPage;
@@ -41,7 +41,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll(){
+    public void testAll() {
         testContent();
         //no input validation to check
         testViewAccountDetailsLink();
@@ -83,7 +83,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testDeleteInstructorStatusAction(){
+    public void testDeleteInstructorStatusAction() {
         
         ______TS("action: delete instructor status");
         
@@ -93,7 +93,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         assertEquals(false, BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 
-    public void testDeleteInstructorAccountAction(){
+    public void testDeleteInstructorAccountAction() {
         
         ______TS("action: delete account");
         

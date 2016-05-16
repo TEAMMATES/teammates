@@ -53,7 +53,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT +
                      "?error=false" +
-                     "&user="+ idOfInstructor1,
+                     "&user=" + idOfInstructor1,
                      showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());
@@ -85,7 +85,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT +
                      "?error=false" +
-                     "&user="+ idOfInstructor2,
+                     "&user=" + idOfInstructor2,
                      showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());

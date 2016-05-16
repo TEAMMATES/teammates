@@ -56,10 +56,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
             int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
             
-            for(int i = 0; i < numMcqChoicesCreated; i++) {
+            for (int i = 0; i < numMcqChoicesCreated; i++) {
                 String mcqChoice = HttpRequestHelper.getValueFromParamMap(
                                                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-                if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+                if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
                     mcqChoices.add(mcqChoice);
                     numOfMcqChoices++;
                 }
@@ -141,7 +141,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${checked}", existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
@@ -156,7 +156,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
-            optionListHtml.append(otherOptionFragment + Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(Const.EOL);
         } 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM,
@@ -182,7 +182,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         if (otherEnabled) {
@@ -198,7 +198,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", "",
                             "${mcqOtherOptionAnswer}", "0");
-            optionListHtml.append(otherOptionFragment + Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(Const.EOL);
         } 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -209,9 +209,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();;
+        List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor){
+        switch(generateOptionsFor) {
             case NONE:
                 optionList = mcqChoices;
                 break;
@@ -271,7 +271,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(mcqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
 
-            optionListHtml.append(optionFragment + Const.EOL);
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -310,15 +310,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder();
+        StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if(this.generateOptionsFor != FeedbackParticipantType.NONE){
-            optionListHtml.append("<br>"
-                                + "The options for this question is "
-                                + "automatically generated from the list of all "
-                                + generateOptionsFor.toString().toLowerCase()
-                                + " in this course.");
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
+            String optionHelpText = String.format(
+                "<br>The options for this question is automatically generated from the list of all %s in this course.", 
+                generateOptionsFor.toString().toLowerCase());
+            optionListHtml.append(optionHelpText);
         }
         
         if (numOfMcqChoices > 0) {
@@ -373,7 +372,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for(String option : mcqChoices){
+        for (String option : mcqChoices) {
             answerFrequency.put(option, 0);
         }
         
@@ -389,7 +388,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -402,11 +401,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet() ) {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100*(double)entry.getValue()/responses.size()));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size()));
         }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
@@ -445,7 +444,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -461,7 +460,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
-                      + df.format(100*(double)entry.getValue()/responses.size()) + Const.EOL;
+                      + df.format(100 * (double) entry.getValue() / responses.size()) + Const.EOL;
         }
         
         csv += "Choice, Response Count, Percentage" + Const.EOL;
@@ -478,14 +477,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
+        return "<option value = \"MCQ\">" + Const.FeedbackQuestionTypeNames.MCQ + "</option>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES){
+                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?

@@ -62,11 +62,11 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if(updateAccount){
-            for(EntityAttributes entity : accountsToUpdate){
+        if (updateAccount) {
+            for (EntityAttributes entity : accountsToUpdate) {
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
                     updateAccount(account, true);
@@ -157,7 +157,7 @@ public class AccountsDb extends EntitiesDb {
             
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
+            if (!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
@@ -196,9 +196,9 @@ public class AccountsDb extends EntitiesDb {
         closePM();
     }
     
-    public void deleteAccounts(Collection<AccountAttributes> accounts){
+    public void deleteAccounts(Collection<AccountAttributes> accounts) {
 
-        for(AccountAttributes accountToDelete : accounts){
+        for (AccountAttributes accountToDelete : accounts) {
             if (!accountToDelete.studentProfile.pictureKey.equals("")) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
@@ -224,9 +224,9 @@ public class AccountsDb extends EntitiesDb {
             }
             
             return account;
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -237,7 +237,7 @@ public class AccountsDb extends EntitiesDb {
 
     @Override
     protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
+        return getAccountEntity(((AccountAttributes) entity).googleId);
     }
 }
 

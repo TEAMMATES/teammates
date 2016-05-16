@@ -279,7 +279,7 @@ public class InstructorCourseEditPage extends AppPage {
         return isFormShownCorrectly;
     }
     
-    public boolean clickOnAccessLevelViewDetails(String role){
+    public boolean clickOnAccessLevelViewDetails(String role) {
         WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal(\'" + role + "\')\"]"));
         viewDetailsLink.click();
@@ -356,10 +356,10 @@ public class InstructorCourseEditPage extends AppPage {
     
     
     public WebElement getNameField(int instrNum) {
-        return browser.driver.findElement(By.id("instructorname" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
     public WebElement getEmailField(int instrNum) {
-        return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {

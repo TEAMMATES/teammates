@@ -28,7 +28,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"
         };
@@ -83,12 +83,12 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                       r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        data = (InstructorHomePageData)r.data;
+        data = (InstructorHomePageData) r.data;
         assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseId = "idOfTypicalCourse";
         String expectedCourse2IdAfterSortByCourseId = "idOfTypicalCourse1";
@@ -118,12 +118,12 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        data = (InstructorHomePageData)r.data;
+        data = (InstructorHomePageData) r.data;
         assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseName = "idOfTypicalCourse1";
         String expectedCourse2IdAfterSortByCourseName = "idOfTypicalCourse2";
@@ -147,7 +147,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
             a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
             r = getShowPageResult(a);
             fail("The run time exception is not thrown as expected");
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             assertNotNull(e);
         }
         
@@ -160,12 +160,12 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
-        data = (InstructorHomePageData)r.data;
+        data = (InstructorHomePageData) r.data;
         assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseCreationDate = "idOfTypicalCourse";
         String expectedCourse2IdAfterSortByCourseCreationDate = "idOfTypicalCourse2";
@@ -182,8 +182,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
-    private InstructorHomePageAction getAction(String... params) throws Exception{
-            return (InstructorHomePageAction)(gaeSimulation.getActionObject(uri, params));
+    private InstructorHomePageAction getAction(String... params) throws Exception {
+            return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
 }

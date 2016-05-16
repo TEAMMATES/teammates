@@ -934,19 +934,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getPreviewLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
+        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));   
     }
     
     public WebElement getEditLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + String.valueOf(questionNumber)));
+        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + questionNumber));
     }
     
     public WebElement getVisibilityMessage(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessage-" + String.valueOf(questionNumber)));
+        return browser.driver.findElement(By.id("visibilityMessage-" + questionNumber));
     }
     
     public WebElement getVisibilityOptions(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
+        return browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
     }
     
     public WebElement getNewQnVisibilityOptions() {
@@ -975,8 +975,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue 
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        waitForElementVisibility(checkbox);
         checkbox.click();
-        
-        
     }
 }

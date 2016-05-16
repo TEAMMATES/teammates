@@ -20,12 +20,12 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
         
         data.nextUploadUrl = getNewUploadUrl();
         
-        if(data.nextUploadUrl == null){
+        if (data.nextUploadUrl == null) {
             data.nextUploadUrl = getNewUploadUrl();
         }
         
         //re-try creating upload url
-        if(data.nextUploadUrl == null){
+        if (data.nextUploadUrl == null) {
             isError = true;
             data.ajaxStatus = "An error occurred when creating upload URL, please try again";
         } else {
@@ -41,7 +41,7 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
     public String getNewUploadUrl() throws EntityDoesNotExistException {     
         try {
             return generateNewUploadUrl();
-        } catch(BlobstoreFailureException e) {
+        } catch (BlobstoreFailureException e) {
             return null;
         } 
     }

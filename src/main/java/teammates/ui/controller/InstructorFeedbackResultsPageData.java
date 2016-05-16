@@ -741,22 +741,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static <K> String getCurrentSection(
                         Map.Entry<String, Map<K, List<FeedbackResponseAttributes>>> responses,
                         ViewType viewType) {
-        String currentSection = Const.DEFAULT_SECTION;
-        // update current section
         // retrieve section from the first response of this user
         // TODO simplify by introducing more data structures into bundle
+        FeedbackResponseAttributes firstResponse = null;
         for (Map.Entry<K, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
                                                             responses.getValue().entrySet()) {
-            if (responsesFromGiverForQuestion.getValue().isEmpty()) {
-                continue;
+            if (!responsesFromGiverForQuestion.getValue().isEmpty()) {
+                firstResponse = responsesFromGiverForQuestion.getValue().get(0);
+                break;
             }
-            FeedbackResponseAttributes firstResponse = responsesFromGiverForQuestion.getValue().get(0);
-            currentSection = viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
-                                                                     : firstResponse.recipientSection;
-            break;
         }
         
-        return currentSection;
+        if (firstResponse != null) {
+            return viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
+                                                           : firstResponse.recipientSection;
+        } else {
+            return Const.DEFAULT_SECTION;
+        }
     }
     
     private void buildMissingParticipantPanelsForTeam(
@@ -1731,7 +1732,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Deprecated
     public String getGroupByTeam() {
-        return groupByTeam != null? groupByTeam : "null";
+        return groupByTeam != null ? groupByTeam : "null";
     }
     
     // TODO: swap groupByTeam to a normal boolean

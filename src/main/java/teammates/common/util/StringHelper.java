@@ -259,8 +259,8 @@ public class StringHelper {
         String firstName;
         
         if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf("{");
-            int endIndex = fullName.indexOf("}");
+            int startIndex = fullName.indexOf('{');
+            int endIndex = fullName.indexOf('}');
             lastName = fullName.substring(startIndex + 1, endIndex);
             firstName = fullName.replace("{", "")
                                 .replace("}", "")
@@ -268,7 +268,7 @@ public class StringHelper {
                                 .trim();           
             
         } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
+            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         

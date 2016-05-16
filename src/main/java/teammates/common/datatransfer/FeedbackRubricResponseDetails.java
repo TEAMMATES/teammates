@@ -36,7 +36,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         
         // Parse and extract answers
         String[] subQuestionResponses = rawResponses.split(Pattern.quote(","));
-        for (int i=0; i<subQuestionResponses.length; i++) {
+        for (int i = 0; i < subQuestionResponses.length; i++) {
             String[] subQuestionIndexAndChoice = subQuestionResponses[i].split(Pattern.quote("-"));
             
             if (subQuestionIndexAndChoice.length != 2) {
@@ -48,8 +48,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             try {
                 int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                 int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                if (subQuestionIndex >=0 && subQuestionIndex <fqd.numOfRubricSubQuestions &&
-                        subQuestionChoice >=0 && subQuestionChoice <fqd.numOfRubricChoices) {
+                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions &&
+                        subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
                     setAnswer(subQuestionIndex, subQuestionChoice);
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {
@@ -65,7 +65,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<Integer>();
-        for (int i=0; i<numSubQuestions; i++) {
+        for (int i = 0; i < numSubQuestions; i++) {
             answer.add(-1);
         }
     }
@@ -79,18 +79,18 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         String html = "";
-        for (int i=0; i<answer.size(); i++) {
+        for (int i = 0; i < answer.size(); i++) {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
                 chosenChoice = "<span class=\"color_neutral\"><i>" + 
                         Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
                         "</i></span>";
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>";
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice
-                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex+1) + ")</i></span><br>";
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
+                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1) + ")</i></span><br>";
             }
             
         }

@@ -42,7 +42,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testInstructorCourseEnrollPage() throws Exception{
+    public void testInstructorCourseEnrollPage() throws Exception {
         testContent();
         testSampleLink();
         testEnrollAction();
@@ -77,9 +77,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
             spreadsheetLink = createUrl(spreadsheetLinkString);
         }
 
-        try{
+        try {
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForWindows);
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForUnix);
         }
     }

@@ -148,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     }
     
     private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
-        return (InstructorCourseInstructorAddAction)gaeSimulation.getActionObject(uri, parameters);
+        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 
 }

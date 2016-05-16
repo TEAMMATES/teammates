@@ -170,7 +170,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         try {
             redirectResult = getRedirectResult(archiveAction);
             signalFailureToDetectException(" - IllegalArgumentException");
-        } catch (Exception e){
+        } catch (Exception e) {
             AssertHelper.assertContains("name cannot be null or empty", e.getMessage());
         }
         

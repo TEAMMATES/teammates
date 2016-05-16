@@ -75,7 +75,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
-    private StudentCommentsPageAction getAction(String... params) throws Exception{
+    private StudentCommentsPageAction getAction(String... params) throws Exception {
         return (StudentCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

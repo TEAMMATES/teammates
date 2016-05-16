@@ -67,8 +67,8 @@ public class StudentHomePageAction extends Action {
             List<CourseDetailsBundle> courses, String googleId) {
         Map<FeedbackSessionAttributes, Boolean> returnValue = new HashMap<>();
         
-        for(CourseDetailsBundle c : courses) {
-            for(FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
+        for (CourseDetailsBundle c : courses) {
+            for (FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
                 returnValue.put(f, getStudentStatusForSession(f, googleId));
             }
@@ -76,7 +76,7 @@ public class StudentHomePageAction extends Action {
         return returnValue;
     }
 
-    private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){
+    private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId) {
         StudentAttributes student = logic.getStudentForGoogleId(fs.courseId, googleId);
         Assumption.assertNotNull(student);
 
@@ -122,7 +122,7 @@ public class StudentHomePageAction extends Action {
             addPlaceholderFeedbackSessions(course, sessionSubmissionStatusMap);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             showEventualConsistencyMessage(courseId);
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
         } 
@@ -130,7 +130,7 @@ public class StudentHomePageAction extends Action {
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
                                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
+        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions) {
             sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
         }
     }

@@ -124,12 +124,12 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
                         "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
                         "%</span>";
         } else {
@@ -219,7 +219,7 @@ public class PageData {
      */
     protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 0; i <= 30; i += 5) {
+        for (int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" 
                        + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
                        + ">" + i + " mins</option>");
@@ -229,8 +229,8 @@ public class PageData {
     
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
+        for (int i = 0; i <= 30; i += 5) {
+            ElementTag option = createOption(i + " mins", String.valueOf(i), 
                                             isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
@@ -244,7 +244,7 @@ public class PageData {
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             result.add("<option value=\"" + i + "\"" +
                        (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
@@ -254,7 +254,7 @@ public class PageData {
     
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
@@ -742,7 +742,7 @@ public class PageData {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
         } else if (session.isWaitingToOpen()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
-        } else if(session.isClosed()) {
+        } else if (session.isClosed()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
         }
         
@@ -778,10 +778,10 @@ public class PageData {
      * Returns the type of people that can view the comment. 
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
-        for(int i = 0; i < comment.showCommentTo.size(); i++){
+        StringBuilder peopleCanView = new StringBuilder(100);
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
+            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
@@ -790,21 +790,21 @@ public class PageData {
                 peopleCanView.append("recipient, ");
                 break;
             case TEAM :
-                if(comment.recipientType == CommentParticipantType.TEAM) {
+                if (comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
             case SECTION :
-                if(comment.recipientType == CommentParticipantType.SECTION) {
+                if (comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
             case COURSE :
-                if(comment.recipientType == CommentParticipantType.COURSE) {
+                if (comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
@@ -818,7 +818,7 @@ public class PageData {
             }
         }
         String peopleCanViewString = peopleCanView.toString();
-        if(peopleCanViewString.isEmpty()) {
+        if (peopleCanViewString.isEmpty()) {
             return peopleCanViewString;
         }
         return removeEndComma(peopleCanViewString);
@@ -829,14 +829,14 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
+        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
             showCommentTo = comment.showCommentTo;
         }
-        for(int i = 0; i < showCommentTo.size(); i++) {
+        for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
@@ -1011,7 +1011,7 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (studentEmail != null && recipient.equals(studentEmail)) {
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");

@@ -21,7 +21,7 @@ public class GoogleLoginPage extends LoginPage {
     private WebElement staySignedCheckbox;
 
 
-    public GoogleLoginPage(Browser browser){
+    public GoogleLoginPage(Browser browser) {
         super(browser);
     }
 
@@ -30,7 +30,7 @@ public class GoogleLoginPage extends LoginPage {
         return containsExpectedPageContents(getPageSource());
     }
     
-    public static boolean containsExpectedPageContents(String pageSource){
+    public static boolean containsExpectedPageContents(String pageSource) {
         return pageSource.contains("Sign in with your Google Account");
     }
 

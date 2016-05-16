@@ -66,7 +66,7 @@ public class ProfilesDb extends EntitiesDb {
         validateNewProfile(newSpa);
         
         StudentProfile profileToUpdate = getCurrentProfileFromDb(newSpa.googleId);
-        if(hasNoNewChangesToProfile(newSpa, profileToUpdate)) return;
+        if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) return;
 
         updateProfileWithNewValues(newSpa, profileToUpdate);
         closePM();
@@ -156,16 +156,9 @@ public class ProfilesDb extends EntitiesDb {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
         
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
-            try {
-                deletePicture(sp.getPictureKey());
-                sp.setPictureKey(new BlobKey(""));
-                sp.setModifiedDate(new Date());
-            } catch (BlobstoreFailureException bfe) {
-                // this branch is not tested as it is 
-                //      => difficult to reproduce during testing
-                //      => properly handled higher up
-                throw bfe;
-            }
+            deletePicture(sp.getPictureKey());
+            sp.setPictureKey(new BlobKey(""));
+            sp.setModifiedDate(new Date());
         }
         
         closePM();
@@ -215,7 +208,7 @@ public class ProfilesDb extends EntitiesDb {
             account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             return account.getStudentProfile();
             
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }

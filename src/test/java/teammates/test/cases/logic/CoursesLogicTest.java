@@ -238,7 +238,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "non-existent-course";
 
-        try{
+        try {
             coursesLogic.verifyCourseIsPresent(c.id);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
@@ -405,14 +405,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes)null);
+            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
         
         try {
-            coursesLogic.getCourseSummaryWithoutStats((String)null);
+            coursesLogic.getCourseSummaryWithoutStats((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -1003,7 +1003,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         try {
             coursesLogic.hasIndicatedSections("non-existent-course");
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());   
         }

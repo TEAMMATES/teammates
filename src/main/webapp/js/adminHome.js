@@ -1,12 +1,12 @@
 /**
  * Generates HTML text for a row containing instructor's information
  * and status of the action.
- * 
- * @param {String} shortName 
+ *
+ * @param {String} shortName
  * @param {String} name
  * @param {String} email
  * @param {String} institution
- * @param {bool} isSuccess is a flag to show the action is successful or not. 
+ * @param {bool} isSuccess is a flag to show the action is successful or not.
  * The color and status of the row is affected by its value.
  * @param {String} status
  * @returns {String} a HTML row of action result table
@@ -88,11 +88,11 @@ function addInstructorByAjaxRecursively() {
             }
         },
         success: function(data) {
-            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName, 
+            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName,
                                                   data.instructorEmail, data.instructorInstitution,
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $("#addInstructorResultTable tbody").append(rowText);
-            if ((!data.instructorAddingResultForAjax) && (isInputFromFirstPanel)) {
+            if (!data.instructorAddingResultForAjax && isInputFromFirstPanel) {
                 var instructorsToBeRetried = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
                 $("#addInstructorDetailsSingleLine").val(instructorsToBeRetried);
             }

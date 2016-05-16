@@ -34,7 +34,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
     
     @Test 
-    public void testGetStudentProfile() throws Exception{
+    public void testGetStudentProfile() throws Exception {
         
         ______TS("success case");
         // implicitly tested in update

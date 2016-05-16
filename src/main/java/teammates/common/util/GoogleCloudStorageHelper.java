@@ -60,6 +60,6 @@ public class GoogleCloudStorageHelper {
         outputChannel.close();
         
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + googleId + suffix).getKeyString();
+                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId + suffix).getKeyString();
     }
 }

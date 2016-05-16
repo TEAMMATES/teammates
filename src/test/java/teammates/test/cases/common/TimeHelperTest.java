@@ -18,7 +18,7 @@ import teammates.test.cases.BaseTestCase;
 public class TimeHelperTest extends BaseTestCase {
     
     @Test
-    public void testFormatTimeForEvaluation(){
+    public void testFormatTimeForEvaluation() {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         
         c.set(Calendar.HOUR_OF_DAY, 9);
@@ -40,7 +40,7 @@ public class TimeHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testCombineDateTime() throws ParseException{
+    public void testCombineDateTime() throws ParseException {
         String testDate = "01/02/2013";
         String testTime = "0";
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

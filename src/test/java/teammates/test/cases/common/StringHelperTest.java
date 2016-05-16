@@ -40,7 +40,7 @@ public class StringHelperTest extends BaseTestCase {
    
     
     @Test 
-    public void testIsAnyMatching(){
+    public void testIsAnyMatching() {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
         
@@ -101,7 +101,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test 
-    public void testToStringForStringLists(){
+    public void testToStringForStringLists() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
@@ -127,7 +127,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testSplitName(){
+    public void testSplitName() {
         
             
         String fullName = "singleWord";
@@ -176,7 +176,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test 
-    public void testRemoveExtraSpace(){
+    public void testRemoveExtraSpace() {
         
        String str = "";
        assertEquals("", StringHelper.removeExtraSpace(str));
@@ -198,7 +198,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testRecoverFromSanitizedText(){        
+    public void testRecoverFromSanitizedText() {        
         String str = null;
         assertEquals(null, StringHelper.recoverFromSanitizedText(str));
         
@@ -276,8 +276,8 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult) {
+        for (String str : stringsToMatch) {
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }

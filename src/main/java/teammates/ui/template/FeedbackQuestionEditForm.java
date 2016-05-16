@@ -49,7 +49,7 @@ public class FeedbackQuestionEditForm {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
         
-        newQnForm.doneEditingLink = doneEditingLink.toString();
+        newQnForm.doneEditingLink = doneEditingLink;
         newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
         newQnForm.courseId = feedbackSession.courseId;
         newQnForm.feedbackSessionName = feedbackSession.feedbackSessionName;

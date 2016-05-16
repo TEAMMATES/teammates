@@ -120,7 +120,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
-    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
     
@@ -131,7 +131,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /** 
      * Use only to match existing and known Comment
      */
-    public void setId(Long id){
+    public void setId(Long id) {
         this.feedbackResponseCommentId = id;
     }
     
@@ -141,13 +141,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
         if (!error.isEmpty()) { errors.add(error); }
         
         //TODO: handle the new attributes showCommentTo and showGiverNameTo

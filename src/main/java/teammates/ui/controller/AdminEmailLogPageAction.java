@@ -111,11 +111,11 @@ public class AdminEmailLogPageAction extends Action {
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
-            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);;
+            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
         nextEndTimeToSearch = query.getEndTime();
         
-        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        String status = "&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
                   + nextEndTimeToSearch + "');\">Search More</button>";

@@ -211,8 +211,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         int sizeLimitBoundary = 150;
         
         //can enroll, if within the size limit
-        StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
-        for(int i = 0; i < sizeLimitBoundary; i++) {
+        StringBuilder enrollStringBuilder = new StringBuilder(200);
+        enrollStringBuilder.append("Section\tTeam\tName\tEmail");
+        for (int i = 0; i < sizeLimitBoundary; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
@@ -250,7 +251,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());

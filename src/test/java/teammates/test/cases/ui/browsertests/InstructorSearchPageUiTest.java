@@ -41,7 +41,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         
         testContent();
         testSearch();

@@ -35,7 +35,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     
-    private final int NUMBER_OF_HOURS_IN_DAY= 24;
+    private final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -323,7 +323,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public void testInitWithoutHighlighting() throws Exception{
+    public void testInitWithoutHighlighting() throws Exception {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor2OfCourse1");
         

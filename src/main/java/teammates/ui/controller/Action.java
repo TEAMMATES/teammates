@@ -531,11 +531,10 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        try { 
+        if (loggedInUser != null && loggedInUser.googleId != null && account != null) { 
             return !loggedInUser.googleId.equals(account.googleId);
-        } catch (NullPointerException e) {
-            return false;
         }
+        return false;
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {

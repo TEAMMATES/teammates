@@ -10,7 +10,6 @@ package teammates.logic.core;
 import java.net.HttpURLConnection;
 import java.util.*;
 import java.io.IOException;
-import java.util.Iterator;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -39,7 +38,7 @@ public class Sendgrid {
     private JSONObject headerList = new JSONObject();
 
     protected String domain = "https://sendgrid.com/";
-    protected String endpoint= "api/mail.send.json";
+    protected String endpoint = "api/mail.send.json";
     protected String username;
     protected String password;
 
@@ -337,7 +336,7 @@ public class Sendgrid {
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
         String string = "";
-        for (int i = 0;i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
             string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
         }
 
@@ -424,7 +423,7 @@ public class Sendgrid {
                 requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
             } else {
                 if (key.equals("toname") && this.getToNames().size() > 0) {
-                    requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1)+"&");
+                    requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
                 } else {
                     try {
                         requestParams.append(URLEncoder.encode(key, "UTF-8"));
@@ -432,14 +431,14 @@ public class Sendgrid {
                         w.warning("Unsupported Encoding Exception", e);
                     }
                     
-                    requestParams.append("=");
+                    requestParams.append('=');
                     
                     try {
                         requestParams.append(URLEncoder.encode(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                         w.warning("Unsupported Encoding Exception", e);
                     }
-                    requestParams.append("&");
+                    requestParams.append('&');
                 }
             }
         }
@@ -447,7 +446,7 @@ public class Sendgrid {
         String request = this.domain + this.endpoint;
 
         if (this.getBccs().size() > 0) {
-            request += "?" +this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
+            request += "?" + this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
         }
         
         try {

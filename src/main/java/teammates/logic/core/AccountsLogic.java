@@ -52,7 +52,7 @@ public class AccountsLogic {
             throw new InvalidParametersException(invalidityInfo);
         }
         
-        log.info("going to create account :\n"+accountData.toString());
+        log.info("going to create account :\n" + accountData.toString());
         
         accountsDb.createAccount(accountData);
     }
@@ -86,9 +86,9 @@ public class AccountsLogic {
         Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
-        for (int i=0; i<instructorList.size(); i++) {
+        for (int i = 0; i < instructorList.size(); i++) {
             String instructorGoogleId = instructorList.get(i).googleId;
-            if(instructorGoogleId==null){
+            if (instructorGoogleId == null) {
                 continue;
             }
             AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
@@ -142,7 +142,7 @@ public class AccountsLogic {
      * Joins the user as an instructor, and sets the institute too.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException{
+            throws JoinCourseException, InvalidParametersException {
         
         try {
             joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
@@ -156,7 +156,7 @@ public class AccountsLogic {
      * Joins the user as an instructor.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException{
+            throws JoinCourseException, InvalidParametersException {
         
         try {
             joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
@@ -178,9 +178,9 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute );
+        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute );
         
-        if (account == null){
+        if (account == null) {
             createAccount(new AccountAttributes(googleId,
                                                 instructor.name,
                                                 true,
@@ -195,7 +195,7 @@ public class AccountsLogic {
         
         //Update the goolgeId of the student entity for the instructor which was created from sampleData.
         StudentAttributes student = StudentsLogic.inst().getStudentForEmail(instructor.courseId, instructor.email);
-        if(student != null){
+        if (student != null) {
             student.googleId = googleId;
             StudentsLogic.inst().updateStudentCascade(instructor.email, student);
         }
@@ -248,11 +248,11 @@ public class AccountsLogic {
      */
     private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) 
             throws JoinCourseException {
-        if(instructorForKey.googleId ==null || !instructorForKey.googleId.equals(googleId)){
+        if (instructorForKey.googleId == null || !instructorForKey.googleId.equals(googleId)) {
             return;
         }
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
-        if (existingAccount != null && existingAccount.isInstructor){
+        if (existingAccount != null && existingAccount.isInstructor) {
             throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED, 
                                           googleId + " has already joined this course");
         }
@@ -264,7 +264,7 @@ public class AccountsLogic {
      * @throws JoinCourseException if the key does not correspond to an
      *    Instructor entity.
      */
-    private void confirmValidKey(String encryptedKey) throws JoinCourseException{
+    private void confirmValidKey(String encryptedKey) throws JoinCourseException {
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
         if (instructorForKey == null) {
@@ -278,8 +278,8 @@ public class AccountsLogic {
     /**
      * @throws JoinCourseException if the key has been used before.
      */
-    private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException{
-        if(instructorForKey.googleId==null){
+    private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
+        if (instructorForKey.googleId == null) {
             return;
         }
         
@@ -299,7 +299,7 @@ public class AccountsLogic {
         
         StudentAttributes studentRole = StudentsLogic.inst().getStudentForRegistrationKey(encryptedKey);
         
-        if(studentRole == null){
+        if (studentRole == null) {
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: %s");
         } else if (studentRole.isRegistered()) {
@@ -337,9 +337,9 @@ public class AccountsLogic {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while removing instruction privileges from account :"+account.toString());
+                        "while removing instruction privileges from account :" + account.toString());
             }
-        }else {
+        } else {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
         }
     }
@@ -354,7 +354,7 @@ public class AccountsLogic {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while adding instruction privileges to account :"+account.toString());
+                        "while adding instruction privileges to account :" + account.toString());
             }
         } else {
             log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );

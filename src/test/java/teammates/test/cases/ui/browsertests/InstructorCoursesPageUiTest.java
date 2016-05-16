@@ -78,7 +78,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
 
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
          * of having multiple test cases. The advantage is that the time for 
          * the whole test class will be reduced because we minimize repetitive
@@ -119,7 +119,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
     }
 
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         /* Explanation: The page rendering is slightly different based on 
          * whether the table is empty or not. We should test both cases. 
@@ -163,7 +163,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() throws Exception{
+    public void testLinks() throws Exception {
         
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
@@ -217,13 +217,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
+        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
         assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
         
         String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
+        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
         assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
@@ -231,7 +231,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
 
 
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
@@ -287,7 +287,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */

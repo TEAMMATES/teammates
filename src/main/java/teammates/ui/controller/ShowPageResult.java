@@ -15,7 +15,7 @@ import teammates.common.util.StatusMessage;
  * A result that shows a page in the Browser. These are usually implemented as 
  * JSP pages.
  */
-public class ShowPageResult extends ActionResult{
+public class ShowPageResult extends ActionResult {
     
     /** The data that will be used to render the page*/
     public PageData data;
@@ -50,7 +50,7 @@ public class ShowPageResult extends ActionResult{
          *  section is a {@code jsp:include} and cannot see parameters encoded 
          *  in the URL
          */ 
-        req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
+        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);
         
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }

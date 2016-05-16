@@ -65,7 +65,7 @@ public abstract class EmailAction {
             logActivityFailure(req, e);    
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
         } finally {
-            if(isError){
+            if (isError) {
                 try {
                     doPostProcessingForUnsuccesfulSend();
                 } catch (EntityDoesNotExistException e) {
@@ -161,7 +161,7 @@ public abstract class EmailAction {
     
     private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
-        int endIndex = emailContent.indexOf(",");
+        int endIndex = emailContent.indexOf(',');
         return emailContent.substring(startIndex, endIndex);
     }
     

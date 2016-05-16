@@ -25,7 +25,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
@@ -41,7 +41,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
         ______TS("Typical case: student list downloaded successfully");
         InstructorCourseStudentListDownloadAction a = getAction(submissionParams);
-        FileDownloadResult r = (FileDownloadResult)a.executeAndPostProcess();
+        FileDownloadResult r = (FileDownloadResult) a.executeAndPostProcess();
         
         String expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -67,7 +67,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult)a.executeAndPostProcess();
+        r = (FileDownloadResult) a.executeAndPostProcess();
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -95,7 +95,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult)a.executeAndPostProcess();
+        r = (FileDownloadResult) a.executeAndPostProcess();
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -115,7 +115,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
     }
     
-    private InstructorCourseStudentListDownloadAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentListDownloadAction getAction(String... params) throws Exception {
             return (InstructorCourseStudentListDownloadAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

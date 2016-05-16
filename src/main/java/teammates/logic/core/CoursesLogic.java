@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,8 +109,8 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + EOL 
-                                  + instructor.toString() + EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+                                  + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -131,9 +129,9 @@ public class CoursesLogic {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
+            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
     }
 
@@ -207,7 +205,7 @@ public class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
-        for(StudentAttributes sd: studentDataList) {
+        for (StudentAttributes sd: studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
@@ -230,7 +228,7 @@ public class CoursesLogic {
         SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
         TeamDetailsBundle team = null;
         sectionDetails.name = section;
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
     
             // first student of first team
@@ -334,7 +332,7 @@ public class CoursesLogic {
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
         
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
             if (section == null) {   // First student of first section
@@ -456,7 +454,7 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
@@ -745,7 +743,7 @@ public class CoursesLogic {
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
-                for(StudentAttributes student : team.students) {
+                for (StudentAttributes student : team.students) {
                     String studentStatus = null;
                     if (student.googleId == null || student.googleId.equals("")) {
                         studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
@@ -768,11 +766,11 @@ public class CoursesLogic {
         return export;
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             if (!student.section.equals(Const.DEFAULT_SECTION)) {
                 return true;
             }

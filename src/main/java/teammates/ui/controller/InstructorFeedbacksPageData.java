@@ -266,7 +266,7 @@ public class InstructorFeedbacksPageData extends PageData {
             // True if this is for displaying an empty form for creating a
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse =
-                    courseIdForNewSession != null && course.id.equals(courseIdForNewSession);
+                                            course.id.equals(courseIdForNewSession);
             
 
             if (instructors.get(course.id).isAllowedForPrivilege(

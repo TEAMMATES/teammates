@@ -67,7 +67,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if(!isRegisteredStudent()) {
+        if (!isRegisteredStudent()) {
             // Always remains at student feedback submission edit page if user is unregistered
             // Link given to unregistered student already contains course id & session name
             return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
@@ -100,5 +100,13 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         // and not covered, if they happen, it signifies a much larger problem.
         // i.e. that student.googleId cannot be empty or null if student != null
         return student != null && student.googleId != null && !student.googleId.isEmpty();
+    }
+
+    @Override
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
+    }
+
+    @Override
+    protected void checkAdditionalConstraints() {
     }
 }

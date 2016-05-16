@@ -12,9 +12,9 @@ function toggleReference() {
     
     var button = $("#detailButton").attr("class");
     
-    if (button == "glyphicon glyphicon-chevron-down") {
-    $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-    $("#referenceText").text("Hide Reference");
+    if (button === "glyphicon glyphicon-chevron-down") {
+        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
+        $("#referenceText").text("Hide Reference");
     } else {
         $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
         $("#referenceText").text("Show Reference");
@@ -25,7 +25,7 @@ function bindClickAction() {
     $("body").unbind('click', handler).on("click", ".log", handler);
 }
 
-var handler = function(event) {
+var handler = function() {
     $(this).next("#small").toggle();
     $(this).next("#small").next("#big").toggle();
 };
@@ -60,14 +60,14 @@ function submitFormAjax(offset) {
         },
         error: function() {
             setFormErrorMessage(button, "Failed to load older logs. Please try again.");
-            button.html("Retry");            
+            button.html("Retry");
         },
         success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                        // Inject new log row                  
-                        var logs = data.logs;                    
-                        jQuery.each(logs, function(i, value) {                        
+                    // Inject new log row
+                    var logs = data.logs;
+                    $.each(logs, function(i, value) {
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#emailLogsTable tr:last');
                         bindClickAction();

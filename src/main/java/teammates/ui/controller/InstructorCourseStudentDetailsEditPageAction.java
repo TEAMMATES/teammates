@@ -39,7 +39,7 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
                 new InstructorCourseStudentDetailsEditPageData(account, student, student.email, hasSection);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
-                        + "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details "
+                        + "Editing Student <span class=\"bold\">" + studentEmail + "'s</span> details "
                         + "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
 

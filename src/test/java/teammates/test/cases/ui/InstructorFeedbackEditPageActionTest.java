@@ -26,7 +26,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         try {
             showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }

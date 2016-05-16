@@ -20,7 +20,7 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on ASCENDING order based on
      * end time, followed by start time and session name
      */
-    Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             Assumption.assertNotNull(session1.getSessionName());
@@ -54,30 +54,30 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name
      */
-    Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>(){
+    Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override
         public int compare(SessionAttributes session1, SessionAttributes session2) {
             FeedbackSessionAttributes feedbackSession1 = null;
             FeedbackSessionAttributes feedbackSession2 = null;
             Boolean isSession1PrivateFeedback = false;
             Boolean isSession2PrivateFeedback = false;
-            if(session1 instanceof FeedbackSessionAttributes){
+            if (session1 instanceof FeedbackSessionAttributes) {
                 feedbackSession1 = (FeedbackSessionAttributes) session1;
             }
-            if(session2 instanceof FeedbackSessionAttributes){
+            if (session2 instanceof FeedbackSessionAttributes) {
                 feedbackSession2 = (FeedbackSessionAttributes) session2;
             }
             
             Assumption.assertNotNull(session1.getSessionName());
             Assumption.assertNotNull(session1.getSessionStartTime());
-            if(feedbackSession1 != null && feedbackSession1.isPrivateSession()) {
+            if (feedbackSession1 != null && feedbackSession1.isPrivateSession()) {
                 isSession1PrivateFeedback = true;
             } else {
                 Assumption.assertNotNull(session1.getSessionEndTime());
             }
             Assumption.assertNotNull(session2.getSessionName());
             Assumption.assertNotNull(session2.getSessionStartTime());
-            if(feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
+            if (feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
                 isSession2PrivateFeedback = true;
             } else {
                 Assumption.assertNotNull(session2.getSessionEndTime());
@@ -85,7 +85,7 @@ public interface SessionAttributes {
             int result = 0;
             
             //Compares end times
-            if(!isSession1PrivateFeedback && !isSession2PrivateFeedback){
+            if (!isSession1PrivateFeedback && !isSession2PrivateFeedback) {
                 result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
                         : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
             }
