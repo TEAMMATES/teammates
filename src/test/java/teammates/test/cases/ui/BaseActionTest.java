@@ -26,7 +26,7 @@ import teammates.ui.controller.ShowPageResult;
 /**
  * Parent class for *ActionTest classes.
  */
-public class BaseActionTest extends BaseComponentTestCase {
+public abstract class BaseActionTest extends BaseComponentTestCase {
     
     private DataBundle data = getTypicalDataBundle();
     
