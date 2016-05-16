@@ -271,8 +271,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
           
         // Iterate through the primary participant
         int primaryParticipantIndex = this.getStartIndex();
-        for (Entry<String, Map<String, List<FeedbackResponseAttributes>>> primaryToSecondaryParticipantToResponsesMap : 
-                                                                              sortedResponses.entrySet()) {
+        for (Entry<String, Map<String, List<FeedbackResponseAttributes>>> primaryToSecondaryParticipantToResponsesMap 
+                : sortedResponses.entrySet()) {
             primaryParticipantIndex += 1;
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
             
@@ -374,8 +374,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
          
        // Iterate through the primary participant
        int primaryParticipantIndex = this.getStartIndex();
-       for (Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> primaryToSecondaryParticipantToResponsesMap : 
-                                                                             sortedResponses.entrySet()) {
+       for (Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> primaryToSecondaryParticipantToResponsesMap 
+               : sortedResponses.entrySet()) {
            primaryParticipantIndex += 1;
            String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
            
@@ -597,8 +597,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorFeedbackResultsQuestionTable> questionTables = new ArrayList<InstructorFeedbackResultsQuestionTable>();
         
         int questionIndex = 0;
-        for (Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion : 
-                                                                                 recipientToGiverToResponsesMap.getValue().entrySet()) {
+        for (Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion
+                : recipientToGiverToResponsesMap.getValue().entrySet()) {
             if (responsesForParticipantForQuestion.getValue().isEmpty()) {
                 // participant has no responses for the current question
                 continue;
@@ -744,8 +744,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // retrieve section from the first response of this user
         // TODO simplify by introducing more data structures into bundle
         FeedbackResponseAttributes firstResponse = null;
-        for (Map.Entry<K, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
-                                                            responses.getValue().entrySet()) {
+        for (Map.Entry<K, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion
+                : responses.getValue().entrySet()) {
             if (!responsesFromGiverForQuestion.getValue().isEmpty()) {
                 firstResponse = responsesFromGiverForQuestion.getValue().get(0);
                 break;

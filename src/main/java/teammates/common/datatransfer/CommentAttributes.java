@@ -69,8 +69,9 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                                        comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null 
+                             ? comment.getLastEditorEmail() 
+                             : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 

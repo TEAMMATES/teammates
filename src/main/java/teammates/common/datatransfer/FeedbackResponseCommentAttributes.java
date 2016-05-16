@@ -102,8 +102,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null 
+                             ? comment.getLastEditorEmail() 
+                             : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
         if (comment.getIsVisibilityFollowingFeedbackQuestion() != null
                 && !comment.getIsVisibilityFollowingFeedbackQuestion()) {

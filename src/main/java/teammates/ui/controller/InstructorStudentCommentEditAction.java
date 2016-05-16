@@ -74,11 +74,12 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return !isFromCommentPage ? 
-               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)) :
-               createRedirectResult(
-                       (new PageData(account).getInstructorCommentsLink()) + "&" 
-                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return !isFromCommentPage 
+                ? createRedirectResult(
+                        new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)) 
+                : createRedirectResult(
+                        new PageData(account).getInstructorCommentsLink() + "&" 
+                        + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 
     private void verifyAccessibleByInstructor(String courseId, String commentId) {

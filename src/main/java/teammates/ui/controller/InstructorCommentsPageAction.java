@@ -144,8 +144,9 @@ public class InstructorCommentsPageAction extends Action {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver ? 
-                         InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
+            String key = isCurrentInstructorGiver 
+                       ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST 
+                       : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
