@@ -486,7 +486,8 @@ public class FieldValidator {
         }
 
         // checks for unsantized HTML characters
-        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName);
+        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                                            feedbackSessionName);
         return errorsFromNonHtmlValidation;
     }
 
@@ -509,7 +510,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public String getInvalidityInfoForNationality(String nationality) {
-        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, nationality);
+        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH,
+                                             nationality);
     }
 
     /**
@@ -520,7 +522,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public String getInvalidityInfoForInstituteName(String instituteName) {
-         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, instituteName);
+         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                              instituteName);
     }
 
     /**
