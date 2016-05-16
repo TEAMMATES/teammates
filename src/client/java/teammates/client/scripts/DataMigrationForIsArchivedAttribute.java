@@ -93,7 +93,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      * @throws InvalidParametersException
      */
     private void setInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertEquals(false, isPreview);
+        Assumption.assertFalse(isPreview);
         Assumption.assertTrue(course.isArchived);
         
         System.out.println("Updating instructors of old archived course: " + course.getId());

@@ -26,14 +26,14 @@ public class CourseAttributesTest extends BaseTestCase {
         
         CourseAttributes validCourse = generateValidCourseAttributesObject();
         
-        assertEquals("valid value", true, validCourse.isValid());
+        assertTrue("valid value", validCourse.isValid());
         
         
         String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName);
         
-        assertEquals("invalid value", false, invalidCourse.isValid());
+        assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_TOO_LONG) + EOL +
                 String.format(COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(), REASON_EMPTY);

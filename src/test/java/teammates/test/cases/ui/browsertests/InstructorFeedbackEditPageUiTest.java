@@ -230,7 +230,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question link");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
     }
 
     private void testEditQuestionAction() throws Exception {
@@ -388,7 +388,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
         feedbackEditPage.selectQuestionNumber(2, 1);        
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());

@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(editAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEditPageData data = (InstructorCourseEditPageData) pageResult.data;
@@ -72,7 +73,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         pageResult = getShowPageResult(editAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;
@@ -100,7 +101,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         pageResult = getShowPageResult(editAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;

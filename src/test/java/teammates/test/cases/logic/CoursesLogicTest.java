@@ -1,8 +1,10 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNotSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,7 +116,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(1, archivedCourses.size());
-        assertEquals(true, archivedCourses.get(0).isArchived);
+        assertTrue(archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
         instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -181,18 +183,18 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course");
         
-        assertEquals(false, coursesLogic.isSampleCourse(notSampleCousre.getId()));
+        assertFalse(coursesLogic.isSampleCourse(notSampleCousre.getId()));
         
         ______TS("typical case: is a sample course");
         
         CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course");
-        assertEquals(true, coursesLogic.isSampleCourse(sampleCourse.getId()));
+        assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
         CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33",
                                                               "sample course with additional -demo");
-        assertEquals(true, coursesLogic.isSampleCourse(sampleCourse2.getId()));
+        assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
          ______TS("Null parameter");
     
@@ -210,13 +212,13 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
-        assertEquals(false, coursesLogic.isCoursePresent(nonExistentCourse.getId()));
+        assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
         
         CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
 
-        assertEquals(true, coursesLogic.isCoursePresent(existingCourse.getId()));
+        assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
 
         ______TS("Null parameter");
     
@@ -266,14 +268,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
         
         CourseAttributes courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertEquals(true, courseRetrieved.isArchived);
+        assertTrue(courseRetrieved.isArchived);
         
         ______TS("success: unarchive a course");
         
         coursesLogic.setArchiveStatusOfCourse(course.getId(), false);
         
         courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertEquals(false, courseRetrieved.isArchived);
+        assertFalse(courseRetrieved.isArchived);
         
         ______TS("fail: course doesn't exist");
         
@@ -304,7 +306,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertEquals(false, courseSummary.course.isArchived);
+        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
         assertEquals(5, courseSummary.stats.studentsTotal);
@@ -368,7 +370,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertEquals(false, courseSummary.course.isArchived);
+        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.sections.size()); 
        
@@ -423,7 +425,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.getId());
         assertEquals(course.getId(), courseDetails.course.getId());
         assertEquals(course.getName(), courseDetails.course.getName());
-        assertEquals(false, courseDetails.course.isArchived);
+        assertFalse(courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);
@@ -992,7 +994,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Typical case: course without sections");
 
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.getId()));
+        assertFalse(coursesLogic.hasIndicatedSections(typicalCourse2.getId()));
 
         ______TS("Failure case: course does not exists");
 
@@ -1182,7 +1184,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.getId()).size() != 0);
+        assertNotSame(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.getId()).size(), 0);
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);
