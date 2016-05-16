@@ -223,7 +223,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
     }
     
-    private InstructorFeedbackAddAction getAction (String... params) throws Exception {
+    private InstructorFeedbackAddAction getAction(String... params) throws Exception {
         return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }
