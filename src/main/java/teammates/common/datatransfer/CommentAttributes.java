@@ -71,7 +71,7 @@ public class CommentAttributes extends EntityAttributes
         this.commentText = comment.getCommentText();
         this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
                                                                     : comment.getLastEditorEmail();
-        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt() ;
+        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
     }
 
     public Long getCommentId() {

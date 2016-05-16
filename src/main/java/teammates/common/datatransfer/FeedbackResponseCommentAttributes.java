@@ -97,13 +97,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState() ;
+        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
         this.receiverSection = comment.getReceiverSection() == null ? "None" : comment.getReceiverSection();
         this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
-                                                                    : comment.getLastEditorEmail() ;
+                                                                    : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
         
         if (comment.getIsVisibilityFollowingFeedbackQuestion() == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
