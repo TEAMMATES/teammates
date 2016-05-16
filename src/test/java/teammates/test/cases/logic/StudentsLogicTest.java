@@ -745,7 +745,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("invalid course id");
         
-        String enrollLines = headerLine + EOL + "";
+        String enrollLines = headerLine + EOL;
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);

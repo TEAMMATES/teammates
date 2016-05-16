@@ -22,7 +22,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     
     static final int MAX_READING_LENGTH = 900000; 
     
-    AdminEmailComposePageData data = null;
+    AdminEmailComposePageData data;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
