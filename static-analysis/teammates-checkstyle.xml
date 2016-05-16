@@ -18,6 +18,9 @@
       <property name="tokens" value="CTOR_DEF,ENUM_CONSTANT_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
     </module>
     <module name="GenericWhitespace"/>
+    <module name="OperatorWrap">
+      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,BXOR,MINUS,STAR,BAND,LAND,MOD,PLUS,LT,SL,LE,EQUAL,GT,GE,SR,BSR,BOR,LOR,LITERAL_INSTANCEOF"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
 </module>
