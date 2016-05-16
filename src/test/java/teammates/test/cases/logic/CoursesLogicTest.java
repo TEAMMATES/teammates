@@ -1004,7 +1004,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         try {
             coursesLogic.hasIndicatedSections("non-existent-course");
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());   
         }

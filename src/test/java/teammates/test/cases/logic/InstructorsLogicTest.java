@@ -45,7 +45,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         testGetInstructorForEmail();
         testGetInstructorsForEmail();
         testGetInstructorForGoogleId();
@@ -257,7 +257,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
@@ -289,7 +289,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForGoogleId(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
@@ -318,7 +318,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         try {
             instructorsLogic.getInstructorsForEmail(null);
             signalFailureToDetectException();
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }

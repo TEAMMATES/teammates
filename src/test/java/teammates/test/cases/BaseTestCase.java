@@ -52,8 +52,8 @@ public class BaseTestCase {
         return loadDataBundle("/typicalDataBundle.json");
     }
     
-    protected static DataBundle loadDataBundle(String pathToJsonFile){
-        if (pathToJsonFile.startsWith("/")){
+    protected static DataBundle loadDataBundle(String pathToJsonFile) {
+        if (pathToJsonFile.startsWith("/")) {
             pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
         }
         try {

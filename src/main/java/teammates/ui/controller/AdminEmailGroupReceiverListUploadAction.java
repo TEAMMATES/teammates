@@ -33,7 +33,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractGroupReceiverListFileKey();
         
-        if (blobInfo == null){
+        if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             
@@ -80,7 +80,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
      * @param blobInfo
      * @throws IOException
      */
-    private void checkGroupReceiverListFile(BlobInfo blobInfo) throws IOException{
+    private void checkGroupReceiverListFile(BlobInfo blobInfo) throws IOException {
         Assumption.assertNotNull(blobInfo);
         
         BlobKey blobKey = blobInfo.getBlobKey();
@@ -115,7 +115,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
    
-        while (size > 0){
+        while (size > 0) {
             //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
@@ -133,7 +133,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             List<String> newList = Arrays.asList(readString.split(","));
             
             
-            if (listOfList.isEmpty()){
+            if (listOfList.isEmpty()) {
                 //this is the first time reading
                 listOfList.add(newList);
             } else {
@@ -145,7 +145,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                 String firstStringOfNewList = newList.get(0);
                 
                 if (!lastStringOfLastAddedList.contains("@") ||
-                   !firstStringOfNewList.contains("@")){
+                   !firstStringOfNewList.contains("@")) {
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
                    //simply append the right part to the left part(last item of the list from last reading)
@@ -170,8 +170,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         //log all email addresses retrieved from the txt file 
         int i = 0;
         
-        for (List<String> list : listOfList){
-            for (String str : list){
+        for (List<String> list : listOfList) {
+            for (String str : list) {
                 log.info(str + "      " + i + " \n");
                 i++;
             }

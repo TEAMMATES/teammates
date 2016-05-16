@@ -53,7 +53,7 @@ public class FeedbackSessionQuestionsBundle {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
 
-        for (FeedbackQuestionAttributes question : questions){
+        for (FeedbackQuestionAttributes question : questions) {
             if (question.getId().equals(questionId)) {
                 return question;
             }

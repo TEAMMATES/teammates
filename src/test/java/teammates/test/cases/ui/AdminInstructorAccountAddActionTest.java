@@ -35,13 +35,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testGenerateNextDemoCourseId() throws Exception{
+    public void testGenerateNextDemoCourseId() throws Exception {
         testGenerateNextDemoCourseIdForLengthLimit(40);
         testGenerateNextDemoCourseIdForLengthLimit(20);
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         final String newInstructorShortName = "James";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.tmt";
@@ -127,7 +127,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
     
 
-    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception{
+    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
         final Method generateNextDemoCourseId;
         generateNextDemoCourseId = a.getClass().getDeclaredMethod("generateNextDemoCourseId", String.class, int.class);
@@ -155,7 +155,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
-    private String getDemoCourseIdRoot(String instructorEmail){
+    private String getDemoCourseIdRoot(String instructorEmail) {
         final String[] splitedEmail = instructorEmail.split("@");
         final String head = splitedEmail[0];
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);

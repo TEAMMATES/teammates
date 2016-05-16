@@ -21,7 +21,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         ______TS("case: view admin acount management page");
         

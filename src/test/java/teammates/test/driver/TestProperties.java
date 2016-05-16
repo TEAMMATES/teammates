@@ -101,7 +101,7 @@ public class TestProperties {
         return instance;
     }
 
-    public boolean isDevServer(){
+    public boolean isDevServer() {
         return TEAMMATES_URL.contains("localhost");
     }
 

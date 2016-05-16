@@ -27,7 +27,7 @@ public class AdminActivityLogPage extends AppPage {
         assertTrue(containsExpectedPageContents());
     }
     
-    public String getPersonInfoOfFirstEntry(){
+    public String getPersonInfoOfFirstEntry() {
         
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
@@ -36,7 +36,7 @@ public class AdminActivityLogPage extends AppPage {
         return hiddenInput.getAttribute("value");
     }
     
-    public void clickViewActionsButtonOfFirstEntry(){
+    public void clickViewActionsButtonOfFirstEntry() {
         
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
@@ -44,19 +44,19 @@ public class AdminActivityLogPage extends AppPage {
         element.click();
     }
     
-    public String getFilterBoxString(){
+    public String getFilterBoxString() {
         
         WebElement element = browser.driver.findElement(By.id("filterQuery"));
         return element.getAttribute("value");
     }
     
-    public void fillQueryBoxWithText(String query){
+    public void fillQueryBoxWithText(String query) {
         
         WebElement element = browser.driver.findElement(By.id("filterQuery"));
         fillTextBox(element, query);
     }
     
-    public void clickSearchSubmitButton(){
+    public void clickSearchSubmitButton() {
         
         WebElement button = browser.driver.findElement(By.name("search_submit"));
         button.click();      
@@ -89,7 +89,7 @@ public class AdminActivityLogPage extends AppPage {
         }
     }
     
-    public String getQueryMessage(){
+    public String getQueryMessage() {
         
         WebElement alert = browser.driver.findElement(By.id("queryMessage"));
         return alert.getText();
