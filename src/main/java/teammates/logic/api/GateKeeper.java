@@ -31,7 +31,7 @@ public class GateKeeper {
         ADD, VIEW, UPDATE, DELETE
     }
 
-    private static GateKeeper instance = null;
+    private static GateKeeper instance;
 
     public static GateKeeper inst() {
         if (instance == null) {

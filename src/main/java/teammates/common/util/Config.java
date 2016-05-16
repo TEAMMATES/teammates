@@ -17,7 +17,7 @@ public class Config {
 
     private static Logger log = Utils.getLogger();
     private static Config instance = inst();
-    private static Properties props = null;
+    private static Properties props;
     
     /** The value of the "app.url" in build.properties file */
     public static String APP_URL;
@@ -124,7 +124,7 @@ public class Config {
     }
 
     private int getPersistenceCheckduration() {
-        return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
+        return Integer.valueOf(props.getProperty("app.persistence.checkduration"));
     }
 
     private String getSupportEmail() {

@@ -399,8 +399,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-        String html = "";
-        String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : msqChoices) {
@@ -456,7 +454,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        
+        String fragments = "";
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
@@ -464,7 +462,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                 "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected));
         }
         //Use same template as MCQ for now, until they need to be different.
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+        String html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
                 "${fragments}", fragments);
         
         return html;
@@ -480,8 +478,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
@@ -537,7 +533,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        
+        String fragments = "";
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
@@ -545,7 +541,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     
         }
 
-        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        String csv = "Choice, Response Count, Percentage" + Const.EOL;
         
         csv += fragments + Const.EOL;
         

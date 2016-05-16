@@ -23,7 +23,7 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackResponseComment {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long feedbackResponseCommentId = null;
+    private transient Long feedbackResponseCommentId;
     
     /** The foreign key to locate the Course object. */
     @Persistent

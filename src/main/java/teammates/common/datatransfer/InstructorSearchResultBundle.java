@@ -17,8 +17,8 @@ import com.google.gson.Gson;
 public class InstructorSearchResultBundle extends SearchResultBundle {
     
     public List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
-    public Cursor cursor = null;
-    private int numberOfResults = 0;
+    public Cursor cursor;
+    private int numberOfResults;
     private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     /**

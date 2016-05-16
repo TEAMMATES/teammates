@@ -22,8 +22,8 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
     private InstructorAttributes instructor;
-    private int numberOfPendingComments = 0;
-    private int feedbackSessionIndex = 0;
+    private int numberOfPendingComments;
+    private int feedbackSessionIndex;
     private Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> questionCommentsMap;
     
     public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, int feedbackSessionIndex,

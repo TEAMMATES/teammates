@@ -12,7 +12,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  */
 public class TaskQueuesLogic {
 
-    private static TaskQueuesLogic instance = null;
+    private static TaskQueuesLogic instance;
     public static TaskQueuesLogic inst() {
         if (instance == null) {
             instance = new TaskQueuesLogic();

@@ -9,6 +9,6 @@ public class AdminEmailCreateImageUploadUrlAjaxPageData extends PageData {
     }
     
     public String nextUploadUrl;
-    public String ajaxStatus = null;
+    public String ajaxStatus;
 
 }
