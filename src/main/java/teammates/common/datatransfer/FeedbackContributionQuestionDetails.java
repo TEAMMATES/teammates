@@ -369,15 +369,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName;
             String displayTeam;
             String displayEmail;
-            if (!hideRecipient) {
-                displayName = name;
-                displayTeam = team;
-                displayEmail = email;
-            } else {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = "Anonymous " + type.toSingularFormString() + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
                 displayEmail = Const.USER_NOBODY_TEXT;
+            } else {
+                displayName = name;
+                displayTeam = team;
+                displayEmail = email;
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];

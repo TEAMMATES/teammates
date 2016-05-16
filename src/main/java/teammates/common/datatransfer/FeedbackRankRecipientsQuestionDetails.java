@@ -247,8 +247,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
         }
         
-        return "Team, Recipient" + ", Average Rank" + Const.EOL 
-                + fragments + Const.EOL;
+        return "Team, Recipient" + ", Average Rank" + Const.EOL + fragments + Const.EOL;
     }
 
     /**

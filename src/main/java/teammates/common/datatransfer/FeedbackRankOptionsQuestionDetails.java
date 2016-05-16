@@ -308,8 +308,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
         }
 
-        return "Option" + ", Average Rank" + Const.EOL 
-               + fragments.toString() + Const.EOL;
+        return "Option" + ", Average Rank" + Const.EOL + fragments.toString() + Const.EOL;
     }
 
     /**
