@@ -46,7 +46,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
         }
               
         
-        if (accountsList.size() == 0) {
+        if (accountsList.isEmpty()) {
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
          
         }

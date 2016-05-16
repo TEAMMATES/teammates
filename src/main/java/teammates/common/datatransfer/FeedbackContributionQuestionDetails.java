@@ -161,7 +161,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -223,7 +223,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -321,7 +321,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         
         
-        if (responses.size() == 0 ) {
+        if (responses.isEmpty()) {
             return "";
         }
     

@@ -74,7 +74,7 @@ public class InstructorCoursesPageAction extends Action {
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (data.isUsingAjax() && allCourses.size() == 0) {
+        if (data.isUsingAjax() && allCourses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         

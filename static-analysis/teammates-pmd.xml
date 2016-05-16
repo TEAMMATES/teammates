@@ -111,7 +111,7 @@
    <!--<rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"/>-->
    <!--<rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>-->
    <!--<rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter"/>-->
-   <!--<rule ref="rulesets/java/design.xml/UseCollectionIsEmpty"/>-->
+   <rule ref="rulesets/java/design.xml/UseCollectionIsEmpty"/>
    <!--<rule ref="rulesets/java/design.xml/UseLocaleWithCaseConversions"/>-->
    <!--<rule ref="rulesets/java/design.xml/UseNotifyAllInsteadOfNotify"/>-->
    <!--<rule ref="rulesets/java/design.xml/UseUtilityClass"/>-->

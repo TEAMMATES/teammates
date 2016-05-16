@@ -162,10 +162,10 @@ public class DataGenerator {
         
         //Add teams
         int teamCount = 1;
-        while (studentEmailInCourse.size() > 0) {
+        while (!studentEmailInCourse.isEmpty()) {
             long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
-            for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
+            for (int k = 0; !studentEmailInCourse.isEmpty() && k < teamSize; k++) {
                 
                 String email = studentEmailInCourse.remove(0);
                 

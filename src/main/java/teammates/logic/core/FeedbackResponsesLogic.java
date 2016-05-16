@@ -194,7 +194,7 @@ public class FeedbackResponsesLogic {
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
 
-        return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
+        return !getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).isEmpty();
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(

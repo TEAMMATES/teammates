@@ -95,7 +95,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
             
             @SuppressWarnings("unchecked")
             List<Account> studentAccounts = (List<Account>) pm.newQuery(query).execute();
-            if (studentAccounts.size() > 0) {
+            if (!studentAccounts.isEmpty()) {
                 Account a = studentAccounts.get(0);
                 if (a.getInstitute() == null || a.getInstitute().equals("")) {
                     System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId());

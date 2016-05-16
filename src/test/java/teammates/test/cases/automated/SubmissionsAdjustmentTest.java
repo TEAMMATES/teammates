@@ -187,7 +187,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
-        assertTrue(student1responses.size() != 0);
+        assertTrue(!student1responses.isEmpty());
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";

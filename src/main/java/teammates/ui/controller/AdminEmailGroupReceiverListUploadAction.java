@@ -184,7 +184,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
             
-            if (blobs != null && blobs.size() > 0) {
+            if (blobs != null && !blobs.isEmpty()) {
                 BlobInfo groupReceiverListFile = blobs.get(0);
                 return validateGroupReceiverListFile(groupReceiverListFile);
             } else {

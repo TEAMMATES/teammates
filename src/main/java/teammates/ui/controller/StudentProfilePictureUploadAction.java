@@ -117,7 +117,7 @@ public class StudentProfilePictureUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService()
                                                                           .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
-            if (blobs != null && blobs.size() > 0) {
+            if (blobs != null && !blobs.isEmpty()) {
                 BlobInfo profilePic = blobs.get(0);
                 return validateProfilePicture(profilePic);
             } else {

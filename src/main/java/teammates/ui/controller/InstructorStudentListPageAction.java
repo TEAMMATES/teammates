@@ -46,7 +46,7 @@ public class InstructorStudentListPageAction extends Action {
             instructors.put(instructor.courseId, instructor);
         }
         
-        if (courses.size() == 0) {
+        if (courses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
 

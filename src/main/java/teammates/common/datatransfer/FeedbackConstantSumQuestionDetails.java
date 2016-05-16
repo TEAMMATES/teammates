@@ -354,7 +354,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student") || responses.size() == 0) {
+        if (view.equals("student") || responses.isEmpty()) {
             return "";
         }
         
@@ -413,7 +413,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
@@ -594,7 +594,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
         
-        if (responses.size() < 1) {
+        if (responses.isEmpty()) {
             //No responses, no errors.
             return errors;
         }

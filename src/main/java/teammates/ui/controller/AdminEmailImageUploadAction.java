@@ -61,7 +61,7 @@ public class AdminEmailImageUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD);
             
-            if (blobs != null && blobs.size() > 0) {
+            if (blobs != null && !blobs.isEmpty()) {
                 BlobInfo image = blobs.get(0);
                 return validateImage(image);
             } else {

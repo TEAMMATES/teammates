@@ -254,7 +254,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             Writer w = new BufferedWriter(osw);
             
             int studentEmailCount = 0;
-            if (studentEmailSet.size() > 0) {
+            if (!studentEmailSet.isEmpty()) {
                 for (String email : studentEmailSet) {
                     if (!includeTestData && email.endsWith(".tmt")) {
                         continue;
@@ -265,7 +265,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             } 
             
             int instructorEmailCount = 0;
-            if (instructorEmailSet.size() > 0) {
+            if (!instructorEmailSet.isEmpty()) {
                 for (String email : instructorEmailSet) {
                     if (!includeTestData && email.endsWith(".tmt")) {
                         continue;

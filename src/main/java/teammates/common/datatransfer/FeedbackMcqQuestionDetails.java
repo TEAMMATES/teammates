@@ -364,7 +364,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
@@ -420,7 +420,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
