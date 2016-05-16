@@ -162,7 +162,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
-    
+
         if (responses.isEmpty()) {
             return "";
         }
@@ -319,7 +319,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
         
-        
         if (responses.isEmpty()) {
             return "";
         }
@@ -408,7 +407,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
         }
 
-        for ( Map.Entry<String, String> entry : sortedMap.entrySet()) {
+        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
             contribFragments += entry.getValue();
         }
         
@@ -857,7 +856,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
             return "color_neutral";
-        } else if ( points < Const.POINTS_EQUAL_SHARE) {
+        } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
         } else {

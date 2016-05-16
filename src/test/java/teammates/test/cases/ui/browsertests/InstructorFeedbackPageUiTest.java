@@ -229,7 +229,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.addFeedbackSession(
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
         
         
@@ -269,7 +269,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 null, null, null, null,
                 null, -1, newSession.timeZone);
         
-        savedSession = BackDoor.getFeedbackSession( newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         newSession.startTime = savedSession.startTime;
         
         assertEquals(newSession.toString(), savedSession.toString());
@@ -397,7 +397,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime,
                 newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
@@ -956,7 +956,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
@@ -975,7 +975,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod, -2.0 );
+                newSession.instructions, newSession.gracePeriod, -2.0);
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
@@ -995,7 +995,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions,
-                newSession.gracePeriod );
+                newSession.gracePeriod);
         assertEquals(String.format(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                         "",
