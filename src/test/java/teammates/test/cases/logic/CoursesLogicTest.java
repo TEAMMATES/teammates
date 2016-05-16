@@ -1180,7 +1180,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertNotSame(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size(), 0);
+        assertFalse(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).isEmpty());
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);

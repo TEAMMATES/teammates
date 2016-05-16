@@ -33,7 +33,7 @@ public class VersionTest extends BaseTestCase {
     public void testVersionComparison() {
         Version version1 = new Version("15.09");
         Version version2 = new Version("15.09");
-        assertSame(version1.compareTo(version2), 0);
+        assertEquals(version1.compareTo(version2), 0);
         
         version1 = new Version("15.09");
         version2 = new Version("1.09");

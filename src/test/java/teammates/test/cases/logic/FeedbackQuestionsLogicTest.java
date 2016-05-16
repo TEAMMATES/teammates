@@ -408,9 +408,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         try {
             List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
-            assertNotEquals(0, questions.size());
+            assertFalse(questions.isEmpty());
             questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
-            assertNotEquals(0, questions.size());
+            assertFalse(questions.isEmpty());
         } catch (EntityDoesNotExistException e) {
             fail("Feedback session was deleted");
             e.printStackTrace();

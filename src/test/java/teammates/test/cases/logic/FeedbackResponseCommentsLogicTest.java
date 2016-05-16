@@ -295,7 +295,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         List<FeedbackResponseCommentAttributes> frcList 
             = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
-        assertNotEquals(0, frcList.size());
+        assertFalse(frcList.isEmpty());
         
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
         

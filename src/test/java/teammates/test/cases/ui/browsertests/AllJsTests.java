@@ -39,8 +39,8 @@ public class AllJsTests extends BaseUiTestCase {
         
         print("Executed " + totalCases + " JavaScript Unit tests...");
 
-        assertSame(failedCases, 0);
-        assertNotSame(totalCases, 0);
+        assertEquals(failedCases, 0);
+        assertTrue(totalCases != 0);
         
         print("As expected, 0 failed tests out of " + totalCases + " tests.");
 

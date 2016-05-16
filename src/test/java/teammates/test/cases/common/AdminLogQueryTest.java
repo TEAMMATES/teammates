@@ -28,7 +28,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         ______TS("Test setTimePeriod");
         query = new AdminLogQuery(versionList, null, null);
         assertEquals(0, query.getStartTime());
-        assertNotSame(endTime, query.getStartTime());
+        assertTrue(endTime != query.getStartTime());
         
         query.setTimePeriod(startTime, endTime);
         assertEquals(startTime, query.getStartTime());

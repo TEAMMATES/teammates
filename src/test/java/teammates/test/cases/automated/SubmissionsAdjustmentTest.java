@@ -182,7 +182,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
-        assertNotSame(student1responses.size(), 0);
+        assertFalse(student1responses.isEmpty());
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
@@ -243,9 +243,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = 
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertNotSame(oldNumberOfResponsesForSession, 0);
+        List<FeedbackResponseAttributes> oldResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+        assertFalse(oldResponsesForSession.isEmpty());
         
         String oldTeam = student.team;
         String oldSection = student.section;
