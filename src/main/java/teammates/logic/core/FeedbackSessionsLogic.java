@@ -292,10 +292,9 @@ public class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
-            = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
-        Map<String, Map<String, String>> recipientList
-            = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = 
+                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
+        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
         
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
@@ -327,10 +326,9 @@ public class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
-            = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
-        Map<String, Map<String, String>> recipientList
-            = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = 
+                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
+        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
         
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
@@ -2015,14 +2013,14 @@ public class FeedbackSessionsLogic {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
                             if (isVisibleResponse && instructor != null) {
-                                boolean isGiverSectionRestricted 
-                                        = !instructor.isAllowedForPrivilege(response.giverSection,
-                                                                            response.feedbackSessionName, 
-                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                boolean isGiverSectionRestricted = 
+                                        !instructor.isAllowedForPrivilege(response.giverSection, 
+                                                                          response.feedbackSessionName,
+                                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 // If instructors are not restricted to view the giver's section,
                                 // they are allowed to view responses to GENERAL, subject to visibility options
-                                boolean isRecipientSectionRestricted 
-                                        = question.recipientType != FeedbackParticipantType.NONE
+                                boolean isRecipientSectionRestricted = 
+                                       question.recipientType != FeedbackParticipantType.NONE
                                        && !instructor.isAllowedForPrivilege(response.recipientSection,
                                                                             response.feedbackSessionName, 
                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
@@ -2256,17 +2254,17 @@ public class FeedbackSessionsLogic {
             }
         }
         if (isVisibleResponse && instructor != null) {
-            boolean isGiverSectionRestricted 
-            = !instructor.isAllowedForPrivilege(response.giverSection,
-                                                response.feedbackSessionName, 
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+            boolean isGiverSectionRestricted = 
+                    !instructor.isAllowedForPrivilege(response.giverSection,
+                                                      response.feedbackSessionName, 
+                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
-            boolean isRecipientSectionRestricted 
-                    = relatedQuestion.recipientType != FeedbackParticipantType.NONE 
-                   && !instructor.isAllowedForPrivilege(response.recipientSection,
-                                                        response.feedbackSessionName, 
-                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+            boolean isRecipientSectionRestricted = 
+                    relatedQuestion.recipientType != FeedbackParticipantType.NONE 
+                    && !instructor.isAllowedForPrivilege(response.recipientSection,
+                                                         response.feedbackSessionName, 
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
