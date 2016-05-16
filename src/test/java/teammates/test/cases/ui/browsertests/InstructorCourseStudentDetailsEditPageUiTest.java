@@ -38,14 +38,14 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         testContent();
         testInputValidation();
 //        no links to check
         testEditAction();
     }
     
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         String instructorId = testData.instructors.get("CCSDEditUiT.instr").googleId;
         String courseId = testData.courses.get("CCSDEditUiT.CS2104").getId();
@@ -108,7 +108,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     }
 
 
-    public void testEditAction() throws Exception{
+    public void testEditAction() throws Exception {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 

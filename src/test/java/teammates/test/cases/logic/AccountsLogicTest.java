@@ -50,7 +50,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testGetInstructorAccounts() throws Exception{
+    public void testGetInstructorAccounts() throws Exception {
         
         ______TS("success case");
         
@@ -155,7 +155,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
-        } catch (InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             ignoreExpectedException();
         }
         
@@ -182,7 +182,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("test getInstructorAccounts");
         
         
-        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()) {
             ______TS(aa.toString());
         }
         

@@ -36,7 +36,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
 
         testContent();
     }

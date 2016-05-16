@@ -77,7 +77,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("3 sessions opened and emails sent, 1 awaiting");
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
         
@@ -110,7 +110,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         int counter = 0;
 
-        while (counter != 10){
+        while (counter != 10) {
             FeedbackSessionOpeningCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
             if (FeedbackSessionOpeningCallback.verifyTaskCount(2)) {
@@ -122,7 +122,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
 
     @Test
-    public void testFeedbackSessionOpeningMailAction() throws Exception{
+    public void testFeedbackSessionOpeningMailAction() throws Exception {
         
         ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
@@ -164,7 +164,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
     }

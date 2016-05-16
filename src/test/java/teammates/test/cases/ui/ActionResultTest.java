@@ -12,7 +12,7 @@ import teammates.ui.controller.ShowPageResult;
 public class ActionResultTest extends BaseTestCase {
     
     @Test
-    public void testAppendParameters(){
+    public void testAppendParameters() {
         ActionResult svr = new ShowPageResult("/page/instructorHome", null, null, null);
         assertEquals("/page/instructorHome", svr.getDestinationWithParams());
         svr.addResponseParam(Const.ParamsNames.USER_ID, "david");

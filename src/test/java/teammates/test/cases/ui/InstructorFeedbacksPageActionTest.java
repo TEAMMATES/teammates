@@ -30,13 +30,13 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         ______TS("Typical case, 2 courses");
-        if (CoursesLogic.inst().isCoursePresent("new-course")){
+        if (CoursesLogic.inst().isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
         
@@ -124,7 +124,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     }
     
     
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception{
+    private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
             return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

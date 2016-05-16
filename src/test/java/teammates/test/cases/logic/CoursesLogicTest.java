@@ -998,7 +998,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         try {
             coursesLogic.hasIndicatedSections("non-existent-course");
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());   
         }
@@ -1131,7 +1131,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
-        coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
+        coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                               courseWithDuplicateInstructor.getName());
         verifyPresentInDatastore(courseWithDuplicateInstructor);
         verifyPresentInDatastore(i);
         

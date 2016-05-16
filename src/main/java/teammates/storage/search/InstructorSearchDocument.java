@@ -14,13 +14,13 @@ public class InstructorSearchDocument extends SearchDocument {
     private InstructorAttributes instructor;
     private CourseAttributes course;
     
-    public InstructorSearchDocument(InstructorAttributes instructor){
+    public InstructorSearchDocument(InstructorAttributes instructor) {
         this.instructor = instructor;
     }
     
     @Override
     protected void prepareData() {
-        if (instructor == null){
+        if (instructor == null) {
             return;
         }
         

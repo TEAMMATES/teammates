@@ -78,7 +78,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
 
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
          * of having multiple test cases. The advantage is that the time for 
          * the whole test class will be reduced because we minimize repetitive
@@ -119,7 +119,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
     }
 
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         /* Explanation: The page rendering is slightly different based on 
          * whether the table is empty or not. We should test both cases. 
@@ -163,7 +163,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() throws Exception{
+    public void testLinks() throws Exception {
         
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
@@ -231,7 +231,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
 
 
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
@@ -287,7 +287,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */

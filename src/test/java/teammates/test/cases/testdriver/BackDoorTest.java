@@ -137,7 +137,7 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     @Test
-    public void testAccounts() throws Exception{
+    public void testAccounts() throws Exception {
         
         testCreateAccount();
         testGetAccountAsJson();

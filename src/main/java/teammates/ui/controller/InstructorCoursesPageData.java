@@ -35,7 +35,7 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
-                     Map<String, InstructorAttributes> instructorsForCoursesParam){
+                     Map<String, InstructorAttributes> instructorsForCoursesParam) {
         init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", ""); 
     }
     
@@ -154,7 +154,7 @@ public class InstructorCoursesPageData extends PageData {
         return activeCourses;
     }
     
-    private ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled){
+    private ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         button.setAttribute("class", buttonClass);

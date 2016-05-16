@@ -42,7 +42,7 @@ $(document).ready(function() {
                     } else {
                         $(panelBody[0]).html('There are no responses for this feedback session yet or you do not have access to the responses collected so far.');
                     }
-                } 
+                }
 
                 bindErrorImages($(panelBody[0]).find('.profile-pic-icon-hover, .profile-pic-icon-click'));
                 // bind the show picture onclick events

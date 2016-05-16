@@ -68,7 +68,7 @@ public class AdminAccountDetailsPageData extends PageData {
         return studentCourseListTable;
     }
     
-    public static String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId){
+    public static String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId) {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -76,7 +76,7 @@ public class AdminAccountDetailsPageData extends PageData {
         return link;
     }
     
-    public static String getAdminDeleteStudentFromCourseLink(String studentId, String courseId){
+    public static String getAdminDeleteStudentFromCourseLink(String studentId, String courseId) {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_ID, studentId);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

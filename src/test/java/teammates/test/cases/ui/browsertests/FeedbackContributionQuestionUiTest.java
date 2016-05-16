@@ -41,7 +41,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other Contribution question related UI tests here.
@@ -119,7 +119,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
@@ -137,7 +137,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
      * has options invalid for contribution questions. This is to prevent invalid options
      * from being copied over to the contribution question.
      */
-    private void testAddContributionQuestionAsSecondQuestion(){
+    private void testAddContributionQuestionAsSecondQuestion() {
         ______TS("CONTRIB: add as second question");
 
         feedbackEditPage.selectNewQuestionType("Essay question");

@@ -28,7 +28,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     @Test    
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
 
         ______TS("content");
         

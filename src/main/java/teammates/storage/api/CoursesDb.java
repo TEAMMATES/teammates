@@ -32,10 +32,10 @@ public class CoursesDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
     
-    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
+    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
-        for (EntityAttributes entity : coursesToUpdate){
+        for (EntityAttributes entity : coursesToUpdate) {
             CourseAttributes course = (CourseAttributes) entity;
             try {
                 updateCourse(course);

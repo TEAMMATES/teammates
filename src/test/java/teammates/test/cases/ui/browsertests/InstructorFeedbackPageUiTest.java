@@ -173,7 +173,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     }
     
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         // TODO: possibly remove some of the test cases below in the future
         
@@ -441,7 +441,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCopyFromAction() throws Exception{
+    public void testCopyFromAction() throws Exception {
         
         ______TS("Success case: copy successfully a previous session");
         feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.courseId);
@@ -553,7 +553,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         String courseId = newSession.courseId;
         String sessionName = "Long Instruction Test ##";
@@ -569,7 +569,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testRemindActions(){
+    public void testRemindActions() {
         //TODO implement this        
     }
     
@@ -654,7 +654,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
     
-    public void testJScripts() throws ParseException{
+    public void testJScripts() throws ParseException {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testDefaultTimeZone();
         testSessionViewableTable();
@@ -789,7 +789,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(feedbackPage.getClientTimeZone(), feedbackPage.getTimeZone());
     }
     
-    public void testResponseRateLink(){
+    public void testResponseRateLink() {
         ______TS("test response rate link clickable");
         
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");

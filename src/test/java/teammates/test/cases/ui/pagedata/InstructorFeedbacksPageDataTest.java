@@ -323,7 +323,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public void testInitWithoutHighlighting() throws Exception{
+    public void testInitWithoutHighlighting() throws Exception {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor2OfCourse1");
         

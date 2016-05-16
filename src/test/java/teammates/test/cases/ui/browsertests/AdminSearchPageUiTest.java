@@ -40,7 +40,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{    
+    public void allTests() throws Exception {    
         testContent();
         testSearch();        
     }
@@ -124,7 +124,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return statusMessage.equals("Search key cannot be empty");
     }
     
-    private boolean isOnlyOneResultVisible(){
+    private boolean isOnlyOneResultVisible() {
         return searchPage.getStatus().equals("Total results found: 1");
     }
         

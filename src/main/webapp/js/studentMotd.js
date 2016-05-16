@@ -1,5 +1,5 @@
 $(document).ready(function() {
-     $.ajax({
+    $.ajax({
         type: 'GET',
         url: motdUrl,
         success: function(data) {

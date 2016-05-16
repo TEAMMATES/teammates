@@ -41,7 +41,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other MCQ question related UI tests here.
@@ -215,7 +215,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
 
         ______TS("MCQ: qn delete then cancel");
 

@@ -34,7 +34,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         feedbackEditPage = getFeedbackEditPage();
         
         ______TS("Submit empty course list");
