@@ -23,16 +23,16 @@ $(function() {
             });
             picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
-                 picture.guillotine('rotateLeft');
+                picture.guillotine('rotateLeft');
             });
             $('#profilePicEditZoomIn').click(function() {
-                 picture.guillotine('zoomIn');
+                picture.guillotine('zoomIn');
             });
             $('#profilePicEditZoomOut').click(function() {
-                 picture.guillotine('zoomOut');
+                picture.guillotine('zoomOut');
             });
             $('#profilePicEditRotateRight').click(function() {
-                 picture.guillotine('rotateRight');
+                picture.guillotine('rotateRight');
             });
 
             // Panning handlers based on approach outlined here

@@ -113,11 +113,11 @@ $(document).ready(function() {
             $('input[id^="course_check"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().remove();
-            var headings = $('.panel-heading');
-            for (var idx = 0; idx < headings.length; idx++) {
-                var className = $(headings[idx]).attr('class');
+            var heads = $('.panel-heading');
+            for (var i = 0; i < heads.length; i++) {
+                var className = $(heads[i]).attr('class');
                 if (className.indexOf('ajax_submit') === -1) {
-                    $(headings[idx]).trigger('click');
+                    $(heads[i]).trigger('click');
                 }
             }
         }
@@ -142,7 +142,7 @@ $(document).ready(function() {
             $('input[id^="team_check-"]').parent().hide();
         }
         applyFilters();
-    }); 
+    });
 
     // Binding for 'Select All' team option
     $('#team_all').on('change', function() {
@@ -175,7 +175,7 @@ function checkCourseBinding(e) {
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-'  + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().show();

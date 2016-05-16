@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(".fslink").hide();
 
-    // highlight search string 
+    // highlight search string
     highlightSearchResult("#filterQuery", ".studentRow, .instructorRow");
 
     $("#rebuildButton").click(function() {
@@ -37,11 +37,11 @@ $(document).ready(function() {
 
     });
     
-    $(".homePageLink").click(function(e) {        
+    $(".homePageLink").click(function(e) {
         e.stopPropagation();
     });
     
-    $(".detailsPageLink").click(function(e) {        
+    $(".detailsPageLink").click(function(e) {
         e.stopPropagation();
     });
     
@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
     
     $('input').click(function() {
-         this.select();
+        this.select();
     });
     
     $(".resetGoogleIdButton").click(function(e) {
@@ -64,7 +64,6 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                  + "&courseid=" + studentCourseId
                  + "&googleid=" + wrongGoogleId;
     
-    
     var googleIdEntry = $(button).parent().parent().children().find(".homePageLink");
     var originalButton = $(button).html();
     
@@ -77,11 +76,11 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
             $(button).html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            $(button).html("An Error Occurred, Please Retry");          
+            $(button).html("An Error Occurred, Please Retry");
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {                          
+                if (!data.isError) {
                     if (data.isGoogleIdReset) {
                         googleIdEntry.html("");
                         $(button).hide();
@@ -89,10 +88,8 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                         googleIdEntry.html(originalGoogleIdEntry);
                         $(button).html(originalButton);
                     }
-                    
-                    
                 } else {
-                    $(button).html("An Error Occurred, Please Retry");          
+                    $(button).html("An Error Occurred, Please Retry");
                 }
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
@@ -104,7 +101,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
 
 function adminSearchDiscloseAllStudents() {
     
-    $(".fslink_student").slideDown();    
+    $(".fslink_student").slideDown();
     $(".studentRow").attr("class", "studentRow active");
     
 }

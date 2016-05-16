@@ -278,14 +278,14 @@ public class CommentAttributes extends EntityAttributes
         }
     }
 
-    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove){
+    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove) {
         removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
-            CommentParticipantType typeToRemove){
+            CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }

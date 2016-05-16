@@ -356,7 +356,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     /**
      * @return {@code true} if the session has been set by the creator to be manually published.
      */
-    public boolean isManuallyPublished(){
+    public boolean isManuallyPublished() {
         return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
                || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }

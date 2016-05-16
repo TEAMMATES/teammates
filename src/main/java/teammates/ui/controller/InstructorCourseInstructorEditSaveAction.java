@@ -152,7 +152,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         return instructorToEdit;
     }
     
-    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToEdit){
+    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToEdit) {
         List<String> sectionNames = null;
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);

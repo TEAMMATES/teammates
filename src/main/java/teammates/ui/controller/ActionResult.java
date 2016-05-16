@@ -39,7 +39,7 @@ public abstract class ActionResult {
     public ActionResult(
             String destination, 
             AccountAttributes account, 
-            List<StatusMessage> status){
+            List<StatusMessage> status) {
         
         this.destination = destination;
         this.account = account;
@@ -76,7 +76,7 @@ public abstract class ActionResult {
     /**
      * Add a (key,value) pair ot the list of response parameters.
      */
-    public void addResponseParam(String key, String value){
+    public void addResponseParam(String key, String value) {
         responseParams.put(key, value);
     }
     
@@ -84,7 +84,7 @@ public abstract class ActionResult {
      * @return Destination of the result, including parameters. 
      * e.g. {@code /page/instructorHome?user=abc}
      */
-    public String getDestinationWithParams(){
+    public String getDestinationWithParams() {
         return appendParameters(destination, responseParams);
     }
     
@@ -94,7 +94,7 @@ public abstract class ActionResult {
     public abstract void send(HttpServletRequest req, HttpServletResponse resp) 
             throws IOException, ServletException;
 
-    private String appendParameters(String url, Map<String, String> params){
+    private String appendParameters(String url, Map<String, String> params) {
         String returnValue = url;
         for (String key : params.keySet()) {
             returnValue = Url.addParamToUrl(returnValue, key, params.get(key));

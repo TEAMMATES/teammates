@@ -254,7 +254,7 @@ public class AdminActivityLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception{
+    private QueryParameters parseQuery(String query) throws Exception {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
@@ -451,7 +451,7 @@ public class AdminActivityLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception{
+        public void add(String label, String[] values) throws Exception {
             if (label.equals("request")) {
                 isRequestInQuery = true;
                 requestValues = values;

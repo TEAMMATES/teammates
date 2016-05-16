@@ -77,7 +77,6 @@ var FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
 var FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
 var FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
 
-
 // Used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
@@ -261,14 +260,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     store.sort(function(x, y) {
-        if (ascending === true) {
-            var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            }
-            return compareResult;
-        }
-        var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
+        var compareResult = ascending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
+                                      : comparator(y[0].toUpperCase(), x[0].toUpperCase());
         if (compareResult === 0) {
             return x[2] - y[2];
         }
@@ -284,8 +277,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     // Must push to target tbody else it will generate a new tbody for the table
-    for (var i = 0; i < store.length; i++) {
-        $tbody.get(0).appendChild(store[i][1]);
+    for (var j = 0; j < store.length; j++) {
+        $tbody.get(0).appendChild(store[j][1]);
     }
     
     store = null;
@@ -438,10 +431,9 @@ function getPointValue(s, ditchZero) {
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-
 /**
  * Checks if element is within browser's viewport.
- * @return true if it is within the viewport, false otherwise 
+ * @return true if it is within the viewport, false otherwise
  */
 function isWithinView(element) {
     var viewHeight = window.innerHeight;
@@ -476,7 +468,7 @@ function scrollToPosition(scrollPos, duration) {
 /**
  * Scrolls to an element.
  * Possible options are as follows:
- * 
+ *
  * @param element - element to scroll to
  * @param options - associative array with optional values:
  *                  * type: ['top'|'view'], defaults to 'top';
@@ -575,7 +567,7 @@ function setStatusMessage(message, status) {
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
- * 
+ *
  */
 function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
@@ -613,7 +605,7 @@ function sanitizeGoogleId(googleId) {
 /**
  * Check if the GoogleID is valid
  * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
- * 
+ *
  * @param googleId
  * @return {Boolean}
  */
@@ -749,12 +741,11 @@ function sanitizeForJs(string) {
     return string;
 }
 
-
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section
  * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
- * @param searchKeyId - Id of searchKey input field 
- * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
+ * @param searchKeyId - Id of searchKey input field
+ * @param sectionToHighlight - sections to higlight separated by ',' (comma)
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
@@ -784,7 +775,7 @@ if (!String.prototype.includes) {
 
 /**
  * Checks if the input value is a blank string
- * 
+ *
  * @param str
  * @returns true if the input is a blank string, false otherwise
  */
@@ -798,16 +789,16 @@ function isBlank(str) {
 /**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
  * clickedElement must be at least the parent of the chevron.
- */ 
+ */
 function toggleChevron(clickedElement) {
     var $clickedElement = $(clickedElement);
     var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
     var $chevronContainer = $clickedElement.find(".glyphicon");
 
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
 
-    if (isChevronDown) { 
+    if (isChevronDown) {
         setChevronToUp($chevronContainer);
     } else {
         setChevronToDown($chevronContainer);

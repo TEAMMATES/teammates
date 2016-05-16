@@ -122,7 +122,7 @@ public class AccountAttributes extends EntityAttributes {
         return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     
-    public String toString(){
+    public String toString() {
         return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
     }
 

@@ -1,4 +1,4 @@
-//TODO: Move constants from Common.js into appropriate files if not shared.
+// TODO: Move constants from Common.js into appropriate files if not shared.
 var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
 /**
@@ -94,11 +94,9 @@ function selectDefaultTimeOptions() {
     }
 }
 
-
 function isTimeZoneIntialized() {
     return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
 }
-
 
 /**
  * Format a number to be two digits
@@ -267,7 +265,7 @@ function showUncommonPanels() {
 }
 
 function hideUncommonPanels() {
-    //Hide panels only if they match the default values.
+    // Hide panels only if they match the default values.
     if (isDefaultSetting()) {
         $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').hide();
     } else {
