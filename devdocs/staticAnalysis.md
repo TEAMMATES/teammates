@@ -91,14 +91,14 @@ Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot; just right-cl
 Remember to configure the tools to use the ruleset provided.
 The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
 
+To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
+
 Alternatively, run the tools via Gradle:
 ```
 ./gradlew -b travis.gradle {toolType}{sourceCodeType}
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
-
-To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
