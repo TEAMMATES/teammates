@@ -165,7 +165,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                   throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
-            if (ALL_SECTION_OPTION.equals(selectedSection) ) {
+            if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // load page structure without responses
                 
                 data.setLargeNumberOfRespondents(needAjax != null);

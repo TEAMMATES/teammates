@@ -188,7 +188,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
         dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
-                TimeHelper.now( dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
+                TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...

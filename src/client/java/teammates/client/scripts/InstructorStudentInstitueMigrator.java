@@ -35,7 +35,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     protected void doOperation() {
         Query q = pm.newQuery(Account.class);
         q.declareParameters("String instituteName");
-        q.setFilter("institute == instituteName" );
+        q.setFilter("institute == instituteName");
         
         @SuppressWarnings("unchecked")
         List<Account> accountsList = (List<Account>) q.execute(fromInstitute);

@@ -457,7 +457,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, Integer> entry : answerFrequency.entrySet() ) {
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
@@ -538,7 +538,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, Integer> entry : answerFrequency.entrySet() ) {
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
                       + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL;

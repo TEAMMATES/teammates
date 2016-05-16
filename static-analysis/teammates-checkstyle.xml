@@ -18,6 +18,9 @@
       <property name="tokens" value="CTOR_DEF,ENUM_CONSTANT_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
     </module>
     <module name="GenericWhitespace"/>
+    <module name="ParenPad">
+      <property name="tokens" value="QUESTION,ANNOTATION,ANNOTATION_FIELD_DEF,LITERAL_CATCH,CTOR_CALL,CTOR_DEF,LITERAL_DO,ENUM_CONSTANT_DEF,EXPR,LITERAL_FOR,LITERAL_IF,RESOURCE_SPECIFICATION,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_WHILE"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
 </module>
