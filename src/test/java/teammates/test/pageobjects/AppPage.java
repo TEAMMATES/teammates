@@ -1004,7 +1004,7 @@ public abstract class AppPage {
         client.close();
     }
     
-    public void verifyFieldValue (String fieldId, String expectedValue) {
+    public void verifyFieldValue(String fieldId, String expectedValue) {
         assertEquals(expectedValue,
                 browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
     }

@@ -249,8 +249,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
+        int oldNumberOfResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertNotSame(oldNumberOfResponsesForSession, 0);
         
         String oldTeam = student.team;
@@ -261,8 +261,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         student.section = newSection;
         
         
-        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
+        StudentEnrollDetails enrollDetails = 
+                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email, 
+                                         oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
         Gson gsonBuilder = Utils.getTeammatesGson();
@@ -278,8 +279,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        int numberOfNewResponses = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
+        int numberOfNewResponses = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);        
     }
 
