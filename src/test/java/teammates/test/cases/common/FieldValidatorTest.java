@@ -267,7 +267,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_PersonName() {
-        invalidityInfoFor_validName_shouldBeEmptyString();
+        invalidityInfoFor_validName_shouldReturnEmptyString();
         invalidityInfoFor_emptyName_shouldReturnErrorString();
     }
 
@@ -280,18 +280,18 @@ public class FieldValidatorTest extends BaseTestCase {
                      actual);
     }
 
-    private void invalidityInfoFor_validName_shouldBeEmptyString() {
+    private void invalidityInfoFor_validName_shouldReturnEmptyString() {
         String validPersonName = "Mr Valid Name";
         String actual = validator.getInvalidityInfoForPersonName(validPersonName);
         assertEquals("Valid person name should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfo_InstituteName() {
-        invalidityInfoFor_validInstituteName_shouldBeEmptyString();
+        invalidityInfoFor_validInstituteName_shouldReturnEmptyString();
         invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_validInstituteName_shouldBeEmptyString() {
+    private void invalidityInfoFor_validInstituteName_shouldReturnEmptyString() {
         String validInstituteName = "Institute of Valid Name";
         String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
         assertEquals("Valid institute name should return empty string", "", actual);
@@ -307,11 +307,11 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_Nationality() {
-        invalidityInfoFor_validNationality_shouldBeEmptyString();
+        invalidityInfoFor_validNationality_shouldReturnEmptyString();
         invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_validNationality_shouldBeEmptyString() {
+    private void invalidityInfoFor_validNationality_shouldReturnEmptyString() {
         String validNationality = "Martian";
         String actual = validator.getInvalidityInfoForNationality(validNationality);
         assertEquals("Valid nationality should return empty string", "", actual);
@@ -353,11 +353,11 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_FeedbackSessionName() {
-        invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString();
+        invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString();
         invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_validFeedbackSessionName_shouldBeEmptyString() {
+    private void invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString() {
         String validFeedbackSessionName = "Valid feedback session name";
         String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
         assertEquals("Valid feedback session name should return empty string", "", actual);
@@ -374,11 +374,11 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_Gender() {
-        invalidityInfoFor_validGender_shouldBeEmptyString();
+        invalidityInfoFor_validGender_shouldReturnEmptyString();
         invalidityInfoFor_invalidGender_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_validGender_shouldBeEmptyString() {
+    private void invalidityInfoFor_validGender_shouldReturnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
