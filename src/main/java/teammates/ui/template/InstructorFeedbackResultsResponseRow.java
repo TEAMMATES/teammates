@@ -12,14 +12,14 @@ public class InstructorFeedbackResultsResponseRow {
     private String giverDisplayableIdentifier;
     private String giverTeam;
     
-    private boolean isGiverProfilePictureAColumn = false;
+    private boolean isGiverProfilePictureAColumn;
     private String giverProfilePictureLink;
     
     private boolean isRecipientDisplayed = true;
     private String recipientDisplayableIdentifier;
     private String recipientTeam;
     
-    private boolean isRecipientProfilePictureAColumn = false;
+    private boolean isRecipientProfilePictureAColumn;
     private String recipientProfilePictureLink;
     
     private boolean isActionsDisplayed;

@@ -31,7 +31,7 @@ public class AccountsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
         
-    private static AccountsLogic instance = null;
+    private static AccountsLogic instance;
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
@@ -178,7 +178,7 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute );
+        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
         
         if (account == null) {
             createAccount(new AccountAttributes(googleId,
@@ -340,7 +340,7 @@ public class AccountsLogic {
                         "while removing instruction privileges from account :" + account.toString());
             }
         } else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         }
     }
 
@@ -357,7 +357,7 @@ public class AccountsLogic {
                         "while adding instruction privileges to account :" + account.toString());
             }
         } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         }
     }
 

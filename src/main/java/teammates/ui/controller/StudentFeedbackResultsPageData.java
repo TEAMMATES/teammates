@@ -21,7 +21,7 @@ import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageData extends PageData {
-    private FeedbackSessionResultsBundle bundle = null;
+    private FeedbackSessionResultsBundle bundle;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
     

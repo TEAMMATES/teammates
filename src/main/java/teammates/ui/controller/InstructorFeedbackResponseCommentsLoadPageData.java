@@ -22,8 +22,8 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
     private InstructorAttributes instructor;
-    private int numberOfPendingComments = 0;
-    private int feedbackSessionIndex = 0;
+    private int numberOfPendingComments;
+    private int feedbackSessionIndex;
     private Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> questionCommentsMap;
     
     public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, int feedbackSessionIndex,
@@ -103,7 +103,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
             boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
-            boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(                                        
+            boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
                     response.giverSection, response.recipientSection, response.feedbackSessionName,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             boolean allowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;

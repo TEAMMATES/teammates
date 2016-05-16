@@ -399,8 +399,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-        String html = "";
-        StringBuilder fragments = new StringBuilder();
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : msqChoices) {
@@ -457,6 +456,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
@@ -465,10 +465,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         }
         //Use same template as MCQ for now, until they need to be different.
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments.toString());
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
     }
     
 
@@ -480,9 +478,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.size() == 0) {
             return "";
         }
-        
-        StringBuilder csv = new StringBuilder(100);
-        StringBuilder fragments = new StringBuilder();
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
@@ -538,13 +534,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
                      .append(entry.getValue().toString()).append(',')
                      .append(df.format(100 * (double) entry.getValue() / numChoicesSelected)).append(Const.EOL);
         }
 
+        StringBuilder csv = new StringBuilder(100);
         csv.append("Choice, Response Count, Percentage").append(Const.EOL)
            .append(fragments).append(Const.EOL);
         

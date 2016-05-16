@@ -161,11 +161,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
-        String currentUserEmail = studentEmail;
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
         responses = getActualResponses(question, bundle);
@@ -188,13 +187,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-        
+
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
         if (currentUserTeamResults == null) {
             return "";
         }
 
-        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(currentUserEmail);
+        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
         int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
@@ -219,7 +218,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
@@ -311,7 +310,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         
         
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
@@ -859,7 +858,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
             return "color_neutral";
-        } else if ( points < Const.POINTS_EQUAL_SHARE) {
+        } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
         } else {

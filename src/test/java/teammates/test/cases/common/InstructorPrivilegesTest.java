@@ -41,7 +41,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         String invalidKey = "invalid key";
         assertEquals(null, courseLevelMap.get(invalidKey));
-        assertEquals(true, privileges.getSessionLevelPrivileges().isEmpty());
+        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
         
         // manager: only one false
         privileges.setDefaultPrivilegesForManager();

@@ -121,7 +121,7 @@ public class ImportData {
             if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
                 break;
         }
-        System.out.print(count + " entities of type " + type + " left " + map.size() + " \n" );
+        System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         
         String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
         

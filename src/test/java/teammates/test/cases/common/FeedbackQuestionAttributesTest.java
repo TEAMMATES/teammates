@@ -166,9 +166,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(question.showGiverNameTo.size(), 2);
         assertEquals(question.showRecipientNameTo.size(), 3);
         assertEquals(question.showResponsesTo.size(), 3);
-        assertTrue(!question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertTrue(!question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertTrue(!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
 
         ______TS("test students->team members including giver");
 
@@ -189,9 +189,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(question.showGiverNameTo.size(), 3);
         assertEquals(question.showRecipientNameTo.size(), 4);
         assertEquals(question.showResponsesTo.size(), 4);
-        assertTrue(!question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
-        assertTrue(!question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
-        assertTrue(!question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
         
         ______TS("test students->instructors");
 

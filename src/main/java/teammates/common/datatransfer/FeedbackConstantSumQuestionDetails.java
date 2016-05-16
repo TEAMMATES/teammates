@@ -424,7 +424,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet() ) {
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());

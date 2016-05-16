@@ -73,15 +73,6 @@ public class BaseUiTestCase extends BaseTestCase {
      */
     protected static <T extends AppPage> T loginAdminToPage(Browser browser, AppUrl url, Class<T> typeOfPage) {
         
-        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
-        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
-        
-        String instructorId = url.get(Const.ParamsNames.USER_ID);
-        
-        if (instructorId == null) { //admin using system as admin
-            instructorId = adminUsername;
-        }
-        
         if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
             try {
@@ -96,6 +87,15 @@ public class BaseUiTestCase extends BaseTestCase {
         logout(browser);
         browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
+        
+        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
+        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
+        
+        String instructorId = url.get(Const.ParamsNames.USER_ID);
+        
+        if (instructorId == null) { //admin using system as admin
+            instructorId = adminUsername;
+        }
         
         //login based on the login page type
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {

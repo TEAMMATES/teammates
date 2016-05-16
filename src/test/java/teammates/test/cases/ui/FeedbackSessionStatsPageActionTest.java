@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -69,7 +70,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
             exceptionMessage = e.getMessage();
         }
         
-        assertEquals(true, doesThrowUnauthorizedAccessException);
+        assertTrue(doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
         assertEquals("", r.getStatusMessage());
     }

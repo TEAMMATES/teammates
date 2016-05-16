@@ -51,7 +51,7 @@ public class ActivityLogEntry {
                         // or <studentemail>%<courseId>%<time> (for unregistered students) 
                         //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     
-    private boolean isFirstRow = false;
+    private boolean isFirstRow;
     
     @SuppressWarnings("unused")
     private String logInfoAsHtml;
@@ -587,7 +587,7 @@ public class ActivityLogEntry {
     
     
     public String getLogInfoForTableRowAsHtml() {
-        return "<tr" + (isFirstRow ? " id=\"first-row\"" : "" ) + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"

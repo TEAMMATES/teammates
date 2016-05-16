@@ -48,7 +48,7 @@ public class StudentsLogic {
     private static int SECTION_SIZE_LIMIT = 100;
     private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance = null;
+    private static StudentsLogic instance;
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();

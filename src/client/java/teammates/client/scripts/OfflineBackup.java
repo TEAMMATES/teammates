@@ -8,12 +8,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
@@ -39,7 +39,7 @@ import teammates.test.util.FileHelper;
 public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     protected String currentFileName = "";
-    protected boolean hasPreviousEntity = false;
+    protected boolean hasPreviousEntity;
     protected Set<String> accountsSaved = new HashSet<String>();
     
     public static void main(String[] args) throws IOException {
@@ -49,7 +49,7 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void doOperation() {
         Datastore.initialize();
-        Vector<String> logs = getModifiedLogs();
+        List<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
         backupFileDirectory = "BackupFiles/Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
@@ -59,8 +59,8 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities
      */
-    private Vector<String> getModifiedLogs() {
-        Vector<String> modifiedLogs = new Vector<String>();
+    private List<String> getModifiedLogs() {
+        List<String> modifiedLogs = new ArrayList<String>();
         TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
@@ -88,7 +88,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Look through the logs and extracts all recently modified courses. 
      */
-    private Set<String> extractModifiedCourseIds(Vector<String> modifiedLogs) {
+    private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
         
         //Extracts the course Ids to be backup from the logs
         Set<String> courses = new HashSet<String>();

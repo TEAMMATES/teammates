@@ -13,5 +13,5 @@ public class AdminEmailSentPageData extends AdminEmailPageData {
         this.state = AdminEmailPageState.SENT;
     }
     
-    public List<AdminEmailAttributes> adminSentEmailList = null;
+    public List<AdminEmailAttributes> adminSentEmailList;
 }

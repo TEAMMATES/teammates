@@ -61,11 +61,11 @@ public class StudentAttributes extends EntityAttributes {
     public String name;
     public String lastName;
     public String email;
-    public String course = null;
-    public String comments = null;
-    public String team = null;
-    public String section = null;
-    public String key = null;
+    public String course;
+    public String comments;
+    public String team;
+    public String section;
+    public String key;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     

@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -552,7 +553,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 3);
+        assertSame(actualSessions.size(), 3);
         
         // Course 2 only has an instructor session and a private session.
         // The private session is not viewable to students,
@@ -578,14 +579,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 6);
+        assertSame(actualSessions.size(), 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
         
         assertEquals(actualSessions.get(0).toString(),
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
-        assertTrue(actualSessions.size() == 1);
+        assertSame(actualSessions.size(), 1);
 
         
         ______TS("Private session viewing");
@@ -2165,7 +2166,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                               .append(String.valueOf(entry.getValue()[0]))
                               .append(',')
                               .append(String.valueOf(entry.getValue()[1]))
-                              .append( "}},");
+                              .append("}},");
         }
         String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {

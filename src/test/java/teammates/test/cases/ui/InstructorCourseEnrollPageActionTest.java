@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -43,7 +44,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -66,7 +67,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
         pageResult = getShowPageResult(enrollPageAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollPageData) pageResult.data;

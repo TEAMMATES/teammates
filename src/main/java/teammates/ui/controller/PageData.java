@@ -909,9 +909,9 @@ public class PageData {
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
-            return "" + (int) num;
+            return Integer.toString((int) num);
         } else {
-            return "" + num;
+            return Double.toString(num);
         }
     }
     

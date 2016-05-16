@@ -18,7 +18,7 @@ import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public static void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         printTestClassHeader();
     }
 
@@ -408,10 +408,10 @@ public class TeamEvalResultTest extends BaseTestCase {
     public void testIsSanitized() {
         
         
-        AssertJUnit.assertEquals(true, TeamEvalResult.isSanitized(new int[]{}));
-        AssertJUnit.assertEquals(true, TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
-        AssertJUnit.assertEquals(false, TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
-        AssertJUnit.assertEquals(false, TeamEvalResult.isSanitized(new int[]{NSB, 2, -1}));
+        AssertJUnit.assertTrue(TeamEvalResult.isSanitized(new int[]{}));
+        AssertJUnit.assertTrue(TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
+        AssertJUnit.assertFalse(TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
+        AssertJUnit.assertFalse(TeamEvalResult.isSanitized(new int[]{NSB, 2, -1}));
     }
     
     @Test
