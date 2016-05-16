@@ -151,7 +151,7 @@ public class StudentProfilePictureUploadAction extends Action {
     }
 
     private void deletePicture(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) {
+        if (blobKey.equals(new BlobKey(""))) {
             return;
         }
         try {
