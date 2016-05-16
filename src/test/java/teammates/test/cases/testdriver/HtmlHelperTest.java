@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;

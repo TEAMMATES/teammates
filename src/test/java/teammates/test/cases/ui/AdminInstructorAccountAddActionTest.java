@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.lang.reflect.Method;
 
 import org.testng.annotations.BeforeClass;

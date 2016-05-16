@@ -1,9 +1,5 @@
 package teammates.test.cases;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 

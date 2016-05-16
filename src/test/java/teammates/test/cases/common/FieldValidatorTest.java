@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
