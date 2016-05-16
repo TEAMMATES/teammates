@@ -39,15 +39,10 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
-
-        RedirectResult redirectResult = 
-                createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
         
-        // if error is not empty not tested as extractFeedbackQuestionData method above uses Assumptions to cover it
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;
-            return redirectResult;
         } 
         
         String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
@@ -55,7 +50,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         if (!err.isEmpty()) {
             statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
             isError = true;
-            return redirectResult;
         }
 
         try {
@@ -72,7 +66,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             statusToAdmin = e.getMessage();
             isError = true;
         }
-        return redirectResult;
+        return createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {

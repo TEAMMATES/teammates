@@ -602,7 +602,7 @@ public class FieldValidator {
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
             }
-            
+            return "";
         } 
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
             return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
