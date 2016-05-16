@@ -493,10 +493,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
           isDateValid = true;
         }
    
-       if (!isDateValid) {
-           System.out.print("Date is not valid. Please Re-enter date.\n\n");
-       } else {
+       if (isDateValid) {
            System.out.print("Date Entered is valid.\n\n");
+       } else {
+           System.out.print("Date is not valid. Please Re-enter date.\n\n");
        }
        
        return isDateValid;

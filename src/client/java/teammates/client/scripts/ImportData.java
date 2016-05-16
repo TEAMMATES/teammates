@@ -46,14 +46,18 @@ public class ImportData {
         do
         {
             long start = System.currentTimeMillis();
+            boolean hasAccounts = !data.accounts.isEmpty();
+            boolean hasInstructors = !data.instructors.isEmpty();
+            boolean hasCourses = !data.courses.isEmpty();
+            boolean hasStudents = !data.students.isEmpty();
             
-            if (!data.accounts.isEmpty()) {
+            if (hasAccounts) {
                 status = persist(data.accounts); // Accounts
-            } else if (!data.instructors.isEmpty()) {            //Instructors
+            } else if (hasInstructors) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()) {    //Courses
+            } else if (hasCourses) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()) {    //Students
+            } else if (hasStudents) {    //Students
                 status = persist(data.students);
             } else {    
                 // No more data, break the loop

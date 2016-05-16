@@ -40,12 +40,12 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         numberOfSanitizedEmail = 0;
         numberOfSanitizedGoogleId = 0;
         for (StudentAttributes student : allStudents) {
-            if (!isPreview) {
-                fixSanitizedDataForStudent(student);
-            } else {
+            if (isPreview) {
                 if (previewSanitizedDataForStudent(student)) {
                     numberOfAffectedStudents++;
                 }
+            } else {
+                fixSanitizedDataForStudent(student);
             }
         }
         if (isPreview) {
