@@ -35,8 +35,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <input id="btnAddCourse" type="submit" class="btn btn-primary"
-                        onclick="return verifyCourseData();" value="Add Course" tabindex="3">
+                    <input id="btnAddCourse" type="submit" class="btn btn-primary" value="Add Course" tabindex="3">
                 </div>
             </div>
         </form>
