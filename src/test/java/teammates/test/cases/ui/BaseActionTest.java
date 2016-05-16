@@ -12,7 +12,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -205,14 +204,14 @@ public class BaseActionTest extends BaseComponentTestCase {
         for (int i = 0; i < params.length; i += 2) {
             if (params[i] == key) {
                 if (i + 1 >= params.length) {
-                    Assumption.fail("Cannot find parameter to modify.");
+                    fail("Cannot find parameter to modify.");
                 } else {
                     params[i + 1] = value;
                     return;
                 }
             }
         }
-        Assumption.fail("Cannot find parameter to modify.");
+        fail("Cannot find parameter to modify.");
     }
     
     /**

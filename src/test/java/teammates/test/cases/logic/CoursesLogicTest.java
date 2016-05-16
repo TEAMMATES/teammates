@@ -19,7 +19,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -1150,26 +1149,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetCourseIdToSectionNamesMap() {
+    public void testGetCourseIdToSectionNamesMap() throws EntityDoesNotExistException {
         ______TS("typical case");
         
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
         courses.add(course);
-        try {
-            Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
-            
-            assertEquals(1, map.keySet().size());
-            assertTrue(map.containsKey("idOfTypicalCourse1"));
-            
-            assertEquals(2, map.get("idOfTypicalCourse1").size());
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-            Assumption.fail("course could not be found");
-        }
         
+        Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
+            
+        assertEquals(1, map.keySet().size());
+        assertTrue(map.containsKey("idOfTypicalCourse1"));
+            
+        assertEquals(2, map.get("idOfTypicalCourse1").size());
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
     public void testDeleteCourse() throws Exception {
