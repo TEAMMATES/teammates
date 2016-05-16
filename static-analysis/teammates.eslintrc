@@ -16,6 +16,7 @@
 
         "comma-dangle": [2, "never"],               // disallow trailing commas in object literals
         "no-empty": 2,                              // disallow empty statements
+        "no-empty-function": 2,                     // disallow empty functions
         "no-extra-boolean-cast": 2,                 // disallow double-negation boolean casts in a boolean context
         "no-extra-parens": 2,                       // disallow unnecessary parentheses
         "no-extra-semi": 2,                         // disallow unnecessary semicolons
@@ -58,9 +59,15 @@
         "no-lonely-if": 2,          // disallow if as the only statement in an else block
         "default-case": 2,          // require default case in switch statements
 
+        "block-scoped-var": 2,      // treat var statements as if they were block scoped
+        "dot-notation": 2,          // encourages use of dot notation whenever possible
         "eqeqeq": 2,                // require the use of === and !==
+        "guard-for-in": 2,          // make sure for-in loops have an if statement
         "no-case-declarations": 2,  // disallow lexical declarations in case clauses
         "no-empty-pattern": 2,      // disallow empty destructuring patterns
+        "no-eval": 2,               // disallow use of eval()
+        "no-extend-native": 2,      // disallow adding to native types
+        "no-implicit-coercion": 2,  // disallow shorthand type conversions
         "no-octal": 2,              // disallow use of octal literals
         "no-redeclare": 2,          // disallow declaring the same variable more then once
         "no-self-assign": 2,        // disallow assignments where both sides are exactly the same
@@ -112,6 +119,9 @@
         "comma-style": 2,                                                             // enforce one true comma style
         "curly": 2,                                                                   // specify curly brace conventions for all control statements
         "dot-location": [2, "property"],                                              // enforce consistent newlines before dots
+        "max-statements-per-line": 2,                                                 // enforce a maximum of one statement per line
+        "no-nested-ternary": 2,                                                       // disallow nested ternary expressions
+        "no-unneeded-ternary": [2, { "defaultAssignment": false }],                   // disallow ternary operators when simpler alternatives exist
         "operator-linebreak": [2, "before", { "overrides": { "=": "after" } }],       // enforce consistent linebreak style for operators
         "semi": 2,                                                                    // require use of semicolons instead of ASI
 
@@ -140,15 +150,8 @@
         // These rules are recommended by either Airbnb or Google
 
         // AIRBNB + GOOGLE
-        "block-scoped-var": 0,          // treat var statements as if they were block scoped
-        "dot-notation": 0,              // encourages use of dot notation whenever possible
-        "guard-for-in": 0,              // make sure for-in loops have an if statement
         "max-len": 0,                   // specify the maximum length of a line in your program (Airbnb: 100, Google: 80)
-        "no-eval": 0,                   // disallow use of eval()
-        "no-extend-native": 0,          // disallow adding to native types
         "no-loop-func": 0,              // disallow creation of functions within loops
-        "no-nested-ternary": 0,         // disallow nested ternary expressions
-        "no-unneeded-ternary": 0,       // disallow ternary operators when simpler alternatives exist
         "no-undef": 0,                  // disallow use of undeclared variables unless mentioned in a /*global */ block
         "no-use-before-define": 0,      // disallow use of variables before they are defined
         "radix": 0,                     // require use of the second argument for parseInt()
@@ -173,10 +176,8 @@
         "prefer-template": 0,
 
         // GOOGLE
-        "max-statements-per-line": 0,   // enforce a maximum number of statements allowed per line (Google: 1)
         "no-negated-condition": 0,      // disallow negated conditions
         "no-alert": 0,                  // disallow the use of alert, confirm, and prompt
-        "no-implicit-coercion": 0,      // disallow shorthand type conversions
         "require-jsdoc": 0,             // require JSDoc comments
         "valid-jsdoc": 0,               // Ensure JSDoc comments are valid
 
@@ -224,7 +225,6 @@
         "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program
         "no-caller": 0,             // disallow use of arguments.caller or arguments.callee
         "no-div-regex": 0,          // disallow division operators explicitly at beginning of regular expression
-        "no-empty-function": 0,     // disallow empty functions
         "no-extra-bind": 0,         // disallow unnecessary function binding
         "no-extra-label": 0,        // disallow unnecessary labels
         "no-floating-decimal": 0,   // disallow the use of leading or trailing decimal points in numeric literals

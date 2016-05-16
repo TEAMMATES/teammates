@@ -285,7 +285,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
  */
 function sortBase(x, y) {
     // Text sorting
-    return x < y ? -1 : x > y ? 1 : 0;
+    if (x < y) {
+        return -1;
+    }
+    return x > y ? 1 : 0;
 }
 
 /**
@@ -309,8 +312,10 @@ function sortNum(x, y) {
 function sortDate(x, y) {
     x = Date.parse(x);
     y = Date.parse(y);
-    var comparisonResult = x > y ? 1 : x < y ? -1 : 0;
-    return comparisonResult;
+    if (x > y) {
+        return 1;
+    }
+    return x < y ? -1 : 0;
 }
 
 /**
@@ -418,7 +423,7 @@ function getPointValue(s, ditchZero) {
         return 100; // Case E
     }
     
-    return 100 + eval(s); // Other typical cases
+    return 100 + parseInt(s); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -758,12 +763,14 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.
  */
+/* eslint-disable no-extend-native */
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     };
 }
+/* eslint-enable no-extend-native */
 
 /**
  * Checks if the input value is a blank string

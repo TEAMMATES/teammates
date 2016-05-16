@@ -93,7 +93,7 @@ function handleData(err, countryCoordinates, userData) {
             borderWidth: 0.7,
             // don't change color on mouse hover
             highlightFillColor: function(geo) {
-                return geo['fillColor'] || '#F5F5F5';
+                return geo.fillColor || '#F5F5F5';
             },
             dataUrl: '/js/lib/world.hires.topo.json',
             // only change border
@@ -146,9 +146,9 @@ function handleData(err, countryCoordinates, userData) {
 
             if (options.highlightOnHover) {
                 var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
-                for (var attr in previousAttributes) {
-                    $this.style(attr, previousAttributes[attr]);
-                }
+                $.each(previousAttributes, function(i, attr) {
+                    $this.style(i, attr);
+                });
             }
             d3.selectAll('.datamaps-hoverover').style('display', 'none');
         });

@@ -234,7 +234,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
         // New Instructor?
         // Custom role's privilege will be empty
         for (var j = 0; j < instructorPrivilegeValues.length; j++) {
-            $('#tunePermissionsDivForInstructor' + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked', false);
+            $('#tunePermissionsDivForInstructor' + instrNum + " input[name='" + instructorPrivilegeValues[j] + "']").prop('checked', false);
         }
     }
     showTunePermissionsDiv(instrNum);
