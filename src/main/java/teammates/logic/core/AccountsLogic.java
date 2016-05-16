@@ -402,7 +402,7 @@ public class AccountsLogic {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+    public void updateStudentProfilePicture(String googleId, String newPictureKey)
         throws EntityDoesNotExistException, BlobstoreFailureException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
         
