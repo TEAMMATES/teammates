@@ -16,7 +16,6 @@ public class AdminAccountDeleteAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
         
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String account = getRequestParamValue("account");
         
@@ -37,6 +36,7 @@ public class AdminAccountDeleteAction extends Action {
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
         } 
 
+        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
         if (courseId != null && studentId != null) {
             //remove student from course
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);

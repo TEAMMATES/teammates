@@ -516,7 +516,6 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
@@ -524,6 +523,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
@@ -551,7 +551,6 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
@@ -559,6 +558,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
@@ -583,7 +583,6 @@ public class FieldValidator {
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
@@ -591,6 +590,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
@@ -808,7 +808,6 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -816,6 +815,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
         } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > GOOGLE_ID_MAX_LENGTH) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } 
@@ -828,7 +828,6 @@ public class FieldValidator {
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -836,6 +835,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         }
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > COURSE_ID_MAX_LENGTH) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         }
@@ -848,7 +848,6 @@ public class FieldValidator {
     private String getValidityInfoForEmail(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -856,6 +855,7 @@ public class FieldValidator {
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
         } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > EMAIL_MAX_LENGTH) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         }

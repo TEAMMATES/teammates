@@ -22,9 +22,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
-
-        int queryRange = needAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -76,6 +73,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
+        int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
         
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !sortType.equals("question")) {
             // bundle for all questions and all sections  
@@ -85,7 +84,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            instructor.email,
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
-            data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
+            data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {

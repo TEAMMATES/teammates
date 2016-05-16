@@ -59,17 +59,12 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     @Override
     public boolean execute() {
         
-        Gson gsonParser = Utils.getTeammatesGson();
-        ArrayList<StudentEnrollDetails> enrollmentList = gsonParser
-                .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
-                .getType());
-        
         log.info("Adjusting submissions for feedback session :" + sessionName +
                  "in course : " + courseId);
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
-        StudentsLogic stLogic = StudentsLogic.inst();
+        
         String errorString = "Error encountered while adjusting feedback session responses " +
                 "of %s in course : %s : %s\n%s";
         
@@ -82,10 +77,13 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                                         FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
                                                                         feedbackSession.feedbackSessionName,
                                                                         feedbackSession.courseId);
-        
+        Gson gsonParser = Utils.getTeammatesGson();
+        ArrayList<StudentEnrollDetails> enrollmentList = gsonParser
+                                                            .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
+                                                            .getType());
         for (FeedbackResponseAttributes response : allResponses) {
             try {
-                stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
+                StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);
             } catch (Exception e) {
                 log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
                                                 ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));

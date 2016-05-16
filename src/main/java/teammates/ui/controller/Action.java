@@ -243,7 +243,6 @@ public abstract class Action {
         }
         
         account = loggedInUser;
-        boolean isUserLoggedIn = account.googleId != null;
         if (isPersistenceIssue() && isHomePage()) {
             // let the user go through as this is a persistence issue
         } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
@@ -260,6 +259,7 @@ public abstract class Action {
             throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
         } 
         
+        boolean isUserLoggedIn = account.googleId != null;
         if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
             String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
                                   .withParam(Const.ParamsNames.NEXT_URL, requestUrl)

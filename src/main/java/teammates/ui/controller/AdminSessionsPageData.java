@@ -103,14 +103,14 @@ public class AdminSessionsPageData extends PageData {
         List<InstructorAttributes> instructors = logic
                 .getInstructorsForEmail(email);
 
-        String link = "";
 
         if (instructors == null || instructors.isEmpty()) {
             return "";
         }
         
+        
         String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
-        link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         link = "href=\"" + link + "\"";
         return link;
