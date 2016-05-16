@@ -24,18 +24,18 @@ import teammates.logic.core.TeamEvalResult;
  * <br> * {@link List} of viewable responses as {@link FeedbackResponseAttributes} objects.
  */
 public class FeedbackSessionResultsBundle implements SessionResultsBundle {
-    public FeedbackSessionAttributes feedbackSession = null;
-    public List<FeedbackResponseAttributes> responses = null;
-    public Map<String, FeedbackQuestionAttributes> questions = null;
-    public Map<String, String> emailNameTable = null;
-    public Map<String, String> emailLastNameTable = null;
-    public Map<String, String> emailTeamNameTable = null;
-    public Map<String, Set<String>> rosterTeamNameMembersTable = null;
-    public Map<String, Set<String>> rosterSectionTeamNameTable = null;
-    public Map<String, boolean[]> visibilityTable = null;
-    public FeedbackSessionResponseStatus responseStatus = null;
-    public CourseRoster roster = null;
-    public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
+    public FeedbackSessionAttributes feedbackSession;
+    public List<FeedbackResponseAttributes> responses;
+    public Map<String, FeedbackQuestionAttributes> questions;
+    public Map<String, String> emailNameTable;
+    public Map<String, String> emailLastNameTable;
+    public Map<String, String> emailTeamNameTable;
+    public Map<String, Set<String>> rosterTeamNameMembersTable;
+    public Map<String, Set<String>> rosterSectionTeamNameTable;
+    public Map<String, boolean[]> visibilityTable;
+    public FeedbackSessionResponseStatus responseStatus;
+    public CourseRoster roster;
+    public Map<String, List<FeedbackResponseCommentAttributes>> responseComments;
     public boolean isComplete;
 
     protected static Logger log = Utils.getLogger();
@@ -44,7 +44,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Responses with identities of giver/recipients NOT hidden.
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
      */
-    public List<FeedbackResponseAttributes> actualResponses = null;
+    public List<FeedbackResponseAttributes> actualResponses;
 
     // For contribution questions.
     // Key is questionId, value is a map of student email to StudentResultSumary
@@ -63,7 +63,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * As sectionTeamNameTable is dependent on instructor privileges, 
      * it can only be used for instructor pages and not for student pages 
     */
-    public Map<String, Set<String>> sectionTeamNameTable = null;
+    public Map<String, Set<String>> sectionTeamNameTable;
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,

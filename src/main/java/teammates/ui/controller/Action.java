@@ -35,7 +35,7 @@ public abstract class Action {
     protected Logic logic;
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
-    public String regkey = null;
+    public String regkey;
     
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
@@ -44,7 +44,7 @@ public abstract class Action {
     public AccountAttributes account;
     
     /** This is the unregistered and not loggedin student's attributes. */
-    public StudentAttributes student = null;
+    public StudentAttributes student;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -61,7 +61,7 @@ public abstract class Action {
     /** Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s)
      **/
-    protected boolean isError = false;
+    protected boolean isError;
     
     /** Session that contains status message information */
     protected HttpSession session;
@@ -362,7 +362,7 @@ public abstract class Action {
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
             }
         }
-        response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
+        response.responseParams.put(Const.ParamsNames.ERROR, Boolean.toString(response.isError));
         
         // Pass status message using session to prevent XSS attack
         if (!response.getStatusMessage().isEmpty()) {

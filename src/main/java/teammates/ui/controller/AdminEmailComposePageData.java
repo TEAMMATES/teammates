@@ -13,11 +13,11 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
 
     public boolean isFileUploaded;
     public String fileSrcUrl;
-    public String ajaxStatus = null;
+    public String ajaxStatus;
     
-    public String groupReceiverListFileKey = null;
+    public String groupReceiverListFileKey;
     
-    public AdminEmailAttributes emailToEdit = null;
+    public AdminEmailAttributes emailToEdit;
     
     public AdminEmailAttributes getEmailToEdit() {
         return emailToEdit;

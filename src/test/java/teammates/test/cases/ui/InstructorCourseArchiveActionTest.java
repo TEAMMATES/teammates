@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -51,7 +52,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -71,7 +72,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -91,7 +92,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -111,7 +112,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -130,7 +131,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -150,7 +151,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), 
                      redirectResult.getStatusMessage());
         
@@ -176,7 +177,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
         
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseArchive|||instructorCourseArchive|||true|||"

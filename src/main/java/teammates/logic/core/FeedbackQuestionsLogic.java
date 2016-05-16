@@ -31,7 +31,7 @@ public class FeedbackQuestionsLogic {
     @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
 
-    private static FeedbackQuestionsLogic instance = null;
+    private static FeedbackQuestionsLogic instance;
     
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();

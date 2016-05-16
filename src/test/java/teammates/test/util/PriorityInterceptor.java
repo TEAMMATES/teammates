@@ -70,7 +70,6 @@ public class PriorityInterceptor implements IMethodInterceptor {
             }
             
             private int packagePriorityOffset(String packageName) {
-                int index = packageOrder.indexOf(packageName);
                 //Storage tests go first!
                 if (packageName.contains("storage")) {
                     return 1000000;
@@ -79,10 +78,15 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 if (packageName.contains("teammates.test.cases.ui")) {
                     return -1000000;
                 }
+
+
+                int index = packageOrder.indexOf(packageName);
+
                 if (index == -1) {
                     return 0;
+                } else {
+                    return -index;
                 } 
-                return -index;
             }
 
             public int compare(IMethodInstance m1, IMethodInstance m2) {

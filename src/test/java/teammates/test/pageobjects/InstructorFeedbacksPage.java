@@ -214,12 +214,12 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        String timeZoneString = "" + timeZone;
+        String timeZoneString = Double.toString(timeZone);
 
         double fractionalPart = timeZone % 1;
         
         if (fractionalPart == 0.0) {
-            timeZoneString = "" + (int) timeZone;
+            timeZoneString = Integer.toString((int) timeZone);
         }
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);

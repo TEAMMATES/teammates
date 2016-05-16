@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Text;
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes> {
 
-    private Long commentId = null;
+    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;

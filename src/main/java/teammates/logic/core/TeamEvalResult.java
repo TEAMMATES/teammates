@@ -37,7 +37,7 @@ public class TeamEvalResult {
     // List of student email's.
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
-    public List<String> studentEmails = null;
+    public List<String> studentEmails;
     
 
     public TeamEvalResult(int[][] submissionValues) {
@@ -230,7 +230,6 @@ public class TeamEvalResult {
     }
 
     public static double sum(double[] input) {
-        double sum = NA;
         if (input.length == 0) {
             return 0;
         }
@@ -238,6 +237,7 @@ public class TeamEvalResult {
         verify("Unsanitized value in " + Arrays.toString(input),
                 isSanitized(doubleToInt(input)));
 
+        double sum = NA;
         for (int i = 0; i < input.length; i++) {
 
             double value = input[i];
@@ -304,10 +304,12 @@ public class TeamEvalResult {
         return factor;
     }
 
+    // Suppress PMD.AvoidArrayLoops since the arrays are of different types
+    @SuppressWarnings("PMD.AvoidArrayLoops")
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];
+            converted[i] = input[i];  
         }
         return converted;
     }
@@ -408,7 +410,7 @@ public class TeamEvalResult {
      */
     public static String replaceMagicNumbers(String returnValue) {
         returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(NA + "", " NA");
+        returnValue = returnValue.replace(Integer.toString(NA), " NA");
         returnValue = returnValue.replace(NSB + ".0", "NSB");
         returnValue = returnValue.replace(NSU + ".0", "NSU");
         return returnValue;

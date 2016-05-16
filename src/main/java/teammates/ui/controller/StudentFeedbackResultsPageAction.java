@@ -34,8 +34,6 @@ public class StudentFeedbackResultsPageAction extends Action {
 
         data.student = getCurrentStudent(courseId);
         data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                                                                            data.getBundle().getQuestionResponseMapSortedByRecipient();
 
         if (data.getBundle() == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
@@ -58,6 +56,8 @@ public class StudentFeedbackResultsPageAction extends Action {
                         + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
         
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
+                                        data.getBundle().getQuestionResponseMapSortedByRecipient();
         data.init(questionsWithResponses);
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }

@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -99,7 +100,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
 
-        assertEquals(false, submitPage.getSubmitButton().isEnabled());
+        assertFalse(submitPage.getSubmitButton().isEnabled());
 
         ______TS("Closed session");
 
@@ -172,7 +173,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         // test if the button is disabled after the response has been submitted
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
-        assertEquals(false, submitPage.getSubmitButton().isEnabled());
+        assertFalse(submitPage.getSubmitButton().isEnabled());
 
         // test the response submitted during the grace period
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");

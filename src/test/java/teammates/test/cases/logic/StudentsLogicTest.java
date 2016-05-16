@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -117,7 +118,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
         
         assertEquals("Team 1.1</td></div>'\"", team.name);
-        assertTrue(team.students != null);
+        assertNotNull(team.students);
         assertEquals(4, team.students.size());
         
         ______TS("Typical case: get team of non-existing student");
@@ -745,7 +746,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("invalid course id");
         
-        String enrollLines = headerLine + EOL + "";
+        String enrollLines = headerLine + EOL;
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);
@@ -1233,8 +1234,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                             + Utils.getTeammatesGson().toJson(expectedStudent)
                             + "\n actual \n"
                             + Utils.getTeammatesGson().toJson(enrollmentResult);
-        assertEquals(errorMessage, true, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
-                                             && enrollmentResult.updateStatus == status);
+        assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
+                                 && enrollmentResult.updateStatus == status);
     }
 
 }

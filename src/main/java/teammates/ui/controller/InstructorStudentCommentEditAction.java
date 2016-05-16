@@ -82,7 +82,7 @@ public class InstructorStudentCommentEditAction extends Action {
     private void verifyAccessibleByInstructor(String courseId, String commentId) {
         // TODO: update this if Comment recipient is updated
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        CourseAttributes course = logic.getCourse(courseId);
+        
         CommentAttributes commentInDb = logic.getComment(Long.valueOf(commentId));
         
         if (commentInDb != null && instructor != null && commentInDb.giverEmail.equals(instructor.email)) {
@@ -92,6 +92,9 @@ public class InstructorStudentCommentEditAction extends Action {
         if (commentInDb == null) {
             Assumption.fail("Comment or instructor cannot be null for editing comment");
         }
+        
+        CourseAttributes course = logic.getCourse(courseId);
+        
         CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
         String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);

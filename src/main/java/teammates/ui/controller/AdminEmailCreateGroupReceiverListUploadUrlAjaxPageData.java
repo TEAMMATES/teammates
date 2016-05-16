@@ -11,6 +11,6 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData extends
     }
     
     public String nextUploadUrl;
-    public String ajaxStatus = null;
+    public String ajaxStatus;
 
 }

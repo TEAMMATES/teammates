@@ -44,10 +44,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
-        String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
-
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
         }
@@ -62,8 +58,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.setSessionResultsHtmlTableAsString("");
             data.setAjaxStatus("");
         }
-
+        
+        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
+        
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));
         }

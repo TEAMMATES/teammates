@@ -170,7 +170,7 @@ public class TimeHelper {
         int minutes = c.get(Calendar.MINUTE);
         hour = hour == 0 ? 24 : hour;
         hour = hour == 23 && minutes == 59 ? 24 : hour;
-        return hour + "";
+        return Integer.toString(hour);
     }
     
     /**
