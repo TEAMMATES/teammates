@@ -768,7 +768,7 @@ public class FieldValidator {
         String returnValue;
         returnValue = getValidityInfoForAllowedName(
                 FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
-        if (returnValue.equals("")) {
+        if (returnValue.isEmpty()) {
             returnValue = getValidityInfoForNonHtmlField(
                     FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
         }
