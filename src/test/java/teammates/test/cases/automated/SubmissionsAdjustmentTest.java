@@ -1,5 +1,6 @@
 package teammates.test.cases.automated;
 
+import static org.testng.AssertJUnit.assertNotSame;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -187,7 +188,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
-        assertTrue(student1responses.size() != 0);
+        assertNotSame(student1responses.size(), 0);
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
@@ -222,7 +223,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);
-            assertTrue(false);
+            signalFailureToDetectException("Expected EnrollException");
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
 
@@ -250,7 +251,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Verify pre-existing submissions and responses
         int oldNumberOfResponsesForSession = 
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        assertNotSame(oldNumberOfResponsesForSession, 0);
         
         String oldTeam = student.team;
         String oldSection = student.section;

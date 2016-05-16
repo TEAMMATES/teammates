@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
@@ -129,7 +130,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
                          + "However, you do not have access to view this student's profile<br />"
                          + "No records were found for this student",

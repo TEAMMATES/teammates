@@ -48,7 +48,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?" + "error=false&user=instructorWithoutCourses",
                                          r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
         
         InstructorHomePageData data = (InstructorHomePageData) r.data;
@@ -85,7 +85,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                       r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;
@@ -120,7 +120,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;
@@ -162,7 +162,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;

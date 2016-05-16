@@ -82,25 +82,25 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html");
         
         ______TS("page load: Manager privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.manager").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditManager.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditManager.html");
         
         ______TS("page load: Observer privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.observer").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditObserver.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditObserver.html");
         
         ______TS("page load: Tutor privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.tutor").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTutor.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTutor.html");
         
         ______TS("go back to co-owner privileges");
         
@@ -110,17 +110,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     private void testEditInstructorLink() {
         ______TS("edit instructor link");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        assertTrue(courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
         ______TS("add new instructor link");
-        assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
+        assertTrue(courseEditPage.clickShowNewInstructorFormButton());
         
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Manager"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Observer"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Manager"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Observer"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
     }
 
     private void testInputValidation() {
@@ -313,12 +313,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 3);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
