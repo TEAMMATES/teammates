@@ -37,7 +37,7 @@ public class InstructorsLogic {
     
     private static Logger log = Utils.getLogger();
     
-    private static InstructorsLogic instance = null;
+    private static InstructorsLogic instance;
     
     public static InstructorsLogic inst() {
         if (instance == null) {

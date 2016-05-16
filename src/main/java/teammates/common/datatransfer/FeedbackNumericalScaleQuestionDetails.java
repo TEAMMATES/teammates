@@ -165,8 +165,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
     private String getInstructorQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, 
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        String html = "";
-        
         Map<String, Double> min = new HashMap<String, Double>();
         Map<String, Double> max = new HashMap<String, Double>();
         Map<String, Double> average = new HashMap<String, Double>();
@@ -185,16 +183,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
         
-        String statsTitle = "Response Summary";
-        
         String fragmentTemplateToUse = showAvgExcludingSelf 
                                      ? FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE 
                                      : FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
-        
-        String templateToUse = showAvgExcludingSelf 
-                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
-                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
@@ -229,11 +220,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
         
-        html = FeedbackQuestionFormTemplates.populateTemplate(
-                templateToUse,
-                "${summaryTitle}", statsTitle,
-                "${statsFragments}", fragmentHtml.toString());
-        
+        String statsTitle = "Response Summary";
+        String templateToUse = showAvgExcludingSelf 
+                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
+                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                        templateToUse,
+                        "${summaryTitle}", statsTitle,
+                        "${statsFragments}", fragmentHtml.toString());
+            
         return html;
     }
 
@@ -241,7 +236,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        String html = "";
        
         Map<String, Double> min = new HashMap<String, Double>();
         Map<String, Double> max = new HashMap<String, Double>();
@@ -261,12 +255,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         String fragmentTemplateToUse = showAvgExcludingSelf 
-                                     ? FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE
-                                     : FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
-        String templateToUse = showAvgExcludingSelf 
-                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
-                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-  
+                                     ? FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE 
+                                     : FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;  
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
@@ -367,8 +357,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam, 
                                           hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
-        
-        html = FeedbackQuestionFormTemplates.populateTemplate(
+        String templateToUse = showAvgExcludingSelf 
+                             ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
+                             : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
                         "${statsFragments}", fragmentHtml.toString());

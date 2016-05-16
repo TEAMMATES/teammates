@@ -27,7 +27,7 @@ public class InstructorCommentsPageData extends PageData {
     private String courseName;
     private CoursePagination coursePagination;
     private List<FeedbackSessionAttributes> feedbackSessions;
-    private int numberOfPendingComments = 0;
+    private int numberOfPendingComments;
     
     private List<CommentsForStudentsTable> commentsForStudentsTables;
     

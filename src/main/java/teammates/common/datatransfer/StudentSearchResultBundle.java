@@ -19,8 +19,8 @@ public class StudentSearchResultBundle extends SearchResultBundle {
 
     public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
     public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<String, InstructorAttributes>();
-    public Cursor cursor = null;
-    private int numberOfResults = 0;
+    public Cursor cursor;
+    private int numberOfResults;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     
     /**

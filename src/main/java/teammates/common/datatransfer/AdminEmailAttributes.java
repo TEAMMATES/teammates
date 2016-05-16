@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailAttributes extends EntityAttributes {
     
-    public String emailId = null;
+    public String emailId;
     public List<String> addressReceiver;
     public List<String> groupReceiver;
     public String subject;

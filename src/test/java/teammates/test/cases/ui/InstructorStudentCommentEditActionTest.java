@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.Iterator;
@@ -102,7 +103,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         String expectedLogMessage = 
@@ -146,7 +147,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "courseid=idOfTypicalCourse1&"                
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -191,7 +192,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -237,7 +238,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -282,7 +283,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -329,7 +330,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -376,7 +377,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -423,7 +424,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -455,7 +456,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment deleted", r.getStatusMessage());
         
         ______TS("Edit comment visibility successful show all comment details to recipient's team");
@@ -491,7 +492,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 
         expectedLogMessage = 

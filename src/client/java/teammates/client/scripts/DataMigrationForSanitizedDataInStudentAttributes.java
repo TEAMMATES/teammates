@@ -20,8 +20,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private final boolean isPreview = true;
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private int numberOfSanitizedEmail = 0;
-    private int numberOfSanitizedGoogleId = 0;
+    private int numberOfSanitizedEmail;
+    private int numberOfSanitizedGoogleId;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();

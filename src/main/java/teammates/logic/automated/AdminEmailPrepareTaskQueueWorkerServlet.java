@@ -41,15 +41,15 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     final int MAX_READING_LENGTH = 900000; 
     
     
-    private String adminEmailTaskQueueMode = null;
+    private String adminEmailTaskQueueMode;
     
     //param needed for sending small number of emails
-    private String addressReceiverListString = null;
+    private String addressReceiverListString;
     
     //params needed to move heavy jobs into a queue task
-    private String groupReceiverListFileKey = null;
-    private int groupReceiverListFileSize = 0;
-    private String emailId = null;
+    private String groupReceiverListFileKey;
+    private int groupReceiverListFileSize;
+    private String emailId;
     
 
     @Override
@@ -218,8 +218,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, "" + indexOfEmailList);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "" + indexOfEmail);
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(indexOfEmailList));
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(indexOfEmail));
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,

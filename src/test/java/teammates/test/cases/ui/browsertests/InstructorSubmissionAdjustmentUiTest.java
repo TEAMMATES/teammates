@@ -1,7 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertNotSame;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         //Verify pre-existing submissions and responses
         int oldNumberOfResponsesForSession = 
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        assertNotSame(oldNumberOfResponsesForSession, 0);
         
         String newTeam = "Team 1.2";
         student.team = newTeam;

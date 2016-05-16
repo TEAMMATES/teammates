@@ -85,6 +85,7 @@
         ////////// Whitespace Styles //////////
 
         "array-bracket-spacing": 2,                         // disallow space inside array brackets
+        "block-spacing": 2,                                 // enforce consistent spacing inside single-line blocks
         "comma-spacing": 2,                                 // disallow space before comma, require space after comma
         "computed-property-spacing": 2,                     // disallow space inside property brackets
         "key-spacing": 2,                                   // disallow space before colon, require space after colon in object literal properties
@@ -105,6 +106,15 @@
         "no-multi-spaces": 2,                                           // disallow use of multiple spaces
         "no-trailing-spaces": ["error", { "skipBlankLines": true}],     // disallow trailing whitespace at the end of lines
         "spaced-comment": ["error", "always"],                          // require a space immediately following the // in a line comment
+
+
+        ////////// Stylistic Issues //////////
+
+        "brace-style": 2,                                                                   // enforce one true brace style
+        "comma-style": 2,                                                                   // enforce one true comma style
+        "curly": 2,                                                                         // specify curly brace conventions for all control statements
+        "dot-location": ["error", "property"],                                              // enforce consistent newlines before dots
+        "operator-linebreak": ["error", "before", { "overrides": { "=": "after" } }],       // enforce consistent linebreak style for operators
 
 
         ////////// Naming Conventions //////////
@@ -137,9 +147,6 @@
 
         ////////// Stylistic Issues //////////
 
-        "block-spacing": 0,             // enforce consistent spacing inside single-line blocks
-        "brace-style": 0,               // enforce one true brace style
-        "comma-style": 0,               // enforce one true comma style
         "consistent-this": 0,           // enforces consistent naming when capturing the current execution context
         "func-names": 0,                // enforce named function expressions
         "func-style": 0,                // enforces use of function declarations or expressions
@@ -170,7 +177,6 @@
         "no-unneeded-ternary": 0,       // disallow ternary operators when simpler alternatives exist
         "one-var-declaration-per-line": 0, // require or disallow newlines around var declarations
         "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely
-        "operator-linebreak": 0,        // enforce consistent linebreak style for operators
         "padded-blocks": 0,             // enforce padding within blocks
         "quote-props": 0,               // require quotes around object literal property names
         "quotes": 0,                    // specify whether double or single quotes should be used
@@ -186,8 +192,6 @@
         "block-scoped-var": 0,      // treat var statements as if they were block scoped
         "complexity": 0,            // specify the maximum cyclomatic complexity allowed in a program
         "consistent-return": 0,     // require return statements to either always or never specify values
-        "curly": 0,                 // specify curly brace conventions for all control statements
-        "dot-location": 0,          // enforce consistent newlines before and after dots
         "dot-notation": 0,          // encourages use of dot notation whenever possible
         "guard-for-in": 0,          // make sure for-in loops have an if statement
         "no-alert": 0,              // disallow the use of alert, confirm, and prompt

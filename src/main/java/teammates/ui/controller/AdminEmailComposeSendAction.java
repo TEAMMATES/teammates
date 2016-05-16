@@ -36,15 +36,15 @@ public class AdminEmailComposeSendAction extends Action {
     
     private final int MAX_READING_LENGTH = 900000; 
     
-    private boolean addressModeOn = false;
-    private boolean groupModeOn = false;
+    private boolean addressModeOn;
+    private boolean groupModeOn;
     
     //params needed to move heavy jobs into a address mode task
-    private String addressReceiverListString = null;
+    private String addressReceiverListString;
     
     //params needed to move heavy jobs into a group mode task
-    private String groupReceiverListFileKey = null;
-    private String emailId = null;
+    private String groupReceiverListFileKey;
+    private String emailId;
     
     @Override
     protected ActionResult execute() {

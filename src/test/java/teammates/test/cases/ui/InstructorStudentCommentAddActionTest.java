@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -140,7 +141,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         String expectedLogMessage = 
@@ -173,7 +174,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "courseid=idOfTypicalCourse1&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -207,7 +208,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -240,7 +241,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -273,7 +274,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -306,7 +307,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -339,7 +340,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -371,7 +372,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -405,7 +406,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 
@@ -439,7 +440,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
         expectedLogMessage = 

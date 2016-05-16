@@ -354,8 +354,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         questionToUpdate.questionMetaData = new Text("new question text 3");
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
         
-        assertTrue(frLogic.getFeedbackResponsesForQuestion(
-                        questionToUpdate.getId()).isEmpty() == false);
+        assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());

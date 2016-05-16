@@ -127,7 +127,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-        assertEquals(true, retrievedStudent.isEnrollInfoSameAs(s));
+        assertTrue(retrievedStudent.isEnrollInfoSameAs(s));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
@@ -180,15 +180,15 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
         
         s2 = createNewStudent("one.new@gmail.com");
-        assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
         
         s2.googleId = null;
         studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section, s2.email, s2.googleId, s2.comments);
-        assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
         
         assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
-        assertEquals(true, studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
-        assertEquals(true, studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
+        assertTrue(studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
+        assertTrue(studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
         assertEquals(2 + currentNumberOfStudent, studentsDb.getAllStudents().size()); 
         
         
