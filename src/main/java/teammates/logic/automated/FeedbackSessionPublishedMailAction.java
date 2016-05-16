@@ -84,4 +84,8 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION;
         actionDescription = "send published alert";
     }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+    }
 }

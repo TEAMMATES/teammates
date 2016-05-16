@@ -84,4 +84,8 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION;
         actionDescription = "send opening reminders";
     }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+    }
 }

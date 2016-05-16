@@ -79,8 +79,8 @@
    <rule ref="rulesets/java/design.xml/CompareObjectsWithEquals"/>
    <!--<rule ref="rulesets/java/design.xml/ConfusingTernary"/>-->
    <!--<rule ref="rulesets/java/design.xml/ConstructorCallsOverridableMethod"/>-->
-   <!--<rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>-->
-   <!--<rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>-->
+   <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
+   <rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>
    <!--<rule ref="rulesets/java/design.xml/EqualsNull"/>-->
    <!--<rule ref="rulesets/java/design.xml/FieldDeclarationsShouldBeAtStartOfClass"/>-->
    <!--<rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>-->
