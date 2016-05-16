@@ -279,8 +279,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         idList.add("idOfHelperOfCourse1");
         idList.add(null);
         for (InstructorAttributes instructor : retrieved) {
-            if (idList.contains(instructor.googleId)) {
-            } else {
+            if (!idList.contains(instructor.googleId)) {
                 fail();
             }
         }

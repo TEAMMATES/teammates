@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -159,7 +158,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        Assert.assertTrue(sessions.size() == 6);
+        assertEquals(6, sessions.size());
         
         ______TS("null params");
         

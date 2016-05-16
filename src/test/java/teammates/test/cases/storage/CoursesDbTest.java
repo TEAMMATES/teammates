@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -101,7 +100,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         try {
             coursesDb.getCourse(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }

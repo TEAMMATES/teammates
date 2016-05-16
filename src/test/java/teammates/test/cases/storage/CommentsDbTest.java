@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -489,7 +488,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
             throws EntityAlreadyExistsException {
         try {
             commentsDb.createEntity(comment);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     expectedMessage,

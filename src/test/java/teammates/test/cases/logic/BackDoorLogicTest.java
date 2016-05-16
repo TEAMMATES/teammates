@@ -2,7 +2,6 @@ package teammates.test.cases.logic;
 
 import java.util.HashMap;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -53,7 +52,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         DataBundle nullDataBundle = null;
         try {
             logic.persistDataBundle(nullDataBundle);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
         }
@@ -65,7 +64,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         dataBundle.courses.put("invalid", invalidCourse);
         try {
             logic.persistDataBundle(dataBundle);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertTrue(e.getMessage().equals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                                            "invalid id",
