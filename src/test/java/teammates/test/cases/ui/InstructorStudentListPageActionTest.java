@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -46,7 +47,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=" + instructorId,
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
@@ -68,7 +69,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=instructorWithoutCourses",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;
@@ -91,7 +92,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;
@@ -117,7 +118,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;

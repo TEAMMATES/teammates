@@ -133,7 +133,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
         
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
-        assertEquals(true, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(NUM_RECIPIENT_OPTIONS, feedbackPath.getRecipientParticipantOptions().size());
         assertEquals(NUM_GIVER_OPTIONS, feedbackPath.getGiverParticipantOptions().size());

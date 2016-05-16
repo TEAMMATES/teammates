@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -59,7 +60,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                     Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                     redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
         
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
@@ -99,7 +100,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
-        assertEquals(true, redirectResult.isError);
+        assertTrue(redirectResult.isError);
         String expectedErrorMessage = new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail);
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
@@ -131,7 +132,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
         
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);

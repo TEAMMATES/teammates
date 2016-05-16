@@ -595,11 +595,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
         
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
-        assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
         feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackPublishSuccessful.html");
         
         
@@ -633,11 +633,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
         
         feedbackPage.clickAndCancel(feedbackPage.getUnpublishLink(courseId, sessionName));
-        assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
         feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackUnpublishSuccessful.html");
         
         

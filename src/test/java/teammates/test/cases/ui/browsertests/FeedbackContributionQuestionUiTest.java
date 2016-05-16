@@ -105,7 +105,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         //Check invalid feedback paths are disabled.
         //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF

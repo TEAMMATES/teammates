@@ -1,6 +1,7 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,8 +121,8 @@ public class GaeSimulation {
     public void loginAsInstructor(String userId) {
         loginUser(userId);
         Logic logic = new Logic();
-        assertEquals(true, logic.getCurrentUser().isInstructor);
-        assertEquals(false, logic.getCurrentUser().isAdmin);
+        assertTrue(logic.getCurrentUser().isInstructor);
+        assertFalse(logic.getCurrentUser().isAdmin);
     }
 
     /**Logs in the user to the GAE simulation environment as a student 
@@ -130,9 +131,9 @@ public class GaeSimulation {
     public void loginAsStudent(String userId) {
         loginUser(userId);
         Logic logic = new Logic();
-        assertEquals(true, logic.getCurrentUser().isStudent);
-        assertEquals(false, logic.getCurrentUser().isInstructor);
-        assertEquals(false, logic.getCurrentUser().isAdmin);
+        assertTrue(logic.getCurrentUser().isStudent);
+        assertFalse(logic.getCurrentUser().isInstructor);
+        assertFalse(logic.getCurrentUser().isAdmin);
     }
     
     /** 
