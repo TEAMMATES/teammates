@@ -77,7 +77,7 @@
    <!--<rule ref="rulesets/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal"/>-->
    <!--<rule ref="rulesets/java/design.xml/CloseResource"/>-->
    <!--<rule ref="rulesets/java/design.xml/CompareObjectsWithEquals"/>-->
-   <!--<rule ref="rulesets/java/design.xml/ConfusingTernary"/>-->
+   <rule ref="rulesets/java/design.xml/ConfusingTernary"/>
    <!--<rule ref="rulesets/java/design.xml/ConstructorCallsOverridableMethod"/>-->
    <!--<rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>-->
    <!--<rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>-->
