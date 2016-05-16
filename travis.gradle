@@ -191,7 +191,7 @@ def afterTestClosure = { descriptor, result ->
 task eslint(type: Exec) {
     def command = ["eslint"]
     def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
-    def configFile = ["-c", "static-analysis/teammates.eslintrc"]
+    def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
     commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile
 }
 
