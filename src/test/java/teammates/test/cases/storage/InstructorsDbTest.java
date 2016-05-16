@@ -280,7 +280,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         idList.add(null);
         for (InstructorAttributes instructor : retrieved) {
             if (!idList.contains(instructor.googleId)) {
-                fail();
+                fail("");
             }
         }
         
