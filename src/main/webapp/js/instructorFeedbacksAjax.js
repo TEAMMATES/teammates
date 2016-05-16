@@ -23,7 +23,7 @@ var ajaxRequest = function(e) {
             var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
             
-            if (oldStatus !== null && oldStatus !== undefined && oldStatus !== "") {
+            if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
                 appendStatusMessage(oldStatus);
             }
         },
@@ -44,6 +44,6 @@ var ajaxRequest = function(e) {
 };
 
 $(document).ready(function() {
-    oldStatus = $(".statusMessage").clone();
+    oldStatus = $('.statusMessage').clone();
     $('#ajaxForSessions').submit(ajaxRequest);
 });
