@@ -97,7 +97,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         List<Student> studentList = new ArrayList<Student>();
         System.out.println("Number of courses in last year : " + courseList.size());
         for (CourseAttributes course : courseList) {
-            System.out.println("Getting students of " + course.getId() + " and adding to current total of " + studentList.size());
+            System.out.println("Getting students of " + course.getId()
+                               + " and adding to current total of " + studentList.size());
             studentList.addAll(studentsDb.getStudentEntitiesForCourse(course.getId()));
         }
         return studentList;

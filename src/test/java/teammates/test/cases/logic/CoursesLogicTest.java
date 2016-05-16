@@ -190,7 +190,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
-        CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33", "sample course with additional -demo");
+        CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33",
+                                                              "sample course with additional -demo");
         assertEquals(true, coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
          ______TS("Null parameter");
@@ -1052,7 +1053,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt");
+        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(),
+                                                          "Instructor for tccai", "ins.for.iccai@gmail.tmt");
         
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
@@ -1101,11 +1103,13 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("fails: error during instructor creation due to duplicate instructor");
         
-        CourseAttributes courseWithDuplicateInstructor = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
+        CourseAttributes courseWithDuplicateInstructor = new CourseAttributes("fresh-course-tccai",
+                                                                              "Fresh course for tccai");
         instructorsDb.createEntity(i); //create a duplicate instructor
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
@@ -1117,7 +1121,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         i.email = "ins.for.iccai.gmail.tmt";
 
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
@@ -1139,7 +1144,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Null parameter");
     
         try {
-            coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName());
+            coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

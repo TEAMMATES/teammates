@@ -83,14 +83,17 @@ public class InstructorCoursesPageData extends PageData {
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
-            ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs", "t_course_unarchive" + idx,
-                                                       getInstructorCourseArchiveLink(course.getId(), false, false), "", "", false);
+            String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
+            ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
+                                                       "t_course_unarchive" + idx, unarchiveLink, "", "", false);
             
+            String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", "t_course_delete" + idx,
-                                                   getInstructorCourseDeleteLink(course.getId(), false), Const.Tooltips.COURSE_DELETE,
+                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
                                                    "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
-                                                   !instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                                                   !hasDeletePermission);
             
             actionsParam.add(unarchivedButton);
             actionsParam.add(deleteButton);
@@ -114,11 +117,11 @@ public class InstructorCoursesPageData extends PageData {
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
+            Boolean hasModifyPermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
                                                    getInstructorCourseEnrollLink(course.getId()),
-                                                   Const.Tooltips.COURSE_ENROLL, "", 
-                                                   !instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                                                   Const.Tooltips.COURSE_ENROLL, "", !hasModifyPermission);
             
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
                                                  getInstructorCourseDetailsLink(course.getId()), 
@@ -132,11 +135,13 @@ public class InstructorCoursesPageData extends PageData {
                                                     getInstructorCourseArchiveLink(course.getId(), true, false),
                                                     Const.Tooltips.COURSE_ARCHIVE, "", false);
             
+            String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
-                                                   getInstructorCourseDeleteLink(course.getId(), false),
-                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
-                                                   !(instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)));
+                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
+                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+                                                   !hasDeletePermission);
             
             actionsParam.add(enrollButton);
             actionsParam.add(viewButton);

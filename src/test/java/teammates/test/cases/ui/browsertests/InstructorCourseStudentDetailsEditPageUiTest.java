@@ -120,7 +120,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data
-        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(), "CCSDEditUiT.jose.tmms@gmail.tmt");
+        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                                                              "CCSDEditUiT.jose.tmms@gmail.tmt");
         assertEquals("José Gómez</option></td></div>'\"", student.name);
         assertEquals("Team 1</td></div>'\"", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);

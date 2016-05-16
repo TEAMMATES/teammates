@@ -1091,19 +1091,22 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         String nonExistStudentEmail = "nonExist@google.tmt";
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail, student2InCourse1.email));
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail,
+                                                       student2InCourse1.email));
         
         
         ______TS("students of different teams");
         
         StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email, student5InCourse1.email));
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+                                                       student5InCourse1.email));
         
         
         ______TS("students of different teams");     
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email, student1InCourse1.email));
+        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+                                                      student1InCourse1.email));
         
     }
 

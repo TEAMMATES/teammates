@@ -413,7 +413,9 @@ public class Emails {
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: " + c.getId() + ".<p/><br/>");
+        emailBody = emailBody.replace("${instructorFragment}",
+                                      "The email below has been sent to students of course: " + c.getId()
+                                      + ".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
