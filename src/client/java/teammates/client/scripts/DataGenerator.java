@@ -188,7 +188,7 @@ public class DataGenerator {
     /**
      * @return json string presenting the databundle 
      */
-    public static String output () {
+    public static String output() {
         System.out.println("Start writing to file !");
         StringBuilder output = new StringBuilder(100);
         output.append("{\n")
@@ -284,7 +284,7 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a instructor entity
      */
-    public static String instructor (String objName, String googleId, String courseId, String name, String email) {
+    public static String instructor(String objName, String googleId, String courseId, String name, String email) {
         return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\"" 
                + courseId + "\",\"name\":\"" + name + "\",\"email\":\"" + email + "\"}";
     }
@@ -292,14 +292,14 @@ public class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course (String objName, String id, String name) {
+    public static String course(String objName, String id, String name) {
         return "\"" + objName + "\":{\"id\":\"" + id + "\",\"name\":\"" + name + "\"}";
     }
     
     /**
      * @return Json string presentation for a student entity
      */
-    public static String student (String objName, String email, String name, 
+    public static String student(String objName, String email, String name, 
                                   String team, String id, String comments, String course, String profile) {
         return "\"" + objName + "\":{"
                + "\"email\":\"" + email + "\","

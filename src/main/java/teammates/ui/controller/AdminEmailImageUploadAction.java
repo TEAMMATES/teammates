@@ -74,7 +74,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateImage (BlobInfo image) {
+    private BlobInfo validateImage(BlobInfo image) {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deleteImage(image.getBlobKey());
             isError = true;
