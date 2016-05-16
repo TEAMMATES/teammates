@@ -20,7 +20,7 @@ import teammates.storage.api.AdminEmailsDb;
  */
 
 public class AdminEmailsLogic {
-    private static AdminEmailsLogic instance = null;
+    private static AdminEmailsLogic instance;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     
     @SuppressWarnings("unused")

@@ -31,7 +31,7 @@ public class AccountsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
         
-    private static AccountsLogic instance = null;
+    private static AccountsLogic instance;
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
@@ -402,7 +402,7 @@ public class AccountsLogic {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+    public void updateStudentProfilePicture(String googleId, String newPictureKey)
         throws EntityDoesNotExistException, BlobstoreFailureException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
         

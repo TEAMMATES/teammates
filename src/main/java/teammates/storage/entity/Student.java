@@ -36,11 +36,11 @@ public class Student implements StoreCallback {
      * preserve the lastUpdate time stamp.
      **/
     @NotPersistent
-    public boolean keepUpdateTimestamp = false;
+    public boolean keepUpdateTimestamp;
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long registrationKey = null;
+    private transient Long registrationKey;
 
     /**
      * The student's Google ID. Used as the foreign key for the Account object.
@@ -48,7 +48,7 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
-    private String ID = null;
+    private String ID;
 
     /**
      * The email used to contact the student regarding this course.
@@ -68,24 +68,24 @@ public class Student implements StoreCallback {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("name")
-    private String name = null;
+    private String name;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("lastName")
-    private String lastName = null;
+    private String lastName;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private String comments = null;
+    private String comments;
 
     @Persistent
     @SerializedName("teamname")
-    private String teamName = null;
+    private String teamName;
 
     @Persistent
     @SerializedName("sectionname")
-    private String sectionName = null;
+    private String sectionName;
 
     /**
      * 

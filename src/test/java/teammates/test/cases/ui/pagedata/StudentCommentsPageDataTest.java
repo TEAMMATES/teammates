@@ -105,7 +105,8 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<Comment> commentRows = new ArrayList<Comment>();
         String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
         for (CommentAttributes comment : comments) {
-            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(), studentEmail, roster);
+            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(),
+                                                             studentEmail, roster);
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             commentRows.add(new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }

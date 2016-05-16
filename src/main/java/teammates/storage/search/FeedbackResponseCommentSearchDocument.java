@@ -176,11 +176,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER).setText(
-                    Boolean.valueOf(isVisibleToGiver).toString()))
+                    Boolean.toString(isVisibleToGiver)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
-                    Boolean.valueOf(isVisibleToReceiver).toString()))
+                    Boolean.toString(isVisibleToReceiver)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.valueOf(isVisibleToInstructor).toString()))
+                    Boolean.toString(isVisibleToInstructor)))
             //searchableText and createdDate are used to match the query string
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))

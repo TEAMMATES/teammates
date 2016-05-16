@@ -22,7 +22,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     
     static final int MAX_READING_LENGTH = 900000; 
     
-    AdminEmailComposePageData data = null;
+    AdminEmailComposePageData data;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -197,7 +197,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateGroupReceiverListFile (BlobInfo groupReceiverListFile) {
+    private BlobInfo validateGroupReceiverListFile(BlobInfo groupReceiverListFile) {
         
         if (!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());

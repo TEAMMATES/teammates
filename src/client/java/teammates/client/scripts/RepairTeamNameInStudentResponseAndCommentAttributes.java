@@ -80,11 +80,11 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                                    + " comment(s) with extra spaces in recipient!");
                              
             } else {
-                System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
+                System.out.println(numberOfStudentsWithExtraSpacesInTeamName 
                                    + "/" + totalNumberOfStudents + " student(s) have been fixed!");
-                System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                System.out.println(numberOfReponsesWithExtraSpacesInRecipient 
                                    + " response(s) have been fixed!");
-                System.out.println("" + numberOfCommentsWithExtraSpacesInRecipient 
+                System.out.println(numberOfCommentsWithExtraSpacesInRecipient 
                                    + " comment(s) have been fixed!");
                 System.out.println("Extra space removing done!");
             }
@@ -167,7 +167,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfStudentsWithExtraSpacesInTeamName++;
             
             if (isPreview) {
-                System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
+                System.out.println(numberOfStudentsWithExtraSpacesInTeamName 
                                    + ". \"" + studentEntity.getTeamName() + "\" "
                                    + "courseId: " + studentEntity.getCourseId());
             } else {
@@ -207,7 +207,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfCommentWithExtraSpacesInRecipient++;
             if (isPreview) {
                 String recipientsWithExtraSpace = extractStringsWithExtraSpace(comment.recipients);
-                System.out.println("" + numberOfCommentWithExtraSpacesInRecipient 
+                System.out.println(numberOfCommentWithExtraSpacesInRecipient 
                                    + ". \"" + recipientsWithExtraSpace + "\""
                                    + "courseId: " + comment.courseId);
             } else {
@@ -248,7 +248,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         for (FeedbackResponseAttributes response : responses) {
             numberOfReponsesWithExtraSpacesInRecipient++;
             if (isPreview) {
-                System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                System.out.println(numberOfReponsesWithExtraSpacesInRecipient 
                                    + ". From \"" + response.giverEmail + "\" "
                                    + ". To \"" + response.recipientEmail + "\" "
                                    + "courseId: " + response.courseId + " sessionName: "

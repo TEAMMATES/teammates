@@ -87,7 +87,8 @@ public class InstructorStudentListPageDataTest {
         assertEquals(sampleCourse.getId(), course.getCourseId());
         assertEquals(sampleCourse.getName(), course.getCourseName());
         assertEquals(acct.googleId, course.getGoogleId());
-        assertEquals(islpd.getInstructorCourseEnrollLink(sampleCourse.getId()), course.getInstructorCourseEnrollLink());
+        assertEquals(islpd.getInstructorCourseEnrollLink(sampleCourse.getId()),
+                                                         course.getInstructorCourseEnrollLink());
         assertEquals(isCourseArchived, course.isCourseArchived());
         assertEquals(isInstructorAllowedToModify, course.isInstructorAllowedToModify());
     }

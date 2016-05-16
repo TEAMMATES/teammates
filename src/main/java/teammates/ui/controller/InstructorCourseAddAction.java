@@ -102,7 +102,7 @@ public class InstructorCourseAddAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
         } catch (InvalidParametersException e) {
-            setStatusForException(e, Const.StatusMessages.COURSE_INVALID_ID);
+            setStatusForException(e);
         }
 
         if (isError) {

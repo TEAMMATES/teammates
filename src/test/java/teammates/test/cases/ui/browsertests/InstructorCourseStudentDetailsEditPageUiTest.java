@@ -136,7 +136,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
             
         // Verify data
-        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(), "newemail@gmail.tmt");
+        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                       "newemail@gmail.tmt");
         assertEquals("New name", student.name);
         assertEquals("New team", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);

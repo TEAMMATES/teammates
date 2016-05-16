@@ -99,7 +99,8 @@ public class InstructorCoursesPageData extends PageData {
             actionsParam.add(deleteButton);
             
             ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()), 
-                                                                      Sanitizer.sanitizeForHtml(course.getName()), actionsParam);
+                                                                      Sanitizer.sanitizeForHtml(course.getName()),
+                                                                                                actionsParam);
             archivedCoursesTable.getRows().add(row);
             
         }

@@ -84,8 +84,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public String toString() {
-        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName() + " isArchived: " 
-               + isArchived;
+        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
+               + " isArchived: " + isArchived;
     }
 
     @Override

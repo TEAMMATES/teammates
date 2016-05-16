@@ -368,40 +368,40 @@ public class TeamEvalResultTest extends BaseTestCase {
         
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{}, new double[]{})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{}, new double[]{})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{10}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{10}, new double[]{5})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{10}, new double[]{5})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{100, 50, 50}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{50, 100, 50}, new double[]{50, 25, 25})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{50, 100, 50}, new double[]{50, 25, 25})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{200, 100, 100}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA, 150, 50}, new double[]{50, 25, 25})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, 150, 50}, new double[]{50, 25, 25})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{NA, NA, NA}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA, NA, NA}, new double[]{NA, NA, NA})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, NA, NA}, new double[]{NA, NA, NA})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{100, 50, 50}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA, NA, NA}, new double[]{100, 50, 50})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, NA, NA}, new double[]{100, 50, 50})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{100, 100, 400}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{50, 150, NA}, new double[]{50, 50, 200})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{50, 150, NA}, new double[]{50, 50, 200})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{0, 0, NA}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{0, 0, NA}, new double[]{0, 0, NA})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{0, 0, NA}, new double[]{0, 0, NA})));
         
         AssertJUnit.assertEquals(Arrays.toString(new int[]{NA, 25, 75}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{25, 25, 75}, new double[]{NA, 50, 150})));
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{25, 25, 75}, new double[]{NA, 50, 150})));
     }
     
     @Test

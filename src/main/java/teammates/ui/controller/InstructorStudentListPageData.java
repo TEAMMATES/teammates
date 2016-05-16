@@ -30,11 +30,13 @@ public class InstructorStudentListPageData extends PageData {
         for (InstructorStudentListPageCourseData islpcData : coursesToDisplay) {
             CourseAttributes course = islpcData.course;
             coursesForFilter.add(new InstructorStudentListFilterCourse(course.getId(), course.getName()));
-            coursesForStudentsTable.add(
-                                            new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived,
-                                                                            course.getId(), course.getName(), account.googleId,
-                                                                            getInstructorCourseEnrollLink(course.getId()),
-                                                                            islpcData.isInstructorAllowedToModify));
+
+            InstructorStudentListStudentsTableCourse courseForStudentsTable =
+                    new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived, course.getId(),
+                                                                 course.getName(), account.googleId,
+                                                                 getInstructorCourseEnrollLink(course.getId()),
+                                                                 islpcData.isInstructorAllowedToModify);
+            coursesForStudentsTable.add(courseForStudentsTable);
         }
         this.filterBox = new InstructorStudentListFilterBox(coursesForFilter, displayArchive);
         this.studentsTable = coursesForStudentsTable;

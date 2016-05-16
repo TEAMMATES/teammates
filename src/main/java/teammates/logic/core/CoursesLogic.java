@@ -43,7 +43,7 @@ public class CoursesLogic {
      */ 
     
     //TODO: There's no need for this class to be a Singleton.
-    private static CoursesLogic instance = null;
+    private static CoursesLogic instance;
     
     private static final Logger log = Utils.getLogger();
     

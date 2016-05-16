@@ -41,7 +41,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion (String feedbackQuestionId) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
         FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackQuestionId);
