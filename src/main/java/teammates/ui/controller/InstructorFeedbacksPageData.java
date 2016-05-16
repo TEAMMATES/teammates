@@ -111,7 +111,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         instructors, feedbackSessionNameForSessionList,
                                                                         courseIdForNewSession);
         
-        String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         

@@ -85,10 +85,9 @@ public class AdminEmailImageUploadAction extends Action {
             isError = true;
             data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
-        } else {
-            return image;
-        }
-        
+        } 
+           
+        return image;
     }
     
     private void deleteImage(BlobKey blobKey) {

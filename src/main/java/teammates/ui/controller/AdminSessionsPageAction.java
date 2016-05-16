@@ -199,8 +199,9 @@ public class AdminSessionsPageAction extends Action {
 
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.courseId);
 
-            if (!instructors.isEmpty()) {
-                
+            if (instructors.isEmpty()) {
+                putIntoUnknownList(map, fs);
+            } else {
                 AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
 
                 if (account == null) {
@@ -216,8 +217,6 @@ public class AdminSessionsPageAction extends Action {
                     map.get(account.institute).add(fs);
                 }
 
-            } else {
-                putIntoUnknownList(map, fs);
             }
         }
         this.map = map;

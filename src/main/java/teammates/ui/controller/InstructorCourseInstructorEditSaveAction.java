@@ -37,10 +37,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         
         try {
-            if (instructorId != null) {
-                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
-            } else {
+            if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
+            } else {
+                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
             
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName), StatusMessageColor.SUCCESS));
@@ -137,10 +137,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String instructorId, String instructorName, String instructorEmail,
             String instructorRole, boolean isDisplayedToStudents, String displayedName) {
         InstructorAttributes instructorToEdit = null;
-        if (instructorId != null) {
-            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        } else {
+        if (instructorId == null) {
             instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+        } else {
+            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
         instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
         instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);

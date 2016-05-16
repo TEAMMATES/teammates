@@ -500,10 +500,10 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     public String getPersonSpecified() {
-        if (q != null) {
-            return q.personValue;
-        } else {
+        if (q == null) {
             return null;
+        } else {
+            return q.personValue;
         }
     }
     

@@ -752,12 +752,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-        if (firstResponse != null) {
-            return viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
-                                                           : firstResponse.recipientSection;
-        } else {
+        if (firstResponse == null) {
             return Const.DEFAULT_SECTION;
-        }
+        } 
+        return viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
+                                                       : firstResponse.recipientSection;
     }
     
     private void buildMissingParticipantPanelsForTeam(
@@ -865,22 +864,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                    MODERATE_RESPONSES_FOR_GIVER);
             InstructorFeedbackResultsParticipantPanel giverPanel;
             
-            if (!viewType.isSecondaryGroupingOfParticipantType()) {
-                giverPanel 
-                    = new InstructorFeedbackResultsGroupByQuestionPanel(
-                                                    teamMember, bundle.getFullNameFromRoster(teamMember),
-                                                    new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
-                                                    getStudentProfilePictureLink(teamMember, instructor.courseId), 
-                                                    viewType.isPrimaryGroupingOfGiverType(), moderationButton);
-            } else {
+            if (viewType.isSecondaryGroupingOfParticipantType()) {
+
                 String teamMemberNameWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember) 
-                                                   + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
-                giverPanel 
-                    = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
-                                                teamMember, teamMemberNameWithTeamNameAppended, 
-                                                new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(), 
-                                                moderationButton);
-                                                                       
+                                                + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
+                giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+                                 teamMember, teamMemberNameWithTeamNameAppended, 
+                                 new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(), 
+                                 moderationButton);
+            } else {
+                giverPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
+                                teamMember, bundle.getFullNameFromRoster(teamMember),
+                                new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
+                                getStudentProfilePictureLink(teamMember, instructor.courseId), 
+                                viewType.isPrimaryGroupingOfGiverType(), moderationButton);                                                                       
             }
 
             giverPanel.setHasResponses(false);
@@ -895,20 +892,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             InstructorFeedbackResultsParticipantPanel giverPanel;
             
-            if (!viewType.isSecondaryGroupingOfParticipantType()) {
-                giverPanel = 
-                    new InstructorFeedbackResultsGroupByQuestionPanel(
-                            new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
-                            getStudentProfilePictureLink(teamMember, instructor.courseId), 
-                            viewType.isPrimaryGroupingOfGiverType(), teamMember, bundle.getFullNameFromRoster(teamMember));
+            if (viewType.isSecondaryGroupingOfParticipantType()) {
+                String teamMemberWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember) 
+                                                + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
+                giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+                                 teamMember, teamMemberWithTeamNameAppended,
+                                 new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(), 
+                                 null);
                 
             } else {
-                String teamMemberWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember) 
-                                               + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
-                giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
-                                               teamMember, teamMemberWithTeamNameAppended,
-                                               new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(), 
-                                               null);
+                giverPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
+                                 new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
+                                 getStudentProfilePictureLink(teamMember, instructor.courseId), 
+                                 viewType.isPrimaryGroupingOfGiverType(), teamMember, bundle.getFullNameFromRoster(teamMember));
             }
             giverPanel.setHasResponses(false);
             
@@ -1055,7 +1051,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
         }
         
-        String studentEmail = (student != null) ? student.email : null;
+        String studentEmail = student == null ? null : student.email;
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail, 
                                                                                  bundle, viewType.toString());
         
@@ -1732,7 +1728,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Deprecated
     public String getGroupByTeam() {
-        return groupByTeam != null ? groupByTeam : "null";
+        return groupByTeam == null ? "null" : groupByTeam;
     }
     
     // TODO: swap groupByTeam to a normal boolean

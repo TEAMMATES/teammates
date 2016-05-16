@@ -147,13 +147,13 @@ public class InstructorStudentCommentAddAction extends Action {
         comment.recipientType = recipientType == null ?
                                 CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
-        if (recipients != null && !recipients.isEmpty()) {
+        if (recipients == null || recipients.isEmpty()) {
+            comment.recipients.add(studentEmail);
+        } else {
             String[] recipientsArray = recipients.split(",");
             for (String recipient : recipientsArray) {
                 comment.recipients.add(recipient.trim());
             }
-        } else {
-            comment.recipients.add(studentEmail);
         }
         comment.status = CommentStatus.FINAL;
         

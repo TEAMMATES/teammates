@@ -24,12 +24,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
 
-        int queryRange;
-        if (needAjax != null) {
-            queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
-        } else {
-            queryRange = DEFAULT_QUERY_RANGE;
-        }
+        int queryRange = needAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -206,14 +201,16 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                     String selectedSection)
                                     throws EntityDoesNotExistException {
         try {
-            if (!selectedSection.contentEquals(ALL_SECTION_OPTION)) {
+            if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                        logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
-                                                                            instructor.email, selectedSection)));
+                                            logic.getFeedbackSessionResultSummaryAsCsv(
+                                                                            courseId, feedbackSessionName,
+                                                                            instructor.email)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                        logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
-                                                                   instructor.email)));
+                                            logic.getFeedbackSessionResultSummaryInSectionAsCsv(
+                                                                            courseId, feedbackSessionName,
+                                                                            instructor.email, selectedSection)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

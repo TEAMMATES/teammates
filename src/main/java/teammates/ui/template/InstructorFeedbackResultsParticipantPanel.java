@@ -73,10 +73,10 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
 
     @Override
     public int compareTo(InstructorFeedbackResultsParticipantPanel o) {
-        if (isHasResponses != o.isHasResponses) {
-            return isHasResponses ? -1 : 1;
-        } else {
+        if (isHasResponses == o.isHasResponses) {
             return name.compareTo(o.name);
+        } else {
+            return isHasResponses ? -1 : 1;
         }
     }
     

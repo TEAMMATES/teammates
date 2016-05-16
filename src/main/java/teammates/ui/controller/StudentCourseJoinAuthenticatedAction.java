@@ -66,10 +66,10 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
         
-        if (statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
-            statusToAdmin += "<br/><br/>" + studentInfo;
-        } else {
+        if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
             statusToAdmin = studentInfo;
+        } else {
+            statusToAdmin += "<br/><br/>" + studentInfo;
         }
         
         addStatusMessageToUser();
