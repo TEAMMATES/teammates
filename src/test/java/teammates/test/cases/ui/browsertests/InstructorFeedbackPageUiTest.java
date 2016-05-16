@@ -467,21 +467,21 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name is blank");
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
-        feedbackPage.verifyStatus(
-                "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.");
+        feedbackPage.verifyStatus(String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, "",
+                                                FieldValidator.REASON_EMPTY));
         
         
         ______TS("Failure case: copy fail since the feedback session name starts with (");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("(New Session ##)", newSession.courseId);
+        String invalidSessionName = "(New Session ##)";
+        feedbackPage.copyFeedbackSession(invalidSessionName, newSession.courseId);
         feedbackPage.verifyStatus(
-                "\"(New Session ##)\" is not acceptable to TEAMMATES as feedback session name because "
-                + "it starts with a non-alphanumeric character. "
-                + "All feedback session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+                String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                              invalidSessionName,
+                              FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                              FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                              FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
@@ -522,20 +522,22 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         
         ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
-        
+
+        String invalidSessionName = "Invalid name | for feedback session";
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected(invalidSessionName);
         
         feedbackPage.fsCopyToModal.clickSubmitButton();
         
         feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
-                + "feedback session name because it contains invalid characters. "
-                + "All feedback session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+                String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                              invalidSessionName,
+                              FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                              FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                              FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.fsCopyToModal.clickCloseButton();
         

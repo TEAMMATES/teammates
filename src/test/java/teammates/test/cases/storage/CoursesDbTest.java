@@ -57,23 +57,27 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a course with invalid parameter");
 
-        c.id = "Invalid id";
+        String invalidId = "Invalid id";
+        c.id = invalidId;
         try {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
-                                        e.getMessage());
+            assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidId,
+                                       FieldValidator.REASON_INCORRECT_FORMAT),
+                         e.getMessage());
         }
 
         c.id = "CDbT.tCC.newCourse";
-        c.name = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String invalidName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        c.name = invalidName;
         try {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
-                                        e.getMessage());
+            assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, invalidName,
+                                       FieldValidator.REASON_TOO_LONG),
+                         e.getMessage());
         }
 
         ______TS("Failure: null parameter");
@@ -134,9 +138,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(course);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
+            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
+                                                      FieldValidator.REASON_EMPTY),
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
+            AssertHelper.assertContains(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "",
+                                                      FieldValidator.REASON_EMPTY),
                                         e.getMessage());
         }
         
