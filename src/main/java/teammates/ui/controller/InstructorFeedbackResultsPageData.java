@@ -1057,7 +1057,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String questionText = questionDetails.getQuestionText();
         String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(
                                                                         !responses.isEmpty(), statisticsTable, 
                                                                         responseRows, question, 
                                                                         questionText, additionalInfoText, 

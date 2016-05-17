@@ -74,7 +74,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
                             .generateFeedbackSessionPublishedEmails(feedbackObject);
         } else {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
-                       + " for course : " + courseId + " could not be fetched" );
+                       + " for course : " + courseId + " could not be fetched");
         }
         return preparedEmails;
         

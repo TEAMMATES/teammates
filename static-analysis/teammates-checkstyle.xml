@@ -24,6 +24,11 @@
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
       <property name="tokens" value="ASSIGN"/>
+    <module name="ParenPad">
+      <property name="tokens" value="QUESTION,ANNOTATION,ANNOTATION_FIELD_DEF,LITERAL_CATCH,CTOR_CALL,CTOR_DEF,LITERAL_DO,ENUM_CONSTANT_DEF,EXPR,LITERAL_FOR,LITERAL_IF,RESOURCE_SPECIFICATION,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_WHILE"/>
+    </module>
+    <module name="TypecastParenPad">
+      <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>

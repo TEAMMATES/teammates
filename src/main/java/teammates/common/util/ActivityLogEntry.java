@@ -593,7 +593,7 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "" ) + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
