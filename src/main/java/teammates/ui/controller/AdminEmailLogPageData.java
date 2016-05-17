@@ -102,7 +102,7 @@ public class AdminEmailLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         setVersions(new ArrayList<String>());
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         

@@ -258,7 +258,7 @@ public class AdminActivityLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         

@@ -429,7 +429,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
             
             for (String answerString : answerStrings) {
-                if (answerString.equals("")) {
+                if (answerString.isEmpty()) {
                     continue;
                 }
                 
@@ -510,7 +510,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
             
             for (String answerString : answerStrings) {
-                if (answerString.equals("")) {
+                if (answerString.isEmpty()) {
                     continue;
                 }
                 isContainsNonEmptyResponse = true;
