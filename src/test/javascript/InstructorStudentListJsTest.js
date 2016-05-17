@@ -1,6 +1,5 @@
 QUnit.module('instructorStudentList.js');
 
-function testFilterSection() {}
 QUnit.test('filterSection()', function(assert) {
 
     if (!$('#show_email').is(':checked')) {
@@ -73,7 +72,6 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus duplicate) should be visible again');
 });
 
-function testFilterTeam() {}
 QUnit.test('filterTeam()', function(assert) {
     // Initialize by checking the options box and show email
     if (!$('#option_check').is(':checked')) {
@@ -151,13 +149,11 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus 1 duplicate) should be visible again');
 });
 
-function testFilterEmails() {}
 QUnit.test('filterEmails()', function(assert) {
     // The method has been tested by UI test, and testFilter(Course|Team|Name) above.
     assert.expect(0);
 });
 
-function testToggleDeleteStudentConfirmation() {}
 QUnit.test('toggleDeleteStudentConfirmation(courseId, studentName)', function(assert) {
     // gives a popup, can't be tested
     assert.expect(0);
