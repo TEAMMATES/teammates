@@ -297,7 +297,7 @@ public class Sanitizer {
                 startPos = i;
             }
         }
-        if (result.equals("")) {
+        if (result.isEmpty()) {
             return "''";
         }
         return "concat(" + result + "'')";

@@ -1,16 +1,10 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.util.Date;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -109,7 +103,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.course = "invalid id space";
         try {
             studentsDb.createEntity(s);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     String.format(COURSE_ID_ERROR_MESSAGE, s.course,
@@ -135,7 +129,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("fail : duplicate");
         try {
             studentsDb.createEntity(s);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(
                     String.format(
@@ -147,7 +141,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("null params check");
         try {
             studentsDb.createEntity(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
@@ -195,13 +189,13 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("null params case");
         try {
             studentsDb.getStudentForEmail(null, "valid@email.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }        
         try {
             studentsDb.getStudentForEmail("any-course-id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
@@ -292,14 +286,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Null params check:
         try {
             studentsDb.deleteStudentWithoutDocument(null, s.email);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
         try {
             studentsDb.deleteStudentWithoutDocument(s.course, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }

@@ -1,8 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -576,14 +573,14 @@ public class BackDoorTest extends BaseTestCase {
             StudentAttributes actualStudent) {
         
         // For these fields, we consider null and "" equivalent.
-        if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
+        if (expectedStudent.googleId == null && actualStudent.googleId.isEmpty()) {
             actualStudent.googleId = null;
         }
-        if (expectedStudent.team == null && actualStudent.team.equals("")) {
+        if (expectedStudent.team == null && actualStudent.team.isEmpty()) {
             actualStudent.team = null;
         }
         if (expectedStudent.comments == null
-                && actualStudent.comments.equals("")) {
+                && actualStudent.comments.isEmpty()) {
             actualStudent.comments = null;
         }
 

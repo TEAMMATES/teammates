@@ -525,7 +525,7 @@ public class StudentsLogic {
         for (String team : invalidTeamList) {
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
-        if (!errorMessage.equals("")) {
+        if (!errorMessage.isEmpty()) {
             errorMessage += "Please use the enroll page to edit multiple students";
         }
 

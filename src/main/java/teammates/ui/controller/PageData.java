@@ -145,7 +145,7 @@ public class PageData {
         if (!enabled) {
             return "<span style=\"font-style: italic;\">Disabled</span>";
         }
-        if (str == null || str.equals("")) {
+        if (str == null || str.isEmpty()) {
             return "N/A";
         }
         return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", 

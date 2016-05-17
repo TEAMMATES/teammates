@@ -1,9 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.Assert.fail;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
@@ -283,9 +279,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         idList.add("idOfHelperOfCourse1");
         idList.add(null);
         for (InstructorAttributes instructor : retrieved) {
-            if (idList.contains(instructor.googleId)) {
-            } else {
-                fail();
+            if (!idList.contains(instructor.googleId)) {
+                fail("");
             }
         }
         
