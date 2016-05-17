@@ -159,12 +159,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
-        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion ? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) : 
-                        comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
-        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion ? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) : 
-                        comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion 
+                                    ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion 
+                                      ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor

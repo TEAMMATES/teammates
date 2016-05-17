@@ -376,10 +376,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String actualSessions = "";
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessions += details.feedbackSession.toString();
-            detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" +
-                    details.feedbackSession.courseId,
-                    details);
+            detailsMap.put(details.feedbackSession.feedbackSessionName + "%"
+                    + details.feedbackSession.courseId, details);
         }
         
         ______TS("standard session");
@@ -388,8 +386,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(expectedSessions, actualSessions);
         
         FeedbackSessionStats stats =
-                detailsMap.get(newDataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" +
-                                newDataBundle.feedbackSessions.get("standard.session").courseId).stats;
+                detailsMap.get(newDataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" 
+                               + newDataBundle.feedbackSessions.get("standard.session").courseId).stats;
         
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
@@ -397,8 +395,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(6, stats.submittedTotal);
 
         ______TS("No recipients session");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" +
-                                newDataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" 
+                               + newDataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
         
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
@@ -406,8 +404,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(1, stats.submittedTotal);
         
         ______TS("No responses session");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" +
-                                newDataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" 
+                               + newDataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
         
         // 1 instructors, 1 students = 2
         assertEquals(2, stats.expectedTotal);
@@ -415,8 +413,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(0, stats.submittedTotal);
         
         ______TS("private session with questions");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" +
-                newDataBundle.feedbackSessions.get("private.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" 
+                               + newDataBundle.feedbackSessions.get("private.session").courseId).stats;
         assertEquals(1, stats.expectedTotal);
         // For private sessions, we mark as completed only when creator has finished all questions.
         assertEquals(0, stats.submittedTotal);
@@ -457,10 +455,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         actualSessions = "";
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessions += details.feedbackSession.toString();
-            detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" +
-                    details.feedbackSession.courseId,
-                    details);
+            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
+                    + details.feedbackSession.courseId, details);
         }
         
         AssertHelper.assertContains(expectedSessions, actualSessions);   
@@ -491,10 +487,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         actualSessions = "";
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessions += details.feedbackSession.toString();
-            detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" +
-                    details.feedbackSession.courseId,
-                    details);
+            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
+                           + details.feedbackSession.courseId, details);
         }
         
         AssertHelper.assertContains(expectedSessions, actualSessions);  
@@ -531,9 +525,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         // Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -554,12 +548,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         // Instructors should be able to see all sessions for the course
         expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
-                dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -1819,8 +1813,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
-                    "Did not catch exception signalling that private session can't " +
-                    "be published.");
+                    "Did not catch exception signalling that private session can't " 
+                    + "be published.");
         } catch (InvalidParametersException e) {
             assertEquals("Private session can't be published.", e.getMessage());
         }
@@ -1829,8 +1823,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
             signalFailureToDetectException(
-                    "Did not catch exception signalling that private session should " +
-                    "not be published");
+                    "Did not catch exception signalling that private session should " 
+                    + "not be published");
         } catch (InvalidParametersException e) {
             assertEquals("Private session can't be unpublished.", e.getMessage());
         }

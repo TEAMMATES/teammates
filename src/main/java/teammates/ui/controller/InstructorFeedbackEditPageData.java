@@ -252,8 +252,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     public String getNewQuestionSpecificEditFormHtml() {
         String newQuestionSpecificEditForms = "";
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms +=
-                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms 
+                    += type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
         }
         return newQuestionSpecificEditForms;
     }

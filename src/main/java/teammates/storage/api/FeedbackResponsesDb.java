@@ -78,8 +78,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 getFeedbackResponseEntity(feedbackResponseId);
         
         if (fr == null) {
-            log.info("Trying to get non-existent response: " +
-                    feedbackResponseId + ".");
+            log.info("Trying to get non-existent response: " + feedbackResponseId + ".");
             return null;
         }
         
@@ -102,9 +101,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
         
         if (fr == null) {
-            log.warning("Trying to get non-existent response: " +
-                    feedbackQuestionId + "/" + "from: " +
-                    giverEmail + " to: " + receiverEmail);
+            log.warning("Trying to get non-existent response: " 
+                    + feedbackQuestionId + "/" + "from: " 
+                    + giverEmail + " to: " + receiverEmail);
             return null;
         }
         return fr;        
@@ -721,11 +720,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
             String feedbackQuestionId, String giverEmail, String receiver) {
         
         Query q = getPM().newQuery(FeedbackResponse.class);
-        q.declareParameters("String feedbackQuestionIdParam, " +
-                "String giverEmailParam, String receiverParam");
-        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && " +
-                "giverEmail == giverEmailParam && " +
-                "receiver == receiverParam");
+        q.declareParameters("String feedbackQuestionIdParam, " 
+                            + "String giverEmailParam, String receiverParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && " 
+                    + "giverEmail == giverEmailParam && " 
+                    + "receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =

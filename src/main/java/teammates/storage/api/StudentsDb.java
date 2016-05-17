@@ -549,8 +549,7 @@ public class StudentsDb extends EntitiesDb {
             throws EntityDoesNotExistException {
         
         if (getStudentForEmail(courseId, email) == null) {
-            String error = ERROR_UPDATE_NON_EXISTENT_STUDENT +
-                    courseId + "/" + email;
+            String error = ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId + "/" + email;
             throw new EntityDoesNotExistException(error);
         }
         

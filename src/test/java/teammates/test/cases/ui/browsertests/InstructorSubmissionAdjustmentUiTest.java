@@ -132,8 +132,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         for (FeedbackResponseAttributes response : studentGiverResponses) {
             FeedbackQuestionAttributes question = BackDoor
                     .getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS || 
-                question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }

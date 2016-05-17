@@ -166,8 +166,10 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        WebElement viewLink = 
+                browser.driver.findElement(
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                                       + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         waitForPageToLoad();

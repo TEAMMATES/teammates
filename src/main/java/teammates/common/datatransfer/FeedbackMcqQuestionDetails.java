@@ -87,9 +87,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
-                generateOptionsFor == FeedbackParticipantType.STUDENTS ||
-                generateOptionsFor == FeedbackParticipantType.TEAMS ||
-                generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
+                generateOptionsFor == FeedbackParticipantType.STUDENTS 
+                || generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
     @Override
@@ -105,9 +105,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
-        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
-            this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
-            newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
+            || this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false
+            || newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
             return true;
         }
         
@@ -303,9 +303,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices.add("");
         this.mcqChoices.add("");
         
-        return "<div id=\"mcqForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"mcqForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
 
     @Override
@@ -482,8 +482,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
+        if (generateOptionsFor == FeedbackParticipantType.NONE 
+            && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?

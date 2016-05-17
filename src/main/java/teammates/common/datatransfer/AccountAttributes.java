@@ -34,8 +34,8 @@ public class AccountAttributes extends EntityAttributes {
         email = a.getEmail();
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
-        studentProfile = a.getStudentProfile() == null ? null : 
-            new StudentProfileAttributes(a.getStudentProfile());
+        studentProfile = 
+                a.getStudentProfile() == null ? null : new StudentProfileAttributes(a.getStudentProfile());
     }
     
     public AccountAttributes() {

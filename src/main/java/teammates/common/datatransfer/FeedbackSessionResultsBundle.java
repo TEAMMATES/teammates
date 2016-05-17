@@ -1116,10 +1116,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String questionId = null;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (recipientTeam == null ||
-                    !(getTeamNameForEmail(response.recipientEmail).isEmpty()
-                            ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
-                            : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
+            if (recipientTeam == null 
+                || !(getTeamNameForEmail(response.recipientEmail).isEmpty()
+                   ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
+                   : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
                  && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),

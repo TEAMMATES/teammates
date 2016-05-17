@@ -96,8 +96,9 @@ public class InstructorStudentCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
-        CommentParticipantType commentRecipientType = recipientType == null ? 
-                CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
+        CommentParticipantType commentRecipientType = recipientType == null 
+                                                    ? CommentParticipantType.PERSON 
+                                                    : CommentParticipantType.valueOf(recipientType);
         String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
         if (commentRecipientType == CommentParticipantType.COURSE) {
             new GateKeeper().verifyAccessible(instructor, course,
@@ -143,8 +144,9 @@ public class InstructorStudentCommentAddAction extends Action {
         
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
-        comment.recipientType = recipientType == null ?
-                                CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
+        comment.recipientType = recipientType == null 
+                              ? CommentParticipantType.PERSON 
+                              : CommentParticipantType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
         if (recipients != null && !recipients.isEmpty()) {
             String[] recipientsArray = recipients.split(",");

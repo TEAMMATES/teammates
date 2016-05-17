@@ -329,8 +329,8 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while removing instruction privileges from account :" + account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while removing instruction privileges from account :" + account.toString());
             }
         } else {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
@@ -346,8 +346,8 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while adding instruction privileges to account :" + account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while adding instruction privileges to account :" + account.toString());
             }
         } else {
             log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);

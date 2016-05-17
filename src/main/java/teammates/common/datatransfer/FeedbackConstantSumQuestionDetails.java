@@ -298,9 +298,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.constSumOptions.add("");
         this.constSumOptions.add("");
 
-        return "<div id=\"constSumForm\">" +
-                    this.getQuestionSpecificEditFormHtml(-1) + 
-               "</div>";
+        return "<div id=\"constSumForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1) 
+             + "</div>";
     }
 
     @Override
@@ -430,8 +430,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments += option + "," + 
-                         df.format(average) + Const.EOL;
+            fragments += option + "," + df.format(average) + Const.EOL;
             
         }
         
@@ -455,9 +454,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
-                String optionReceivingPoints = distributeToRecipients ? 
-                                               response.recipientEmail : 
-                                               String.valueOf(i);
+                String optionReceivingPoints = 
+                        distributeToRecipients ? response.recipientEmail : String.valueOf(i);
                 
                 int pointsReceived = frd.getAnswerList().get(i);
                 updateOptionPointsMapping(optionPoints, optionReceivingPoints, pointsReceived);
@@ -525,9 +523,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
-        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions ||
-            this.constSumOptions.containsAll(newConstSumDetails.constSumOptions) == false ||
-            newConstSumDetails.constSumOptions.containsAll(this.constSumOptions) == false) {
+        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
+            || this.constSumOptions.containsAll(newConstSumDetails.constSumOptions) == false
+            || newConstSumDetails.constSumOptions.containsAll(this.constSumOptions) == false) {
             return true;
         }
         
@@ -563,8 +561,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" +
-               "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
+        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" 
+               + "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
     }
 
     @Override
@@ -598,8 +596,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         int numOfResponseSpecific = fqa.numberOfEntitiesToGiveFeedbackTo;
         int maxResponsesPossible = numRecipients;
-        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS ||
-                numOfResponseSpecific > maxResponsesPossible) {
+        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS
+            || numOfResponseSpecific > maxResponsesPossible) {
             numOfResponseSpecific = maxResponsesPossible;
         }
         numRecipients = numOfResponseSpecific;

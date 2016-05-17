@@ -76,9 +76,9 @@ public class InstructorCommentsPageAction extends Action {
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
         
-        statusToAdmin = "instructorComments Page Load<br>" + 
-                "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
-                "for Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "instructorComments Page Load<br>" 
+                      + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " 
+                      + "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
                   giverEmailToCommentsMap, giverEmailToCanModifyCommentListMap, roster, 
@@ -144,8 +144,9 @@ public class InstructorCommentsPageAction extends Action {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver ? 
-                         InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
+            String key = isCurrentInstructorGiver 
+                       ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST 
+                       : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {

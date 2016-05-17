@@ -161,8 +161,8 @@ public class InstructorsLogic {
         
         if (instructorList.isEmpty()) {
             return true;
-        } else if (instructorList.size() == 1 &&
-                coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
+        } else if (instructorList.size() == 1 
+                   && coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
             return true;
         } else {
             return false;
