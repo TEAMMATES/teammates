@@ -271,8 +271,7 @@ public class FeedbackResponseCommentsLogic {
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
-                                 ? true 
-                                 : relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                 || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
         
