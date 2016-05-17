@@ -54,8 +54,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
     
     
-    private static enum StudentStatus { REG, UNREG, ALL };
-    private static enum InstructorStatus { REG, UNREG, ALL };
+    private static enum StudentStatus { REG, UNREG, ALL }
+    
+    private static enum InstructorStatus { REG, UNREG, ALL }
     
     private EmailListConfig emailListConfig = new EmailListConfig();
     private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();

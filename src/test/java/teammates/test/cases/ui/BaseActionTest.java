@@ -233,7 +233,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * full range of user types.
      */
     @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks() {};
+    private void __________high_level_access_controll_checks() {}
     
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -292,7 +292,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * one user types.
      */
     @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks() {};
+    private void __________mid_level_access_controll_checks() {}
     
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
@@ -612,7 +612,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * These methods are not aware of the user type.
      */
     @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks() {};
+    private void __________low_level_access_controll_checks() {}
     
     /**
      * Verifies that the {@link Action} matching the {@code params} is 
