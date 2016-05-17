@@ -52,12 +52,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
         String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
-        String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
 
         if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
             return false;
         }
+        
+        String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+                                                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
         
         boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
