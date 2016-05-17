@@ -8,7 +8,7 @@
    <rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor"/>
    <rule ref="rulesets/java/basic.xml/AvoidMultipleUnaryOperators"/>
    <rule ref="rulesets/java/basic.xml/AvoidThreadGroup"/>
-   <!--<rule ref="rulesets/java/basic.xml/AvoidUsingHardCodedIP"/>-->
+   <rule ref="rulesets/java/basic.xml/AvoidUsingHardCodedIP"/>
    <rule ref="rulesets/java/basic.xml/AvoidUsingOctalValues"/>
    <rule ref="rulesets/java/basic.xml/BigIntegerInstantiation"/>
    <rule ref="rulesets/java/basic.xml/BooleanInstantiation"/>
