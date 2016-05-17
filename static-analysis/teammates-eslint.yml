@@ -3,352 +3,545 @@ env:
     jquery: true
     qunit: true
 rules:
-    # Unnecessary/Unused Ops/Vars/Chars
-
-    # disallow trailing commas in object literals
-    comma-dangle: ["error", "never"]
-    # disallow empty statements
-    no-empty: "error"
-    # disallow empty functions
-    no-empty-function: "error"
-    # disallow double-negation boolean casts in a boolean context
-    no-extra-boolean-cast: "error"
-    # disallow unnecessary parentheses
-    no-extra-parens: "error"
-    # disallow unnecessary semicolons
-    no-extra-semi: "error"
-    # disallow unreachable statements after a return, throw, continue, or break statement
-    no-unreachable: "error"
-    # disallow usage of expressions in statement position
-    no-unused-expressions: "error"
-    # disallow unused labels
-    no-unused-labels: "error"
-    # disallow declaration of variables that are not used in the code
-    no-unused-vars: ["error", "local"]
-    # disallow unnecessary calls to .call() and .apply()
-    no-useless-call: "error"
-    # disallow unnecessary concatenation of literals or template literals
-    no-useless-concat: "error"
-    # disallow unnecessary escape characters
-    no-useless-escape: "error"
 
     # Possible Errors
 
-    # disallow assignment in conditional expressions
+    # require or disallow trailing commas
+    comma-dangle: ["error", "never"]
+
+    # disallow assignment operators in conditional expressions
     no-cond-assign: ["error", "except-parens"]
-    # disallow use of console
+
+    # disallow the use of console
     no-console: "error"
-    # disallow use of constant expressions in conditions
+
+    # disallow constant expressions in conditions
     no-constant-condition: "error"
+
     # disallow control characters in regular expressions
     no-control-regex: "error"
-    # disallow use of debugger
+
+    # disallow the use of debugger
     no-debugger: "error"
+
     # disallow duplicate arguments in function definitions
     no-dupe-args: "error"
-    # disallow duplicate keys when creating object literals
+
+    # disallow duplicate keys in object literals
     no-dupe-keys: "error"
+
     # disallow duplicate case labels
     no-duplicate-case: "error"
-    # disallow the use of empty character classes in regular expressions
+
+    # disallow empty block statements
+    no-empty: "error"
+
+    # disallow empty character classes in regular expressions
     no-empty-character-class: "error"
-    # disallow assigning to the exception in a catch block
+
+    # disallow reassigning exceptions in catch clauses
     no-ex-assign: "error"
-    # disallow overwriting functions written as function declarations
+
+    # disallow unnecessary boolean casts
+    no-extra-boolean-cast: "error"
+
+    # disallow unnecessary parentheses
+    no-extra-parens: "error"
+
+    # disallow unnecessary semicolons
+    no-extra-semi: "error"
+
+    # disallow reassigning function declarations
     no-func-assign: "error"
-    # disallow function or variable declarations in nested blocks
+
+    # disallow function or var declarations in nested blocks
     no-inner-declarations: "error"
-    # disallow invalid regular expression strings in the RegExp constructor
+
+    # disallow invalid regular expression strings in RegExp constructors
     no-invalid-regexp: "error"
-    # disallow negation of the left operand of an in expression
+
+    # disallow irregular whitespace outside of strings and comments
+    no-irregular-whitespace: "error"
+
+    # disallow negating the left operand in in expressions
     no-negated-in-lhs: "error"
-    # disallow the use of object properties of the global object (Math and JSON) as functions
+
+    # disallow calling global object properties as functions
     no-obj-calls: "error"
-    # disallow multiple spaces in a regular expression literal
+
+    # disallow multiple spaces in regular expression literals
     no-regex-spaces: "error"
+
     # disallow sparse arrays
     no-sparse-arrays: "error"
+
     # disallow confusing multiline expressions
     no-unexpected-multiline: "error"
-    # Ensure that the results of typeof are compared against a valid string
+
+    # disallow unreachable code after return, throw, continue, and break statements
+    no-unreachable: "error"
+
+    # disallow control flow statements in finally blocks
+    # no-unsafe-finally: "off"
+
+    # require calls to isNaN() when checking for NaN
+    use-isnan: "error"
+
+    # enforce valid JSDoc comments
+    valid-jsdoc: "off" # recommended by Google
+
+    # enforce comparing typeof expressions against valid strings
     valid-typeof: "error"
 
     # Best Practices
 
-    # disallow else after a return in an if
-    no-else-return: "error"
-    # disallow fallthrough of case statements
-    no-fallthrough: "error"
-    # disallow if as the only statement in an else block
-    no-lonely-if: "error"
-    # require default case in switch statements
+    # enforce getter and setter pairs in objects
+    # accessor-pairs: "off"
+
+    # enforce return statements in callbacks of array methods
+    # array-callback-return: "off"
+
+    # enforce the use of variables within the scope they are defined
+    block-scoped-var: "error"
+
+    # enforce a maximum cyclomatic complexity allowed in a program
+    # complexity: "off"
+
+    # require return statements to either always or never specify values
+    consistent-return: "off" # recommended by Airbnb
+
+    # enforce consistent brace style for all control statements
+    curly: "error"
+
+    # require default cases in switch statements
     default-case: "error"
 
-    # treat var statements as if they were block scoped
-    block-scoped-var: "error"
-    # encourages use of dot notation whenever possible
+    # enforce consistent newlines before and after dots
+    dot-location: ["error", "property"]
+
+    # enforce dot notation whenever possible
     dot-notation: "error"
+
     # require the use of === and !==
     eqeqeq: "error"
-    # make sure for-in loops have an if statement
+
+    # require for-in loops to include an if statement
     guard-for-in: "error"
+
+    # disallow the use of alert, confirm, and prompt
+    no-alert: "off" # recommended by Google
+
+    # disallow the use of arguments.caller or arguments.callee
+    # no-caller: "off"
+
     # disallow lexical declarations in case clauses
     no-case-declarations: "error"
+
+    # disallow division operators explicitly at the beginning of regular expressions
+    # no-div-regex: "off"
+
+    # disallow else blocks after return statements in if statements
+    no-else-return: "error"
+
+    # disallow empty functions
+    no-empty-function: "error"
+
     # disallow empty destructuring patterns
     no-empty-pattern: "error"
-    # disallow use of eval()
+
+    # disallow null comparisons without type-checking operators
+    no-eq-null: "error"
+
+    # disallow the use of eval()
     no-eval: "error"
-    # disallow adding to native types
+
+    # disallow extending native types
     no-extend-native: "error"
+
+    # disallow unnecessary calls to .bind()
+    # no-extra-bind: "off"
+
+    # disallow unnecessary labels
+    # no-extra-label: "off"
+
+    # disallow fallthrough of case statements
+    no-fallthrough: "error"
+
+    # disallow leading or trailing decimal points in numeric literals
+    # no-floating-decimal: "off"
+
     # disallow shorthand type conversions
     no-implicit-coercion: "error"
-    # disallow use of octal literals
+
+    # disallow var and named function declarations in the global scope
+    # no-implicit-globals: "off"
+
+    # disallow use of eval()-like methods
+    # no-implied-eval: "off"
+
+    # disallow this keywords outside of classes or class-like objects
+    # no-invalid-this: "off"
+
+    # disallow the use of the __iterator__ property
+    # no-iterator: "off"
+
+    # disallow labeled statements
+    # no-labels: "off"
+
+    # disallow unnecessary nested blocks
+    # no-lone-blocks: "off"
+
+    # disallow function declarations and expressions inside loop statements
+    no-loop-func: "off" # recommended by Airbnb and Google
+
+    # disallow magic numbers
+    # no-magic-numbers: "off"
+
+    # disallow multiple spaces
+    no-multi-spaces: "error"
+
+    # disallow multiline strings
+    # no-multi-str: "off"
+
+    # disallow reassigning native objects
+    # no-native-reassign: "off"
+
+    # disallow new operators outside of assignments or comparisons
+    no-new: "error"
+
+    # disallow new operators with the Function object
+    no-new-func: "error"
+
+    # disallow new operators with the String, Number, and Boolean objects
+    no-new-wrappers: "error"
+
+    # disallow octal literals
     no-octal: "error"
-    # disallow declaring the same variable more then once
+
+    # disallow octal escape sequences in string literals
+    # no-octal-escape: "off"
+
+    # disallow reassigning function parameters
+    no-param-reassign: "off" # recommended by Airbnb
+
+    # disallow usage of __proto__ property
+    # no-proto: "off"
+
+    # disallow var redeclaration
     no-redeclare: "error"
+
+    # disallow assignment operators in return statements
+    # no-return-assign: "off"
+
+    # disallow javascript: urls
+    # no-script-url: "off"
+
     # disallow assignments where both sides are exactly the same
     no-self-assign: "error"
 
-    # Voids
+    # disallow comparisons where both sides are exactly the same
+    # no-self-compare: "off"
 
-    # disallow comparisons to null without a type-checking operator
-    no-eq-null: "error"
-    # disallow use of undefined when initializing variables
-    no-undef-init: "error"
-    # disallow comparisons with the value NaN
-    use-isnan: "error"
+    # disallow comma operators
+    # no-sequences: "off"
+
+    # disallow throwing literals as exceptions
+    # no-throw-literal: "off"
+
+    # disallow unmodified loop conditions
+    # no-unmodified-loop-condition: "off"
+
+    # disallow unused expressions
+    no-unused-expressions: "error"
+
+    # disallow unused labels
+    no-unused-labels: "error"
+
+    # disallow unnecessary calls to .call() and .apply()
+    no-useless-call: "error"
+
+    # disallow unnecessary concatenation of literals or template literals
+    no-useless-concat: "error"
+
+    # disallow unnecessary escape characters
+    no-useless-escape: "error"
+
+    # disallow void operators
+    # no-void: "off"
+
+    # disallow specified warning terms in comments
+    no-warning-comments: "off" # recommended by Google
+
+    # disallow with statements
+    # no-with: "off"
+
+    # enforce the consistent use of the radix argument when using parseInt()
+    radix: "off" # recommended by Airbnb and Google
+
+    # require var declarations be placed at the top of their containing scope
+    vars-on-top: "off" # recommended by Airbnb
+
+    # require parentheses around immediate function invocations
+    wrap-iife: "off" # recommended by Airbnb
+
+    # require or disallow Yoda conditions
+    # yoda: "off"
+
+    # Strict Mode
+
+    # require or disallow strict mode directives
+    strict: "off" # recommended by Airbnb
 
     # Variables
+
+    # require or disallow initialization in var declarations
+    # init-declarations: "off"
+
+    # disallow catch clause parameters from shadowing variables in the outer scope
+    # no-catch-shadow: "off"
 
     # disallow deletion of variables
     no-delete-var: "error"
 
-    # Whitespace Styles
+    # disallow labels that share a name with a variable
+    # no-label-var: "off"
 
-    # disallow space inside array brackets
-    array-bracket-spacing: "error"
-    # enforce consistent spacing inside single-line blocks
-    block-spacing: "error"
-    # disallow space before comma, require space after comma
-    comma-spacing: "error"
-    # disallow space inside property brackets
-    computed-property-spacing: "error"
-    # disallow space before colon, require space after colon in object literal properties
-    key-spacing: "error"
-    # require space after certain keywords
-    keyword-spacing: "error"
-    # disallow mixed spaces and tabs for indentation
-    no-mixed-spaces-and-tabs: "error"
-    # disallow space between function identifier and application
-    no-spaced-func: "error"
-    # require space inside object blocks
-    object-curly-spacing: ["error", "always"]
-    # disallow space before semicolon
-    semi-spacing: "error"
-    # require space before blocks
-    space-before-blocks: "error"
-    # disallow space after function names
-    space-before-function-paren: ["error", "never"]
-    # disallow space inside parentheses
-    space-in-parens: "error"
-    # require space around operators
-    space-infix-ops: "error"
-    # disallow space before/after unary operators
-    space-unary-ops: "error"
+    # disallow specified global variables
+    # no-restricted-globals: "off"
 
-    # enforce newline at the end of file, with no multiple empty lines
-    eol-last: "error"
-    # enforce consistent indentation of 4 spaces, including switch cases
-    indent: ["error", 4, { "SwitchCase": 1 }]
-    # disallow irregular whitespace outside of strings and comments
-    no-irregular-whitespace: "error"
-    # disallow use of multiple spaces
-    no-multi-spaces: "error"
-    # disallow trailing whitespace at the end of lines
-    no-trailing-spaces: ["error", { "skipBlankLines": true }]
-    # require quotes around object literal property names
-    quote-props: ["error", "consistent-as-needed"]
-    # require single quotes to be used unless it necessitates escaping
-    quotes: ["error", "single", { "avoidEscape": true }]
-    # require a space immediately following the // in a line comment
-    spaced-comment: ["error", "always"]
+    # disallow declaration of variables already declared in the outer scope
+    no-shadow: "off" # recommended by Airbnb
+
+    # disallow identifiers from shadowing restricted names
+    # no-shadow-restricted-names: "off"
+
+    # disallow the use of undeclared variables unless mentioned in /*global */ comments
+    no-undef: "off" # recommended by ESLint, Airbnb, and Google
+
+    # disallow initializing variables to undefined
+    no-undef-init: "error"
+
+    # disallow the use of undefined as an identifier
+    # no-undefined: "off"
+
+    # disallow unused variables
+    no-unused-vars: ["error", "local"]
+
+    # disallow use of variables before they are defined
+    no-use-before-define: "off" # recommended by Airbnb and Google
 
     # Stylistic Issues
 
-    # enforce one true brace style
+    # enforce consistent spacing inside array brackets
+    array-bracket-spacing: "error"
+
+    # enforce consistent spacing inside single-line blocks
+    block-spacing: "error"
+
+    # enforce consistent brace style for blocks
     brace-style: "error"
-    # enforce one true comma style
+
+    # enforce camelcase naming convention
+    camelcase: "error"
+
+    # enforce consistent spacing before and after commas
+    comma-spacing: "error"
+
+    # enforce consistent comma style
     comma-style: "error"
-    # specify curly brace conventions for all control statements
-    curly: "error"
-    # enforce consistent newlines before dots
-    dot-location: ["error", "property"]
-    # enforce a maximum of one statement per line
+
+    # enforce consistent spacing inside computed property brackets
+    computed-property-spacing: "error"
+
+    # enforce consistent naming when capturing the current execution context
+    # consistent-this: "off"
+
+    # enforce at least one newline at the end of files
+    eol-last: "error"
+
+    # enforce named function expressions
+    func-names: "off" # recommended by Airbnb
+
+    # enforce the consistent use of either function declarations or expressions
+    # func-style: "off"
+
+    # disallow specified identifiers
+    # id-blacklist: "off"
+
+    # enforce minimum and maximum identifier lengths
+    # id-length: "off"
+
+    # require identifiers to match a specified regular expression
+    # id-match: "off"
+
+    # enforce consistent indentation
+    indent: ["error", 4, { "SwitchCase": 1 }]
+
+    # enforce the consistent use of either double or single quotes in JSX attributes
+    # jsx-quotes: "off"
+
+    # enforce consistent spacing between keys and values in object literal properties
+    key-spacing: "error"
+
+    # enforce consistent spacing before and after keywords
+    keyword-spacing: "error"
+
+    # enforce consistent linebreak style
+    # linebreak-style: "off"
+
+    # require empty lines around comments
+    # lines-around-comment: "off"
+
+    # enforce a maximum depth that blocks can be nested
+    # max-depth: "off"
+
+    # enforce a maximum line length
+    max-len: "off" # recommended by Airbnb (100) and Google (80)
+
+    # enforce a maximum depth that callbacks can be nested
+    # max-nested-callbacks: "off"
+
+    # enforce a maximum number of parameters in function definitions
+    # max-params: "off"
+
+    # enforce a maximum number of statements allowed in function blocks
+    # max-statements: "off"
+
+    # enforce a maximum number of statements allowed per line
     max-statements-per-line: "error"
+
+    # require constructor function names to begin with a capital letter
+    new-cap: "error"
+
+    # require parentheses when invoking a constructor with no arguments
+    new-parens: "error"
+
+    # require or disallow an empty line after var declarations
+    # newline-after-var: "off"
+
+    # require an empty line before return statements
+    # newline-before-return: "off"
+
+    # require a newline after each call in a method chain
+    newline-per-chained-call: "off" # recommended by Airbnb
+
+    # disallow Array constructors
+    no-array-constructor: "error"
+
+    # disallow bitwise operators
+    # no-bitwise: "off"
+
+    # disallow continue statements
+    # no-continue: "off"
+
+    # disallow inline comments after code
+    # no-inline-comments: "off"
+
+    # disallow if statements as the only statement in else blocks
+    no-lonely-if: "error"
+
+    # disallow mixed spaces and tabs for indentation
+    no-mixed-spaces-and-tabs: "error"
+
+    # disallow multiple empty lines
+    # no-multiple-empty-lines: "off"
+
+    # disallow negated conditions
+    no-negated-condition: "off" # recommended by Google
+
     # disallow nested ternary expressions
     no-nested-ternary: "error"
-    # disallow ternary operators when simpler alternatives exist
-    no-unneeded-ternary: ["error", { "defaultAssignment": false }]
-    # enforce consistent linebreak style for operators
-    operator-linebreak: ["error", "before", { "overrides": { "=": "after" } }]
-    # require use of semicolons instead of ASI
-    semi: "error"
 
-    # Naming Conventions
+    # disallow Object constructors
+    no-new-object: "error"
 
-    # require camel case names
-    camelcase: "error"
-    # require a capital letter for constructors
-    new-cap: "error"
+    # disallow the unary operators ++ and --
+    # no-plusplus: "off"
+
+    # disallow specified syntax
+    no-restricted-syntax: "off" # recommended by Airbnb
+
+    # disallow spacing between function identifiers and their applications
+    no-spaced-func: "error"
+
+    # disallow ternary operators
+    # no-ternary: "off"
+
+    # disallow trailing whitespace at the end of lines
+    no-trailing-spaces: ["error", { "skipBlankLines": true }]
+
     # disallow dangling underscores in identifiers
     no-underscore-dangle: "error"
 
-    # Constructors
+    # disallow ternary operators when simpler alternatives exist
+    no-unneeded-ternary: ["error", { "defaultAssignment": false }]
 
-    # allow just one var statement per function
+    # disallow whitespace before properties
+    # no-whitespace-before-property: "off"
+
+    # enforce consistent spacing inside braces
+    object-curly-spacing: ["error", "always"]
+
+    # enforce placing object properties on separate lines
+    # object-property-newline: "off"
+
+    # enforce variables to be declared either together or separately in functions
     one-var: ["error", "never"]
-    # disallow the omission of parentheses when invoking a constructor with no arguments
-    new-parens: "error"
-    # disallow use of the Array constructor
-    no-array-constructor: "error"
-    # disallow use of new operator when not part of the assignment or comparison
-    no-new: "error"
-    # disallow use of new operator for Function object
-    no-new-func: "error"
-    # disallow use of the Object constructor
-    no-new-object: "error"
-    # disallows creating new instances of String, Number, and Boolean
-    no-new-wrappers: "error"
 
+    # require or disallow newlines around var declarations
+    # one-var-declaration-per-line: "off"
 
-    # The following rules are not enforced but kept here for reference and possible change in policy in the future
+    # require or disallow assignment operator shorthand where possible
+    # operator-assignment: "off"
 
-    # These rules are recommended by both Airbnb or Google
+    # enforce consistent linebreak style for operators
+    operator-linebreak: ["error", "before", { "overrides": { "=": "after" } }]
 
-    # specify the maximum length of a line in your program (Airbnb: 100, Google: 80)
-    max-len: "off"
-    # disallow creation of functions within loops
-    no-loop-func: "off"
-    # disallow use of undeclared variables unless mentioned in a /*global */ block
-    no-undef: "off"
-    # disallow use of variables before they are defined
-    no-use-before-define: "off"
-    # require use of the second argument for parseInt()
-    radix: "off"
-    # enforce padding within blocks
-    padded-blocks: "off"
+    # require or disallow padding within blocks
+    padded-blocks: "off" # recommended by Airbnb and Google
 
-    # These rules are recommended by both Airbnb
+    # require quotes around object literal property names
+    quote-props: ["error", "consistent-as-needed"]
 
-    # require return statements to either always or never specify values
-    consistent-return: "off"
-    # enforce named function expressions
-    func-names: "off"
-    # require a newline after each call in a method chain
-    newline-per-chained-call: "off"
-    # disallow reassigning function parameters
-    no-param-reassign: "off"
-    # disallow specified syntax
-    no-restricted-syntax: "off"
-    # disallow declaration of variables already declared in the outer scope
-    no-shadow: "off"
-    # controls location of Use Strict Directives
-    strict: "off"
-    # requires to declare all vars on top of their containing scope
-    vars-on-top: "off"
-    # require immediate function invocation to be wrapped in parentheses
-    wrap-iife: "off"
-    # ES6 features, irrelevant for us
+    # enforce the consistent use of either backticks, double, or single quotes
+    quotes: ["error", "single", { "avoidEscape": true }]
+
+    # require JSDoc comments
+    require-jsdoc: "off" # recommended by Google
+
+    # require or disallow semicolons instead of ASI
+    semi: "error"
+
+    # enforce consistent spacing before and after semicolons
+    semi-spacing: "error"
+
+    # require variables within the same declaration block to be sorted
+    # sort-vars: "off"
+
+    # enforce consistent spacing before blocks
+    space-before-blocks: "error"
+
+    # enforce consistent spacing before function definition opening parenthesis
+    space-before-function-paren: ["error", "never"]
+
+    # enforce consistent spacing inside parentheses
+    space-in-parens: "error"
+
+    # require spacing around operators
+    space-infix-ops: "error"
+
+    # enforce consistent spacing before or after unary operators
+    space-unary-ops: "error"
+
+    # enforce consistent spacing after the // or /* in a comment
+    spaced-comment: ["error", "always"]
+
+    # require parenthesis around regex literals
+    # wrap-regex: "off"
+
+    # ES6 and Node.js features, irrelevant for us; they are turned off to suppress warnings given by Airbnb configs
     no-var: "off"
     object-shorthand: "off"
     prefer-arrow-callback: "off"
     prefer-rest-params: "off"
     prefer-template: "off"
-
-    # These rules are recommended by Google
-
-    # disallow the use of alert, confirm, and prompt
-    no-alert: "off"
-    # disallow negated conditions
-    no-negated-condition: "off"
-    # disallow usage of configurable warning terms in comments, e.g. TODO or FIXME
-    no-warning-comments: "off"
-    # require JSDoc comments
-    require-jsdoc: "off"
-    # Ensure JSDoc comments are valid
-    valid-jsdoc: "off"
-
-    # These rules are not in anyone's recommended list
-
-    # Possible Errors
-
-    # no-unsafe-finally: "off"                 
-    # disallow control flow statements in finally blocks
-
-    # Stylistic Issues
-
-    # consistent-this: "off"                   # enforces consistent naming when capturing the current execution context
-    # func-style: "off"                        # enforces use of function declarations or expressions
-    # id-blacklist: "off"                      # disallow specified identifiers
-    # id-length: "off"                         # enforce minimum and maximum identifier lengths
-    # id-match: "off"                          # require identifiers to match a specified regular expression
-    # jsx-quotes: "off"                        # enforce the consistent use of either double or single quotes in JSX attributes
-    # linebreak-style: "off"                   # enforce consistent linebreak style
-    # lines-around-comment: "off"              # require empty lines around comments
-    # max-depth: "off"                         # specify the maximum depth that blocks can be nested
-    # max-nested-callbacks: "off"              # specify the maximum depth callbacks can be nested
-    # max-params: "off"                        # limits the number of parameters that can be used in the function declaration
-    # max-statements: "off"                    # specify the maximum number of statement allowed in a function
-    # newline-after-var: "off"                 # require or disallow an empty line after var declarations
-    # newline-before-return: "off"             # require an empty line before return statements
-    # no-bitwise: "off"                        # disallow use of bitwise operators
-    # no-continue: "off"                       # disallow continue statements
-    # no-inline-comments: "off"                # disallow comments inline after code
-    # no-multiple-empty-lines: "off"           # disallow multiple empty lines
-    # no-plusplus: "off"                       # disallow use of unary operators, ++ and --
-    # no-ternary: "off"                        # disallow the use of ternary operators
-    # one-var-declaration-per-line: "off"      # require or disallow newlines around var declarations
-    # operator-assignment: "off"               # require assignment operator shorthand where possible or prohibit it entirely
-    # sort-vars: "off"                         # sort variables within the same declaration block
-    # wrap-regex: "off"                        # require regex literals to be wrapped in parentheses
-
-    # Best Practices
-
-    # accessor-pairs: "off"                    # enforce getter and setter pairs in objects
-    # array-callback-return: "off"             # enforce return statements in callbacks of array methods
-    # complexity: "off"                        # specify the maximum cyclomatic complexity allowed in a program
-    # no-caller: "off"                         # disallow use of arguments.caller or arguments.callee
-    # no-div-regex: "off"                      # disallow division operators explicitly at beginning of regular expression
-    # no-extra-bind: "off"                     # disallow unnecessary function binding
-    # no-extra-label: "off"                    # disallow unnecessary labels
-    # no-floating-decimal: "off"               # disallow the use of leading or trailing decimal points in numeric literals
-    # no-implicit-globals: "off"               # disallow var and named function declarations in the global scope
-    # no-implied-eval: "off"                   # disallow use of eval()-like methods
-    # no-invalid-this: "off"                   # disallow this keywords outside of classes or class-like objects
-    # no-iterator: "off"                       # disallow usage of __iterator__ property
-    # no-labels: "off"                         # disallow use of labeled statements
-    # no-lone-blocks: "off"                    # disallow unnecessary nested blocks
-    # no-magic-numbers: "off"                  # disallow magic numbers
-    # no-multi-str: "off"                      # disallow use of multiline strings
-    # no-native-reassign: "off"                # disallow reassignments of native objects
-    # no-octal-escape: "off"                   # disallow use of octal escape sequences in string literals, such as var foo = "Copyright \"error"51";
-    # no-process-env: "off"                    # disallow use of process.env
-    # no-proto: "off"                          # disallow usage of __proto__ property
-    # no-return-assign: "off"                  # disallow use of assignment in return statement
-    # no-script-url: "off"                     # disallow use of javascript: urls.
-    # no-self-compare: "off"                   # disallow comparisons where both sides are exactly the same
-    # no-sequences: "off"                      # disallow use of comma operator
-    # no-throw-literal: "off"                  # disallow throwing literals as exceptions
-    # no-unmodified-loop-condition: "off"      # disallow unmodified loop conditions
-    # no-void: "off"                           # disallow void operators
-    # no-with: "off"                           # disallow use of the with statement
-    # yoda: "off"                              # require or disallow Yoda conditions
-
-    # Variables
-
-    # init-declarations: "off"                 # require or disallow initialization in var declarations
-    # no-catch-shadow: "off"                   # disallow the catch clause parameter name being the same as a variable in the outer scope
-    # no-label-var: "off"                      # disallow labels that share a name with a variable
-    # no-restricted-globals: "off"             # disallow specified global variables
-    # no-shadow-restricted-names: "off"        # disallow shadowing of names such as arguments
-    # no-undefined: "off"                      # disallow the use of undefined as an identifier
