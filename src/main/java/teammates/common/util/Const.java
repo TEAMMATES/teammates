@@ -911,8 +911,6 @@ public class Const {
                 + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
                 + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
                 + "</div>";
-        public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
-                + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
         public static final String COURSE_ADDED = "The course has been added. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
                 + "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"
@@ -967,7 +965,6 @@ public class Const {
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
-        public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
         public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
@@ -1031,21 +1028,6 @@ public class Const {
         public static final String NULL_POST_PARAMETER_MESSAGE = "You have been redirected to this page due to a possible expiry of the previous login."
                 + "<br>If you have previously typed some data and wish to retrieve it, you may use the 'Back' button of your Browser to navigate to the"
                 + " previous page containing the data you typed in.";
-        
-        //TODO: these status messages are from used for input validation testing only. Move to test driver side? 
-        
-        public static final String COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
-        public static final String COURSE_INPUT_FIELDS_MISSING = "There are missing fields.";
-        public static final String COURSE_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
-        public static final String COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
-        public static final String COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
-                + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_INSTRUCTORNAME_MAX_LENGTH + " characters.";
-        public static final String COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
-        public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.";
-        public static final String COURSE_STUDENTNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
-                + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_STUDENTNAME_MAX_LENGTH + " characters.";
-        public static final String COURSE_TEAMNAME_INVALID = "Team name should contain less than " + FieldValidator.COURSE_TEAMNAME_MAX_LENGTH
-                + " characters.";
         
         public static final String FIELDS_EMPTY = "Please fill in all the relevant fields.";
     

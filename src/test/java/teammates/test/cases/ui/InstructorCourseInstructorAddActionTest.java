@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -106,11 +107,14 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL, newInvalidInstructorEmail), redirectResult.getStatusMessage());
+        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                                   FieldValidator.REASON_INCORRECT_FORMAT), redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
-               + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL, newInvalidInstructorEmail) 
+               + "|||Servlet Action Failure : "
+               + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                               FieldValidator.REASON_INCORRECT_FORMAT)
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         

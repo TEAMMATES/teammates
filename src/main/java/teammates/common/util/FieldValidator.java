@@ -39,21 +39,13 @@ public class FieldValidator {
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
         FEEDBACK_QUESTION_TEXT,
-        ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
-        EMAIL_SEND_DATE,
         EMAIL_CONTENT
     }
     
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-    
-    /*
-     * =======================================================================
-     * Field: Contribution
-     * Allowed: N/A, Not sure, 0%, E-90% to E+90% in 10% increments
-     */
     
     /*
      * =======================================================================
@@ -79,11 +71,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " +
             "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " +
             PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
-    
-    /*
-     * =======================================================================
-     * Field: Time zone 
-     */
 
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
@@ -171,27 +158,6 @@ public class FieldValidator {
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
-    
-    /*
-     * =======================================================================
-     * Field Course Instructor Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_INSTRUCTORNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Student Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_STUDENTNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Team Name
-     * Allowed: <= 60
-     */
-    public static final int COURSE_TEAMNAME_MAX_LENGTH = 60;
 
     /*
      * =======================================================================
