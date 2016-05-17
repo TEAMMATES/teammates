@@ -335,7 +335,7 @@ public class TeamEvalResultTest extends BaseTestCase {
             averageColumns(new double[][]{{NSU}});
             signalFailureToDetectException();
         } catch (RuntimeException e) {
-            //expected exception
+            ignoreExpectedException();
         }
         
     }
@@ -353,7 +353,7 @@ public class TeamEvalResultTest extends BaseTestCase {
             sum(new double[]{NSU, 1, 2});
             signalFailureToDetectException();
         } catch (RuntimeException e) {
-            //expected exception
+            ignoreExpectedException();
         }
     }
     
