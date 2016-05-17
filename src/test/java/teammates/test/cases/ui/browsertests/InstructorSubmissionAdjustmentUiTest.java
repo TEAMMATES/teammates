@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,9 +86,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = 
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        List<FeedbackResponseAttributes> oldResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+        assertFalse(oldResponsesForSession.isEmpty());
         
         String newTeam = "Team 1.2";
         student.team = newTeam;

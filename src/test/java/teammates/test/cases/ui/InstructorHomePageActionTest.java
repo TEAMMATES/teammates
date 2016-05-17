@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.fail;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,7 +43,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?" + "error=false&user=instructorWithoutCourses",
                                          r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
         
         InstructorHomePageData data = (InstructorHomePageData) r.data;
@@ -85,7 +80,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                       r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;
@@ -120,7 +115,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;
@@ -146,7 +141,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         try {
             a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
             r = getShowPageResult(a);
-            fail("The run time exception is not thrown as expected");
+            signalFailureToDetectException("The run time exception is not thrown as expected");
         } catch (RuntimeException e) {
             assertNotNull(e);
         }
@@ -162,7 +157,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (InstructorHomePageData) r.data;

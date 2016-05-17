@@ -41,11 +41,11 @@ var FEEDBACK_QUESTION_NUMBEROFENTITIES = 'numofrecipients';
 var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = 'numofrecipientstype';
 var FEEDBACK_QUESTION_TYPE = 'questiontype';
 var FEEDBACK_QUESTION_MCQCHOICE = 'mcqOption';
-var FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
-var FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
+var FEEDBACK_QUESTION_MCQOTHEROPTION = 'mcqOtherOption';
+var FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = 'mcqOtherOptionFlag';
 var FEEDBACK_QUESTION_MSQCHOICE = 'msqOption';
-var FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
-var FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
+var FEEDBACK_QUESTION_MSQOTHEROPTION = 'msqOtherOption';
+var FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = 'msqOtherOptionFlag';
 var FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
@@ -84,10 +84,10 @@ var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
 // Status message type
 var StatusType = {
-    SUCCESS: "success",
-    INFO: "info",
-    WARNING: "warning",
-    DANGER: "danger",
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
     isValidType: function(type) {
         return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
     }
@@ -103,10 +103,8 @@ var DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens
 var DISPLAY_STUDENT_TEAMNAME_INVALID = 'Team name should contain less than 60 characters.';
 
 // Used in instructorCourse.js only
-var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' +
-    COURSE_ID_MAX_LENGTH + ' characters.';
-var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' +
-    COURSE_NAME_MAX_LENGTH + ' characters.';
+var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' + COURSE_ID_MAX_LENGTH + ' characters.';
+var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' + COURSE_NAME_MAX_LENGTH + ' characters.';
 var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
@@ -120,13 +118,7 @@ var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left i
 // Used in instructorCourseEnroll.js only
 var DISPLAY_ENROLLMENT_INPUT_EMPTY = 'Please input at least one student detail.';
 
-// Used in instructorEval.js only
-var DISPLAY_EVALUATION_NAMEINVALID = 'Please use only alphabets, numbers and whitespace in evaluation name.';
-var DISPLAY_EVALUATION_NAME_LENGTHINVALID = 'Evaluation name should not exceed 38 characters.';
-var DISPLAY_EVALUATION_SCHEDULEINVALID = 'The evaluation schedule (start/deadline) is not valid.<br>' +
-    'The start time should be in the future, and the deadline should be after start time.';
 var DISPLAY_FIELDS_EMPTY = 'Please fill in all the relevant fields.';
-var DISPLAY_INVALID_INPUT = 'Unexpected error. Invalid Input';
 
 // Used in instructorFeedback.js only
 var FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
@@ -549,12 +541,12 @@ function setStatusMessage(message, status) {
     }
     
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    var $statusMessage = $("<div></div>");
+    var $statusMessage = $('<div></div>');
     
-    $statusMessage.addClass("overflow-auto");
-    $statusMessage.addClass("alert");
-    $statusMessage.addClass("alert-" + status);
-    $statusMessage.addClass("statusMessage");
+    $statusMessage.addClass('overflow-auto');
+    $statusMessage.addClass('alert');
+    $statusMessage.addClass('alert-' + status);
+    $statusMessage.addClass('statusMessage');
     $statusMessage.html(message);
     
     $statusMessagesToUser.empty();
@@ -757,7 +749,7 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     });
     // remove empty elements from symbolTrimmedSearchKey
     symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
-        return n !== "";
+        return n !== '';
     });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
@@ -792,8 +784,8 @@ function isBlank(str) {
  */
 function toggleChevron(clickedElement) {
     var $clickedElement = $(clickedElement);
-    var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
-    var $chevronContainer = $clickedElement.find(".glyphicon");
+    var isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
+    var $chevronContainer = $clickedElement.find('.glyphicon');
 
     // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
@@ -809,16 +801,16 @@ function toggleChevron(clickedElement) {
  * Sets the chevron to point upwards.
  */
 function setChevronToUp(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-down");
-    chevronContainer.addClass("glyphicon-chevron-up");
+    chevronContainer.removeClass('glyphicon-chevron-down');
+    chevronContainer.addClass('glyphicon-chevron-up');
 }
 
 /**
  * Sets the chevron to point downwards.
  */
 function setChevronToDown(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-up");
-    chevronContainer.addClass("glyphicon-chevron-down");
+    chevronContainer.removeClass('glyphicon-chevron-up');
+    chevronContainer.addClass('glyphicon-chevron-down');
 }
 
 /**

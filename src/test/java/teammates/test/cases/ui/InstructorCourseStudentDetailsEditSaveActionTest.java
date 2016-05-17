@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -81,7 +79,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "courseid=" + "idOfTypicalCourse1",
                 r.getDestinationWithParams());
         
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
@@ -118,7 +116,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "courseid=" + "idOfTypicalCourse1",
                 rToBeTrimmed.getDestinationWithParams());
         
-        assertEquals(false, rToBeTrimmed.isError);
+        assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
         
         String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
@@ -155,7 +153,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
-        assertEquals(true, result.isError);
+        assertTrue(result.isError);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG), 
                 result.getStatusMessage());
         
@@ -190,7 +188,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
-        assertEquals(true, result.isError);
+        assertTrue(result.isError);
         assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail), 
                 result.getStatusMessage());
         
@@ -230,7 +228,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&courseid=" + instructor1OfCourse1.courseId,
                 redirectResult.getDestinationWithParams());
         
-        assertEquals(true, redirectResult.isError);
+        assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, redirectResult.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +

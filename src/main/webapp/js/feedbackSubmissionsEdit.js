@@ -34,17 +34,17 @@ $(document).ready(function() {
     });
     
     $("input[type='radio']").change(function() {
-        idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
-        idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
+        idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
+        idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
     
-        if ($(this).data('text') === "otherOptionText") {
+        if ($(this).data('text') === 'otherOptionText') {
             // Other option is selected by the student
             $('#' + idOfOtherOptionText).prop('disabled', false);
-            $('#' + idOfOtherOptionFlag).val("1");
+            $('#' + idOfOtherOptionFlag).val('1');
         } else {
             // Any option except the other option is selected
             $('#' + idOfOtherOptionText).prop('disabled', true);
-            $('#' + idOfOtherOptionFlag).val("0");
+            $('#' + idOfOtherOptionFlag).val('0');
         }
     });
                    
@@ -136,24 +136,24 @@ function prepareMCQQuestions() {
             radioButtons[id].click(function(event) {
                 var val = $(this).val();
                 var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf("-"));
+                var indexSuffix = name.substring(name.indexOf('-'));
           
                 // toggle the radio button checked state
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') === "otherOptionText") {
+                if ($(this).data('text') === 'otherOptionText') {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('1');
                     } else {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
                     }
                 } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
                     $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
@@ -208,7 +208,7 @@ function prepareMSQQuestions() {
             // checkbox corresponding to 'other' is clicked
             otherOption.click(function() {
                 var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf("-"));
+                var indexSuffix = name.substring(name.indexOf('-'));
                 updateOtherOptionAttributes($(this), indexSuffix);
             });
         }
@@ -218,7 +218,7 @@ function prepareMSQQuestions() {
             var $options = $(this).closest('table').find(
                            'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
             var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf("-"));
+            var indexSuffix = name.substring(name.indexOf('-'));
             
             $options.each(function() {
                 $(this).prop('checked', false);
@@ -239,7 +239,7 @@ function prepareMSQQuestions() {
             var noneOfTheAboveOption = $(this).closest('table').find(
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
             var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf("-"));
+            var indexSuffix = name.substring(name.indexOf('-'));
             
             noneOfTheAboveOption.prop('checked', false);
             
@@ -255,10 +255,10 @@ function prepareMSQQuestions() {
 function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val('1');
     } else {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val('0');
     }
 }
 

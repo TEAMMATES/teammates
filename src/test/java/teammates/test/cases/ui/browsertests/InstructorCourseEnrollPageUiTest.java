@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.net.MalformedURLException;
 
 import org.testng.annotations.AfterClass;

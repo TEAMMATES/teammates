@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -458,7 +457,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-publish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -468,7 +467,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }

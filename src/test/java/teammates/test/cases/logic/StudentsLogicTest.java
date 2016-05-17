@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +28,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -117,7 +112,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
         
         assertEquals("Team 1.1</td></div>'\"", team.name);
-        assertTrue(team.students != null);
+        assertNotNull(team.students);
         assertEquals(4, team.students.size());
         
         ______TS("Typical case: get team of non-existing student");
@@ -234,11 +229,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
         studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt", "", courseId));
-        try {
-            studentsLogic.validateSectionsAndTeams(studentList, courseId);
-        } catch (EnrollException e) {
-            Assumption.fail("This exception is not expected: " + e.getMessage());
-        }
+        
+        studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
 
@@ -1233,8 +1225,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                             + Utils.getTeammatesGson().toJson(expectedStudent)
                             + "\n actual \n"
                             + Utils.getTeammatesGson().toJson(enrollmentResult);
-        assertEquals(errorMessage, true, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
-                                             && enrollmentResult.updateStatus == status);
+        assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
+                                 && enrollmentResult.updateStatus == status);
     }
 
 }

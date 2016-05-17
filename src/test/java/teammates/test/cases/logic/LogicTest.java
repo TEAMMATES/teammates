@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -62,9 +60,9 @@ public class LogicTest extends BaseComponentTestCase {
 
         UserType user = logic.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
-        assertEquals(true, user.isAdmin);
-        assertEquals(true, user.isInstructor);
-        assertEquals(true, user.isStudent);
+        assertTrue(user.isAdmin);
+        assertTrue(user.isInstructor);
+        assertTrue(user.isStudent);
 
         ______TS("unregistered");
 
@@ -72,9 +70,9 @@ public class LogicTest extends BaseComponentTestCase {
 
         user = logic.getCurrentUser();
         assertEquals("unknown", user.id);
-        assertEquals(false, user.isAdmin);
-        assertEquals(false, user.isInstructor);
-        assertEquals(false, user.isStudent);
+        assertFalse(user.isAdmin);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isStudent);
 
         ______TS("not logged in");
 

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,7 +40,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
@@ -73,7 +71,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)), pageResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
@@ -105,7 +103,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
 
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) ajaxResult.data;

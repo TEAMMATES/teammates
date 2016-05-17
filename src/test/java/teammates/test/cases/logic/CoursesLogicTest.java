@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +19,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -116,7 +111,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(1, archivedCourses.size());
-        assertEquals(true, archivedCourses.get(0).isArchived);
+        assertTrue(archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
         instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -184,17 +179,17 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "course.id";
         
-        assertEquals(false, coursesLogic.isSampleCourse(c.id));
+        assertFalse(coursesLogic.isSampleCourse(c.id));
         
         ______TS("typical case: is a sample course");
         
         c.id = c.id.concat("-demo3");
-        assertEquals(true, coursesLogic.isSampleCourse(c.id));
+        assertTrue(coursesLogic.isSampleCourse(c.id));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
         c.id = c.id.concat("-demo33");
-        assertEquals(true, coursesLogic.isSampleCourse(c.id));
+        assertTrue(coursesLogic.isSampleCourse(c.id));
         
          ______TS("Null parameter");
     
@@ -213,13 +208,13 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "non-existent-course";
 
-        assertEquals(false, coursesLogic.isCoursePresent(c.id));
+        assertFalse(coursesLogic.isCoursePresent(c.id));
 
         ______TS("typical case: an existent course");
         
         c.id = "idOfTypicalCourse1";
 
-        assertEquals(true, coursesLogic.isCoursePresent(c.id));
+        assertTrue(coursesLogic.isCoursePresent(c.id));
 
         ______TS("Null parameter");
     
@@ -270,14 +265,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         coursesLogic.setArchiveStatusOfCourse(course.id, true);
         
         CourseAttributes courseRetrieved = coursesLogic.getCourse(course.id);
-        assertEquals(true, courseRetrieved.isArchived);
+        assertTrue(courseRetrieved.isArchived);
         
         ______TS("success: unarchive a course");
         
         coursesLogic.setArchiveStatusOfCourse(course.id, false);
         
         courseRetrieved = coursesLogic.getCourse(course.id);
-        assertEquals(false, courseRetrieved.isArchived);
+        assertFalse(courseRetrieved.isArchived);
         
         ______TS("fail: course doesn't exist");
         
@@ -308,7 +303,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.id);
         assertEquals(course.id, courseSummary.course.id);
         assertEquals(course.name, courseSummary.course.name);
-        assertEquals(false, courseSummary.course.isArchived);
+        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
         assertEquals(5, courseSummary.stats.studentsTotal);
@@ -372,7 +367,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.id);
         assertEquals(course.id, courseSummary.course.id);
         assertEquals(course.name, courseSummary.course.name);
-        assertEquals(false, courseSummary.course.isArchived);
+        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.sections.size()); 
        
@@ -427,7 +422,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.id);
         assertEquals(course.id, courseDetails.course.id);
         assertEquals(course.name, courseDetails.course.name);
-        assertEquals(false, courseDetails.course.isArchived);
+        assertFalse(courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);
@@ -996,7 +991,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Typical case: course without sections");
 
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.id));
+        assertFalse(coursesLogic.hasIndicatedSections(typicalCourse2.id));
 
         ______TS("Failure case: course does not exists");
 
@@ -1154,26 +1149,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetCourseIdToSectionNamesMap() {
+    public void testGetCourseIdToSectionNamesMap() throws EntityDoesNotExistException {
         ______TS("typical case");
         
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
         courses.add(course);
-        try {
-            Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
-            
-            assertEquals(1, map.keySet().size());
-            assertTrue(map.containsKey("idOfTypicalCourse1"));
-            
-            assertEquals(2, map.get("idOfTypicalCourse1").size());
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-            Assumption.fail("course could not be found");
-        }
         
+        Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
+            
+        assertEquals(1, map.keySet().size());
+        assertTrue(map.containsKey("idOfTypicalCourse1"));
+            
+        assertEquals(2, map.get("idOfTypicalCourse1").size());
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
     public void testDeleteCourse() throws Exception {
@@ -1184,7 +1174,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
+        assertFalse(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).isEmpty());
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);

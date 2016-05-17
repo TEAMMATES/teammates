@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,7 +42,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user", 
                      result.getDestinationWithParams());
-        assertEquals(false, result.isError);
+        assertFalse(result.isError);
 
         AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) result.data;
         assertEquals(instructor1OfCourse1.googleId, data.getAccountInformation().googleId);

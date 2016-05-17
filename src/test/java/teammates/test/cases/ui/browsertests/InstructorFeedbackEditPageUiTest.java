@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -230,7 +224,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question link");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
     }
 
     private void testEditQuestionAction() throws Exception {
@@ -388,7 +382,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
         feedbackEditPage.selectQuestionNumber(2, 1);        
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());

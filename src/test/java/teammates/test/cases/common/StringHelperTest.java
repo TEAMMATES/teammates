@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.Test;
@@ -24,18 +22,18 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testIsWhiteSpace() {
 
-        assertEquals(true, StringHelper.isWhiteSpace(""));
-        assertEquals(true, StringHelper.isWhiteSpace("       "));
-        assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(""));
+        assertTrue(StringHelper.isWhiteSpace("       "));
+        assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
     
     @Test
     public void testIsMatching() {
-        assertEquals(true, StringHelper.isMatching("\u00E0", "à"));
-        assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
-        assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
+        assertTrue(StringHelper.isMatching("\u00E0", "à"));
+        assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
+        assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
    
     

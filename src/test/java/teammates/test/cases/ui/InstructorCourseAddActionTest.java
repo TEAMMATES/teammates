@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,10 +51,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(true, pageResult.isError);
+
+        assertTrue(pageResult.isError);
         assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
                                         FieldValidator.REASON_INCORRECT_FORMAT), pageResult.getStatusMessage());
-        
+
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(1, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
 
@@ -96,7 +95,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
         
         pageData = (InstructorCoursesPageData) pageResult.data;
@@ -120,7 +119,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?"
                                 + "courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students "
                                 + "to the course or click <a href=\"/page/instructorCourseEditPage?"

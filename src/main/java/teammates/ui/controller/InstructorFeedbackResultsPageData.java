@@ -726,7 +726,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             currentTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             currentTeam = bundle.getTeamNameForEmail(giverIdentifier);
-            if (currentTeam.equals("")) {
+            if (currentTeam.isEmpty()) {
                 currentTeam = bundle.getNameForEmail(giverIdentifier);
             }
         }
@@ -1062,7 +1062,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String questionText = questionDetails.getQuestionText();
         String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(
                                                                         !responses.isEmpty(), statisticsTable, 
                                                                         responseRows, question, 
                                                                         questionText, additionalInfoText, 

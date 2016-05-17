@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -44,13 +42,13 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
             Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
         };
         
-        assertEquals(true, CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
+        assertTrue(CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
         InstructorCourseDeleteAction deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
         
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
@@ -75,7 +73,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());
         
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
@@ -96,7 +94,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id2 has been deleted.", redirectResult.getStatusMessage());
         
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);

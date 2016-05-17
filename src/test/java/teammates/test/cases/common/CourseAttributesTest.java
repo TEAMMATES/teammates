@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
 import static teammates.common.util.FieldValidator.*;
 
@@ -26,7 +25,7 @@ public class CourseAttributesTest extends BaseTestCase {
         
         CourseAttributes c = generateValidCourseAttributesObject();
         
-        assertEquals("valid value", true, c.isValid());
+        assertTrue("valid value", c.isValid());
         
         
         String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
@@ -34,7 +33,7 @@ public class CourseAttributesTest extends BaseTestCase {
         c.id = veryLongId;
         c.name = emptyName;
         
-        assertEquals("invalid value", false, c.isValid());
+        assertFalse("invalid value", c.isValid());
         String errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
                 String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);

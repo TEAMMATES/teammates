@@ -1,10 +1,10 @@
 
 var loadUpFunction = function() {
-    var typingErrMsg = "Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.";
+    var typingErrMsg = 'Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.';
     var notified = false;
 
     function isUserTyping(str) {
-        return str.indexOf("\t") === -1 && str.indexOf("|") === -1;
+        return str.indexOf('\t') === -1 && str.indexOf('|') === -1;
     }
     window.isUserTyping = isUserTyping;
 
