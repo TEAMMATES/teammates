@@ -1,6 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
@@ -220,53 +219,6 @@ public class BackDoorTest extends BaseTestCase {
 
     public void testEditInstructor() {
         // method not implemented
-    }
-
-    
-
-    @SuppressWarnings("deprecation")
-    // decrepated methods are used correctly
-    @Test
-    public void testGetCoursesByInstructorId() throws InvalidParametersException {
-
-        // testing for non-existent instructor
-        String[] courses = BackDoor.getCoursesByInstructorId("nonExistentInstructor");
-        assertEquals("[]", Arrays.toString(courses));
-        
-        // Create 2 courses for a new instructor
-        String course1 = "AST.TGCBCI.course1";
-        String course2 = "AST.TGCBCI.course2";
-        BackDoor.deleteCourse(course1);
-        BackDoor.deleteCourse(course2);
-        String status = BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        status = BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        
-        // create a fresh instructor with relations for the 2 courses
-        String instructor1Id = "AST.TGCBCI.instructor1";
-        String instructor1name = "AST TGCBCI Instructor";
-        String instructor1email = "instructor1@ast.tmt";
-        BackDoor.deleteAccount(instructor1Id);
-        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course2, instructor1name, instructor1email));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        //============================================================================
-        // Don't be confused by the following: it has no relation with the above instructor/course(s)
-        
-        // add a course that belongs to a different instructor
-        String course3 = "AST.TGCBCI.course3";
-        BackDoor.deleteCourse(course3);
-        status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        courses = BackDoor.getCoursesByInstructorId(instructor1Id);
-        assertEquals("[" + course1 + ", " + course2 + "]", Arrays.toString(courses));
-
-        BackDoor.deleteInstructor(instructor1email, course1);
-        BackDoor.deleteInstructor(instructor1email, course2);
     }
 
     @SuppressWarnings("unused")
