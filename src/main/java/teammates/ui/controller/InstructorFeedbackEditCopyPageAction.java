@@ -30,11 +30,11 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         
         // Only add courses to data if the course is not archived and instructor has sufficient permissions
         for (CourseAttributes course : allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.getId(), account.googleId);
             
             boolean isAllowedToMakeSession =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
+            boolean isArchived = Logic.isCourseArchived(course.getId(), account.googleId);
 
             if (!isArchived && isAllowedToMakeSession) {
                 coursesToAddToData.add(course);

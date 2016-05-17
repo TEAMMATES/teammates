@@ -17,7 +17,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.CourseAttributesTest;
 
 import com.google.gson.Gson;
 
@@ -58,8 +57,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         }
 
         ______TS("invalid parameters in an entity");
-        CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
-        invalidCourse.id = "invalid id";
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "valid course name");
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
         try {

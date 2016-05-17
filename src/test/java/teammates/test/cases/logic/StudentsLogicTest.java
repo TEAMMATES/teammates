@@ -222,7 +222,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     public void testValidateSections() throws Exception {
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
-        String courseId = typicalCourse1.id;
+        String courseId = typicalCourse1.getId();
 
         ______TS("Typical case");
 
@@ -384,7 +384,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: no change of team");
         
-        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
@@ -783,7 +783,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("non-exist student");
         
         String nonExistStudentEmail = "nonExist@google.tmt";
-        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
         
         
@@ -814,7 +814,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
         StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(studentKey);
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
@@ -929,16 +929,16 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     
         CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
         List<StudentAttributes> studentList = studentsLogic
-                .getStudentsForCourse(course1OfInstructor1.id);
+                .getStudentsForCourse(course1OfInstructor1.getId());
         assertEquals(5, studentList.size());
         for (StudentAttributes s : studentList) {
-            assertEquals(course1OfInstructor1.id, s.course);
+            assertEquals(course1OfInstructor1.getId(), s.course);
         }
     
         ______TS("course with 0 students");
     
         CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
-        studentList = studentsLogic.getStudentsForCourse(course2OfInstructor1.id);
+        studentList = studentsLogic.getStudentsForCourse(course2OfInstructor1.getId());
         assertEquals(0, studentList.size());
     
         ______TS("null parameter");
@@ -986,7 +986,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // as the method itself is too simple
         ______TS("typical case");
         
-        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String actualKey = studentsLogic.getKeyForStudent(course1Id, student1InCourse1.email);
         String expectedKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
         assertEquals(expectedKey, actualKey);
@@ -1021,7 +1021,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // as the method itself is too simple
         ______TS("typical case");
         
-        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String actualKey = studentsLogic.getEncryptedKeyForStudent(course1Id, student1InCourse1.email);
         String expectedKey = StringHelper.encrypt(studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
         assertEquals(expectedKey, actualKey);
@@ -1047,13 +1047,13 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         String nonExistStudentEmail = "nonExist@google.tmt";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertFalse(studentsLogic.isStudentInCourse(course1.id, nonExistStudentEmail));
+        assertFalse(studentsLogic.isStudentInCourse(course1.getId(), nonExistStudentEmail));
         
         
         ______TS("typical case");
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentInCourse(course1.id, student1InCourse1.email));
+        assertTrue(studentsLogic.isStudentInCourse(course1.getId(), student1InCourse1.email));
     }
     
     public void testIsStudentInTeam() {
@@ -1063,17 +1063,17 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String nonExistStudentEmail = "nonExist@google.tmt";
         String teamName = "Team 1";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertFalse(studentsLogic.isStudentInTeam(course1.id, teamName, nonExistStudentEmail));
+        assertFalse(studentsLogic.isStudentInTeam(course1.getId(), teamName, nonExistStudentEmail));
         
         
         ______TS("student not in given team");
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertFalse(studentsLogic.isStudentInTeam(course1.id, teamName, nonExistStudentEmail));
+        assertFalse(studentsLogic.isStudentInTeam(course1.getId(), teamName, nonExistStudentEmail));
         
         ______TS("typical case");
         teamName = student1InCourse1.team;
-        assertTrue(studentsLogic.isStudentInTeam(course1.id, teamName, student1InCourse1.email));
+        assertTrue(studentsLogic.isStudentInTeam(course1.getId(), teamName, student1InCourse1.email));
     }
     
     public void testIsStudentsInSameTeam() {
@@ -1083,19 +1083,22 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         String nonExistStudentEmail = "nonExist@google.tmt";
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.id, nonExistStudentEmail, student2InCourse1.email));
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail,
+                                                       student2InCourse1.email));
         
         
         ______TS("students of different teams");
         
         StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.id, student2InCourse1.email, student5InCourse1.email));
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+                                                       student5InCourse1.email));
         
         
         ______TS("students of different teams");     
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentsInSameTeam(course1.id, student2InCourse1.email, student1InCourse1.email));
+        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+                                                      student1InCourse1.email));
         
     }
 
@@ -1107,14 +1110,14 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     
         // send registration key to a class in which all are registered
         List<MimeMessage> emailsSent = studentsLogic
-                .sendRegistrationInviteForCourse(course1.id);
+                .sendRegistrationInviteForCourse(course1.getId());
         assertEquals(0, emailsSent.size());
         
         ______TS("typical case: send invite to one student");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
-        String courseId = dataBundle.courses.get("typicalCourse1").id;
+        String courseId = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.tmt", "", courseId);
         StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.tmt", "", courseId);
         StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.tmt", "", courseId);

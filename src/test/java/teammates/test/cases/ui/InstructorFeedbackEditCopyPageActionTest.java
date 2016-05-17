@@ -55,7 +55,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         List<String> idOfCourses = new ArrayList<String>();
         
         for (CourseAttributes course: pageData.getCourses()) {
-            idOfCourses.add(course.id);
+            idOfCourses.add(course.getId());
         }
         
         assertFalse(idOfCourses.contains("FeedbackEditCopy.CS1101")); // course is archived

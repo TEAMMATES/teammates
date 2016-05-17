@@ -53,7 +53,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
-        assertEquals("icdct.tpa.id1", courseList.get(0).id);
+        assertEquals("icdct.tpa.id1", courseList.get(0).getId());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||"
                                     + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
