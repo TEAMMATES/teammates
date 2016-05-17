@@ -104,8 +104,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
     
     protected boolean isAnswerBlank() {
-        return answers.size() == 1 && 
-               answers.get(0).isEmpty();
+        return answers.size() == 1 && answers.get(0).isEmpty();
     }
     
     public Boolean isOtherOptionAnswer() {

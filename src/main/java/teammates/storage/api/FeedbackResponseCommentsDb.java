@@ -629,8 +629,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
-        q.setFilter("courseId == courseIdParam && " +
-                "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
+        q.setFilter("courseId == courseIdParam && " 
+                    + "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> firstQueryResponseComments =

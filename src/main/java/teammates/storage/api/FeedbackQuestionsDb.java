@@ -79,8 +79,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 courseId, questionNumber);
         
         if (fq == null) {
-            log.info("Trying to get non-existent Question: " +
-                         questionNumber + "." + feedbackSessionName + "/" + courseId);
+            log.info("Trying to get non-existent Question: "
+                     + questionNumber + "." + feedbackSessionName + "/" + courseId);
             return null;
         }
         
@@ -266,9 +266,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         Query q = getPM().newQuery(FeedbackQuestion.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " +
-                "courseId == courseIdParam && " +
-                "questionNumber == questionNumberParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " 
+                    + "courseId == courseIdParam && " 
+                    + "questionNumber == questionNumberParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList =
@@ -309,13 +309,13 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
         Query q = getPM().newQuery(FeedbackQuestion.class);
-        q.declareParameters("String feedbackSessionNameParam, " +
-                "String courseIdParam, " +
-                "FeedbackParticipantType giverTypeParam");
+        q.declareParameters("String feedbackSessionNameParam, " 
+                            + "String courseIdParam, " 
+                            + "FeedbackParticipantType giverTypeParam");
         q.declareImports("import teammates.common.datatransfer.FeedbackParticipantType");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " +
-                "courseId == courseIdParam && " +
-                "giverType == giverTypeParam ");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " 
+                    + "courseId == courseIdParam && " 
+                    + "giverType == giverTypeParam ");
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList = 
