@@ -212,7 +212,7 @@ public class InstructorHomePage extends AppPage {
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
-        js.executeScript("arguments[0].href=arguments[1]", element, newValue );
+        js.executeScript("arguments[0].href=arguments[1]", element, newValue);
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {

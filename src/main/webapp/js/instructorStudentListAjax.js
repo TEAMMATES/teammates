@@ -55,7 +55,7 @@ var seeMoreRequest = function(e) {
     var panelCollapse = $(this).parent().children('.panel-collapse');
     var panelBody = $(panelCollapse[0]).children('.panel-body');
     var displayIcon = $(this).children('.display-icon');
-    var courseIndex = $(panelCollapse[0]).attr("id").split('-')[1];
+    var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
     var courseCheck = $('#course_check-' + courseIndex);
     var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
     
@@ -117,7 +117,7 @@ var seeMoreRequest = function(e) {
 
                     $(panelHeading).removeClass('ajax_submit');
                     displayIcon.html('');
-                    if ($(panelCollapse[0]).attr('class').indexOf("in") === -1) {
+                    if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
                         $(panelHeading).trigger('click');
                     }
                 }

@@ -156,7 +156,7 @@ public class GaeSimulation {
 
     public void tearDown() {
         try {
-            if (helper != null ) {
+            if (helper != null) {
                 helper.tearDown();
             }
         } catch (Exception e) {

@@ -103,7 +103,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
             boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
-            boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(                                        
+            boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
                     response.giverSection, response.recipientSection, response.feedbackSessionName,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             boolean allowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;
