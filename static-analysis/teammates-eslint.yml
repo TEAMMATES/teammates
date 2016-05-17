@@ -4,6 +4,16 @@ env:
     qunit: true
 rules:
 
+    #################################################################################
+    # This ruleset includes all the rules given in http://eslint.org/docs/rules/,
+    # except for the NodeJS and ECMAScript 6 rules due to their irrelevance.
+    # All rules recommended by ESLint are activated.
+    #
+    # Further consultations are made with Airbnb and Google configs, and
+    # the rules recommended by them are mostly included, deactivated only when
+    # the rules are not compatible with our workflow.
+    #################################################################################
+
     # Possible Errors
 
     # require or disallow trailing commas
