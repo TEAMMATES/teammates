@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;

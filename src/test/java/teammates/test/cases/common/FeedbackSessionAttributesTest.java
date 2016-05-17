@@ -7,7 +7,6 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.assertEquals;
 
 import com.google.appengine.api.datastore.Text;
 

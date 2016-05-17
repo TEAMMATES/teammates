@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;

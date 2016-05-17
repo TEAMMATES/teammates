@@ -1,11 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertNotSame;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +19,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -1156,26 +1149,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetCourseIdToSectionNamesMap() {
+    public void testGetCourseIdToSectionNamesMap() throws EntityDoesNotExistException {
         ______TS("typical case");
         
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
         courses.add(course);
-        try {
-            Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
-            
-            assertEquals(1, map.keySet().size());
-            assertTrue(map.containsKey("idOfTypicalCourse1"));
-            
-            assertEquals(2, map.get("idOfTypicalCourse1").size());
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-            Assumption.fail("course could not be found");
-        }
         
+        Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
+            
+        assertEquals(1, map.keySet().size());
+        assertTrue(map.containsKey("idOfTypicalCourse1"));
+            
+        assertEquals(2, map.get("idOfTypicalCourse1").size());
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
     public void testDeleteCourse() throws Exception {
@@ -1186,7 +1174,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertNotSame(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size(), 0);
+        assertFalse(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).isEmpty());
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);

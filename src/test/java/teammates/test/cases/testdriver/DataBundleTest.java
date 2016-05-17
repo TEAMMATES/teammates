@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
