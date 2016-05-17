@@ -302,7 +302,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
 
         ______TS("RUBRIC: edit weight success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
 
         // Edit the weight of the first choice
         feedbackEditPage.clickAssignWeightsCheckbox(1);
