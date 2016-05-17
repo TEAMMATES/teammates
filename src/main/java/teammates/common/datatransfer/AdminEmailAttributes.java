@@ -137,7 +137,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.sendDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }
@@ -145,7 +145,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     public String getCreateDateForDisplay() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.createDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }
