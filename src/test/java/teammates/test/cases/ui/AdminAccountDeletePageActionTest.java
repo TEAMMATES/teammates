@@ -3,8 +3,6 @@ package teammates.test.cases.ui;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -25,7 +23,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         ______TS("success: delete entire account");
         
@@ -33,7 +31,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.googleId,
-                "account","true"
+                "account", "true"
         };
         
         final String adminUserId = "admin.user";

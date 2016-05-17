@@ -31,7 +31,7 @@ public class AccountsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
         
-    private static AccountsLogic instance = null;
+    private static AccountsLogic instance;
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
@@ -52,7 +52,7 @@ public class AccountsLogic {
             throw new InvalidParametersException(invalidityInfo);
         }
         
-        log.info("going to create account :\n"+accountData.toString());
+        log.info("going to create account :\n" + accountData.toString());
         
         accountsDb.createAccount(accountData);
     }
@@ -81,14 +81,14 @@ public class AccountsLogic {
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = new CoursesLogic().getCourse(courseId);
         Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
-        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
+        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.getId());
         
-        Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
+        Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
-        for (int i=0; i<instructorList.size(); i++) {
+        for (int i = 0; i < instructorList.size(); i++) {
             String instructorGoogleId = instructorList.get(i).googleId;
-            if(instructorGoogleId==null){
+            if (instructorGoogleId == null) {
                 continue;
             }
             AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
@@ -142,7 +142,7 @@ public class AccountsLogic {
      * Joins the user as an instructor, and sets the institute too.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException{
+            throws JoinCourseException, InvalidParametersException {
         
         try {
             joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
@@ -156,7 +156,7 @@ public class AccountsLogic {
      * Joins the user as an instructor.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException{
+            throws JoinCourseException, InvalidParametersException {
         
         try {
             joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
@@ -171,16 +171,16 @@ public class AccountsLogic {
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
      */
-    private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
+    private void joinCourseForInstructorWithInstitute(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
-        confirmValidJoinCourseRequest(encryptedKey, googleId, institute);
+        confirmValidJoinCourseRequest(encryptedKey, googleId);
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute ) ;
+        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
         
-        if (account == null){
+        if (account == null) {
             createAccount(new AccountAttributes(googleId,
                                                 instructor.name,
                                                 true,
@@ -195,7 +195,7 @@ public class AccountsLogic {
         
         //Update the goolgeId of the student entity for the instructor which was created from sampleData.
         StudentAttributes student = StudentsLogic.inst().getStudentForEmail(instructor.courseId, instructor.email);
-        if(student != null){
+        if (student != null) {
             student.googleId = googleId;
             StudentsLogic.inst().updateStudentCascade(instructor.email, student);
         }
@@ -205,7 +205,7 @@ public class AccountsLogic {
     /**
      * @throws JoinCourseException if the request is invalid. Do nothing otherwise.
      */
-    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId, String institute)
+    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
         //The order in which these confirmations are done is important. Reorder with care.
@@ -213,7 +213,7 @@ public class AccountsLogic {
         
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId, institute);
+        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
         confirmUnusedKey(instructorForKey, googleId);
         confirmNotRejoiningUsingDifferentKey(instructorForKey, googleId);
         
@@ -246,13 +246,13 @@ public class AccountsLogic {
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
      */
-    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId, String institute) 
+    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) 
             throws JoinCourseException {
-        if(instructorForKey.googleId ==null || !instructorForKey.googleId.equals(googleId)){
+        if (instructorForKey.googleId == null || !instructorForKey.googleId.equals(googleId)) {
             return;
         }
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
-        if (existingAccount != null && existingAccount.isInstructor){
+        if (existingAccount != null && existingAccount.isInstructor) {
             throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED, 
                                           googleId + " has already joined this course");
         }
@@ -264,7 +264,7 @@ public class AccountsLogic {
      * @throws JoinCourseException if the key does not correspond to an
      *    Instructor entity.
      */
-    private void confirmValidKey(String encryptedKey) throws JoinCourseException{
+    private void confirmValidKey(String encryptedKey) throws JoinCourseException {
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
         if (instructorForKey == null) {
@@ -278,8 +278,8 @@ public class AccountsLogic {
     /**
      * @throws JoinCourseException if the key has been used before.
      */
-    private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException{
-        if(instructorForKey.googleId==null){
+    private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
+        if (instructorForKey.googleId == null) {
             return;
         }
         
@@ -299,7 +299,7 @@ public class AccountsLogic {
         
         StudentAttributes studentRole = StudentsLogic.inst().getStudentForRegistrationKey(encryptedKey);
         
-        if(studentRole == null){
+        if (studentRole == null) {
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: %s");
         } else if (studentRole.isRegistered()) {
@@ -336,11 +336,11 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while removing instruction privileges from account :"+account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while removing instruction privileges from account :" + account.toString());
             }
-        }else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
+        } else {
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         }
     }
 
@@ -353,11 +353,11 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while adding instruction privileges to account :"+account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while adding instruction privileges to account :" + account.toString());
             }
         } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         }
     }
 
@@ -402,7 +402,7 @@ public class AccountsLogic {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+    public void updateStudentProfilePicture(String googleId, String newPictureKey)
         throws EntityDoesNotExistException, BlobstoreFailureException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
         

@@ -50,7 +50,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     }
 
     private void repairCourseStudents(CourseAttributes course) {
-        List<StudentAttributes> studentList = getStudentsForCourse(course.id);
+        List<StudentAttributes> studentList = getStudentsForCourse(course.getId());
 
         Map<String, String> emailNameMap = new TreeMap<String, String>();
         Set<String> duplicateEmailRecord = new TreeSet<String>();
@@ -64,13 +64,13 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
             }
         }
         
-        for(String entry : duplicateEmailRecord) {
+        for (String entry : duplicateEmailRecord) {
             print(entry);
             //TODO: delete duplicate records if possible
         }
         
         duplicateEmailCount += duplicateEmailRecord.size();
-        print("[" + duplicateEmailRecord.size() + ": " + course.id + "]");
+        print("[" + duplicateEmailRecord.size() + ": " + course.getId() + "]");
     }
 
     private void print(String string) {

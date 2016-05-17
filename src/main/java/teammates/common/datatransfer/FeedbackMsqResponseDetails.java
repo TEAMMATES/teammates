@@ -92,8 +92,8 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         if (isAnswerBlank()) {
             csvBuilder.append("");
         } else {
-            for(String choice : msqDetails.msqChoices) {
-                csvBuilder.append(",");
+            for (String choice : msqDetails.msqChoices) {
+                csvBuilder.append(',');
                 if (this.contains(choice)) {
                     csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
                 }
@@ -104,8 +104,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
     
     protected boolean isAnswerBlank() {
-        return answers.size() == 1 && 
-               answers.get(0).equals("");
+        return answers.size() == 1 && answers.get(0).isEmpty();
     }
     
     public Boolean isOtherOptionAnswer() {

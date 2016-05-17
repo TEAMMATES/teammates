@@ -36,7 +36,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.setUsingAjax((isUsingAjax != null));
+        data.setUsingAjax(isUsingAjax != null);
         
         
         boolean omitArchived = true; // TODO: implement as a request parameter
@@ -86,8 +86,8 @@ public class InstructorFeedbacksPageAction extends Action {
         
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2){
-                return c1.id.compareTo(c2.id);
+            public int compare(CourseAttributes c1, CourseAttributes c2) {
+                return c1.getId().compareTo(c2.getId());
             }
         });
         

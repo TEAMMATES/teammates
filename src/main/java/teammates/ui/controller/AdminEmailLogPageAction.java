@@ -40,7 +40,7 @@ public class AdminEmailLogPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
         Long endTimeToSearch;
-        if ((timeOffset != null) && (!timeOffset.isEmpty())) {
+        if (timeOffset != null && !timeOffset.isEmpty()) {
             endTimeToSearch = Long.parseLong(timeOffset);
         } else {
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
@@ -50,7 +50,7 @@ public class AdminEmailLogPageAction extends Action {
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = (pageChange != null && pageChange.equals("true")) || (timeOffset == null);
+        boolean isPageChanged = pageChange != null && pageChange.equals("true") || timeOffset == null;
         if (isPageChanged) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
@@ -80,7 +80,7 @@ public class AdminEmailLogPageAction extends Action {
      * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {
-        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        boolean isVersionSpecifiedInRequest = versions != null && !versions.isEmpty();
         if (isVersionSpecifiedInRequest) {
             return versions;
         }
@@ -111,11 +111,11 @@ public class AdminEmailLogPageAction extends Action {
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
-            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);;
+            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
         nextEndTimeToSearch = query.getEndTime();
         
-        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        String status = "&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
                   + nextEndTimeToSearch + "');\">Search More</button>";
@@ -130,7 +130,7 @@ public class AdminEmailLogPageAction extends Action {
         
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
-            boolean isNotEmailLog = (!logMsg.contains("TEAMMATESEMAILLOG"));
+            boolean isNotEmailLog = !logMsg.contains("TEAMMATESEMAILLOG");
             if (isNotEmailLog) {
                 continue;
             }

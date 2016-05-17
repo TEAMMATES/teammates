@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +33,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                                     new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String,String> recipients = new HashMap<String,String>();
+    private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
     public static void classSetUp() throws Exception {

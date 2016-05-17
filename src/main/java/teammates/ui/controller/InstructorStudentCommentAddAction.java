@@ -97,8 +97,9 @@ public class InstructorStudentCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
-        CommentParticipantType commentRecipientType = recipientType == null ? 
-                CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
+        CommentParticipantType commentRecipientType = recipientType == null 
+                                                    ? CommentParticipantType.PERSON 
+                                                    : CommentParticipantType.valueOf(recipientType);
         String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
         if (commentRecipientType == CommentParticipantType.COURSE) {
             new GateKeeper().verifyAccessible(instructor, course,
@@ -144,8 +145,9 @@ public class InstructorStudentCommentAddAction extends Action {
         
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
-        comment.recipientType = recipientType == null ?
-                                CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
+        comment.recipientType = recipientType == null 
+                              ? CommentParticipantType.PERSON 
+                              : CommentParticipantType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
         if (recipients != null && !recipients.isEmpty()) {
             String[] recipientsArray = recipients.split(",");
@@ -192,16 +194,16 @@ public class InstructorStudentCommentAddAction extends Action {
     }
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
-        return (comment.isVisibleTo(CommentParticipantType.PERSON)
-                    || comment.isVisibleTo(CommentParticipantType.TEAM)
-                    || comment.isVisibleTo(CommentParticipantType.SECTION)
-                    || comment.isVisibleTo(CommentParticipantType.COURSE));
+        return comment.isVisibleTo(CommentParticipantType.PERSON)
+               || comment.isVisibleTo(CommentParticipantType.TEAM)
+               || comment.isVisibleTo(CommentParticipantType.SECTION)
+               || comment.isVisibleTo(CommentParticipantType.COURSE);
     }
     
     public String getCourseStudentDetailsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = new PageData(account).addUserIdToUrl(link);
         return link;
     }

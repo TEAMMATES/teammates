@@ -16,7 +16,7 @@ public class BrowserPool {
     private static final int CAPACITY = System.getenv("TRAVIS") == null ? 9 + 1 : 2;
     //+1 in case a sequential ui test uses a browser other than the first in pool
 
-    private static BrowserPool instance = null;
+    private static BrowserPool instance;
     private ArrayList<Browser> pool;
 
     private BrowserPool() {
@@ -68,7 +68,7 @@ public class BrowserPool {
 
     private Browser requestInstance(boolean sequentialUiTest) {
         
-        if(sequentialUiTest){
+        if (sequentialUiTest) {
             //Set priority of the sequential ui tests thread to max priority.
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         } else {
@@ -79,10 +79,10 @@ public class BrowserPool {
             //synchronized to ensure thread-safety
             synchronized (this) {
                 // Look for instantiated and available object.
-                int n=0;
+                int n = 0;
                 for (Browser b : pool) {
                     n++;
-                    if((!sequentialUiTest && n==1)){
+                    if (!sequentialUiTest && n == 1) {
                         continue;
                     }
                     if (!b.isInUse) {

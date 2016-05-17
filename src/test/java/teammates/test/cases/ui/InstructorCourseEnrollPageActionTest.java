@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,7 +23,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
@@ -43,7 +41,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -66,7 +64,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
         pageResult = getShowPageResult(enrollPageAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollPageData) pageResult.data;

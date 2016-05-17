@@ -37,7 +37,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             int pendingCommentsSize = getPendingCommentsSize(courseId);
-            while ((pendingCommentsSize != 0) && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (pendingCommentsSize != 0 && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 pendingCommentsSize = getPendingCommentsSize(courseId);
                 //check before incrementing to avoid boundary case problem

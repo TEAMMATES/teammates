@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -62,7 +56,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
@@ -75,7 +69,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    private void allTests() throws Exception {
+    public void allTests() throws Exception {
         testContent();
 
         testEditSessionLink();
@@ -230,7 +224,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question link");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
     }
 
     private void testEditQuestionAction() throws Exception {
@@ -273,20 +267,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         feedbackEditPage.clickVisibilityPreviewForNewQuestion();
         
-        feedbackEditPage.waitForElementVisibility(feedbackEditPage.getNewQnVisibilityMessage());
-        assertTrue("Expected recipient's team members to be able to see response, but was "
-                   + feedbackEditPage.getNewQnVisibilityMessage().getText(), 
-                   feedbackEditPage.getNewQnVisibilityMessage()
-                                   .getText()
-                                   .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
-        
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage"), 
+                "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
         
-        assertFalse("Expected recipient's team members to not be able to see response, but was "
-                    + feedbackEditPage.getNewQnVisibilityMessage().getText(),
-                    feedbackEditPage.getNewQnVisibilityMessage()
-                    .getText()
-                                .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        feedbackEditPage.waitForTextContainedInElementAbsence(
+                By.id("visibilityMessage"), 
+                "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
         
@@ -394,7 +382,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
         feedbackEditPage.selectQuestionNumber(2, 1);        
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -562,7 +550,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     
     private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
         
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
         InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
         feedbacksPage.waitForPageToLoad();
         return feedbacksPage;
@@ -628,6 +616,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Check for highlight on last modified row");
         
+        feedbackPage.waitForAjaxLoaderGifToDisappear();
         String idOfModifiedSession = "session0";
         String idOfModifiedSession2 = "session1";
         assertTrue(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession), "warning"));

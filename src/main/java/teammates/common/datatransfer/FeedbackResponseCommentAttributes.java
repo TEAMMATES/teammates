@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId = null;
+    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -34,7 +34,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
-    public boolean isVisibilityFollowingFeedbackQuestion = false;
+    public boolean isVisibilityFollowingFeedbackQuestion;
     public Date createdAt;
     public Text commentText;
     public String lastEditorEmail;
@@ -102,8 +102,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null 
+                             ? comment.getLastEditorEmail() 
+                             : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
         if (comment.getIsVisibilityFollowingFeedbackQuestion() != null
                 && !comment.getIsVisibilityFollowingFeedbackQuestion()) {
@@ -120,7 +121,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
-    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
     
@@ -131,7 +132,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /** 
      * Use only to match existing and known Comment
      */
-    public void setId(Long id){
+    public void setId(Long id) {
         this.feedbackResponseCommentId = id;
     }
     
@@ -141,13 +142,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
         if (!error.isEmpty()) { errors.add(error); }
         
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
@@ -224,7 +225,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     }
     
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
             return "(last edited "
                   + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
                   + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";

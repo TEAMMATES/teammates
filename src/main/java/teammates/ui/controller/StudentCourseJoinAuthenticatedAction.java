@@ -66,7 +66,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
         
-        if(statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
+        if (statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
             statusToAdmin += "<br/><br/>" + studentInfo;
         } else {
             statusToAdmin = studentInfo;
@@ -79,7 +79,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 
     private void addStatusMessageToUser() throws EntityDoesNotExistException {
         CourseAttributes course = logic.getCourse(getStudent().course);
-        String courseDisplayText = "[" + course.id + "] " + course.name; 
+        String courseDisplayText = "[" + course.getId() + "] " + course.getName(); 
         
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, 
                                                            courseDisplayText), StatusMessageColor.SUCCESS));

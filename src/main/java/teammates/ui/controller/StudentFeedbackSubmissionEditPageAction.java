@@ -13,7 +13,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         if (student != null) {
             return student.course.equals(courseId);
         } else {
-            return isJoinedCourse(courseId, account.googleId);
+            return isJoinedCourse(courseId);
         }
     }
 
@@ -76,7 +76,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return student;
     }
 
-    protected boolean isRegisteredStudent(){
+    protected boolean isRegisteredStudent() {
         return account.isUserRegistered();
     }
 }

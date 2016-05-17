@@ -17,7 +17,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 public class AdminSessionsPageAction extends Action {
     
@@ -34,13 +33,11 @@ public class AdminSessionsPageAction extends Action {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        Logic logic = new Logic();
-        
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
         
@@ -130,8 +127,8 @@ public class AdminSessionsPageAction extends Action {
                 isError = true;
                 statusToUser.add(new StatusMessage("The filter range is not valid."
                                  + " End time should be after start time.", StatusMessageColor.DANGER));
-                statusToAdmin = "Admin Sessions Page Load<br>" +
-                                "<span class=\"bold\"> Error: invalid filter range</span>";
+                statusToAdmin = "Admin Sessions Page Load<br>" 
+                              + "<span class=\"bold\"> Error: invalid filter range</span>";
     
                 prepareDefaultPageData(calStart, calEnd);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
@@ -145,8 +142,8 @@ public class AdminSessionsPageAction extends Action {
             
             isError = true;
             statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
-            statusToAdmin = "Admin Sessions Page Load<br>" +
-                            "<span class=\"bold\"> Error: Missing Parameters</span>";
+            statusToAdmin = "Admin Sessions Page Load<br>" 
+                          + "<span class=\"bold\"> Error: Missing Parameters</span>";
 
             prepareDefaultPageData(calStart, calEnd);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
@@ -169,10 +166,10 @@ public class AdminSessionsPageAction extends Action {
 
             isError = false;
             statusToUser.add(new StatusMessage("Currently No Ongoing Sessions", StatusMessageColor.WARNING));
-            statusToAdmin = "Admin Sessions Page Load<br>" +
-                            "<span class=\"bold\"> No Ongoing Sessions</span>";
+            statusToAdmin = "Admin Sessions Page Load<br>" 
+                          + "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
+            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;
@@ -222,11 +219,11 @@ public class AdminSessionsPageAction extends Action {
         }
         this.map = map;
         this.totalInstitutes = getTotalInstitutes(map);
-        statusToAdmin = "Admin Sessions Page Load<br>" +
-                        "<span class=\"bold\">Total Ongoing Sessions:</span> " +
-                        this.totalOngoingSessions +
-                        "<span class=\"bold\">Total Opened Sessions:</span> " + 
-                        this.totalOpenStatusSessions;
+        statusToAdmin = "Admin Sessions Page Load<br>" 
+                      + "<span class=\"bold\">Total Ongoing Sessions:</span> " 
+                      + this.totalOngoingSessions
+                      + "<span class=\"bold\">Total Opened Sessions:</span> " 
+                      + this.totalOpenStatusSessions;
         
         constructSessionToInstructorIdMap();
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
@@ -259,7 +256,7 @@ public class AdminSessionsPageAction extends Action {
             return googleId;
         }
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
+        for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
           
             if (instructor.googleId != null) {
                 googleId = instructor.googleId;
@@ -346,16 +343,16 @@ public class AdminSessionsPageAction extends Action {
         
         if (condition.contentEquals("null")) {
 
-            return (startDate == null && endDate == null && startHour == null &&
-                    endHour == null && startMin == null && endMin == null && timeZone == null);
+            return startDate == null && endDate == null && startHour == null 
+                   && endHour == null && startMin == null && endMin == null && timeZone == null;
 
         } else if (condition.contentEquals("notNull")) {
 
-            return (startDate != null && endDate != null && startHour != null
-                    && endHour != null && startMin != null && endMin != null && timeZone != null
-                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
-                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty());
+            return startDate != null && endDate != null && startHour != null
+                   && endHour != null && startMin != null && endMin != null && timeZone != null
+                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
+                   && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
 
         } else {
             return false;

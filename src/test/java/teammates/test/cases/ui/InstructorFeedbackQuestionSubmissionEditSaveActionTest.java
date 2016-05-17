@@ -1,11 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -235,10 +229,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),//Submit mcq response for text question
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
         };
         //TODO: this should fail but does not.
         a = getAction(submissionParams);
@@ -273,9 +267,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", ""
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
         };
         
         a = getAction(submissionParams);

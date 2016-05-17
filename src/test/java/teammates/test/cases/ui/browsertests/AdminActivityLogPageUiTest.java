@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import java.util.Calendar;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -88,7 +84,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
     
     
-    public void testViewActionsLink(){
+    public void testViewActionsLink() {
         
         ______TS("Link: recent actions link");
         
@@ -111,7 +107,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         }
     }
     
-    public void testInputValidation(){
+    public void testInputValidation() {
         
         ______TS("invalid query format");
         

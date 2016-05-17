@@ -17,17 +17,8 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
 
-    @FindBy(id = "show_email")
-    private WebElement showEmailLink;
-
     @FindBy(id = "displayArchivedCourses_check")
     private WebElement displayArchiveOptions;
-
-    @FindBy(id = "course_all")
-    private WebElement selectAll;
-
-    @FindBy(id = "course_check-0")
-    private WebElement checkBoxOne;
 
     public InstructorStudentListPage(Browser browser) {
         super(browser);

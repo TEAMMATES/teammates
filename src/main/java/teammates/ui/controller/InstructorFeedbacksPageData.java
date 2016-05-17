@@ -61,7 +61,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         buildNewForm(courses, courseIdForNewSession, 
                      instructors, defaultFormValues, 
-                     feedbackSessionType, highlightedFeedbackSession);
+                     feedbackSessionType);
         
         
         buildFsList(courseIdForNewSession, existingFeedbackSessions, 
@@ -134,24 +134,23 @@ public class InstructorFeedbacksPageData extends PageData {
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
-                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                              String feedbackSessionName) {
+                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
-            courseIds.add(course.id);
+            courseIds.add(course.getId());
         }
         
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
                                    newFeedbackSession, feedbackSessionType,
-                                   feedbackSessionName, courseIds,
+                                   courseIds,
                                    additionalSettings);
     }
 
     private FeedbackSessionsForm buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
                                                 Map<String, InstructorAttributes> instructors,
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                                                String feedbackSessionNameForSessionList, List<String> courseIds,
+                                                List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
@@ -171,9 +170,9 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment(this);            
+            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
         } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession);
+            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
 
     }
@@ -208,7 +207,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                                            Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                                                            instructors.get(courseId));
             
-            ElementTag elementAttributes ;
+            ElementTag elementAttributes;
             if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {
                 elementAttributes = new ElementTag("class", "sessionsRow warning");
             } else {
@@ -262,18 +261,18 @@ public class InstructorFeedbacksPageData extends PageData {
             // True if this is a submission of the filled 'new session' form
             // for this course:
             boolean isFilledFormForSessionInThisCourse =
-                    newFeedbackSession != null && course.id.equals(newFeedbackSession.courseId);
+                    newFeedbackSession != null && course.getId().equals(newFeedbackSession.courseId);
 
             // True if this is for displaying an empty form for creating a
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse =
-                    courseIdForNewSession != null && course.id.equals(courseIdForNewSession);
+                                            course.getId().equals(courseIdForNewSession);
             
 
-            if (instructors.get(course.id).isAllowedForPrivilege(
+            if (instructors.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                ElementTag option = createOption(course.id, course.id,  
-                                                 (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));
+                ElementTag option = createOption(course.getId(), course.getId(),  
+                                                 isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse);
                 result.add(option);
             }
         }

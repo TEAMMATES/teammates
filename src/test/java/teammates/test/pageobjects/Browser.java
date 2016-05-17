@@ -69,9 +69,9 @@ public class Browser {
         if (browser.equals("firefox")) {
             System.out.println("Using Firefox.");
             String firefoxPath = TestProperties.inst().FIREFOX_PATH;
-            if(!firefoxPath.isEmpty()){
+            if (!firefoxPath.isEmpty()) {
                 System.out.println("Custom path: " + firefoxPath);
-                System.setProperty("webdriver.firefox.bin",firefoxPath);
+                System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
 
             // Allow CSV files to be download automatically, without a download popup.

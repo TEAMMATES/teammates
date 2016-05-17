@@ -65,7 +65,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -76,8 +76,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
-                        "Feedback session [" + feedbackSessionName + 
-                        "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
+                        "Feedback session [" + feedbackSessionName 
+                        + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
             }
         }
     }
@@ -124,11 +124,11 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Instructor moderated student session<br>" +
-                        "Instructor: " + account.email + "<br>" + 
-                        "Moderated Student: " + moderatedStudent + "<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Instructor moderated student session<br>" 
+                      + "Instructor: " + account.email + "<br>" 
+                      + "Moderated Student: " + moderatedStudent + "<br>" 
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
     }
 
     @Override

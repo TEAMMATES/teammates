@@ -334,7 +334,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
+        frc.setIsVisibilityFollowingFeedbackQuestion(false);
         frc.setLastEditorEmail(newAttributes.giverEmail);
         frc.setLastEditedAt(newAttributes.createdAt);
         
@@ -403,7 +403,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
         
-        for(FeedbackResponseComment frComment : frcList) {
+        for (FeedbackResponseComment frComment : frcList) {
             frComment.setSendingState(newState);
         }
         
@@ -443,7 +443,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
-        for(FeedbackResponseComment comment : entities) {
+        for (FeedbackResponseComment comment : entities) {
             if (!JDOHelper.isDeleted(comment)) {
                 list.add(new FeedbackResponseCommentAttributes(comment));
             }
@@ -495,8 +495,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        for(FeedbackResponseComment frc : frcList) {
-            if(!JDOHelper.isDeleted(frc)
+        for (FeedbackResponseComment frc : frcList) {
+            if (!JDOHelper.isDeleted(frc)
                     && frc.getCourseId().equals(courseId)
                     && frc.getGiverEmail().equals(giverEmail)
                     && frc.getCreatedAt().equals(createdAt)) {
@@ -629,8 +629,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
-        q.setFilter("courseId == courseIdParam && " +
-                "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
+        q.setFilter("courseId == courseIdParam && " 
+                    + "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> firstQueryResponseComments =

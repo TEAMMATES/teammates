@@ -86,7 +86,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
-        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession); 
     }   
 
 
@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                     boolean isGiverType = isValidGiver && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
                     
-                    isSelected = (isGiverType || isRecipientType); 
+                    isSelected = isGiverType || isRecipientType; 
                 }
                 
                 ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
@@ -258,8 +258,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     public String getNewQuestionSpecificEditFormHtml() {
         String newQuestionSpecificEditForms = "";
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms +=
-                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms 
+                    += type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
         }
         return newQuestionSpecificEditForms;
     }

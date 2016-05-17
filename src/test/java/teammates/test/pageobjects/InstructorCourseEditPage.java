@@ -29,9 +29,6 @@ public class InstructorCourseEditPage extends AppPage {
     
     @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
-
-    @FindBy(id = "instructorid1")
-    private WebElement editInstructorIdTextBox;
     
     @FindBy(id = "instructorname1")
     private WebElement editInstructorNameTextBox;
@@ -169,8 +166,10 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        WebElement viewLink = 
+                browser.driver.findElement(
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                                       + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         waitForPageToLoad();
@@ -282,7 +281,7 @@ public class InstructorCourseEditPage extends AppPage {
         return isFormShownCorrectly;
     }
     
-    public boolean clickOnAccessLevelViewDetails(String role){
+    public boolean clickOnAccessLevelViewDetails(String role) {
         WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal(\'" + role + "\')\"]"));
         viewDetailsLink.click();
@@ -359,10 +358,10 @@ public class InstructorCourseEditPage extends AppPage {
     
     
     public WebElement getNameField(int instrNum) {
-        return browser.driver.findElement(By.id("instructorname" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
     public WebElement getEmailField(int instrNum) {
-        return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
+        return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {

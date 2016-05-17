@@ -19,8 +19,8 @@ import teammates.storage.entity.Course;
 public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
     
     //Note: be careful when changing these variables as their names are used in *.json files.
-    public String id;
-    public String name;
+    private String id;
+    private String name;
     public Date createdAt;
     public boolean isArchived;
     
@@ -66,12 +66,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, id);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, getId());
         if (!error.isEmpty()) { 
             errors.add(error); 
         }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_NAME, name);
+        error = validator.getInvalidityInfoForCourseName(getName());
         if (!error.isEmpty()) { 
             errors.add(error); 
         }
@@ -80,17 +80,17 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public Course toEntity() {
-        return new Course(id, name, Boolean.valueOf(isArchived), createdAt);
+        return new Course(getId(), getName(), Boolean.valueOf(isArchived), createdAt);
     }
 
     public String toString() {
-        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + id + " name: " + name + " isArchived: " 
-               + isArchived;
+        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
+               + " isArchived: " + isArchived;
     }
 
     @Override
     public String getIdentificationString() {
-        return id;
+        return getId();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + id;
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getId();
     }
     
     @Override
@@ -110,13 +110,13 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        id = Sanitizer.sanitizeForHtml(id);
-        name = Sanitizer.sanitizeForHtml(name);
+        id = Sanitizer.sanitizeForHtml(getId());
+        name = Sanitizer.sanitizeForHtml(getName());
     }
 
     @Override
     public int compareTo(CourseAttributes o) {
-        if(o == null){
+        if (o == null) {
             return 0;
         }
         return o.createdAt.compareTo(createdAt);
@@ -125,7 +125,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public static void sortById(List<CourseAttributes> courses) {
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.id.compareTo(c2.id);
+                return c1.getId().compareTo(c2.getId());
             }
         });
     }
@@ -133,11 +133,11 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
         Collections.sort(courses, createdDateComparator);
     }
-    
+
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
         public int compare(CourseAttributes course1, CourseAttributes course2) {
             if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                return course1.id.compareTo(course2.id);
+                return course1.getId().compareTo(course2.getId());
             }
             
             // sort by newest course first

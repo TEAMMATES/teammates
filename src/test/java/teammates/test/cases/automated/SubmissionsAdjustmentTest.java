@@ -1,10 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.fail;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,12 +84,12 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
-    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
+    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-        if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
@@ -112,7 +107,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
         }
         
@@ -122,7 +117,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         try {
             studentsInfo = studentsLogic
-                    .enrollStudentsWithoutDocument(enrollLines, course1.id);
+                    .enrollStudentsWithoutDocument(enrollLines, course1.getId());
             signalFailureToDetectException("Failure cause : Invalid enrollment executed without exceptions");
         } catch (EnrollException e) {
             String errorMessage = e.getLocalizedMessage();
@@ -130,35 +125,34 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify no tasks sent to the task queue
-        if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
-        ______TS("enroll new students to existing course" +
-                "(to check the cascade logic of the SUT)");
+        ______TS("enroll new students to existing course(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
         enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
         enrollLines += newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
+            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.getId());
         
             //Check whether students are present in database
-            assertNotNull(studentsLogic.getStudentForEmail(course1.id, "s@g"));
+            assertNotNull(studentsLogic.getStudentForEmail(course1.getId(), "s@g"));
 
             //Verify no tasks sent to the task queue
-            if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())){
+            if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size())) {
                 break;
             }
             counter++;
         }
         
         assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size());     
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());     
         
         
         ______TS("change an existing students email and verify update "
@@ -168,26 +162,26 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         String oldEmail = studentsInfo.get(0).email;
         StudentAttributes updatedAttributes = new StudentAttributes();
         updatedAttributes.email = "newEmail@g";
-        updatedAttributes.course = course1.id;
+        updatedAttributes.course = course1.getId();
 
         studentsLogic.updateStudentCascadeWithoutDocument(oldEmail, updatedAttributes);
 
         verifyPresentInDatastore(updatedAttributes);
 
         //Verify no tasks sent to task queue 
-        if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
         //Verify that no response exists for old email
-        verifyResponsesDoNotExistForEmailInCourse(oldEmail, course1.id);
+        verifyResponsesDoNotExistForEmailInCourse(oldEmail, course1.getId());
         
         ______TS("change team of existing student and verify deletion of all his responses");
         StudentAttributes studentInTeam1 = dataBundle.students.get("student2InCourse1");
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
-        assertTrue(student1responses.size() != 0);
+        assertFalse(student1responses.isEmpty());
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
@@ -195,18 +189,18 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         enrollLines += studentInTeam1.toEnrollmentString();
         
         counter = 0;
-        while(counter != 10){
+        while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
             studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, studentInTeam1.course);
             
             //Verify scheduling of adjustment of responses
-            if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())){
+            if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
+                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())) {
                 break;
             }
             counter++;
         }
-        if(counter == 10){
+        if (counter == 10) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
                         fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size());
         }
@@ -221,8 +215,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         invalidEnrollLine += invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
-                    .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);
-            assertTrue(false);
+                    .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());
+            signalFailureToDetectException("Expected EnrollException");
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
 
@@ -235,22 +229,22 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
 
         //Verify no task sent to the task queue
-        if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
+        if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
     }
     
     @Test
-    private void testAdjustmentOfResponses() throws Exception {
+    public void testAdjustmentOfResponses() throws Exception {
                 
         ______TS("typical case : existing student changes team");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        List<FeedbackResponseAttributes> oldResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+        assertFalse(oldResponsesForSession.isEmpty());
         
         String oldTeam = student.team;
         String oldSection = student.section;
@@ -260,15 +254,16 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         student.section = newSection;
         
         
-        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
+        StudentEnrollDetails enrollDetails = 
+                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email, 
+                                         oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
         Gson gsonBuilder = Utils.getTeammatesGson();
         String enrollString = gsonBuilder.toJson(enrollList);
 
         //Prepare parameter map
-        HashMap<String, String> paramMap = new HashMap<String,String>();
+        HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, student.course);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
@@ -277,8 +272,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        int numberOfNewResponses = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
+        int numberOfNewResponses = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);        
     }
 
@@ -302,8 +297,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         for (FeedbackResponseAttributes response : studentGiverResponses) {
             FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
                     .getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS || 
-                question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }
@@ -336,8 +331,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                     .getFeedbackResponsesForSession(eachSession.feedbackSessionName, courseId);
             
             for (FeedbackResponseAttributes eachResponse : allResponses) {
-                if (eachResponse.recipientEmail.equals(email) ||
-                    eachResponse.giverEmail.equals(email)) {
+                if (eachResponse.recipientEmail.equals(email) || eachResponse.giverEmail.equals(email)) {
                     fail("Cause : Feedback response for "
                          + email + " found on system");
                 }

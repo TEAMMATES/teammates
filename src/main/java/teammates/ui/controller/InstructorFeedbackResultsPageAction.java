@@ -49,10 +49,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
-        String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
-
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
         }
@@ -67,17 +63,21 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.setSessionResultsHtmlTableAsString("");
             data.setAjaxStatus("");
         }
-
+        
+        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
+        
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));
         }
 
         if (sortType == null) {
             // default view: sort by question, statistics shown, grouped by team.
-            showStats = new String("on");
-            groupByTeam = new String("on");
-            sortType = new String("question");
+            showStats = "on";
+            groupByTeam = "on";
+            sortType = "question";
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
@@ -165,7 +165,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                   throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
-            if (ALL_SECTION_OPTION.equals(selectedSection) ) {
+            if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // load page structure without responses
                 
                 data.setLargeNumberOfRespondents(needAjax != null);

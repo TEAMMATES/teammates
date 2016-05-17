@@ -67,10 +67,11 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instrCanModifyInstructor = instructor;
             }
         }
-        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
-                ((instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null) ||
-                (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId != null &&
-                instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId)));
+        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1 
+                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null 
+                                             || instrCanModifyInstructor != null 
+                                                && instrCanModifyInstructor.googleId != null 
+                                                && instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId));
         if (lastCanModifyInstructor) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
@@ -81,8 +82,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = (displayedName == null || displayedName.isEmpty()) ?
-                InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
+        displayedName = displayedName == null || displayedName.isEmpty() 
+                      ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
+                      : displayedName;
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
@@ -150,12 +152,12 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         return instructorToEdit;
     }
     
-    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToEdit){
+    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToEdit) {
         List<String> sectionNames = null;
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);
-        } catch(EntityDoesNotExistException e) {
-            return ;
+        } catch (EntityDoesNotExistException e) {
+            return;
         }
         HashMap<String, Boolean> sectionNamesTable = new HashMap<String, Boolean>();
         for (String sectionName : sectionNames) {
@@ -196,10 +198,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             InstructorAttributes instructorToEdit, List<String> sectionNames, HashMap<String, Boolean> sectionNamesTable) {
         HashMap<String, List<String>> sectionNamesMap = new HashMap<String, List<String>>();
         if (instructorToEdit.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
-            for (int i=0; i<sectionNames.size(); i++) {
+            for (int i = 0; i < sectionNames.size(); i++) {
                 String setSectionGroupStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
                 boolean isSectionGroupSpecial = setSectionGroupStr != null && setSectionGroupStr.equals("true");
-                for (int j=0; j<sectionNames.size(); j++) {
+                for (int j = 0; j < sectionNames.size(); j++) {
                     String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + Const.ParamsNames.INSTRUCTOR_SECTION + j);
                     if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
                         if (sectionNamesMap.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i) == null) {

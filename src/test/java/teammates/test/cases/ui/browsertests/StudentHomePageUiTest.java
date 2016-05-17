@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
@@ -60,7 +59,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
 
     @Test    
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testContentAndLogin();        
         testLinks();
         testLinkAndContentAfterDelete();
@@ -112,7 +111,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
     
     
-    private void testLinks(){
+    private void testLinks() {
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);

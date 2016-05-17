@@ -37,7 +37,7 @@ public class InstructorsLogic {
     
     private static Logger log = Utils.getLogger();
     
-    private static InstructorsLogic instance = null;
+    private static InstructorsLogic instance;
     
     public static InstructorsLogic inst() {
         if (instance == null) {
@@ -51,11 +51,11 @@ public class InstructorsLogic {
      * ====================================
      */
     
-    public void putDocument(InstructorAttributes instructor){
+    public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
     
-    public void deleteDocument(InstructorAttributes instructor){
+    public void deleteDocument(InstructorAttributes instructor) {
         instructorsDb.deleteDocument(instructor);
     }
     
@@ -67,7 +67,7 @@ public class InstructorsLogic {
      * @param cursorString
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
         return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
     } 
     
@@ -80,14 +80,14 @@ public class InstructorsLogic {
         
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
-        log.info("going to create instructor :\n"+instructorToAdd.toString());
+        log.info("going to create instructor :\n" + instructorToAdd.toString());
         
         return instructorsDb.createInstructor(instructorToAdd);
     }
     
     
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
-           throws InvalidParametersException, EntityDoesNotExistException{
+           throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
@@ -164,8 +164,8 @@ public class InstructorsLogic {
         
         if (instructorList.isEmpty()) {
             return true;
-        } else if (instructorList.size() == 1 &&
-                coursesLogic.isSampleCourse(instructorList.get(0).courseId)){
+        } else if (instructorList.size() == 1 
+                   && coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
             return true;
         } else {
             return false;
@@ -214,16 +214,16 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
-        checkForUpdatingRespondants(googleId, instructor);
+        checkForUpdatingRespondants(instructor);
         
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
-    private void checkForUpdatingRespondants(String googleId, InstructorAttributes instructor) 
+    private void checkForUpdatingRespondants(InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        if(!currentInstructor.email.equals(instructor.email)){
+        if (!currentInstructor.email.equals(instructor.email)) {
             fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
         }
     }
@@ -325,7 +325,7 @@ public class InstructorsLogic {
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
            throws EntityDoesNotExistException {
         
-        String joinLink="";
+        String joinLink = "";
         Emails emailMgr = new Emails();
 
         try {
@@ -334,7 +334,7 @@ public class InstructorsLogic {
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
         } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email",e);
+            throw new RuntimeException("Unexpected error while sending email", e);
         }
         
         return joinLink;
@@ -347,17 +347,17 @@ public class InstructorsLogic {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForPersonName(shortName);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForPersonName(name);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        if (!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForInstituteName(institute);
+        if (!error.isEmpty()) { errors.add(error); }
         
         //No validation for isInstructor and createdAt fields.
         return errors;
@@ -374,7 +374,7 @@ public class InstructorsLogic {
         
         //Cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId,instructor.email);
+            deleteInstructorCascade(instructor.courseId, instructor.email);
         }
     }
 

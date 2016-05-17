@@ -31,16 +31,16 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 
                 //Account might be null if student was enrolled but not joined yet
-                if(student.googleId == null || student.googleId.isEmpty()) {
+                if (student.googleId == null || student.googleId.isEmpty()) {
                     continue;
                 }
                 
                 AccountAttributes account = logic.getAccount(student.googleId);
                 
-                System.out.println("changed for "+account.email + " from "+account.institute + " to "+ institute);
+                System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
                 account.institute = institute;
                 logic.updateAccount(account);
             }

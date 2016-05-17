@@ -42,8 +42,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 instructor,
                 logic.getCourse(courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -63,20 +61,20 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             try {
                 createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName,
                                                 fs.creatorEmail, feedbackSessionType);
-            } catch(InvalidParametersException e) {
+            } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " +
-                    "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime +
-                    "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
-                    "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " 
+                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
+                    + "<span class=\"bold\">From:</span> " + fs.startTime 
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
@@ -102,6 +100,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
                                        feedbackSessionType);
         
@@ -118,7 +117,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
-        for (FeedbackQuestionAttributes fqa : questions){
+        for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }

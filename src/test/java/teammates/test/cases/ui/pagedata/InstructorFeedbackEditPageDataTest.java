@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,8 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.Test;
-
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -27,7 +20,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -38,13 +30,12 @@ import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsForm;
 
-public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
+public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;
     private static final int NUM_GIVER_OPTIONS = 4;
     private static final int NUM_RECIPIENT_OPTIONS = 8;
     
-    private static Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
 
@@ -79,7 +70,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
-        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
@@ -137,7 +128,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
         
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
-        assertEquals(true, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(NUM_RECIPIENT_OPTIONS, feedbackPath.getRecipientParticipantOptions().size());
         assertEquals(NUM_GIVER_OPTIONS, feedbackPath.getGiverParticipantOptions().size());
@@ -229,8 +220,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
-        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
-                          .withUserId(instructor.googleId)).toString(), 
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+                           .withUserId(instructor.googleId).toString(), 
                       fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());

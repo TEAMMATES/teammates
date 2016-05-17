@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.*;
-
 import java.util.List;
 
 import teammates.test.driver.AssertHelper;
@@ -53,7 +51,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1" , 
+        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1", 
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -70,16 +68,16 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
           
-        AssertHelper.assertSameContentIgnoreOrder(expectedStudentsList,actualStudentsList);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentsList, actualStudentsList);
 
-        // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1),pageData.);
+        // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1), pageData.);
         // above comparison method failed, so use the one below 
         
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst()
                                                                 .getInstructorsForCourse(student1InCourse1.course);
         List<InstructorAttributes> actualInstructorsList = pageData.getStudentCourseDetailsPanel().getInstructors();
         
-        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList);
+        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorsList, actualInstructorsList);
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true|||"
                                     + "Student|||Student 1 in course 1|||student1InCourse1|||"

@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Text;
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes> {
 
-    private Long commentId = null;
+    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -69,8 +69,9 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                                        comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null 
+                             ? comment.getLastEditorEmail() 
+                             : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 
@@ -171,19 +172,19 @@ public class CommentAttributes extends EntityAttributes
 
     @Override
     public String toString() {
-        return "CommentAttributes [commentId = " + commentId +
-                ", courseId = " + courseId +
-                ", giverEmail = " + giverEmail +
-                ", recipientType = " + recipientType +
-                ", recipient = " + recipients +
-                ", status = " + status +
-                ", showCommentTo = " + showCommentTo +
-                ", showGiverNameTo = " + showGiverNameTo +
-                ", showRecipientNameTo = " + showRecipientNameTo +
-                ", commentText = " + commentText.getValue() +
-                ", createdAt = " + createdAt +
-                ", lastEditorEmail = " + lastEditorEmail +
-                ", lastEditedAt = " + lastEditedAt + "]";
+        return "CommentAttributes [commentId = " + commentId 
+               + ", courseId = " + courseId 
+               + ", giverEmail = " + giverEmail 
+               + ", recipientType = " + recipientType 
+               + ", recipient = " + recipients 
+               + ", status = " + status 
+               + ", showCommentTo = " + showCommentTo 
+               + ", showGiverNameTo = " + showGiverNameTo 
+               + ", showRecipientNameTo = " + showRecipientNameTo 
+               + ", commentText = " + commentText.getValue() 
+               + ", createdAt = " + createdAt 
+               + ", lastEditorEmail = " + lastEditorEmail 
+               + ", lastEditedAt = " + lastEditedAt + "]";
     }
 
     @Override
@@ -278,14 +279,14 @@ public class CommentAttributes extends EntityAttributes
         }
     }
 
-    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove){
+    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove) {
         removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
-            CommentParticipantType typeToRemove){
+            CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }
@@ -324,11 +325,11 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
             String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-            return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
-                    "at " + displayTimeAs + ")";
+            return "(last edited " 
+                   + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
+                   + "at " + displayTimeAs + ")";
         } else {
             return "";
         }

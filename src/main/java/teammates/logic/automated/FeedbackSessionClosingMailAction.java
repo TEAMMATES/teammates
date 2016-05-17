@@ -36,7 +36,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
     
     public FeedbackSessionClosingMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         feedbackSessionName = paramMap.get(ParamsNames.EMAIL_FEEDBACK);
@@ -64,7 +64,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
         log.info("Fetching feedback session object for feedback session name : "
                 + feedbackSessionName + " and course : " + courseId);
         
-        if(feedbackObject != null) {
+        if (feedbackObject != null) {
              /*
               * Check if feedback session was deleted between scheduling
               * and the actual sending of emails
@@ -72,8 +72,8 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
             preparedEmails = emailManager
                             .generateFeedbackSessionClosingEmails(feedbackObject);
         } else {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
-                       " for course : " + courseId +" could not be fetched" );
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+                       + " for course : " + courseId + " could not be fetched");
         }
         return preparedEmails;
     }

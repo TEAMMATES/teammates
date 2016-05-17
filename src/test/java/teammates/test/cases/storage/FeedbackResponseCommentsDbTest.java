@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -256,7 +251,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(
-                              frcaExpected.courseId, frcaExpected.createdAt,frcaExpected.giverEmail);
+                              frcaExpected.courseId, frcaExpected.createdAt, frcaExpected.giverEmail);
         
         frcaExpected.setId(frcaActual.getId());
         frcaExpected.feedbackQuestionId = frcaActual.feedbackQuestionId;
@@ -339,7 +334,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         ______TS("typical success case");
         
-        String updatedEmail = "frcdb.updatedGiver@email.com";;
+        String updatedEmail = "frcdb.updatedGiver@email.com";
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, updatedEmail);
         assertNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
         assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail));

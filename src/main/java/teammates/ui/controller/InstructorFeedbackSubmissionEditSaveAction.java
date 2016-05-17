@@ -87,4 +87,12 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     protected RedirectResult createSpecificRedirectResult() {
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
+
+    @Override
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
+    }
+
+    @Override
+    protected void checkAdditionalConstraints() {
+    }
 }

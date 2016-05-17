@@ -18,8 +18,8 @@ import teammates.ui.template.FeedbackSubmissionEditResponse;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
 public class FeedbackSubmissionEditPageData extends PageData {
-    public FeedbackSessionQuestionsBundle bundle = null;
-    private String moderatedQuestionId = null;
+    public FeedbackSessionQuestionsBundle bundle;
+    private String moderatedQuestionId;
     private boolean isSessionOpenForSubmission;
     private boolean isPreview;
     private boolean isModeration;
@@ -63,8 +63,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                         .withCourseId(courseId)
                                         .toString();
         
-        registerMessage = (student == null || joinUrl == null) ? "" : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, 
-                                                                                       student.name, joinUrl);
+        registerMessage = student == null || joinUrl == null 
+                        ? "" 
+                        : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, student.name, joinUrl);
         createQuestionsWithResponses();        
     }
     
@@ -174,7 +175,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
-        ArrayList<String> result = new ArrayList<String>();
         
         if (this.bundle == null) {
             return null;
@@ -182,11 +182,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
         
+        List<String> result = new ArrayList<String>();
         // Add an empty option first.
         result.add(
-            "<option value=\"\" " +
-            (currentlySelectedOption == null ? "selected>" : ">") +
-            "</option>"
+            "<option value=\"\" " 
+            + (currentlySelectedOption == null ? "selected>" : ">") 
+            + "</option>"
         );
         
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
@@ -238,7 +239,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;
         
-        for(FeedbackResponseAttributes existingResponse : existingResponses) {
+        for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipientEmail);
             

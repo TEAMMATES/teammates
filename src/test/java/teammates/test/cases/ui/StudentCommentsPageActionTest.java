@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,7 +40,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         StudentCommentsPageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
-        assertEquals(false, result.isError);
+        assertFalse(result.isError);
         
         StudentCommentsPageData data = (StudentCommentsPageData) result.data;
         assertEquals(2, data.getCommentsForStudentsTables().size());
@@ -62,7 +60,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         action = getAction(addUserIdToParams(studentId, submissionParams));
         result = (ShowPageResult) action.executeAndPostProcess();
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
-        assertEquals(false, result.isError);
+        assertFalse(result.isError);
         
         data = (StudentCommentsPageData) result.data;
         assertEquals(0, data.getCommentsForStudentsTables().size());
@@ -75,7 +73,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
-    private StudentCommentsPageAction getAction(String... params) throws Exception{
+    private StudentCommentsPageAction getAction(String... params) throws Exception {
         return (StudentCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

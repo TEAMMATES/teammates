@@ -15,7 +15,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId = null;
+    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -125,7 +125,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         List<String> errors = new ArrayList<String>();
         String error;
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
@@ -163,7 +163,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
             // Recipient fragment: e.g. student, instructor, etc.
             if (participant == FeedbackParticipantType.RECEIVER) {
-                line += (recipientType.toSingularFormString());
+                line += recipientType.toSingularFormString();
 
                 if (numberOfEntitiesToGiveFeedbackTo > 1) {
                     line += "s";
@@ -222,20 +222,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public boolean isGiverAStudent() {
-        return (giverType == FeedbackParticipantType.SELF
-                || giverType == FeedbackParticipantType.STUDENTS);
+        return giverType == FeedbackParticipantType.SELF
+               || giverType == FeedbackParticipantType.STUDENTS;
     }
 
     public boolean isRecipientNameHidden() {
-        return (recipientType == FeedbackParticipantType.NONE
-                || recipientType == FeedbackParticipantType.SELF);
+        return recipientType == FeedbackParticipantType.NONE
+               || recipientType == FeedbackParticipantType.SELF;
     }
 
     public boolean isRecipientAStudent() {
-        return (recipientType == FeedbackParticipantType.SELF
-                || recipientType == FeedbackParticipantType.STUDENTS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        return recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.STUDENTS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
@@ -507,7 +507,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionDetails.questionType == FeedbackQuestionType.TEXT) {
             questionMetaData = new Text(questionDetails.questionText);
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
         }
     }
@@ -523,7 +523,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextQuestionDetails(questionMetaData.getValue());
         } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            Gson gson = Utils.getTeammatesGson();
             return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
         }
     }

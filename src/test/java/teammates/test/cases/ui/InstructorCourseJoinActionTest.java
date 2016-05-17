@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,7 +29,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     
     @SuppressWarnings("deprecation")
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null
@@ -102,10 +99,10 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
-                "?error=false&user=ICJAT.instr" + 
-                "&key=" + StringHelper.encrypt(newInstructor.key),
-                        pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
+                     + "?error=false&user=ICJAT.instr" 
+                     + "&key=" + StringHelper.encrypt(newInstructor.key),
+                     pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         

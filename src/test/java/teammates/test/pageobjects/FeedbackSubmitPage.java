@@ -27,7 +27,7 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
     
-    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+    public boolean isCorrectPage(String courseId, String feedbackSessionName) {
         boolean isCorrectCourseId = this.getCourseId().equals(courseId);
         boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
@@ -80,7 +80,7 @@ public class FeedbackSubmitPage extends AppPage {
         return element.getText();
     }
     
-    public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
+    public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         choiceName = Sanitizer.convertStringForXPath(choiceName);
@@ -88,7 +88,7 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
-    public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName){
+    public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         choiceName = Sanitizer.convertStringForXPath(choiceName);
@@ -96,7 +96,7 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
-    public void chooseContribOption(int qnNumber, int responseNumber, String choiceName){
+    public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);

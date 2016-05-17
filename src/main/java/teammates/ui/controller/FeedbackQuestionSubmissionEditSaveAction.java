@@ -12,8 +12,6 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
     
     @Override
     protected void setAdditionalParameters() throws EntityDoesNotExistException {
-        super.setAdditionalParameters();
-        
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1");
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         

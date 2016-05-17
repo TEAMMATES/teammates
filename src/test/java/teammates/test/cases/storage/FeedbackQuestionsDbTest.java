@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -222,7 +217,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             expected.get(i).setId(questions.get(i).getId());
         }
 
-        assertEquals(questions.size(),numToCreate);
+        assertEquals(questions.size(), numToCreate);
         AssertHelper.assertSameContentIgnoreOrder(expected, questions);
 
         ______TS("null params");
@@ -267,19 +262,19 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                                                                            "testCourse",
                                                                                            FeedbackParticipantType.
                                                                                            INSTRUCTORS);
-        assertEquals(questions.size(),numOfQuestions[0]);
+        assertEquals(questions.size(), numOfQuestions[0]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.STUDENTS);
-        assertEquals(questions.size(),numOfQuestions[1]);
+        assertEquals(questions.size(), numOfQuestions[1]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.SELF);
-        assertEquals(questions.size(),numOfQuestions[2]);
+        assertEquals(questions.size(), numOfQuestions[2]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.TEAMS);
-        assertEquals(questions.size(),numOfQuestions[3]);
+        assertEquals(questions.size(), numOfQuestions[3]);
 
         ______TS("null params");
 

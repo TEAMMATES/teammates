@@ -90,7 +90,6 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       BackDoorLogic backDoor = new BackDoorLogic();     
        String courseId = null;    
        
        try {
@@ -114,6 +113,7 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
         
+        BackDoorLogic backDoor = new BackDoorLogic();
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
         data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;
@@ -189,11 +189,11 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         
-        try{
+        try {
             backdoor.persistDataBundle(data);        
-        } catch (EntityDoesNotExistException | NullPointerException e){
+        } catch (EntityDoesNotExistException e) {
             int elapsedTime = 0;
-            if(PERSISTENCE_WAITING_DURATION > 0){
+            if (PERSISTENCE_WAITING_DURATION > 0) {
                 while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -211,17 +211,17 @@ public class AdminInstructorAccountAddAction extends Action {
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments) {
             backdoor.putDocument(comment);
         }
-        for(FeedbackResponseCommentAttributes comment : frComments){
+        for (FeedbackResponseCommentAttributes comment : frComments) {
             backdoor.putDocument(comment);
         }
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students) {
             backdoor.putDocument(student);
         }
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors) {
             backdoor.putDocument(instructor);
         }
         
@@ -261,7 +261,7 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while(logic.getCourse(proposedCourseId) != null){
+        while (logic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;
@@ -273,7 +273,7 @@ public class AdminInstructorAccountAddAction extends Action {
     * @param instructorEmail is the instructor email.
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
-    private String getDemoCourseIdRoot(String instructorEmail){
+    private String getDemoCourseIdRoot(String instructorEmail) {
         final String[] splitedEmail = instructorEmail.split("@");
         final String head = splitedEmail[0];
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);
@@ -295,14 +295,14 @@ public class AdminInstructorAccountAddAction extends Action {
     *         lebron.gma-demo0 -> lebron.gma-demo1
     *         012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
     */
-    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-        if(isFirstCourseId){
+        if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
         } else {
             final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if(isFirstTimeDuplicate){
+            if (isFirstTimeDuplicate) {
                 return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
                                                  maximumIdLength);
             } else {

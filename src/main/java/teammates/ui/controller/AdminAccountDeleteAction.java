@@ -23,27 +23,27 @@ public class AdminAccountDeleteAction extends Action {
         ActionResult result = null;
         
         //TODO: We should extract these into separate actions e.g., AdminInstructorDowngradeAction
-        if(courseId == null && account == null){    
+        if (courseId == null && account == null) {    
             //delete instructor status
             logic.downgradeInstructorToStudentCascade(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
             
-        } else if (courseId == null && account != null){
+        } else if (courseId == null && account != null) {
             //delete entire account
             logic.deleteAccount(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
             
-        } else if (courseId != null && instructorId != null){
+        } else if (courseId != null && instructorId != null) {
             //remove instructor from course
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
             logic.deleteInstructor(courseId, instructor.email);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
-                    "</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 
+            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId
+                    + "</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + instructorId);
             
         } else if (courseId != null && studentId != null) {
@@ -51,8 +51,8 @@ public class AdminAccountDeleteAction extends Action {
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
             logic.deleteStudent(courseId, student.email);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
-                    "</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted"; 
+            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId 
+                    + "</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted"; 
             result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + studentId);
         }        
         

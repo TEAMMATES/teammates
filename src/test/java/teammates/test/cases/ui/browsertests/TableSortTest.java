@@ -24,7 +24,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingID() throws Exception{
+    public void testTableSortingID() throws Exception {
         verifySortingOrder(By.id("button_sortid"),
             
                 "-13.5",
@@ -46,7 +46,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingName() throws Exception{
+    public void testTableSortingName() throws Exception {
         
         verifySortingOrder(By.id("button_sortname"),
                 
@@ -69,9 +69,9 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingDate() throws Exception{
+    public void testTableSortingDate() throws Exception {
         
-        verifySortingOrder(    By.id("button_sortdate"),
+        verifySortingOrder(By.id("button_sortdate"),
                 
                 "04 May 2010",
                 "21 August 2010",
@@ -92,7 +92,7 @@ public class TableSortTest extends BaseUiTestCase {
 
 
     @Test
-    public void testTableSortingDiff() throws Exception{
+    public void testTableSortingDiff() throws Exception {
         
         verifySortingOrder(By.id("button_sortDiff"),
                 
@@ -115,7 +115,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingPoint() throws Exception{
+    public void testTableSortingPoint() throws Exception {
         verifySortingOrder(By.id("button_sortPoint"),
         
                 "E -99%",
@@ -160,7 +160,7 @@ public class TableSortTest extends BaseUiTestCase {
 
         String searchString = "";
         for (int i = 0; i < idList.length; i++) {
-            searchString += idList[i]+"{*}";
+            searchString += idList[i] + "{*}";
         }
         page.verifyContains(searchString);
 
@@ -184,7 +184,7 @@ public class TableSortTest extends BaseUiTestCase {
 
         searchString = "";
         for (int i = 0; i < reversedIdList.length; i++) {
-            searchString += reversedIdList[i]+"{*}";
+            searchString += reversedIdList[i] + "{*}";
         }
         page.verifyContains(searchString);
     }
@@ -194,7 +194,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(sortIcon);
         String searchString = "";
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i]+"{*}";
+            searchString += values[i] + "{*}";
         }
         page.verifyContains(searchString);
         
@@ -202,7 +202,7 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(sortIcon);
         searchString = "";
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i-1]+"{*}";
+            searchString += values[i - 1] + "{*}";
         }
         page.verifyContains(searchString);
     }

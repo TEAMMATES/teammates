@@ -8,12 +8,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
@@ -39,7 +39,7 @@ import teammates.test.util.FileHelper;
 public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     protected String currentFileName = "";
-    protected boolean hasPreviousEntity = false;
+    protected boolean hasPreviousEntity;
     protected Set<String> accountsSaved = new HashSet<String>();
     
     public static void main(String[] args) throws IOException {
@@ -49,7 +49,7 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void doOperation() {
         Datastore.initialize();
-        Vector<String> logs = getModifiedLogs();
+        List<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
         backupFileDirectory = "BackupFiles/Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
@@ -59,8 +59,8 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities
      */
-    private Vector<String> getModifiedLogs() {
-        Vector<String> modifiedLogs = new Vector<String>();
+    private List<String> getModifiedLogs() {
+        List<String> modifiedLogs = new ArrayList<String>();
         TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
@@ -88,13 +88,13 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Look through the logs and extracts all recently modified courses. 
      */
-    private Set<String> extractModifiedCourseIds(Vector<String> modifiedLogs) {
+    private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
         
         //Extracts the course Ids to be backup from the logs
         Set<String> courses = new HashSet<String>();
-        for(String course : modifiedLogs) {
+        for (String course : modifiedLogs) {
             course = course.trim();
-            if(!course.equals("")) {
+            if (!course.isEmpty()) {
                 courses.add(course);
             }
             
@@ -120,7 +120,7 @@ public class OfflineBackup extends RemoteApiClient {
 
        try {
            directory.mkdirs();
-       } catch(SecurityException se){
+       } catch (SecurityException se) {
            System.out.println("Error making directory: " + directoryName);
        }        
        
@@ -133,7 +133,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         Iterator<String> it = coursesList.iterator();
         
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             String courseId = it.next();
             currentFileName = backupFileDirectory + "/" + courseId + ".json";
             FileHelper.appendToFile(currentFileName, "{\n");
@@ -165,11 +165,11 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 saveStudentAccount(student);
             }
             
-            for(InstructorAttributes instructor : instructors) {
+            for (InstructorAttributes instructor : instructors) {
                 saveInstructorAccount(instructor);
             } 
             
@@ -189,7 +189,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for(CommentAttributes comment: comments) {
+        for (CommentAttributes comment: comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
@@ -203,12 +203,12 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         CourseAttributes course = logic.getCourse(courseId);
         
-        if(course == null) {
+        if (course == null) {
             return;
         }
         
         FileHelper.appendToFile(currentFileName, "\t\"courses\":{\n");
-        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.id));
+        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.getId()));
         
         hasPreviousEntity = false;
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
@@ -225,7 +225,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");
         
-        for(FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             saveFeedbackQuestion(feedbackQuestion);
         }
         hasPreviousEntity = false;
@@ -242,7 +242,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackResponses\":{\n");
         
-        for(FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
+        for (FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
             saveFeedbackResponse(feedbackResponse);
         }
         hasPreviousEntity = false;
@@ -259,7 +259,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         FileHelper.appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
         
-        for(FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
+        for (FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
             saveFeedbackResponseComment(feedbackResponseComment);
         }
         hasPreviousEntity = false;
@@ -275,7 +275,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"feedbackSessions\":{\n");
         
-        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             saveFeedbackSession(feedbackSession);
         }
         hasPreviousEntity = false;
@@ -291,7 +291,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"instructors\":{\n");
         
-        for(InstructorAttributes instructor : instructors) {
+        for (InstructorAttributes instructor : instructors) {
             saveInstructor(instructor);
         }
         hasPreviousEntity = false;
@@ -308,7 +308,7 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"students\":{\n");
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 saveStudent(student);
             }
             hasPreviousEntity = false;
@@ -329,10 +329,10 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
             
-            for(StudentAttributes student : students) {
-                if(student != null && student.googleId != null && !student.googleId.equals("")) {
+            for (StudentAttributes student : students) {
+                if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
                     StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-                    if(profile != null) {
+                    if (profile != null) {
                         saveProfile(profile);
                     }
                 }
@@ -351,7 +351,7 @@ public class OfflineBackup extends RemoteApiClient {
     protected String formatJsonString(String entityJsonString, String name) {
         String formattedString = "";
         
-        if(hasPreviousEntity) {
+        if (hasPreviousEntity) {
             formattedString += ",\n";
         } else {
             hasPreviousEntity = true;
@@ -367,14 +367,14 @@ public class OfflineBackup extends RemoteApiClient {
      *  Retrieves all the student accounts and saves them
      */
     protected void saveStudentAccount(StudentAttributes student) {
-        if(student == null) {
+        if (student == null) {
             return;
         }
         
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(student.googleId.trim());
         
-        if(account == null || accountsSaved.contains(account.email)) {
+        if (account == null || accountsSaved.contains(account.email)) {
             return;
         }
         
@@ -387,14 +387,14 @@ public class OfflineBackup extends RemoteApiClient {
      *  Retrieves all the instructor accounts and saves them
      */
     protected void saveInstructorAccount(InstructorAttributes instructor) {
-        if(instructor == null) {
+        if (instructor == null) {
             return;
         }
         
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(instructor.googleId.trim());
         
-        if(account == null || accountsSaved.contains(account.email)) {
+        if (account == null || accountsSaved.contains(account.email)) {
             return;
         }
         

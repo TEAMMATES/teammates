@@ -15,7 +15,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 
 public class Const {
     
-    public static class SystemParams{
+    public static class SystemParams {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
@@ -109,7 +109,7 @@ public class Const {
     /* Text displayed to the user when the mouse hover over certain elements in
      * the UI.
      */
-    public class Tooltips{
+    public class Tooltips {
     
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
@@ -242,10 +242,10 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
         
-        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
-                "<br />in the course once the results are published.";
-        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
-                "before the session closes.";
+        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" 
+                                                                     + "<br />in the course once the results are published.";
+        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " 
+                                                          + "before the session closes.";
         
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -271,7 +271,7 @@ public class Const {
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
     }
     
-    public static class FeedbackQuestion{
+    public static class FeedbackQuestion {
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -281,12 +281,12 @@ public class Const {
         
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
+        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         
         // Numscale
-        public static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
-        public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+        public static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
+        public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         public static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         
         // Contribution
@@ -302,24 +302,24 @@ public class Const {
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
         public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS = "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT +". Minimum number of points is: ";
+        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS = "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + ". Minimum number of points is: ";
         public static final String CONST_SUM_ERROR_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of options is: ";
+        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
         public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS = "Too little sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of sub-questions is: ";
-        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for "+Const.FeedbackQuestionTypeNames.RUBRIC;
-        public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
-        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS = "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of sub-questions is: ";
+        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
+        public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
         
     }
 
-    public class FeedbackQuestionTypeNames{
+    public class FeedbackQuestionTypeNames {
         public static final String TEXT = "Essay question";
         public static final String MCQ = "Multiple-choice (single answer) question";
         public static final String MSQ = "Multiple-choice (multiple answers) question";
@@ -340,13 +340,13 @@ public class Const {
         public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
-    public class GenderTypes{
+    public class GenderTypes {
         public static final String MALE = "male";
         public static final String FEMALE = "female";
         public static final String OTHER = "other";
     }
 
-    public class ParamsNames{
+    public class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
         
@@ -506,7 +506,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
-        public static final String FEEDBACK_RESULTS_MAIN_INDEX ="frmainindex";
+        public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -580,8 +580,8 @@ public class Const {
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
-        public static final String SEARCH_KEY ="searchkey";
-        public static final String DISPLAY_ARCHIVE ="displayarchive";
+        public static final String SEARCH_KEY = "searchkey";
+        public static final String DISPLAY_ARCHIVE = "displayarchive";
         
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
@@ -634,7 +634,7 @@ public class Const {
         public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
-    public class ActionURIs{
+    public class ActionURIs {
         
         /* _PAGE/Page in the Action URI name means 'show page' */
     
@@ -784,7 +784,7 @@ public class Const {
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
-    public class AutomatedActionNames{
+    public class AutomatedActionNames {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
@@ -796,7 +796,7 @@ public class Const {
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
-    public class PublicActionNames{
+    public class PublicActionNames {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
@@ -807,7 +807,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
-    public class ViewURIs{
+    public class ViewURIs {
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
@@ -884,7 +884,7 @@ public class Const {
     }
 
     /* These are status messages that may be shown to the user */
-    public class StatusMessages{
+    public class StatusMessages {
         
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
@@ -1021,8 +1021,8 @@ public class Const {
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
-        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
-                                                        "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
+        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" 
+                                                        + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
         
         public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
                 + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
@@ -1040,8 +1040,6 @@ public class Const {
         public static final String COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
         public static final String COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
                 + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_INSTRUCTORNAME_MAX_LENGTH + " characters.";
-        public static final String COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
-        public static final String COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
         public static final String COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
         public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.";
         public static final String COURSE_STUDENTNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
@@ -1058,8 +1056,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
-        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
-                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS =
+                                   "No permission to modify any sessions in un-archived courses";
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
@@ -1118,7 +1116,7 @@ public class Const {
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
-    public class StatusCodes{
+    public class StatusCodes {
     
         // Backdoor responses
         public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
@@ -1244,8 +1242,8 @@ public class Const {
     @SuppressWarnings("unused")
     private void _______other_constants________________________(){}
     
-    public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
-    public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
+    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
+    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     

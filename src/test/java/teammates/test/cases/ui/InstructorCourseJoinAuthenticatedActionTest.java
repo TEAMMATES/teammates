@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,7 +28,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     
     @SuppressWarnings("deprecation")
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);

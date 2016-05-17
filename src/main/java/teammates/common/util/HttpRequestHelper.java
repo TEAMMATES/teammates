@@ -37,10 +37,10 @@ public class HttpRequestHelper {
      * Returns a HashMap object containing all the parameters key-value pairs
      * from a URLFetchRequest object
      */
-    public static HashMap<String,String> getParamMap(URLFetchRequest request) {
+    public static HashMap<String, String> getParamMap(URLFetchRequest request) {
         String requestBody = request.getPayload().toStringUtf8();
         String[] params = requestBody.split("&");
-        HashMap<String,String> hashMap = new HashMap<String, String>();
+        HashMap<String, String> hashMap = new HashMap<String, String>();
         
         for (String param : params) {
             String[] pair = param.split("=");
@@ -87,7 +87,7 @@ public class HttpRequestHelper {
             String paramet = new String(f.nextElement().toString());
             requestParameters += paramet + "::";
             String[] parameterValues = request.getParameterValues(paramet);
-            for (int j = 0; j < parameterValues.length; j++){
+            for (int j = 0; j < parameterValues.length; j++) {
                 requestParameters += parameterValues[j] + "//";
             }
             requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
@@ -106,7 +106,7 @@ public class HttpRequestHelper {
     public static String getRequestedURL(HttpServletRequest req) {
         String link = req.getRequestURI();
         String query = req.getQueryString();
-        if (query != null && !query.trim().isEmpty()){
+        if (query != null && !query.trim().isEmpty()) {
             link += "?" + query;
         }
         return link;

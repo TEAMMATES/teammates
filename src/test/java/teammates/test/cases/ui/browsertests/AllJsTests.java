@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
@@ -18,7 +16,7 @@ import teammates.test.pageobjects.QUnitPage;
  * ensures all tests passed. This class is not using the PageObject pattern
  * because it is not a regular UI test.
  */
-public class AllJsTests extends BaseUiTestCase{
+public class AllJsTests extends BaseUiTestCase {
     
     private static Browser browser;
     private static QUnitPage page;
@@ -39,9 +37,9 @@ public class AllJsTests extends BaseUiTestCase{
         int totalCases = page.getTotalCases();
         int failedCases = page.getFailedCases();
         
-        print("Executed "+totalCases+" JavaScript Unit tests...");
+        print("Executed " + totalCases + " JavaScript Unit tests...");
 
-        assertTrue(failedCases == 0);
+        assertEquals(failedCases, 0);
         assertTrue(totalCases != 0);
         
         print("As expected, 0 failed tests out of " + totalCases + " tests.");

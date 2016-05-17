@@ -32,7 +32,7 @@ public class DownloadAllCourseData extends OfflineBackup {
         
         Set<String> allCourses = new HashSet<String>();
         
-        for(Course course : courses) {
+        for (Course course : courses) {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;

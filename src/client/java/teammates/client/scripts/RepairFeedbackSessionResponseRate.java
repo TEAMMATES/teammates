@@ -57,8 +57,8 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     // the feedback session specified will be operated upon.
     // If either of courseId or feedbackSessionName is null,
     // then all feedback sessions will be checked
-    private String courseId = null;
-    private String feedbackSessionName = null;
+    private String courseId;
+    private String feedbackSessionName;
     
     
     private Map<String, Set<String>> emailsInCourse = new HashMap<>();
@@ -144,10 +144,10 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             nonRespondentsEmails = new HashSet<String>();
             for (EntityAttributes possibleRespondent : allPossibleRespondents) {
                 if (possibleRespondent instanceof StudentAttributes) {
-                    StudentAttributes student = (StudentAttributes)possibleRespondent;
+                    StudentAttributes student = (StudentAttributes) possibleRespondent;
                     nonRespondentsEmails.add(student.email);
-                } else if (possibleRespondent instanceof InstructorAttributes){
-                    InstructorAttributes instructor = (InstructorAttributes)possibleRespondent;
+                } else if (possibleRespondent instanceof InstructorAttributes) {
+                    InstructorAttributes instructor = (InstructorAttributes) possibleRespondent;
                     nonRespondentsEmails.add(instructor.email);
                 }
             }
@@ -196,7 +196,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         Date curEnd = endCal.getTime();
         
         @SuppressWarnings("unchecked")
-        List<FeedbackSession> feedbackSessions = (List<FeedbackSession>)query.execute(curStart, curEnd);
+        List<FeedbackSession> feedbackSessions = (List<FeedbackSession>) query.execute(curStart, curEnd);
         for (FeedbackSession feedbackSession : feedbackSessions) {
             FeedbackSessionAttributes feedbackSessionAttributes = new FeedbackSessionAttributes(feedbackSession);
             result.add(feedbackSessionAttributes);

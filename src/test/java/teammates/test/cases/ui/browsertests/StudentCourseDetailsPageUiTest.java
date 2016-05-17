@@ -28,7 +28,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     @Test    
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
 
         ______TS("content");
         
@@ -49,7 +49,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
                                boolean isFullPageChecked) throws Exception {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
-                                .withCourseId(testData.courses.get(courseObjectId).id);
+                                .withCourseId(testData.courses.get(courseObjectId).getId());
         StudentCourseDetailsPage detailsPage = loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class);
         if (isFullPageChecked) {
             detailsPage.verifyHtml(filePath);

@@ -54,18 +54,18 @@ public class InstructorStudentCommentEditAction extends Action {
                 logic.putDocument(updatedComment);
                 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" +
-                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
-                        comment.courseId + "]</span><br>" +
-                        "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" 
+                        + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
+                        + comment.courseId + "]</span><br>" 
+                        + "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if (editType.equals("delete")) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +
-                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
-                        comment.courseId + "]</span><br>" +
-                        "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" 
+                        + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
+                        + comment.courseId + "]</span><br>" 
+                        + "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
         } catch (InvalidParametersException e) {
             // TODO: add a test to cover this path
@@ -74,26 +74,30 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return !isFromCommentPage ? 
-               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
-               createRedirectResult(
-                       (new PageData(account).getInstructorCommentsLink()) + "&" 
-                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return !isFromCommentPage 
+                ? createRedirectResult(
+                        new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)) 
+                : createRedirectResult(
+                        new PageData(account).getInstructorCommentsLink() + "&" 
+                        + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 
     private void verifyAccessibleByInstructor(String courseId, String commentId) {
         // TODO: update this if Comment recipient is updated
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        CourseAttributes course = logic.getCourse(courseId);
+        
         CommentAttributes commentInDb = logic.getComment(Long.valueOf(commentId));
         
         if (commentInDb != null && instructor != null && commentInDb.giverEmail.equals(instructor.email)) {
             // if comment giver and instructor are the same, allow access
-            return ;
+            return;
         }
         if (commentInDb == null) {
             Assumption.fail("Comment or instructor cannot be null for editing comment");
         }
+        
+        CourseAttributes course = logic.getCourse(courseId);
+        
         CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
         String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);

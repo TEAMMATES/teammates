@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Date;
 
 import org.testng.annotations.BeforeClass;
@@ -69,8 +65,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         
@@ -83,8 +79,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         
         try {
             publishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
         

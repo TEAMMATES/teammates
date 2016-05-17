@@ -193,7 +193,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // Early return if any null fields
         if (!errors.isEmpty()) { return errors; }
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
@@ -266,8 +266,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
         return now.after(start)
-               && (differenceBetweenDeadlineAndNow >= hours - 1
-               && differenceBetweenDeadlineAndNow < hours);
+               && differenceBetweenDeadlineAndNow >= hours - 1
+               && differenceBetweenDeadlineAndNow < hours;
     }
 
     /**
@@ -278,7 +278,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Calendar end = TimeHelper.dateToCalendar(endTime);
         end.add(Calendar.MINUTE, gracePeriod);
 
-        return (now.after(end));
+        return now.after(end);
     }
 
     /**
@@ -289,7 +289,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Calendar start = TimeHelper.dateToCalendar(startTime);
         Calendar end = TimeHelper.dateToCalendar(endTime);
 
-        return (now.after(start) && now.before(end));
+        return now.after(start) && now.before(end);
     }
 
     /**
@@ -301,7 +301,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
         gracedEnd.add(Calendar.MINUTE, gracePeriod);
 
-        return (now.after(end) && now.before(gracedEnd));
+        return now.after(end) && now.before(gracedEnd);
     }
 
     /**
@@ -312,7 +312,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Calendar now = TimeHelper.now(timeZone);
         Calendar start = TimeHelper.dateToCalendar(startTime);
 
-        return (now.before(start));
+        return now.before(start);
     }
 
     /**
@@ -320,7 +320,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date now = TimeHelper.now(timeZone).getTime();
         Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -329,7 +328,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return false;
         }
 
-        return (visibleTime.before(now));
+        Date now = TimeHelper.now(timeZone).getTime();
+        return visibleTime.before(now);
     }
 
     /**
@@ -349,14 +349,14 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         } else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
             return true;
         } else {
-            return (publishTime.before(now));
+            return publishTime.before(now);
         }
     }
 
     /**
      * @return {@code true} if the session has been set by the creator to be manually published.
      */
-    public boolean isManuallyPublished(){
+    public boolean isManuallyPublished() {
         return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
                || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }

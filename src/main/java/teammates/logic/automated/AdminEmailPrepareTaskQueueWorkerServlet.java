@@ -41,15 +41,15 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     final int MAX_READING_LENGTH = 900000; 
     
     
-    private String adminEmailTaskQueueMode = null;
+    private String adminEmailTaskQueueMode;
     
     //param needed for sending small number of emails
-    private String addressReceiverListString = null;
+    private String addressReceiverListString;
     
     //params needed to move heavy jobs into a queue task
-    private String groupReceiverListFileKey = null;
-    private int groupReceiverListFileSize = 0;
-    private String emailId = null;
+    private String groupReceiverListFileKey;
+    private int groupReceiverListFileSize;
+    private String emailId;
     
 
     @Override
@@ -59,7 +59,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         
-        if(adminEmailTaskQueueMode.contains(Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE)){
+        if (adminEmailTaskQueueMode.contains(Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE)) {
         
             log.info("Preparing admin email task queue in address mode...");
             
@@ -71,7 +71,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             
             addAdminEmailToTaskQueue(emailId);
             
-        } else if (adminEmailTaskQueueMode.contains(Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE)){
+        } else if (adminEmailTaskQueueMode.contains(Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE)) {
             
             log.info("Preparing admin email task queue in group mode...");
         
@@ -100,7 +100,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         }
     }
     
-    private long getFileSize(String blobkeyString){
+    private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
         long blobSize = blobInfo.getSize();
@@ -151,7 +151,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
         //file size is needed to track the number of unread bytes 
-        while(size > 0){
+        while (size > 0) {
             //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
@@ -167,26 +167,25 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             String readString = new String(array);
             List<String> newList = Arrays.asList(readString.split(","));         
             
-            if(listOfList.isEmpty()){
+            if (listOfList.isEmpty()) {
                 //this is the first time reading
                 listOfList.add(newList);        
             } else {
                 //check if the last reading stopped in the middle of a email address string
-                List<String> lastAddedList = listOfList.get(listOfList.size() -1);
+                List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
                 //get the last item of the list from last reading
                 String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if(!lastStringOfLastAddedList.contains("@")||
-                   !firstStringOfNewList.contains("@")){
+                if (!lastStringOfLastAddedList.contains("@")
+                    || !firstStringOfNewList.contains("@")) {
                    //either the left part or the right part of the broken email string 
                    //does not contains a "@".
                    //simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() -1)
+                   listOfList.get(listOfList.size() - 1)
                              .set(lastAddedList.size() - 1,
-                                  lastStringOfLastAddedList + 
-                                  firstStringOfNewList);
+                                  lastStringOfLastAddedList + firstStringOfNewList);
                    //and also needs to delete the right part which is the first item of the list from current reading
                    listOfList.add(newList.subList(1, newList.size() - 1));
                 } else {
@@ -203,24 +202,24 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
 
     }
     
-    private boolean isNearDeadline(){
+    private boolean isNearDeadline() {
         
         long timeLeftInMillis = ApiProxy.getCurrentEnvironment().getRemainingMillis();
-        if (timeLeftInMillis/1000 < 100){
+        if (timeLeftInMillis / 1000 < 100) {
             return true;
         }
         
         return false;
     }
     
-    private void pauseAndCreateAnNewTask(int indexOfEmailList, int indexOfEmail){
+    private void pauseAndCreateAnNewTask(int indexOfEmailList, int indexOfEmail) {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();     
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, "" + indexOfEmailList);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "" + indexOfEmail);
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(indexOfEmailList));
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(indexOfEmail));
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
@@ -228,20 +227,20 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 
     }
     
-    private void addAdminEmailToTaskQueue(String emailId){
+    private void addAdminEmailToTaskQueue(String emailId) {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
         Assumption.assertNotNull(adminEmail); 
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();         
         List<String> addressList = new ArrayList<String>();
         
-        if(!addressReceiverListString.contains(",")){
+        if (!addressReceiverListString.contains(",")) {
             addressList.add(addressReceiverListString);
         } else {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));
         }    
         
-        for(String emailAddress : addressList){     
+        for (String emailAddress : addressList) {     
             HashMap<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
             paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, emailAddress);
@@ -251,8 +250,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             try {  
                 taskQueueLogic.createAndAddTask(SystemParams.ADMIN_EMAIL_TASK_QUEUE,
                                                 Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);
-            } catch (IllegalArgumentException e){
-                if(e.getMessage().toLowerCase().contains("task size too large")){
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage().toLowerCase().contains("task size too large")) {
                     log.info("Email task size exceeds max limit. Switching to large email task mode.");
                     paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
                     paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
@@ -265,23 +264,23 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
 
     }
     
-    private void addAdminEmailToTaskQueue(String emailId, int indexOfEmailListToResume, int indexOfEmailToResume){
+    private void addAdminEmailToTaskQueue(String emailId, int indexOfEmailListToResume, int indexOfEmailToResume) {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
         Assumption.assertNotNull(adminEmail);       
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         
-        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "+
-                 indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
+        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "
+                + indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
         
         int indexOfLastEmailList = 0;
         int indexOfLastEmail = 0;
         
-        for(int i = indexOfEmailListToResume; i < processedReceiverEmails.size() ; i ++ ){
+        for (int i = indexOfEmailListToResume; i < processedReceiverEmails.size(); i++) {
             
             List<String> currentEmailList = processedReceiverEmails.get(i);
             
-            for(int j = indexOfEmailToResume; j < currentEmailList.size(); j++){
+            for (int j = indexOfEmailToResume; j < currentEmailList.size(); j++) {
                 String receiverEmail = currentEmailList.get(j);
                 
                 HashMap<String, String> paramMap = new HashMap<String, String>();
@@ -293,8 +292,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 try {  
                     taskQueueLogic.createAndAddTask(SystemParams.ADMIN_EMAIL_TASK_QUEUE,
                                                     Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);
-                } catch (IllegalArgumentException e){
-                    if(e.getMessage().toLowerCase().contains("task size too large")){
+                } catch (IllegalArgumentException e) {
+                    if (e.getMessage().toLowerCase().contains("task size too large")) {
                         log.info("Email task size exceeds max limit. Switching to large email task mode.");
                         paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
                         paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
@@ -303,7 +302,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                     }
                 }               
                 
-                if(isNearDeadline())
+                if (isNearDeadline())
                 {
                     pauseAndCreateAnNewTask(i, j);
                     log.info("Adding group mail tasks for mail with id " + emailId + "have been paused with list index: " + i + " email index: " + j);
@@ -315,8 +314,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             indexOfLastEmailList = i;   
         }
         
-        log.info("Adding Group mail tasks for mail with id " + emailId + 
-                 "was complete. List index : " + indexOfLastEmailList + 
-                 " Email index: " + indexOfLastEmail);
+        log.info("Adding Group mail tasks for mail with id " + emailId
+                + "was complete. List index : " + indexOfLastEmailList 
+                + " Email index: " + indexOfLastEmail);
     }
 }

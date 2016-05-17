@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class AssertHelper {
      */
     public static void assertContains(List<String> substringsExpected,
             String superstringActual) {
-        for(String substringExpected : substringsExpected) {
+        for (String substringExpected : substringsExpected) {
             if (!superstringActual.contains(substringExpected)) {
                 assertEquals(substringExpected, superstringActual);
             }

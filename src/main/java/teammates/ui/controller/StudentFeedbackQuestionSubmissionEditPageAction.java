@@ -10,7 +10,7 @@ import teammates.logic.api.GateKeeper;
 public class StudentFeedbackQuestionSubmissionEditPageAction extends FeedbackQuestionSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        return isJoinedCourse(courseId, account.googleId);
+        return isJoinedCourse(courseId);
     }
     
     @Override
