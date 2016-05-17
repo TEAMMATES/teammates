@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,7 +50,7 @@ public class SessionAttributesTest extends BaseTestCase {
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
-            AssertJUnit.assertEquals(expected.get(i), testList.get(i));
+            assertEquals(expected.get(i), testList.get(i));
         }
         
         testList.clear();
@@ -64,7 +63,7 @@ public class SessionAttributesTest extends BaseTestCase {
         
         Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
-            AssertJUnit.assertEquals(expected.get(i), testList.get(i));
+            assertEquals(expected.get(i), testList.get(i));
         }
     }
     

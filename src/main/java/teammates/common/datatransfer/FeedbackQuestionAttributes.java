@@ -15,7 +15,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId = null;
+    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -125,7 +125,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         List<String> errors = new ArrayList<String>();
         String error;
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);

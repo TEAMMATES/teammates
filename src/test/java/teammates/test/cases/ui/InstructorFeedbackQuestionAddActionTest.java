@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
@@ -887,7 +885,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionAddAction getAction (String... params) throws Exception {
+    private InstructorFeedbackQuestionAddAction getAction(String... params) throws Exception {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

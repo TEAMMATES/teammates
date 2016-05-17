@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
@@ -73,15 +72,6 @@ public class BaseUiTestCase extends BaseTestCase {
      */
     protected static <T extends AppPage> T loginAdminToPage(Browser browser, AppUrl url, Class<T> typeOfPage) {
         
-        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
-        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
-        
-        String instructorId = url.get(Const.ParamsNames.USER_ID);
-        
-        if (instructorId == null) { //admin using system as admin
-            instructorId = adminUsername;
-        }
-        
         if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
             try {
@@ -96,6 +86,15 @@ public class BaseUiTestCase extends BaseTestCase {
         logout(browser);
         browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
+        
+        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
+        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
+        
+        String instructorId = url.get(Const.ParamsNames.USER_ID);
+        
+        if (instructorId == null) { //admin using system as admin
+            instructorId = adminUsername;
+        }
         
         //login based on the login page type
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
@@ -155,7 +154,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 
@@ -182,7 +181,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -208,7 +207,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -231,7 +230,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 

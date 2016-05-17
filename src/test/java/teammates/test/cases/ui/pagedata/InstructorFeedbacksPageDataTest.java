@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -389,7 +384,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<CourseAttributes> iter = courses.iterator();
         while (iter.hasNext()) {
             CourseAttributes course = iter.next();
-            if (!courseIdsOfUser.contains(course.id)) {
+            if (!courseIdsOfUser.contains(course.getId())) {
                 iter.remove();
             }
         }

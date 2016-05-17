@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -82,7 +80,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorFeedbackEditPageAction getAction (String... params) throws Exception {
+    private InstructorFeedbackEditPageAction getAction(String... params) throws Exception {
         return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

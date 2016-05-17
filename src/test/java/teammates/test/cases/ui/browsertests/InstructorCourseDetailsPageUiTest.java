@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -77,7 +73,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content: no students");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
-        courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
+        courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").getId();
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyIsCorrectPage(courseId);
 
@@ -87,7 +83,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content: multiple students with sections");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instr2").googleId;
-        courseId = testData.courses.get("CCDetailsUiT.CS2103").id;
+        courseId = testData.courses.get("CCDetailsUiT.CS2103").getId();
 
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSections.html");
@@ -102,7 +98,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content: multiple students without sections");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instr").googleId;
-        courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithoutSections.html");
@@ -181,7 +177,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     public void testRemindAction() throws Exception {
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
@@ -219,7 +215,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     public void testDeleteAction() throws Exception {
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;        
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();        
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
         StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
         

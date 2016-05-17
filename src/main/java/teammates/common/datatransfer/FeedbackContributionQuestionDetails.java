@@ -117,9 +117,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getNewQuestionSpecificEditFormHtml() {
         this.isNotSureAllowed = true;
         
-        return "<div id=\"contribForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"contribForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1) 
+             + "</div>";
     }
 
     @Override
@@ -161,11 +161,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
-        String currentUserEmail = studentEmail;
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
         responses = getActualResponses(question, bundle);
@@ -188,15 +187,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-        
-        String html = "";
-        
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
         if (currentUserTeamResults == null) {
             return "";
         }
 
-        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(currentUserEmail);
+        String html = "";
+        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
         int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
@@ -223,7 +220,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
@@ -257,9 +254,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
+            if (bundle.visibilityTable.get(response.getId())[1] == false 
+                && type != FeedbackParticipantType.SELF 
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -321,7 +318,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         
         
-        if (responses.size() == 0 ) {
+        if (responses.size() == 0) {
             return "";
         }
     
@@ -355,9 +352,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
+            if (bundle.visibilityTable.get(response.getId())[1] == false 
+                && type != FeedbackParticipantType.SELF
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -409,7 +406,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
         }
 
-        for ( Map.Entry<String, String> entry : sortedMap.entrySet()) {
+        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
             contribFragments += entry.getValue();
         }
         
@@ -660,11 +657,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
-                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" 
+                   + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
-                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
+                   + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
         } else if (points == 0) {
             return "<span class=\"color-negative\">0%</span>";
         } else if (points > 100) {
@@ -832,12 +829,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for (int i = 200; i >= 0; i -= 10) {
-            result += "<option " +
-                        "class=\"" + getContributionOptionsColor(i) + "\" " +
-                        "value=\"" + i + "\"" +
-                        (i == points ? "selected" : "") +
-                        ">" + convertToEqualShareFormat(i) +
-                        "</option>\r\n";
+            result += "<option class=\"" + getContributionOptionsColor(i) + "\" " 
+                    + "value=\"" + i + "\"" 
+                    + (i == points ? "selected" : "") 
+                    + ">" + convertToEqualShareFormat(i) 
+                    + "</option>\r\n";
         }
         if (isNotSureAllowed) {
             result += "<option class=\""
@@ -858,7 +854,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
             return "color_neutral";
-        } else if ( points < Const.POINTS_EQUAL_SHARE) {
+        } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
         } else {

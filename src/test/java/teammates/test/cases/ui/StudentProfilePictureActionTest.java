@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -12,7 +9,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
@@ -169,7 +165,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @SuppressWarnings("deprecation")
     private InstructorAttributes createNewInstructorForUnregCourse()
             throws Exception {
-        String course = _dataBundle.courses.get("unregisteredCourse").id;
+        String course = _dataBundle.courses.get("unregisteredCourse").getId();
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
                                                                  "unregIns@unregcourse.com", "unregInstitute"));
         InstructorAttributes instructor = new InstructorAttributes("unregInsId", course, "unregName",
@@ -182,7 +178,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         ______TS("Failure case: no profile available (unreg student)");
 
         StudentAttributes student = _dataBundle.students.get("student2InUnregisteredCourse");
-        Assumption.assertIsEmpty(student.googleId);
+        assertTrue(student.googleId.isEmpty());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)

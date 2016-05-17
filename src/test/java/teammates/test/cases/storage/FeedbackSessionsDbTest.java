@@ -1,9 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
@@ -14,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -153,17 +148,17 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsForCourse("idOfTypicalCourse1");
         
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL +                
-                dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
-                dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL 
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        Assert.assertTrue(sessions.size() == 6);
+        assertEquals(6, sessions.size());
         
         ______TS("null params");
         

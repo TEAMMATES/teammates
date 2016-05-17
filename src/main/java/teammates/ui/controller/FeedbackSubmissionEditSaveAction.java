@@ -44,8 +44,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
-        String userTeamForCourse = getUserTeamForCourse();
-        String userSectionForCourse = getUserSectionForCourse();
+        
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
@@ -59,6 +58,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
             return createSpecificRedirectResult();
         }
+        
+        String userTeamForCourse = getUserTeamForCourse();
+        String userSectionForCourse = getUserSectionForCourse();
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
@@ -198,8 +200,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             throws EntityDoesNotExistException {
         if (response.getId() != null) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() ||
-                    response.recipientEmail.isEmpty()) {
+            if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -209,8 +210,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
-        } else if (!response.responseMetaData.getValue().isEmpty() &&
-                !response.recipientEmail.isEmpty()) {
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;

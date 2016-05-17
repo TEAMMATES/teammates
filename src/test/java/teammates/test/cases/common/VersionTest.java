@@ -1,8 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.Version;
@@ -36,7 +33,7 @@ public class VersionTest extends BaseTestCase {
     public void testVersionComparison() {
         Version version1 = new Version("15.09");
         Version version2 = new Version("15.09");
-        assertTrue(version1.compareTo(version2) == 0);
+        assertEquals(version1.compareTo(version2), 0);
         
         version1 = new Version("15.09");
         version2 = new Version("1.09");

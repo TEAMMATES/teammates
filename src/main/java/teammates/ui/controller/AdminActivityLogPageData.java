@@ -23,21 +23,21 @@ public class AdminActivityLogPageData extends PageData {
     private Long toDateValue;
     private Long fromDateValue;
     private String logLocalTime;
-    private boolean isFromDateSpecifiedInQuery = false;
+    private boolean isFromDateSpecifiedInQuery;
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
      * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowAll = false;
+    private boolean ifShowAll;
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowTestData = false;
+    private boolean ifShowTestData;
     
     private String statusForAjax;
     private QueryParameters q;
@@ -196,9 +196,9 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
@@ -258,7 +258,7 @@ public class AdminActivityLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         

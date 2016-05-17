@@ -51,7 +51,7 @@ public class ActivityLogEntry {
                         // or <studentemail>%<courseId>%<time> (for unregistered students) 
                         //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     
-    private boolean isFirstRow = false;
+    private boolean isFirstRow;
     
     @SuppressWarnings("unused")
     private String logInfoAsHtml;
@@ -344,17 +344,17 @@ public class ActivityLogEntry {
     public String getPersonInfo() {    
         if (url.contains("/student")) {
             if (googleId.contentEquals("Unregistered")) {
-                return "[" + name +
-                        " (Unregistered User) " + 
-                        " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
+                return "[" + name 
+                        + " (Unregistered User) "
+                        + " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
             }     
-            return "[" + name +
-                    " <a href=\"" + getStudentHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
+            return "[" + name 
+                    + " <a href=\"" + getStudentHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>"
+                    + " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
         } else if (url.contains("/instructor")) {
-            return "[" + name +
-                    " <a href=\"" + getInstructorHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>" +
-                    " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
+            return "[" + name
+                    + " <a href=\"" + getInstructorHomePageViewLink(googleId) + "\" target=\"_blank\">" + googleId + "</a>"
+                    + " <a href=\"mailto:" + email + "\" target=\"_blank\">" + email + "</a>]";
         } else { 
             return googleId; 
         }
@@ -593,7 +593,7 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "" ) + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"

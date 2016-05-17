@@ -31,7 +31,7 @@ public class AccountsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
         
-    private static AccountsLogic instance = null;
+    private static AccountsLogic instance;
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
@@ -81,9 +81,9 @@ public class AccountsLogic {
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = new CoursesLogic().getCourse(courseId);
         Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
-        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
+        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.getId());
         
-        Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
+        Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (int i = 0; i < instructorList.size(); i++) {
@@ -178,7 +178,7 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute );
+        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
         
         if (account == null) {
             createAccount(new AccountAttributes(googleId,
@@ -336,11 +336,11 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while removing instruction privileges from account :" + account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while removing instruction privileges from account :" + account.toString());
             }
         } else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         }
     }
 
@@ -353,11 +353,11 @@ public class AccountsLogic {
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Invalid account data detected unexpectedly " +
-                        "while adding instruction privileges to account :" + account.toString());
+                Assumption.fail("Invalid account data detected unexpectedly "
+                        + "while adding instruction privileges to account :" + account.toString());
             }
         } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         }
     }
 
@@ -402,7 +402,7 @@ public class AccountsLogic {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+    public void updateStudentProfilePicture(String googleId, String newPictureKey)
         throws EntityDoesNotExistException, BlobstoreFailureException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
         

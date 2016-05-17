@@ -194,16 +194,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // TODO: need to check for exact match.
         
         // Responses require deletion if choices change
-        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices ||
-            this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false ||
-            newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
+        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
+            || this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false
+            || newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
-        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions ||
-            this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false ||
-            newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
+        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+            || this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false
+            || newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
             return true;
         }
         
@@ -451,9 +451,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setDescription(1, 2, "Occasionally misses deadlines.");
         setDescription(1, 3, "Tasks are always completed before the deadline.");
         
-        return "<div id=\"rubricForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"rubricForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
     
     private void initializeRubricDescriptions() {

@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -184,9 +180,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverRecipientQuestion();
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
@@ -197,9 +193,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
 
         ______TS("test sort by giver > question > recipient");
@@ -244,9 +240,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
 
         ______TS("Typical case: test in-table sort");

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -281,7 +278,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         result = action.executeAndPostProcess();
         ShowPageResult pageResult = (ShowPageResult) result;
         InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData) pageResult.data;
-        assertEquals(true, pageData.getBundle().responses.isEmpty());
+        assertTrue(pageData.getBundle().responses.isEmpty());
         
     }
 

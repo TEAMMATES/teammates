@@ -146,7 +146,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course != null ? course.name : "").append(delim)
+                             .append(course != null ? course.getName() : "").append(delim)
                              .append(relatedSession.feedbackSessionName).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
                              .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
@@ -159,12 +159,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
-        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion ? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) : 
-                        comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
-        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion ? 
-                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) : 
-                        comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion 
+                                    ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion 
+                                      ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor
@@ -176,11 +176,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER).setText(
-                    Boolean.valueOf(isVisibleToGiver).toString()))
+                    Boolean.toString(isVisibleToGiver)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
-                    Boolean.valueOf(isVisibleToReceiver).toString()))
+                    Boolean.toString(isVisibleToReceiver)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.valueOf(isVisibleToInstructor).toString()))
+                    Boolean.toString(isVisibleToInstructor)))
             //searchableText and createdDate are used to match the query string
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))

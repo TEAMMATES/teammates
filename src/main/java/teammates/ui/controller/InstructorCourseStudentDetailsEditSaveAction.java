@@ -30,7 +30,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
-        boolean hasSection = logic.hasIndicatedSections(courseId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
         if (student == null) {
@@ -44,7 +43,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
         student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
         student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
-        student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
+        student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
+        boolean hasSection = logic.hasIndicatedSections(courseId);
         
         student.name = Sanitizer.sanitizeName(student.name);
         student.email = Sanitizer.sanitizeEmail(student.email);

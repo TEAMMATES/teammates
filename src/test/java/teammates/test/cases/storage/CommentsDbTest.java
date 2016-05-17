@@ -1,9 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
@@ -13,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -396,7 +391,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.deleteCommentsByStudentEmail(courseId1, student2);
         List<CommentAttributes> comments = commentsDb.getCommentsForGiver(courseId1, instr1);
         assertEquals(1, comments.size());
-        assertEquals(true, comments.get(0).recipients.contains(student1));
+        assertTrue(comments.get(0).recipients.contains(student1));
         
         ______TS("success: delete team comments");
         
@@ -493,7 +488,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
             throws EntityAlreadyExistsException {
         try {
             commentsDb.createEntity(comment);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     expectedMessage,

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
 import org.testng.annotations.BeforeClass;

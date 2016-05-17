@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -81,7 +79,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) r.data;
@@ -91,10 +89,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 2" +
-                "|||/page/instructorCoursesPage";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" 
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 2" 
+                + "|||/page/instructorCoursesPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
@@ -109,7 +107,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
         assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         
         pageData = (InstructorCoursesPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
@@ -118,10 +116,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
-                "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0" +
-                "|||/page/instructorCoursesPage";
+        expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" 
+                + "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0" 
+                + "|||/page/instructorCoursesPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     

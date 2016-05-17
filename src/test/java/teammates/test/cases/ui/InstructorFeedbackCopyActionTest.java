@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -192,7 +189,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackCopyAction getAction (String... params) throws Exception {
+    private InstructorFeedbackCopyAction getAction(String... params) throws Exception {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -371,7 +367,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         boolean result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
-        assertEquals(true, result);
+        assertTrue(result);
         
         ______TS("failure: not an instructor of a given course");
 
@@ -379,7 +375,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
-        assertEquals(false, result);
+        assertFalse(result);
 
         ______TS("failure: null parameter");
 
@@ -407,7 +403,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         boolean result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
-        assertEquals(true, result);
+        assertTrue(result);
         
         ______TS("failure: not an instructor of a given course");
 
@@ -415,7 +411,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
-        assertEquals(false, result);
+        assertFalse(result);
 
         ______TS("failure: null parameter");
 
@@ -540,22 +536,22 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor with only 1 sample course");
         
         String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
-        assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
+        assertTrue(instructorsLogic.isNewInstructor(instructorId));
         
         ______TS("success: instructor without any course");
         
         instructorId = "instructorWithoutCourses";
-        assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
+        assertTrue(instructorsLogic.isNewInstructor(instructorId));
         
         ______TS("failure: instructor with only 1 course, but not a sample course");
 
         instructorId = "idOfInstructor4";
-        assertEquals(false, instructorsLogic.isNewInstructor(instructorId));
+        assertFalse(instructorsLogic.isNewInstructor(instructorId));
 
         ______TS("failure: instructor is not new user");
         
         instructorId = "idOfInstructor1OfCourse1";
-        assertEquals(false, instructorsLogic.isNewInstructor(instructorId));
+        assertFalse(instructorsLogic.isNewInstructor(instructorId));
         
         ______TS("failure: null parameter");
 
@@ -720,7 +716,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
-        assertEquals(instructorList.isEmpty(), true);
+        assertTrue(instructorList.isEmpty());
         verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
         
@@ -753,7 +749,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
         
-        assertEquals(true, instructorList.isEmpty());
+        assertTrue(instructorList.isEmpty());
 
         ______TS("typical case: delete all instructors for a non-existent course");
 

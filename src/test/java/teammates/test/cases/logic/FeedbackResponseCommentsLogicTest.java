@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +101,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
             }
         }
         
-        assertTrue(actualFrComment != null);
+        assertNotNull(actualFrComment);
         
         //delete afterwards
         frcLogic.deleteFeedbackResponseComment(frComment);
@@ -216,7 +212,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                 break;
             }
         }
-        assertTrue(actualFrComment != null);
+        assertNotNull(actualFrComment);
         
         ______TS("typical success case update feedback response comment giver email");
         
@@ -297,9 +293,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
         
-        List<FeedbackResponseCommentAttributes> frcList 
-            = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
-        assertNotEquals(0, frcList.size());
+        List<FeedbackResponseCommentAttributes> frcList = 
+                frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertFalse(frcList.isEmpty());
         
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
         

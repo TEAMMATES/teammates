@@ -48,7 +48,7 @@ public class StudentsLogic {
     private static int SECTION_SIZE_LIMIT = 100;
     private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance = null;
+    private static StudentsLogic instance;
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -525,7 +525,7 @@ public class StudentsLogic {
         for (String team : invalidTeamList) {
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
-        if (!errorMessage.equals("")) {
+        if (!errorMessage.isEmpty()) {
             errorMessage += "Please use the enroll page to edit multiple students";
         }
 
@@ -675,13 +675,13 @@ public class StudentsLogic {
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
-            if (enrollment.updateStatus == UpdateStatus.MODIFIED &&
-                    isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+            if (enrollment.updateStatus == UpdateStatus.MODIFIED 
+                && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
-            if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
-                    isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
+            if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED
+                && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }

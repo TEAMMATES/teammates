@@ -206,7 +206,7 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(archiveLink);
     }
 
-    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
+    private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
         browser.driver.findElement(locator).click();
         waitForPageToLoad();
         return changePageType(destinationPageType);

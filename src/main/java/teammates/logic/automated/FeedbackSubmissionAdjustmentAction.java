@@ -64,14 +64,14 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
                 .getType());
         
-        log.info("Adjusting submissions for feedback session :" + sessionName +
-                 "in course : " + courseId);
+        log.info("Adjusting submissions for feedback session :" + sessionName 
+                 + "in course : " + courseId);
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
         StudentsLogic stLogic = StudentsLogic.inst();
-        String errorString = "Error encountered while adjusting feedback session responses " +
-                "of %s in course : %s : %s\n%s";
+        String errorString = "Error encountered while adjusting feedback session responses " 
+                           + "of %s in course : %s : %s\n%s";
         
         if (feedbackSession != null) {
             List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()

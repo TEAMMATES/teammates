@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 

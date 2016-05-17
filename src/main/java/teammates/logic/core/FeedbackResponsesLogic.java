@@ -28,7 +28,7 @@ public class FeedbackResponsesLogic {
 
     private static final Logger log = Utils.getLogger();
 
-    private static FeedbackResponsesLogic instance = null;
+    private static FeedbackResponsesLogic instance;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
@@ -278,10 +278,6 @@ public class FeedbackResponsesLogic {
         if (question == null) {
             return false;
         }
-
-        List<FeedbackParticipantType> showNameTo =
-                isGiverName ? question.showGiverNameTo
-                        : question.showRecipientNameTo;
         
         // Early return if user is giver
         if (question.giverType != FeedbackParticipantType.TEAMS) {
@@ -295,6 +291,9 @@ public class FeedbackResponsesLogic {
             }
         }
         
+        List<FeedbackParticipantType> showNameTo = isGiverName 
+                                                 ? question.showGiverNameTo
+                                                 : question.showRecipientNameTo;
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
@@ -490,8 +489,8 @@ public class FeedbackResponsesLogic {
             FeedbackResponse createdResponseEntity = 
                     (FeedbackResponse) frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
-            frcLogic.updateFeedbackResponseCommentsForChangingResponseId
-                    (oldResponse.getId(), createdResponseEntity.getId());
+            frcLogic.updateFeedbackResponseCommentsForChangingResponseId(
+                    oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
             throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
@@ -525,7 +524,7 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesToUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (isRecipientTypeTeamMembers(question) ) {
+            if (isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
             }
         }
@@ -802,10 +801,6 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
-        StudentAttributes student =
-                studentsLogic.getStudentForEmail(question.courseId,
-                        studentEmail);
-
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             addNewResponses(viewableResponses,
                     getFeedbackResponsesForQuestion(question.getId()));
@@ -814,8 +809,9 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
-        if (question.recipientType.isTeam() &&
-                question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, studentEmail);
+        if (question.recipientType.isTeam() 
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(

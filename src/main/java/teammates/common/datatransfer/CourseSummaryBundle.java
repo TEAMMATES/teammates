@@ -22,7 +22,7 @@ public class CourseSummaryBundle {
     public static void sortSummarizedCoursesByCourseId(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }
@@ -33,7 +33,7 @@ public class CourseSummaryBundle {
     public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
-                return obj1.course.name.compareTo(obj2.course.name);
+                return obj1.course.getName().compareTo(obj2.course.getName());
             }
         });
     }
@@ -52,7 +52,7 @@ public class CourseSummaryBundle {
     public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }
