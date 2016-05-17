@@ -1591,8 +1591,8 @@ function bindAssignWeightsCheckboxes() {
 }
 
 /**
- * Move the "weights" checkbox to the weight row if it is checked, otherwise
- * move it to the choice row
+ * Moves the "weights" checkbox to the weight row if it is checked, otherwise
+ * moves it to the choice row
  *
  * @param checkbox the "weights" checkbox
  */
