@@ -117,7 +117,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         try {
             studentsInfo = studentsLogic
-                    .enrollStudentsWithoutDocument(enrollLines, course1.id);
+                    .enrollStudentsWithoutDocument(enrollLines, course1.getId());
             signalFailureToDetectException("Failure cause : Invalid enrollment executed without exceptions");
         } catch (EnrollException e) {
             String errorMessage = e.getLocalizedMessage();
@@ -139,21 +139,21 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         int counter = 0;
         while (counter != 10) {
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
+            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.getId());
         
             //Check whether students are present in database
-            assertNotNull(studentsLogic.getStudentForEmail(course1.id, "s@g"));
+            assertNotNull(studentsLogic.getStudentForEmail(course1.getId(), "s@g"));
 
             //Verify no tasks sent to the task queue
             if (SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())) {
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size())) {
                 break;
             }
             counter++;
         }
         
         assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size());     
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());     
         
         
         ______TS("change an existing students email and verify update "
@@ -163,7 +163,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         String oldEmail = studentsInfo.get(0).email;
         StudentAttributes updatedAttributes = new StudentAttributes();
         updatedAttributes.email = "newEmail@g";
-        updatedAttributes.course = course1.id;
+        updatedAttributes.course = course1.getId();
 
         studentsLogic.updateStudentCascadeWithoutDocument(oldEmail, updatedAttributes);
 
@@ -175,7 +175,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         //Verify that no response exists for old email
-        verifyResponsesDoNotExistForEmailInCourse(oldEmail, course1.id);
+        verifyResponsesDoNotExistForEmailInCourse(oldEmail, course1.getId());
         
         ______TS("change team of existing student and verify deletion of all his responses");
         StudentAttributes studentInTeam1 = dataBundle.students.get("student2InCourse1");
@@ -216,7 +216,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         invalidEnrollLine += invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
-                    .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);
+                    .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());
             signalFailureToDetectException("Expected EnrollException");
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();

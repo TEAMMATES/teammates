@@ -48,9 +48,9 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         boolean isViewingDraft = false;
         boolean isDisplayArchive = false;
-        String courseId = course1.id;
-        String courseName = course1.name;
-        List<String> coursePaginationList = Arrays.asList(course1.id, course2.id);
+        String courseId = course1.getId();
+        String courseName = course1.getName();
+        List<String> coursePaginationList = Arrays.asList(course1.getId(), course2.getId());
         Map<String, List<CommentAttributes>> comments = new TreeMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> commentModifyPermissions = new TreeMap<String, List<Boolean>>();
         
@@ -70,7 +70,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseName, data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
         assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.getId(), 
                      actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
         assertEquals(courseId, actualCoursePagination.getActiveCourse());
@@ -125,8 +125,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         ______TS("instructor is in second course page");
         
-        courseId = course2.id;
-        courseName = course2.name;
+        courseId = course2.getId();
+        courseName = course2.getName();
         
         comments = new TreeMap<String, List<CommentAttributes>>();
         commentModifyPermissions = new TreeMap<String, List<Boolean>>();
@@ -145,7 +145,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.getId(), 
                      actualCoursePagination.getPreviousPageLink());
         assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());

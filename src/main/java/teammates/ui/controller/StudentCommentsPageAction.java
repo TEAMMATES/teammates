@@ -46,7 +46,7 @@ public class StudentCommentsPageAction extends Action {
         
         if (courseId == null && !courses.isEmpty()) {
             // if courseId not provided, select the newest course
-            courseId = courses.get(0).id;
+            courseId = courses.get(0).getId();
         }
         
         String courseName = getSelectedCourseName(courses);
@@ -108,7 +108,7 @@ public class StudentCommentsPageAction extends Action {
         List<String> coursePaginationList = new ArrayList<>();
 
         for (CourseAttributes course : sortedCourses) {
-            coursePaginationList.add(course.id);
+            coursePaginationList.add(course.getId());
         }
         
         return coursePaginationList;
@@ -116,8 +116,8 @@ public class StudentCommentsPageAction extends Action {
     
     private String getSelectedCourseName(List<CourseAttributes> sortedCourses) {
         for (CourseAttributes course : sortedCourses) {
-            if (course.id.equals(courseId)) {
-                return course.id + " : " + course.name;
+            if (course.getId().equals(courseId)) {
+                return course.getId() + " : " + course.getName();
             }
         }
         return "";

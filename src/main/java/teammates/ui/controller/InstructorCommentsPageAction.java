@@ -118,15 +118,15 @@ public class InstructorCommentsPageAction extends Action {
             CourseAttributes course = courses.get(i);
             if (isDisplayArchivedCourse 
              || !isCourseArchived(course, account.googleId) 
-             || course.id.equals(courseId)) {
+             || course.getId().equals(courseId)) {
                 if (courseId.isEmpty()) {
-                    courseId = course.id;
+                    courseId = course.getId();
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }
-                coursePaginationList.add(course.id);
+                coursePaginationList.add(course.getId());
             }
-            if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+            if (course.getId().equals(courseId)) {
+                courseName = course.getId() + " : " + course.getName();
             }
         }
         return courseName;
@@ -195,7 +195,7 @@ public class InstructorCommentsPageAction extends Action {
     }
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {
-        return Logic.isCourseArchived(course.id, googleId);
+        return Logic.isCourseArchived(course.getId(), googleId);
     }
     
     private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {

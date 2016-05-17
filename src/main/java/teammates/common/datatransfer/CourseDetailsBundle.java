@@ -45,7 +45,7 @@ public class CourseDetailsBundle {
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }
@@ -57,7 +57,7 @@ public class CourseDetailsBundle {
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }

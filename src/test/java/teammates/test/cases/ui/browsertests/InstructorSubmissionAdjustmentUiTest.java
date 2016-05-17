@@ -107,7 +107,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private void loadEnrollmentPage() {
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
-                .withCourseId(testData.courses.get("typicalCourse1").id);
+                .withCourseId(testData.courses.get("typicalCourse1").getId());
                 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
     }

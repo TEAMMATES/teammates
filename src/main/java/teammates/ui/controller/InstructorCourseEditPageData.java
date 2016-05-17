@@ -79,9 +79,9 @@ public class InstructorCourseEditPageData extends PageData {
                                         "javascript:;", Const.Tooltips.COURSE_INFO_EDIT, null, isDisabled);
         
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
-        String onClick = "return toggleDeleteCourseConfirmation('" + course.id + "');";
+        String onClick = "return toggleDeleteCourseConfirmation('" + course.getId() + "');";
         deleteCourseButton = createButton(content, "btn btn-primary btn-xs", "courseDeleteLink", 
-                                          getInstructorCourseDeleteLink(course.id, false), 
+                                          getInstructorCourseDeleteLink(course.getId(), false), 
                                           Const.Tooltips.COURSE_DELETE, onClick, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(

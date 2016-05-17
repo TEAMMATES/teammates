@@ -384,7 +384,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<CourseAttributes> iter = courses.iterator();
         while (iter.hasNext()) {
             CourseAttributes course = iter.next();
-            if (!courseIdsOfUser.contains(course.id)) {
+            if (!courseIdsOfUser.contains(course.getId())) {
                 iter.remove();
             }
         }
