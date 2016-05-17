@@ -37,7 +37,6 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        FEEDBACK_QUESTION_TEXT,
         ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
         EMAIL_SEND_DATE,
@@ -113,10 +112,6 @@ public class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
-    public static final String NATIONALITY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + NATIONALITY_FIELD_NAME + " because it %s. " +
-                    "The value of " + NATIONALITY_FIELD_NAME + " should be no longer than " +
-                    NATIONALITY_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -212,20 +207,6 @@ public class FieldValidator {
                     "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " +
                     FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
-    /*
-     * =======================================================================
-     * Field: Feedback question text
-     * TODO: remove if this field is not used
-     */
-    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
-    public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
-    public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. " +
-                    "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " +
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty. " +
-                            "If you require more characters for your question, " +
-                            "please use the instructions box below.";
-
     /*
      * =======================================================================
      * Field: Google ID
@@ -428,32 +409,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case PERSON_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String) value);
-            break;
-        case INSTITUTE_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String) value);
-            break;
-        case NATIONALITY:
-            returnValue = getValidityInfoForAllowedName(
-                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String) value);
-            break;
-        case COURSE_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String) value);
-            break;
-        case FEEDBACK_SESSION_NAME:
-            returnValue = getValidityInfoForFeedbackSessionName(value);
-            break;
-        case FEEDBACK_QUESTION_TEXT:
-            returnValue = getValidityInfoForSizeCappedNonEmptyString(
-                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
-            break;
-        case GENDER:
-            returnValue = getValidityInfoForGender((String) value);
-            break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
                     STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
@@ -493,6 +448,91 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    /**
+     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}
+     * @param gender
+     * @return An explanation of why the {@code gender} is not acceptable.
+     *         Returns an empty string if the {@code gender} is acceptable.
+     */
+    public String getInvalidityInfoForGender(String gender) {
+        Assumption.assertTrue("Non-null value expected", gender != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(gender);
+        
+        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
+            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
+     * {@code COURSE_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no unsantized
+     * HTML characters
+     * @param feedbackSessionName
+     * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
+     *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
+     */
+    public String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
+        String errorsFromAllowedNameValidation = getValidityInfoForAllowedName(
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
+
+        // return early if error already exists because session name is too long etc.
+        if (!errorsFromAllowedNameValidation.isEmpty()) {
+            return errorsFromAllowedNameValidation;
+        }
+
+        // checks for unsantized HTML characters
+        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                                            feedbackSessionName);
+        return errorsFromNonHtmlValidation;
+    }
+
+    /**
+     * Checks if {@code courseName} is a non-null non-empty string no longer than the specified length
+     * {@code COURSE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param courseName
+     * @return An explanation of why the {@code courseName} is not acceptable.
+     *         Returns an empty string if the {@code courseName} is acceptable.
+     */
+    public String getInvalidityInfoForCourseName(String courseName) {
+        return getValidityInfoForAllowedName(COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, courseName);
+    }
+
+    /**
+     * Checks if {@code nationality} is a non-null non-empty string no longer than the specified length
+     * {@code NATIONALITY_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param nationality
+     * @return An explanation of why the {@code nationality} is not acceptable.
+     *         Returns an empty string if the {@code nationality} is acceptable.
+     */
+    public String getInvalidityInfoForNationality(String nationality) {
+        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH,
+                                             nationality);
+    }
+
+    /**
+     * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
+     * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param instituteName
+     * @return An explanation of why the {@code instituteName} is not acceptable.
+     *         Returns an empty string if the {@code instituteName} is acceptable.
+     */
+    public String getInvalidityInfoForInstituteName(String instituteName) {
+         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                              instituteName);
+    }
+
+    /**
+     * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
+     * {@code PERSON_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param personName
+     * @return An explanation of why the {@code personName} is not acceptable.
+     *         Returns an empty string if the {@code personName} is acceptable.
+     */
+    public String getInvalidityInfoForPersonName(String personName) {
+        return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
     
     /**
@@ -758,17 +798,6 @@ public class FieldValidator {
         return errors;
     }
 
-    public String getValidityInfoForFeedbackSessionName(Object value) {
-        String returnValue;
-        returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
-        if (returnValue.isEmpty()) {
-            returnValue = getValidityInfoForNonHtmlField(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
-        }
-        return returnValue;
-    }
-    
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = value;
         sanitizedValue = sanitizedValue.replace("<", "&lt;")
@@ -836,16 +865,6 @@ public class FieldValidator {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForGender(String value) {
-        Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (!GENDER_ACCEPTED_VALUES.contains(value)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }

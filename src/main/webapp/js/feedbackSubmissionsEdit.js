@@ -487,9 +487,9 @@ function updateConstSumMessageQn(qnNum) {
     var numOptions = 0;
     var points = parseInt($('#constSumPoints-' + qnNum).val());
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
-    var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true' ? true : false;
-    var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true' ? true : false;
-    var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true' ? true : false;
+    var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true';
+    var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true';
+    var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true';
 
     if (distributeToRecipients) {
         numOptions = numRecipients;

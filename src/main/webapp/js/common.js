@@ -146,7 +146,10 @@ $(document).on('ajaxComplete ready', function() {
      * code that throws errors.
     */
     var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({ html: true, container: 'body' });
+    $tooltips.tooltip({
+        html: true,
+        container: 'body'
+    });
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
@@ -285,7 +288,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
  */
 function sortBase(x, y) {
     // Text sorting
-    return x < y ? -1 : x > y ? 1 : 0;
+    if (x < y) {
+        return -1;
+    }
+    return x > y ? 1 : 0;
 }
 
 /**
@@ -309,8 +315,10 @@ function sortNum(x, y) {
 function sortDate(x, y) {
     x = Date.parse(x);
     y = Date.parse(y);
-    var comparisonResult = x > y ? 1 : x < y ? -1 : 0;
-    return comparisonResult;
+    if (x > y) {
+        return 1;
+    }
+    return x < y ? -1 : 0;
 }
 
 /**
@@ -418,7 +426,7 @@ function getPointValue(s, ditchZero) {
         return 100; // Case E
     }
     
-    return 100 + eval(s); // Other typical cases
+    return 100 + parseInt(s); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -472,7 +480,11 @@ function scrollToPosition(scrollPos, duration) {
  *                              defaults to 0 for scrolling without animation
  */
 function scrollToElement(element, options) {
-    var defaultOptions = { type: 'top', offset: 0, duration: 0 };
+    var defaultOptions = {
+        type: 'top',
+        offset: 0,
+        duration: 0
+    };
     
     options = options || {};
     var type = options.type || defaultOptions.type;
@@ -758,12 +770,14 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.
  */
+/* eslint-disable no-extend-native */
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     };
 }
+/* eslint-enable no-extend-native */
 
 /**
  * Checks if the input value is a blank string

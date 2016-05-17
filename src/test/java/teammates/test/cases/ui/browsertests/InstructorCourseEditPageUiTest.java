@@ -187,7 +187,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -327,7 +327,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;
