@@ -171,7 +171,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        if (commentText.equals("")) {
+        if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         } else {

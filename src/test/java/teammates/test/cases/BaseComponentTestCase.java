@@ -191,13 +191,13 @@ public class BaseComponentTestCase extends BaseTestCase {
             StudentAttributes actualStudent) {
         
         // For these fields, we consider null and "" equivalent.
-        if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
+        if (expectedStudent.googleId == null && actualStudent.googleId.isEmpty()) {
             expectedStudent.googleId = "";
         }
-        if (expectedStudent.team == null && actualStudent.team.equals("")) {
+        if (expectedStudent.team == null && actualStudent.team.isEmpty()) {
             expectedStudent.team = "";
         }
-        if (expectedStudent.comments == null && actualStudent.comments.equals("")) {
+        if (expectedStudent.comments == null && actualStudent.comments.isEmpty()) {
             expectedStudent.comments = "";
         }
 

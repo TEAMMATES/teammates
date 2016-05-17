@@ -159,21 +159,21 @@ public class InstructorCoursesPageData extends PageData {
         
         button.setAttribute("class", buttonClass);
         
-        if (id != null && !id.equals("")) {
+        if (id != null && !id.isEmpty()) {
             button.setAttribute("id", id);
         }
         
-        if (href != null && !href.equals("")) {
+        if (href != null && !href.isEmpty()) {
             button.setAttribute("href", href);
         }
         
-        if (title != null && !title.equals("")) {
+        if (title != null && !title.isEmpty()) {
             button.setAttribute("title", title);
             button.setAttribute("data-toggle", "tooltip");
             button.setAttribute("data-placement", "top");
         }
         
-        if (onClick != null && !onClick.equals("")) {
+        if (onClick != null && !onClick.isEmpty()) {
             button.setAttribute("onclick", onClick);
         }
         

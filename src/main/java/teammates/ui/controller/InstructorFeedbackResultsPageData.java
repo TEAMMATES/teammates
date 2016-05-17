@@ -726,7 +726,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             currentTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             currentTeam = bundle.getTeamNameForEmail(giverIdentifier);
-            if (currentTeam.equals("")) {
+            if (currentTeam.isEmpty()) {
                 currentTeam = bundle.getNameForEmail(giverIdentifier);
             }
         }
