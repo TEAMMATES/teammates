@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
@@ -11,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
@@ -254,98 +252,143 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_PERSON_NAME() {
-        
-        //NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedNonEmptyString
-        //  , testGetValidityInfoForSizeCappedPossiblyEmptyString or testGetValidityInfoForAllowedName
-        // methods which are already unit tested. Therefore, this method checks if the 
-        //  max length and the field name are handled correctly by SUT.
-        
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.PERSON_NAME, 
-                PERSON_NAME_MAX_LENGTH, 
-                PERSON_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_INSTITUTE_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.INSTITUTE_NAME, 
-                INSTITUTE_NAME_MAX_LENGTH, 
-                INSTITUTE_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_COURSE_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.COURSE_NAME, 
-                COURSE_NAME_MAX_LENGTH, 
-                COURSE_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_TEAM_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.TEAM_NAME, 
-                TEAM_NAME_MAX_LENGTH, 
-                TEAM_NAME_ERROR_MESSAGE, 
-                false);
-        
+    public void testGetInvalidityInfoForSpecificFields() {
+        // behavior tests for the specific field validation methods
+        // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
+        // - ensures error messages are correctly interpolated and returned
+        testGetInvalidityInfo_PersonName();
+        testGetInvalidityInfo_InstituteName();
+        testGetInvalidityInfo_Nationality();
+        testGetInvalidityInfo_CourseName();
+        testGetInvalidityInfo_FeedbackSessionName();
+        testGetInvalidityInfo_Gender();
     }
 
-    @Test
-    public void testGetValidityInfo_STUDENT_ROLE_COMMENTS() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.STUDENT_ROLE_COMMENTS, 
-                STUDENT_ROLE_COMMENTS_MAX_LENGTH, 
-                STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, 
-                true);
-    }
-    
-    @Test
-    public void testGetValidityInfo_COUNTRY() {
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.NATIONALITY,
-                NATIONALITY_MAX_LENGTH,
-                NATIONALITY_ERROR_MESSAGE,
-                false);
-    }
-    
-    @Test
-    public void testGetValidityInfo_GENDER() {
-        verifyAssertError("null value", FieldType.GENDER, null);
-        
-        String validInput = "male";
-        String invalidInput = "random_value";
-        String emptyInput = "";
-        
-        testOnce("valid: accepted gender value",
-                FieldType.GENDER,
-                validInput,
-                "");
-        
-        testOnce("invalid: randomn gender value",
-                FieldType.GENDER,
-                invalidInput,
-                String.format(GENDER_ERROR_MESSAGE, invalidInput));
-        
-        testOnce("invalid: empty string",
-                FieldType.GENDER,
-                emptyInput,
-                String.format(GENDER_ERROR_MESSAGE, emptyInput));
+    private void testGetInvalidityInfo_PersonName() {
+        invalidityInfoFor_validName_shouldReturnEmptyString();
+        invalidityInfoFor_emptyName_shouldReturnErrorString();
     }
 
+    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
+        String emptyPersonName = "";
+        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
+        assertEquals("Empty person name should return appropriate error message",
+                     String.format(PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
+                                   REASON_EMPTY),
+                     actual);
+    }
+
+    private void invalidityInfoFor_validName_shouldReturnEmptyString() {
+        String validPersonName = "Mr Valid Name";
+        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
+        assertEquals("Valid person name should return empty string", "", actual);
+    }
+
+    private void testGetInvalidityInfo_InstituteName() {
+        invalidityInfoFor_validInstituteName_shouldReturnEmptyString();
+        invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validInstituteName_shouldReturnEmptyString() {
+        String validInstituteName = "Institute of Valid Name";
+        String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
+        assertEquals("Valid institute name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString() {
+        String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
+        assertEquals("Too long institute name should return appropriate error message",
+                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
+                                   REASON_TOO_LONG),
+                     actual);
+    }
+
+    private void testGetInvalidityInfo_Nationality() {
+        invalidityInfoFor_validNationality_shouldReturnEmptyString();
+        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validNationality_shouldReturnEmptyString() {
+        String validNationality = "Martian";
+        String actual = validator.getInvalidityInfoForNationality(validNationality);
+        assertEquals("Valid nationality should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
+        String invalidCharNationality = "{ Invalid Char Nationality";
+        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
+        assertEquals("Nationality with invalid characters should return appropriate error string",
+                      String.format(INVALID_NAME_ERROR_MESSAGE,
+                                    invalidCharNationality,
+                                    NATIONALITY_FIELD_NAME,
+                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                    NATIONALITY_FIELD_NAME),
+                      actual);
+    }
+
+    private void testGetInvalidityInfo_CourseName() {
+        invalidityInfoFor_validCourseName_shouldbeEmptyString();
+        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
+        String validCourseName = "Introduction to Valid Course";
+        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
+        assertEquals("Valid course name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
+        String invalidCharCourseName = "Vertical Bar | Course";
+        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
+        assertEquals("Course name with invalid character should return appropriate error string",
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
+                                   invalidCharCourseName,
+                                   COURSE_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR,
+                                   COURSE_NAME_FIELD_NAME),
+                     actual);
+    }
+
+    private void testGetInvalidityInfo_FeedbackSessionName() {
+        invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString();
+        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString() {
+        String validFeedbackSessionName = "Valid feedback session name";
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
+        assertEquals("Valid feedback session name should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
+        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
+        assertEquals("Feedback session with too long name should return appropriate error message",
+                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
+                                   tooLongFeedbackSessionName,
+                                   REASON_TOO_LONG),
+                     actual);
+    }
+
+    private void testGetInvalidityInfo_Gender() {
+        invalidityInfoFor_validGender_shouldReturnEmptyString();
+        invalidityInfoFor_invalidGender_shouldReturnErrorString();
+    }
+
+    private void invalidityInfoFor_validGender_shouldReturnEmptyString() {
+        String validGender = "other";
+        String actual = validator.getInvalidityInfoForGender(validGender);
+        assertEquals("Valid gender should return empty string", "", actual);
+    }
+
+    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
+        String invalidGender = "alpha male";
+        String actual = validator.getInvalidityInfoForGender(invalidGender);
+        assertEquals("Invalid gender should return appropriate error stirng",
+                     String.format(GENDER_ERROR_MESSAGE, invalidGender),
+                     actual);
+    }
 
     @Test
     public void testGetValidityInfo_GOOGLE_ID() {
@@ -570,121 +613,95 @@ public class FieldValidatorTest extends BaseTestCase {
     public void test_REGEX_NAME() throws Exception {
         ______TS("success: typical name");
         String name = "Benny Charlés";
-        Assumption.assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("success: name begins with accented characters");
         name = "Ýàn-B. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("failure: name begins with non-alphanumeric character");
         name = "~Amy-Ben. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("failure: name contains invalid character");
         name = "Amy-B. s/o O'br, %|&2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
     }
     
     @Test
     public void test_REGEX_EMAIL() throws Exception {
         ______TS("success: typical email");
         String email = "john@email.com";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("success: minimum allowed email format");
         email = "a@e";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("success: all allowed special characters");
         email = "a!#$%&'*/=?^_`{}~@e";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid starting character");
         email = "$john@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: two consecutive dots in local part");
         email = "john..dot@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid characters in domain part");
         email = "john@e&email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid ending character in domain part");
         email = "john@email.com3";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
     }
     
     @Test
     public void test_REGEX_COURSE_ID() throws Exception {
         ______TS("success: typical course ID");
         String courseId = "CS101";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
         
         ______TS("success: course ID with all accepted symbols");
         courseId = "CS101-B.$";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
         
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
-        Assumption.assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
     }
     
     @Test
     public void test_REGEX_SAMPLE_COURSE_ID() throws Exception {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
         
         ______TS("failure: non-demo course ID");
         courseId = "CS101";
-        Assumption.assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
     }
     
     @Test
     public void test_REGEX_GOOGLE_ID_NON_EMAIL() throws Exception {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
-        Assumption.assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("success: google id with all accepted characters");
         googleId = "teammates.new_instr-3";
-        Assumption.assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("failure: is email");
         googleId = "teammates.instr@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
-        Assumption.assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-    }
-    
-    private void runGenericTestCasesForCappedSizeStringTypeField(
-            FieldType fieldType, 
-            int maxSize, 
-            String errorMessageFormat, 
-            boolean emptyStringAllowed) {
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(maxSize);
-        testOnce("valid: max length value", 
-                fieldType, 
-                maxLengthValue, 
-                "");
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long value, without fieldName parameter", 
-                fieldType, 
-                tooLongValue, 
-                String.format(errorMessageFormat, tooLongValue, REASON_TOO_LONG));
-        
-        String emptyValue = "";
-        testOnce("invalid: empty value, *with* fieldName parameter", 
-                fieldType,
-                "course name of the student",
-                emptyValue, 
-                emptyStringAllowed ? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {

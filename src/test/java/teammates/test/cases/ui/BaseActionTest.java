@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +12,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -31,7 +26,7 @@ import teammates.ui.controller.ShowPageResult;
 /**
  * Parent class for *ActionTest classes.
  */
-public class BaseActionTest extends BaseComponentTestCase {
+public abstract class BaseActionTest extends BaseComponentTestCase {
     
     private DataBundle data = getTypicalDataBundle();
     
@@ -209,14 +204,14 @@ public class BaseActionTest extends BaseComponentTestCase {
         for (int i = 0; i < params.length; i += 2) {
             if (params[i] == key) {
                 if (i + 1 >= params.length) {
-                    Assumption.fail("Cannot find parameter to modify.");
+                    fail("Cannot find parameter to modify.");
                 } else {
                     params[i + 1] = value;
                     return;
                 }
             }
         }
-        Assumption.fail("Cannot find parameter to modify.");
+        fail("Cannot find parameter to modify.");
     }
     
     /**

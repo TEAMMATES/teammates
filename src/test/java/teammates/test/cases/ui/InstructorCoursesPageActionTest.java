@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -92,10 +89,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 2" +
-                "|||/page/instructorCoursesPage";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" 
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 2" 
+                + "|||/page/instructorCoursesPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
@@ -119,10 +116,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
-                "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0" +
-                "|||/page/instructorCoursesPage";
+        expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" 
+                + "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0" 
+                + "|||/page/instructorCoursesPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     

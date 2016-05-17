@@ -108,7 +108,7 @@ public class BackDoorLogic extends Logic {
 
             validateInstructorPrivileges(instructor);
 
-            if (instructor.googleId != null && !instructor.googleId.equals("")) {
+            if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -124,7 +124,7 @@ public class BackDoorLogic extends Logic {
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
             student.section = (student.section == null) ? "None" : student.section;
-            if (student.googleId != null && !student.googleId.equals("")) {
+            if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -454,10 +454,10 @@ public class BackDoorLogic extends Logic {
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         try {
-            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         } catch (EntityDoesNotExistException e) {
-            coursesLogic.createCourse(course.id, course.name);
-            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+            coursesLogic.createCourse(course.getId(), course.getName());
+            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         }
     }
 
@@ -480,7 +480,7 @@ public class BackDoorLogic extends Logic {
     private void deleteCourses(Collection<CourseAttributes> courses) {  
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
-            courseIds.add(course.id);
+            courseIds.add(course.getId());
         }
         if (!courseIds.isEmpty()) {
             coursesDb.deleteEntities(courses);
@@ -520,7 +520,7 @@ public class BackDoorLogic extends Logic {
             Object retreived = null;
             int retryCount = 0;
             while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getCourse(c.id);
+                retreived = this.getCourse(c.getId());
                 if (retreived == null) {
                     break;
                 } else {

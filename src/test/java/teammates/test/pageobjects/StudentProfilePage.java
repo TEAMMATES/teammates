@@ -2,14 +2,13 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class StudentProfilePage extends AppPage {
@@ -126,7 +125,7 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) throws Exception {
+    public void selectGender(String gender) {
         switch (gender) {
             case Const.GenderTypes.MALE:
                 genderMaleRadio.click();
@@ -138,7 +137,7 @@ public class StudentProfilePage extends AppPage {
                 genderOtherRadio.click();
                 break;
             default:
-                throw new InvalidParametersException("Given gender " + gender + " is not valid!");
+                fail("Given gender " + gender + " is not valid!");
         }
     }
 
@@ -175,7 +174,7 @@ public class StudentProfilePage extends AppPage {
                 assertTrue(genderOtherRadio.isSelected());
                 break;
             default:
-                Assumption.fail("unexpected gender value given");
+                fail("unexpected gender value given");
         }
     }
 

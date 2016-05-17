@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -49,8 +46,8 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(5, pageData.getInstructors().size());
 
-        assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.id);
-        assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.name);
+        assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.getId());
+        assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.getName());
         assertEquals(2, pageData.getCourseDetails().stats.teamsTotal);
         assertEquals(5, pageData.getCourseDetails().stats.studentsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);
@@ -80,8 +77,8 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.getInstructors().size());
 
-        assertEquals("idOfCourseNoEvals", pageData.getCourseDetails().course.id);
-        assertEquals("Typical Course 3 with 0 Evals", pageData.getCourseDetails().course.name);
+        assertEquals("idOfCourseNoEvals", pageData.getCourseDetails().course.getId());
+        assertEquals("Typical Course 3 with 0 Evals", pageData.getCourseDetails().course.getName());
         assertEquals(0, pageData.getCourseDetails().stats.teamsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.studentsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);

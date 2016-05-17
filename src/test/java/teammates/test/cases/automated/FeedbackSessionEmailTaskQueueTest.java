@@ -1,10 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;

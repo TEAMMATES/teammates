@@ -32,9 +32,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
         
         if (previewInstructor == null) {
-            throw new EntityDoesNotExistException("Instructor Email " +
-                      previewInstructorEmail + " does not exist in " + courseId +
-                      ".");
+            throw new EntityDoesNotExistException(
+                    "Instructor Email " + previewInstructorEmail + " does not exist in " + courseId + ".");
         }
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
@@ -47,9 +46,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         // the following condition is not tested as typically the GateKeeper above handles
         // the case and it wont happen
         if (data.bundle == null) {
-            throw new EntityDoesNotExistException("Feedback session " +
-                      feedbackSessionName + " does not exist in " + courseId +
-                      ".");
+            throw new EntityDoesNotExistException(
+                    "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
         }
         
         data.setSessionOpenForSubmission(true);
@@ -59,9 +57,9 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
         data.bundle.resetAllResponses();
         
-        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" 
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
         
         data.init("", "", courseId);
 

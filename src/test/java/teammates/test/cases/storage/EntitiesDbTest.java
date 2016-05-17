@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
@@ -28,10 +27,8 @@ public class EntitiesDbTest extends BaseComponentTestCase {
          */
 
         ______TS("success: typical case");
-        CourseAttributes c = new CourseAttributes();
-        c.id = "Computing101-fresh";
-        c.name = "Basic Computing";
-        coursesDb.deleteCourse(c.id);
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing");
+        coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
@@ -47,13 +44,13 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         coursesDb.deleteEntity(c);
         
         ______TS("fails: invalid parameters");
-        c.id = "invalid id spaces";
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id spaces", "Basic Computing");
         try {
-            coursesDb.createEntity(c);
+            coursesDb.createEntity(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
+                    String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
                     e.getMessage());
         } 
         

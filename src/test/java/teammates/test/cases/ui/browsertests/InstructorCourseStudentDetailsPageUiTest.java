@@ -31,7 +31,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
-        courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
+        courseId = testData.courses.get("CCSDetailsUiT.CS2104").getId();
     }
     
     

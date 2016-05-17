@@ -59,7 +59,10 @@ function handleData(err, countryCoordinates, userData) {
         var iso = item[0];
         var value = item[1];
         var coordinates = countryCoordinates[iso];
-        dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
+        dataset[iso] = {
+            numOfInstitutions: value,
+            fillColor: paletteScale(value)
+        };
         pins.push({
             name: getCountryNameByCode(iso),
             numOfInstitutions: value,
@@ -80,7 +83,10 @@ function handleData(err, countryCoordinates, userData) {
               .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             var path = d3.geo.path()
                 .projection(projection);
-            return { path: path, projection: projection };
+            return {
+                path: path,
+                projection: projection
+            };
         },
         // Set height and width to avoid overlapping with border
         height: 500,
@@ -93,7 +99,7 @@ function handleData(err, countryCoordinates, userData) {
             borderWidth: 0.7,
             // don't change color on mouse hover
             highlightFillColor: function(geo) {
-                return geo['fillColor'] || '#F5F5F5';
+                return geo.fillColor || '#F5F5F5';
             },
             dataUrl: '/js/lib/world.hires.topo.json',
             // only change border
@@ -146,9 +152,9 @@ function handleData(err, countryCoordinates, userData) {
 
             if (options.highlightOnHover) {
                 var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
-                for (var attr in previousAttributes) {
-                    $this.style(attr, previousAttributes[attr]);
-                }
+                $.each(previousAttributes, function(i, attr) {
+                    $this.style(i, attr);
+                });
             }
             d3.selectAll('.datamaps-hoverover').style('display', 'none');
         });

@@ -71,8 +71,7 @@ public class EmailLogEntry {
      */
     public String generateLogMessage() {
         //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
-        return "TEAMMATESEMAILLOG|||" + this.receiver + "|||" + 
-               this.subject + "|||" + this.content;
+        return "TEAMMATESEMAILLOG|||" + this.receiver + "|||" + this.subject + "|||" + this.content;
         
     }
     
