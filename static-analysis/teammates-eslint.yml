@@ -477,13 +477,13 @@ rules:
     no-unneeded-ternary: ["error", { "defaultAssignment": false }]
 
     # disallow whitespace before properties
-    # no-whitespace-before-property: "off"
+    no-whitespace-before-property: "error"
 
     # enforce consistent spacing inside braces
     object-curly-spacing: ["error", "always"]
 
     # enforce placing object properties on separate lines
-    # object-property-newline: "off"
+    object-property-newline: "error"
 
     # enforce variables to be declared either together or separately in functions
     one-var: ["error", "never"]

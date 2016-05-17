@@ -59,7 +59,10 @@ function handleData(err, countryCoordinates, userData) {
         var iso = item[0];
         var value = item[1];
         var coordinates = countryCoordinates[iso];
-        dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
+        dataset[iso] = {
+            numOfInstitutions: value,
+            fillColor: paletteScale(value)
+        };
         pins.push({
             name: getCountryNameByCode(iso),
             numOfInstitutions: value,
@@ -80,7 +83,10 @@ function handleData(err, countryCoordinates, userData) {
               .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             var path = d3.geo.path()
                 .projection(projection);
-            return { path: path, projection: projection };
+            return {
+                path: path,
+                projection: projection
+            };
         },
         // Set height and width to avoid overlapping with border
         height: 500,
