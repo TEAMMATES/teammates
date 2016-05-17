@@ -49,26 +49,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
-    private boolean isLargeNumberOfRespondents = false;
+    private boolean isLargeNumberOfRespondents;
     
-    private FeedbackSessionResultsBundle bundle = null;
-    private InstructorAttributes instructor = null;
-    private List<String> sections = null;
-    private String selectedSection = null;
-    private String sortType = null;
-    private String groupByTeam = null;
-    private String showStats = null;
+    private FeedbackSessionResultsBundle bundle;
+    private InstructorAttributes instructor;
+    private List<String> sections;
+    private String selectedSection;
+    private String sortType;
+    private String groupByTeam;
+    private String showStats;
     private int startIndex = -1;
     
     private FieldValidator validator = new FieldValidator();
-    private String feedbackSessionName = null;
+    private String feedbackSessionName;
     
-    private String displayableFsName = null;
-    private String displayableCourseId = null;
+    private String displayableFsName;
+    private String displayableCourseId;
     
     // used for html table ajax loading
-    private String ajaxStatus = null;
-    private String sessionResultsHtmlTableAsString = null;
+    private String ajaxStatus;
+    private String sessionResultsHtmlTableAsString;
     
 
     // for question view
@@ -92,11 +92,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         public boolean isPrimaryGroupingOfGiverType() {
-            return this == GIVER_QUESTION_RECIPIENT || this == GIVER_RECIPIENT_QUESTION ;
+            return this == GIVER_QUESTION_RECIPIENT || this == GIVER_RECIPIENT_QUESTION;
         }
         
         public boolean isSecondaryGroupingOfParticipantType() {
-            return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION ;
+            return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION;
         }
         
         public String additionalInfoId() {
@@ -514,16 +514,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 .setProfilePictureLink(getProfilePictureIfEmailValid(secondaryParticipantIdentifier));
             
             if (!viewType.isPrimaryGroupingOfGiverType()) {
-                boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
-                boolean isVisibleTeam = isTeamVisible(secondaryParticipantDisplayableName);
                 String sectionName = bundle.getSectionFromRoster(secondaryParticipantIdentifier);
-                boolean isAllowedToModerate = (isStudent || isVisibleTeam) 
-                                           && instructor.isAllowedForPrivilege(
-                                                  sectionName, feedbackSessionName, 
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                boolean isShowingModerationButton = (isStudent || isVisibleTeam) 
-                                                 && isAllowedToModerate;
-                secondaryParticipantPanel.setModerationButton(isShowingModerationButton
+                boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
+
+                secondaryParticipantPanel.setModerationButton(isAllowedToModerate
                                                             ? buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
                                                                                             "btn btn-default btn-xs", 
                                                                                             MODERATE_RESPONSES_FOR_GIVER)
@@ -627,7 +621,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         InstructorFeedbackResultsQuestionTable.sortByQuestionNumber(questionTables);
         InstructorFeedbackResultsGroupByQuestionPanel participantPanel;
         // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
-        if (viewType.isPrimaryGroupingOfGiverType() && bundle.isParticipantIdentifierStudent(participantIdentifier)) {
+        if (viewType.isPrimaryGroupingOfGiverType() && (bundle.isParticipantIdentifierStudent(participantIdentifier) 
+                                                    || bundle.isParticipantIdentifierInstructor(participantIdentifier))) {
             // Moderation button on the participant panels are only shown is the panel is a giver panel,
             // and if the participant is a student
             InstructorFeedbackResultsModerationButton moderationButton 
@@ -731,7 +726,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             currentTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             currentTeam = bundle.getTeamNameForEmail(giverIdentifier);
-            if (currentTeam.equals("")) {
+            if (currentTeam.isEmpty()) {
                 currentTeam = bundle.getNameForEmail(giverIdentifier);
             }
         }
@@ -746,22 +741,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static <K> String getCurrentSection(
                         Map.Entry<String, Map<K, List<FeedbackResponseAttributes>>> responses,
                         ViewType viewType) {
-        String currentSection = Const.DEFAULT_SECTION;
-        // update current section
         // retrieve section from the first response of this user
         // TODO simplify by introducing more data structures into bundle
+        FeedbackResponseAttributes firstResponse = null;
         for (Map.Entry<K, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
                                                             responses.getValue().entrySet()) {
-            if (responsesFromGiverForQuestion.getValue().isEmpty()) {
-                continue;
+            if (!responsesFromGiverForQuestion.getValue().isEmpty()) {
+                firstResponse = responsesFromGiverForQuestion.getValue().get(0);
+                break;
             }
-            FeedbackResponseAttributes firstResponse = responsesFromGiverForQuestion.getValue().get(0);
-            currentSection = viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
-                                                                     : firstResponse.recipientSection;
-            break;
         }
         
-        return currentSection;
+        if (firstResponse != null) {
+            return viewType.isPrimaryGroupingOfGiverType() ? firstResponse.giverSection 
+                                                           : firstResponse.recipientSection;
+        } else {
+            return Const.DEFAULT_SECTION;
+        }
     }
     
     private void buildMissingParticipantPanelsForTeam(
@@ -1066,7 +1062,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String questionText = questionDetails.getQuestionText();
         String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(
                                                                         !responses.isEmpty(), statisticsTable, 
                                                                         responseRows, question, 
                                                                         questionText, additionalInfoText, 
@@ -1193,8 +1189,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible givers who did not give a response
-            removeParticipantIdentifierFromList(question.giverType, possibleGiversWithoutResponses, 
-                                                response.giverEmail);
+            removeParticipantIdentifierFromList(possibleGiversWithoutResponses, response.giverEmail);
             
             boolean isNewGiver = !prevGiver.equals(response.giverEmail); 
             if (isNewGiver) {
@@ -1208,8 +1203,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible recipients without a response from the current giver
-            removeParticipantIdentifierFromList(question.recipientType, 
-                                                possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
+            removeParticipantIdentifierFromList(possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
             prevGiver = response.giverEmail;
             
             InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(
@@ -1221,14 +1215,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getTeamNameForEmail(response.recipientEmail), 
                                                                        bundle.getResponseAnswerHtml(response, question), 
                                                                        moderationButton);
-            configureResponseRow(question, prevGiver, response.recipientEmail, responseRow);
+            configureResponseRow(prevGiver, response.recipientEmail, responseRow);
             responseRows.add(responseRow);
         }
         
         if (!responses.isEmpty()) {
             responseRows.addAll(getRemainingMissingResponseRows(question, possibleGiversWithoutResponses, 
                                                                 possibleReceiversWithoutResponsesForGiver, 
-                                                                prevGiver, viewType));
+                                                                prevGiver));
         }
         
         return responseRows;
@@ -1263,8 +1257,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             // keep track of possible participant who did not give/receive a response to/from the participantIdentifier 
             String participantWithResponse =          isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
-            FeedbackParticipantType participantType = isFirstGroupedByGiver ? question.recipientType  : question.giverType; 
-            removeParticipantIdentifierFromList(participantType, possibleParticipantsWithoutResponses, 
+            removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses, 
                                                 participantWithResponse);
             
             InstructorFeedbackResultsModerationButton moderationButton 
@@ -1280,7 +1273,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                    bundle.getResponseAnswerHtml(response, question), 
                                    moderationButton);
             
-            configureResponseRow(question, response.giverEmail, response.recipientEmail, responseRow);
+            configureResponseRow(response.giverEmail, response.recipientEmail, responseRow);
                         
             responseRows.add(responseRow);
         }
@@ -1302,8 +1295,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
 
-    private void configureResponseRow(FeedbackQuestionAttributes question,
-                                      String giver, String recipient,
+    private void configureResponseRow(String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
         switch (viewType) {
             case QUESTION:
@@ -1373,7 +1365,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                textToDisplay, moderationButton, true);
 
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
-                configureResponseRow(question, giverIdentifier, possibleRecipient, missingResponse);
+                configureResponseRow(giverIdentifier, possibleRecipient, missingResponse);
                 missingResponses.add(missingResponse);
             }
         }
@@ -1412,7 +1404,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                     recipientName, recipientTeam, 
                                                                                     textToDisplay, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
-                configureResponseRow(question, possibleGiver, recipientIdentifier, missingResponse);
+                configureResponseRow(possibleGiver, recipientIdentifier, missingResponse);
                 
                 missingResponses.add(missingResponse);
             }
@@ -1424,13 +1416,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList. 
      * 
-     *  
-     * @param participantIdentifierType
      * @param participantIdentifierList
      * @param participantIdentifier
      */
     private void removeParticipantIdentifierFromList(
-                    FeedbackParticipantType participantIdentifierType,
                     List<String> participantIdentifierList, String participantIdentifier) {
         participantIdentifierList.remove(participantIdentifier);
     }
@@ -1438,7 +1427,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsResponseRow> getRemainingMissingResponseRows(
                                                 FeedbackQuestionAttributes question,
                                                 List<String> remainingPossibleGivers, List<String> possibleRecipientsForGiver, 
-                                                String prevGiver, ViewType viewType) {
+                                                String prevGiver) {
         List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
         
         if (possibleRecipientsForGiver != null) {
@@ -1449,7 +1438,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
         }
         
-        removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver);
+        removeParticipantIdentifierFromList(remainingPossibleGivers, prevGiver);
             
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             if (!isAllSectionsSelected() && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
@@ -1469,9 +1458,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
+        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
         boolean isGiverStudentOrTeam = question.giverType == FeedbackParticipantType.STUDENTS 
                                        || question.giverType == FeedbackParticipantType.TEAMS;
-        if (isGiverStudentOrTeam) {
+        
+        if (isGiverStudentOrTeam || isGiverInstructor) {
             return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
         } else {
             return null;
@@ -1491,21 +1482,27 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                             String giverIdentifier, String className,
                                                                             String buttonText) {
+        
+        boolean isGiverInstructorOfCourse = bundle.roster.isInstructorOfCourse(giverIdentifier);
         boolean isGiverVisibleStudentOrTeam = isTeamVisible(giverIdentifier)
                                               || bundle.roster.isStudentInCourse(giverIdentifier);
-        if (!isGiverVisibleStudentOrTeam) {
+        
+        if (!isGiverVisibleStudentOrTeam && !isGiverInstructorOfCourse) {
             return null;
         }
         
-        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverIdentifier), 
-                                                         getFeedbackSessionName(), 
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        String sectionName = bundle.getSectionFromRoster(giverIdentifier);
+        boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, getFeedbackSessionName());
         boolean isDisabled = !isAllowedToModerate;
+        String moderateFeedbackResponseLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
+                                                                        : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+        moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
+        
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                             isDisabled, className,
                                                                             giverIdentifier, getCourseId(), 
-                                                                            getFeedbackSessionName(), question, buttonText);
+                                                                            getFeedbackSessionName(), question, buttonText, moderateFeedbackResponseLink);
         return moderationButton;
    }
     
@@ -1542,7 +1539,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
 
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
-        boolean isHome = false;
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
                                                 Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
@@ -1680,16 +1676,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             String sectionName = bundle.getSectionFromRoster(giverIdentifier);
-            boolean isAllowedToModerate = instructor.isAllowedForPrivilege(
-                                               sectionName, feedbackSessionName, 
-                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
+            String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE
+                                                            : Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
+            moderateFeedbackLink = addUserIdToUrl(moderateFeedbackLink);
             
             InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                                 !isAllowedToModerate, "btn btn-default btn-xs", 
                                                                                 giverIdentifier, 
                                                                                 bundle.feedbackSession.courseId, 
                                                                                 bundle.feedbackSession.feedbackSessionName, 
-                                                                                null, "Submit Responses");
+                                                                                null, "Submit Responses", moderateFeedbackLink);
             moderationButtons.put(giverIdentifier, moderationButton);
             
         }
@@ -1735,7 +1732,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Deprecated
     public String getGroupByTeam() {
-        return groupByTeam != null? groupByTeam : "null";
+        return groupByTeam != null ? groupByTeam : "null";
     }
     
     // TODO: swap groupByTeam to a normal boolean
@@ -1787,6 +1784,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return getInstructorFeedbackResultsLink(bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName);
     }
     
+    private boolean isAllowedToModerate(InstructorAttributes instructor, String sectionName, String feedbackSessionName) {
+        return instructor.isAllowedForPrivilege(sectionName, feedbackSessionName, 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+    }
+    
     public boolean isAllSectionsSelected() {
         return "All".equals(selectedSection);
     }
@@ -1822,7 +1824,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfResponses() {
-        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected())
+        return viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected()
              || !bundle.isComplete;
     }
     

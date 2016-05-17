@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,7 +40,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
-        courseId = testData.courses.get("InsCrsEdit.CS2104").id;
+        courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
     }
     
     @Test
@@ -82,25 +77,25 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html");
         
         ______TS("page load: Manager privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.manager").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditManager.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditManager.html");
         
         ______TS("page load: Observer privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.observer").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditObserver.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditObserver.html");
         
         ______TS("page load: Tutor privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.tutor").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTutor.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTutor.html");
         
         ______TS("go back to co-owner privileges");
         
@@ -110,17 +105,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     private void testEditInstructorLink() {
         ______TS("edit instructor link");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        assertTrue(courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
         ______TS("add new instructor link");
-        assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
+        assertTrue(courseEditPage.clickShowNewInstructorFormButton());
         
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Manager"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Observer"));
-        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Manager"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Observer"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
     }
 
     private void testInputValidation() {
@@ -187,12 +182,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -300,22 +295,25 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 2);
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
         courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 1);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 2);
         courseEditPage.clickViewStudentCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 2, 2);
         courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 3);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
@@ -324,12 +322,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
         
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;

@@ -24,15 +24,15 @@ public class CommentSearchDocument extends SearchDocument {
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
-    private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
+    private String commentRecipientName;
     
-    public CommentSearchDocument(CommentAttributes comment){
+    public CommentSearchDocument(CommentAttributes comment) {
         this.comment = comment;
     }
     
     @Override
     protected void prepareData() {
-        if(comment == null) return;
+        if (comment == null) return;
         
         course = logic.getCourse(comment.courseId);
         
@@ -41,11 +41,13 @@ public class CommentSearchDocument extends SearchDocument {
         
         String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
+        
+        StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
         switch (comment.recipientType) {
         case PERSON:
-            for(String email:comment.recipients){
+            for (String email:comment.recipients) {
                 StudentAttributes student = logic.getStudentForEmail(comment.courseId, email);
-                if(student != null){
+                if (student != null) {
                     relatedStudents.add(student);
                     commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
                     delim = ", ";
@@ -56,9 +58,9 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case TEAM:
-            for(String team:comment.recipients){
+            for (String team:comment.recipients) {
                 List<StudentAttributes> students = logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
-                if(students != null){
+                if (students != null) {
                     relatedStudents.addAll(students);
                 }
                 commentRecipientNameBuilder.append(delim).append(team);
@@ -66,9 +68,9 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case SECTION:
-            for(String section:comment.recipients){
+            for (String section:comment.recipients) {
                 List<StudentAttributes> students = logic.getStudentsForSection(section, comment.courseId);
-                if(students != null){
+                if (students != null) {
                     relatedStudents.addAll(students);
                 }
                 commentRecipientNameBuilder.append(delim).append(section);
@@ -76,14 +78,15 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case COURSE:
-            for(String course:comment.recipients){
-                commentRecipientNameBuilder.append(delim).append("All students in Course " + course);
+            for (String course:comment.recipients) {
+                commentRecipientNameBuilder.append(delim).append("All students in Course ").append(course);
                 delim = ", ";
             }
             break;
         default:
             break;
         }
+        commentRecipientName = commentRecipientNameBuilder.toString();
     }
 
     @Override
@@ -93,8 +96,8 @@ public class CommentSearchDocument extends SearchDocument {
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";
         int counter = 0;
-        for(StudentAttributes student:relatedStudents){
-            if(counter == 50) break;//in case of exceeding size limit for document
+        for (StudentAttributes student:relatedStudents) {
+            if (counter == 50) break; //in case of exceeding size limit for document
             recipientsBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)
@@ -107,12 +110,12 @@ public class CommentSearchDocument extends SearchDocument {
         //courseId, courseName, giverEmail, giverName, 
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name: "").append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(recipientsBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(comment.courseId).append(delim)
+                             .append(course != null ? course.getName() : "").append(delim)
+                             .append(comment.giverEmail).append(delim)
+                             .append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim)
+                             .append(recipientsBuilder.toString()).append(delim)
+                             .append(comment.commentText.getValue());
         
         Document doc = Document.newBuilder()
             //this is used to filter documents visible to certain instructor
@@ -126,9 +129,9 @@ public class CommentSearchDocument extends SearchDocument {
             //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName + " " + giverAsInstructor.name: comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
-                    new Gson().toJson(commentRecipientNameBuilder.toString())))
+                    new Gson().toJson(commentRecipientName)))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;

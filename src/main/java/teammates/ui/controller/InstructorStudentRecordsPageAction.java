@@ -28,14 +28,11 @@ public class InstructorStudentRecordsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
-
-        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
@@ -44,6 +41,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
+        
+        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
         List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, instructor.email,
                                                                         CommentParticipantType.PERSON, studentEmail);
@@ -65,7 +64,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         StudentProfileAttributes studentProfile = null;
 
-        if (student.googleId == "") {
+        if (student.googleId.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
         } else if (!instructor.isAllowedForPrivilege(student.section,
                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {

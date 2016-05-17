@@ -31,10 +31,10 @@ public class StudentFeedbackSessionActions {
             }
         } else {
             if (fs.isClosed()) {
-                this.tooltipText= Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE;
+                this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE;
                 this.buttonText = fs.isOpened() ? "Edit Submission" : "View Submission";
             } else {
-                this.tooltipText= fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING
+                this.tooltipText = fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING
                                                        : Const.Tooltips.FEEDBACK_SESSION_SUBMIT;
                 this.buttonText = "Start Submission";
             }

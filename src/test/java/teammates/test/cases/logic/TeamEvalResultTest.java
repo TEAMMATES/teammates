@@ -2,8 +2,6 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
-import org.testng.AssertJUnit;
 import java.util.Arrays;
 
 import teammates.logic.core.TeamEvalResult;
@@ -15,10 +13,10 @@ import static teammates.logic.core.TeamEvalResult.NSU;
 import static teammates.logic.core.TeamEvalResult.pointsToString;
 import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 
-public class TeamEvalResultTest extends BaseTestCase{
+public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+    public static void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         printTestClassHeader();
     }
 
@@ -281,25 +279,25 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
 
     @Test
-    public void testNormalizeValues(){
+    public void testNormalizeValues() {
         
         verifyNormalized(new double[] {}, new double[] {});
         verifyNormalized(new double[] {100}, new double[] {100});
         verifyNormalized(new double[] {100}, new double[] {50});
-        verifyNormalized(new double[] {150,90,60}, new double[] {50,30,20});
-        verifyNormalized(new double[] {0,0,0}, new double[] {0,0,0});
-        verifyNormalized(new double[] {0,0,300},new double[] {0,0,100});
-        verifyNormalized(new double[] {0,NA,200},new double[] {0,NA,100});
-        verifyNormalized(new double[] {100,100,100},new double[] {110,110,110});
-        verifyNormalized(new double[]{NA,NA},new double[]{NA,NA});
-        verifyNormalized(new double[]{NSU,0,NSB},new double[]{NSU,0,NSB});
+        verifyNormalized(new double[] {150, 90, 60}, new double[] {50, 30, 20});
+        verifyNormalized(new double[] {0, 0, 0}, new double[] {0, 0, 0});
+        verifyNormalized(new double[] {0, 0, 300}, new double[] {0, 0, 100});
+        verifyNormalized(new double[] {0, NA, 200}, new double[] {0, NA, 100});
+        verifyNormalized(new double[] {100, 100, 100}, new double[] {110, 110, 110});
+        verifyNormalized(new double[]{NA, NA}, new double[]{NA, NA});
+        verifyNormalized(new double[]{NSU, 0, NSB}, new double[]{NSU, 0, NSB});
     }
 
 
     @Test 
-    public void testExcludeSelfRatings(){
+    public void testExcludeSelfRatings() {
         
-        AssertJUnit.assertEquals(pointsToString(new double[][]{{NA}}),
+        assertEquals(pointsToString(new double[][]{{NA}}),
                 pointsToString(TeamEvalResult.removeSelfRatings(new double[][]{{1}})));
         
         double[][] input = 
@@ -313,12 +311,12 @@ public class TeamEvalResultTest extends BaseTestCase{
              { 21, NA, 23, 24 },
              { 31, 32, NA, 34 },
              { 41, 42, 43, NA }};
-        AssertJUnit.assertEquals(pointsToString(expected),
+        assertEquals(pointsToString(expected),
                 pointsToString(TeamEvalResult.removeSelfRatings(input)));
     }
     
     @Test
-    public void testAverageColumns(){
+    public void testAverageColumns() {
         
         double[][] input = 
             {{ 10, 20,  0, NA }, 
@@ -326,7 +324,7 @@ public class TeamEvalResultTest extends BaseTestCase{
              { 10, 20, NA, NA },
              { 10, 20,  0, NA }};
         double[] expected = {10, 20, 0, NA};
-        AssertJUnit.assertEquals(Arrays.toString(expected), 
+        assertEquals(Arrays.toString(expected), 
                 Arrays.toString(TeamEvalResult.averageColumns(input)));
         double[][] input2 = 
             {{ NA, NA, NA, NA }, 
@@ -334,12 +332,12 @@ public class TeamEvalResultTest extends BaseTestCase{
              { NA, NA, NA, NA },
              { NA, NA, NA, NA }};
         double[] expected2 = {NA, NA, NA, NA};
-        AssertJUnit.assertEquals(Arrays.toString(expected2), 
+        assertEquals(Arrays.toString(expected2), 
                 Arrays.toString(TeamEvalResult.averageColumns(input2)));
         
         try {
             TeamEvalResult.averageColumns(new double[][]{{NSU}});
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (RuntimeException e) {
             //expected exception
         }
@@ -347,75 +345,75 @@ public class TeamEvalResultTest extends BaseTestCase{
     }
     
     @Test
-    public void testSum(){
+    public void testSum() {
         
-        AssertJUnit.assertEquals(6,TeamEvalResult.sum(new double[]{1,2,3}),0.001);
-        AssertJUnit.assertEquals(0,TeamEvalResult.sum(new double[]{}),0.001);
-        AssertJUnit.assertEquals(6,TeamEvalResult.sum(new double[]{NA, 2, 4}),0.001);
-        AssertJUnit.assertEquals(0,TeamEvalResult.sum(new double[]{NA, 0, 0}),0.001);
-        AssertJUnit.assertEquals(NA,TeamEvalResult.sum(new double[]{NA, NA, NA}),0.001);
+        assertEquals(6, TeamEvalResult.sum(new double[]{1, 2, 3}), 0.001);
+        assertEquals(0, TeamEvalResult.sum(new double[]{}), 0.001);
+        assertEquals(6, TeamEvalResult.sum(new double[]{NA, 2, 4}), 0.001);
+        assertEquals(0, TeamEvalResult.sum(new double[]{NA, 0, 0}), 0.001);
+        assertEquals(NA, TeamEvalResult.sum(new double[]{NA, NA, NA}), 0.001);
         
         try {
-            TeamEvalResult.sum(new double[]{NSU, 1,2});
-            Assert.fail();
+            TeamEvalResult.sum(new double[]{NSU, 1, 2});
+            signalFailureToDetectException();
         } catch (RuntimeException e) {
             //expected exception
         }
     }
     
     @Test
-    public void testCalculatePerceivedForStudent(){
+    public void testCalculatePerceivedForStudent() {
         
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{}, new double[]{})));
+        assertEquals(Arrays.toString(new int[]{}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{}, new double[]{})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{10}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{10}, new double[]{5})));
+        assertEquals(Arrays.toString(new int[]{10}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{10}, new double[]{5})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{100,50,50}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{50,100,50}, new double[]{50,25,25})));
+        assertEquals(Arrays.toString(new int[]{100, 50, 50}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{50, 100, 50}, new double[]{50, 25, 25})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{200,100,100}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA,150,50}, new double[]{50,25,25})));
+        assertEquals(Arrays.toString(new int[]{200, 100, 100}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, 150, 50}, new double[]{50, 25, 25})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{NA,NA,NA}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA,NA,NA}, new double[]{NA,NA,NA})));
+        assertEquals(Arrays.toString(new int[]{NA, NA, NA}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, NA, NA}, new double[]{NA, NA, NA})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{100,50,50}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{NA,NA,NA}, new double[]{100,50,50})));
+        assertEquals(Arrays.toString(new int[]{100, 50, 50}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{NA, NA, NA}, new double[]{100, 50, 50})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{100,100,400}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{50,150,NA}, new double[]{50,50,200})));
+        assertEquals(Arrays.toString(new int[]{100, 100, 400}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{50, 150, NA}, new double[]{50, 50, 200})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{0,0,NA}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{0,0,NA}, new double[]{0,0,NA})));
+        assertEquals(Arrays.toString(new int[]{0, 0, NA}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{0, 0, NA}, new double[]{0, 0, NA})));
         
-        AssertJUnit.assertEquals(Arrays.toString(new int[]{NA,25,75}),
-                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
-                        (new int[]{25,25,75}, new double[]{NA,50,150})));
+        assertEquals(Arrays.toString(new int[]{NA, 25, 75}),
+                Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
+                        new int[]{25, 25, 75}, new double[]{NA, 50, 150})));
     }
     
     @Test
-    public void testIsSanitized(){
+    public void testIsSanitized() {
         
         
-        AssertJUnit.assertEquals(true, TeamEvalResult.isSanitized(new int[]{}));
-        AssertJUnit.assertEquals(true, TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
-        AssertJUnit.assertEquals(false, TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
-        AssertJUnit.assertEquals(false, TeamEvalResult.isSanitized(new int[]{NSB, 2, -1}));
+        assertTrue(TeamEvalResult.isSanitized(new int[]{}));
+        assertTrue(TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
+        assertFalse(TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
+        assertFalse(TeamEvalResult.isSanitized(new int[]{NSB, 2, -1}));
     }
     
     @Test
-    public void testPurgeValuesCorrespondingToSpecialValuesInFilter(){
+    public void testPurgeValuesCorrespondingToSpecialValuesInFilter() {
         
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
@@ -428,30 +426,30 @@ public class TeamEvalResultTest extends BaseTestCase{
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, 3.0 }, 
-                new double[]{1,2,3}, new double[]{1.0, 2.0, 3.0});
+                new double[]{1, 2, 3}, new double[]{1.0, 2.0, 3.0});
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, NA }, 
-                new double[]{1,2,NA}, new double[]{1.0, 2.0, 3.0});
+                new double[]{1, 2, NA}, new double[]{1.0, 2.0, 3.0});
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, NA }, 
-                new double[]{1,2,NSB}, new double[]{1.0, 2.0, 3.0});
+                new double[]{1, 2, NSB}, new double[]{1.0, 2.0, 3.0});
         
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, NA }, 
-                new double[]{1,2,NSU}, new double[]{1.0, 2.0, 3.0});
+                new double[]{1, 2, NSU}, new double[]{1.0, 2.0, 3.0});
         
         //mix of special values in filter
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, NA, 4.0, NA, 6.0, NA}, 
-                new double[]{1,2,NSB,4,NSU,6,NA}, 
+                new double[]{1, 2, NSB, 4, NSU, 6, NA}, 
                 new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
         
         // target array has special values
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{1.0, 2.0, NA, NA, NA, 6.0, NA}, 
-                new double[]{1,2,NSB,4,NSU,6,NA}, 
+                new double[]{1, 2, NSB, 4, NSU, 6, NA}, 
                 new double[]{1.0, 2.0, 3.0, NA, 5.0, 6.0});
     }
     // @formatter:on
@@ -462,25 +460,25 @@ public class TeamEvalResultTest extends BaseTestCase{
     private void verifyCalculatePoints(int[][] input, int[][] expected) {
         TeamEvalResult t = new TeamEvalResult(input);
         String actual = pointsToString(t.normalizedClaimed)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + pointsToString(t.normalizedPeerContributionRatio)
-                + "======================="+EOL
+                + "=======================" + EOL
                 + Arrays.toString(t.normalizedAveragePerceived) + EOL
                 + "=======================" + EOL
-                +pointsToString(t.denormalizedAveragePerceived);
+                + pointsToString(t.denormalizedAveragePerceived);
         actual = replaceMagicNumbers(actual);
-        AssertJUnit.assertEquals(pointsToString(expected), actual);
+        assertEquals(pointsToString(expected), actual);
     }
     
     private void verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
             double[] expected, double[] filterArray, double[] valueArray) {
-        AssertJUnit.assertEquals(Arrays.toString(expected), 
+        assertEquals(Arrays.toString(expected), 
                 Arrays.toString(TeamEvalResult.purgeValuesCorrespondingToSpecialValuesInFilter(
                         filterArray, valueArray)));
     }
     
     private void verifyNormalized(double[] expected, double[] input) {
-        AssertJUnit.assertEquals(Arrays.toString(expected), 
+        assertEquals(Arrays.toString(expected), 
                 Arrays.toString(TeamEvalResult.normalizeValues(input)));
     }
     

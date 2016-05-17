@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,7 +19,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
     }
     
@@ -42,14 +40,14 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(5, pageData.getInstructors().size());
 
-        assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.id);
-        assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.name);
+        assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.getId());
+        assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.getName());
         assertEquals(2, pageData.getCourseDetails().stats.teamsTotal);
         assertEquals(5, pageData.getCourseDetails().stats.studentsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);
@@ -73,14 +71,14 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)), pageResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.getInstructors().size());
 
-        assertEquals("idOfCourseNoEvals", pageData.getCourseDetails().course.id);
-        assertEquals("Typical Course 3 with 0 Evals", pageData.getCourseDetails().course.name);
+        assertEquals("idOfCourseNoEvals", pageData.getCourseDetails().course.getId());
+        assertEquals("Typical Course 3 with 0 Evals", pageData.getCourseDetails().course.getName());
         assertEquals(0, pageData.getCourseDetails().stats.teamsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.studentsTotal);
         assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);
@@ -105,7 +103,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
 
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) ajaxResult.data;

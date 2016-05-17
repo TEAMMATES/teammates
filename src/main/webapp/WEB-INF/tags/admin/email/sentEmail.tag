@@ -16,8 +16,8 @@
                ${sentEmail.actions.deleteButton.content}
         </a>
     </td>
-    <td><input value="${sentEmail.addressReceiver}" readonly="readonly" class="form-control"></td>
-    <td><input value="${sentEmail.groupReceiver}" readonly="readonly" class="form-control"></td>
-    <td><input value="${sentEmail.subject}" readonly="readonly" class="form-control"></td>
+    <td><input value="${sentEmail.addressReceiver}" readonly class="form-control"></td>
+    <td><input value="${sentEmail.groupReceiver}" readonly class="form-control"></td>
+    <td><input value="${sentEmail.subject}" readonly class="form-control"></td>
     <td>${sentEmail.date}</td>
 </tr>

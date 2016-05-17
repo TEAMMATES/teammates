@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,7 +19,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT;
     }
     
@@ -53,7 +50,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
                      "?error=false" +
-                     "&user="+ idOfInstructor,
+                     "&user=" + idOfInstructor,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 

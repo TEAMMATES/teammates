@@ -120,12 +120,12 @@ public class StudentProfilePictureEditAction extends Action {
     private Transform getScaleTransform() {
         Double width = Double.parseDouble(_widthString);
         Double height = Double.parseDouble(_heightString);
-        return ImagesServiceFactory.makeResize((int)Math.round(width), (int)Math.round(height));
+        return ImagesServiceFactory.makeResize((int) Math.round(width), (int) Math.round(height));
     }
 
     private Transform getRotateTransform() {
         Double rotate = Double.parseDouble(_rotateString);
-        return ImagesServiceFactory.makeRotate((int)Math.round(rotate));
+        return ImagesServiceFactory.makeRotate((int) Math.round(rotate));
     }
 
     private Transform getCropTransform() {

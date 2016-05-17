@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -207,7 +203,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         new StudentsDb()
                 .updateStudentWithoutSearchability(student1InCourse1.course, student1InCourse1.email,
                                                    student1InCourse1.name, student1InCourse1.team,
-                                                   student1InCourse1.section,student1InCourse1.email,
+                                                   student1InCourse1.section, student1InCourse1.email,
                                                    student1InCourse1.googleId, student1InCourse1.comments);
 
         pageAction = getAction(params);

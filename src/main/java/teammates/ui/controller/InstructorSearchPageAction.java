@@ -240,18 +240,15 @@ public class InstructorSearchPageAction extends Action {
         }
         for (InstructorAttributes instructor : instructors) {
             if (instructor.courseId.equals(commentAttributes.courseId)) {
-                boolean isForSection = true;
-                String section = "None";
-                String recipient = "";
-                
                 if (commentAttributes.recipients.size() == 0) {
                     // prevent error--however, this should never happen unless there is corruption of data
                     return false;
                 }
-                for (String recipientInSet : commentAttributes.recipients) {
-                    recipient = recipientInSet;
-                    break;
-                }
+                
+                boolean isForSection = true;
+                String section = "None";
+                String recipient = commentAttributes.recipients.iterator().next();
+
                 if (commentAttributes.recipientType == CommentParticipantType.PERSON) {
                     StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
                     if (student == null) {

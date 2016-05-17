@@ -29,8 +29,8 @@ public class PublicImageServlet extends PublicResourcesServlet {
         requestParameters = req.getParameterMap();
         String blobKey = getBlobKeyFromRequest();
         
-        try{      
-            if (blobKey != "") {
+        try {      
+            if (!blobKey.isEmpty()) {
                 resp.setContentType("image/png");
                 BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
                 blobstoreService.serve(new BlobKey(blobKey), resp);
@@ -50,7 +50,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 resp.sendError(1, "No image found");
             }
             
-        } catch (IOException e){
+        } catch (IOException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
         }
     }

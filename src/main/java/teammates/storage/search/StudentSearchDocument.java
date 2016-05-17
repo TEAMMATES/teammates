@@ -12,13 +12,13 @@ public class StudentSearchDocument extends SearchDocument {
     private StudentAttributes student;
     private CourseAttributes course;
     
-    public StudentSearchDocument(StudentAttributes student){
+    public StudentSearchDocument(StudentAttributes student) {
         this.student = student;
     }
     
     @Override
     protected void prepareData() {
-        if(student == null) 
+        if (student == null) 
             return;
         
         course = logic.getCourse(student.course);
@@ -34,12 +34,12 @@ public class StudentSearchDocument extends SearchDocument {
         //courseId, courseName, studentEmail, studentName 
         //studentTeam and studentSection
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(student.course).append(delim);
-        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
-        searchableTextBuilder.append(student.email).append(delim);
-        searchableTextBuilder.append(student.name).append(delim);
-        searchableTextBuilder.append(student.team).append(delim);
-        searchableTextBuilder.append(student.section);
+        searchableTextBuilder.append(student.course).append(delim)
+                             .append(course != null ? course.getName() : "").append(delim)
+                             .append(student.email).append(delim)
+                             .append(student.name).append(delim)
+                             .append(student.team).append(delim)
+                             .append(student.section);
         
         Document doc = Document.newBuilder()
             //this is used to filter documents visible to certain instructor

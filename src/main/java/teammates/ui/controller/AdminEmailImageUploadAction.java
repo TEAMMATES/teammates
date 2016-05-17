@@ -16,20 +16,19 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailImageUploadAction extends Action {
     
-    AdminEmailComposePageData data = null;
+    AdminEmailComposePageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
-        BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractImageKey();
         
-        if(blobInfo == null){
+        if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             log.info("Image Upload Failed");
@@ -39,7 +38,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
         
         
-        blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();     
         
       
         data.isFileUploaded = true;
@@ -62,10 +61,10 @@ public class AdminEmailImageUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD);
             
-            if(blobs != null && blobs.size() > 0) {
+            if (blobs != null && blobs.size() > 0) {
                 BlobInfo image = blobs.get(0);
                 return validateImage(image);
-            } else{
+            } else {
                 data.ajaxStatus = Const.StatusMessages.NO_IMAGE_GIVEN;
                 isError = true;
                 return null;
@@ -75,16 +74,16 @@ public class AdminEmailImageUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateImage (BlobInfo image) {
+    private BlobInfo validateImage(BlobInfo image) {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deleteImage(image.getBlobKey());
             isError = true;
             data.ajaxStatus = Const.StatusMessages.IMAGE_TOO_LARGE;
             return null;
-        } else if(!image.getContentType().contains("image/")) {
+        } else if (!image.getContentType().contains("image/")) {
             deleteImage(image.getBlobKey());
             isError = true;
-            data.ajaxStatus = (Const.StatusMessages.FILE_NOT_A_PICTURE);
+            data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
         } else {
             return image;

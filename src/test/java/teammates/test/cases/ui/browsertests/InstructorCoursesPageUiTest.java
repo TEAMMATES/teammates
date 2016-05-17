@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -46,7 +40,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     
-    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
+    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ");
     
     @BeforeClass
     public void classSetup() throws Exception {
@@ -74,12 +68,12 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * If that previous test run fails, the entity persists and that will
          * break tests.
          */
-        BackDoor.deleteCourse(validCourse.id); // delete if it exists
+        BackDoor.deleteCourse(validCourse.getId()); // delete if it exists
     }
 
 
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
          * of having multiple test cases. The advantage is that the time for 
          * the whole test class will be reduced because we minimize repetitive
@@ -120,7 +114,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
     }
 
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         /* Explanation: The page rendering is slightly different based on 
          * whether the table is empty or not. We should test both cases. 
@@ -164,13 +158,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() throws Exception{
+    public void testLinks() throws Exception {
         
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
          */
     
-        String courseId = testData.courses.get("CS2104").id;
+        String courseId = testData.courses.get("CS2104").getId();
         
         ______TS("view link");
         
@@ -213,18 +207,18 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         //one invalid case
         coursesPage.addCourse("", "")
-            .verifyStatus(Const.StatusMessages.COURSE_COURSE_ID_EMPTY + "\n"
-                    + Const.StatusMessages.COURSE_COURSE_NAME_EMPTY);
+            .verifyStatus(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + "\n"
+                    + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
+        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
         assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
         
         String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
+        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
         assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
@@ -232,7 +226,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
 
 
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
@@ -245,13 +239,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
-        coursesPage.addCourse(validCourse.id, validCourse.name);
+        coursesPage.addCourse(validCourse.getId(), validCourse.getName());
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         
-        coursesPage.addCourse(validCourse.id, "different course name");
+        coursesPage.addCourse(validCourse.getId(), "different course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddDupIdFailed.html");
         
@@ -288,7 +282,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */

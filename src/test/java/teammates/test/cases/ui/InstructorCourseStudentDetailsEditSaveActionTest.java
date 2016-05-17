@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,7 +31,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
@@ -81,13 +79,13 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "courseid=" + "idOfTypicalCourse1",
                 r.getDestinationWithParams());
         
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + student1InCourse1.email + 
-                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
+                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" + 
                 "New Email: " + newStudentEmail + 
                 "<br>New Team: " + newStudentTeam + 
                 "<br>Comments: " + newStudentComments + 
@@ -118,13 +116,13 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "courseid=" + "idOfTypicalCourse1",
                 rToBeTrimmed.getDestinationWithParams());
         
-        assertEquals(false, rToBeTrimmed.isError);
+        assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
         
         String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + newStudentEmail + 
-                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
+                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" + 
                 "New Email: " + newStudentEmailToBeTrimmed.trim() + 
                 "<br>New Team: " + newStudentTeamToBeTrimmed.trim() + 
                 "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() + 
@@ -155,7 +153,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
-        assertEquals(true, result.isError);
+        assertTrue(result.isError);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG), 
                 result.getStatusMessage());
         
@@ -190,7 +188,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
-        assertEquals(true, result.isError);
+        assertTrue(result.isError);
         assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail), 
                 result.getStatusMessage());
         
@@ -230,7 +228,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "&courseid=" + instructor1OfCourse1.courseId,
                 redirectResult.getDestinationWithParams());
         
-        assertEquals(true, redirectResult.isError);
+        assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, redirectResult.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
@@ -272,7 +270,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         }
     }
     
-    private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
     

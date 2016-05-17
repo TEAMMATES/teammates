@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
@@ -24,7 +22,7 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
-public class StudentHomePageDataTest {
+public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
     
     private FeedbackSessionAttributes submittedSession;
@@ -61,10 +59,10 @@ public class StudentHomePageDataTest {
     }
     
     private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
-        assertEquals(course.id, table.getCourseId());
-        assertEquals(course.name, table.getCourseName());
+        assertEquals(course.getId(), table.getCourseId());
+        assertEquals(course.getName(), table.getCourseName());
         assertEquals(1, table.getButtons().size());
-        testViewTeamButton(table.getButtons().get(0), course.id);
+        testViewTeamButton(table.getButtons().get(0), course.getId());
     }
     
     private void testViewTeamButton(ElementTag tag, String courseId) {

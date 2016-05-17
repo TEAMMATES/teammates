@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.io.File;
 
 import org.testng.annotations.AfterClass;
@@ -41,7 +39,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         
         testContent();
         testSearch();

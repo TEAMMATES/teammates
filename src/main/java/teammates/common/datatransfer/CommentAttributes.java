@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Text;
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes> {
 
-    private Long commentId = null;
+    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -278,14 +278,14 @@ public class CommentAttributes extends EntityAttributes
         }
     }
 
-    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove){
+    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove) {
         removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
-            CommentParticipantType typeToRemove){
+            CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }
@@ -324,7 +324,7 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
             String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
             return "(last edited " +
                     (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +

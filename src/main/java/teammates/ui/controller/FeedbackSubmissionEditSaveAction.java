@@ -44,8 +44,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
-        String userTeamForCourse = getUserTeamForCourse();
-        String userSectionForCourse = getUserSectionForCourse();
+        
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
@@ -59,6 +58,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
             return createSpecificRedirectResult();
         }
+        
+        String userTeamForCourse = getUserTeamForCourse();
+        String userSectionForCourse = getUserSectionForCourse();
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
@@ -77,7 +79,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -262,9 +264,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
-        } else if(recipientType == FeedbackParticipantType.TEAMS){
+        } else if (recipientType == FeedbackParticipantType.TEAMS) {
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
-        } else if(recipientType == FeedbackParticipantType.STUDENTS){
+        } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
             response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {
@@ -294,9 +296,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * To be used to set any extra parameters or attributes that 
      * a class inheriting FeedbackSubmissionEditSaveAction requires
      */
-    protected void setAdditionalParameters() {
-        return;
-    }
+    protected abstract void setAdditionalParameters() throws EntityDoesNotExistException;
     
     /**
      * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
@@ -305,9 +305,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * 
      * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
      */
-    protected void checkAdditionalConstraints() {
-        return;
-    }
+    protected abstract void checkAdditionalConstraints();
     
     /**
      * Note that when overriding this method, this should not use {@code respondingStudentList} 

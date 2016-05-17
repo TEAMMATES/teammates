@@ -41,7 +41,6 @@ public class InstructorCourseAddAction extends Action {
 
         /* Prepare data for the refreshed page after executing the adding action */
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         
@@ -52,11 +51,11 @@ public class InstructorCourseAddAction extends Action {
         }
         
         // Get corresponding courses of the instructors.
-        allCourses = logic.getCoursesForInstructor(instructorList);
+        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(instructorList);
         
         List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
         for (CourseAttributes course : allCourses) {
-            if (archivedCourseIds.contains(course.id)) {
+            if (archivedCourseIds.contains(course.getId())) {
                 archivedCourses.add(course);
             } else {
                 activeCourses.add(course);
@@ -71,8 +70,8 @@ public class InstructorCourseAddAction extends Action {
         String CourseNameToShowParam = "";
         
         if (isError) { // there is error in adding the course
-            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.id);
-            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.name);
+            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
+            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
             
             List<String> statusMessageTexts = new ArrayList<String>();
             
@@ -82,7 +81,7 @@ public class InstructorCourseAddAction extends Action {
             
             statusToAdmin = StringHelper.toString(statusMessageTexts, "<br>");
         } else {
-            statusToAdmin = "Course added : " + newCourse.id;
+            statusToAdmin = "Course added : " + newCourse.getId();
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
         
@@ -93,17 +92,17 @@ public class InstructorCourseAddAction extends Action {
 
     private void createCourse(CourseAttributes course) {
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.id, course.name);
+            logic.createCourseAndInstructor(data.account.googleId, course.getId(), course.getName());
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
-                    data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
-                    data.getInstructorCourseEditLink(course.id));
+                    data.getInstructorCourseEnrollLink(course.getId())).replace("${courseEditLink}",
+                    data.getInstructorCourseEditLink(course.getId()));
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             isError = false;
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
         } catch (InvalidParametersException e) {
-            setStatusForException(e, Const.StatusMessages.COURSE_INVALID_ID);
+            setStatusForException(e);
         }
 
         if (isError) {

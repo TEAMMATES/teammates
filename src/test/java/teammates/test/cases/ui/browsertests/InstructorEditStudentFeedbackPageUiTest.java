@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,7 +48,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                                   "student1InIESFPTCourse@gmail.tmt",
                                                   "student1InIESFPTCourse@gmail.tmt");  
         
-        assertEquals("Student 1 self feedback.",fr.getResponseDetails().getAnswerString());
+        assertEquals("Student 1 self feedback.", fr.getResponseDetails().getAnswerString());
      
         submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
 
@@ -117,7 +114,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 withUserId(testData.instructors.get(instructorName).googleId).
                 withCourseId(testData.feedbackSessions.get(fsName).courseId).
                 withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
-                withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail);
+                withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
         
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }

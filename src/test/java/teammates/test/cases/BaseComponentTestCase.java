@@ -1,9 +1,5 @@
 package teammates.test.cases;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -82,11 +78,11 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(CourseAttributes course) {
-        assertNull(coursesDb.getCourse(course.id));
+        assertNull(coursesDb.getCourse(course.getId()));
     }
 
     protected static void verifyPresentInDatastore(CourseAttributes expected) {
-        CourseAttributes actual = coursesDb.getCourse(expected.id);
+        CourseAttributes actual = coursesDb.getCourse(expected.getId());
         // Ignore time field as it is stamped at the time of creation in testing
         actual.createdAt = expected.createdAt;
         assertEquals(gson.toJson(expected), gson.toJson(actual));
@@ -161,7 +157,8 @@ public class BaseComponentTestCase extends BaseTestCase {
                                     ? instructorsDb.getInstructorForEmail(expected.courseId, expected.email)
                                     : instructorsDb.getInstructorForGoogleId(expected.courseId, expected.googleId);
         equalizeIrrelevantData(expected, actual);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+
+        assertTrue(expected.isEqualToAnotherInstructor(actual));
     }
     
     private static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
@@ -170,10 +167,6 @@ public class BaseComponentTestCase extends BaseTestCase {
         // pretend keys match because the key is generated only before storing into database
         if (actualInstructor.key != null) {
             expectedInstructor.key = actualInstructor.key;
-        }
-        if (!expectedInstructor.instructorPrivilegesAsText.equals(actualInstructor.instructorPrivilegesAsText)
-                && expectedInstructor.privileges.equals(actualInstructor.privileges)) {
-            actualInstructor.instructorPrivilegesAsText = expectedInstructor.getTextFromInstructorPrivileges();
         }
     }
 
@@ -194,13 +187,13 @@ public class BaseComponentTestCase extends BaseTestCase {
             StudentAttributes actualStudent) {
         
         // For these fields, we consider null and "" equivalent.
-        if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
+        if (expectedStudent.googleId == null && actualStudent.googleId.isEmpty()) {
             expectedStudent.googleId = "";
         }
-        if (expectedStudent.team == null && actualStudent.team.equals("")) {
+        if (expectedStudent.team == null && actualStudent.team.isEmpty()) {
             expectedStudent.team = "";
         }
-        if (expectedStudent.comments == null && actualStudent.comments.equals("")) {
+        if (expectedStudent.comments == null && actualStudent.comments.isEmpty()) {
             expectedStudent.comments = "";
         }
 

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -119,8 +117,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         ______TS("incorrect URL");
         
         AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
-        @SuppressWarnings("unused") //We simply ensures it is the right page type
-        NotFoundPage notFoundPage = AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
+        AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
     }
 

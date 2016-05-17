@@ -1,29 +1,18 @@
 package teammates.test.pageobjects;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Stack;
 
 import org.openqa.selenium.WebDriver;
 
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import teammates.test.driver.TestProperties;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 /**
  * A programmatic interface to the Browser used to test the app.
  */
 public class Browser {
-    
-    protected ChromeDriverService chromeService = null;
-    
     
     /**
      * The {@link WebDriver} object that drives the Browser instance.
@@ -76,56 +65,31 @@ public class Browser {
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
-        if (TestProperties.inst().BROWSER.equals("htmlunit")) {
-            System.out.println("Using HTMLUnit.");
-
-            HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver(BrowserVersion.FIREFOX_38);
-            htmlUnitDriver.setJavascriptEnabled(true);
-            return htmlUnitDriver;
-
-        } else if (TestProperties.inst().BROWSER.equals("firefox")) {
+        String browser = TestProperties.inst().BROWSER;
+        if (browser.equals("firefox")) {
             System.out.println("Using Firefox.");
             String firefoxPath = TestProperties.inst().FIREFOX_PATH;
-            if(!firefoxPath.isEmpty()){
+            if (!firefoxPath.isEmpty()) {
                 System.out.println("Custom path: " + firefoxPath);
-                System.setProperty("webdriver.firefox.bin",firefoxPath);
+                System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
-            return new FirefoxDriver();
 
-        } else if (TestProperties.inst().BROWSER.equals("chrome")) {
+            // Allow CSV files to be download automatically, without a download popup.
+            // This method is used because Selenium cannot directly interact with the download dialog.
+            // Taken from http://stackoverflow.com/questions/24852709
+            FirefoxProfile profile = new FirefoxProfile();
+            profile.setPreference("browser.download.panel.shown", false);
+            profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
+            profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
+            profile.setPreference("browser.download.folderList", 2);
+            profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
+            return new FirefoxDriver(profile);
 
-            System.out.println("Using Chrome.");
-
-            // We use the technique given in
-            // http://code.google.com/p/selenium/wiki/ChromeDriver
-            ChromeDriverService service = startChromeDriverService();
-            return (new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome()));
-
-        } else if (TestProperties.inst().BROWSER.equals("iexplore")) {
-            System.out.println("Using IE.");
-            File file = new File(TestProperties.getIEDriverPath());
-            System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-
-            return new InternetExplorerDriver();
-        }else {
-            System.out.println("Using " + TestProperties.inst().BROWSER 
-                    + " is not supported!");
+        } else {
+            System.out.println("Using " + browser + " is not supported!");
             return null;
         }
 
     }
     
-    private ChromeDriverService startChromeDriverService() {
-        ChromeDriverService chromeService = new ChromeDriverService.Builder()
-                .usingDriverExecutable(
-                        new File(TestProperties.getChromeDriverPath()))
-                .usingAnyFreePort().build();
-        try {
-            chromeService.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return chromeService;
-    }
 }

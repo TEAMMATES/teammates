@@ -6,7 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
@@ -23,9 +22,7 @@ public class InstructorCourseEditSaveAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
-        CourseAttributes courseToEdit = new CourseAttributes();
-        courseToEdit.id = courseId;
-        courseToEdit.name = courseName;
+        CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName);
         
         try {
             logic.updateCourse(courseToEdit);

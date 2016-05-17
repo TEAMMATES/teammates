@@ -42,8 +42,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 instructor,
                 logic.getCourse(courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -63,7 +61,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             try {
                 createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName,
                                                 fs.creatorEmail, feedbackSessionType);
-            } catch(InvalidParametersException e) {
+            } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
@@ -102,6 +100,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
                                        feedbackSessionType);
         
@@ -118,7 +117,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
-        for (FeedbackQuestionAttributes fqa : questions){
+        for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }

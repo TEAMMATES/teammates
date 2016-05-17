@@ -1,9 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
@@ -14,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -102,7 +97,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAllGetFeedbackSessions() throws Exception{
+    public void testAllGetFeedbackSessions() throws Exception {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
@@ -163,7 +158,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        Assert.assertTrue(sessions.size() == 6);
+        assertEquals(6, sessions.size());
         
         ______TS("null params");
         
@@ -190,7 +185,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
         
         assertEquals(8, fsaList.size());
-        for(FeedbackSessionAttributes fsa : fsaList){
+        for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isPrivateSession());
         }
         
@@ -203,7 +198,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
         
         assertEquals(2, fsaList.size());
-        for(FeedbackSessionAttributes fsa : fsaList){
+        for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.sentOpenEmail);
         }
         
@@ -216,7 +211,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
         
         assertEquals(8, fsaList.size());
-        for(FeedbackSessionAttributes fsa : fsaList){
+        for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.sentPublishedEmail);
         }
         

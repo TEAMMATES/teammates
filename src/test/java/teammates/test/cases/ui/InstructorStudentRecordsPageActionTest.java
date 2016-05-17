@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +87,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
@@ -129,7 +127,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
                          + "However, you do not have access to view this student's profile<br />"
                          + "No records were found for this student",
@@ -141,9 +139,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         // re-login as another instructor for new test
         gaeSimulation.loginAsInstructor(instructor4Id);
         String courseIdWithNoSession = "idOfCourseNoEvals";
-        StudentAttributes testStudent = new StudentAttributes();
 
-        testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
+        StudentAttributes testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
 
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,

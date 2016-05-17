@@ -42,7 +42,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -82,23 +81,20 @@ public class Emails {
 
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo
-                .append("to="
-                        + message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString());
-        messageInfo.append("|from=" + message.getFrom()[0].toString());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=")
+                   .append(message.getRecipients(Message.RecipientType.TO)[0]
+                                .toString())
+                   .append("|from=").append(message.getFrom()[0].toString())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
     public static String getEmailInfo(Sendgrid message) {
-        StringBuilder messageInfo = new StringBuilder();
-        messageInfo.append("[Email sent]");
-        messageInfo.append("to=" + message.getTos().get(0));
-        messageInfo.append("|from=" + message.getFrom());
-        messageInfo.append("|subject=" + message.getSubject());
+        StringBuilder messageInfo = new StringBuilder(100);
+        messageInfo.append("[Email sent]to=").append(message.getTos().get(0))
+                   .append("|from=").append(message.getFrom())
+                   .append("|subject=").append(message.getSubject());
         return messageInfo.toString();
     }
     
@@ -231,7 +227,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
-            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException{
+            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException {
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
         Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
@@ -244,7 +240,7 @@ public class Emails {
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
-            if(s == null) continue;
+            if (s == null) continue;
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
@@ -257,12 +253,12 @@ public class Emails {
     
     public MimeMessage generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
             StudentAttributes student, String template) 
-                    throws MessagingException, UnsupportedEncodingException{
+                    throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s]",
-                        course.id));
+                        course.getId()));
 
         String emailBody = template;
 
@@ -273,11 +269,11 @@ public class Emails {
         }
         
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
-        emailBody = emailBody.replace("${courseId}", course.id);
+        emailBody = emailBody.replace("${courseName}", course.getName());
+        emailBody = emailBody.replace("${courseId}", course.getId());
         
         String commentsPageUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
-                                        .withCourseId(course.id)
+                                        .withCourseId(course.getId())
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
 
@@ -363,20 +359,20 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", s.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
@@ -384,7 +380,7 @@ public class Emails {
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                            .withCourseId(c.id)
+                            .withCourseId(c.getId())
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
@@ -407,17 +403,19 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
+        emailBody = emailBody.replace("${instructorFragment}",
+                                      "The email below has been sent to students of course: " + c.getId()
+                                      + ".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
@@ -441,26 +439,26 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.name, fs.feedbackSessionName));
+                        c.getName(), fs.feedbackSessionName));
 
         String emailBody = template;
 
         emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${courseName}", c.getName());
+        emailBody = emailBody.replace("${courseId}", c.getId());
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                        .withCourseId(c.id)
+                                        .withCourseId(c.getId())
                                         .withSessionName(fs.feedbackSessionName)
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                                        .withCourseId(c.id)
+                                        .withCourseId(c.getId())
                                         .withSessionName(fs.feedbackSessionName)
                                         .toAbsoluteString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
@@ -476,12 +474,12 @@ public class Emails {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentJoinFragment(student, emailBody);
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -504,19 +502,19 @@ public class Emails {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
         emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
-                             throws AddressException,MessagingException,UnsupportedEncodingException {
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute) 
+                             throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
@@ -526,7 +524,7 @@ public class Emails {
         
         String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
         emailBody = emailBody.replace("${userName}", shortName);
-        emailBody = emailBody.replace("${joinUrl}",joinUrl);
+        emailBody = emailBody.replace("${joinUrl}", joinUrl);
         messageToUser.setContent(emailBody, "text/html");
 
         return messageToUser;
@@ -539,7 +537,7 @@ public class Emails {
      * Generate the join link to be sent to the account requester's email
      * This method should only be used in adminHomePage for easy manual testing purpose
      */
-    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute){
+    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute) {
         
         String joinUrl = "";
         if (instructor != null) {
@@ -560,12 +558,12 @@ public class Emails {
         
         MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);    
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+                + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
         emailBody = emailBody.replace("${userName}", instructor.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");  
         return message;
@@ -888,7 +886,7 @@ public class Emails {
     }
     
     
-    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException{
+    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
         
         mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
         return mail;
@@ -898,27 +896,6 @@ public class Emails {
         return s.googleId == null || s.googleId.isEmpty();
     }
 
-    /**
-     * Generate email recipient list for the automated reminders sent.
-     * Used for AdminActivityLog
-     */
-    public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
-    
-        ArrayList<Object> data = new ArrayList<Object>();
-        
-        try{
-            for (int i = 0; i < emails.size(); i++){
-                Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
-                for (int j = 0; j < recipients.length; j++){
-                    data.add(recipients[j]);
-                }
-            }
-        } catch (Exception e){
-            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
-        }
-        
-        return data;
-    }
     
     public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
@@ -954,7 +931,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.AdminEmailPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -31,7 +29,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{    
+    public void allTests() throws Exception {    
         testCompose();
         testSent();
         testDraft();
@@ -110,17 +108,13 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
-        return emailPage.getStatus().contains("\"" + recipientName + "\" is not acceptable to TEAMMATES as an email "
-                                                + "because it is not in the correct format. An email address "
-                                                + "contains some text followed by one '@' sign followed by "
-                                                + "some more text. It cannot be longer than 254 characters. "
-                                                + "It cannot be empty and it cannot have spaces.");
+        return emailPage.getStatus().contains(
+                String.format(FieldValidator.EMAIL_ERROR_MESSAGE, recipientName, FieldValidator.REASON_INCORRECT_FORMAT));
     }
     
     private boolean hasStatusMessageNoSubject() {
-        return emailPage.getStatus().equals("\"\" is not acceptable to TEAMMATES as email subject because "
-                                          + "it is empty. The value of email subject should be no longer "
-                                          + "than 200 characters. It should not be empty.");
+        return emailPage.getStatus().equals(
+                String.format(FieldValidator.EMAIL_SUBJECT_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
     }
     
     private boolean hasErrorMessage() {
@@ -174,7 +168,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                                                                  "Date");
         List<String> actualSessionTableHeaders = new ArrayList<String>();
         
-        for (int i = 0 ; i < numColumns ; i++) {
+        for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));
         }
         

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
 import org.testng.annotations.BeforeClass;
@@ -24,7 +21,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
 

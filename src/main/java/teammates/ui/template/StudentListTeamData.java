@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.util.Sanitizer;
 
 public class StudentListTeamData {
 

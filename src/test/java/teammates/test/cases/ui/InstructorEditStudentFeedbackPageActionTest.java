@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +44,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
@@ -75,7 +72,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
 
         editPageAction = getAction(submissionParams);
@@ -90,7 +87,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
 
         editPageAction = getAction(submissionParams);
@@ -98,7 +95,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
                 "?error=false" +
-                "&user="+ idOfInstructor,
+                "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         
@@ -113,7 +110,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentTeam
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentTeam
         };
 
         editPageAction = getAction(submissionParams);
@@ -121,16 +118,16 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+                + "&user=" + idOfInstructor, 
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
                 + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
                 + "Moderating feedback session for student (" + student.email + ")<br>"
                 + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
+                + "/page/instructorEditStudentFeedbackPage", 
+                editPageAction.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -143,7 +140,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -163,7 +160,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
 
         try {

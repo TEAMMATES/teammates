@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +24,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
     }
     
@@ -69,7 +65,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
-                                  + "|||true|||Student|||"+ student.name +"|||" + student.googleId
+                                  + "|||true|||Student|||" + student.name + "|||" + student.googleId
                                   + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
                                   + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
@@ -122,7 +118,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + student.name +"|||" + student.googleId + "|||" + student.email
+                                  + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||Student Profile for <span class=\"bold\">(" + student.googleId
                                   + ")</span> edited.<br>" + expectedProfile.toString()
                                   + "|||/page/studentProfileEditSave";

@@ -12,8 +12,8 @@ public class CourseTable {
     private List<HomeFeedbackSessionRow> rows;
     
     public CourseTable(CourseAttributes course, List<ElementTag> buttons, List<HomeFeedbackSessionRow> rows) {
-        this.courseId = course.id;
-        this.courseName = course.name;
+        this.courseId = course.getId();
+        this.courseName = course.getName();
         this.buttons = buttons;
         this.rows = rows;
     }

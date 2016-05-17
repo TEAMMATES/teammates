@@ -1,16 +1,10 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.util.Date;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -109,7 +103,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.course = "invalid id space";
         try {
             studentsDb.createEntity(s);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     String.format(COURSE_ID_ERROR_MESSAGE, s.course,
@@ -127,15 +121,15 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-        assertEquals(true, retrievedStudent.isEnrollInfoSameAs(s));
+        assertTrue(retrievedStudent.isEnrollInfoSameAs(s));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course+ "not existing", s.googleId + "not existing"));
+        assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
         
         ______TS("fail : duplicate");
         try {
             studentsDb.createEntity(s);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(
                     String.format(
@@ -147,7 +141,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("null params check");
         try {
             studentsDb.createEntity(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
@@ -179,28 +173,28 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
         
         s2 = createNewStudent("one.new@gmail.com");
-        assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
         
         s2.googleId = null;
         studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section, s2.email, s2.googleId, s2.comments);
-        assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
         
         assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
-        assertEquals(true, studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
-        assertEquals(true, studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
+        assertTrue(studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
+        assertTrue(studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
         assertEquals(2 + currentNumberOfStudent, studentsDb.getAllStudents().size()); 
         
         
         ______TS("null params case");
         try {
             studentsDb.getStudentForEmail(null, "valid@email.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }        
         try {
             studentsDb.getStudentForEmail("any-course-id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
@@ -249,7 +243,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + 
-                    s2.email,e.getMessage());
+                    s2.email, e.getMessage());
         }
 
         ______TS("typical success case");
@@ -278,7 +272,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course , s.googleId));
+        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
         int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
@@ -291,14 +285,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Null params check:
         try {
             studentsDb.deleteStudentWithoutDocument(null, s.email);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
         try {
             studentsDb.deleteStudentWithoutDocument(s.course, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
@@ -317,7 +311,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "validTeamName";
         s.section = "validSectionName";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
@@ -335,7 +329,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.team = "valid team name";
         s.section = "valid section name";
         s.comments = "";
-        s.googleId="";
+        s.googleId = "";
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {

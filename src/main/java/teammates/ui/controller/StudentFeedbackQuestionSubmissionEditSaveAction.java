@@ -85,4 +85,8 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
 
         return result;
     }
+
+    @Override
+    protected void checkAdditionalConstraints() {
+    }
 }

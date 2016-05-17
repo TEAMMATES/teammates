@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.net.MalformedURLException;
 
 import org.openqa.selenium.WebElement;
@@ -69,7 +63,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testPersistenceCheck();
         testLogin();
         testContent();
@@ -108,7 +102,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtml("/InstructorHomeHTMLPersistenceCheck.html");
     }
 
-    public void testLogin(){
+    public void testLogin() {
         
         ______TS("login");
         
@@ -138,7 +132,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
     
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
         ______TS("content: no courses");
         
@@ -171,13 +165,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // update current instructor for CS1101 to have Co-owner privileges
         InstructorAttributes instructor = testData.instructors.get("CHomeUiT.instr.CS1101");
         BackDoor.deleteInstructor(instructor.courseId, instructor.email);
-        instructor.privileges = instructor.getInstructorPrivilegesFromText();
         instructor.privileges.setDefaultPrivilegesForCoowner();
-        instructor.instructorPrivilegesAsText = instructor.getTextFromInstructorPrivileges();
         BackDoor.createInstructor(instructor);
     }
     
-    public void testHelpLink() throws Exception{
+    public void testHelpLink() throws Exception {
         
         ______TS("link: help page");
         
@@ -186,8 +178,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCourseLinks(){
-        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+    public void testCourseLinks() {
+        String courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         String instructorId = testData.accounts.get("account").googleId;
         
         ______TS("link: course enroll");
@@ -234,7 +226,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     
     
-    public void testRemindActions(){
+    public void testRemindActions() {
         
         ______TS("remind action: AWAITING feedback session");
         
@@ -325,7 +317,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testArchiveCourseAction() throws Exception {
-        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").id;
+        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").getId();
 
         ______TS("archive course action: click and cancel");
         
@@ -357,7 +349,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("archive action failed");
         
-        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
         
         //delete the course, then submit archive request to it
         String archiveLinkString = homePage.getArchiveCourseLink(courseIdForCS2104);
@@ -383,7 +375,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
-        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         
         ______TS("Submit empty course list: Home Page");
         
@@ -455,11 +447,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testDeleteCourseAction() throws Exception{
+    public void testDeleteCourseAction() throws Exception {
         
         ______TS("delete course action");
         
-        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
         assertNotNull(BackDoor.getCourse(courseId));
         
@@ -468,7 +460,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
         
         //delete the other course as well
-        courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         BackDoor.deleteCourse(courseId);
         
         homePage.clickHomeTab();
@@ -476,11 +468,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testSearchAction() throws Exception{
+    public void testSearchAction() throws Exception {
         // Tested in student list page
     }
     
-    public void testSortAction() throws Exception{
+    public void testSortAction() throws Exception {
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortById.html");
@@ -506,12 +498,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortSessionsByEndDate.html");
     }
     
-    private void loginAsCommonInstructor(){
+    private void loginAsCommonInstructor() {
         String commonInstructor = "CHomeUiT.instructor.tmms";
         loginAsInstructor(commonInstructor);
     }
     
-    private void loginAsInstructor(String googleId){
+    private void loginAsInstructor(String googleId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
         

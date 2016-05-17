@@ -81,13 +81,14 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        try {
-            newSession.timeZone = Double.parseDouble(paramTimeZone);
-        } catch (NumberFormatException nfe) {
-            // do nothing
-        } catch (NullPointerException npe) {
-            //do nothing
+        if (paramTimeZone != null) {
+            try {
+                newSession.timeZone = Double.parseDouble(paramTimeZone);
+            } catch (NumberFormatException nfe) {
+                // do nothing
+            } 
         }
+        
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
             newSession.gracePeriod = Integer.parseInt(paramGracePeriod);

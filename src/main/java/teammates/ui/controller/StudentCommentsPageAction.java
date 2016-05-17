@@ -39,18 +39,28 @@ public class StudentCommentsPageAction extends Action {
         
         //COURSE_ID can be null, if viewed by default
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (courseId == null) {
-            courseId = "";
+        
+        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
+        
+        Collections.sort(courses);
+        
+        if (courseId == null && !courses.isEmpty()) {
+            // if courseId not provided, select the newest course
+            courseId = courses.get(0).getId();
         }
         
-        List<String> coursePaginationList = new ArrayList<String>(); 
-        String courseName = getCoursePaginationList(coursePaginationList);
+        String courseName = getSelectedCourseName(courses);
+        if (courseName.isEmpty()) {
+            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
+        }
         
         //check accessibility with courseId
-        if (!isJoinedCourse(courseId, account.googleId)) {
+        if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();
+        
+        List<String> coursePaginationList = getCoursePaginationList(courses); 
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
@@ -93,26 +103,24 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private String getCoursePaginationList(List<String> coursePaginationList) 
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
             throws EntityDoesNotExistException {
-        String courseName = "";
-        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        java.util.Collections.sort(courses);
-        for (int i = 0; i < courses.size(); i++) {
-            CourseAttributes course = courses.get(i);
-            coursePaginationList.add(course.id);
-            if (courseId.isEmpty()) {
-                //if courseId not provided, select the newest course
-                courseId = course.id;
-            }
-            if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+        List<String> coursePaginationList = new ArrayList<>();
+
+        for (CourseAttributes course : sortedCourses) {
+            coursePaginationList.add(course.getId());
+        }
+        
+        return coursePaginationList;
+    }
+    
+    private String getSelectedCourseName(List<CourseAttributes> sortedCourses) {
+        for (CourseAttributes course : sortedCourses) {
+            if (course.getId().equals(courseId)) {
+                return course.getId() + " : " + course.getName();
             }
         }
-        if (courseName.equals("")) {
-            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
-        }
-        return courseName;
+        return "";
     }
     
     /*
@@ -125,7 +133,7 @@ public class StudentCommentsPageAction extends Action {
                 new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
-        for(FeedbackSessionAttributes fs : fsList) {
+        for (FeedbackSessionAttributes fs : fsList) {
             if (!fs.isPublished()) {
                 continue;
             }

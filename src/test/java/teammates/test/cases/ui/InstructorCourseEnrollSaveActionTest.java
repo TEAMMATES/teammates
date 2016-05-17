@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -12,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
@@ -29,7 +28,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
     }
     
@@ -69,7 +68,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
@@ -130,19 +129,19 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
         StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", 
-                                                           "Exchange student", courseId, "Team 1","None");
+                                                           "Exchange student", courseId, "Team 1", "None");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
         
         StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "", 
-                                                           courseId, "Team 2","None");
+                                                           courseId, "Team 2", "None");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
         
@@ -167,7 +166,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
@@ -188,11 +187,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + "&quot;invalid.email.tmt&quot; is not acceptable to TEAMMATES as "
-                                                + "an email because it is not in the correct format. An "
-                                                + "email address contains some text followed by one &#39;@&#39; sign"
-                                                + " followed by some more text. It cannot be longer than 254 "
-                                                + "characters. It cannot be empty and it cannot have spaces."
+                                                + Sanitizer.sanitizeForHtml(
+                                                        String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
+                                                                      "invalid.email.tmt",
+                                                                      FieldValidator.REASON_INCORRECT_FORMAT))
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
@@ -211,8 +209,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         int sizeLimitBoundary = 150;
         
         //can enroll, if within the size limit
-        StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
-        for(int i = 0; i < sizeLimitBoundary; i++) {
+        StringBuilder enrollStringBuilder = new StringBuilder(200);
+        enrollStringBuilder.append("Section\tTeam\tName\tEmail");
+        for (int i = 0; i < sizeLimitBoundary; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
@@ -222,7 +221,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         };
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         //fail to enroll, if exceed the range
@@ -236,7 +235,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
         
         ______TS("Failure case: empty input");
@@ -250,9 +249,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -279,7 +278,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
             }
         }
         
-        assertEquals(true, result);
+        assertTrue(result);
     }
     
     private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {

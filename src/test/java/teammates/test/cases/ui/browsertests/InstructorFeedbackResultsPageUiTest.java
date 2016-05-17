@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -156,7 +152,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        ThreadHelper.waitFor(2000);
 
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
@@ -167,7 +162,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for team response");
 
         verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
-
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
+        resultsPage.displayByQuestion();
+        resultsPage.waitForPageToLoad();
+        
+        ______TS("Typical case: test moderate responses button for instructors as givers");
+        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt");
+        
     }
 
     public void testSortAction() throws Exception {
@@ -178,9 +180,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverRecipientQuestion();
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
@@ -191,9 +193,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
 
         ______TS("test sort by giver > question > recipient");
@@ -238,9 +240,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
 
         ______TS("Typical case: test in-table sort");

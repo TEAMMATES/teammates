@@ -17,8 +17,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
-import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageAction extends Action {
     
@@ -35,13 +33,11 @@ public class AdminSessionsPageAction extends Action {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        Logic logic = new Logic();
-        
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
         
@@ -173,7 +169,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
+            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;
@@ -260,7 +256,7 @@ public class AdminSessionsPageAction extends Action {
             return googleId;
         }
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
+        for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
           
             if (instructor.googleId != null) {
                 googleId = instructor.googleId;
@@ -347,16 +343,16 @@ public class AdminSessionsPageAction extends Action {
         
         if (condition.contentEquals("null")) {
 
-            return (startDate == null && endDate == null && startHour == null &&
-                    endHour == null && startMin == null && endMin == null && timeZone == null);
+            return startDate == null && endDate == null && startHour == null 
+                   && endHour == null && startMin == null && endMin == null && timeZone == null;
 
         } else if (condition.contentEquals("notNull")) {
 
-            return (startDate != null && endDate != null && startHour != null
-                    && endHour != null && startMin != null && endMin != null && timeZone != null
-                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
-                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty());
+            return startDate != null && endDate != null && startHour != null
+                   && endHour != null && startMin != null && endMin != null && timeZone != null
+                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
+                   && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
 
         } else {
             return false;

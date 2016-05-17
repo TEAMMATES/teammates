@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -9,7 +7,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseEditSaveAction;
 import teammates.ui.controller.RedirectResult;
@@ -30,7 +27,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
-        String courseName = CoursesLogic.inst().getCourse(courseId).name;
+        String courseName = CoursesLogic.inst().getCourse(courseId).getName();
         String statusMessage = "";
         String[] submissionParams;
         InstructorCourseEditSaveAction courseEditSaveAction;

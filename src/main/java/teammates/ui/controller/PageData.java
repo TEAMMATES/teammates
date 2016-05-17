@@ -65,7 +65,7 @@ public class PageData {
     }
     
     public boolean isUnregisteredStudent() {
-        return account.googleId == null || (student != null && !student.isRegistered());
+        return account.googleId == null || student != null && !student.isRegistered();
     }
 
     @SuppressWarnings("unused")
@@ -85,11 +85,11 @@ public class PageData {
         return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
     }
     
-    public static String truncate (String untruncatedString, int truncateLength) {
+    public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
     
-    public static String displayDateTime (Date date) {
+    public static String displayDateTime(Date date) {
         return TimeHelper.formatTime12H(date);
     }
     
@@ -124,12 +124,12 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
                         "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
+            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
                         "%</span>";
         } else {
@@ -145,7 +145,7 @@ public class PageData {
         if (!enabled) {
             return "<span style=\"font-style: italic;\">Disabled</span>";
         }
-        if (str == null || str.equals("")) {
+        if (str == null || str.isEmpty()) {
             return "N/A";
         }
         return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", 
@@ -187,7 +187,7 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption 
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = (existingTimeZone == timeZoneOption);
+            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
             
             ElementTag option = createOption(textToDisplay, 
                                              formatAsString(timeZoneOption), isExistingTimeZone);
@@ -219,7 +219,7 @@ public class PageData {
      */
     protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 0; i <= 30; i += 5) {
+        for (int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" 
                        + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
                        + ">" + i + " mins</option>");
@@ -229,9 +229,9 @@ public class PageData {
     
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
-                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+        for (int i = 0; i <= 30; i += 5) {
+            ElementTag option = createOption(i + " mins", String.valueOf(i), 
+                                            isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
         return result;
@@ -244,7 +244,7 @@ public class PageData {
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             result.add("<option value=\"" + i + "\"" +
                        (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
@@ -254,9 +254,9 @@ public class PageData {
     
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
-                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+                                             String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
         }
         return result;
@@ -348,22 +348,22 @@ public class PageData {
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
     
     public String getStudentFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
     
     public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -469,17 +469,11 @@ public class PageData {
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, 
                                  Const.ParamsNames.NEXT_URL,
                                  (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                          : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getInstructorEditStudentFeedbackLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -551,7 +545,7 @@ public class PageData {
     
     public String getInstructorFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
@@ -699,8 +693,8 @@ public class PageData {
     
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -748,7 +742,7 @@ public class PageData {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
         } else if (session.isWaitingToOpen()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
-        } else if(session.isClosed()) {
+        } else if (session.isClosed()) {
             msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
         }
         
@@ -784,10 +778,10 @@ public class PageData {
      * Returns the type of people that can view the comment. 
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
-        for(int i = 0; i < comment.showCommentTo.size(); i++){
+        StringBuilder peopleCanView = new StringBuilder(100);
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
+            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
@@ -796,21 +790,21 @@ public class PageData {
                 peopleCanView.append("recipient, ");
                 break;
             case TEAM :
-                if(comment.recipientType == CommentParticipantType.TEAM) {
+                if (comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
             case SECTION :
-                if(comment.recipientType == CommentParticipantType.SECTION) {
+                if (comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
             case COURSE :
-                if(comment.recipientType == CommentParticipantType.COURSE) {
+                if (comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
@@ -824,7 +818,7 @@ public class PageData {
             }
         }
         String peopleCanViewString = peopleCanView.toString();
-        if(peopleCanViewString.isEmpty()) {
+        if (peopleCanViewString.isEmpty()) {
             return peopleCanViewString;
         }
         return removeEndComma(peopleCanViewString);
@@ -835,14 +829,14 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        StringBuilder peopleCanView = new StringBuilder(100);
+        List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
             showCommentTo = comment.showCommentTo;
         }
-        for(int i = 0; i < showCommentTo.size(); i++) {
+        for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
@@ -881,7 +875,7 @@ public class PageData {
 
     
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
-        boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
+        boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
@@ -904,7 +898,7 @@ public class PageData {
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
         int defaultGracePeriod = 15;
-        boolean isEditingExistingEvaluation = (existingGracePeriodValue != Const.INT_UNINITIALIZED);
+        boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
         } else {
@@ -914,9 +908,9 @@ public class PageData {
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
-            return "" + (int) num;
+            return Integer.toString((int) num);
         } else {
-            return "" + num;
+            return Double.toString(num);
         }
     }
     
@@ -1017,7 +1011,7 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (studentEmail != null && recipient.equals(studentEmail)) {
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");

@@ -1,31 +1,31 @@
-/* 
- * This Javascript file is included in all administrator pages. Functions here 
+/*
+ * This Javascript file is included in all administrator pages. Functions here
  * should be common to the administrator pages.
  */
 
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
-var OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR = "administrator_addinstructor";
-var OPERATION_ADMINISTRATOR_LOGOUT = "administrator_logout";
+var OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR = 'administrator_addinstructor';
+var OPERATION_ADMINISTRATOR_LOGOUT = 'administrator_logout';
 
 // PARAMETERS
-var INSTRUCTOR_EMAIL = "instructoremail";
-var INSTRUCTOR_GOOGLEID = "instructorid";
-var INSTRUCTOR_NAME = "instructorname";
-var INSTRUCTOR_INSTITUTION = "instructorinstitution";
+var INSTRUCTOR_EMAIL = 'instructoremail';
+var INSTRUCTOR_GOOGLEID = 'instructorid';
+var INSTRUCTOR_NAME = 'instructorname';
+var INSTRUCTOR_INSTITUTION = 'instructorinstitution';
 
 function addInstructor(googleID, name, email, institution) {
     if (xmlhttp) {
-        xmlhttp.open("POST", "teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR
-                + "&" + INSTRUCTORINATOR_GOOGLEID + "=" + googleID + "&"
-                + INSTRUCTORINATOR_NAME + "=" + name + "&"
-                + INSTRUCTORINATOR_EMAIL + "=" + email + "&"
-                + INSTRUCTORINATOR_INSTITUTION + "=" + institution);
+        xmlhttp.open('POST', 'teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR
+                + '&' + INSTRUCTORINATOR_GOOGLEID + '=' + googleID + '&'
+                + INSTRUCTORINATOR_NAME + '=' + name + '&'
+                + INSTRUCTORINATOR_EMAIL + '=' + email + '&'
+                + INSTRUCTORINATOR_INSTITUTION + '=' + institution);
     }
 }
 
@@ -42,7 +42,7 @@ function verifyInstructorData() {
     $('[name="' + INSTRUCTOR_EMAIL + '"]').val(email);
     $('[name="' + INSTRUCTOR_INSTITUTION + '"]').val(institution);
 
-    if (googleID == "" || name == "" || email == "") {
+    if (googleID === '' || name === '' || email === '') {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!isValidGoogleId(googleID)) {
@@ -65,16 +65,16 @@ function verifyInstructorData() {
 function getXMLObject() {
     var xmlHttp = false;
     try {
-        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
     } catch (e) {
         try {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (e2) {
             xmlHttp = false;
         }
     }
 
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
 
@@ -82,17 +82,17 @@ function getXMLObject() {
 }
 
 function handleLogout() {
-    if (xmlhttp.status == 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+    if (xmlhttp.status === 200) {
+        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function isGoogleIDValid(googleID) {
-    if (googleID.indexOf("\\") >= 0 || googleID.indexOf("'") >= 0
-            || googleID.indexOf("\"") >= 0) {
+    if (googleID.indexOf('\\') >= 0 || googleID.indexOf("'") >= 0
+            || googleID.indexOf('"') >= 0) {
         return false;
-    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) == null) {
+    } else if (googleID.match(/^[a-zA-Z0-9@ .-]*$/) === null) {
         return false;
     } else if (googleID.length > 29) {
         return false;
@@ -103,58 +103,55 @@ function isGoogleIDValid(googleID) {
 
 function logout() {
     if (xmlhttp) {
-        xmlhttp.open("POST", "teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_ADMINISTRATOR_LOGOUT);
+        xmlhttp.open('POST', 'teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_ADMINISTRATOR_LOGOUT);
     }
 
     handleLogout();
 }
 
 function showHideErrorMessage(s) {
-    $("#" + s).toggle();
+    $('#' + s).toggle();
 }
 
-
 function toggleDeleteAccountConfirmation(googleId) {
-	var rawList = document.getElementById('courses_' + googleId).innerHTML;
-	var list = rawList.replace(/<br>/g, "\n").trim() + "\n\n";
+    var rawList = document.getElementById('courses_' + googleId).innerHTML;
+    var list = rawList.replace(/<br>/g, '\n').trim() + '\n\n';
 
-	return confirm("Are you sure you want to delete the account " + googleId
-				   + "?\n\n" + list
-				   + "This operation will delete ALL information about this account "
-				   + "from the system.");
+    return confirm('Are you sure you want to delete the account ' + googleId
+                   + '?\n\n' + list
+                   + 'This operation will delete ALL information about this account '
+                   + 'from the system.');
 }
 
 jQuery(document).ready(function() {
-	var offset = 220;
-	var duration = 500;
-	jQuery(window).scroll(function() {
-		if (jQuery(this).scrollTop() > offset) {
-			jQuery('.back-to-top-left').fadeIn(duration);
-			jQuery('.back-to-top-right').fadeIn(duration);
-		} else {
-			jQuery('.back-to-top-left').fadeOut(duration);
-			jQuery('.back-to-top-right').fadeOut(duration);
-		}
-	});
+    var offset = 220;
+    var duration = 500;
+    jQuery(window).scroll(function() {
+        if (jQuery(this).scrollTop() > offset) {
+            jQuery('.back-to-top-left').fadeIn(duration);
+            jQuery('.back-to-top-right').fadeIn(duration);
+        } else {
+            jQuery('.back-to-top-left').fadeOut(duration);
+            jQuery('.back-to-top-right').fadeOut(duration);
+        }
+    });
 
+    jQuery('.back-to-top-left').click(function(event) {
+        event.preventDefault();
+        jQuery('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
 
-
-	jQuery('.back-to-top-left').click(function(event) {
-		event.preventDefault();
-		jQuery('html, body').animate({
-			scrollTop : 0
-		}, duration);
-		return false;
-	});
-
-	jQuery('.back-to-top-right').click(function(event) {
-		event.preventDefault();
-		jQuery('html, body').animate({
-			scrollTop : 0
-		}, duration);
-		return false;
-	});
+    jQuery('.back-to-top-right').click(function(event) {
+        event.preventDefault();
+        jQuery('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
 });

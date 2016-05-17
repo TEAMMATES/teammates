@@ -1,42 +1,41 @@
 $(document).ready(function() {
-    if ($("#button_sortstudentsection").length) {
-        toggleSort($("#button_sortstudentsection"));
+    if ($('#button_sortstudentsection').length) {
+        toggleSort($('#button_sortstudentsection'));
     } else {
-        toggleSort($("#button_sortstudentteam"));
+        toggleSort($('#button_sortstudentteam'));
     }
     
-    //auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', function (e) {
-		selectElementContents( document.getElementById('detailsTable') );
+    // auto select the html table when modal is shown
+    $('#studentTableWindow').on('shown.bs.modal', function() {
+        selectElementContents(document.getElementById('detailsTable'));
     });
 });
 
-
 function submitFormAjax() {
 
-	var formObject = $("#csvToHtmlForm");
-	var formData = formObject.serialize();
-	var content = $('#detailsTable');
-	var ajaxStatus = $('#ajaxStatus');
-	
-	$.ajax({
-        type : 'POST',
-        url :   "/page/instructorCourseDetailsPage?" + formData,
-        beforeSend : function() {
-        	content.html("<img src='/images/ajax-loader.gif'/>");
+    var formObject = $('#csvToHtmlForm');
+    var formData = formObject.serialize();
+    var content = $('#detailsTable');
+    var ajaxStatus = $('#ajaxStatus');
+    
+    $.ajax({
+        type: 'POST',
+        url: '/page/instructorCourseDetailsPage?' + formData,
+        beforeSend: function() {
+            content.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
-        	ajaxStatus.html("Failed to load student table. Please try again.");
-            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
+        error: function() {
+            ajaxStatus.html('Failed to load student table. Please try again.');
+            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
         },
-        success : function(data) {
+        success: function(data) {
             setTimeout(function() {
                 if (!data.isError) {
-                	var table = data.studentListHtmlTableAsString;                	             	
-                	content.html("<small>" + table + "</small>");
+                    var table = data.studentListHtmlTableAsString;
+                    content.html('<small>' + table + '</small>');
                 } else {
                     ajaxStatus.html(data.errorMessage);
-                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
+                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
 
                 setStatusMessage(data.statusForAjax);
@@ -45,16 +44,15 @@ function submitFormAjax() {
     });
 }
 
-
 /**
  * Functions to trigger registration key sending to a specific student in the
  * course.
  * Currently no confirmation dialog is shown.
  */
 function toggleSendRegistrationKey() {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES " 
-                   + "sends an automatic invite to students at the opening time of each" 
-                   + " session. Send a join request anyway?");
+    return confirm('Usually, there is no need to use this feature because TEAMMATES '
+                   + 'sends an automatic invite to students at the opening time of each'
+                   + ' session. Send a join request anyway?');
 }
 
 /**
@@ -63,10 +61,10 @@ function toggleSendRegistrationKey() {
  * @param courseID
  */
 function toggleSendRegistrationKeysConfirmation(courseID) {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES" 
-                   + " sends an automatic invite to students at the opening time of" 
-                   + " each session. Send a join request to all yet-to-join students in " 
-                   + courseID + " anyway?");
+    return confirm('Usually, there is no need to use this feature because TEAMMATES'
+                   + ' sends an automatic invite to students at the opening time of'
+                   + ' each session. Send a join request to all yet-to-join students in '
+                   + courseID + ' anyway?');
 }
 
 /**
@@ -76,7 +74,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
  * @returns
  */
 function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm("Are you sure you want to remove " + studentName + " from the course " + courseId + "?");
+    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
 }
 
 /**
@@ -84,10 +82,11 @@ function toggleDeleteStudentConfirmation(courseId, studentName) {
  * @param el
  */
 function selectElementContents(el) {
-    var body = document.body, range, sel;
+    var body = document.body;
+    var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        sel = window.getSelection();
+        var sel = window.getSelection();
         sel.removeAllRanges();
         try {
             range.selectNodeContents(el);
@@ -103,4 +102,4 @@ function selectElementContents(el) {
     }
 }
 
-var isShowCommentBox = false
+var isShowCommentBox = false;
