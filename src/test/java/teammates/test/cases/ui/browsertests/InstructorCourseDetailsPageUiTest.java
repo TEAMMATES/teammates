@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
