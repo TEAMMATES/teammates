@@ -146,7 +146,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course != null ? course.name : "").append(delim)
+                             .append(course != null ? course.getName() : "").append(delim)
                              .append(relatedSession.feedbackSessionName).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
                              .append(relatedQuestion.getQuestionDetails().questionText).append(delim)

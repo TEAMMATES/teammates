@@ -96,9 +96,9 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         Assumption.assertFalse(isPreview);
         Assumption.assertTrue(course.isArchived);
         
-        System.out.println("Updating instructors of old archived course: " + course.id);
+        System.out.println("Updating instructors of old archived course: " + course.getId());
         
-        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.id);
+        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
         for (InstructorAttributes instructor: instructorsOfCourse) {
             
             // only update if migration had not been done for the instructor
@@ -124,9 +124,9 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         Assumption.assertEquals(true, isPreview);
         Assumption.assertTrue(course.isArchived);
         
-        System.out.println("Previewing instructors of old archived course: " + course.id);
+        System.out.println("Previewing instructors of old archived course: " + course.getId());
         
-        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.id);
+        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
         for (InstructorAttributes instructor: instructorsOfCourse) {
             System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
             

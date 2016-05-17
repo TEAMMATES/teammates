@@ -95,7 +95,7 @@ public class AdminSearchPageAction extends Action {
             if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
                 CourseAttributes course = logic.getCourse(student.course);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(student.course, course.name);
+                    data.courseIdToCourseNameMap.put(student.course, course.getName());
                 }
             }
         }
@@ -104,7 +104,7 @@ public class AdminSearchPageAction extends Action {
             if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
                 CourseAttributes course = logic.getCourse(instructor.courseId);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
+                    data.courseIdToCourseNameMap.put(instructor.courseId, course.getName());
                 }
             }
         }

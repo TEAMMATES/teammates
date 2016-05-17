@@ -603,7 +603,7 @@ public class PerformanceProfiler extends Thread {
         for (String courseKey : set)
         {
             CourseAttributes course = data.courses.get(courseKey);
-            status += " " + BackDoor.deleteCourse(course.id);
+            status += " " + BackDoor.deleteCourse(course.getId());
         }
         return status;
     }

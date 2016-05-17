@@ -40,7 +40,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
-        courseId = testData.courses.get("InsCrsEdit.CS2104").id;
+        courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
     }
     
     @Test

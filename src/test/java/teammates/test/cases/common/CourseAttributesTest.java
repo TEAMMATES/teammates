@@ -23,21 +23,20 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testValidate() {
         
-        CourseAttributes c = generateValidCourseAttributesObject();
+        CourseAttributes validCourse = generateValidCourseAttributesObject();
         
-        assertTrue("valid value", c.isValid());
+        assertTrue("valid value", validCourse.isValid());
         
         
         String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
-        c.id = veryLongId;
-        c.name = emptyName;
+        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName);
         
-        assertFalse("invalid value", c.isValid());
+        assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage = 
-                String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL
-                + String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
-        assertEquals("invalid value", errorMessage, StringHelper.toString(c.getInvalidityInfo()));
+                String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_TOO_LONG) + EOL 
+                + String.format(COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(), REASON_EMPTY);
+        assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
     @Test
@@ -58,9 +57,7 @@ public class CourseAttributesTest extends BaseTestCase {
     
     public static CourseAttributes generateValidCourseAttributesObject() {
         CourseAttributes c;
-        c = new CourseAttributes();
-        c.id = "valid-id-$_abc";
-        c.name = "valid-name";
+        c = new CourseAttributes("valid-id-$_abc", "valid-name");
         return c;
     }
 
