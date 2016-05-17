@@ -81,6 +81,7 @@ public class InstructorHomePage extends AppPage {
             ele.click();
         }
     }
+    
     public void sortTablesByName() {
         clickElements(tablesSortByName);
     }

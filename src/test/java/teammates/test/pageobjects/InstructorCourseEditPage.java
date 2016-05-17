@@ -358,6 +358,7 @@ public class InstructorCourseEditPage extends AppPage {
     public WebElement getNameField(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
+    
     public WebElement getEmailField(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }

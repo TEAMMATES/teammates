@@ -358,6 +358,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                 newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
     }
+    
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
@@ -382,6 +383,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                                         newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
     }
+    
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,

@@ -76,6 +76,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____Common_page_elements___________________________________() {
     }
+    
     @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     

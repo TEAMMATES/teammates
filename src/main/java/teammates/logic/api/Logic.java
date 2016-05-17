@@ -1474,6 +1474,7 @@ public class Logic {
         
         return feedbackSessionsLogic.getFeedbackSessionDetails(fsa);
     }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>

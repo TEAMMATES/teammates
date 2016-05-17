@@ -63,6 +63,7 @@ public class SanitizerTest extends BaseTestCase {
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
         assertEquals(expected, sanitized);
     }
+    
     @Test
     public void testSanitizeForHtml() {
         sanitizeHtml_receivesNull_returnsNull();

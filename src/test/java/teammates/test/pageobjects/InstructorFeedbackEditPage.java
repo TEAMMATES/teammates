@@ -415,6 +415,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickVisibilityPreviewForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
     }
+    
     public void clickVisibilityOptionsForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
     }
@@ -846,6 +847,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
+    
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         checkBox.click();
