@@ -50,7 +50,7 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 ### ESLint
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
-The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates.eslintrc).
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
 To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
 ```
