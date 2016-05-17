@@ -50,7 +50,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
     }
 
-
     @Test
     public void testCreateDeleteFeedbackSession() 
             throws Exception {    

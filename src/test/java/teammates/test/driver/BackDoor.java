@@ -337,9 +337,6 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-    
-
-    
 
     public static String[] getCoursesByInstructorId(String instructorId) {
 
@@ -465,7 +462,6 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-
 
     @SuppressWarnings("unused")
     private void ____FEEDBACK_SESSION_level_methods______________________________() {

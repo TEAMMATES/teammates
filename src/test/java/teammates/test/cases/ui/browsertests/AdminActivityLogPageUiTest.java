@@ -33,8 +33,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         testViewActionsLink();
         testInputValidation();
     }
-    
-    
+
     private void testUserTimezone() {
         logPage.clickUserTimezoneAtFirstRow();
         logPage.waitForAjaxLoaderGifToDisappear();
@@ -82,8 +81,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertTrue(logPage.getStatus().contains("in Local Time Zone") 
                    || logPage.getStatus().contains("Local Time Unavailable"));
     }
-    
-    
+
     public void testViewActionsLink() {
         
         ______TS("Link: recent actions link");
@@ -124,8 +122,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
         
     }
-    
-    
+
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);

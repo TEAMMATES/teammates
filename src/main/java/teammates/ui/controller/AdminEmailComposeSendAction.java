@@ -96,8 +96,7 @@ public class AdminEmailComposeSendAction extends Action {
             data.emailToEdit.emailId = emailId;
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
-        
-        
+
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
         
         if (!isEmailDraft) {
@@ -194,8 +193,7 @@ public class AdminEmailComposeSendAction extends Action {
             //get the read bytes into string and split it by ","
             String readString = new String(array);
             List<String> newList = Arrays.asList(readString.split(","));
-            
-            
+
             if (listOfList.isEmpty()) {
                 //this is the first time reading
                 listOfList.add(newList);
@@ -228,8 +226,7 @@ public class AdminEmailComposeSendAction extends Action {
             
             blobStream.close();
         }
-        
-        
+
     }
     
     private long getFileSize(String blobkeyString) {
@@ -255,9 +252,7 @@ public class AdminEmailComposeSendAction extends Action {
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
-                
 
-        
     }
     
     private void moveJobToAddressModeTaskQueue() {
@@ -275,11 +270,9 @@ public class AdminEmailComposeSendAction extends Action {
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
-               
-        
+
     }
-    
-    
+
     private void recordNewSentEmail(String subject,
                                     List<String> addressReceiver,
                                     List<String> groupReceiver,
@@ -302,8 +295,7 @@ public class AdminEmailComposeSendAction extends Action {
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
     }
-    
-    
+
     private void updateDraftEmailToSent(String emailId,
                                         String subject,
                                         List<String> addressReceiver,

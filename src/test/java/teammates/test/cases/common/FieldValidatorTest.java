@@ -344,7 +344,6 @@ public class FieldValidatorTest extends BaseTestCase {
                 String.format(GENDER_ERROR_MESSAGE, emptyInput));
     }
 
-
     @Test
     public void testGetValidityInfo_GOOGLE_ID() {
         

@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.ui.template.CourseEditInstructorPanel;
 import teammates.ui.template.ElementTag;
 
-
 public class InstructorCourseEditPageData extends PageData {
     private int instructorToShowIndex;
     private ElementTag editCourseButton;

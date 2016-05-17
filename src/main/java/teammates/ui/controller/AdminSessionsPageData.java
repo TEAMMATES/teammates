@@ -205,8 +205,7 @@ public class AdminSessionsPageData extends PageData {
         }
         return feedbackSessionRows;
     }
-    
-    
+
     private void setFilter() {
         filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), 
                                  getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd), 

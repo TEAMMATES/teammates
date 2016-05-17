@@ -9,7 +9,6 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-
 /**
  * This Action is used in AdminSearchPage to reset the google id of a
  * registered student in the searched results. Selected student in a
@@ -81,8 +80,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         isError = true;
         return createAjaxResult(data);
     }
-        
-    
+
     private void deleteAccountIfNeeded(String wrongGoogleId) {
         Logic logic = new Logic();
         

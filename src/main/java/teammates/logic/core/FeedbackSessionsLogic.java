@@ -85,8 +85,6 @@ public class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    
-
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         
         return fsDb.getAllOpenFeedbackSessions(start, end, zone);
@@ -253,7 +251,6 @@ public class FeedbackSessionsLogic {
         List<InstructorAttributes> instructorList =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
-
         return getFeedbackSessionsListForInstructor(instructorList);
     }
     
@@ -331,8 +328,7 @@ public class FeedbackSessionsLogic {
             = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
         Map<String, Map<String, String>> recipientList
             = new HashMap<String, Map<String, String>>();
-        
-        
+
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
@@ -341,7 +337,6 @@ public class FeedbackSessionsLogic {
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
                 question, instructorGiver, studentGiver);
-    
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -566,8 +561,7 @@ public class FeedbackSessionsLogic {
     }
 
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
-        
-        
+
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -583,8 +577,7 @@ public class FeedbackSessionsLogic {
                                                new InstructorsDb().getInstructorsForCourse(courseId));
         return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
-    
-    
+
     /**
      * Gets results of a feedback session to show to an instructor from an indicated question
      * This will not retrieve the list of comments for this question
@@ -924,8 +917,7 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
-                
-                
+
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS) ? 
                                     fsrBundle.getFullNameFromRoster(response.giverEmail) :
                                     response.giverEmail;
@@ -1002,8 +994,7 @@ public class FeedbackSessionsLogic {
         }
         
         removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver, results);
-            
-        
+
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
             
@@ -1014,7 +1005,6 @@ public class FeedbackSessionsLogic {
         
         return exportBuilder;
     }
-
 
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows 
@@ -2042,8 +2032,7 @@ public class FeedbackSessionsLogic {
                     }
                 }
             }
-            
-            
+
             addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
@@ -2425,7 +2414,6 @@ public class FeedbackSessionsLogic {
         }
         studentNoResponses.removeAll(fsa.respondingStudentList);
 
-
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
                     .getFeedbackQuestionsForInstructor(questions,
@@ -2653,6 +2641,5 @@ public class FeedbackSessionsLogic {
         emails.addFeedbackSessionReminderToEmailsQueue(session,
                 Emails.EmailType.FEEDBACK_PUBLISHED);
     }
-    
-    
+
 }

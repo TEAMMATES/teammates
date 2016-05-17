@@ -35,7 +35,6 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    
     public InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
@@ -128,8 +127,7 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
-    
-    
+
     /**
      * This is for customized feedback session 
      */
@@ -188,9 +186,7 @@ public class InstructorHomePage extends AppPage {
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
     }
-    
-    
-    
+
     public void clickHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();

@@ -53,8 +53,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         return new FeedbackQuestionAttributes(fq);        
     }
-    
-    
+
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
             EntityAttributes entityToAdd) throws InvalidParametersException {
         Object obj = this.createEntityWithoutExistenceCheck(entityToAdd);

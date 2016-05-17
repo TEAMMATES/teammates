@@ -13,7 +13,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-
 public class AdminEmailImageUploadAction extends Action {
     
     AdminEmailComposePageData data;

@@ -353,8 +353,7 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndCancel(deleteInstructorLink);
     }
-    
-    
+
     public WebElement getNameField(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum));
     }

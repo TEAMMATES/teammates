@@ -42,8 +42,7 @@ public class AccountsLogic {
             instance = new AccountsLogic();
         return instance;
     }
-    
-    
+
     public void createAccount(AccountAttributes accountData) 
                     throws InvalidParametersException {
     
@@ -136,7 +135,6 @@ public class AccountsLogic {
             }
         }
     }
-    
 
     /**
      * Joins the user as an instructor, and sets the institute too.
@@ -165,8 +163,7 @@ public class AccountsLogic {
         }
         
     }
-    
-    
+
     /**
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
@@ -241,7 +238,6 @@ public class AccountsLogic {
         
     }
 
-
     /**
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
@@ -258,7 +254,6 @@ public class AccountsLogic {
         }
         
     }
-
 
     /**
      * @throws JoinCourseException if the key does not correspond to an
@@ -291,8 +286,6 @@ public class AccountsLogic {
                                                   StringHelper.obscure(instructorForKey.googleId)));
         }
     }
-    
-
 
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {

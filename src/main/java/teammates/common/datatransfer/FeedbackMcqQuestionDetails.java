@@ -413,7 +413,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(

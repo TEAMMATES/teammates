@@ -38,6 +38,5 @@ public class FeedbackQuestionTableRow {
     public String getQnId() {
         return qnId;
     }
-    
-    
+
 }

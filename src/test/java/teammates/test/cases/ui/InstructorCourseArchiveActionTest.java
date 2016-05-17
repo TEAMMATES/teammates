@@ -187,7 +187,6 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     private InstructorCourseArchiveAction getAction(String... params) throws Exception {
         return (InstructorCourseArchiveAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }
 

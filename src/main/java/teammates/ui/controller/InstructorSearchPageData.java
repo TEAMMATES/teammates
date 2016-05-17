@@ -91,8 +91,7 @@ public class InstructorSearchPageData extends PageData {
     public boolean isStudentsEmpty() {
         return isStudentsEmpty;
     }
-    
-    
+
     public boolean isSearchCommentForStudents() {
         return isSearchCommentForStudents;
     }
@@ -104,8 +103,7 @@ public class InstructorSearchPageData extends PageData {
     public boolean isSearchForStudents() {
         return isSearchForStudents;
     }
-    
-    
+
     public List<CommentsForStudentsTable> getSearchCommentsForStudentsTables() {
         return searchCommentsForStudentsTables;
     }
@@ -304,8 +302,7 @@ public class InstructorSearchPageData extends PageData {
         }
         return rows;
     }
-    
-    
+
     private List<String> getCourseIdsFromStudentSearchResultBundle(
                                     StudentSearchResultBundle studentSearchResultBundle) {
         List<String> courses = new ArrayList<String>();

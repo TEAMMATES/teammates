@@ -14,7 +14,6 @@ import com.google.appengine.api.log.LogService;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
-
 @SuppressWarnings("serial")
 public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
 

@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-
-
 public abstract class LoginPage extends AppPage {
     
     public LoginPage(Browser browser) {
@@ -24,7 +22,5 @@ public abstract class LoginPage extends AppPage {
     
     public abstract void loginAdminAsInstructor(
             String adminUsername, String adminPassword, String instructorUsername);
-
-
 
 }

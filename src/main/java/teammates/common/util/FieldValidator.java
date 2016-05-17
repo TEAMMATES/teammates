@@ -9,7 +9,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 
 import com.google.appengine.api.datastore.Text;
 
-
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
@@ -88,8 +87,7 @@ public class FieldValidator {
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-    
-    
+
     /*
      * ======================================================================= 
      * Field: Email Subject
@@ -107,8 +105,7 @@ public class FieldValidator {
      */
     private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
     public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
-    
-    
+
     /*
      * ======================================================================= 
      * Field: Nationality
@@ -228,8 +225,7 @@ public class FieldValidator {
                     FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty. " +
                             "If you require more characters for your question, " +
                             "please use the instructions box below.";
-    
-    
+
     /*
      * =======================================================================
      * Field: Google ID
@@ -529,7 +525,6 @@ public class FieldValidator {
         }
         return "";
     }
-    
 
     /**
      * Checks if the given string is a non-null non-empty string no longer than
@@ -638,8 +633,7 @@ public class FieldValidator {
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        
-        
+
         String mainFieldName, earlierFieldName, laterFieldName;
         
         switch (mainFieldType) {
@@ -792,7 +786,6 @@ public class FieldValidator {
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
     }
-    
 
     private String getInvalidInfoForGoogleId(String value) {
         

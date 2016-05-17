@@ -75,8 +75,7 @@ public class TeamEvalResultTest extends BaseTestCase {
              {  90,  90,  90,  90 },
              {  10,  10,  10,  10 }};
         verifyCalculatePoints(input3, expected3);
-        
-        
+
         int[][] input2 = 
             {{ 100, 100, 100, 100 }, 
              { 110, 110, 110, 110 },
@@ -294,7 +293,6 @@ public class TeamEvalResultTest extends BaseTestCase {
         verifyNormalized(new double[]{NSU, 0, NSB}, new double[]{NSU, 0, NSB});
     }
 
-
     @Test 
     public void testExcludeSelfRatings() {
         
@@ -364,8 +362,7 @@ public class TeamEvalResultTest extends BaseTestCase {
     
     @Test
     public void testCalculatePerceivedForStudent() {
-        
-        
+
         assertEquals(Arrays.toString(new int[]{}),
                 Arrays.toString(TeamEvalResult.calculatePerceivedForStudent(
                         new int[]{}, new double[]{})));
@@ -405,8 +402,7 @@ public class TeamEvalResultTest extends BaseTestCase {
     
     @Test
     public void testIsSanitized() {
-        
-        
+
         assertTrue(TeamEvalResult.isSanitized(new int[]{}));
         assertTrue(TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
         assertFalse(TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
@@ -415,8 +411,7 @@ public class TeamEvalResultTest extends BaseTestCase {
     
     @Test
     public void testPurgeValuesCorrespondingToSpecialValuesInFilter() {
-        
-        
+
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
                 new double[]{}, 
                 new double[]{}, new double[]{});
@@ -455,7 +450,6 @@ public class TeamEvalResultTest extends BaseTestCase {
     }
     // @formatter:on
 
-    
     //--------------------------------------------------------------------
     
     private void verifyCalculatePoints(int[][] input, int[][] expected) {
@@ -519,6 +513,5 @@ public class TeamEvalResultTest extends BaseTestCase {
         showCalculationSteps(input4);
         
     }
-    
 
 }

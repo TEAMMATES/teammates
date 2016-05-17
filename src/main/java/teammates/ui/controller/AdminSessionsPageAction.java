@@ -73,8 +73,6 @@ public class AdminSessionsPageAction extends Action {
         }
     }
 
-
-    
     private void prepareDefaultPageData(Calendar calStart, Calendar calEnd) {        
         this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = 0;
@@ -121,8 +119,7 @@ public class AdminSessionsPageAction extends Action {
             
             start = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(startDate, startHour, startMin));
             end = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(endDate, endHour, endMin));  
-            
-            
+
             if (start.after(end)) {
                 isError = true;
                 statusToUser.add(new StatusMessage("The filter range is not valid."
@@ -152,8 +149,7 @@ public class AdminSessionsPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
         }
-        
-        
+
         this.rangeStart = start;
         this.rangeEnd = end;
         this.zone = zone;
@@ -240,8 +236,7 @@ public class AdminSessionsPageAction extends Action {
             }
         }
     }
-    
-    
+
     /**
      * This method loops through all instructors for the given course until a registered Instructor is found.
      * It returns the google id of the found instructor.
@@ -266,8 +261,7 @@ public class AdminSessionsPageAction extends Action {
         
         return googleId; 
     }
-    
-    
+
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
         
         for (InstructorAttributes instructor : instructors) {
@@ -278,8 +272,7 @@ public class AdminSessionsPageAction extends Action {
         
         return null;
     }
-    
-    
+
     private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
@@ -291,8 +284,7 @@ public class AdminSessionsPageAction extends Action {
         
         return numOfTotal;
     }
-    
-    
+
     private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
@@ -304,8 +296,7 @@ public class AdminSessionsPageAction extends Action {
         
         return numOfTotal;
     }
-    
-    
+
     private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
@@ -317,8 +308,7 @@ public class AdminSessionsPageAction extends Action {
         
         return numOfTotal;
     }
-    
-    
+
     private int getTotalInstitutes(HashMap<String, List<FeedbackSessionAttributes>> map) {
         
         int numOfTotal = 0;
@@ -329,8 +319,7 @@ public class AdminSessionsPageAction extends Action {
         }
         return numOfTotal;
     }
-    
-    
+
     private boolean checkAllParameters(String condition) {
         
         String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
@@ -359,7 +348,5 @@ public class AdminSessionsPageAction extends Action {
         }
         
     }
-    
-    
 
 }

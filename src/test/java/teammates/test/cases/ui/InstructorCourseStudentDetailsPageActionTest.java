@@ -15,8 +15,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -49,8 +48,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         verifyAssumptionFailure(invalidParams);
-        
-        
+
         ______TS("Typical case, view student detail");
 
         String[] submissionParams = new String[]{

@@ -1038,7 +1038,6 @@ public abstract class AppPage {
         }
     }
 
-
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();
         waitForAlertPresence();

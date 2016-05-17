@@ -109,7 +109,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
         if (order == 0) return typicalCase;

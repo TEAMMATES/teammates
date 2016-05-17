@@ -100,9 +100,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 "FQLogicPCT.emily.f@gmail.tmt", 
                 Role.STUDENT, 
                 "First Session").size(), 1);
-        
-        
-        
+
     }
 
     public void testUpdateFeedbackResponse() throws Exception {
@@ -197,8 +195,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
-        
-        
+
         ______TS("failure: invalid params");
         
         // Cannot have invalid params as all possible invalid params
@@ -280,8 +277,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
                                         response.giverEmail, 
                                         response.recipientEmail));
-        
-        
+
     }
     
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
@@ -388,8 +384,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
-        
-        
+
         ______TS("success: Null student in response, should skip over null student");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
@@ -413,8 +408,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         student = typicalBundle.students.get("student2InCourse1");           
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         assertEquals(responses.size(), 4);
-        
-        
+
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
         
         try {
@@ -426,8 +420,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     public void testIsNameVisibleTo() throws Exception {
-        
-        
+
         ______TS("testIsNameVisibleTo");
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -478,8 +471,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
-        
-        
+
         ______TS("test anonymous team recipients");
         // Only members of the recipient team should be able to see the recipient name
         fq.recipientType = FeedbackParticipantType.TEAMS;
@@ -488,14 +480,12 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.showResponsesTo.add(FeedbackParticipantType.STUDENTS);
         fr.recipientEmail = "Team 1.1";
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
-        
-        
+
         ______TS("null question");
         
         assertFalse(frLogic.isNameVisibleTo(null, fr, student.email, UserType.Role.STUDENT, false, roster));
         
     }
-    
 
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
@@ -569,11 +559,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         String otherCourse = "idOfTypicalCourse2";
         assertFalse(frLogic.getFeedbackResponsesForSession("Instructor feedback session", otherCourse).isEmpty());
         assertFalse(frLogic.getFeedbackResponsesForSession("Private feedback session", otherCourse).isEmpty());
-        
-        
+
     }
-    
-    
+
     private FeedbackQuestionAttributes getQuestionFromDatastore(DataBundle dataBundle, String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName, 

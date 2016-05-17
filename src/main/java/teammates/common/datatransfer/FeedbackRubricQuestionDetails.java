@@ -774,5 +774,4 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return errors;
     }
 
-
 }

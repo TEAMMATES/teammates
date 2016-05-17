@@ -42,7 +42,6 @@ import com.google.gson.Gson;
  * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
  */
 
-
 /**
  * Annotations for Performance tests with
  *         -Name : name of the test.
@@ -56,8 +55,6 @@ import com.google.gson.Gson;
     String name() default "";
     boolean customTimer() default false;
 }
-
-
 
 public class PerformanceProfiler extends Thread {
     
@@ -76,7 +73,6 @@ public class PerformanceProfiler extends Thread {
     public PerformanceProfiler(String path) {
         reportFilePath = path;
     }
-    
 
     public void run() {
         //Data used for profiling
@@ -177,8 +173,7 @@ public class PerformanceProfiler extends Thread {
     public static void main(String[] args) throws Exception {
         (new PerformanceProfiler(defaultReportPath)).start();
     }
-    
-    
+
     /**
      * The results from file stored in filePath
      * @param filePath
@@ -221,7 +216,6 @@ public class PerformanceProfiler extends Thread {
         br.close();
         return results;
     }
-    
 
     /**
      * Write the results to the file with path filePath
@@ -337,9 +331,7 @@ public class PerformanceProfiler extends Thread {
         browser.clickAndConfirm(deleteLinkLocator);
         return System.nanoTime() - startTime;
     }
-    
 
-    
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
         browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");        
@@ -464,9 +456,7 @@ public class PerformanceProfiler extends Thread {
         }
         return status;
     }
-    
 
-    
     @PerformanceTest(name = "BD get courses by instructor")
     public String getCoursesByInstructor()
     {
@@ -507,8 +497,7 @@ public class PerformanceProfiler extends Thread {
         }
         return status;
     }
-    
-    
+
     @PerformanceTest(name = "BD create student")
     public String createStudent()
     {
@@ -538,8 +527,7 @@ public class PerformanceProfiler extends Thread {
 //        }
 //        return status;
 //    }
-    
-    
+
     @PerformanceTest(name = "BD get student")
     public String getStudent()
     {
@@ -578,9 +566,7 @@ public class PerformanceProfiler extends Thread {
         }
         return status;
     }
-    
 
-    
     @PerformanceTest(name = "BD delete student")
     public String deleteStudent()
     {
@@ -593,8 +579,7 @@ public class PerformanceProfiler extends Thread {
         }
         return status;
     }
-    
-    
+
     @PerformanceTest(name = "BD Delete Course")
     public String deleteCourse()
     {

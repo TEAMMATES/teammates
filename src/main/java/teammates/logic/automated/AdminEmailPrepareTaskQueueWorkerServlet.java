@@ -39,8 +39,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
     final int MAX_READING_LENGTH = 900000; 
-    
-    
+
     private String adminEmailTaskQueueMode;
     
     //param needed for sending small number of emails
@@ -50,12 +49,10 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private String groupReceiverListFileKey;
     private int groupReceiverListFileSize;
     private String emailId;
-    
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        
-        
+
         adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         
