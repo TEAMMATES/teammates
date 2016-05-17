@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
@@ -11,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
@@ -570,95 +568,95 @@ public class FieldValidatorTest extends BaseTestCase {
     public void test_REGEX_NAME() throws Exception {
         ______TS("success: typical name");
         String name = "Benny Charlés";
-        Assumption.assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("success: name begins with accented characters");
         name = "Ýàn-B. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("failure: name begins with non-alphanumeric character");
         name = "~Amy-Ben. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
         
         ______TS("failure: name contains invalid character");
         name = "Amy-B. s/o O'br, %|&2(~!@#$^*+_={}[]\\:;\"<>?)";
-        Assumption.assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
     }
     
     @Test
     public void test_REGEX_EMAIL() throws Exception {
         ______TS("success: typical email");
         String email = "john@email.com";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("success: minimum allowed email format");
         email = "a@e";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("success: all allowed special characters");
         email = "a!#$%&'*/=?^_`{}~@e";
-        Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid starting character");
         email = "$john@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: two consecutive dots in local part");
         email = "john..dot@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid characters in domain part");
         email = "john@e&email.com";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
         
         ______TS("failure: invalid ending character in domain part");
         email = "john@email.com3";
-        Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
     }
     
     @Test
     public void test_REGEX_COURSE_ID() throws Exception {
         ______TS("success: typical course ID");
         String courseId = "CS101";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
         
         ______TS("success: course ID with all accepted symbols");
         courseId = "CS101-B.$";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
         
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
-        Assumption.assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
     }
     
     @Test
     public void test_REGEX_SAMPLE_COURSE_ID() throws Exception {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
-        Assumption.assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
         
         ______TS("failure: non-demo course ID");
         courseId = "CS101";
-        Assumption.assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
     }
     
     @Test
     public void test_REGEX_GOOGLE_ID_NON_EMAIL() throws Exception {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
-        Assumption.assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("success: google id with all accepted characters");
         googleId = "teammates.new_instr-3";
-        Assumption.assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("failure: is email");
         googleId = "teammates.instr@email.com";
-        Assumption.assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
         
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
-        Assumption.assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
     }
     
     private void runGenericTestCasesForCappedSizeStringTypeField(

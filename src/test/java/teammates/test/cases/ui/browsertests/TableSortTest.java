@@ -71,7 +71,7 @@ public class TableSortTest extends BaseUiTestCase {
     @Test
     public void testTableSortingDate() throws Exception {
         
-        verifySortingOrder(    By.id("button_sortdate"),
+        verifySortingOrder(By.id("button_sortdate"),
                 
                 "04 May 2010",
                 "21 August 2010",

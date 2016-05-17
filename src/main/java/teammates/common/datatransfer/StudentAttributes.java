@@ -137,7 +137,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public boolean isRegistered() {
-        return googleId != null && !googleId.equals("");
+        return googleId != null && !googleId.isEmpty();
     }
 
     public String getRegistrationUrl() {

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -84,7 +80,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -127,7 +123,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -170,7 +166,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -214,7 +210,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -260,7 +256,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(2, comments.size());
+        assertEquals(2, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -306,7 +302,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -352,7 +348,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -398,7 +394,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
@@ -462,7 +458,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 iterator.remove();
             }
         }
-        Assumption.assertEquals(1, comments.size());
+        assertEquals(1, comments.size());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),

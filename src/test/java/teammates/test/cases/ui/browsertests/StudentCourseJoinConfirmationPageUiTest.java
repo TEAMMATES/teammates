@@ -2,8 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import java.lang.reflect.Constructor;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

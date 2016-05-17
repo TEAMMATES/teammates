@@ -1,10 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +28,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -235,11 +229,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
         studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt", "", courseId));
-        try {
-            studentsLogic.validateSectionsAndTeams(studentList, courseId);
-        } catch (EnrollException e) {
-            Assumption.fail("This exception is not expected: " + e.getMessage());
-        }
+        
+        studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
 

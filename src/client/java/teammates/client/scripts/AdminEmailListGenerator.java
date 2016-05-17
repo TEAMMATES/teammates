@@ -295,7 +295,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.instructorCreatedDateRangeEnd == null &&
-            emailListConfig.instructorCreatedDateRangeStart == null ) {
+            emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null &&
@@ -366,7 +366,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.studentCreatedDateRangeEnd == null &&
-            emailListConfig.studentCreatedDateRangeStart == null ) {
+            emailListConfig.studentCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.studentCreatedDateRangeStart != null &&

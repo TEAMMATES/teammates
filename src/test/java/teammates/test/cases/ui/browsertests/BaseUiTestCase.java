@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
@@ -155,7 +154,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 
@@ -182,7 +181,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -208,7 +207,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -231,7 +230,7 @@ public class BaseUiTestCase extends BaseTestCase {
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
         if (counter >= retryLimit) {
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 

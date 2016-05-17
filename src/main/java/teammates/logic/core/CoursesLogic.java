@@ -745,7 +745,7 @@ public class CoursesLogic {
             for (TeamDetailsBundle team : section.teams) {
                 for (StudentAttributes student : team.students) {
                     String studentStatus = null;
-                    if (student.googleId == null || student.googleId.equals("")) {
+                    if (student.googleId == null || student.googleId.isEmpty()) {
                         studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
                     } else {
                         studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
