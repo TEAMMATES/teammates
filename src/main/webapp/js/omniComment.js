@@ -86,16 +86,16 @@ $(document).ready(function() {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if (!$('#panel_all').prop('checked')) {
-                $('#giver_all').closest('.filter-options').hide();
-                $('#status_all').closest('.filter-options').hide();
+                $('#giver_all').closest('.col-sm-4').hide();
+                $('#status_all').closest('.col-sm-4').hide();
             } else {
-                $('#giver_all').closest('.filter-options').show();
-                $('#status_all').closest('.filter-options').show();
+                $('#giver_all').closest('.col-sm-4').show();
+                $('#status_all').closest('.col-sm-4').show();
             }
         } else {
             $('#no-comment-panel').hide();
-            $('#giver_all').closest('.filter-options').show();
-            $('#status_all').closest('.filter-options').show();
+            $('#giver_all').closest('.col-sm-4').show();
+            $('#status_all').closest('.col-sm-4').show();
         }
         
         // hide the panel accordingly based on panel_check checkbox
