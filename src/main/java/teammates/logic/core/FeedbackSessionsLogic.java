@@ -2148,8 +2148,8 @@ public class FeedbackSessionsLogic {
         }
 
         if (params.get("viewType") == null
-                || params.get("viewType").equals("giver-recipient-question")
-                || params.get("viewType").equals("recipient-giver-question")) {
+                || "giver-recipient-question".equals(params.get("viewType"))
+                || "recipient-giver-question".equals(params.get("viewType"))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
                             feedbackSessionName, section);

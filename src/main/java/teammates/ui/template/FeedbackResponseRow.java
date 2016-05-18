@@ -28,9 +28,9 @@ public class FeedbackResponseRow {
         this.questionMoreInfo = questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
                                                                               personType + "-" + personIndex
                                                                                          + "-session-" + fbIndex);
-        if (personType.equals("recipient")) {
+        if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtml(questionDetails);
-        } else if (personType.equals("giver")) {
+        } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
         this.responseComments = new ArrayList<FeedbackResponseComment>();

@@ -278,7 +278,7 @@ public class AdminActivityLogPageData extends PageData {
             values = StringHelper.trim(values);
             String label = pair[0].trim();
             
-            if (label.equals("version")) {
+            if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
@@ -286,7 +286,7 @@ public class AdminActivityLogPageData extends PageData {
                     versions.add(values[j].replace(".", "-"));
                 }
                 
-            } else if (label.equals("from")) {
+            } else if ("from".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 00:00");                
@@ -295,7 +295,7 @@ public class AdminActivityLogPageData extends PageData {
                 fromDateValue = cal.getTime().getTime();
                 isFromDateSpecifiedInQuery = true;
                                                 
-            } else if (label.equals("to")) {
+            } else if ("to".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 23:59");

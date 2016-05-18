@@ -390,11 +390,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
-            return "";
-        }
-        
-        if (responses.size() == 0) {
+        if ("student".equals(view) || responses.size() == 0) {
             return "";
         }
         

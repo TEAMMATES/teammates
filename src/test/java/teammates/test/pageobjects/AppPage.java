@@ -206,7 +206,7 @@ public abstract class AppPage {
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
-                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+                return "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"));
             }
         });
     }

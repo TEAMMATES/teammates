@@ -155,7 +155,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
+        if ("student".equals(view)) {
             return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
