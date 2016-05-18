@@ -930,9 +930,10 @@ public class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
-        public static final String COURSE_ENROLL_POSSIBLE_DATA_LOSS = "There are existing feedback responses for this course. "
-                + "Modifying records of enrolled students will result in some existing responses from those modified students to be deleted. "
-                + "You may wish to download the data before you make the changes.";
+        public static final String COURSE_ENROLL_POSSIBLE_DATA_LOSS = "There are existing feedback responses"
+                + "for this course. Modifying records of enrolled students will result in some existing "
+                + "responses from those modified students to be deleted. You may wish to download the data "
+                + "before you make the changes.";
         public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
         public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
         public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
