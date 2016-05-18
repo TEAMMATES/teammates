@@ -12,7 +12,7 @@ var CONFIRMATION_MODAL_CANCEL = "#confirmation-modal-cancel";
 var CONFIRMATION_MODAL_OK = "#confirmation-modal-ok"; 
 
 var DEFAULT_CANCEL_BUTTON_TEXT = "Cancel";
-var WARNING_DELETE_RESPONSES = "Warning: You are about to delete the existing responses for this question.";
+var WARNING_DELETE_RESPONSES = "Warning: Existing responses will be deleted by your action";
 var CONFIRMATION_BODY = "<p>Editing these fields will result in all <strong>existing responses for this question to be deleted.</strong></p>"
                         + "<p>Are you sure you want to continue?</p>"
 var CONFIRM_DELETE = "Yes, continue and delete the existing responses.";
