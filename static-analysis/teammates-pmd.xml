@@ -69,6 +69,7 @@
    <!--<rule ref="rulesets/java/design.xml/AccessorClassGeneration"/>-->
    <!--<rule ref="rulesets/java/design.xml/AssignmentToNonFinalStatic"/>-->
    <!--<rule ref="rulesets/java/design.xml/AvoidConstantsInterface"/>-->
+   <rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts"/>
    <!--<rule ref="rulesets/java/design.xml/AvoidInstanceofChecksInCatchClause"/>-->
    <!--<rule ref="rulesets/java/design.xml/AvoidProtectedFieldInFinalClass"/>-->
    <!--<rule ref="rulesets/java/design.xml/AvoidProtectedMethodInFinalClassNotExtending"/>-->
@@ -83,7 +84,7 @@
    <!--<rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>-->
    <!--<rule ref="rulesets/java/design.xml/EqualsNull"/>-->
    <!--<rule ref="rulesets/java/design.xml/FieldDeclarationsShouldBeAtStartOfClass"/>-->
-   <!--<rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>-->
+   <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
    <!--<rule ref="rulesets/java/design.xml/GodClass"/>-->
    <!--<rule ref="rulesets/java/design.xml/IdempotentOperations"/>-->
    <!--<rule ref="rulesets/java/design.xml/ImmutableField"/>-->
