@@ -536,38 +536,6 @@ public class FieldValidator {
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
-    
-    /**
-     * Checks if the given string is a non-null non-empty string no longer than
-     * the specified length {@code maxLength}.
-     * 
-     * @param fieldName
-     *            A descriptive name of the field e.g., "student name", to be
-     *            used in the return value to make the explanation more
-     *            descriptive. 
-     * @param maxLength
-     * @param value
-     *            The string to be checked.
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
-     */
-    public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
-        
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-        } else if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")) {
-            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
-        }
-        return "";
-    }
-    
 
     /**
      * Checks if the given string is a non-null non-empty string no longer than
@@ -905,11 +873,6 @@ public class FieldValidator {
 
     private boolean isTrimmed(String value) {
         return value.length() == value.trim().length();
-    }
-
-    public boolean isLegitimateRedirectUrl(String redirectUrl) {
-        // TODO do better validation
-        return redirectUrl.startsWith("/page/");
     }
     
     /**
