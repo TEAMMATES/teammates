@@ -646,11 +646,9 @@ public class FieldValidator {
         
         String mainFieldName, earlierFieldName, laterFieldName;
         
-        switch (mainFieldType) {
-        case FEEDBACK_SESSION_TIME_FRAME:
-            mainFieldName = FEEDBACK_SESSION_NAME; 
-            break;
-        default:
+        if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
+            mainFieldName = FEEDBACK_SESSION_NAME;
+        } else {
             throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
         }
         

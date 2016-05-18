@@ -170,6 +170,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 break;
+            default:
+                log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+                break;
         }
         
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
@@ -187,6 +190,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 // overwrite if private
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+                break;
+            default:
+                log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
                 break;
         }
         

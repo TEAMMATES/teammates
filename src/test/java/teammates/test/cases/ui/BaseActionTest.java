@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -147,6 +148,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             case 3:
                 typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
                 typicalCase[indexOfSessionInstructionsValue] = "";
+                break;
+            default:
+                Assumption.fail("Incorrect order");
                 break;
         }
         

@@ -115,6 +115,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
             case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 break;
+            default:
+                log.severe("Invalid resultsVisibleFrom setting editing " + newSession.getIdentificationString());
+                break;
         }
         
         // handle session visible after results visible to avoid having a
@@ -135,6 +138,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 newSession.endTime = null;
                 newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+                break;
+            default:
+                log.severe("Invalid sessionVisibleFrom setting editing " + newSession.getIdentificationString());
                 break;
         }
         
