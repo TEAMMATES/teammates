@@ -23,7 +23,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static FeedbackSubmitPage submitPage;
     private static InstructorFeedbackResultsPage instructorResultsPage;
-    private StudentFeedbackResultsPage studentResultsPage;
     private static DataBundle testData;
 
     private static String courseId;
@@ -58,7 +57,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
-        studentResultsPage = loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        StudentFeedbackResultsPage studentResultsPage = 
+                                        loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
     

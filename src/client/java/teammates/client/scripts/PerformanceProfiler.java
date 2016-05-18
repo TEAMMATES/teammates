@@ -71,7 +71,6 @@ public class PerformanceProfiler extends Thread {
     private DataBundle data;
     private Gson gson = Utils.getTeammatesGson();
     private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
-    private Browser browser;
     
     public PerformanceProfiler(String path) {
         reportFilePath = path;
@@ -94,6 +93,7 @@ public class PerformanceProfiler extends Thread {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        Browser browser;
         for (int i = 0; i < NUM_OF_RUNS; i++)
         {
             browser = BrowserPool.getBrowser();

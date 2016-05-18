@@ -25,7 +25,7 @@ public class FeedbackSession {
     @SuppressWarnings("PMD.UnusedPrivateField")
     @PrimaryKey
     @Persistent
-    private transient String feedbackSessionId;
+    private transient String feedbackSessionId; // NOPMD
     
     @Persistent
     private String feedbackSessionName;

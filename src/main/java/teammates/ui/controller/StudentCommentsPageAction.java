@@ -27,7 +27,6 @@ import teammates.logic.api.GateKeeper;
  */
 public class StudentCommentsPageAction extends Action {
     
-    private StudentCommentsPageData data;
     private String courseId;
     private String studentEmail;
     
@@ -78,7 +77,7 @@ public class StudentCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new StudentCommentsPageData(account);
+        StudentCommentsPageData data = new StudentCommentsPageData(account);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
         

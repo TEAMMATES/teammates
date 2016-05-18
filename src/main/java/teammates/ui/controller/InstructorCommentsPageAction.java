@@ -27,7 +27,6 @@ public class InstructorCommentsPageAction extends Action {
 
     public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
     
-    private InstructorCommentsPageData data;
     private String courseId;
     private String isDisplayArchivedCourseString;
     private Boolean isDisplayArchivedCourse;
@@ -53,7 +52,7 @@ public class InstructorCommentsPageAction extends Action {
         
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
-        data = new InstructorCommentsPageData(account);
+        InstructorCommentsPageData data = new InstructorCommentsPageData(account);
         
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();

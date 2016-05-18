@@ -102,8 +102,8 @@
    <rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale"/>
    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
    <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"/>
-   <!--<rule ref="rulesets/java/design.xml/SimplifyConditional"/>-->
-   <!--<rule ref="rulesets/java/design.xml/SingularField"/>-->
+   <rule ref="rulesets/java/design.xml/SimplifyConditional"/>
+   <rule ref="rulesets/java/design.xml/SingularField"/>
    <!--<rule ref="rulesets/java/design.xml/SwitchDensity"/>-->
    <!--<rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault"/>-->
    <!--<rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement"/>-->

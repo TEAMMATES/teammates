@@ -19,8 +19,6 @@ import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
 
-    private InstructorStudentListPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -65,7 +63,8 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        data = new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
+        InstructorStudentListPageData data = 
+                new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
         return response;
