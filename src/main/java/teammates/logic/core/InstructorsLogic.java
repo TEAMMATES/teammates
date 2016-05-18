@@ -161,15 +161,8 @@ public class InstructorsLogic {
     
     public boolean isNewInstructor(String googleId) {
         List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
-        
-        if (instructorList.isEmpty()) {
-            return true;
-        } else if (instructorList.size() == 1 
-                   && coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
-            return true;
-        } else {
-            return false;
-        }
+        return instructorList.isEmpty() 
+               || instructorList.size() == 1 && coursesLogic.isSampleCourse(instructorList.get(0).courseId); 
     }
     
     public void verifyInstructorExists(String instructorId)

@@ -669,12 +669,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
         
-        if (this.minScale != newNumScaleDetails.minScale 
-                || this.maxScale != newNumScaleDetails.maxScale
-                || this.step != newNumScaleDetails.step) {
-            return true;
-        }
-        return false;
+        return this.minScale != newNumScaleDetails.minScale || this.maxScale != newNumScaleDetails.maxScale
+               || this.step != newNumScaleDetails.step;
     }
 
     @Override

@@ -262,11 +262,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             return true;
         }
 
-        if (this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails())) {
-            return true;
-        }
-
-        return false;
+        return this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails());
     }
 
     @Override

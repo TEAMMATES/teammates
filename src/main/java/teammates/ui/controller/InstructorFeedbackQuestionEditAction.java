@@ -238,11 +238,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (!nEntityTypes.equals("custom")) {
-            return false;
-        }
-        
-        return true;
+        return "custom".equals(nEntityTypes);
     }
 
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {

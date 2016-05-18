@@ -160,13 +160,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         // Responses require deletion if sub-questions change
-        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+        return this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
             || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
-            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions)) {
-            return true;
-        }
-        
-        return false;
+            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
 
     @Override
