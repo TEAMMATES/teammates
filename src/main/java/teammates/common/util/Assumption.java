@@ -16,6 +16,7 @@ import teammates.common.exception.NullPostParameterException;
 public class Assumption {
 
     protected Assumption() {
+        // Intentional protected constructor to prevent instantiation.
     }
 
     /**

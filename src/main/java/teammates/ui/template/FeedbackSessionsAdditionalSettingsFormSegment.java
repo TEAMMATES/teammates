@@ -26,10 +26,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     private boolean isSendClosingEmailChecked;
     private boolean isSendOpeningEmailChecked;
     private boolean isSendPublishedEmailChecked;
-    
-    
-    public FeedbackSessionsAdditionalSettingsFormSegment() {
-    }
 
 
     public boolean isSessionVisibleDateButtonChecked() {
