@@ -96,8 +96,8 @@
    <rule ref="rulesets/java/design.xml/NonStaticInitializer"/>
    <!--<rule ref="rulesets/java/design.xml/NonThreadSafeSingleton"/>-->
    <rule ref="rulesets/java/design.xml/OptimizableToArrayCall"/>
-   <!--<rule ref="rulesets/java/design.xml/PositionLiteralsFirstInCaseInsensitiveComparisons"/>-->
-   <!--<rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons"/>-->
+   <rule ref="rulesets/java/design.xml/PositionLiteralsFirstInCaseInsensitiveComparisons"/>
+   <rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons"/>
    <rule ref="rulesets/java/design.xml/PreserveStackTrace"/>
    <!--<rule ref="rulesets/java/design.xml/ReturnEmptyArrayRatherThanNull"/>-->
    <!--<rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale"/>-->

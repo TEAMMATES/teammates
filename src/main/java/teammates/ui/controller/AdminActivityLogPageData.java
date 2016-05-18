@@ -452,28 +452,36 @@ public class AdminActivityLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception {
-            if (label.equals("request")) {
+            switch (label) {
+            case "request":
                 isRequestInQuery = true;
                 requestValues = values;
-            } else if (label.equals("response")) {
+                break;
+            case "response":
                 isResponseInQuery = true;
                 responseValues = values;
-            } else if (label.equals("person")) {
+                break;
+            case "person":
                 isPersonInQuery = true;
                 personValue = values[0];
-            } else if (label.equals("role")) {
+                break;
+            case "role":
                 isRoleInQuery = true;
                 roleValues = values;
-            } else if (label.equals("time")) {
+                break;
+            case "time":
                 isCutoffInQuery = true;
                 cutoffValue = Long.parseLong(values[0]);
-            } else if (label.equals("info")) {
+                break;
+            case "info":
                 isInfoInQuery = true;
                 infoValues = values;
-            } else if (label.equals("id")) {
+                break;
+            case "id":
                 isIdInQuery = true;
                 idValues = values;
-            } else {
+                break;
+            default:
                 throw new Exception("Invalid label");
             }
         }
