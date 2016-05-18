@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.io.IOException;
 
 import org.testng.annotations.BeforeClass;
@@ -34,7 +29,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
     
     @Test 
-    public void testGetStudentProfile() throws Exception{
+    public void testGetStudentProfile() throws Exception {
         
         ______TS("success case");
         // implicitly tested in update

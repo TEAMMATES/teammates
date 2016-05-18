@@ -17,7 +17,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     
     private static final String NO_MATCHING_INSTITUTE = "No Matching Accounts Found for Institue: %s";
     private static final int PROGRESS_STEP = 100;
-    private static int counter = 0;
+    private static int counter;
     
     
     protected static final PersistenceManager pm = JDOHelper
@@ -35,7 +35,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     protected void doOperation() {
         Query q = pm.newQuery(Account.class);
         q.declareParameters("String instituteName");
-        q.setFilter("institute == instituteName" );
+        q.setFilter("institute == instituteName");
         
         @SuppressWarnings("unchecked")
         List<Account> accountsList = (List<Account>) q.execute(fromInstitute);
@@ -46,7 +46,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
         }
               
         
-        if (accountsList.size() == 0){
+        if (accountsList.size() == 0) {
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
          
         }
@@ -55,9 +55,9 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
 
     }
     
-    private void updateProgressIndicator(int total){
+    private void updateProgressIndicator(int total) {
         counter++;
-        if (counter % PROGRESS_STEP == 0 || counter == total){
+        if (counter % PROGRESS_STEP == 0 || counter == total) {
             System.out.printf("total accounts modified %d/%d \n", counter, total);
         }
     }

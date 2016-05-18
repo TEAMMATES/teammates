@@ -21,7 +21,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
-    private InstructorAttributes instructor = null;
+    private InstructorAttributes instructor;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

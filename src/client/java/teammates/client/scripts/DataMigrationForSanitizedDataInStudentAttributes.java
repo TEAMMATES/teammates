@@ -20,8 +20,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private final boolean isPreview = true;
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private int numberOfSanitizedEmail = 0;
-    private int numberOfSanitizedGoogleId = 0;
+    private int numberOfSanitizedEmail;
+    private int numberOfSanitizedGoogleId;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
@@ -101,7 +101,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         return hasSanitizedData;
     }
 
-    private boolean isSanitizedString(String s){
+    private boolean isSanitizedString(String s) {
         if (s == null) return false;
         if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
             || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
@@ -121,10 +121,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
     
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
-        return isSanitizedString(student.comments) || isSanitizedString(student.course) || 
-               isSanitizedString(student.email) || isSanitizedString(student.googleId) || 
-               isSanitizedString(student.lastName) || isSanitizedString(student.name) || 
-               isSanitizedString(student.section) || isSanitizedString(student.team);
+        return isSanitizedString(student.comments) || isSanitizedString(student.course)
+               || isSanitizedString(student.email) || isSanitizedString(student.googleId)
+               || isSanitizedString(student.lastName) || isSanitizedString(student.name) 
+               || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
     
     private void fixSanitizationForStudent(StudentAttributes student) {

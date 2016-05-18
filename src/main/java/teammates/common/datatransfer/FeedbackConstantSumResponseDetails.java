@@ -18,7 +18,7 @@ public class FeedbackConstantSumResponseDetails extends
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
-        for (int i = 0; i < answer.length; i++){
+        for (int i = 0; i < answer.length; i++) {
             try {
                 constSumAnswer.add(Integer.parseInt(answer[i]));
             } catch (NumberFormatException e) {
@@ -45,7 +45,7 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        if (csQd.distributeToRecipients){
+        if (csQd.distributeToRecipients) {
             return getAnswerString();
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
@@ -68,7 +68,7 @@ public class FeedbackConstantSumResponseDetails extends
         StringBuilder csvBuilder = new StringBuilder();
         
         for (int i = 0; i < answers.size(); i++) {
-            if (!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
+            if (!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients) {
                 csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
@@ -79,8 +79,8 @@ public class FeedbackConstantSumResponseDetails extends
 
     private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
         this.answers = answers;
-        if (!distributeToRecipients){
-            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+        if (!distributeToRecipients) {
+            Assumption.assertEquals("ConstSum num response does not match num of options. " + answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
         }
     }
 

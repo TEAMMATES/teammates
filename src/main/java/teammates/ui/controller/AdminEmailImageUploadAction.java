@@ -16,7 +16,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailImageUploadAction extends Action {
     
-    AdminEmailComposePageData data = null;
+    AdminEmailComposePageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -28,7 +28,7 @@ public class AdminEmailImageUploadAction extends Action {
         data = new AdminEmailComposePageData(account);    
         blobInfo = extractImageKey();
         
-        if (blobInfo == null){
+        if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;            
             log.info("Image Upload Failed");
@@ -42,15 +42,13 @@ public class AdminEmailImageUploadAction extends Action {
         
       
         data.isFileUploaded = true;
-        data.fileSrcUrl = Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
-                          "?blob-key=" + 
-                          blobKey.getKeyString();
+        data.fileSrcUrl = Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE + "?blob-key="
+                + blobKey.getKeyString();
         String absoluteFileSrcUrl = Config.getAppUrl(data.fileSrcUrl).toAbsoluteString();
         
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href=" +
-                        data.fileSrcUrl + " target=blank>" +
-                        absoluteFileSrcUrl + "</a>";
+        statusToAdmin = "New Image Uploaded : " + "<a href=" 
+                + data.fileSrcUrl + " target=blank>" + absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
         return createAjaxResult(data);
@@ -74,7 +72,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
     }
 
-    private BlobInfo validateImage (BlobInfo image) {
+    private BlobInfo validateImage(BlobInfo image) {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deleteImage(image.getBlobKey());
             isError = true;

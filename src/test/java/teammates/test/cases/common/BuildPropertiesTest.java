@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Config;
@@ -12,7 +11,7 @@ public class BuildPropertiesTest extends BaseTestCase {
 
     @Test
     public void checkPresence() {
-        assertTrue(null != Config.APP_URL);
+        assertNotNull(Config.APP_URL);
         assertTrue(Config.PERSISTENCE_CHECK_DURATION >= 0);
     }
 

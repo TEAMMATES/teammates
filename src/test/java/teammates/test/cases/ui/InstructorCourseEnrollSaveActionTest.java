@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -70,7 +68,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
@@ -131,7 +129,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
@@ -168,7 +166,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
@@ -223,7 +221,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         };
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         //fail to enroll, if exceed the range
@@ -237,7 +235,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
         
         ______TS("Failure case: empty input");
@@ -251,9 +249,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -280,7 +278,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
             }
         }
         
-        assertEquals(true, result);
+        assertTrue(result);
     }
     
     private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {

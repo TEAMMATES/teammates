@@ -270,8 +270,8 @@ public class FeedbackResponseCommentsLogic {
         }
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? 
-                true : relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
+                                 || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
         
@@ -326,8 +326,9 @@ public class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion ?
-                relatedQuestion.isResponseVisibleTo(viewerType) : relatedComment.isVisibleTo(viewerType);
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion 
+                            ? relatedQuestion.isResponseVisibleTo(viewerType) 
+                            : relatedComment.isVisibleTo(viewerType);
         return isVisibleTo;
     }
     
@@ -351,7 +352,7 @@ public class FeedbackResponseCommentsLogic {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
-                                                + " is not a session for course "+ courseId + ".");
+                                                + " is not a session for course " + courseId + ".");
         }
     }
 

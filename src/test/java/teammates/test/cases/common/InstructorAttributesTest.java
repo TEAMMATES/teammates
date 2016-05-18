@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
 import static teammates.common.util.FieldValidator.*;
 
@@ -47,7 +46,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         InstructorAttributes instructorNew = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
                 instructor.role, false, instructor.displayedName, instructor1.privileges);
         
-        assertEquals(false, instructorNew.isDisplayedToStudents);
+        assertFalse(instructorNew.isDisplayedToStudents);
         
         Instructor entity = instructor2.toEntity();
         InstructorAttributes instructor3 = new InstructorAttributes(entity);
@@ -108,27 +107,27 @@ public class InstructorAttributesTest extends BaseTestCase {
         @SuppressWarnings("deprecation")
         InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         
-        assertEquals(true, i.isValid());
+        assertTrue(i.isValid());
         
         i.googleId = "invalid@google@id";
         i.name = "";
         i.email = "invalid email";
         i.courseId = "";
         
-        assertEquals("invalid value", false, i.isValid());
+        assertFalse("invalid value", i.isValid());
         String errorMessage = 
                 String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
                 + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
+                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY) + EOL
                 + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
         
-        assertEquals("invalid value", false, i.isValid());
+        assertFalse("invalid value", i.isValid());
         errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
+                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY) + EOL
                 + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));      
     }

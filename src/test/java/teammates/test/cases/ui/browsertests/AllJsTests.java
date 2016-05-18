@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
@@ -39,9 +37,9 @@ public class AllJsTests extends BaseUiTestCase {
         int totalCases = page.getTotalCases();
         int failedCases = page.getFailedCases();
         
-        print("Executed "+totalCases+" JavaScript Unit tests...");
+        print("Executed " + totalCases + " JavaScript Unit tests...");
 
-        assertTrue(failedCases == 0);
+        assertEquals(failedCases, 0);
         assertTrue(totalCases != 0);
         
         print("As expected, 0 failed tests out of " + totalCases + " tests.");

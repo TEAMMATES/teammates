@@ -40,7 +40,7 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
                 
                 AccountAttributes account = logic.getAccount(student.googleId);
                 
-                System.out.println("changed for "+account.email + " from "+account.institute + " to "+ institute);
+                System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
                 account.institute = institute;
                 logic.updateAccount(account);
             }

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -27,7 +25,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -63,9 +61,9 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT+"?error=false&" +
-                "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&"
+                + "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorCourseStudentDetailsEditPageData pageData = (InstructorCourseStudentDetailsEditPageData) r.data;
@@ -77,18 +75,18 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
         assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourse());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" +
-                        "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                        "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " +
-                        "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " +
-                        "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                        "|||/page/instructorCourseStudentDetailsEdit";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" 
+                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " 
+                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " 
+                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>" 
+                                  + "|||/page/instructorCourseStudentDetailsEdit";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

@@ -193,7 +193,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // Early return if any null fields
         if (!errors.isEmpty()) { return errors; }
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
@@ -320,7 +320,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date now = TimeHelper.now(timeZone).getTime();
         Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -329,6 +328,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return false;
         }
 
+        Date now = TimeHelper.now(timeZone).getTime();
         return visibleTime.before(now);
     }
 
@@ -356,7 +356,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     /**
      * @return {@code true} if the session has been set by the creator to be manually published.
      */
-    public boolean isManuallyPublished(){
+    public boolean isManuallyPublished() {
         return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
                || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }

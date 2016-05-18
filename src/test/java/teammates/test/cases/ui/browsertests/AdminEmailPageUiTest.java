@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +29,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{    
+    public void allTests() throws Exception {    
         testCompose();
         testSent();
         testDraft();

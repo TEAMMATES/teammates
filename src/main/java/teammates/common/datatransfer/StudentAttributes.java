@@ -61,11 +61,11 @@ public class StudentAttributes extends EntityAttributes {
     public String name;
     public String lastName;
     public String email;
-    public String course = null;
-    public String comments = null;
-    public String team = null;
-    public String section = null;
-    public String key = null;
+    public String course;
+    public String comments;
+    public String team;
+    public String section;
+    public String key;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
@@ -137,7 +137,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public boolean isRegistered() {
-        return googleId != null && !googleId.equals("");
+        return googleId != null && !googleId.isEmpty();
     }
 
     public String getRegistrationUrl() {
@@ -225,7 +225,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfoForPersonName(name);
 
         if (!error.isEmpty()) { errors.add(error); }
 
@@ -383,5 +383,25 @@ public class StudentAttributes extends EntityAttributes {
      **/
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Checks whether the edit form of student has changed the section value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if section value has changed from its original value.
+     */
+    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
+        return this.section != null && !this.section.equals(originalStudentAttribute.section);
+    }
+    
+    /**
+     * Checks whether the edit form of student has changed the team value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if team value has changed from its original value.
+     */
+    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
+        return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
 }

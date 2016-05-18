@@ -38,7 +38,6 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        FEEDBACK_QUESTION_TEXT,
         ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
         EMAIL_SEND_DATE,
@@ -61,10 +60,10 @@ public class FieldValidator {
      */
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "+
-            "An email address contains some text followed by one '@' sign followed by some more text. " +
-            "It cannot be longer than "+EMAIL_MAX_LENGTH+" characters. " +
-            "It cannot be empty and it cannot have spaces.";
+            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. " 
+            + "An email address contains some text followed by one '@' sign followed by some more text. " 
+            + "It cannot be longer than " + EMAIL_MAX_LENGTH + " characters. " 
+            + "It cannot be empty and it cannot have spaces.";
     
     public static final String EMAIL_TAKEN_MESSAGE = 
             "Trying to update to an email that is already used by: %s/%s";
@@ -76,9 +75,9 @@ public class FieldValidator {
     public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
     public static final String PERSON_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+PERSON_NAME_FIELD_NAME+" because it %s. " +
-            "The value of "+PERSON_NAME_FIELD_NAME+" should be no longer than "+
-            PERSON_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " 
+            + PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -97,17 +96,16 @@ public class FieldValidator {
     private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+EMAIL_SUBJECT_FIELD_NAME+" because it %s. " +
-                    "The value of "+EMAIL_SUBJECT_FIELD_NAME+" should be no longer than "+
-                    EMAIL_SUBJECT_MAX_LENGTH+" characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + EMAIL_SUBJECT_FIELD_NAME + " because it %s. " 
+            + "The value of " + EMAIL_SUBJECT_FIELD_NAME + " should be no longer than " 
+            + EMAIL_SUBJECT_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * ======================================================================= 
      * Field: Email Content
      */
     private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME+" should not be empty.";
-    
+    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
     
     /*
      * ======================================================================= 
@@ -116,10 +114,6 @@ public class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
-    public static final String NATIONALITY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+NATIONALITY_FIELD_NAME+" because it %s. " +
-                    "The value of "+NATIONALITY_FIELD_NAME+" should be no longer than "+
-                    NATIONALITY_MAX_LENGTH+" characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -128,9 +122,9 @@ public class FieldValidator {
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+COURSE_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+COURSE_NAME_FIELD_NAME+" should be no longer than "+
-                    COURSE_NAME_MAX_LENGTH+" characters. It should not be empty.";    
+            "\"%s\" is not acceptable to TEAMMATES as " + COURSE_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + COURSE_NAME_FIELD_NAME + " should be no longer than " 
+            + COURSE_NAME_MAX_LENGTH + " characters. It should not be empty.";    
     
     /*
      * =======================================================================
@@ -153,22 +147,22 @@ public class FieldValidator {
      */
     public static final int COURSE_ID_MAX_LENGTH = 40;
     public static final String COURSE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. "+
-                    "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
-                    "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
-                    "It cannot be empty or contain spaces.";  
+            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. " 
+            + "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " 
+            + "It cannot be longer than " + COURSE_ID_MAX_LENGTH + " characters. " 
+            + "It cannot be empty or contain spaces.";  
     /*
      * =======================================================================
      * Field instructor permission role
      */
     public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
-            "\"%s\" is not accepted to TEAMMATES as a role %s."+
-                    "Role can be one of the following: " + 
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
+            "\"%s\" is not accepted to TEAMMATES as a role %s." 
+            + "Role can be one of the following: " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", "
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " 
+            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
     
@@ -211,24 +205,9 @@ public class FieldValidator {
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty.";
-    
-    /*
-     * =======================================================================
-     * Field: Feedback question text
-     * TODO: remove if this field is not used
-     */
-    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
-    public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
-    public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty. " +
-                            "If you require more characters for your question, " +
-                            "please use the instructions box below.";
-    
+            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. "
+            + "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than " 
+            + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -236,10 +215,10 @@ public class FieldValidator {
      */    
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
-            "A Google ID must be a valid id already registered with Google. " +
-            "It cannot be longer than "+GOOGLE_ID_MAX_LENGTH+" characters. " +
-            "It cannot be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. " 
+            + "A Google ID must be a valid id already registered with Google. " 
+            + "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. " 
+            + "It cannot be empty.";
     
     /*
      * ======================================================================= 
@@ -248,9 +227,9 @@ public class FieldValidator {
     private static final String GENDER_FIELD_NAME = "gender";
     private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " +
-            "Values have to be one of: " + Const.GenderTypes.MALE + ", " +
-            Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " 
+            + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
+            + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     /*
      * =======================================================================
@@ -259,9 +238,9 @@ public class FieldValidator {
     private static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
     public static final String INSTITUTE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+INSTITUTE_NAME_FIELD_NAME+" because it %s. " +
-            "The value of "+INSTITUTE_NAME_FIELD_NAME+" should be no longer than "+
-            INSTITUTE_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + INSTITUTE_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + INSTITUTE_NAME_FIELD_NAME + " should be no longer than " 
+            + INSTITUTE_NAME_MAX_LENGTH + " characters. It should not be empty.";
 
     /*
      * =======================================================================
@@ -271,9 +250,9 @@ public class FieldValidator {
     private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" because it %s. " +
-                    "The value of "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" should be no longer than "+
-                    STUDENT_ROLE_COMMENTS_MAX_LENGTH+" characters.";
+            "\"%s\" is not acceptable to TEAMMATES as " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " because it %s. " 
+            + "The value of " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " should be no longer than " 
+            + STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
@@ -295,9 +274,9 @@ public class FieldValidator {
     private static final String TEAM_NAME_FIELD_NAME = "a team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
-                    TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + TEAM_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + TEAM_NAME_FIELD_NAME + " should be no longer than " 
+            + TEAM_NAME_MAX_LENGTH + " characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -306,9 +285,9 @@ public class FieldValidator {
     private static final String SECTION_NAME_FIELD_NAME = "a section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as "+SECTION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+SECTION_NAME_FIELD_NAME+" should be no longer than "+
-                    SECTION_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as " + SECTION_NAME_FIELD_NAME + " because it %s. " 
+            + "The value of " + SECTION_NAME_FIELD_NAME + " should be no longer than " 
+            + SECTION_NAME_MAX_LENGTH + " characters. It should not be empty.";
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
@@ -378,21 +357,21 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "The value of %s should be no longer than %d characters. " +
-            "It should not be empty.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "The value of %s should be no longer than %d characters. " 
+            + "It should not be empty.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-                    "The value of %s should be no longer than %d characters.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "The value of %s should be no longer than %d characters.";
     
     public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
-                    "Please only use alphabets, numbers and whitespace in %s.";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " 
+            + "Please only use alphabets, numbers and whitespace in %s.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " 
+            + "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";
@@ -432,32 +411,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case PERSON_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String) value);
-            break;
-        case INSTITUTE_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String) value);
-            break;
-        case NATIONALITY:
-            returnValue = getValidityInfoForAllowedName(
-                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String) value);
-            break;
-        case COURSE_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String) value);
-            break;
-        case FEEDBACK_SESSION_NAME:
-            returnValue = getValidityInfoForFeedbackSessionName(value);
-            break;
-        case FEEDBACK_QUESTION_TEXT:
-            returnValue = getValidityInfoForSizeCappedNonEmptyString(
-                    FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String) value);
-            break;
-        case GENDER:
-            returnValue = getValidityInfoForGender((String) value);
-            break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
                     STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
@@ -498,6 +451,91 @@ public class FieldValidator {
             return returnValue;
         }
     }
+
+    /**
+     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}
+     * @param gender
+     * @return An explanation of why the {@code gender} is not acceptable.
+     *         Returns an empty string if the {@code gender} is acceptable.
+     */
+    public String getInvalidityInfoForGender(String gender) {
+        Assumption.assertTrue("Non-null value expected", gender != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(gender);
+        
+        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
+            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
+     * {@code COURSE_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no unsantized
+     * HTML characters
+     * @param feedbackSessionName
+     * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
+     *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
+     */
+    public String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
+        String errorsFromAllowedNameValidation = getValidityInfoForAllowedName(
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
+
+        // return early if error already exists because session name is too long etc.
+        if (!errorsFromAllowedNameValidation.isEmpty()) {
+            return errorsFromAllowedNameValidation;
+        }
+
+        // checks for unsantized HTML characters
+        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                                            feedbackSessionName);
+        return errorsFromNonHtmlValidation;
+    }
+
+    /**
+     * Checks if {@code courseName} is a non-null non-empty string no longer than the specified length
+     * {@code COURSE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param courseName
+     * @return An explanation of why the {@code courseName} is not acceptable.
+     *         Returns an empty string if the {@code courseName} is acceptable.
+     */
+    public String getInvalidityInfoForCourseName(String courseName) {
+        return getValidityInfoForAllowedName(COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, courseName);
+    }
+
+    /**
+     * Checks if {@code nationality} is a non-null non-empty string no longer than the specified length
+     * {@code NATIONALITY_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param nationality
+     * @return An explanation of why the {@code nationality} is not acceptable.
+     *         Returns an empty string if the {@code nationality} is acceptable.
+     */
+    public String getInvalidityInfoForNationality(String nationality) {
+        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH,
+                                             nationality);
+    }
+
+    /**
+     * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
+     * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param instituteName
+     * @return An explanation of why the {@code instituteName} is not acceptable.
+     *         Returns an empty string if the {@code instituteName} is acceptable.
+     */
+    public String getInvalidityInfoForInstituteName(String instituteName) {
+         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                              instituteName);
+    }
+
+    /**
+     * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
+     * {@code PERSON_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param personName
+     * @return An explanation of why the {@code personName} is not acceptable.
+     *         Returns an empty string if the {@code personName} is acceptable.
+     */
+    public String getInvalidityInfoForPersonName(String personName) {
+        return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
+    }
     
     /**
      * Checks if the given string is a non-null non-empty string no longer than
@@ -515,16 +553,16 @@ public class FieldValidator {
      */
     public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
         
-        Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength){
+        } else if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
+        } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")) {
             return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
         }
         return "";
@@ -547,14 +585,14 @@ public class FieldValidator {
      */
     public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
         
-        Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength){
+        } else if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
@@ -577,7 +615,7 @@ public class FieldValidator {
      */
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
         
-        Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
@@ -588,10 +626,10 @@ public class FieldValidator {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
-            if (!startsWithBraces){
+            if (!startsWithBraces) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
             }
-            if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)){
+            if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
             }
             
@@ -616,21 +654,20 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        
-        Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
-        if (value.length() > maxLength){
+        if (value.length() > maxLength) {
+            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
             return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
     }
     
     public String getValidityInfoForTimeFrame(FieldType mainFieldType, FieldType earlierFieldType,
-            FieldType laterFieldType, Date earlierTime, Date laterTime){
+            FieldType laterFieldType, Date earlierTime, Date laterTime) {
         
         Assumption.assertTrue("Non-null value expected", laterFieldType != null);
         Assumption.assertTrue("Non-null value expected", earlierTime != null);
@@ -706,8 +743,8 @@ public class FieldValidator {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
         if (giverType == FeedbackParticipantType.TEAMS) {
-            if (recipientType == FeedbackParticipantType.OWN_TEAM ||
-                recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (recipientType == FeedbackParticipantType.OWN_TEAM 
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                         recipientType.toDisplayRecipientName(),
                         giverType.toDisplayGiverName()));
@@ -765,17 +802,6 @@ public class FieldValidator {
         return errors;
     }
 
-    public String getValidityInfoForFeedbackSessionName(Object value) {
-        String returnValue;
-        returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String) value);
-        if (returnValue.equals("")){
-            returnValue = getValidityInfoForNonHtmlField(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
-        }
-        return returnValue;
-    }
-    
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = value;
         sanitizedValue = sanitizedValue.replace("<", "&lt;")
@@ -798,7 +824,7 @@ public class FieldValidator {
     private String getInvalidInfoForGoogleId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        Assumption.assertTrue("\""+value+"\""+  "is not expected to be a gmail address.", 
+        Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
@@ -806,9 +832,9 @@ public class FieldValidator {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
-        } else if (value.length() > GOOGLE_ID_MAX_LENGTH){
+        } else if (value.length() > GOOGLE_ID_MAX_LENGTH) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
+        } else if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -823,9 +849,9 @@ public class FieldValidator {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
-        } else if (value.length() > COURSE_ID_MAX_LENGTH){
+        } else if (value.length() > COURSE_ID_MAX_LENGTH) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_COURSE_ID)){
+        } else if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -840,20 +866,10 @@ public class FieldValidator {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
-        } else if (value.length() > EMAIL_MAX_LENGTH){
+        } else if (value.length() > EMAIL_MAX_LENGTH) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL)){
+        } else if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForGender(String value) {
-        Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (!GENDER_ACCEPTED_VALUES.contains(value)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }
@@ -861,7 +877,6 @@ public class FieldValidator {
     private String getValidityInfoForInstructorRole(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -871,16 +886,17 @@ public class FieldValidator {
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
+            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, sanitizedValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
         }
         
         return "";
     }
     
-    private String getValidityInfoForEmailContent(Text value){
+    private String getValidityInfoForEmailContent(Text value) {
         Assumption.assertTrue("Non-null value expected", value != null);
         
-        if (value.getValue().isEmpty()){
+        if (value.getValue().isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
         

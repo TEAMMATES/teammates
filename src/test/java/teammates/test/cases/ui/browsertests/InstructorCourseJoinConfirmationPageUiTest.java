@@ -93,7 +93,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("Click join link then confirm: success: valid key");
 
-        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
+        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").getId();
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
         String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
@@ -117,7 +117,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                 
         browser.driver.get(joinLink);
         instructorHome = createNewPage(browser, InstructorHomePage.class);
-        instructorHome.verifyStatus(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+ " has already joined this course");
+        instructorHome.verifyStatus(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
     }
     
     @AfterClass

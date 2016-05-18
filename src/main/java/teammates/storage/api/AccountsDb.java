@@ -62,11 +62,11 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if (updateAccount){
-            for (EntityAttributes entity : accountsToUpdate){
+        if (updateAccount) {
+            for (EntityAttributes entity : accountsToUpdate) {
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
                     updateAccount(account, true);
@@ -189,17 +189,17 @@ public class AccountsDb extends EntitiesDb {
             return;
         }
         
-        if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
     }
     
-    public void deleteAccounts(Collection<AccountAttributes> accounts){
+    public void deleteAccounts(Collection<AccountAttributes> accounts) {
 
-        for (AccountAttributes accountToDelete : accounts){
-            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        for (AccountAttributes accountToDelete : accounts) {
+            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
         }
@@ -224,7 +224,7 @@ public class AccountsDb extends EntitiesDb {
             }
             
             return account;
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             return null;            
         } catch (JDOObjectNotFoundException je) {
             return null;

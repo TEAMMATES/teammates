@@ -242,10 +242,10 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
         
-        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
-                "<br />in the course once the results are published.";
-        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
-                "before the session closes.";
+        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" 
+                                                                     + "<br />in the course once the results are published.";
+        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " 
+                                                          + "before the session closes.";
         
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -281,12 +281,12 @@ public class Const {
         
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
+        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         
         // Numscale
-        public static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
-        public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+        public static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
+        public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         public static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         
         // Contribution
@@ -302,19 +302,19 @@ public class Const {
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
         public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS = "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT +". Minimum number of points is: ";
+        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS = "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + ". Minimum number of points is: ";
         public static final String CONST_SUM_ERROR_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of options is: ";
+        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
         public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS = "Too little sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of sub-questions is: ";
-        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for "+Const.FeedbackQuestionTypeNames.RUBRIC;
-        public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
-        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS = "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of sub-questions is: ";
+        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
+        public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
         
     }
@@ -1021,8 +1021,8 @@ public class Const {
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
-        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
-                                                        "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
+        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" 
+                                                        + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
         
         public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
                 + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
@@ -1040,8 +1040,6 @@ public class Const {
         public static final String COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
         public static final String COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
                 + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_INSTRUCTORNAME_MAX_LENGTH + " characters.";
-        public static final String COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
-        public static final String COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
         public static final String COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
         public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.";
         public static final String COURSE_STUDENTNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
@@ -1058,8 +1056,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
-        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
-                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS =
+                                   "No permission to modify any sessions in un-archived courses";
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";

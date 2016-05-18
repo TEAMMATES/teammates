@@ -26,7 +26,7 @@ public class CommentSearchDocument extends SearchDocument {
     private List<StudentAttributes> relatedStudents;
     private String commentRecipientName;
     
-    public CommentSearchDocument(CommentAttributes comment){
+    public CommentSearchDocument(CommentAttributes comment) {
         this.comment = comment;
     }
     
@@ -45,9 +45,9 @@ public class CommentSearchDocument extends SearchDocument {
         StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
         switch (comment.recipientType) {
         case PERSON:
-            for (String email:comment.recipients){
+            for (String email:comment.recipients) {
                 StudentAttributes student = logic.getStudentForEmail(comment.courseId, email);
-                if (student != null){
+                if (student != null) {
                     relatedStudents.add(student);
                     commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
                     delim = ", ";
@@ -58,9 +58,9 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case TEAM:
-            for (String team:comment.recipients){
+            for (String team:comment.recipients) {
                 List<StudentAttributes> students = logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
-                if (students != null){
+                if (students != null) {
                     relatedStudents.addAll(students);
                 }
                 commentRecipientNameBuilder.append(delim).append(team);
@@ -68,9 +68,9 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case SECTION:
-            for (String section:comment.recipients){
+            for (String section:comment.recipients) {
                 List<StudentAttributes> students = logic.getStudentsForSection(section, comment.courseId);
-                if (students != null){
+                if (students != null) {
                     relatedStudents.addAll(students);
                 }
                 commentRecipientNameBuilder.append(delim).append(section);
@@ -78,7 +78,7 @@ public class CommentSearchDocument extends SearchDocument {
             }
             break;
         case COURSE:
-            for (String course:comment.recipients){
+            for (String course:comment.recipients) {
                 commentRecipientNameBuilder.append(delim).append("All students in Course ").append(course);
                 delim = ", ";
             }
@@ -96,7 +96,7 @@ public class CommentSearchDocument extends SearchDocument {
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";
         int counter = 0;
-        for (StudentAttributes student:relatedStudents){
+        for (StudentAttributes student:relatedStudents) {
             if (counter == 50) break; //in case of exceeding size limit for document
             recipientsBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
@@ -111,7 +111,7 @@ public class CommentSearchDocument extends SearchDocument {
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course != null ? course.name : "").append(delim)
+                             .append(course != null ? course.getName() : "").append(delim)
                              .append(comment.giverEmail).append(delim)
                              .append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim)
                              .append(recipientsBuilder.toString()).append(delim)

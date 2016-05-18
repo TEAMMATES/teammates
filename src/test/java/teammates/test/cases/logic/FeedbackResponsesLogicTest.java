@@ -1,12 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +49,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testIsNameVisibleTo();
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
@@ -154,7 +147,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
             signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
-        } catch (EntityAlreadyExistsException e){
+        } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(
                     "Error trying to update recipient for response, as another response with the same recipient already exists.", 
                         e.getMessage());
@@ -218,7 +211,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
             signalFailureToDetectException("Should have detected that this response does not exist");
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
                         "Trying to update a feedback response that does not exist.", 
                         e.getMessage());
@@ -563,9 +556,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         // test that responses are deleted
         String courseId = "idOfTypicalCourse1";
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).size());
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Closed Session", courseId).size());
+        assertFalse(frLogic.getFeedbackResponsesForSession("First feedback session", courseId).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession("Closed Session", courseId).isEmpty());
         frLogic.deleteFeedbackResponsesForCourse(courseId);
         
         assertEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
@@ -574,8 +567,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         // test that responses from other courses are unaffected
         String otherCourse = "idOfTypicalCourse2";
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Instructor feedback session", otherCourse).size());
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Private feedback session", otherCourse).size());
+        assertFalse(frLogic.getFeedbackResponsesForSession("Instructor feedback session", otherCourse).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession("Private feedback session", otherCourse).isEmpty());
         
         
     }
@@ -594,7 +587,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         return getQuestionFromDatastore(typicalBundle, jsonId);
     }
     
-    private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId){
+    private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId) {
         FeedbackResponseAttributes response =
                                         dataBundle.feedbackResponses.get(jsonId);
         
@@ -607,7 +600,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 qnId, response.giverEmail, response.recipientEmail);
     }
     
-    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
+    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId) {
         return getResponseFromDatastore(typicalBundle, jsonId);
     }
     

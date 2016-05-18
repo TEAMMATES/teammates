@@ -66,7 +66,7 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox == 'yes') {
+    if (showCommentBox === 'yes') {
         $('#button_add_comment').click();
     }
 }
@@ -112,7 +112,7 @@ function hideAddCommentBox() {
 function enableEdit(commentIdx, maxComments) {
     var i = 1;
     while (i <= maxComments) {
-        if (commentIdx == i) {
+        if (commentIdx === i) {
             enableComment(i);
         } else {
             disableComment(i);
@@ -123,16 +123,16 @@ function enableEdit(commentIdx, maxComments) {
 }
 
 function enableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).hide();
-    $('#' + 'plainCommentText' + commentIdx).hide();
+    $('#commentBar-' + commentIdx).hide();
+    $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
     $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
     $('textarea[id="commentText' + commentIdx + '"]').focus();
 }
 
 function disableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).show();
-    $('#' + 'plainCommentText' + commentIdx).show();
+    $('#commentBar-' + commentIdx).show();
+    $('#plainCommentText' + commentIdx).show();
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
@@ -160,10 +160,10 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function(response, status, xhr) {
-      if (status == 'success') {
-          $(sender).removeAttr('onclick');
-      }
-      $(sender).find('div[class^="placeholder-img-loading"]').html('');
+    targetDiv.load(url, function(response, status) {
+        if (status === 'success') {
+            $(sender).removeAttr('onclick');
+        }
+        $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
 }

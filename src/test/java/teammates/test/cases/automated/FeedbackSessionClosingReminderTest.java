@@ -1,9 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,7 +72,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("typical case, 0 sessions closing soon");
         fsLogic.scheduleFeedbackSessionClosingEmails();
-        if (!FeedbackSessionClosingCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionClosingCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionClosingCallback.taskCount, 0);
         }
         
@@ -116,22 +112,22 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         verifyPresentInDatastore(session3);
         
         int counter = 0;
-        while (counter != 10){
+        while (counter != 10) {
             FeedbackSessionClosingCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             //There are only 2 sessions closing reminder to be sent
-            if (FeedbackSessionClosingCallback.verifyTaskCount(2)){
+            if (FeedbackSessionClosingCallback.verifyTaskCount(2)) {
                 break;
             }
             counter++;
         }
-        if (counter == 10){
+        if (counter == 10) {
             assertEquals(FeedbackSessionClosingCallback.taskCount, 2);
         }
     }
 
     @Test
-    public void testFeedbackSessionClosingMailAction() throws Exception{
+    public void testFeedbackSessionClosingMailAction() throws Exception {
         
         ______TS("typical case, testing mime messages");
         // Modify session to close in 24 hours.

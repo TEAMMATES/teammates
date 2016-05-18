@@ -87,9 +87,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
-                generateOptionsFor == FeedbackParticipantType.STUDENTS ||
-                generateOptionsFor == FeedbackParticipantType.TEAMS ||
-                generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
+                generateOptionsFor == FeedbackParticipantType.STUDENTS 
+                || generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
     @Override
@@ -105,9 +105,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
-        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
-            this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
-            newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
+            || this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false
+            || newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
             return true;
         }
         
@@ -303,9 +303,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices.add("");
         this.mcqChoices.add("");
         
-        return "<div id=\"mcqForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"mcqForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
 
     @Override
@@ -313,7 +313,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
                 "<br>The options for this question is automatically generated from the list of all %s in this course.", 
                 generateOptionsFor.toString().toLowerCase());
@@ -372,7 +372,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String fragments = "";
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for (String option : mcqChoices){
+        for (String option : mcqChoices) {
             answerFrequency.put(option, 0);
         }
         
@@ -388,7 +388,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -401,7 +401,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
@@ -444,7 +444,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 1);
                 } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 }
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
@@ -477,14 +477,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
+        return "<option value = \"MCQ\">" + Const.FeedbackQuestionTypeNames.MCQ + "</option>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES){
+        if (generateOptionsFor == FeedbackParticipantType.NONE 
+            && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?

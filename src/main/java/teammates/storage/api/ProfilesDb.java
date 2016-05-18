@@ -194,7 +194,7 @@ public class ProfilesDb extends EntitiesDb {
      * @param googleId
      * @return
      */
-    private StudentProfile getStudentProfileEntityForLegacyData (String googleId) {
+    private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
             // This method is not testable as loading legacy data into 

@@ -24,18 +24,18 @@ import teammates.logic.core.TeamEvalResult;
  * <br> * {@link List} of viewable responses as {@link FeedbackResponseAttributes} objects.
  */
 public class FeedbackSessionResultsBundle implements SessionResultsBundle {
-    public FeedbackSessionAttributes feedbackSession = null;
-    public List<FeedbackResponseAttributes> responses = null;
-    public Map<String, FeedbackQuestionAttributes> questions = null;
-    public Map<String, String> emailNameTable = null;
-    public Map<String, String> emailLastNameTable = null;
-    public Map<String, String> emailTeamNameTable = null;
-    public Map<String, Set<String>> rosterTeamNameMembersTable = null;
-    public Map<String, Set<String>> rosterSectionTeamNameTable = null;
-    public Map<String, boolean[]> visibilityTable = null;
-    public FeedbackSessionResponseStatus responseStatus = null;
-    public CourseRoster roster = null;
-    public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
+    public FeedbackSessionAttributes feedbackSession;
+    public List<FeedbackResponseAttributes> responses;
+    public Map<String, FeedbackQuestionAttributes> questions;
+    public Map<String, String> emailNameTable;
+    public Map<String, String> emailLastNameTable;
+    public Map<String, String> emailTeamNameTable;
+    public Map<String, Set<String>> rosterTeamNameMembersTable;
+    public Map<String, Set<String>> rosterSectionTeamNameTable;
+    public Map<String, boolean[]> visibilityTable;
+    public FeedbackSessionResponseStatus responseStatus;
+    public CourseRoster roster;
+    public Map<String, List<FeedbackResponseCommentAttributes>> responseComments;
     public boolean isComplete;
 
     protected static Logger log = Utils.getLogger();
@@ -44,7 +44,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Responses with identities of giver/recipients NOT hidden.
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
      */
-    public List<FeedbackResponseAttributes> actualResponses = null;
+    public List<FeedbackResponseAttributes> actualResponses;
 
     // For contribution questions.
     // Key is questionId, value is a map of student email to StudentResultSumary
@@ -63,7 +63,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * As sectionTeamNameTable is dependent on instructor privileges, 
      * it can only be used for instructor pages and not for student pages 
     */
-    public Map<String, Set<String>> sectionTeamNameTable = null;
+    public Map<String, Set<String>> sectionTeamNameTable;
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,
@@ -145,7 +145,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 name = getAnonName(participantType, name);
 
                 emailNameTable.put(anonEmail, name);
-                emailTeamNameTable.put(anonEmail, name+ Const.TEAM_OF_EMAIL_OWNER);
+                emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
 
                 response.recipientEmail = anonEmail;
             }
@@ -1116,10 +1116,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String questionId = null;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (recipientTeam == null ||
-                    !(getTeamNameForEmail(response.recipientEmail).equals("")
-                            ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
-                            : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
+            if (recipientTeam == null 
+                || !(getTeamNameForEmail(response.recipientEmail).isEmpty()
+                   ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
+                   : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
                  && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),
@@ -1171,7 +1171,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             if (giverTeam == null
-                    || !(getTeamNameForEmail(response.giverEmail).equals("")
+                    || !(getTeamNameForEmail(response.giverEmail).isEmpty()
                             ? getNameForEmail(response.giverEmail).equals(giverTeam)
                             : getTeamNameForEmail(response.giverEmail).equals(giverTeam))) {
                 if (questionId != null && responsesFromOneGiverOneQuestion != null
@@ -1750,9 +1750,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String t1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                       : getTeamNameForEmail(o1.giverEmail);
-            String t2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String t2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                       : getTeamNameForEmail(o2.giverEmail);
             order = t1.compareTo(t2);
             if (order != 0) {
@@ -1823,9 +1823,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                           : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                           : getTeamNameForEmail(o2.recipientEmail);
             order = t1.compareTo(t2);
             if (order != 0) {
@@ -1876,9 +1876,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                           : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                           : getTeamNameForEmail(o2.recipientEmail);
             order = t1.compareTo(t2);
             if (order != 0) {
@@ -1905,9 +1905,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                               : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                               : getTeamNameForEmail(o2.giverEmail);
             order = giverTeam1.compareTo(giverTeam2);
             if (order != 0) {
@@ -1926,9 +1926,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                                      : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                                      : getTeamNameForEmail(o2.recipientEmail);
             order = receiverTeam1.compareTo(receiverTeam2);
             if (order != 0) {
@@ -1967,9 +1967,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String t1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                       : getTeamNameForEmail(o1.giverEmail);
-            String t2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String t2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                       : getTeamNameForEmail(o2.giverEmail);
             order = t1.compareTo(t2);
             if (order != 0) {
@@ -1996,9 +1996,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                                       : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                                       : getTeamNameForEmail(o2.recipientEmail);
             order = recipientTeam1.compareTo(recipientTeam2);
             if (order != 0) {
@@ -2017,9 +2017,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                               : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                               : getTeamNameForEmail(o2.giverEmail);
             order = giverTeam1.compareTo(giverTeam2);
             if (order != 0) {
@@ -2039,9 +2039,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                                       : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                                       : getTeamNameForEmail(o2.recipientEmail);
             int order = recipientTeam1.compareTo(recipientTeam2);
             if (order != 0) {
@@ -2060,9 +2060,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                               : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                               : getTeamNameForEmail(o2.giverEmail);
             order = giverTeam1.compareTo(giverTeam2);
             if (order != 0) {
@@ -2082,9 +2082,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                               : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                               : getTeamNameForEmail(o2.giverEmail);
             int order = giverTeam1.compareTo(giverTeam2);
             if (order != 0) {
@@ -2103,9 +2103,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                                      : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                                      : getTeamNameForEmail(o2.recipientEmail);
             order = receiverTeam1.compareTo(receiverTeam2);
             if (order != 0) {
@@ -2182,9 +2182,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            String t1 = getTeamNameForEmail(o1.recipientEmail).equals("") ? getNameForEmail(o1.recipientEmail)
+            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
                                                                           : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).equals("") ? getNameForEmail(o2.recipientEmail)
+            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
                                                                           : getTeamNameForEmail(o2.recipientEmail);
             return t1.compareTo(t2);
         }
@@ -2196,9 +2196,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            String t1 = getTeamNameForEmail(o1.giverEmail).equals("") ? getNameForEmail(o1.giverEmail)
+            String t1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
                                                                       : getTeamNameForEmail(o1.giverEmail);
-            String t2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
+            String t2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
                                                                       : getTeamNameForEmail(o2.giverEmail);
             return t1.compareTo(t2);
         }

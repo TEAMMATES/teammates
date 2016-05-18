@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.lang.reflect.Constructor;
 
 import org.openqa.selenium.support.PageFactory;
@@ -66,7 +62,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception{
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
         testContent();
         //no links to check
         testCreateInstructorAction();
@@ -93,8 +89,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         
-        String instructorDetails = instructor.name + " | " + instructor.email + "\n" + 
-                                   instructor.name + " | " + instructor.email + " | " + institute;
+        String instructorDetails = instructor.name + " | " + instructor.email + "\n" 
+                                 + instructor.name + " | " + instructor.email + " | " + institute;
         
         ______TS("action fail & success: add multiple instructors");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
@@ -266,7 +262,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if (!TestProperties.inst().TEAMMATES_URL.contains("local")){
+        if (!TestProperties.inst().TEAMMATES_URL.contains("local")) {
             
             BackDoor.deleteCourse(demoCourseId);
             BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);

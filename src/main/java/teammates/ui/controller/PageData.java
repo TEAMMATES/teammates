@@ -85,11 +85,11 @@ public class PageData {
         return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
     }
     
-    public static String truncate (String untruncatedString, int truncateLength) {
+    public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
     
-    public static String displayDateTime (Date date) {
+    public static String displayDateTime(Date date) {
         return TimeHelper.formatTime12H(date);
     }
     
@@ -125,13 +125,13 @@ public class PageData {
         } else if (points > 100) {
             delta = points - 100;
             if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
-                        "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
+                        + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
             if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
-                        "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
+                        + delta + "%</span>";
         } else {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
@@ -145,7 +145,7 @@ public class PageData {
         if (!enabled) {
             return "<span style=\"font-style: italic;\">Disabled</span>";
         }
-        if (str == null || str.equals("")) {
+        if (str == null || str.isEmpty()) {
             return "N/A";
         }
         return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", 
@@ -245,8 +245,8 @@ public class PageData {
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 1; i <= 24; i++) {
-            result.add("<option value=\"" + i + "\"" +
-                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
+            result.add("<option value=\"" + i + "\"" 
+                       + (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
         }
         return result;
@@ -779,7 +779,7 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
         StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++){
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
             if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
@@ -908,9 +908,9 @@ public class PageData {
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
-            return "" + (int) num;
+            return Integer.toString((int) num);
         } else {
-            return "" + num;
+            return Double.toString(num);
         }
     }
     

@@ -39,7 +39,7 @@ public class ImportData {
     private static String jsonString;
     
     public static void main(String args[]) throws Exception {
-        jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
+        jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
         String status = "";
@@ -51,9 +51,9 @@ public class ImportData {
                 status = persist(data.accounts); // Accounts
             } else if (!data.instructors.isEmpty()) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()){    //Courses
+            } else if (!data.courses.isEmpty()) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()){    //Students
+            } else if (!data.students.isEmpty()) {    //Students
                 status = persist(data.students);
             } else {    
                 // No more data, break the loop
@@ -64,7 +64,7 @@ public class ImportData {
 
             // Get elapsed time in seconds of the current request
             float elapsedTimeSec = elapsedTimeMillis / 1000F;
-            System.out.print(status + " in "+elapsedTimeSec +" s\n");
+            System.out.print(status + " in " + elapsedTimeSec + " s\n");
 
         } while (true);
         
@@ -121,7 +121,7 @@ public class ImportData {
             if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
                 break;
         }
-        System.out.print(count+ " entities of type "+ type + " left " + map.size() +" \n" );
+        System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         
         String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
         

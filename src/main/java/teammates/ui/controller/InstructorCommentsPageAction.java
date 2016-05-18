@@ -76,9 +76,9 @@ public class InstructorCommentsPageAction extends Action {
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
         
-        statusToAdmin = "instructorComments Page Load<br>" + 
-                "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
-                "for Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "instructorComments Page Load<br>" 
+                      + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " 
+                      + "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
                   giverEmailToCommentsMap, giverEmailToCanModifyCommentListMap, roster, 
@@ -89,10 +89,10 @@ public class InstructorCommentsPageAction extends Action {
 
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
-        if (!isViewingDraft) {//view by Course
+        if (!isViewingDraft) { //view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
-        } else {//view by Draft
+        } else { //view by Draft
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
         }
@@ -118,15 +118,15 @@ public class InstructorCommentsPageAction extends Action {
             CourseAttributes course = courses.get(i);
             if (isDisplayArchivedCourse 
              || !isCourseArchived(course, account.googleId) 
-             || course.id.equals(courseId)) {
+             || course.getId().equals(courseId)) {
                 if (courseId.isEmpty()) {
-                    courseId = course.id;
+                    courseId = course.getId();
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }
-                coursePaginationList.add(course.id);
+                coursePaginationList.add(course.getId());
             }
-            if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+            if (course.getId().equals(courseId)) {
+                courseName = course.getId() + " : " + course.getName();
             }
         }
         return courseName;
@@ -134,9 +134,9 @@ public class InstructorCommentsPageAction extends Action {
 
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap() throws EntityDoesNotExistException {
         List<CommentAttributes> comments;
-        if (isViewingDraft) {//for comment drafts
+        if (isViewingDraft) { //for comment drafts
             comments = logic.getCommentDrafts(account.email);
-        } else {//for normal comments
+        } else { //for normal comments
             comments = logic.getCommentsForInstructor(instructor);
         }
 
@@ -144,8 +144,9 @@ public class InstructorCommentsPageAction extends Action {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver ? 
-                         InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
+            String key = isCurrentInstructorGiver 
+                       ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST 
+                       : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
@@ -195,7 +196,7 @@ public class InstructorCommentsPageAction extends Action {
     }
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {
-        return Logic.isCourseArchived(course.id, googleId);
+        return Logic.isCourseArchived(course.getId(), googleId);
     }
     
     private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {

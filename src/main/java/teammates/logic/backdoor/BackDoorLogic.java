@@ -61,7 +61,7 @@ public class BackDoorLogic extends Logic {
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     public String putDocumentsForStudents(DataBundle dataBundle) {
-        for (StudentAttributes student : dataBundle.students.values()){
+        for (StudentAttributes student : dataBundle.students.values()) {
             student = getStudentForEmail(student.course, student.email);
             putDocument(student);
             ThreadHelper.waitFor(50);
@@ -108,7 +108,7 @@ public class BackDoorLogic extends Logic {
 
             validateInstructorPrivileges(instructor);
 
-            if (instructor.googleId != null && !instructor.googleId.equals("")) {
+            if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -124,7 +124,7 @@ public class BackDoorLogic extends Logic {
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
             student.section = (student.section == null) ? "None" : student.section;
-            if (student.googleId != null && !student.googleId.equals("")) {
+            if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -138,7 +138,7 @@ public class BackDoorLogic extends Logic {
         
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()){
+        for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
@@ -146,7 +146,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         
-        for (FeedbackQuestionAttributes question : questionList){
+        for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
         }
         fqDb.createFeedbackQuestions(questionList);
@@ -454,10 +454,10 @@ public class BackDoorLogic extends Logic {
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         try {
-            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         } catch (EntityDoesNotExistException e) {
-            coursesLogic.createCourse(course.id, course.name);
-            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+            coursesLogic.createCourse(course.getId(), course.getName());
+            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         }
     }
 
@@ -479,10 +479,10 @@ public class BackDoorLogic extends Logic {
 
     private void deleteCourses(Collection<CourseAttributes> courses) {  
         List<String> courseIds = new ArrayList<String>();
-        for (CourseAttributes course : courses){
-            courseIds.add(course.id);
+        for (CourseAttributes course : courses) {
+            courseIds.add(course.getId());
         }
-        if (!courseIds.isEmpty()){
+        if (!courseIds.isEmpty()) {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
@@ -502,9 +502,9 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes a : dataBundle.accounts.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
                 retreived = this.getAccount(a.googleId);
-                if (retreived == null){
+                if (retreived == null) {
                     break;
                 } else {
                     retryCount++;
@@ -512,16 +512,16 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ a.toString());
+                log.warning("Object did not get deleted in time \n" + a.toString());
             }
         }
         
         for (CourseAttributes c : dataBundle.courses.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
-                retreived = this.getCourse(c.id);
-                if (retreived == null){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
+                retreived = this.getCourse(c.getId());
+                if (retreived == null) {
                     break;
                 } else {
                     retryCount++;
@@ -529,7 +529,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ c.toString());
+                log.warning("Object did not get deleted in time \n" + c.toString());
             }
         }
         
@@ -537,9 +537,9 @@ public class BackDoorLogic extends Logic {
         for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
-                if (retreived == null){
+                if (retreived == null) {
                     break;
                 } else {
                     retryCount++;
@@ -548,7 +548,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ f.toString());
+                log.warning("Object did not get deleted in time \n" + f.toString());
             }
         }
         
@@ -558,9 +558,9 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes s : dataBundle.students.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
                 retreived = this.getStudentForEmail(s.course, s.email);
-                if (retreived == null){
+                if (retreived == null) {
                     break;
                 } else {
                     retryCount++;
@@ -568,16 +568,16 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ s.toString());
+                log.warning("Object did not get deleted in time \n" + s.toString());
             }
         }
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {
             Object retreived = null;
             int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
-                if (retreived == null){
+                if (retreived == null) {
                     break;
                 } else {
                     retryCount++;
@@ -585,7 +585,7 @@ public class BackDoorLogic extends Logic {
                 }
             }
             if (retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ i.toString());
+                log.warning("Object did not get deleted in time \n" + i.toString());
             }
         }
     }

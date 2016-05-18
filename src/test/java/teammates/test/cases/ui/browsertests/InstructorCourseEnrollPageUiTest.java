@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.net.MalformedURLException;
 
 import org.testng.annotations.AfterClass;
@@ -42,7 +40,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testInstructorCourseEnrollPage() throws Exception{
+    public void testInstructorCourseEnrollPage() throws Exception {
         testContent();
         testSampleLink();
         testEnrollAction();
@@ -54,7 +52,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
         .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
@@ -79,7 +77,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         try {
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForWindows);
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForUnix);
         }
     }
@@ -89,13 +87,13 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
          * enroll result page is slightly different for the two cases.
          */
         
-        String courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
+        String courseId = testData.courses.get("CCEnrollUiT.CS2104").getId();
 
         ______TS("enroll action: existent course, enroll lines with section field");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
@@ -135,7 +133,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         
@@ -165,7 +163,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
@@ -193,7 +191,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         

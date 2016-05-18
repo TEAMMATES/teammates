@@ -48,8 +48,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             try {
                 int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                 int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions &&
-                        subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
+                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions 
+                    && subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
                     setAnswer(subQuestionIndex, subQuestionChoice);
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {
@@ -83,14 +83,14 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>" + 
-                        Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
-                        "</i></span>";
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
+                chosenChoice = "<span class=\"color_neutral\"><i>" 
+                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE 
+                             + "</i></span>";
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>";
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice
-                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex+1) + ")</i></span><br>";
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
+                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1) + ")</i></span><br>";
             }
             
         }

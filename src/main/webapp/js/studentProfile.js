@@ -1,13 +1,13 @@
 $(function() {
     $('.form-control').on('click', function() {
-        if ($(this).val() == $(this).attr('data-actual-value')) {
+        if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
     });
     
     $(window).load(function() {
         $('#studentPhoto').change(function() {
-            if ($(this).val() === "") {
+            if ($(this).val() === '') {
                 $('#profileUploadPictureSubmit').prop('disabled', true);
                 $('.filename-preview').val('No File Selected');
             } else {
@@ -23,16 +23,16 @@ $(function() {
             });
             picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
-                 picture.guillotine('rotateLeft');
+                picture.guillotine('rotateLeft');
             });
             $('#profilePicEditZoomIn').click(function() {
-                 picture.guillotine('zoomIn');
+                picture.guillotine('zoomIn');
             });
             $('#profilePicEditZoomOut').click(function() {
-                 picture.guillotine('zoomOut');
+                picture.guillotine('zoomOut');
             });
             $('#profilePicEditRotateRight').click(function() {
-                 picture.guillotine('rotateRight');
+                picture.guillotine('rotateRight');
             });
 
             // Panning handlers based on approach outlined here
@@ -60,7 +60,7 @@ $(function() {
             /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
-            if ($('#profilePic').attr('data-edit') == "true") {
+            if ($('#profilePic').attr('data-edit') === 'true') {
                 $('#studentPhotoUploader').modal({
                     show: true
                 });
@@ -69,7 +69,7 @@ $(function() {
     });
 });
 
-function finaliseEditPictureForm(event) {
+function finaliseEditPictureForm() {
     var picture = $('#editableProfilePicture');
     var transformData = picture.guillotine('getData');
     var scaledWidth = picture.prop('naturalWidth') * transformData.scale;
@@ -85,14 +85,14 @@ function finaliseEditPictureForm(event) {
     $('#profilePictureEditForm').submit();
 }
 
-function finaliseUploadPictureForm(event) {
-    if ($('#studentPhoto').val() === "") {
+function finaliseUploadPictureForm() {
+    if ($('#studentPhoto').val() === '') {
         return;
     }
 
     initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
-        url: "/page/studentProfileCreateFormUrl?user=" + $("input[name='user']").val(),
+        url: '/page/studentProfileCreateFormUrl?user=' + $("input[name='user']").val(),
         beforeSend: function() {
             $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },

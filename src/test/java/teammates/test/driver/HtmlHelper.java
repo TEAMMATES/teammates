@@ -1,6 +1,6 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -295,7 +295,7 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
-    private static boolean isVoidElement(String elementName){
+    private static boolean isVoidElement(String elementName) {
         return elementName.equals("br")
                 || elementName.equals("hr")
                 || elementName.equals("img")
@@ -366,7 +366,7 @@ public class HtmlHelper {
                       .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.BLOB_KEY + "=" + REGEX_BLOB_KEY,
                                   Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
+                                  + "\\?" + Const.ParamsNames.BLOB_KEY + "=\\${blobkey}")
                       .replaceAll("( type=\"hidden\"|"
                                   + " name=\"" + Const.ParamsNames.BLOB_KEY + "\"|"
                                   + " id=\"blobKey\"|"

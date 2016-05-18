@@ -12,17 +12,17 @@ function linkAjaxForCourseStats() {
                 ajaxCols.html('<img class="course-stats-loader" src="/images/ajax-loader.gif"/>');
             },
             error: function() {
-                for (var i in ajaxCols) {
+                $.each(ajaxCols, function(i, ajaxCol) {
                     var tryAgainLink = hyperlinkObject.clone();
-                    $(ajaxCols[i]).html('Failed. ')
+                    $(ajaxCol).html('Failed. ')
                         .append(tryAgainLink);
                     tryAgainLink
                         .attr('data-toggle', 'tooltip')
                         .attr('data-placement', 'top')
                         .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
                         .html('Try again?')
-                        .click(courseStatsClickHandler);    
-                }
+                        .click(courseStatsClickHandler);
+                });
             },
             success: function(data) {
                 $(ajaxCols[0]).text(data.courseDetails.stats.sectionsTotal);

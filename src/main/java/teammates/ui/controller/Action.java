@@ -35,7 +35,7 @@ public abstract class Action {
     protected Logic logic;
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
-    public String regkey = null;
+    public String regkey;
     
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
@@ -44,7 +44,7 @@ public abstract class Action {
     public AccountAttributes account;
     
     /** This is the unregistered and not loggedin student's attributes. */
-    public StudentAttributes student = null;
+    public StudentAttributes student;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -61,7 +61,7 @@ public abstract class Action {
     /** Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s)
      **/
-    protected boolean isError = false;
+    protected boolean isError;
     
     /** Session that contains status message information */
     protected HttpSession session;
@@ -258,9 +258,9 @@ public abstract class Action {
                 account.googleId = paramRequestedUserId;
             }
         } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id +
-                      " is trying to masquerade as " + paramRequestedUserId +
-                      " without admin permission.");
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                    + " is trying to masquerade as " + paramRequestedUserId
+                    + " without admin permission.");
         }
         
         return account;
@@ -275,25 +275,25 @@ public abstract class Action {
 
     private boolean isPageNotCourseJoinRelated() {
         String currentURI = request.getRequestURI();
-        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) 
+               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) 
+               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
     }
 
     private boolean isHomePage() {
         String currentURI = request.getRequestURI();
-        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) ||
-               currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) 
+               || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
-        return student != null &&
-               !student.isRegistered();
+        return student != null && !student.isRegistered();
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {
-        boolean userNeedsRegistrationForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI()) &&
-                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userNeedsRegistrationForPage = 
+                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI()) 
+                && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotRegistered = user.createdAt == null;
         return userNeedsRegistrationForPage && userIsNotRegistered;
     }
@@ -357,7 +357,7 @@ public abstract class Action {
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
             }
         }
-        response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
+        response.responseParams.put(Const.ParamsNames.ERROR, Boolean.toString(response.isError));
         
         // Pass status message using session to prevent XSS attack
         if (!response.getStatusMessage().isEmpty()) {
@@ -538,9 +538,9 @@ public abstract class Action {
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
-        return loggedInUser != null && requestedUserId != null &&
-               !requestedUserId.trim().equals("null") &&
-               !loggedInUser.googleId.equals(requestedUserId);
+        return loggedInUser != null && requestedUserId != null 
+               && !requestedUserId.trim().equals("null")
+               && !loggedInUser.googleId.equals(requestedUserId);
     }
     
     // ===================== Utility methods used by some child classes========

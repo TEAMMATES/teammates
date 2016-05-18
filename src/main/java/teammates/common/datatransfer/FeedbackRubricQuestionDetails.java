@@ -153,16 +153,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // TODO: need to check for exact match.
         
         // Responses require deletion if choices change
-        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices ||
-            this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false ||
-            newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
+        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
+            || this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false
+            || newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
-        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions ||
-            this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false ||
-            newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
+        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+            || this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false
+            || newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
             return true;
         }
         
@@ -391,9 +391,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setDescription(1, 2, "Occasionally misses deadlines.");
         setDescription(1, 3, "Tasks are always completed before the deadline.");
         
-        return "<div id=\"rubricForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"rubricForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
     
     private void initializeRubricDescriptions() {
@@ -428,7 +428,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             subQuestionListHtml.append("<p>");
             for (int i = 0; i < numOfRubricSubQuestions; i++) {
                 String subQuestionFragment = 
-                        StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
+                        StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
                 subQuestionListHtml.append(subQuestionFragment);
                 subQuestionListHtml.append("<br>");
             }
@@ -489,14 +489,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
-                                                                   + " (" + responseFrequency[j][i] +")");
+                                                                   + " (" + responseFrequency[j][i] + ")");
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
             
             // Get entire row
             String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
-                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -616,7 +616,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()){
+        if (responses.isEmpty()) {
             return "";
         }
 
@@ -662,7 +662,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     public String getCsvDetailedResponsesHeader() {
         return    "Team" + "," + "Giver's Full Name" + "," 
-                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Giver's Last Name" + "," + "Giver's Email" + ","  
                 + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
                 + "Sub Question" + "," + this.getCsvHeader() + ","
@@ -690,12 +690,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < frd.answer.size(); i++) {
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "", chosenChoiceValue = "";
-            String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i+1);
+            String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
             
             if (chosenIndex == -1) {
                 chosenChoiceValue = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
             } else {
-                chosenChoiceNumber = Integer.toString(chosenIndex+1);
+                chosenChoiceNumber = Integer.toString(chosenIndex + 1);
                 chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
@@ -718,7 +718,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"RUBRIC\">"+Const.FeedbackQuestionTypeNames.RUBRIC+"</option>";
+        return "<option value = \"RUBRIC\">" + Const.FeedbackQuestionTypeNames.RUBRIC + "</option>";
     }
 
     /**

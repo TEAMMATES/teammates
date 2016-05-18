@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -173,7 +167,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     }
     
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         // TODO: possibly remove some of the test cases below in the future
         
@@ -229,7 +223,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.addFeedbackSession(
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
         
         
@@ -269,7 +263,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 null, null, null, null,
                 null, -1, newSession.timeZone);
         
-        savedSession = BackDoor.getFeedbackSession( newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         newSession.startTime = savedSession.startTime;
         
         assertEquals(newSession.toString(), savedSession.toString());
@@ -397,7 +391,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime,
                 newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
@@ -441,7 +435,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCopyFromAction() throws Exception{
+    public void testCopyFromAction() throws Exception {
         
         ______TS("Success case: copy successfully a previous session");
         feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.courseId);
@@ -553,7 +547,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         String courseId = newSession.courseId;
         String sessionName = "Long Instruction Test ##";
@@ -569,7 +563,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testRemindActions(){
+    public void testRemindActions() {
         //TODO implement this        
     }
     
@@ -595,11 +589,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
         
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
-        assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
         feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackPublishSuccessful.html");
         
         
@@ -633,11 +627,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
         
         feedbackPage.clickAndCancel(feedbackPage.getUnpublishLink(courseId, sessionName));
-        assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
         feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackUnpublishSuccessful.html");
         
         
@@ -654,7 +648,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
     
-    public void testJScripts() throws ParseException{
+    public void testJScripts() throws ParseException {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testDefaultTimeZone();
         testSessionViewableTable();
@@ -789,7 +783,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(feedbackPage.getClientTimeZone(), feedbackPage.getTimeZone());
     }
     
-    public void testResponseRateLink(){
+    public void testResponseRateLink() {
         ______TS("test response rate link clickable");
         
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
@@ -956,7 +950,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
@@ -975,7 +969,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod, -2.0 );
+                newSession.instructions, newSession.gracePeriod, -2.0);
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
@@ -995,7 +989,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions,
-                newSession.gracePeriod );
+                newSession.gracePeriod);
         assertEquals(String.format(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                         "",

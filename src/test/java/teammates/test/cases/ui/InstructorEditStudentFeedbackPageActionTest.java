@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,17 +50,17 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
         ShowPageResult showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
-                "?error=false" +
-                "&user=" + idOfInstructor,
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
+                + "?error=false" 
+                + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
-                "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
-                "Moderating feedback session for student (" + student.email + ")<br>" +
-                "Session Name: First feedback session<br>Course ID: IESFPTCourse|||" +
-                "/page/instructorEditStudentFeedbackPage",
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" 
+                + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" 
+                + "Moderating feedback session for student (" + student.email + ")<br>" 
+                + "Session Name: First feedback session<br>Course ID: IESFPTCourse|||" 
+                + "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
         ______TS("success: another feedback");
@@ -96,9 +93,9 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         editPageAction = getAction(submissionParams);
         showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
-                "?error=false" +
-                "&user="+ idOfInstructor,
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
+                + "?error=false" 
+                + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         
@@ -121,7 +118,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
-                + "&user="+ idOfInstructor, 
+                + "&user=" + idOfInstructor, 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -150,8 +147,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
             editPageAction = getAction(submissionParams);
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                    instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+                    + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]", e.getMessage());
         }
         
         gaeSimulation.loginAsInstructor(idOfInstructor);

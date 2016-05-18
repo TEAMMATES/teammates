@@ -306,19 +306,19 @@ public class FeedbackSession {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Set<String> getRespondingInstructorList(){
+    public Set<String> getRespondingInstructorList() {
         return this.respondingInstructorList;
     }
 
-    public void setRespondingInstructorList(Set<String> instructorList){
+    public void setRespondingInstructorList(Set<String> instructorList) {
         this.respondingInstructorList = instructorList;
     }
 
-    public Set<String> getRespondingStudentList(){
+    public Set<String> getRespondingStudentList() {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList){
+    public void setRespodingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 
@@ -336,7 +336,7 @@ public class FeedbackSession {
                 + ", sentPublishedEmail=" + sentPublishedEmail 
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
 }

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNull;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
