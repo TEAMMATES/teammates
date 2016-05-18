@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * category of constants.
  */
 
-public class Const {
+public final class Const {
     
     public static class SystemParams {
 
@@ -104,6 +104,10 @@ public class Const {
         );
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+        
+        private SystemParams() {
+            // utility class
+        }
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -1220,5 +1224,8 @@ public class Const {
     public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-    
+
+    private Const() {
+        // Utility class containing constants
+    }
 }

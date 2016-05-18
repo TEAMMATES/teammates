@@ -27,7 +27,7 @@ import teammates.test.driver.TestProperties;
  * 
  */
 
-public class DataGenerator {
+public final class DataGenerator {
     // Name of the result file, please do not override existing file
     public static final String FILE_NAME = "ResultFileName.json";
     // Prefix used in all entities
@@ -61,6 +61,10 @@ public class DataGenerator {
     public static ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
     
     public static Random random = new Random();
+    
+    private DataGenerator() {
+        // script, not meant to be instantiated
+    }
 
     public static void main(String[] args) throws IOException {
         String data = generateData();

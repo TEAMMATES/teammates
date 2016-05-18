@@ -20,6 +20,10 @@ public class GoogleCloudStorageHelper {
     private static GcsService gcsService;
     private static Logic logic = new Logic();
 
+    private GoogleCloudStorageHelper() {
+        // utility class
+    }
+    
     public static String writeFileToGcs(String googleId, String filename, String suffix) throws IOException {
         byte[] image = FileHelper.readFile(filename).getBytes();
         

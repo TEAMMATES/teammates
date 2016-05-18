@@ -113,8 +113,8 @@
    <rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter"/>
    <!--<rule ref="rulesets/java/design.xml/UseCollectionIsEmpty"/>-->
    <rule ref="rulesets/java/design.xml/UseLocaleWithCaseConversions"/>
-   <!--<rule ref="rulesets/java/design.xml/UseNotifyAllInsteadOfNotify"/>-->
-   <!--<rule ref="rulesets/java/design.xml/UseUtilityClass"/>-->
+   <rule ref="rulesets/java/design.xml/UseNotifyAllInsteadOfNotify"/>
+   <rule ref="rulesets/java/design.xml/UseUtilityClass"/>
    <!--<rule ref="rulesets/java/design.xml/UseVarargs"/>-->
    <!--<rule ref="rulesets/java/basic.xml/EmptyCatchBlock"/>-->
    <rule ref="rulesets/java/empty.xml/EmptyFinallyBlock"/>

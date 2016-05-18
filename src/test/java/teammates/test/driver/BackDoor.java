@@ -43,7 +43,11 @@ import com.google.gson.reflect.TypeToken;
  * application.
  * 
  */
-public class BackDoor {
+public final class BackDoor {
+    
+    private BackDoor() {
+        //utility class
+    }
 
     private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
 
