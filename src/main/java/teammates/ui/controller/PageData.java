@@ -1026,8 +1026,7 @@ public class PageData {
             }
             i++;
         }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
+        return namesStringBuilder.toString();
     }
     
     @SuppressWarnings("unused")

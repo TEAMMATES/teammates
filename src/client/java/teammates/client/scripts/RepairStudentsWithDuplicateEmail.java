@@ -108,13 +108,12 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         return studentDataList;
     }
 
+    @SuppressWarnings("unchecked")
     private List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = pm.newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
 
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
 }

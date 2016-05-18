@@ -191,8 +191,7 @@ public class InstructorCommentsPageAction extends Action {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
-        return fsList;
+        return logic.getFeedbackSessionsForCourse(courseId);
     }
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {

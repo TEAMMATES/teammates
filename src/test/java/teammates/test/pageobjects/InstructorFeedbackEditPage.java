@@ -189,8 +189,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {

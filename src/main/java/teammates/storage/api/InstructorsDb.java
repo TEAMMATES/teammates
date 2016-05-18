@@ -534,6 +534,7 @@ public class InstructorsDb extends EntitiesDb {
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
         if (!omitArchived) {
@@ -544,9 +545,7 @@ public class InstructorsDb extends EntitiesDb {
             // Omit archived == true, get instructors with isArchived != true
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
-            @SuppressWarnings("unchecked")
-            List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-            return instructorList;
+            return (List<Instructor>) q.execute(googleId, omitArchived);
         }
     }
     

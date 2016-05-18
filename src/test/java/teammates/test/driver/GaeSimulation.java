@@ -186,8 +186,7 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 

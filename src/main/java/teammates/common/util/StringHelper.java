@@ -275,8 +275,7 @@ public class StringHelper {
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
         
-        String[] splitNames = {firstName, lastName, processedfullName};       
-        return splitNames;
+        return new String[] {firstName, lastName, processedfullName}; 
     }
     
     

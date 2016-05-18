@@ -494,8 +494,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             csvBody += Const.EOL;
         }
         
-        String csv = csvHeader + csvBody;
-        return csv;
+        return csvHeader + csvBody;
     }
     
     private boolean showAverageExcludingSelf(

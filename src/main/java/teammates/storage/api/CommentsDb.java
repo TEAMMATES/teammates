@@ -71,8 +71,7 @@ public class CommentsDb extends EntitiesDb {
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
         } else {
-            CommentAttributes createdComment = new CommentAttributes(createdEntity);
-            return createdComment;
+            return new CommentAttributes(createdEntity);
         }
     }
     

@@ -103,8 +103,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
     /**

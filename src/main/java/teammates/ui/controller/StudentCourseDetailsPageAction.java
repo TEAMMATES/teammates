@@ -33,9 +33,7 @@ public class StudentCourseDetailsPageAction extends Action {
                         + "Viewing team details for <span class=\"bold\">[" + courseId + "] " 
                         + data.getStudentCourseDetailsPanel().getCourseName() + "</span>";
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
-        return response;
-
+        return createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
     }
 
 }

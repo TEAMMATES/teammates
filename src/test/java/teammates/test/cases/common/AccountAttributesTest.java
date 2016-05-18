@@ -131,8 +131,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
@@ -143,8 +142,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String email = "valid@email.com";
         String institute = "valid institute name";
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute);
     }
     
     private AccountAttributes createAccountAttributesToSanitize() {

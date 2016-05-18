@@ -487,63 +487,55 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPM().flush();
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(FeedbackSession.class);
         q.setFilter(":p.contains(courseId)");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> feedbackSessionList = (List<FeedbackSession>) q.execute(courseIds);
-        return feedbackSessionList;
+        return (List<FeedbackSession>) q.execute(courseIds);
     }
     
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        
+    @SuppressWarnings("unchecked")
+    private List<FeedbackSession> getAllFeedbackSessionEntities() {        
         Query q = getPM().newQuery(FeedbackSession.class);
 
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute();
-
-        return fsList;
+        return (List<FeedbackSession>) q.execute();
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {        
         Query q = getPM().newQuery(FeedbackSession.class);
         q.declareParameters("Enum private");
         q.setFilter("feedbackSessionType != private");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(FeedbackSessionType.PRIVATE);
-        return fsList;
+        return (List<FeedbackSession>) q.execute(FeedbackSessionType.PRIVATE);
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {        
         Query q = getPM().newQuery(FeedbackSession.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(courseId);
-        return fsList;
+        return (List<FeedbackSession>) q.execute(courseId);
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
         Query q = getPM().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, Enum notTypeParam");
         q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
-        return fsList;
+        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
     }    
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {        
         Query q = getPM().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, Enum notTypeParam");
         q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
-        return fsList;
+        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
     }
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {

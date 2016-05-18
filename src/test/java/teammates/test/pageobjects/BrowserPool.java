@@ -37,8 +37,7 @@ public class BrowserPool {
      * @return a Browser object ready to be used.
      */
     public static Browser getBrowser() {
-        Browser b = getInstance().requestInstance(false);
-        return b;
+        return getInstance().requestInstance(false);
     }
     
     /**
@@ -49,8 +48,7 @@ public class BrowserPool {
      *  time waiting for a free browser.
      */
     public static Browser getBrowser(boolean sequentialUiTest) {
-        Browser b = getInstance().requestInstance(sequentialUiTest);
-        return b;
+        return getInstance().requestInstance(sequentialUiTest);
     }
 
 

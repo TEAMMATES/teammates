@@ -114,8 +114,7 @@ public class DataGenerator {
         System.out.println("Done generating data!");
         
         //Create output string
-        String data = output();
-        return data;
+        return output();
     }
     
     /**

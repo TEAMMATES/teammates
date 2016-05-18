@@ -84,7 +84,6 @@ public class InstructorCoursesPageAction extends Action {
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }  
 }
