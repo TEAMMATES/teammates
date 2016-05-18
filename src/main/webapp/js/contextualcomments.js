@@ -72,12 +72,12 @@ $(document).ready(function() {
         var target = $(e.target);
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            target.closest('tr').find('input[class*=giverCheckbox]').prop('checked', false);
+            target.closest('tr').find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            target.closest('tr').find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         $('.answerCheckbox:checked').each(function() {

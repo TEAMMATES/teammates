@@ -23,8 +23,8 @@ $(document).ready(function() {
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
     $('input[type=checkbox]').click(function() {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());

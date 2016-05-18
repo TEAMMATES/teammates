@@ -64,7 +64,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                  + '&courseid=' + studentCourseId
                  + '&googleid=' + wrongGoogleId;
     
-    var googleIdEntry = $(button).parent().parent().children().find('.homePageLink');
+    var googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     var originalButton = $(button).html();
     
     var originalGoogleIdEntry = $(googleIdEntry).html();

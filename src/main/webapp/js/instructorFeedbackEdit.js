@@ -549,27 +549,27 @@ function formatCheckBoxes() {
     // TODO: change class -> name?
     $('input[class*="answerCheckbox"]').change(function() {
         if (!$(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="giverCheckbox"]')
+            $(this).closest('tr').find('input[class*="giverCheckbox"]')
                                      .prop('checked', false);
-            $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+            $(this).closest('tr').find('input[class*="recipientCheckbox"]')
                                      .prop('checked', false);
         }
     });
     $('input[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            $(this).closest('tr').find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
     $('input[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            $(this).closest('tr').find('input[class*="answerCheckbox"]')
                                      .prop('checked', true);
         }
     });
     $('input[name=receiverLeaderCheckbox]').change(function() {
-        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+        $(this).closest('tr').find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
 }
@@ -1268,9 +1268,9 @@ function setContribQnVisibilityFormat(questionNumber) {
                                      .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
                                      .prop('checked', false);
             } else {
-                $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                $(this).closest('tr').find('input[class*="giverCheckbox"]')
                                          .prop('checked', false);
-                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                $(this).closest('tr').find('input[class*="recipientCheckbox"]')
                                          .prop('checked', false);
             }
             
@@ -1296,7 +1296,7 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            $(this).closest('tr').find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
@@ -1304,14 +1304,14 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            $(this).closest('tr').find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function() {
-        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+        $(this).closest('tr').find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
 
