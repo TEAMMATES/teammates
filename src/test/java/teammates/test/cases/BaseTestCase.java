@@ -27,8 +27,7 @@ public class BaseTestCase {
     }
 
     public static void printTestCaseHeader() {
-        print("[TestCase]---:" + 
-                Thread.currentThread().getStackTrace()[2].getMethodName());
+        print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
     }
 
     public static void printTestClassHeader() {

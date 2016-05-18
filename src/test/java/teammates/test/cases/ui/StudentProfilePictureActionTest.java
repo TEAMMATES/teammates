@@ -165,7 +165,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @SuppressWarnings("deprecation")
     private InstructorAttributes createNewInstructorForUnregCourse()
             throws Exception {
-        String course = _dataBundle.courses.get("unregisteredCourse").id;
+        String course = _dataBundle.courses.get("unregisteredCourse").getId();
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
                                                                  "unregIns@unregcourse.com", "unregInstitute"));
         InstructorAttributes instructor = new InstructorAttributes("unregInsId", course, "unregName",

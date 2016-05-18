@@ -179,7 +179,7 @@ public class BackDoor {
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
         HashMap<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes course : courses.values()) {
-            deleteCourse(course.id);
+            deleteCourse(course.getId());
         }
     }
     

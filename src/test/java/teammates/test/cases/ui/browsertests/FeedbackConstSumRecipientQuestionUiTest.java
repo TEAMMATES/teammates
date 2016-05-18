@@ -28,7 +28,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 

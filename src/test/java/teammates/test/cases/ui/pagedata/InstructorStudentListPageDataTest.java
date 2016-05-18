@@ -49,9 +49,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         displayArchive = false;
 
         // only course ID and name are used
-        sampleCourse = new CourseAttributes();
-        sampleCourse.id = "validCourseId";
-        sampleCourse.name = "Sample course name";
+        sampleCourse = new CourseAttributes("validCourseId", "Sample course name");
 
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
@@ -78,17 +76,18 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
 
         // sample data has only one course
         InstructorStudentListFilterCourse course = filterBox.getCourses().get(0);
-        assertEquals(sampleCourse.id, course.getCourseId());
-        assertEquals(sampleCourse.name, course.getCourseName());
+        assertEquals(sampleCourse.getId(), course.getCourseId());
+        assertEquals(sampleCourse.getName(), course.getCourseName());
     }
 
     private void testStudentsTable(List<InstructorStudentListStudentsTableCourse> studentsTable) {
         // sample data has only one course
         InstructorStudentListStudentsTableCourse course = studentsTable.get(0);
-        assertEquals(sampleCourse.id, course.getCourseId());
-        assertEquals(sampleCourse.name, course.getCourseName());
+        assertEquals(sampleCourse.getId(), course.getCourseId());
+        assertEquals(sampleCourse.getName(), course.getCourseName());
         assertEquals(acct.googleId, course.getGoogleId());
-        assertEquals(islpd.getInstructorCourseEnrollLink(sampleCourse.id), course.getInstructorCourseEnrollLink());
+        assertEquals(islpd.getInstructorCourseEnrollLink(sampleCourse.getId()),
+                                                         course.getInstructorCourseEnrollLink());
         assertEquals(isCourseArchived, course.isCourseArchived());
         assertEquals(isInstructorAllowedToModify, course.isInstructorAllowedToModify());
     }

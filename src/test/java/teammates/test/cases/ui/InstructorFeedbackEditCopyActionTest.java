@@ -105,7 +105,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
         
         a = getAction(params);
@@ -122,7 +122,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         ______TS("Failure case: copying to course with insufficient permission");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
         };
@@ -141,9 +141,9 @@ public class InstructorFeedbackEditCopyActionTest extends
         ______TS("Failure case: copying non-existing fs");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
         
         a = getAction(params);
@@ -159,7 +159,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         ______TS("Failure case: copying to non-existing course");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
         };
@@ -179,10 +179,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         CourseAttributes course6 = dataBundle.courses.get("course6");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -199,10 +199,10 @@ public class InstructorFeedbackEditCopyActionTest extends
          
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -219,10 +219,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -240,10 +240,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -261,10 +261,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -291,10 +291,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -320,10 +320,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -350,10 +350,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
         
         a = getAction(params);
@@ -382,10 +382,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         String copiedCourseName = "Session with valid name";
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, copiedCourseName,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course7.id
+                Const.ParamsNames.COPIED_COURSES_ID, course6.getId(),
+                Const.ParamsNames.COPIED_COURSES_ID, course7.getId()
         };
         
         a = getAction(params);

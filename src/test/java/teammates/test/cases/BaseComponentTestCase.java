@@ -78,11 +78,11 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(CourseAttributes course) {
-        assertNull(coursesDb.getCourse(course.id));
+        assertNull(coursesDb.getCourse(course.getId()));
     }
 
     protected static void verifyPresentInDatastore(CourseAttributes expected) {
-        CourseAttributes actual = coursesDb.getCourse(expected.id);
+        CourseAttributes actual = coursesDb.getCourse(expected.getId());
         // Ignore time field as it is stamped at the time of creation in testing
         actual.createdAt = expected.createdAt;
         assertEquals(gson.toJson(expected), gson.toJson(actual));

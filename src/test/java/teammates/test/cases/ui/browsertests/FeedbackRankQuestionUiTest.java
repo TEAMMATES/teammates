@@ -41,7 +41,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        instructorCourseId = testData.courses.get("course").id;
+        instructorCourseId = testData.courses.get("course").getId();
         instructorEditFSName = testData.feedbackSessions.get("edit").feedbackSessionName;
 
     }

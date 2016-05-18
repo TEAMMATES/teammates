@@ -407,13 +407,13 @@ function tallyCheckboxes(qnNumber) {
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
     
-    for (var checkboxType in checkboxTypes) {
+    $.each(checkboxTypes, function(i, checkboxType) {
         var checked = [];
-        $(checkboxType + qnNumber + ':checked').each(function() {
+        $(i + qnNumber + ':checked').each(function() {
             checked.push($(this).val());
         });
-        $('[name=' + checkboxTypes[checkboxType] + ']').val(checked.toString());
-    }
+        $('[name=' + checkboxType + ']').val(checked.toString());
+    });
 }
 
 /**
@@ -1228,8 +1228,8 @@ function removeConstSumOption(index, questionNumber) {
  */
 
 function setDefaultContribQnVisibility(questionNumber) {
-    var idSuffix = questionNumber ? questionNumber : 'New';
-    var idSuffix2 = questionNumber ? questionNumber : '';
+    var idSuffix = questionNumber || 'New';
+    var idSuffix2 = questionNumber || '';
     
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1250,7 +1250,7 @@ function setDefaultContribQnVisibility(questionNumber) {
 }
 
 function setContribQnVisibilityFormat(questionNumber) {
-    var idSuffix = questionNumber ? questionNumber : 'New';
+    var idSuffix = questionNumber || 'New';
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 

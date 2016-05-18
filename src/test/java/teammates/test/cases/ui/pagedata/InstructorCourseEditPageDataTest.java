@@ -60,7 +60,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
                                                                                  offset, sectionNames, 
                                                                                  feedbackSessionNames);
         
-        assertEquals("idOfTypicalCourse1", pageData.getCourse().id);
+        assertEquals("idOfTypicalCourse1", pageData.getCourse().getId());
         assertEquals(-1, pageData.getInstructorToShowIndex());
         assertNotNull(pageData.getDeleteCourseButton());
         assertNotNull(pageData.getAddInstructorButton());
