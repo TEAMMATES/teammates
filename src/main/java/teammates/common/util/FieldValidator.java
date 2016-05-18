@@ -411,10 +411,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case TEAM_NAME:
-            returnValue = getValidityInfoForAllowedName(
-            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
-            break;
         case SECTION_NAME:
             returnValue = getValidityInfoForAllowedName(
             SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
@@ -446,6 +442,17 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+    
+    /**
+     * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
+     * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param teamName
+     * @return An explanation of why the {@code teamName} is not acceptable.
+     *         Returns an empty string if the {@code teamName} is acceptable.
+     */
+    public String getInvalidityInfoForTeamName(String teamName) {
+        return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
     
     /**

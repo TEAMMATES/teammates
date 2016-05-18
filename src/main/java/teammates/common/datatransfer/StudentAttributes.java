@@ -213,7 +213,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        error = validator.getInvalidityInfoForTeamName(team);
 
         if (!error.isEmpty()) { errors.add(error); }
 

@@ -128,7 +128,7 @@ public class CommentAttributes extends EntityAttributes
                     break;
                 case TEAM :
                     for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                        error = validator.getInvalidityInfoForTeamName(recipientId);
                         if (!error.isEmpty()) {
                             errors.add(error);
                         }
