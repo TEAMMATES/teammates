@@ -36,7 +36,7 @@ public class StudentHomePageData extends PageData {
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
-                                                      createCourseTableLinks(courseDetails.course.id),
+                                                      createCourseTableLinks(courseDetails.course.getId()),
                                                       createSessionRows(courseDetails.feedbackSessions,
                                                                         sessionSubmissionStatusMap,
                                                                         startingSessionIdx));

@@ -25,10 +25,10 @@ $(document).ready(function() {
             }
 
             if ('user' in params === false) {
-                params['user'] = $('input[name="user"]').val();
+                params.user = $('input[name="user"]').val();
             }
 
-            window.location.href = currentPath + '?user=' + params['user'] + '&sortby=' + $(this).attr('data');
+            window.location.href = currentPath + '?user=' + params.user + '&sortby=' + $(this).attr('data');
         });
     });
     
@@ -94,6 +94,8 @@ function toggleArchiveCourseConfirmation(courseId) {
 function instructorHomeDateComparator(x, y) {
     x = Date.parse(x + ' ' + CURRENT_YEAR);
     y = Date.parse(y + ' ' + CURRENT_YEAR);
-    var comparisonResult = x > y ? 1 : x < y ? -1 : 0;
-    return comparisonResult;
+    if (x > y) {
+        return 1;
+    }
+    return x < y ? -1 : 0;
 }

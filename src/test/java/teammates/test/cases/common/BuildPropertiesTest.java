@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Config;

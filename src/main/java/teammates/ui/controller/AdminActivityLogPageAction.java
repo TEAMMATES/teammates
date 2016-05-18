@@ -321,7 +321,7 @@ public class AdminActivityLogPageAction extends Action {
         Logic logic = new Logic();
         
         for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.id); 
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId()); 
             if (fsl != null && !fsl.isEmpty()) {
                 return fsl.get(0).timeZone;
             }

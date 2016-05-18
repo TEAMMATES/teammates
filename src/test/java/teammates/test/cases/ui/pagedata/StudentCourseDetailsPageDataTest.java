@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -62,8 +59,8 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         List<InstructorAttributes> courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
         List<StudentAttributes> teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
         
-        assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
-        assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
+        assertEquals(courseDetails.course.getName(), pageData.getStudentCourseDetailsPanel().getCourseName());
+        assertEquals(courseDetails.course.getId(), pageData.getStudentCourseDetailsPanel().getCourseId());
         
         assertFalse(courseInstructors.isEmpty());
         assertFalse(teammates.isEmpty());
@@ -108,8 +105,8 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
         teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
         
-        assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
-        assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
+        assertEquals(courseDetails.course.getName(), pageData.getStudentCourseDetailsPanel().getCourseName());
+        assertEquals(courseDetails.course.getId(), pageData.getStudentCourseDetailsPanel().getCourseId());
         
         assertFalse(courseInstructors.isEmpty());        
         assertFalse(teammates.isEmpty());
@@ -150,8 +147,8 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
         teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
         
-        assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
-        assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
+        assertEquals(courseDetails.course.getName(), pageData.getStudentCourseDetailsPanel().getCourseName());
+        assertEquals(courseDetails.course.getId(), pageData.getStudentCourseDetailsPanel().getCourseId());
         
         assertFalse(courseInstructors.isEmpty());        
         assertFalse(teammates.isEmpty());

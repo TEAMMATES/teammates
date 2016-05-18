@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,7 +40,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
-        courseId = testData.courses.get("InsCrsEdit.CS2104").id;
+        courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
     }
     
     @Test
@@ -192,7 +187,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -299,21 +294,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 1);
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 2);
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 1);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 2);
         courseEditPage.clickViewStudentCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 2, 2);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 3);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertFalse(courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSectionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(instructorIndex);
@@ -332,7 +327,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;
@@ -412,7 +407,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("verify that session level checkboxes are accessible");
         
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
         assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(instructorIndex, 0));
         

@@ -94,7 +94,7 @@ public class OfflineBackup extends RemoteApiClient {
         Set<String> courses = new HashSet<String>();
         for (String course : modifiedLogs) {
             course = course.trim();
-            if (!course.equals("")) {
+            if (!course.isEmpty()) {
                 courses.add(course);
             }
             
@@ -208,7 +208,7 @@ public class OfflineBackup extends RemoteApiClient {
         }
         
         FileHelper.appendToFile(currentFileName, "\t\"courses\":{\n");
-        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.id));
+        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.getId()));
         
         hasPreviousEntity = false;
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
@@ -330,7 +330,7 @@ public class OfflineBackup extends RemoteApiClient {
             FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
             
             for (StudentAttributes student : students) {
-                if (student != null && student.googleId != null && !student.googleId.equals("")) {
+                if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
                     StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
                     if (profile != null) {
                         saveProfile(profile);

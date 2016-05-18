@@ -166,8 +166,10 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        WebElement viewLink = 
+                browser.driver.findElement(
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                                       + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         waitForPageToLoad();
@@ -207,14 +209,14 @@ public class InstructorCourseEditPage extends AppPage {
         coursePanel.findElements(By.cssSelector("input[type=checkbox]")).get(linkNum - 1).click();
     }
     
-    public WebElement addSessionLevelPrivilegesLink(int instrNum) {
+    public WebElement addSectionLevelPrivilegesLink(int instrNum) {
         String idStr = "addSectionLevelForInstructor" + instrNum;
         
         return browser.driver.findElement(By.id(idStr));
     }
     
-    public void clickAddSessionLevelPrivilegesLink(int instrNum) {
-        this.addSessionLevelPrivilegesLink(instrNum).click();
+    public void clickAddSectionLevelPrivilegesLink(int instrNum) {
+        this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
     public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {

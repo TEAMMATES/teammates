@@ -300,6 +300,6 @@ public class Sanitizer {
         if (result.length() == 0) {
             return "''";
         }
-        return "concat(" + result + "'')";
+        return "concat(" + result.toString() + "'')";
     }
 }

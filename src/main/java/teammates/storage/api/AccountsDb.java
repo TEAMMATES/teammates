@@ -189,7 +189,7 @@ public class AccountsDb extends EntitiesDb {
             return;
         }
         
-        if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
@@ -199,7 +199,7 @@ public class AccountsDb extends EntitiesDb {
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
 
         for (AccountAttributes accountToDelete : accounts) {
-            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
         }

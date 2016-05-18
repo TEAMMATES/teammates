@@ -48,8 +48,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             try {
                 int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                 int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions &&
-                        subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
+                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions 
+                    && subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
                     setAnswer(subQuestionIndex, subQuestionChoice);
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {
@@ -83,9 +83,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>" + 
-                        Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
-                        "</i></span>";
+                chosenChoice = "<span class=\"color_neutral\"><i>" 
+                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE 
+                             + "</i></span>";
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ")
                     .append(chosenChoice).append("<br>");
             } else {

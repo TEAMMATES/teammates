@@ -70,8 +70,8 @@ public class PendingCommentClearedMailAction extends EmailAction {
             preparedEmails = emailManager
                             .generatePendingCommentsClearedEmails(courseId, recipients);
         } else {
-            log.severe("Recipient emails for pending comments in course : " + courseId +
-                       " could not be fetched");
+            log.severe("Recipient emails for pending comments in course : " + courseId 
+                       + " could not be fetched");
         }
         return preparedEmails;
     }

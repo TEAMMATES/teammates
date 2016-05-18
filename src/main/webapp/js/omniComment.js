@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
-    var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
+    var classNameForCommentsInFeedbackResponse = 'list-group-item list-group-item-warning giver_display-by';
+    var classNameForCommentsInStudentRecords = 'panel panel-info student-record-comments giver_display-by';
     
     function isRedirectToSpecificComment() {
         return $(location).attr('href').indexOf('#') !== -1;
@@ -30,7 +30,7 @@ $(document).ready(function() {
     var scrollEventCounter = 0;
     $(window).scroll(function() {
         if (isRedirectToSpecificComment() && scrollEventCounter > 0) {
-            $('.navbar').fadeIn("fast");
+            $('.navbar').fadeIn('fast');
         }
         scrollEventCounter++;
     });
@@ -60,21 +60,21 @@ $(document).ready(function() {
     $('#panel_all').click(function() {
         // use panel_all checkbox to control its children checkboxes.
         if ($('#panel_all').is(':checked')) {
-            $("input[id^=panel_check]").prop("checked", true);
+            $('input[id^=panel_check]').prop('checked', true);
         } else {
-            $("input[id^=panel_check]").prop("checked", false);
+            $('input[id^=panel_check]').prop('checked', false);
         }
         
         filterPanel();
     });
     
     // Binding for changes in the panel check boxes
-    $("input[id^=panel_check]").change(function() {
+    $('input[id^=panel_check]').change(function() {
         // based on the selected panel_check check boxes, check/uncheck panel_all check box
         if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
-            $("#panel_all").prop("checked", true);
+            $('#panel_all').prop('checked', true);
         } else {
-            $("#panel_all").prop("checked", false);
+            $('#panel_all').prop('checked', false);
         }
         
         filterPanel();
@@ -85,7 +85,7 @@ $(document).ready(function() {
         if ($("input[id^='panel_check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
-            if (!$('#panel_all').prop("checked")) {
+            if (!$('#panel_all').prop('checked')) {
                 $('#giver_all').parent().parent().hide();
                 $('#status_all').parent().parent().hide();
             } else {
@@ -100,11 +100,11 @@ $(document).ready(function() {
         
         // hide the panel accordingly based on panel_check checkbox
         $("input[id^='panel_check']").each(function() {
-            var panelIdx = $(this).attr("id").split('-')[1];
+            var panelIdx = $(this).attr('id').split('-')[1];
             if (this.checked) {
-                $("#panel_display-" + panelIdx).show();
+                $('#panel_display-' + panelIdx).show();
             } else {
-                $("#panel_display-" + panelIdx).hide();
+                $('#panel_display-' + panelIdx).hide();
             }
         });
     }
@@ -113,45 +113,45 @@ $(document).ready(function() {
     $('#giver_all').click(function() {
         // use giver_all checkbox to control its children checkboxes.
         if ($('#giver_all').is(':checked')) {
-            $("input[id^=giver_check]").prop("checked", true);
-            $("#status_all").prop("disabled", false);
-            $("input[id^=status_check]").prop("disabled", false);
+            $('input[id^=giver_check]').prop('checked', true);
+            $('#status_all').prop('disabled', false);
+            $('input[id^=status_check]').prop('disabled', false);
         } else {
-            $("input[id^=giver_check]").prop("checked", false);
-            $("#status_all").prop("disabled", true);
-            $("input[id^=status_check]").prop("disabled", true);
+            $('input[id^=giver_check]').prop('checked', false);
+            $('#status_all').prop('disabled', true);
+            $('input[id^=status_check]').prop('disabled', true);
         }
         
         filterGiver();
     });
     
     // Binding for changes in the giver checkboxes.
-    $("input[id^=giver_check]").change(function() {
+    $('input[id^=giver_check]').change(function() {
         // based on the selected checkboxes, check/uncheck giver_all checkbox
         if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
-            $("#giver_all").prop("checked", true);
-            $("#status_all").prop("disabled", false);
-            $("input[id^=status_check]").prop("disabled", false);
+            $('#giver_all').prop('checked', true);
+            $('#status_all').prop('disabled', false);
+            $('input[id^=status_check]').prop('disabled', false);
         } else {
-            $("#giver_all").prop("checked", false);
-            $("#status_all").prop("disabled", true);
-            $("input[id^=status_check]").prop("disabled", true);
+            $('#giver_all').prop('checked', false);
+            $('#status_all').prop('disabled', true);
+            $('input[id^=status_check]').prop('disabled', true);
         }
         
         filterGiver();
     });
     
     function filterGiver() {
-        filterGiverCheckbox("you");
-        filterGiverCheckbox("others");
+        filterGiverCheckbox('you');
+        filterGiverCheckbox('others');
     }
     
     function filterGiverCheckbox(checkboxBy) {
-        $("input[id=giver_check-by-" + checkboxBy + "]").each(function() {
+        $('input[id=giver_check-by-' + checkboxBy + ']').each(function() {
             if (this.checked) {
-                showCommentOfPanelIndex(".giver_display-by-" + checkboxBy);
+                showCommentOfPanelIndex('.giver_display-by-' + checkboxBy);
             } else {
-                hideCommentOfPanelIndex(".giver_display-by-" + checkboxBy);
+                hideCommentOfPanelIndex('.giver_display-by-' + checkboxBy);
             }
         });
     }
@@ -160,45 +160,45 @@ $(document).ready(function() {
     $('#status_all').click(function() {
         // use status_all checkbox to control its children checkboxes.
         if ($('#status_all').is(':checked')) {
-            $("input[id^=status_check]").prop("checked", true);
-            $("#giver_all").prop("disabled", false);
-            $("input[id^=giver_check]").prop("disabled", false);
+            $('input[id^=status_check]').prop('checked', true);
+            $('#giver_all').prop('disabled', false);
+            $('input[id^=giver_check]').prop('disabled', false);
         } else {
-            $("input[id^=status_check]").prop("checked", false);
-            $("#giver_all").prop("disabled", true);
-            $("input[id^=giver_check]").prop("disabled", true);
+            $('input[id^=status_check]').prop('checked', false);
+            $('#giver_all').prop('disabled', true);
+            $('input[id^=giver_check]').prop('disabled', true);
         }
         
         filterStatus();
     });
     
     // Binding for changes in the status checkboxes.
-    $("input[id^=status_check]").change(function() {
+    $('input[id^=status_check]').change(function() {
         // based on the selected checkboxes, check/uncheck status_all checkbox
         if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
-            $("#status_all").prop("checked", true);
-            $("#giver_all").prop("disabled", false);
-            $("input[id^=giver_check]").prop("disabled", false);
+            $('#status_all').prop('checked', true);
+            $('#giver_all').prop('disabled', false);
+            $('input[id^=giver_check]').prop('disabled', false);
         } else {
-            $("#status_all").prop("checked", false);
-            $("#giver_all").prop("disabled", true);
-            $("input[id^=giver_check]").prop("disabled", true);
+            $('#status_all').prop('checked', false);
+            $('#giver_all').prop('disabled', true);
+            $('input[id^=giver_check]').prop('disabled', true);
         }
         
         filterStatus();
     });
     
     function filterStatus() {
-        filterStatusCheckbox("public");
-        filterStatusCheckbox("private");
+        filterStatusCheckbox('public');
+        filterStatusCheckbox('private');
     }
     
     function filterStatusCheckbox(checkboxBy) {
-        $("input[id=status_check-" + checkboxBy + "]").each(function() {
+        $('input[id=status_check-' + checkboxBy + ']').each(function() {
             if (this.checked) {
-                showCommentOfPanelIndex(".status_display-" + checkboxBy);
+                showCommentOfPanelIndex('.status_display-' + checkboxBy);
             } else {
-                hideCommentOfPanelIndex(".status_display-" + checkboxBy);
+                hideCommentOfPanelIndex('.status_display-' + checkboxBy);
             }
         });
     }
@@ -221,7 +221,7 @@ $(document).ready(function() {
         
         // to show feedback question + feedback session panel
         // if not all list elements are hidden within fbResponse, then show fbResponse
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
+        if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length !== $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
@@ -245,7 +245,7 @@ $(document).ready(function() {
             }
         }
         // to show student comments (only works for Giver filter)
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)) {
+        if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
@@ -263,7 +263,7 @@ $(document).ready(function() {
         
         // to hide feedback question + feedback session panel
         // if all list elements are hidden within fbResponse, then hide fbResponse
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)) {
+        if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length === $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
@@ -287,7 +287,7 @@ $(document).ready(function() {
             }
         }
         // to hide student comments
-        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)) {
+        if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
             var studentCommentPanel = $(comment).parent().parent().parent();
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
@@ -298,12 +298,12 @@ $(document).ready(function() {
     }
     
     // Binding for "Display Archived Courses" check box.
-    $("#displayArchivedCourses_check").change(function() {
+    $('#displayArchivedCourses_check').change(function() {
         var urlToGo = $('#displayArchivedCourses_link > a').attr('href');
         if (this.checked) {
-            gotoUrlWithParam(urlToGo, "displayarchive", "true");
+            gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
         } else {
-            gotoUrlWithParam(urlToGo, "displayarchive", "false");
+            gotoUrlWithParam(urlToGo, 'displayarchive', 'false');
         }
     });
     
@@ -311,11 +311,11 @@ $(document).ready(function() {
      * Go to the url with appended param and value pair
      */
     function gotoUrlWithParam(url, param, value) {
-        var paramValuePair = param + "=" + value;
-        if (!url.includes("?")) {
-            window.location.href = url + "?" + paramValuePair;
+        var paramValuePair = param + '=' + value;
+        if (!url.includes('?')) {
+            window.location.href = url + '?' + paramValuePair;
         } else if (!url.includes(param)) {
-            window.location.href = url + "&" + paramValuePair;
+            window.location.href = url + '&' + paramValuePair;
         } else if (url.includes(paramValuePair)) {
             window.location.href = url;
         } else {
@@ -329,11 +329,11 @@ $(document).ready(function() {
      * Return the url withour param and value pair
      */
     function removeParamInUrl(url, param) {
-        var indexOfParam = url.indexOf("?" + param);
-        indexOfParam = indexOfParam === -1 ? url.indexOf("&" + param) : indexOfParam;
-        var indexOfAndSign = url.indexOf("&", indexOfParam + 1);
+        var indexOfParam = url.indexOf('?' + param);
+        indexOfParam = indexOfParam === -1 ? url.indexOf('&' + param) : indexOfParam;
+        var indexOfAndSign = url.indexOf('&', indexOfParam + 1);
         var urlBeforeParam = url.substr(0, indexOfParam);
-        var urlAfterParamValue = indexOfAndSign === -1 ? "" : url.substr(indexOfAndSign);
+        var urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
         return urlBeforeParam + urlAfterParamValue;
     }
     
@@ -348,19 +348,19 @@ $(document).ready(function() {
         }
     });
     
-    $("input[type=checkbox]").click(function(e) {
+    $('input[type=checkbox]').click(function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
         var target = $(e.target);
         
-        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
-            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
+            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || target.prop("class").includes("recipientCheckbox"))
-                && target.prop("checked")) {
-            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
@@ -399,8 +399,8 @@ function submitCommentForm(commentIdx) {
 }
 
 function deleteComment(commentIdx) {
-    if (confirm("Are you sure you want to delete this comment?")) {
-        document.getElementById('commentedittype-' + commentIdx).value = "delete";
+    if (confirm('Are you sure you want to delete this comment?')) {
+        document.getElementById('commentedittype-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
     }
     return false;
@@ -415,7 +415,7 @@ function enableComment(commentIdx) {
     $('#commentBar-' + commentIdx).hide();
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
-    $("textarea[id='commentText" + commentIdx + "']").val($("#plainCommentText" + commentIdx).text());
+    $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
     $("textarea[id='commentText" + commentIdx + "']").focus();
 }
 

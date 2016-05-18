@@ -9,7 +9,7 @@
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
-        <b>Feedback Path</b> (Who is giving feedback about whom?)
+        <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
     <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
         data-toggle="tooltip" data-placement="top"

@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

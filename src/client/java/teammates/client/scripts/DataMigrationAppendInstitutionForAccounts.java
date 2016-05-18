@@ -97,7 +97,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
             List<Account> studentAccounts = (List<Account>) pm.newQuery(query).execute();
             if (studentAccounts.size() > 0) {
                 Account a = studentAccounts.get(0);
-                if (a.getInstitute() == null || a.getInstitute().equals("")) {
+                if (a.getInstitute() == null || a.getInstitute().isEmpty()) {
                     System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId());
                     if (!isTrial) {
                         Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(), studentInstitutions.get(a.getGoogleId()));

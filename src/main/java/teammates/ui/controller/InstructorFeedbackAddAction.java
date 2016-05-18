@@ -68,13 +68,13 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " +
-                    "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime +
-                    "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
-                    "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " 
+                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
+                    + "<span class=\"bold\">From:</span> " + fs.startTime 
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
