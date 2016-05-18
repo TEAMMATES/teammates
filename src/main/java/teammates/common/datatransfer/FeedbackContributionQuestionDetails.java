@@ -41,12 +41,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        Boolean isNotSureAllowed;
-        if (isNotSureAllowedString == null) {
-            isNotSureAllowed = false;
-        } else {
-            isNotSureAllowed = isNotSureAllowedString.equals("on");
-        }
+        boolean isNotSureAllowed = "on".equals(isNotSureAllowedString);
         this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }

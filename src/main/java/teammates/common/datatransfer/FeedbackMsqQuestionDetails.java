@@ -45,7 +45,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
-        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
+        if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
