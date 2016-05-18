@@ -143,7 +143,7 @@ public class Logic {
      * 
      */
     public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute, 
-                              StudentProfileAttributes studentProfile) 
+                              StudentProfileAttributes studentProfileParam) 
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -152,6 +152,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
         
+        StudentProfileAttributes studentProfile = studentProfileParam;
         if (studentProfile == null) {
             studentProfile = new StudentProfileAttributes();
             studentProfile.googleId = googleId;
@@ -283,8 +284,8 @@ public class Logic {
      */
     @Deprecated
     public void createInstructorAccount(String googleId, String courseId, String name, String email, 
-                                        Boolean isArchived, String role, boolean isDisplayedToStudents, 
-                                        String displayedName, String privileges, String institute)
+                                        Boolean isArchived, String roleParam, boolean isDisplayedToStudents, 
+                                        String displayedNameParam, String privileges, String institute)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -298,8 +299,8 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
         
-        role = role == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : role;
-        displayedName = displayedName == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
+        String role = roleParam == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : roleParam;
+        String displayedName = displayedNameParam == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedNameParam;
         InstructorAttributes instructor = null;
         
         if (privileges == null) {

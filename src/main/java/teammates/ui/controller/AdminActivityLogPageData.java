@@ -136,10 +136,9 @@ public class AdminActivityLogPageData extends PageData {
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase();
         
         try {
-            q = parseQuery(query);
+            q = parseQuery(filterQuery.toLowerCase());
         } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -253,10 +252,10 @@ public class AdminActivityLogPageData extends PageData {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1); 
          
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);

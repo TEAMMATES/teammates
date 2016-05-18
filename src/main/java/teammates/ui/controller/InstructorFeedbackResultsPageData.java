@@ -1439,10 +1439,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!isAllSectionsSelected() && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
                 continue;
             }
-            possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
+            List<String> possibleRecipientsForRemainingGiver =
+                                            bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
             
             responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
-                                            question, possibleRecipientsForGiver, possibleGiverWithNoResponses, 
+                                            question, possibleRecipientsForRemainingGiver, possibleGiverWithNoResponses, 
                                             bundle.getFullNameFromRoster(possibleGiverWithNoResponses),
                                             bundle.getTeamNameFromRoster(possibleGiverWithNoResponses)));
         }

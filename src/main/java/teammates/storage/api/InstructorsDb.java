@@ -44,7 +44,8 @@ public class InstructorsDb extends EntitiesDb {
      * =========================================================================
      */
     
-    public void putDocument(InstructorAttributes instructor) {
+    public void putDocument(InstructorAttributes instructorParam) {
+        InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
@@ -186,8 +187,7 @@ public class InstructorsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
-        encryptedKey = encryptedKey.trim();
-        String decryptedKey = StringHelper.decrypt(encryptedKey);
+        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {

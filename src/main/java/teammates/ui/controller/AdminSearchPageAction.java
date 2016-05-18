@@ -290,19 +290,20 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
+        AdminSearchPageData processedData = rawData;
         
         for (StudentAttributes student : students) {    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
             for (FeedbackSessionAttributes fsa : feedbackSessions) {               
-                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);              
             }       
         }       
  
-        return data;
+        return processedData;
            
     }
     

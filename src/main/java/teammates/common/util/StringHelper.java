@@ -370,8 +370,7 @@ public class StringHelper {
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        str = handleNewLine(str);
-        String[] lines = str.split(Const.EOL);
+        String[] lines = handleNewLine(str).split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
 
@@ -477,12 +476,13 @@ public class StringHelper {
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
         String result = "";
-        while (n > 0) {
-            n--; // 1 => a, not 0 => a
-            int remainder = n % 26;
+        int n0 = n;
+        while (n0 > 0) {
+            n0--; // 1 => a, not 0 => a
+            int remainder = n0 % 26;
             char digit = (char) (remainder + 97);
             result = digit + result;
-            n = (n - remainder) / 26;
+            n0 = (n0 - remainder) / 26;
         }
         return result;
     }

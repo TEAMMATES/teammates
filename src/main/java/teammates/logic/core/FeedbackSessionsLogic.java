@@ -984,10 +984,11 @@ public class FeedbackSessionsLogic {
             
         
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
-            possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
+            List<String> possibleRecipientsForRemainingGiver =
+                    results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
             
             exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
-                    question, questionDetails, possibleRecipientsForGiver,
+                    question, questionDetails, possibleRecipientsForRemainingGiver,
                     possibleGiverWithNoResponses));
         }
         
