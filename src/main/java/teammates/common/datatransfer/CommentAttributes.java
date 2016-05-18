@@ -136,7 +136,7 @@ public class CommentAttributes extends EntityAttributes
                     break;
                 case SECTION :
                     for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                        error = validator.getInvalidityInfoForSectionName(recipientId);
                         if (!error.isEmpty()) {
                             errors.add(error);
                         }

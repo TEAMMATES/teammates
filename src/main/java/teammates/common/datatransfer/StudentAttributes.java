@@ -217,7 +217,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        error = validator.getInvalidityInfoForSectionName(section);
 
         if (!error.isEmpty()) { errors.add(error); }
 
