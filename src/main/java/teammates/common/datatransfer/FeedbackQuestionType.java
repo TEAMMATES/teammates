@@ -130,6 +130,7 @@ public enum FeedbackQuestionType {
                     break;
             default:
                 feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+                break;
             }
         } catch (Exception e) {
             Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());

@@ -90,7 +90,7 @@
    <!--<rule ref="rulesets/java/design.xml/ImmutableField"/>-->
    <!--<rule ref="rulesets/java/design.xml/InstantiationToGetClass"/>-->
    <rule ref="rulesets/java/design.xml/LogicInversion"/>
-   <!--<rule ref="rulesets/java/design.xml/MissingBreakInSwitch"/>-->
+   <rule ref="rulesets/java/design.xml/MissingBreakInSwitch"/>
    <!--<rule ref="rulesets/java/design.xml/MissingStaticMethodInNonInstantiatableClass"/>-->
    <!--<rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>-->
    <!--<rule ref="rulesets/java/design.xml/NonStaticInitializer"/>-->

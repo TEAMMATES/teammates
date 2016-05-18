@@ -264,6 +264,7 @@ public class FeedbackResponsesLogic {
         default:
             Assumption
                     .fail("The role of the requesting use has to be Student or Instructor");
+            break;
         }
 
         return viewableResponses;
