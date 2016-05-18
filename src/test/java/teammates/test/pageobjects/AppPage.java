@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
@@ -41,7 +42,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
@@ -761,7 +761,7 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        Assert.assertNotNull(element.getAttribute("disabled"));
+        assertNotNull(element.getAttribute("disabled"));
     }
 
     /**

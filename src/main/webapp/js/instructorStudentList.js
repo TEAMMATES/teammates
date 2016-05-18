@@ -332,7 +332,7 @@ function filterEmails() {
  * TODO: expand to fuzzy search
  */
 $.extend($.expr[':'], {
-    'containsIN': function(elem) {
+    containsIN: function(elem) {
         return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
     }
 });

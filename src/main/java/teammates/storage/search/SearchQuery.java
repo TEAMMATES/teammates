@@ -79,7 +79,7 @@ public class SearchQuery {
             } else {
                 if (isStartQuote) {
                     isStartQuote = false;
-                    if (!key.trim().equals("")) {
+                    if (!key.trim().isEmpty()) {
                         keywords.add(key.trim());
                     }
                     key = "";
@@ -89,7 +89,7 @@ public class SearchQuery {
             }
         }
         
-        if (isStartQuote && !key.trim().equals("")) {
+        if (isStartQuote && !key.trim().isEmpty()) {
             keywords.add(key.trim());
         }
 

@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +55,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         List<String> idOfCourses = new ArrayList<String>();
         
         for (CourseAttributes course: pageData.getCourses()) {
-            idOfCourses.add(course.id);
+            idOfCourses.add(course.getId());
         }
         
         assertFalse(idOfCourses.contains("FeedbackEditCopy.CS1101")); // course is archived

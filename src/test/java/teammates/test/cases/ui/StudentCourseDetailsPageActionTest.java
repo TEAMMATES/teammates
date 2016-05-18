@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.*;
-
 import java.util.List;
 
 import teammates.test.driver.AssertHelper;

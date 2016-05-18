@@ -121,10 +121,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
     
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
-        return isSanitizedString(student.comments) || isSanitizedString(student.course) || 
-               isSanitizedString(student.email) || isSanitizedString(student.googleId) || 
-               isSanitizedString(student.lastName) || isSanitizedString(student.name) || 
-               isSanitizedString(student.section) || isSanitizedString(student.team);
+        return isSanitizedString(student.comments) || isSanitizedString(student.course)
+               || isSanitizedString(student.email) || isSanitizedString(student.googleId)
+               || isSanitizedString(student.lastName) || isSanitizedString(student.name) 
+               || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
     
     private void fixSanitizationForStudent(StudentAttributes student) {

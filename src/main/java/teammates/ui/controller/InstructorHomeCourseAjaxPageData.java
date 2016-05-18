@@ -44,7 +44,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
             List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
-        String courseId = course.id;
+        String courseId = course.getId();
         return new CourseTable(course,
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
                                createSessionRows(feedbackSessions, instructor));

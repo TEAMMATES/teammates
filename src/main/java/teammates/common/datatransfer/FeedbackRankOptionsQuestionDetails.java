@@ -21,8 +21,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public transient static final int MIN_NUM_OF_OPTIONS = 2;
-    public transient static final String ERROR_NOT_ENOUGH_OPTIONS 
-            = "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
+    public transient static final String ERROR_NOT_ENOUGH_OPTIONS =
+            "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
             + ". Minimum number of options is: ";
     
     public List<String> options;
@@ -341,8 +341,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 mapOfOptionToRank.put(options.get(i), rankReceived);
             }
             
-            Map<String, Integer> normalisedRankForOption 
-                    = obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
+            Map<String, Integer> normalisedRankForOption =
+                    obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
             
             
             for (int i = 0; i < options.size(); i++) {

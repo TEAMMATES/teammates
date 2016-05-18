@@ -79,7 +79,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 
     private void addStatusMessageToUser() throws EntityDoesNotExistException {
         CourseAttributes course = logic.getCourse(getStudent().course);
-        String courseDisplayText = "[" + course.id + "] " + course.name; 
+        String courseDisplayText = "[" + course.getId() + "] " + course.getName(); 
         
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, 
                                                            courseDisplayText), StatusMessageColor.SUCCESS));

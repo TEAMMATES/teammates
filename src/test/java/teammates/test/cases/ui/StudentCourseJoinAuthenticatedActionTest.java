@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -157,10 +152,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId, true);
         assertNotNull(studentWithoutProfilePicture.studentProfile);
         assertEquals("", studentWithoutProfilePicture.studentProfile.pictureKey);
-        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.isEmpty());
 
         
         StudentAttributes studentWithoutProfilePictureAttributes = dataBundle.students.get("noFSStudentWithPartialProfile");
@@ -197,11 +192,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         
         studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
         assertNotNull(studentWithFullProfile.studentProfile);
-        assertFalse(studentWithFullProfile.studentProfile.pictureKey.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
-        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
+        assertFalse(studentWithFullProfile.studentProfile.pictureKey.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.isEmpty());
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.isEmpty());
 
         
         StudentAttributes studentWithFullProfileAttributes = dataBundle.students.get("noFSStudentWithFullProfile");

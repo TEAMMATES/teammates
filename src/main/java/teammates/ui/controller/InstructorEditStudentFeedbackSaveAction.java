@@ -76,8 +76,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
-                        "Feedback session [" + feedbackSessionName + 
-                        "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
+                        "Feedback session [" + feedbackSessionName 
+                        + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
             }
         }
     }
@@ -124,11 +124,11 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Instructor moderated student session<br>" +
-                        "Instructor: " + account.email + "<br>" + 
-                        "Moderated Student: " + moderatedStudent + "<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Instructor moderated student session<br>" 
+                      + "Instructor: " + account.email + "<br>" 
+                      + "Moderated Student: " + moderatedStudent + "<br>" 
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
     }
 
     @Override

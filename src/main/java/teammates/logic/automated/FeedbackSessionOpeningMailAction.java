@@ -74,8 +74,8 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
             preparedEmails = emailManager
                             .generateFeedbackSessionOpeningEmails(feedbackObject);
         } else {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
-                       " for course : " + courseId + " could not be fetched");
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+                       + " for course : " + courseId + " could not be fetched");
         }
         return preparedEmails;
     }

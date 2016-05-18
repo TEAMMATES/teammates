@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -408,7 +404,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, course.id
+                Const.ParamsNames.COURSE_ID, course.getId()
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -959,7 +955,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     public void StudentCourseJoin() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").id
+                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").getId()
         };
         verifyAccessibleWithoutLogin(submissionParams);
         

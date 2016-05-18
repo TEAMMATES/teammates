@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
-
 import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 

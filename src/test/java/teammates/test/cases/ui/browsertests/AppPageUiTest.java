@@ -28,8 +28,8 @@ public class AppPageUiTest extends BaseUiTestCase {
         page.verifyTablePattern(0, patternString);
         page.verifyTablePattern(0, 0, patternString);
         
-        patternString = "01 January 2012{*}01 January 2013{*}02 January 2012{*}01 February 2012{*}" + 
-                "03 February 2012{*}12 December 2011{*}25 July 2012";
+        patternString = "01 January 2012{*}01 January 2013{*}02 January 2012{*}01 February 2012{*}"
+                      + "03 February 2012{*}12 December 2011{*}25 July 2012";
         page.verifyTablePattern(2, patternString);
         page.verifyTablePattern(0, 2, patternString);
         

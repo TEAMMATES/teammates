@@ -164,8 +164,8 @@ public class InstructorsLogic {
         
         if (instructorList.isEmpty()) {
             return true;
-        } else if (instructorList.size() == 1 &&
-                coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
+        } else if (instructorList.size() == 1 
+                   && coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
             return true;
         } else {
             return false;
@@ -347,16 +347,16 @@ public class InstructorsLogic {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        error = validator.getInvalidityInfoForPersonName(shortName);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        error = validator.getInvalidityInfoForInstituteName(institute);
         if (!error.isEmpty()) { errors.add(error); }
         
         //No validation for isInstructor and createdAt fields.

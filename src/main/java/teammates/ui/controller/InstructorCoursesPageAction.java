@@ -59,7 +59,7 @@ public class InstructorCoursesPageAction extends Action {
             
             List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
             for (CourseAttributes course : allCourses) {
-                if (archivedCourseIds.contains(course.id)) {
+                if (archivedCourseIds.contains(course.getId())) {
                     archivedCourses.add(course);
                 } else {
                     activeCourses.add(course);

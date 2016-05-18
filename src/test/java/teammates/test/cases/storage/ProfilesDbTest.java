@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.io.IOException;
 
 import org.testng.annotations.BeforeClass;

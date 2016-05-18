@@ -40,10 +40,10 @@ public class InstructorFeedbackQuestionSubmissionEditPageAction extends Feedback
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show instructor feedback question submission edit page<br>" +
-                        "Question ID: " + feedbackQuestionId + "<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Show instructor feedback question submission edit page<br>" 
+                      + "Question ID: " + feedbackQuestionId + "<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
     }
 
     @Override
