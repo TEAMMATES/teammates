@@ -141,8 +141,9 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
                                                    course, email, googleId);
     }
 
-    private String furnishLinkWithCourseEmailAndUserId(String link, String course, String studentEmail,
+    private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
                                                        String googleId) {
+        String link = rawLink;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

@@ -51,10 +51,9 @@ public class BaseTestCase {
         return loadDataBundle("/typicalDataBundle.json");
     }
     
-    protected static DataBundle loadDataBundle(String pathToJsonFile) {
-        if (pathToJsonFile.startsWith("/")) {
-            pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
-        }
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+        String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                              + pathToJsonFileParam;
         try {
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);

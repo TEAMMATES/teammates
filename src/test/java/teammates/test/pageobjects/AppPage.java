@@ -816,12 +816,10 @@ public abstract class AppPage {
         return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath) throws IOException {
+    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
