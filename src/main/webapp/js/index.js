@@ -109,8 +109,8 @@ onload = function() {
 };
 
 // Format large number with commas
-function formatNumber(number) {
-    number = String(number);
+function formatNumber(n) {
+    var number = String(n);
     var expression = /(\d+)(\d{3})/;
     while (expression.test(number)) {
         number = number.replace(expression, '$1,$2');
