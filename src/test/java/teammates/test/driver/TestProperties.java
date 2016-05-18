@@ -1,10 +1,11 @@
 package teammates.test.driver;
 
+import static org.testng.AssertJUnit.fail;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Url;
@@ -61,8 +62,8 @@ public class TestProperties {
             String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL
                     .indexOf("://") + 3); // remove "http\://" and "https\://"
             TEAMMATES_REMOTEAPI_APP_DOMAIN = remoteApiDomain.split(":")[0];
-            TEAMMATES_REMOTEAPI_APP_PORT = remoteApiDomain.contains(":") ? 
-                    Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
+            TEAMMATES_REMOTEAPI_APP_PORT = 
+                    remoteApiDomain.contains(":") ? Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
         
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
             
@@ -122,16 +123,16 @@ public class TestProperties {
      */
     public void verifyReadyForGodMode() {
         if (!inst().isDevServer()) {
-            Assumption.fail("God mode regeneration works only in dev server.");
+            fail("God mode regeneration works only in dev server.");
         }
         if (!areTestAccountsReadyForGodMode()) {
-            Assumption.fail("Please append a unique id (e.g your name) to each of the default account in"
-                            + "test.properties in order to use God mode, e.g change alice.tmms to "
-                            + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
+            fail("Please append a unique id (e.g your name) to each of the default account in"
+                 + "test.properties in order to use God mode, e.g change alice.tmms to "
+                 + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }
         if (isStudentMotdUrlEmpty()) {
-            Assumption.fail("Student MOTD URL defined in app.student.motd.url in build.properties "
-                            + "must not be empty. It is advised to use test-student-motd.html to test it.");
+            fail("Student MOTD URL defined in app.student.motd.url in build.properties "
+                 + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }
 

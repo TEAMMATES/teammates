@@ -242,10 +242,10 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
         
-        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
-                "<br />in the course once the results are published.";
-        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
-                "before the session closes.";
+        public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" 
+                                                                     + "<br />in the course once the results are published.";
+        public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " 
+                                                          + "before the session closes.";
         
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -1018,8 +1018,8 @@ public class Const {
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
-        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
-                                                        "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
+        public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" 
+                                                        + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
         
         public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
                 + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
@@ -1038,8 +1038,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
-        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
-                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS =
+                                   "No permission to modify any sessions in un-archived courses";
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";

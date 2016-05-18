@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.fail;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -146,7 +141,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         try {
             a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
             r = getShowPageResult(a);
-            fail("The run time exception is not thrown as expected");
+            signalFailureToDetectException("The run time exception is not thrown as expected");
         } catch (RuntimeException e) {
             assertNotNull(e);
         }

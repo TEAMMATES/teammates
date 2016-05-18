@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,7 +40,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
-        courseId = testData.courses.get("InsCrsEdit.CS2104").id;
+        courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
     }
     
     @Test
@@ -192,7 +187,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -332,7 +327,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;

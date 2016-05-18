@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.io.File;
 
 import org.testng.annotations.AfterClass;

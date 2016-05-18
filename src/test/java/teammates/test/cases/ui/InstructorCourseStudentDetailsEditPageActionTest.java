@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -64,8 +61,8 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&" +
-                "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&"
+                + "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
@@ -78,12 +75,12 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
         assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourse());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" +
-                        "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                        "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " +
-                        "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " +
-                        "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                        "|||/page/instructorCourseStudentDetailsEdit";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" 
+                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
+                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " 
+                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " 
+                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>" 
+                                  + "|||/page/instructorCourseStudentDetailsEdit";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         

@@ -566,6 +566,11 @@ Apply to thead to make headers not bold.
     width: 12px;
 }
     
+.feedback-path-title,
+.visibility-title {
+    color: #2aabd2;
+}
+
 .filename-preview {
     border: 0;
     background-color: white;

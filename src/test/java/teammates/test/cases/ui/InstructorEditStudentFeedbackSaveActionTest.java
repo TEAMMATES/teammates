@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -80,10 +75,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -106,10 +101,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
            
@@ -131,10 +126,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -156,10 +151,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }
@@ -272,8 +267,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                    instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                         e.getMessage());
         }
         
         ______TS("Unsuccessful case: sufficient privileges only for a section, but attempted to modify another section");
@@ -297,8 +293,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                    instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                         e.getMessage());
         }
        
         ______TS("Successful case: sufficient privileges only for a section");
@@ -329,10 +326,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" 
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -363,8 +360,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                    instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+                         + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
         }
         
         ______TS("Successful case: sufficient for section, although insufficient for another session");
@@ -393,10 +390,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" + 
-                     "&fsname=Another+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" 
+                     + "&fsname=Another+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -430,10 +427,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCoursehelper3&courseid=IESFPTCourse" + 
-                     "&fsname=First+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCoursehelper3&courseid=IESFPTCourse"
+                     + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -506,8 +503,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
-                    instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+                         + instructor.email + "]", e.getMessage());
         }
 
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 4);
@@ -534,8 +531,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
-                    instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+                         + instructor.email + "]", e.getMessage());
         }
         
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 5);
@@ -562,8 +559,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
-                    instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+                         + instructor.email + "]", e.getMessage());
         }
     }
     
@@ -599,10 +596,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
-                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
-                     "&fsname=Closed+feedback+session",
+        assertEquals("/page/instructorEditStudentFeedbackPage" 
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+                     + "&fsname=Closed+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }

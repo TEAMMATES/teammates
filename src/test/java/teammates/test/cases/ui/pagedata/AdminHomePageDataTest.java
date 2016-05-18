@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

@@ -1,9 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.Test;

@@ -51,9 +51,9 @@ public class CompileLogs {
                 
                 if (LogService.LogLevel.FATAL.equals(logLevel) || LogService.LogLevel.ERROR.equals(logLevel)) {
                     numberOfErrors++;
-                    message += numberOfErrors + ". " +
-                                "Error Type: " + currentLog.getLogLevel().toString() + "<br/>" +
-                                "Error Message: " + currentLog.getLogMessage() + "<br/><br/>";
+                    message += numberOfErrors + ". " 
+                             + "Error Type: " + currentLog.getLogLevel().toString() + "<br/>" 
+                             + "Error Message: " + currentLog.getLogMessage() + "<br/><br/>";
                 }
             }
         }

@@ -1,8 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -97,7 +94,7 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE 2
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
         verifyPresentInDatastore(course2);
-        status = BackDoor.deleteCourse(course2.id);
+        status = BackDoor.deleteCourse(course2.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(course2);
 
@@ -109,7 +106,7 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE 1
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         verifyPresentInDatastore(course1);
-        status = BackDoor.deleteCourse(course1.id);
+        status = BackDoor.deleteCourse(course1.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(course1);
         
@@ -122,7 +119,7 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
-        status = BackDoor.deleteCourse(courseNoEvals.id);
+        status = BackDoor.deleteCourse(courseNoEvals.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(courseNoEvals);
         
@@ -455,7 +452,7 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     private void verifyAbsentInDatastore(CourseAttributes course) {
-        assertEquals("null", BackDoor.getCourseAsJson(course.id));
+        assertEquals("null", BackDoor.getCourseAsJson(course.getId()));
     }
     
     private void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
@@ -517,7 +514,7 @@ public class BackDoorTest extends BaseTestCase {
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
         String courseJsonString = "null";
         while (courseJsonString.equals("null")) {
-            courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
+            courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
         }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
                 CourseAttributes.class);

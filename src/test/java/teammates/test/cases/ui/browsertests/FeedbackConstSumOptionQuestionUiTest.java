@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,7 +28,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
