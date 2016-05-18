@@ -123,7 +123,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private boolean arrayContains(String[] arr, String value) {
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals(value.toLowerCase().trim())) {
+            if (arr[i].equals(value.toLowerCase(Locale.ENGLISH).trim())) {
                 return true;
             }
         }
@@ -136,7 +136,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase();
+        query = filterQuery.toLowerCase(Locale.ENGLISH);
         
         try {
             q = parseQuery(query);
@@ -196,9 +196,12 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
-                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
-                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+            if (!logEntry.getName().toLowerCase(Locale.ENGLISH)
+                                   .contains(q.personValue.toLowerCase(Locale.ENGLISH)) 
+                && !logEntry.getGoogleId().toLowerCase(Locale.ENGLISH)
+                                          .contains(q.personValue.toLowerCase(Locale.ENGLISH))
+                && !logEntry.getEmail().toLowerCase(Locale.ENGLISH)
+                                       .contains(q.personValue.toLowerCase(Locale.ENGLISH))) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
@@ -223,7 +226,8 @@ public class AdminActivityLogPageData extends PageData {
         if (q.isInfoInQuery) {
             
             for (String keyString : q.infoValues) {
-                if (!logEntry.getMessageInfo().toLowerCase().contains(keyString.toLowerCase())) {
+                if (!logEntry.getMessageInfo().toLowerCase(Locale.ENGLISH).contains(
+                                                                               keyString.toLowerCase(Locale.ENGLISH))) {
                     logEntry.setToShow(false);
                     return logEntry;
                 }

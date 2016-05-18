@@ -2,6 +2,7 @@ package teammates.storage.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import com.google.appengine.api.search.Document;
@@ -48,9 +49,9 @@ public abstract class SearchQuery {
         // using an email. To avoid this, we check whether the input text is an
         // email, and if yes, we skip the sanitize process.
         if (FieldValidator.isValidEmailAddress(queryString)) {
-            sanitizedQueryString = queryString.toLowerCase().trim();
+            sanitizedQueryString = queryString.toLowerCase(Locale.ENGLISH).trim();
         } else {
-            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
+            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase(Locale.ENGLISH).trim(); 
         }
         
         if (!sanitizedQueryString.isEmpty()) {

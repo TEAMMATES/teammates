@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -791,7 +792,7 @@ public class FieldValidator {
         
         Assumption.assertTrue("Non-null value expected", value != null);
         Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
-                !value.toLowerCase().endsWith("@gmail.com"));
+                              !value.toLowerCase(Locale.ENGLISH).endsWith("@gmail.com"));
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
