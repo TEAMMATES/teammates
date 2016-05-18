@@ -441,7 +441,7 @@ function registerCheckboxEventForVisibilityOptions() {
         var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
-        var visibilityOptionsRow = target.closest('tr'); 
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
