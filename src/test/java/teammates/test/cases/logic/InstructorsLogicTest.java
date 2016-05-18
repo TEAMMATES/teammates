@@ -484,6 +484,13 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
+
+        try {
+            instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     public void testIsNewInstructor() throws Exception {
