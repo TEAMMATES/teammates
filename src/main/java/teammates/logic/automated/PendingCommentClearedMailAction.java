@@ -59,7 +59,6 @@ public class PendingCommentClearedMailAction extends EmailAction {
     @Override
     protected List<MimeMessage> prepareMailToBeSent()
             throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
         log.info("Fetching recipient emails for pending comments in course : "
                 + courseId);
         Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
@@ -68,7 +67,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
             log.severe("Recipient emails for pending comments in course : " + courseId 
                        + " could not be fetched");
         }
-        return emailManager.generatePendingCommentsClearedEmails(courseId, recipients);
+        return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);
     }
 
     private void initializeNameAndDescription() {

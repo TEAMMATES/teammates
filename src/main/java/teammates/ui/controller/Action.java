@@ -466,9 +466,8 @@ public abstract class Action {
     protected boolean isJoinedCourse(String courseId) {
         if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId) != null;
-        } else {
-            return true;
-        }
+        } 
+        return true;
     }
 
     /**

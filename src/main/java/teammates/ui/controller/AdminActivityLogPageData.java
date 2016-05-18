@@ -502,9 +502,8 @@ public class AdminActivityLogPageData extends PageData {
     public String getPersonSpecified() {
         if (q == null) {
             return null;
-        } else {
-            return q.personValue;
         }
+        return q.personValue;
     }
     
     public boolean isFromDateSpecifiedInQuery() {

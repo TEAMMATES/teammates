@@ -169,11 +169,9 @@ public class InstructorCommentsPageAction extends Action {
                                    List<CommentAttributes> commentList) {
         if (isViewingDraft || isCurrentInstructorGiver) { 
             commentList.add(comment);
-        } else {
-            if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                commentList.add(comment);
-            }
+        } else if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+            commentList.add(comment);
         }
     }
     

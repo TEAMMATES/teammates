@@ -84,9 +84,8 @@ public class PriorityInterceptor implements IMethodInterceptor {
 
                 if (index == -1) {
                     return 0;
-                } else {
-                    return -index;
                 } 
+                return -index;
             }
 
             public int compare(IMethodInstance m1, IMethodInstance m2) {

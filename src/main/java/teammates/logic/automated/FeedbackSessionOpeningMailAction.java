@@ -58,7 +58,6 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
     @Override
     protected List<MimeMessage> prepareMailToBeSent() 
             throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
@@ -74,7 +73,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
              * Check if feedback session was deleted between scheduling
              * and the actual sending of emails
              */
-            return emailManager.generateFeedbackSessionOpeningEmails(feedbackObject);
+            return new Emails().generateFeedbackSessionOpeningEmails(feedbackObject);
         }
         
     }
