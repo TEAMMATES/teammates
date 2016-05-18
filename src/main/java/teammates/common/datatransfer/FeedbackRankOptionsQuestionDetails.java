@@ -301,8 +301,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
           
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
-            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
-            
+            String fragment = option + "," + df.format(average) + Const.EOL;
+            fragments.append(fragment);
         }
 
         return "Option, Average Rank" + Const.EOL + fragments.toString() + Const.EOL;

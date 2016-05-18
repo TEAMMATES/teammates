@@ -210,8 +210,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
         String invalidStudentId = "t1|n6|e6@g@";
-        String invalidEnrollLine = new StringBuilder().append("Team | Name | Email | Comment").append(Const.EOL)
-                                                      .append(invalidStudentId).append(Const.EOL).toString();
+        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL
+                                 + invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());

@@ -2150,13 +2150,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableStringBuilder.append('{')
-                              .append(entry.getKey().toString())
-                              .append("={")
-                              .append(String.valueOf(entry.getValue()[0]))
-                              .append(',')
-                              .append(String.valueOf(entry.getValue()[1]))
-                              .append("}},");
+            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+                                      + entry.getValue()[0] + ','
+                                      + entry.getValue()[1] + "}},");
         }
         String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {

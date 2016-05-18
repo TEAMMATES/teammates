@@ -78,7 +78,7 @@ public class UrlTest extends BaseTestCase {
         assertEquals(url, Url.addParamToUrl(url, "key", null));
         assertEquals(url, Url.addParamToUrl(url, "key", ""));
         assertEquals(url + "?key1=value1", Url.addParamToUrl(url, "key1", "value1"));
-        url = "?key1=value1";
+        url += "?key1=value1";
         assertEquals(url + "&key2=value2", Url.addParamToUrl(url, "key2", "value2"));
         url += "&key2=value2";
         assertEquals(url, Url.addParamToUrl(url, "key1", "newvalue1"));

@@ -153,9 +153,10 @@ public class CoursesLogic {
             if (s == null) {
                 //TODO Remove excessive logging after the reason why s can be null is found
                 StringBuilder logMsg = new StringBuilder();
-                logMsg.append("Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br/> Student Google ID: ")
-                      .append(googleId).append("<br/> Course: ").append(c.getId())
-                      .append("<br/> All Courses Retrieved using the Google ID:");
+                logMsg.append(
+                    "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br/> Student Google ID: "
+                    + googleId + "<br/> Course: " + c.getId()
+                    + "<br/> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
                     logMsg.append("<br/>").append(course.getId());
                 }
@@ -757,11 +758,11 @@ public class CoursesLogic {
                         export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export.append(Sanitizer.sanitizeForCsv(team.name)).append(',') 
-                          .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name))).append(',')
-                          .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName))).append(',') 
-                          .append(Sanitizer.sanitizeForCsv(studentStatus)).append(',') 
-                          .append(Sanitizer.sanitizeForCsv(student.email)).append(Const.EOL);
+                    export.append(Sanitizer.sanitizeForCsv(team.name) + ',' 
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ',' 
+                            + Sanitizer.sanitizeForCsv(studentStatus) + ',' 
+                            + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
         }

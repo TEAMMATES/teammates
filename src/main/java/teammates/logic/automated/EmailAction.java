@@ -117,11 +117,10 @@ public abstract class EmailAction {
                 
         String url = HttpRequestHelper.getRequestedURL(req);
     
-        StringBuilder message = new StringBuilder(100);
-        message.append("<span class=\"color_red\">Servlet Action failure in ").append(actionName).append("<br>")
-               .append(e.getMessage()).append("</span>");
+        String message = "<span class=\"color_red\">Servlet Action failure in " + actionName + "<br>"
+                       + e.getMessage() + "</span>";
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null,
-                                                                 message.toString(), url);
+                                                                 message, url);
         log.log(Level.INFO, activityLogEntry.generateLogMessage());
         log.severe(e.getMessage());
     }
@@ -139,8 +138,7 @@ public abstract class EmailAction {
             String userEmail = extractedEmail.getKey();
             EmailData emailData = extractedEmail.getValue();
             
-            logMessage.append(emailData.userName).append("<span class=\"bold\"> (") 
-                      .append(userEmail).append(")</span>.<br/>");
+            logMessage.append(emailData.userName + "<span class=\"bold\"> (" + userEmail + ")</span>.<br/>");
             if (!emailData.regKey.isEmpty()) {
                 logMessage.append(emailData.regKey).append("<br/>");
             }

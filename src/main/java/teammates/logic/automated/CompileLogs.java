@@ -37,7 +37,7 @@ public class CompileLogs {
                                      .minLogLevel(LogLevel.ERROR);
         
         Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
-        StringBuilder message = new StringBuilder();
+        StringBuilder message = new StringBuilder(100);
 
         int numberOfErrors = 0;
 
@@ -51,9 +51,8 @@ public class CompileLogs {
                 
                 if (LogService.LogLevel.FATAL.equals(logLevel) || LogService.LogLevel.ERROR.equals(logLevel)) {
                     numberOfErrors++;
-                    message.append(numberOfErrors)
-                           .append(". Error Type: ").append(currentLog.getLogLevel().toString())
-                           .append("<br/>Error Message: ").append(currentLog.getLogMessage()).append("<br/><br/>");
+                    message.append(numberOfErrors + ". Error Type: " + currentLog.getLogLevel().toString()
+                                   + "<br/>Error Message: " + currentLog.getLogMessage() + "<br/><br/>");
                 }
             }
         }

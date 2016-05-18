@@ -353,13 +353,12 @@ public class OfflineBackup extends RemoteApiClient {
         
         if (hasPreviousEntity) {
             formattedString.append(",\n");
-
         } else {
             hasPreviousEntity = true;
         }
         
         entityJsonString = entityJsonString.replace("\n", "\n\t\t");
-        formattedString.append("\t\t\"").append(name).append("\":").append(entityJsonString);
+        formattedString.append("\t\t\"" + name + "\":" + entityJsonString);
         
         return formattedString.toString();
     }

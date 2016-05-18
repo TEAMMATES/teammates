@@ -536,9 +536,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
-                     .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100 * (double) entry.getValue() / numChoicesSelected)).append(Const.EOL);
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey()) + ','
+                             + entry.getValue().toString() + ','
+                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
         }
 
         

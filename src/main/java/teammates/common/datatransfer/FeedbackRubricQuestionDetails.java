@@ -700,18 +700,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             
             detailedResponsesRow
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))).append(',')
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))).append(',')
-                .append(Sanitizer.sanitizeForCsv(chosenIndexString)).append(',')
-                .append(Sanitizer.sanitizeForCsv(chosenChoiceValue)).append(',')
-                .append(Sanitizer.sanitizeForCsv(chosenChoiceNumber))
-                .append(Const.EOL);
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                        + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
+                        + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
+                        + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                        + Const.EOL);
         }
         
         return detailedResponsesRow.toString();

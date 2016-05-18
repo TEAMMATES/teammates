@@ -135,11 +135,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
-        StringBuilder additionalInfo = new StringBuilder(100);
-        additionalInfo.append(getQuestionTypeDisplayName())
-                      .append(":<br/>Minimum value: ").append(minScale) 
-                      .append(". Increment: ").append(step).append(". Maximum value: ")
-                      .append(maxScale).append('.');
+        String additionalInfo = getQuestionTypeDisplayName()
+                              + ":<br/>Minimum value: " + minScale 
+                              + ". Increment: " + step + ". Maximum value: "
+                              + maxScale + '.';
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
@@ -147,7 +146,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
-                "${questionAdditionalInfo}", additionalInfo.toString());
+                "${questionAdditionalInfo}", additionalInfo);
     }
 
     @Override
@@ -485,14 +484,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
-            csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam)).append(',')
-                   .append(Sanitizer.sanitizeForCsv(isRecipientGeneral ? "General" : bundle.getNameForEmail(recipient)))
-                   .append(',')
-                   .append(df.format(average.get(recipient))).append(',')
-                   .append(df.format(min.get(recipient))).append(',')
-                   .append(df.format(max.get(recipient)))
-                   .append(showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
-                   .append(Const.EOL);
+            csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam) + ','
+                           + Sanitizer.sanitizeForCsv(isRecipientGeneral 
+                                                      ? "General" 
+                                                      : bundle.getNameForEmail(recipient)) 
+                           + ','
+                           + df.format(average.get(recipient)) + ','
+                           + df.format(min.get(recipient)) + ','
+                           + df.format(max.get(recipient))
+                           + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
+                           + Const.EOL);
         }
         return csvHeader + csvBody.toString();
     }
