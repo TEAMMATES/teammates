@@ -563,7 +563,7 @@ public class Logic {
      * @throws InvalidParametersException 
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
@@ -573,7 +573,7 @@ public class Logic {
     }
     
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);   
@@ -1209,7 +1209,7 @@ public class Logic {
      * @param googleId
      * @param key the encrypted registration key
      */
-    public void joinCourseForStudent(String key, String googleId) throws JoinCourseException {
+    public void joinCourseForStudent(String key, String googleId) throws JoinCourseException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
