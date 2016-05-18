@@ -53,21 +53,3 @@
     <br>
     <shared:confirmationModal/>
 </ti:instructorPage>
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmation" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                Warning!
-            </div>
-            <div class="modal-body">
-                <p>Editing these fields will result in all existing responses for this question to be deleted. </p>
-                <br>
-                <p>Are you sure you want to continue?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="continue">Yes, continue and delete the existing responses</button>
-            </div>
-        </div>
-    </div>
-</div>
