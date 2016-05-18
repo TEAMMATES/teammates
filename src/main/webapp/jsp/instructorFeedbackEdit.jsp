@@ -10,6 +10,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
@@ -50,6 +51,7 @@
     
     <br>
     <br>
+    <shared:confirmationModal/>
 </ti:instructorPage>
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmation" aria-hidden="true">
     <div class="modal-dialog">
