@@ -42,7 +42,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
+        assertEquals(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS, pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
