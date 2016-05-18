@@ -23,12 +23,12 @@ function readyFeedbackEditPage() {
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
-            if (!confirm('Editing these fields will result in all existing responses for'
-                         + ' this question to be deleted. Are you sure you want to continue?')) {
-                event.stopImmediatePropagation();
-                return false;
-            }
-        }
+            event.preventDefault();
+            $('#confirm-delete').modal('show');
+            $('#continue').on('click', function(e) {
+                event.currentTarget.submit();
+            });
+        };
     });
     $('form.form_question').submit(function() {
         return checkFeedbackQuestion(this);
