@@ -187,14 +187,15 @@ function registerResponseCommentCheckboxEvent() {
         var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.closest('tr').find('input[class*=giverCheckbox]').prop('checked', false);
-            target.closest('tr').find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.closest('tr').find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
@@ -440,14 +441,15 @@ function registerCheckboxEventForVisibilityOptions() {
         var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr'); 
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.closest('tr').find('input[class*=giverCheckbox]').prop('checked', false);
-            target.closest('tr').find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.closest('tr').find('input[class*=answerCheckbox]').prop('checked', true);
+            visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
