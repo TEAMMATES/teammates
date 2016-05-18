@@ -290,7 +290,7 @@ public class Assumption {
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
-    // the expected and actual are the same objects 
+    // the expected and actual are the same objects (not just equal to each other) 
     public static void assertSame(String message, Object expected, Object actual) {
         if (expected == actual) {
             return;
@@ -305,7 +305,7 @@ public class Assumption {
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
-    // the expected and actual are the same objects 
+    // the expected and actual are the same objects (not just equal to each other) 
     public static void assertSame(Object expected, Object actual) {
         assertSame(null, expected, actual);
     }
@@ -317,7 +317,7 @@ public class Assumption {
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     // PMD.CompareObjectsWithEquals is suppressed as assertNotSame is checking if 
-    // the expected and actual are the different objects 
+    // the expected and actual are the different objects (not just equal to each other) 
     public static void assertNotSame(String message, Object expected,
             Object actual) {
         if (expected == actual) {
