@@ -83,7 +83,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public StudentAttributes(String section, String team, String name, String email, String comment,

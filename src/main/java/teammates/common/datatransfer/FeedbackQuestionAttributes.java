@@ -37,7 +37,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     private transient Date updatedAt;
 
     public FeedbackQuestionAttributes() {
-        
+        // attributes to be set after construction
     }
 
     public FeedbackQuestionAttributes(FeedbackQuestion fq) {

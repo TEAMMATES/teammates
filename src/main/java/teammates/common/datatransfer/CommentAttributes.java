@@ -41,7 +41,7 @@ public class CommentAttributes extends EntityAttributes
     public Date lastEditedAt;
 
     public CommentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
