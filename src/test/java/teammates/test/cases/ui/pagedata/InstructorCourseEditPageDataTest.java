@@ -6,12 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -66,7 +60,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
                                                                                  offset, sectionNames, 
                                                                                  feedbackSessionNames);
         
-        assertEquals("idOfTypicalCourse1", pageData.getCourse().id);
+        assertEquals("idOfTypicalCourse1", pageData.getCourse().getId());
         assertEquals(-1, pageData.getInstructorToShowIndex());
         assertNotNull(pageData.getDeleteCourseButton());
         assertNotNull(pageData.getAddInstructorButton());

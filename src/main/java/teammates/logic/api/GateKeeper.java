@@ -142,10 +142,10 @@ public class GateKeeper {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
 
-        if (!student.course.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to student ["
+        if (!student.course.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
                                                   + student.email + "]");
         }
     }
@@ -172,10 +172,10 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
     }
@@ -193,15 +193,15 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
         
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName + "]");
         }
     }
@@ -221,16 +221,16 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         verifyNotNull(sectionName, "section name");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
         
         if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName
                                                   + "] on section [" + sectionName + "]");
         }

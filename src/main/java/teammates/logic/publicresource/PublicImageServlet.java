@@ -40,11 +40,10 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 blobstoreService.serve(new BlobKey(blobKey), resp);
                 // TODO : restrict image request to those "public" files only
                 
-                String url = req.getRequestURL().toString() + 
-                             "?blob-key=" + blobKey;
+                String url = req.getRequestURL().toString() + "?blob-key=" + blobKey;
           
-                
-                String message = "Public image request with URL: <br><a href=\"" + url + "\" target=blank>" 
+                String message = "Public image request with URL: <br>" 
+                               + "<a href=\"" + url + "\" target=blank>" 
                                + url + "</a>";
                 logMessage(req, message);
             }

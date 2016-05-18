@@ -582,9 +582,9 @@ public final class InstructorPrivileges {
         }
         
         InstructorPrivileges rhs = (InstructorPrivileges) another;
-        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) &&
-                this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges()) &&
-                this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
+        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) 
+               && this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges())
+               && this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
     }
     
     @Override

@@ -51,9 +51,10 @@ public class AdminEmailsDb extends EntitiesDb {
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(ae.emailId);
         
         if (adminEmailToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject() +
-                                                  "/" + ae.getSendDate() +
-                                                  ThreadHelper.getCurrentThreadStack());
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject()
+                    + "/" + ae.getSendDate() 
+                    + ThreadHelper.getCurrentThreadStack());
         }
         
         ae.sanitizeForSaving();
@@ -111,8 +112,9 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(emailId);
         if (adminEmailToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId + 
-                                                  ThreadHelper.getCurrentThreadStack());
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId
+                    + ThreadHelper.getCurrentThreadStack());
         }
         
         newAdminEmail.sanitizeForSaving();
@@ -299,8 +301,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         Query q = getPM().newQuery(AdminEmail.class);
         q.declareParameters("String subjectParam, java.util.Date createDateParam");
-        q.setFilter("subject == subjectParam && " +
-                    "createDate == createDateParam");
+        q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
         
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject, createDate);

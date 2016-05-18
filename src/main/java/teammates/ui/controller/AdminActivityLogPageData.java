@@ -196,9 +196,9 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
@@ -258,7 +258,7 @@ public class AdminActivityLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         

@@ -111,7 +111,7 @@ public class CommentSearchDocument extends SearchDocument {
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course == null ? "" : course.name).append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
                              .append(comment.giverEmail).append(delim)
                              .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
                              .append(recipientsBuilder.toString()).append(delim)

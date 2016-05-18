@@ -106,7 +106,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                                                                     : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
         
-        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
+        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null 
+                                        || comment.getIsVisibilityFollowingFeedbackQuestion()) {
             setDefaultVisibilityOptions();
         } else {
             this.showCommentTo = comment.getShowCommentTo();
@@ -144,7 +145,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);

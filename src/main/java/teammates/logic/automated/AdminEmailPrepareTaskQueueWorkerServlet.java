@@ -187,9 +187,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                     // does not contains a "@".
                     // simply append the right part to the left part(last item of the list from last reading)
                     listOfList.get(listOfList.size() - 1)
-                    .set(lastAddedList.size() - 1,
-                                                    lastStringOfLastAddedList + 
-                                                    firstStringOfNewList);
+                    .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                     // and also needs to delete the right part which is the first item of the list from current reading
                     listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
@@ -270,8 +268,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(adminEmail);       
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         
-        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: " +
-                 indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
+        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "
+                + indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
         
         int indexOfLastEmailList = 0;
         int indexOfLastEmail = 0;
@@ -314,8 +312,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             indexOfLastEmailList = i;   
         }
         
-        log.info("Adding Group mail tasks for mail with id " + emailId + 
-                 "was complete. List index : " + indexOfLastEmailList + 
-                 " Email index: " + indexOfLastEmail);
+        log.info("Adding Group mail tasks for mail with id " + emailId
+                + "was complete. List index : " + indexOfLastEmailList 
+                + " Email index: " + indexOfLastEmail);
     }
 }

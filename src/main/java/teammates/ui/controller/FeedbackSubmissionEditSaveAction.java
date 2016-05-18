@@ -201,8 +201,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         boolean isExistingResponse = response.getId() != null; 
         if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() ||
-                    response.recipientEmail.isEmpty()) {
+            if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -212,8 +211,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
-        } else if (!response.responseMetaData.getValue().isEmpty() &&
-                !response.recipientEmail.isEmpty()) {
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;

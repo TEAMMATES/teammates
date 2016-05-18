@@ -59,14 +59,15 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     @Override
     public boolean execute() {
         
-        log.info("Adjusting submissions for feedback session :" + sessionName +
-                 "in course : " + courseId);
+
+        log.info("Adjusting submissions for feedback session :" + sessionName 
+                 + "in course : " + courseId);
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
         
-        String errorString = "Error encountered while adjusting feedback session responses " +
-                "of %s in course : %s : %s\n%s";
+        String errorString = 
+                "Error encountered while adjusting feedback session responses of %s in course : %s : %s\n%s";
         
         if (feedbackSession == null) {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));

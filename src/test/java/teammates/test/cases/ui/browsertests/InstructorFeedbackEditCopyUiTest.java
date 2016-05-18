@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -27,7 +26,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreTestDataOnServer(testData);
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
@@ -64,7 +63,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                         .verifyStatusMessage(
                                  String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
                                                feedbackSessionName, 
-                                               testData.courses.get("course").id));
+                                               testData.courses.get("course").getId()));
         
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest

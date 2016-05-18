@@ -48,8 +48,9 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('" 
-                          + sanitizeForJs(courseDetails.course.id) + "')) "
-                          + "window.location.href='" + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.id)) + "';";
+                          + sanitizeForJs(courseDetails.course.getId()) + "')) "
+                          + "window.location.href='"
+                          + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 

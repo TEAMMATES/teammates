@@ -60,7 +60,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         log.info("Fetching feedback session object for feedback session name : "
-                + feedbackSessionName + " and course : " + courseId);
+                 + feedbackSessionName + " and course : " + courseId);
         
         if (feedbackObject == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
@@ -68,12 +68,12 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
             return null;
         } 
         
-        Emails emailManager = new Emails();
         /*
          * Check if feedback session was deleted between scheduling
          * and the actual sending of emails
          */
-        return emailManager.generateFeedbackSessionClosingEmails(feedbackObject);
+        return new Emails().generateFeedbackSessionClosingEmails(feedbackObject);
+
     }
     
     private void initializeNameAndDescription() {

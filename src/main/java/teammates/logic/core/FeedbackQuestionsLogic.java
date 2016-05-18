@@ -168,10 +168,10 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
         for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.id);
+            List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
             for (FeedbackSessionAttributes session : sessions) {
                 List<FeedbackQuestionAttributes> questions =
-                        getFeedbackQuestionsForSession(session.feedbackSessionName, course.id);
+                        getFeedbackQuestionsForSession(session.feedbackSessionName, course.getId());
                 copiableQuestions.addAll(questions);
             }
         }
@@ -331,8 +331,8 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.STUDENTS ||
-                question.giverType == FeedbackParticipantType.TEAMS) {
+            if (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) {
                 questions.add(question);
             }
         }
@@ -481,8 +481,8 @@ public class FeedbackQuestionsLogic {
     public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email,
             List<FeedbackResponseAttributes> responses) {
         for (FeedbackResponseAttributes response : responses) {
-            if (response.giverEmail.equals(email) &&
-                response.feedbackQuestionId.equals(question.getId())) {
+            if (response.giverEmail.equals(email)
+                && response.feedbackQuestionId.equals(question.getId())) {
                 return true;
             }
         }
