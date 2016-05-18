@@ -2428,11 +2428,9 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
-            if (!instructorQns.isEmpty()) {
-                if (responseStatus.emailNameTable.get(instructor.email) == null) {
-                    instructorNoResponses.add(instructor.email);
-                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
-                }
+            if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
+                instructorNoResponses.add(instructor.email);
+                responseStatus.emailNameTable.put(instructor.email, instructor.name);
             }
         }
         instructorNoResponses.removeAll(fsa.respondingInstructorList);

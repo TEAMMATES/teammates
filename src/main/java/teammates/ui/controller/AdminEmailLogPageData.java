@@ -151,15 +151,11 @@ public class AdminEmailLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isToDateInQuery) {
-            if (logEntry.getTime() > q.toDateValue) {
-                return false;
-            }
+        if (q.isToDateInQuery && logEntry.getTime() > q.toDateValue) {
+            return false;
         }
-        if (q.isFromDateInQuery) {
-            if (logEntry.getTime() < q.fromDateValue) {
-                return false;
-            }
+        if (q.isFromDateInQuery && logEntry.getTime() < q.fromDateValue) {
+            return false;
         }
         if (q.isReceiverInQuery) {
             

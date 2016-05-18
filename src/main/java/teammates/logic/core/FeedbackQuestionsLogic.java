@@ -28,7 +28,6 @@ import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
     
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
 
     private static FeedbackQuestionsLogic instance;
@@ -689,7 +688,7 @@ public class FeedbackQuestionsLogic {
                                         questionToDeleteById.courseId, 
                                         questionToDeleteById.questionNumber, false);
         } else {
-            // Silently fail if question does not exist.
+            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
         }
         
     }
@@ -711,7 +710,7 @@ public class FeedbackQuestionsLogic {
                                         questionToDeleteById.courseId, 
                                         questionToDeleteById.questionNumber, true);
         } else {
-            // Silently fail if question does not exist.
+            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
         }
         
     }
