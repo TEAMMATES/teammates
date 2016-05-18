@@ -152,7 +152,7 @@ public class AdminActivityLogPageData extends PageData {
      */   
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if (ifShowAll == true) {        
+        if (ifShowAll) {        
             return false;
         }
         

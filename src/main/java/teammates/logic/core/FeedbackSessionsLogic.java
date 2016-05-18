@@ -141,7 +141,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (coursesLogic.isCoursePresent(courseId) == false) {
+        if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to get feedback sessions for a course that does not exist.");
         }
@@ -1104,7 +1104,7 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionHasQuestionForStudents(
             String feedbackSessionName,
             String courseId) throws EntityDoesNotExistException {
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
@@ -2331,8 +2331,7 @@ public class FeedbackSessionsLogic {
             int pairType) throws EntityDoesNotExistException {
         if (question.giverType == FeedbackParticipantType.TEAMS 
             && roster.isStudentInCourse(response.giverEmail)) {
-            if (emailNameTable.containsKey(response.giverEmail
-                    + Const.TEAM_OF_EMAIL_OWNER) == false) {
+            if (!emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER)) {
                 emailNameTable.put(
                         response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType,
@@ -2345,7 +2344,7 @@ public class FeedbackSessionsLogic {
                                                         question.giverType,
                                                         response.giverEmail, roster)[pairType]);
             }
-        } else if (emailNameTable.containsKey(response.giverEmail) == false) {
+        } else if (!emailNameTable.containsKey(response.giverEmail)) {
             emailNameTable.put(
                     response.giverEmail,
                     getNameTeamNamePairForEmail(question.giverType,
@@ -2358,7 +2357,7 @@ public class FeedbackSessionsLogic {
         } else {
             recipientType = question.recipientType;
         }
-        if (emailNameTable.containsKey(response.recipientEmail) == false) {
+        if (!emailNameTable.containsKey(response.recipientEmail)) {
             emailNameTable.put(
                     response.recipientEmail,
                     getNameTeamNamePairForEmail(recipientType,
@@ -2377,7 +2376,7 @@ public class FeedbackSessionsLogic {
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail))
                 fsDetailsWithoutPrivate.add(getFeedbackSessionDetails(fsa));
         }
 
@@ -2505,7 +2504,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
@@ -2529,7 +2528,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }

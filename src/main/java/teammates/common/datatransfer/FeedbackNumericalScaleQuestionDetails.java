@@ -611,7 +611,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false
+            if (!bundle.visibilityTable.get(response.getId())[1]
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 

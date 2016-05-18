@@ -175,24 +175,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             line += "can see your response";
 
             // Visibility fragment: e.g. can see your name, but not...
-            if (showRecipientNameTo.contains(participant) == false) {
-                if (showGiverNameTo.contains(participant) == true) {
+            if (!showRecipientNameTo.contains(participant)) {
+                if (showGiverNameTo.contains(participant)) {
                     line += ", and your name";
                 }
 
                 if (recipientType != FeedbackParticipantType.NONE) {
                     line += ", but not the name of the recipient";
 
-                    if (showGiverNameTo.contains(participant) == false) {
+                    if (!showGiverNameTo.contains(participant)) {
                         line += ", or your name";
                     }
                 } else {
-                    if (showGiverNameTo.contains(participant) == false) {
+                    if (!showGiverNameTo.contains(participant)) {
                         line += ", but not your name";
                     }
                 }
 
-            } else if (showRecipientNameTo.contains(participant) == true) {
+            } else if (showRecipientNameTo.contains(participant)) {
                 if (participant != FeedbackParticipantType.RECEIVER
                     && recipientType != FeedbackParticipantType.NONE) {
                     line += ", the name of the recipient";
@@ -251,14 +251,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return
      */
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionAttributes newAttributes) {
-        if (newAttributes.giverType.equals(this.giverType) == false
-            || newAttributes.recipientType.equals(this.recipientType) == false) {
+        if (!newAttributes.giverType.equals(this.giverType) 
+            || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
         }
 
-        if (this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false
-            || this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false
-            || this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false) {
+        if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
+            || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
+            || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
             return true;
         }
 

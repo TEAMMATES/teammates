@@ -104,7 +104,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, 
                                                            Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if (description != null) {
-                    if (rowAdded == false) {
+                    if (!rowAdded) {
                         descRows++;
                         rubricDescriptions.add(new ArrayList<String>());
                         rowAdded = true;
@@ -154,15 +154,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-            || this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false
-            || newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
+            || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+            || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
         if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
-            || this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false
-            || newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
+            || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
+            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions)) {
             return true;
         }
         

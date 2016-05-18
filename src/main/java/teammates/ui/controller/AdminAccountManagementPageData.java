@@ -35,7 +35,7 @@ public class AdminAccountManagementPageData extends PageData {
             String key = entry.getKey();
             AccountAttributes acc = entry.getValue();
             
-            if (isTestingAccount(acc) && isToShowAll == false) {
+            if (isTestingAccount(acc) && !isToShowAll) {
                  continue;
             }
             

@@ -187,8 +187,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${constSumOptionVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
-                "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
+                "${constSumToRecipientsValue}", Boolean.toString(distributeToRecipients),
+                "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
@@ -244,8 +244,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${constSumOptionVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
-                "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
+                "${constSumToRecipientsValue}", Boolean.toString(distributeToRecipients),
+                "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
@@ -279,7 +279,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
-                "${constSumToRecipientsValue}", distributeToRecipients ? "true" : "false",
+                "${constSumToRecipientsValue}", Boolean.toString(distributeToRecipients),
                 "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
                 "${constSumOptionTableVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
                 "${constSumPoints}", points == 0 ? "100" : Integer.toString(points),
@@ -531,8 +531,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
         if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
-            || this.constSumOptions.containsAll(newConstSumDetails.constSumOptions) == false
-            || newConstSumDetails.constSumOptions.containsAll(this.constSumOptions) == false) {
+            || !this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
+            || !newConstSumDetails.constSumOptions.containsAll(this.constSumOptions)) {
             return true;
         }
         

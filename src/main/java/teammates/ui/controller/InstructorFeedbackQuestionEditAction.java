@@ -238,7 +238,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (nEntityTypes.equals("custom") == false) {
+        if (!nEntityTypes.equals("custom")) {
             return false;
         }
         

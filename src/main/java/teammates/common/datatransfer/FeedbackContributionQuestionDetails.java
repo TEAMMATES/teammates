@@ -254,7 +254,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF 
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
@@ -277,7 +277,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -352,7 +352,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
@@ -376,7 +376,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName = name;
             String displayTeam = team;
             String displayEmail = email;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -729,7 +729,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if (validAnswer == false) {
+            if (!validAnswer) {
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }

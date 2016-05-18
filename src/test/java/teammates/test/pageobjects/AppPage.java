@@ -977,7 +977,7 @@ public abstract class AppPage {
         if (downloadedFile.exists()) { 
             downloadedFile.delete();
         }
-        if (downloadedFile.canWrite() == false) { 
+        if (!downloadedFile.canWrite()) { 
             downloadedFile.setWritable(true);
         }
         

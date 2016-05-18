@@ -106,8 +106,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
         if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
-            || this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false
-            || newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+            || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
+            || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
             return true;
         }
         

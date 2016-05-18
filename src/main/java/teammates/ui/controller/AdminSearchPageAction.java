@@ -317,7 +317,7 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if (fsa.isOpened() == false) {
+         if (!fsa.isOpened()) {
              
              if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> submitUrlList = new ArrayList<String>();

@@ -357,8 +357,7 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : questions) {
-            if (isQuestionFullyAnsweredByTeam(
-                    question, teamName) == false)
+            if (!isQuestionFullyAnsweredByTeam(question, teamName))
                 unansweredQuestions.add(question);
         }
         
@@ -406,7 +405,7 @@ public class FeedbackQuestionsLogic {
                 studentsLogic.getStudentsForCourse(question.courseId);
             for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
-                if (giver.equals(student.email) == false) {
+                if (!giver.equals(student.email)) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -426,7 +425,7 @@ public class FeedbackQuestionsLogic {
                 coursesLogic.getTeamsForCourse(question.courseId);
             for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
-                if (giverTeam.equals(team.name) == false) {
+                if (!giverTeam.equals(team.name)) {
                     // recipientEmail doubles as team name in this case.
                     recipients.put(team.name, team.name);
                 }
@@ -439,7 +438,7 @@ public class FeedbackQuestionsLogic {
             List<StudentAttributes> students = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : students) {
-                if (student.email.equals(giver) == false) {
+                if (!student.email.equals(giver)) {
                     recipients.put(student.email, student.name);
                 }
             }
