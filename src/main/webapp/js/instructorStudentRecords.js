@@ -22,10 +22,21 @@ $(document).ready(function() {
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
-    $('input[type=checkbox]').click(function() {
+    $('input[type=checkbox]').click(function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
+        var target = $(e.target);
+        
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
+            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+        
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
