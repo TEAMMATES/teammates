@@ -362,12 +362,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf 
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
-                        templateToUse,
-                        "${summaryTitle}", statsTitle,
-                        "${statsFragments}", fragmentHtml.toString());
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(
+                                                templateToUse,
+                                                "${summaryTitle}", statsTitle,
+                                                "${statsFragments}", fragmentHtml.toString());
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
@@ -470,10 +468,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
   
-        StringBuilder csvHeader = new StringBuilder(100);
-        csvHeader.append("Team, Recipient, Average, Minimum, Maximum")
-                 .append(showAvgExcludingSelf ? ", Average excluding self response" : "")
-                 .append(Const.EOL);
+        String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
+                         + (showAvgExcludingSelf ? ", Average excluding self response" : "")
+                         + Const.EOL;
         
         StringBuilder csvBody = new StringBuilder();
         for (String recipient : numResponses.keySet()) {
@@ -497,7 +494,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                    .append(showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
                    .append(Const.EOL);
         }
-        return csvHeader.toString() + csvBody.toString();
+        return csvHeader + csvBody.toString();
     }
     
     private boolean showAverageExcludingSelf(

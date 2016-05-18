@@ -132,9 +132,9 @@ public class AdminActivityLogPageAction extends Action {
                                        AdminActivityLogPageData data, 
                                        List<ActivityLogEntry> logs, String courseId) {
         StringBuilder status = new StringBuilder(500); 
-        status.append("Total Logs gone through in last search: ").append(totalLogsSearched)
-              .append("<br>Total Relevant Logs found in last search: ")
-              .append(String.format("%s<br>", logs.size()));
+        status.append("Total Logs gone through in last search: " + totalLogsSearched
+                    + "<br>Total Relevant Logs found in last search: "
+                    + String.format("%s<br>", logs.size()));
         
         long earliestSearchTime = data.getFromDate();
         ActivityLogEntry earliestLogChecked = null;
@@ -164,12 +164,12 @@ public class AdminActivityLogPageAction extends Action {
         double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
         String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
-        status.append("The earliest log entry checked on <b>").append(timeInAdminTimeZone).append("</b> in Admin Time Zone (") 
-              .append(adminTimeZone).append(") and ");
+        status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                     + adminTimeZone + ") and ");
         if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
-            status.append("on <b>").append(timeInUserTimeZone)
-                  .append("</b> in Local Time Zone (").append(targetTimeZone)
-                  .append(").<br>");
+            status.append("on <b>" + timeInUserTimeZone
+                        + "</b> in Local Time Zone (" + targetTimeZone
+                        + ").<br>");
         } else {
             status.append(timeInUserTimeZone).append(".<br>");
         }
@@ -197,12 +197,12 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         // the "Search More" button to continue searching from the previous fromDate 
-        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(")
-              .append(nextEndTimeToSearch)
-              .append(");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\"")
-              .append(data.getIfShowAll())
-              .append("\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\"")
-              .append(data.getIfShowTestData()).append("\"/>");
+        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
+                      + nextEndTimeToSearch
+                      + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
+                      + data.getIfShowAll()
+                      + "\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\""
+                      + data.getIfShowTestData() + "\"/>");
         
         String statusString = status.toString();
         data.setStatusForAjax(statusString);

@@ -414,10 +414,7 @@ public class StudentsLogic {
             return;
         }
 
-        String errorMessage = new StringBuilder()
-                                    .append(getSectionInvalidityInfo(mergedList))
-                                    .append(getTeamInvalidityInfo(mergedList))
-                                    .toString();
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
 
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
@@ -440,11 +437,10 @@ public class StudentsLogic {
             return;
         }
         
-        StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(getTeamInvalidityInfo(mergedList));
+        String errorMessage = getTeamInvalidityInfo(mergedList);
 
         if (errorMessage.length() > 0) {
-            throw new EnrollException(errorMessage.toString());
+            throw new EnrollException(errorMessage);
         }
 
     }

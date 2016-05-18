@@ -358,7 +358,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return "";
         }
         
-        StringBuilder html = new StringBuilder();
         StringBuilder fragments = new StringBuilder();
         List<String> options = constSumOptions;
         
@@ -394,17 +393,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         if (distributeToRecipients) {
-            html.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+            return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     "${optionRecipientDisplayName}", "Recipient",
-                    "${fragments}", fragments.toString()));
+                    "${fragments}", fragments.toString());
         } else {
-            html.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+            return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                     "${optionRecipientDisplayName}", "Option",
-                    "${fragments}", fragments.toString()));
+                    "${fragments}", fragments.toString());
         }
         
-        
-        return html.toString();
     }
     
     
@@ -417,7 +414,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return "";
         }
         
-        StringBuilder csv = new StringBuilder();
         StringBuilder fragments = new StringBuilder();
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
@@ -441,10 +437,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
         }
         
-        csv.append(distributeToRecipients ? "Team, Recipient" : "Option").append(", Average Points").append(Const.EOL) 
-           .append(fragments).append(Const.EOL);
-        
-        return csv.toString();
+        return (distributeToRecipients ? "Team, Recipient" : "Option")
+               + ", Average Points" + Const.EOL 
+               + fragments + Const.EOL;
     }
 
     /**

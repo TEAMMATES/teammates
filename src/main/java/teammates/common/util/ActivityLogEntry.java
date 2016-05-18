@@ -528,14 +528,13 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        StringBuilder message = new StringBuilder(100);
-        message.append("<span class=\"text-danger\">Servlet Action failure in ").append(action).append("<br>")
-               .append(e.getClass()).append(": ").append(TeammatesException.toStringWithStackTrace(e)).append("<br>")
-               .append(HttpRequestHelper.printRequestParameters(req)).append("</span>");
+        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>"
+                       + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>"
+                       + HttpRequestHelper.printRequestParameters(req) + "</span>";
         
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message.toString(),
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
                                                              url, courseId, studentEmail);
         
         return exceptionLog.generateLogMessage();

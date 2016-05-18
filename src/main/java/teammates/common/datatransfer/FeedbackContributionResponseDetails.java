@@ -90,9 +90,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
         int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
         
-        
-        StringBuilder responseAnswerHtml = new StringBuilder();
-        
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
                 Utils.getLogger().severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
@@ -108,23 +105,24 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
+            
+            return "";
         } else {
+            
             if (response.giverEmail.equals(response.recipientEmail)) {
                 StudentResultSummary studentResult = stats.get(response.giverEmail);
-                responseAnswerHtml.append(FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                                                  studentResult.claimedToInstructor));
-                if (studentResult != null) {
-                    //For CONTRIB qns, We want to show PC if giver == recipient.
-                    int pc = studentResult.perceivedToInstructor;
-                    responseAnswerHtml.append(
-                            FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc));
-                }
+                String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                                  studentResult.claimedToInstructor);
+                
+                //For CONTRIB qns, We want to show PC if giver == recipient.
+                int pc = studentResult.perceivedToInstructor;
+                return responseAnswerHtml 
+                     + FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             } else {
-                responseAnswerHtml.append(FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                                                teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
+                return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                                teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
             }
         }
-        return responseAnswerHtml.toString();
     }
     
     private String getContributionQuestionResponseAnswerCsv(

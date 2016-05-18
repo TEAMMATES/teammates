@@ -368,7 +368,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        String html = "";
         StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
@@ -408,10 +407,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                                 "${percentage}", df.format(100 * (double) entry.getValue() / responses.size())));
         }
         
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments.toString());
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
     }
     
 
@@ -424,7 +421,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        StringBuilder csv = new StringBuilder(100);
         StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
@@ -463,10 +459,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                      .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
         }
         
-        csv.append("Choice, Response Count, Percentage").append(Const.EOL)
-           .append(fragments.toString());
-        
-        return csv.toString();
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments.toString();
     }
     
     @Override

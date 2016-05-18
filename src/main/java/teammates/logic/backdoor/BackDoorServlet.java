@@ -287,19 +287,19 @@ public class BackDoorServlet extends HttpServlet {
 
     private String getCourseIDsForInstructor(String instructorID) {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
-        StringBuilder courseIDs = new StringBuilder();
+        StringBuilder courseIds = new StringBuilder();
 
         try {
             HashMap<String, CourseDetailsBundle> courseList = backDoorLogic
                     .getCourseSummariesForInstructor(instructorID);
             for (String courseId : courseList.keySet()) {
-                courseIDs.append(courseId).append(' ');
+                courseIds.append(courseId).append(' ');
             }
         } catch (EntityDoesNotExistException e) {
             // Instructor does not exist, no action required.
         }
 
-        return courseIDs.toString().trim();
+        return courseIds.toString().trim();
     }
 
 }

@@ -228,15 +228,11 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     }
 
     private String getExtraClass(String giverEmail, String instructorEmail, boolean isPublic) {
-        StringBuilder extraClass = new StringBuilder(50);
         
-        extraClass.append(" giver_display-by-")
-                  .append(giverEmail.equals(instructorEmail) ? "you" : "others")
-                   
-                  .append(" status_display-")
-                  .append(isPublic ? "public" : "private");
-
-        return extraClass.toString();
+        return " giver_display-by-"
+             + (giverEmail.equals(instructorEmail) ? "you" : "others")
+             + " status_display-"
+             + (isPublic ? "public" : "private");
     }
 
     public int getNumberOfPendingComments() {

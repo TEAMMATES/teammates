@@ -24,12 +24,10 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
     }
     
     public String getConfirmationLink() {
-        StringBuilder ref = new StringBuilder();
-        ref.append(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED).append("?key=").append(regkey);
-        if (institute != null) {
-            ref.append('&').append(Const.ParamsNames.INSTRUCTOR_INSTITUTION).append('=')
-               .append(Sanitizer.sanitizeForUri(institute));
-        }
-        return ref.toString();
+        
+        return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
+             + (institute != null 
+                ? '&' + Const.ParamsNames.INSTRUCTOR_INSTITUTION + '=' + Sanitizer.sanitizeForUri(institute) 
+                : "");
     }
 }

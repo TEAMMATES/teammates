@@ -190,15 +190,13 @@ public class DataGenerator {
      */
     public static String output() {
         System.out.println("Start writing to file !");
-        StringBuilder output = new StringBuilder(100);
-        output.append("{\n")
-              .append(allAccounts()).append("\n\n")
-              .append(allCourses()).append("\n\n")
-              .append(allInstructors()).append("\n\n")
-              .append(allStudents()).append("\n\n}");
+        String output = "{\n" + allAccounts() + "\n\n"
+                      + allCourses() + "\n\n"
+                      + allInstructors() + "\n\n"
+                      + allStudents() + "\n\n}";
         
         System.out.println("Finish writing to file !");
-        return output.toString();
+        return output;
     }
     
     public static String allAccounts() {
@@ -273,12 +271,10 @@ public class DataGenerator {
 
     
     public static String account(String acc) {
-        StringBuilder result = new StringBuilder(100);
-        result.append('\"').append(acc)
-              .append("\":{\"googleId\":\"").append(acc)
-              .append("\",\"name\":\"").append(acc)
-              .append("\",\"email\":\"").append(acc).append("@gmail.com\",\"institute\":\"\"}");
-        return result.toString();
+        return "\"" + acc
+              + "\":{\"googleId\":\"" + acc
+              + "\",\"name\":\"" + acc
+              + "\",\"email\":\"" + acc + "@gmail.com\",\"institute\":\"\"}";
     }
     
     /**

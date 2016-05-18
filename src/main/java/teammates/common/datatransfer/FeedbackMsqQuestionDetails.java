@@ -541,11 +541,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                      .append(df.format(100 * (double) entry.getValue() / numChoicesSelected)).append(Const.EOL);
         }
 
-        StringBuilder csv = new StringBuilder(100);
-        csv.append("Choice, Response Count, Percentage").append(Const.EOL)
-           .append(fragments).append(Const.EOL);
         
-        return csv.toString();
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments + Const.EOL;
     }
 
     @Override

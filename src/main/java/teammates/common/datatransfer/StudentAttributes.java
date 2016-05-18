@@ -124,16 +124,13 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String toEnrollmentString() {
-        StringBuilder enrollmentString = new StringBuilder();
         String enrollmentStringSeparator = "|";
 
-        enrollmentString.append(this.section).append(enrollmentStringSeparator)
-                        .append(this.team).append(enrollmentStringSeparator)
-                        .append(this.name).append(enrollmentStringSeparator)
-                        .append(this.email).append(enrollmentStringSeparator)
-                        .append(this.comments);
-
-        return enrollmentString.toString();
+        return this.section + enrollmentStringSeparator
+             + this.team + enrollmentStringSeparator
+             + this.name + enrollmentStringSeparator
+             + this.email + enrollmentStringSeparator
+             + this.comments;
     }
 
     public boolean isRegistered() {

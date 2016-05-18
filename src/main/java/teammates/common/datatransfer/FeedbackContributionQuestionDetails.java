@@ -404,13 +404,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
             contribFragments.append(entry.getValue());
         }
-        
-        StringBuilder csv = new StringBuilder(400);
-        
-        csv.append(csvPointsExplanationHeader())
-           .append(contribFragments).append(Const.EOL);
-
-        return csv.toString();
+                
+        return csvPointsExplanationHeader() + contribFragments + Const.EOL;
     }
 
     private String csvPointsExplanationHeader() {
@@ -800,15 +795,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
-        StringBuilder noResponseHtml = new StringBuilder();
-        noResponseHtml.append("<i>").append(Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE).append("</i>");
+        boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail) 
+                                               && hasPerceivedContribution(recipientEmail, question, bundle);
         
         // in the row for the student's self response,
         // show the perceived contribution if the student has one
-        if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
-            noResponseHtml.append(getPerceivedContributionHtml(question, recipientEmail, bundle));
-        } 
-        return noResponseHtml.toString();
+        return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>"
+               + (isPerceivedContributionShown ? getPerceivedContributionHtml(question, recipientEmail, bundle) 
+                                               : "");
     }
     
     
@@ -826,25 +820,25 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
 
         StringBuilder result = new StringBuilder(200);
-        result.append("<option class=\"")
-              .append(getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED))
-              .append("\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\"")
-              .append(points == Const.POINTS_NOT_SUBMITTED ? " selected" : "").append('>')
-              .append(convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED)).append("</option>");
+        result.append("<option class=\""
+                     + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
+                     + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
+                     + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
+                     + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>");
         for (int i = 200; i >= 0; i -= 10) {
-            result.append("<option class=\"")
-                  .append(getContributionOptionsColor(i))
-                  .append("\" value=\"").append(i).append('\"')
-                  .append((i == points ? "selected" : ""))
-                  .append('>').append(convertToEqualShareFormat(i))
-                  .append("</option>\r\n");
+            result.append("<option class=\""
+                        + getContributionOptionsColor(i)
+                        + "\" value=\"" + i + "\""
+                        + (i == points ? "selected" : "")
+                        + ">" + convertToEqualShareFormat(i)
+                        + "</option>\r\n");
         }
         if (isNotSureAllowed) {
-            result.append("<option class=\"")
-                  .append(getContributionOptionsColor(Const.POINTS_NOT_SURE))
-                  .append("\" value=\"").append(Const.POINTS_NOT_SURE).append('\"')
-                  .append((points == Const.POINTS_NOT_SURE ? " selected" : ""))
-                  .append(">Not Sure</option>");
+            result.append("<option class=\""
+                          + getContributionOptionsColor(Const.POINTS_NOT_SURE)
+                          + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
+                          + (points == Const.POINTS_NOT_SURE ? " selected" : "")
+                          + ">Not Sure</option>");
         }
         return result.toString();
     }

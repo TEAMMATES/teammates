@@ -334,9 +334,9 @@ public class AdminActivityLogPageData extends PageData {
                     break;
                 }
                 
-                outputHtml.append("<li class=\"list-group-item ") 
-                          .append(getStyleForListGroupItem(allActionNames.get(count)))
-                          .append("\">").append(allActionNames.get(count)).append("</li>");
+                outputHtml.append("<li class=\"list-group-item "
+                                  + getStyleForListGroupItem(allActionNames.get(count))
+                                  + "\">" + allActionNames.get(count) + "</li>");
                               
                 count++;
             }

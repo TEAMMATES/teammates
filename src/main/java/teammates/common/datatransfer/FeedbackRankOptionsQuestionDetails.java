@@ -255,7 +255,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             return "";
         }
         
-        String html = "";
         StringBuilder fragments = new StringBuilder(100);
         
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
@@ -277,11 +276,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         }
  
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
                                                              "${optionRecipientDisplayName}", "Option",
                                                              "${fragments}", fragments.toString());
-        
-        return html;
     }
     
     
@@ -308,7 +305,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
         }
 
-        return "Option" + ", Average Rank" + Const.EOL + fragments.toString() + Const.EOL;
+        return "Option, Average Rank" + Const.EOL + fragments.toString() + Const.EOL;
     }
 
     /**

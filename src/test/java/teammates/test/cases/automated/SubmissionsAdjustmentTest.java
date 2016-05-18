@@ -139,8 +139,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                 "(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = new StringBuilder().append("Section | Team | Name | Email | Comment").append(Const.EOL)
-                                         .append(newStudentLine).append(Const.EOL).append("\t").toString();
+        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL
+                    + newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
         while (counter != 10) {

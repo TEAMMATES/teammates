@@ -735,13 +735,13 @@ public class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
         
         StringBuilder export = new StringBuilder(100);
-        export.append("Course ID,")
-              .append(Sanitizer.sanitizeForCsv(courseId)).append(Const.EOL).append("Course Name,") 
-              .append(Sanitizer.sanitizeForCsv(course.course.name)).append(Const.EOL).append(Const.EOL).append(Const.EOL);
-        if (hasSection) {
-            export.append("Section,");
-        }
-        export.append("Team,Full Name,Last Name,Status,Email").append(Const.EOL);
+        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL 
+                      + "Course Name," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL
+                      + Const.EOL + Const.EOL;
+        export.append(courseInfo);
+        
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL; 
+        export.append(header);
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
