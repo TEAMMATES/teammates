@@ -99,7 +99,7 @@
    <!--<rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons"/>-->
    <!--<rule ref="rulesets/java/design.xml/PreserveStackTrace"/>-->
    <rule ref="rulesets/java/design.xml/ReturnEmptyArrayRatherThanNull"/>
-   <!--<rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale"/>-->
+   <rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale"/>
    <!--<rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>-->
    <!--<rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"/>-->
    <!--<rule ref="rulesets/java/design.xml/SimplifyConditional"/>-->

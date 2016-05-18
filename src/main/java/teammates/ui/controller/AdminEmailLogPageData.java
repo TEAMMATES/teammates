@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
@@ -228,7 +229,7 @@ public class AdminEmailLogPageData extends PageData {
         public void add(String label, String[] values) throws Exception {
             if (label.equals("after")) {
                 isFromDateInQuery = true;                
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.ENGLISH);
                 Date d = sdf.parse(values[0] + " 0:00");                          
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
@@ -237,7 +238,7 @@ public class AdminEmailLogPageData extends PageData {
                 
             } else if (label.equals("before")) {
                 isToDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.ENGLISH);
                 Date d = sdf.parse(values[0] + " 23:59");  
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);

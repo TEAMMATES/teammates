@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -121,7 +122,7 @@ public class AdminActivityLogPage extends AppPage {
 
     public Date getDateOfEarliestLog() throws ParseException {
         String dateFormat = "dd-MM-yyyy HH:mm:ss";
-        DateFormat sdf = new SimpleDateFormat(dateFormat);
+        DateFormat sdf = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > span > a")).getText();
         
         return sdf.parse(dateTimeString);

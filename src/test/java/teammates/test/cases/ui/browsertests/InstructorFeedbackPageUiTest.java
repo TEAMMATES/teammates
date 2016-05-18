@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
@@ -686,7 +687,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         // setup various dates 
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy", Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         cal.set(2014, 3, 16, 0, 0, 0);
         

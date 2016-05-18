@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -196,7 +197,7 @@ public class TimeHelper {
     public static String formatDate(Date date) {
         if (date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -211,9 +212,9 @@ public class TimeHelper {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
+            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm", Locale.ENGLISH).format(date) + " NOON";
         }
-        return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
+        return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a", Locale.ENGLISH).format(date);
     }
     
     public static String formatDateTimeForComments(Date date) {
@@ -224,11 +225,11 @@ public class TimeHelper {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm", Locale.ENGLISH);
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             return sdf.format(date) + " NOON UTC";
         }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz", Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -243,11 +244,11 @@ public class TimeHelper {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("d MMM h:mm");
+            sdf = new SimpleDateFormat("d MMM h:mm", Locale.ENGLISH);
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             return sdf.format(date) + " NOON";
         }
-        sdf = new SimpleDateFormat("d MMM h:mm a");
+        sdf = new SimpleDateFormat("d MMM h:mm a", Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -255,7 +256,7 @@ public class TimeHelper {
     public static String calendarToString(Calendar c) {
         if (c == null)
             return "";
-        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS", Locale.ENGLISH).format(c.getTime());
     }
 
     /**
@@ -263,7 +264,7 @@ public class TimeHelper {
      */
     public static Date convertToDate(String dateInStringFormat) {
         try {
-            DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+            DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT, Locale.ENGLISH);
             return df.parse(dateInStringFormat);
         } catch (ParseException e) {
             Assumption.fail("Date in String is in wrong format.");
@@ -354,7 +355,7 @@ public class TimeHelper {
     }
     
     private static Date convertToDate(String date, int time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     
@@ -416,7 +417,7 @@ public class TimeHelper {
         final String NEW_FORMAT = "yyyy-MM-dd";
 
         String oldDateString = date;
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT, Locale.ENGLISH);
         Date d;
         try {
             d = sdf.parse(oldDateString);

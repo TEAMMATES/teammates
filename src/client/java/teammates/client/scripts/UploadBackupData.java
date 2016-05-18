@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import com.google.gson.Gson;
@@ -103,7 +104,7 @@ public class UploadBackupData extends RemoteApiClient {
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
             public int compare(String o1, String o2) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss", Locale.ENGLISH);
                  try {
                     Date firstDate = dateFormat.parse(o1);
                     

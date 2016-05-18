@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.cyberneko.html.parsers.DOMParser;
 import org.w3c.dom.NamedNodeMap;
@@ -347,7 +348,7 @@ public class HtmlHelper {
      */
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ", Locale.ENGLISH);
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
