@@ -40,9 +40,6 @@ public class GateKeeper {
         return instance;
     }
 
-    @SuppressWarnings("unused")
-    private void ____USER_related_methods________________________________() {
-    }
 
     public boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
@@ -87,9 +84,6 @@ public class GateKeeper {
     /**
      * These methods ensures the logged in user is of a particular type.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_user_type_________________________() {
-    }
 
     /** Verifies the user is logged in */
     public void verifyLoggedInUserPrivileges() {
@@ -135,9 +129,6 @@ public class GateKeeper {
      * These methods ensures that the nominal user specified has access to a
      * given entity.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_entity_________________________() {
-    }
 
     public void verifyAccessible(StudentAttributes student, CourseAttributes course) {
         verifyNotNull(student, "student");
@@ -321,16 +312,8 @@ public class GateKeeper {
      * These methods ensures that the nominal user specified can perform the
      * specified action on a given entity.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_entity_per_activity________________() {
-    }
 
     // TODO: to be implemented when we adopt more finer-grain access control.
-
-    @SuppressWarnings("unused")
-    private void ____PRIVATE_methods________________________________() {
-    }
-
     private void verifyNotNull(Object object, String typeName) {
         if (object == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName

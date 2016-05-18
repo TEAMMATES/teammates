@@ -47,9 +47,6 @@ public class BackDoor {
 
     private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
 
-    @SuppressWarnings("unused")
-    private void ____SYSTEM_level_methods______________________________() {
-    }
 
     public static String putDocumentsForStudents(String dataBundleJson) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS_FOR_STUDENTS);
@@ -202,11 +199,7 @@ public class BackDoor {
     }
     
     //====================================================================================
-    
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods______________________________() {
-    }
-    
+
     public static String createAccount(AccountAttributes account) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.accounts.put(account.googleId, account);
@@ -278,9 +271,6 @@ public class BackDoor {
         return status;
     }
     
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods______________________________() {
-    }
 
     public static String createInstructor(InstructorAttributes instructor) {
         DataBundle dataBundle = new DataBundle();
@@ -355,9 +345,6 @@ public class BackDoor {
         return coursesArray;
     }
 
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods______________________________() {
-    }
 
     public static String createCourse(CourseAttributes course) {
         DataBundle dataBundle = new DataBundle();
@@ -401,10 +388,6 @@ public class BackDoor {
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         String status = makePOSTRequest(params);
         return status;
-    }
-
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods______________________________() {
     }
 
     public static String createStudent(StudentAttributes student) {
@@ -465,11 +448,6 @@ public class BackDoor {
         return status;
     }
 
-
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_SESSION_level_methods______________________________() {
-    }
-
     public static FeedbackSessionAttributes getFeedbackSession(String courseID,
             String feedbackSessionName) {
         String jsonString = getFeedbackSessionAsJson(feedbackSessionName, courseID);
@@ -502,9 +480,6 @@ public class BackDoor {
         return status;
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_QUESTION_level_methods______________________________() {
-    }
 
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
             String feedbackSessionName, int qnNumber) {
@@ -551,9 +526,6 @@ public class BackDoor {
         return status;
     }
 
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
-    }
     
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         DataBundle dataBundle = new DataBundle();
@@ -622,9 +594,6 @@ public class BackDoor {
         return status;
     }
     
-    @SuppressWarnings("unused")
-    private void ____helper_methods______________________________() {
-    }
 
     private static HashMap<String, Object> createParamMap(String operation) {
         HashMap<String, Object> map = new HashMap<String, Object>();

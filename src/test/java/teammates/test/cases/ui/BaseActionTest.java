@@ -229,11 +229,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'high-level' here means it tests access control of an action for the 
+     * 'high-level' tests here means it tests access control of an action for the 
      * full range of user types.
      */
-    @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks() {};
     
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -288,11 +286,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'mid-level' here means it tests access control of an action for 
+     * 'mid-level' tests here tests access control of an action for 
      * one user types.
      */
-    @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks() {};
     
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
@@ -608,12 +604,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     /*
-     * 'low-level' here means it tests an action once with the given parameters.
+     * 'low-level' tests here it tests an action once with the given parameters.
      * These methods are not aware of the user type.
      */
-    @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks() {};
-    
     /**
      * Verifies that the {@link Action} matching the {@code params} is 
      * accessible to the logged in user. 

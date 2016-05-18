@@ -1672,10 +1672,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sectionToTeam;
     }
 
-    @SuppressWarnings("unused")
-    // TODO unused. Can remove?
-    private void ________________COMPARATORS_____________() {
-    }
 
     // Sorts by giverName > recipientName
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipient =

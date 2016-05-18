@@ -104,9 +104,11 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setAdditionalParameters() throws EntityDoesNotExistException {
+        // no additional parameters to set for the standard student submit page
     }
 
     @Override
     protected void checkAdditionalConstraints() {
+        // no additional constraints to check for the standard student submit page
     }
 }

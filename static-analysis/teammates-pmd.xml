@@ -108,7 +108,7 @@
    <!--<rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault"/>-->
    <!--<rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement"/>-->
    <!--<rule ref="rulesets/java/design.xml/UncommentedEmptyConstructor"/>-->
-   <!--<rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"/>-->
+   <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"/>
    <!--<rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>-->
    <!--<rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter"/>-->
    <!--<rule ref="rulesets/java/design.xml/UseCollectionIsEmpty"/>-->
