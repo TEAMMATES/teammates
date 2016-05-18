@@ -411,10 +411,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case STUDENT_ROLE_COMMENTS:
-            returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
-            break;
         case TEAM_NAME:
             returnValue = getValidityInfoForAllowedName(
             TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
@@ -450,6 +446,19 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+    
+    /**
+     * Checks if the given studentRoleComments is a non-null string no longer than
+     * the specified length {@code STUDENT_ROLE_COMMENTS_MAX_LENGTH}. However, this string can be empty.
+     * @param studentRoleComments
+     * @return An explanation of why the {@code studentRoleComments} is not acceptable.
+     *         Returns an empty string "" if the {@code studentRoleComments} is acceptable.
+     */
+    public String getInvalidityInfoForStudentRoleComments(String studentRoleComments) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
+                                                               STUDENT_ROLE_COMMENTS_MAX_LENGTH,
+                                                               studentRoleComments);
     }
 
     /**

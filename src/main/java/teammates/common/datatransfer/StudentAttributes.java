@@ -221,7 +221,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
         if (!error.isEmpty()) { errors.add(error); }
 
