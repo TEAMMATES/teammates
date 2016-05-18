@@ -331,8 +331,8 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.STUDENTS ||
-                question.giverType == FeedbackParticipantType.TEAMS) {
+            if (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) {
                 questions.add(question);
             }
         }
@@ -479,8 +479,8 @@ public class FeedbackQuestionsLogic {
     public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email,
             List<FeedbackResponseAttributes> responses) {
         for (FeedbackResponseAttributes response : responses) {
-            if (response.giverEmail.equals(email) &&
-                response.feedbackQuestionId.equals(question.getId())) {
+            if (response.giverEmail.equals(email)
+                && response.feedbackQuestionId.equals(question.getId())) {
                 return true;
             }
         }

@@ -293,8 +293,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
         
-        List<FeedbackResponseCommentAttributes> frcList 
-            = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        List<FeedbackResponseCommentAttributes> frcList = 
+                frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
         assertFalse(frcList.isEmpty());
         
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);

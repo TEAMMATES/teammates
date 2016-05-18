@@ -26,9 +26,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
         
-        String areDuplicatesAllowedString 
-            = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                     Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
+        String areDuplicatesAllowedString = 
+                HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = areDuplicatesAllowedString != null 
                                     && areDuplicatesAllowedString.equals("on");
         

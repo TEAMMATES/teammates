@@ -391,15 +391,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * regarding unix systems and current testing version of Selenium and Firefox
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
-                                           ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
-                                           ".querySelectorAll('td')['" + tableCol + "']" +
-                                           ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        jsExecutor.executeScript(
+                "$(document.getElementById('" +  idOfQuestionBody + "')" 
+                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" 
+                + ".querySelectorAll('td')['" + tableCol + "']" 
+                + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
-        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
-                                           ".getElementsByTagName('a')[0].click();");
+        jsExecutor.executeScript(
+                "document.getElementsByClassName('popover-content')[0]" 
+                + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 

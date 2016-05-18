@@ -199,9 +199,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     
     private Student getStudent(String email, String courseId, PersistenceManager pm) {
         
-        String q = "SELECT FROM " + Student.class.getName() + " " +
-                "WHERE email == emailParam && courseID == courseIdParam" + " " +
-                "PARAMETERS String emailParam, String courseIdParam";
+        String q = "SELECT FROM " + Student.class.getName() + " "
+                + "WHERE email == emailParam && courseID == courseIdParam" + " "
+                + "PARAMETERS String emailParam, String courseIdParam";
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) pm.newQuery(q).execute(email, courseId);
         
@@ -226,8 +226,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         String studentTeam = student.team;
         
         for (FeedbackResponse response : responses) {
-            if (response.getRecipientEmail().equals(studentEmail) ||
-                response.getRecipientEmail().equals(studentTeam)) {
+            if (response.getRecipientEmail().equals(studentEmail) 
+                || response.getRecipientEmail().equals(studentTeam)) {
                 
                 response.setRecipientSection(sectionName);
             } 
@@ -245,19 +245,19 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         String studentTeam = student.team;
         String course = student.course;
         
-        String q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
-                   "WHERE giverEmail == emailParam" + " " +
-                   "&& courseId == courseParam" + " " +
-                   "PARAMETERS String emailParam, String courseParam";
+        String q = "SELECT FROM " + FeedbackResponse.class.getName() + " "
+                + "WHERE giverEmail == emailParam" + " "
+                + "&& courseId == courseParam" + " "
+                + "PARAMETERS String emailParam, String courseParam";
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) pm.newQuery(q).execute(studentEmail, course);
         
-        q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
-            "WHERE (receiver == emailParam" + " " +
-            "|| receiver == teamParam)" + " " +
-            "&& courseId == courseParam" + " " +
-            "PARAMETERS String emailParam, String teamParam, String courseParam";
+        q = "SELECT FROM " + FeedbackResponse.class.getName() + " "
+                + "WHERE (receiver == emailParam" + " "
+                + "|| receiver == teamParam)" + " "
+                + "&& courseId == courseParam" + " "
+                + "PARAMETERS String emailParam, String teamParam, String courseParam";
      
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail, studentTeam, course);

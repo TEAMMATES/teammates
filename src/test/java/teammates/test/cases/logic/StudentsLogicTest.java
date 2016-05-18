@@ -334,9 +334,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
         String emailInfo = emailMgr.getEmailInfo(msgToStudent);
-        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.tmt|from=" + 
-                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
-                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.tmt|from=" 
+                + "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" 
+                + " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfo, emailInfo);
         
         ______TS("invalid course id");
@@ -346,8 +346,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            String expectedMsg = "Course does not exist [" + invalidCourseId + 
-                    "], trying to send invite email to student [" + studentEmail + "]";
+            String expectedMsg = "Course does not exist [" + invalidCourseId 
+                    + "], trying to send invite email to student [" + studentEmail + "]";
             assertEquals(expectedMsg, e.getMessage());
         }
         
@@ -466,19 +466,17 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         String headerLine = "Team  | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
-        String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + 
-                "| student@email.tmt";
+        String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + "| student@email.tmt";
         String lineWithInvalidEmail = "Team 1 | James |" + "James_invalid_email.tmt";
-        String lineWithInvalidStudentNameAndEmail = "Team 2 |" + invalidStudentName + 
-                "|" + "student_invalid_email.tmt";
-        String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + 
-                "Paul_invalid_email.tmt";
-        String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + 
-                invalidStudentName + "|" + "invalid_email.tmt";
+        String lineWithInvalidStudentNameAndEmail = 
+                "Team 2 |" + invalidStudentName + "|" + "student_invalid_email.tmt";
+        String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + "Paul_invalid_email.tmt";
+        String lineWithInvalidTeamNameAndStudentNameAndEmail = 
+                invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.tmt";
         
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
-                    lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL +
-                    lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
+        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName 
+                    + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL 
+                    + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
         
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 
@@ -510,8 +508,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("enrollLines with too few");
         String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
-        String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | " + 
-               " studentWithExtraParameters@email.tmt | comment | extra_parameter";
+        String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | " 
+                + " studentWithExtraParameters@email.tmt | comment | extra_parameter";
         
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
         
@@ -574,9 +572,10 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         
         ______TS("enrollLines with a mix of all above cases");
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail + 
-                Const.EOL + lineWithExtraParameters + Const.EOL +
-                lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
+        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL 
+                + lineWithInvalidTeamNameAndStudentNameAndEmail
+                + Const.EOL + lineWithExtraParameters + Const.EOL 
+                + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
         

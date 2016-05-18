@@ -102,12 +102,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         
