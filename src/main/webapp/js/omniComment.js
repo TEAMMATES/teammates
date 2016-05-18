@@ -246,7 +246,7 @@ $(document).ready(function() {
         }
         // to show student comments (only works for Giver filter)
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).closest('.panel');
+            var studentCommentPanel = $(comment).closest('.panel-primary');
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
@@ -288,7 +288,7 @@ $(document).ready(function() {
         }
         // to hide student comments
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).closest('.panel');
+            var studentCommentPanel = $(comment).closest('.panel-primary');
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
