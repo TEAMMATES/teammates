@@ -16,30 +16,14 @@ import com.google.appengine.api.datastore.Text;
 public class FieldValidator {
         
     public enum FieldType {
-        COURSE_ID,  
-        COURSE_NAME, 
-        NATIONALITY, 
-        EMAIL, 
-        FEEDBACK_SESSION_NAME, 
-        GENDER, 
-        /** Valid {@code Google_ID} includes Google username (e.g., tony.wayne) and any email address
-         *  (e.g., bruce@stark.com), but excludes full GMail address (e.g., ironbat@gmail.com) */
-        GOOGLE_ID, 
-        INSTITUTE_NAME, 
-        PERSON_NAME, 
+        COURSE_ID,
         INTRUCTOR_ROLE,
-        /** Comments entered when enrolling a student in a course */
-        STUDENT_ROLE_COMMENTS,
-        TEAM_NAME,
-        SECTION_NAME,
         START_TIME,
         END_TIME,
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
-        EMAIL_SEND_DATE,
         EMAIL_CONTENT
     }
     
