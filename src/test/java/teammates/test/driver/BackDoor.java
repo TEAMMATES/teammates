@@ -42,13 +42,11 @@ import com.google.gson.reflect.TypeToken;
  * 
  */
 public final class BackDoor {
+    private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
     
     private BackDoor() {
         //utility class
     }
-
-    private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
-
 
     public static String putDocumentsForStudents(String dataBundleJson) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS_FOR_STUDENTS);
@@ -264,7 +262,6 @@ public final class BackDoor {
         return makePOSTRequest(params);
     }
     
-
     public static String createInstructor(InstructorAttributes instructor) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.instructors.put(instructor.googleId, instructor);
@@ -316,7 +313,6 @@ public final class BackDoor {
         params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         return makePOSTRequest(params);
     }
-
 
     public static String createCourse(CourseAttributes course) {
         DataBundle dataBundle = new DataBundle();
@@ -442,7 +438,6 @@ public final class BackDoor {
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         return makePOSTRequest(params);
     }
-    
 
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
             String feedbackSessionName, int qnNumber) {
@@ -485,7 +480,6 @@ public final class BackDoor {
         return makePOSTRequest(params);
     }
 
-    
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
@@ -550,7 +544,6 @@ public final class BackDoor {
         params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
         return makePOSTRequest(params);
     }
-    
 
     private static HashMap<String, Object> createParamMap(String operation) {
         HashMap<String, Object> map = new HashMap<String, Object>();

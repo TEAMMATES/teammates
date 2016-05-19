@@ -40,7 +40,6 @@ public class GateKeeper {
         return instance;
     }
 
-
     public boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
     }

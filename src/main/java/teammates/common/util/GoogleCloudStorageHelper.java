@@ -15,7 +15,7 @@ import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
-public class GoogleCloudStorageHelper {
+public final class GoogleCloudStorageHelper {
     
     private static GcsService gcsService;
     private static Logic logic = new Logic();

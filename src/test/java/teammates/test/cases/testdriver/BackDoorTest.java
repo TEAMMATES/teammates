@@ -166,7 +166,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(testAccount);
     }
 
-
     public void testDeleteInstructors() {
         // already tested by testPersistenceAndDeletion
     }
@@ -242,7 +241,6 @@ public class BackDoorTest extends BaseTestCase {
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
     }
-
 
     @Test
     public void testCreateStudent() throws EnrollException {
@@ -330,7 +328,6 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
     
-
     @Test
     public void testCreateFeedbackResponse() {
 

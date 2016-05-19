@@ -780,7 +780,7 @@ public class CoursesLogic {
     }
     
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        return instructor.isArchived != null ? instructor.isArchived : course.isArchived;
+        return instructor.isArchived == null ? course.isArchived : instructor.isArchived;
     }
     
     public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)

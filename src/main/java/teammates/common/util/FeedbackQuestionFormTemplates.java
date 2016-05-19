@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-public class FeedbackQuestionFormTemplates {
+public final class FeedbackQuestionFormTemplates {
     public static String FEEDBACK_QUESTION_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionAdditionalInfoTemplate.html");
 
     public static String TEXT_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionTextSubmissionFormTemplate.html");

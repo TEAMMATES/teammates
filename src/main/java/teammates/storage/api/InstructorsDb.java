@@ -529,15 +529,15 @@ public class InstructorsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
-            return getInstructorEntitiesForGoogleId(googleId);
-        } else {
+        if (omitArchived) {
             Query q = getPM().newQuery(Instructor.class);
             q.declareParameters("String googleIdParam, boolean omitArchivedParam");
             // Omit archived == true, get instructors with isArchived != true
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
             return (List<Instructor>) q.execute(googleId, omitArchived);
+        } else {
+            return getInstructorEntitiesForGoogleId(googleId);
         }
     }
     
