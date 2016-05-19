@@ -14,7 +14,6 @@ import com.google.appengine.api.log.LogService;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
-
 @SuppressWarnings("serial")
 public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
 
@@ -50,7 +49,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                     AppLogLine currentLog = logList.get(i);
                     String logMessage = currentLog.getLogMessage();
                     if (logMessage.contains("modified course::")) {
-                        String tokens[] = logMessage.split("::");
+                        String[] tokens = logMessage.split("::");
                         String courseId = tokens[1];
                       
                         writer.println(courseId);

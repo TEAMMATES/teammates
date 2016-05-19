@@ -198,7 +198,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void saveResponse(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
-        if (response.getId() != null) {
+        boolean isExistingResponse = response.getId() != null; 
+        if (isExistingResponse) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
@@ -277,15 +278,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                requestParameters, 
                                                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        if (!questionDetails.isQuestionSkipped(answer)) {
-            FeedbackResponseDetails responseDetails = 
-                    FeedbackResponseDetails.createResponseDetails(
-                            answer,
-                            questionDetails.questionType,
-                            questionDetails, requestParameters, questionIndx, responseIndx);
-            response.setResponseDetails(responseDetails);
-        } else {
+        if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
+        } else {
+            FeedbackResponseDetails responseDetails = 
+                                            FeedbackResponseDetails.createResponseDetails(
+                                                                            answer,
+                                                                            questionDetails.questionType,
+                                                                            questionDetails, requestParameters, questionIndx, responseIndx);
+            response.setResponseDetails(responseDetails);
         }
         
         return response;

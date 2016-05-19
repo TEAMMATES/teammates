@@ -9,7 +9,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
-
 /**
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
@@ -60,8 +59,7 @@ public class Instructor {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
-   
-    
+
     @Persistent
     private Text instructorPrivilegesAsText;
     
@@ -131,8 +129,7 @@ public class Instructor {
     public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
-    
-    
+
     public Boolean getIsArchived() {
         return isArchived;
     }

@@ -106,8 +106,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         editStudentAsJson(String, String)
         createCourse(String, String)
     */
-    
-
 
     @AfterClass
     public static void classTearDown() throws Exception {

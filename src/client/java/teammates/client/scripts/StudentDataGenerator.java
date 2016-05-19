@@ -14,7 +14,7 @@ public class StudentDataGenerator {
     private static int numberOfStudents;
     private static int numberOfTeams;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         exitIfParametersMissing(args);
         

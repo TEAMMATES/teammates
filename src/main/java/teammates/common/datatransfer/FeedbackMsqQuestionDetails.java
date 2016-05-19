@@ -45,7 +45,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
-        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
+        if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
@@ -121,7 +121,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         return false;
     }
-
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
@@ -230,8 +229,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${msqChoiceValue}",  "",
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
@@ -390,11 +388,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
-            return "";
-        }
-        
-        if (responses.size() == 0) {
+        if ("student".equals(view) || responses.size() == 0) {
             return "";
         }
         
@@ -417,10 +411,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -437,10 +431,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 numChoicesSelected++;
                 
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }               
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
             
             // restore other answer if any
@@ -467,7 +460,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -498,10 +490,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -516,10 +507,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                
             }
             
             // restore other answer if any
@@ -597,6 +588,5 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public boolean isQuestionSkipped(String[] answer) {
         return answer == null;
     }
-
 
 }

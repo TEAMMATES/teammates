@@ -52,10 +52,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     public String instructorCreatedDateRangeStart;
     public String instructorCreatedDateRangeEnd = "31/12/2015";
     public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
+
+    private static enum StudentStatus { REG, UNREG, ALL }
     
-    
-    private static enum StudentStatus { REG, UNREG, ALL };
-    private static enum InstructorStatus { REG, UNREG, ALL };
+    private static enum InstructorStatus { REG, UNREG, ALL }
     
     private EmailListConfig emailListConfig = new EmailListConfig();
     private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
@@ -70,8 +70,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     protected void doOperation() {
-        
-      
+
         try {
             getInstructorEmailConfiguration();
             getStudentEmailConfiguration();
@@ -79,8 +78,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         } catch (InvalidParametersException e) {
             System.out.print(e.getMessage() + "\n");
         }     
-        
-        
+
         System.out.print("\n\nstudent : " + emailListConfig.student + "\n");  
         
         if (emailListConfig.student) {
@@ -158,25 +156,20 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         emailListConfig.studentCreatedDateRangeStart = getInputDate(studentCreatedDateRangeStart);
         emailListConfig.studentCreatedDateRangeEnd = getInputDate(studentCreatedDateRangeEnd);            
     }
-    
-    
+
     private Date getInputDate(String dateString) throws InvalidParametersException {
         
         if (dateString == null) {
             return null;
         }
         
-        try {
-            String[] split = dateString.split("/");
-            int day = Integer.parseInt(split[0]);
-            int month = Integer.parseInt(split[1]);
-            int year = Integer.parseInt(split[2]);
-            if (isValidDate(day, month, year)) {
-                return getDate(day, month, year);
-            } else {
-                throw new InvalidParametersException("Date format error");
-            }
-        } catch (Exception e) {
+        String[] split = dateString.split("/");
+        int day = Integer.parseInt(split[0]);
+        int month = Integer.parseInt(split[1]);
+        int year = Integer.parseInt(split[2]);
+        if (isValidDate(day, month, year)) {
+            return getDate(day, month, year);
+        } else {
             throw new InvalidParametersException("Date format error");
         }
         
@@ -210,13 +203,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for (Object object : allInstructors) {
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
-            if (instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
-                || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
-                || emailListConfig.instructorStatus == InstructorStatus.ALL) {
-                
-                if (isInstructorCreatedInRange(instructor)) {
-                    instructorEmailSet.add(instructor.getEmail());
-                }
+            if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
+                     || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
+                     || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                 && isInstructorCreatedInRange(instructor)) {
+                instructorEmailSet.add(instructor.getEmail());
             }
             updateProgressIndicator();
         }
@@ -231,13 +222,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for (Object object : allStudents) {
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
-            if (student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
-                || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
-                || emailListConfig.studentStatus == StudentStatus.ALL) {
-                
-                if (isStudentCreatedInRange(student)) {
-                    studentEmailSet.add(student.getEmail());
-                }
+            if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
+                     || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
+                     || emailListConfig.studentStatus == StudentStatus.ALL)
+                 && isStudentCreatedInRange(student)) {
+                studentEmailSet.add(student.getEmail());
             }
             updateProgressIndicator();
         } 
@@ -288,8 +277,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private boolean isInstructorCreatedInRange(Instructor instructor) {
         
         Date instructorCreatedAt = getInstructorCreatedDate(instructor);
-        
-       
+
         if (instructorCreatedAt == null) {
             return false;
         }
@@ -355,12 +343,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
 }
 
-    
     private boolean isStudentCreatedInRange(Student student) {
         
         Date studentCreatedAt = getStudentCreatedDate(student);
 
-        
         if (studentCreatedAt == null) {
             return false;
         }
@@ -459,8 +445,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return null;
         }
     }
-    
-    
+
     private String getCurrentDateForDisplay() {
         Date now = new Date();
         
@@ -484,8 +469,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private boolean isValidDate(int day, int month, int year) {
         
        boolean isDateValid = false; 
-        
-            
+
         if (day <= 0 || month <= 0 || year <= 0) {
             isDateValid = false;
         } else if (day > getMaxNumOfDayForMonth(month, year)) {
@@ -494,10 +478,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
           isDateValid = true;
         }
    
-       if (!isDateValid) {
-           System.out.print("Date is not valid. Please Re-enter date.\n\n");
-       } else {
+       if (isDateValid) {
            System.out.print("Date Entered is valid.\n\n");
+       } else {
+           System.out.print("Date is not valid. Please Re-enter date.\n\n");
        }
        
        return isDateValid;
@@ -509,9 +493,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue(); 
     }
-    
-    
-    
+
     private Date getDate(int day, int month, int year) {
         Calendar cal = Calendar.getInstance();
         cal.clear();

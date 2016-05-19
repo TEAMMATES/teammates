@@ -2,9 +2,10 @@ package teammates.ui.template;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import static teammates.common.datatransfer.CommentParticipantType.*;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+
+import static teammates.common.datatransfer.CommentParticipantType.*;
 
 public class Comment {
 

@@ -1,10 +1,6 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_EMPTY;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.*;
 
 import java.util.ArrayList;
 import java.util.List;

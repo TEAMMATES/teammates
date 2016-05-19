@@ -63,7 +63,6 @@ public class CoursesLogic {
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
-    
     public static CoursesLogic inst() {
         if (instance == null)
             instance = new CoursesLogic();
@@ -661,12 +660,11 @@ public class CoursesLogic {
                                                                                         EntityDoesNotExistException {
         
         CourseAttributes courseToUpdate = getCourse(courseId);
-        if (courseToUpdate != null) {
-            courseToUpdate.isArchived = archiveStatus;
-            coursesDb.updateCourse(courseToUpdate);
-        } else {
+        if (courseToUpdate == null) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
+        courseToUpdate.isArchived = archiveStatus;
+        coursesDb.updateCourse(courseToUpdate);
     }
     
     /**
@@ -777,8 +775,7 @@ public class CoursesLogic {
         }
         return false;
     }
-    
-    
+
     public boolean isCourseArchived(String courseId, String instructorGoogleId) {
         CourseAttributes course = getCourse(courseId);
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
@@ -786,7 +783,7 @@ public class CoursesLogic {
     }
     
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        boolean isCourseArchived = (instructor.isArchived != null) ? instructor.isArchived : course.isArchived;
+        boolean isCourseArchived = instructor.isArchived == null ? course.isArchived : instructor.isArchived;
         return isCourseArchived;
     }
     

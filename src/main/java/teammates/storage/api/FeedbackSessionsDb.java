@@ -105,7 +105,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
         return list;
     }
 
-
     
     /**
      * Preconditions: <br>
@@ -445,7 +444,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
         log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
-
 
     public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
 

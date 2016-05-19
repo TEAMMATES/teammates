@@ -17,7 +17,7 @@ import teammates.test.driver.TestProperties;
 public class ParallelProfiler {
 
     private static final int NUM_OF_THREADS = 4;
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         for (int i = 0; i < NUM_OF_THREADS; i++)
         {
             (new PerformanceProfiler(TestProperties.TEST_DATA_FOLDER + "/thread" + i + ".txt")).start();

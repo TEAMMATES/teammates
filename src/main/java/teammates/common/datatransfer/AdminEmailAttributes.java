@@ -27,7 +27,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     public Text content;
     public boolean isInTrashBin;
     
-    
     public AdminEmailAttributes(AdminEmail ae) {
         this.emailId = ae.getEmailId();
         this.addressReceiver = ae.getAddressReceiver();

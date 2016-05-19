@@ -64,20 +64,19 @@ public class AdminActivityLogPage extends AppPage {
     
     public boolean isLogsTableVisible() {
         WebElement table = getLogsTable();
-        if (table != null) {
-            return table.isDisplayed();
-        } else {
+        if (table == null) {
             return false;
-        }
+        } 
+        return table.isDisplayed();
     }
     
     public WebElement getLogsTable() {
         List<WebElement> list = browser.driver.findElements(By.id("logsTable"));
-        if (!list.isEmpty()) {
-            return browser.driver.findElement(By.id("logsTable"));
-        } else {
+        if (list.isEmpty()) {
             return null;
         }
+        
+        return browser.driver.findElement(By.id("logsTable"));
     }
     
     public int getNumberOfTableHeaders() {
