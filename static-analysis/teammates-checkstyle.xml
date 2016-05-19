@@ -31,6 +31,7 @@
     <module name="TypecastParenPad">
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
+    <module name="ModifierOrder"/>
   </module>
   <module name="FileTabCharacter"/>
 </module>
