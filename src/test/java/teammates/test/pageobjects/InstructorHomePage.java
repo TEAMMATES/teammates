@@ -320,8 +320,9 @@ public class InstructorHomePage extends AppPage {
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1)
+        if (courseRowID == -1) {
             return -2;
+        }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {

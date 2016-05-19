@@ -237,8 +237,9 @@ public class DataGenerator {
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX + courses.get(i);
             output += "\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
-            if (i != courses.size() - 1)
+            if (i != courses.size() - 1) {
                 output += ",\n";
+            }
         }
         output += "\n},";
         return output;
@@ -257,8 +258,9 @@ public class DataGenerator {
             String email = studentEmails.get(Integer.parseInt(index));
             output += "\t" + student(student, email, "Student " + index + " in " + course,
                     "Team " + team, email.split("@")[0], "comment", "courseIdOf_" + course, "profile");
-            if (i != students.size() - 1)
+            if (i != students.size() - 1) {
                 output += ",\n";
+            }
         }
         output += "\n},";
         return output;

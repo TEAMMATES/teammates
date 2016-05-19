@@ -97,8 +97,9 @@ public class TestProperties {
     }
 
     public static TestProperties inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new TestProperties();
+        }
         return instance;
     }
 

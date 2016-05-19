@@ -112,7 +112,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        if (order == 0) return typicalCase;
+        if (order == 0) {
+            return typicalCase;
+        }
         
         List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);

@@ -91,7 +91,9 @@ public abstract class SearchQuery {
             keywords.add(key.trim());
         }
 
-        if (keywords.size() < 1) return "";
+        if (keywords.size() < 1) {
+            return "";
+        }
         
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         

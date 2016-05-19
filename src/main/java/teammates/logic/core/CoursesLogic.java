@@ -65,8 +65,9 @@ public class CoursesLogic {
 
     
     public static CoursesLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new CoursesLogic();
+        }
         return instance;
     }
 

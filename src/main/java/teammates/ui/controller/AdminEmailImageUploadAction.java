@@ -90,7 +90,9 @@ public class AdminEmailImageUploadAction extends Action {
     }
     
     private void deleteImage(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) return;
+        if (blobKey == new BlobKey("")) {
+            return;
+        }
         
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);

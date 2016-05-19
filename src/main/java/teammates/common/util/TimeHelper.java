@@ -194,8 +194,9 @@ public class TimeHelper {
      * Formats a date in the format dd/MM/yyyy
      */
     public static String formatDate(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
@@ -206,8 +207,9 @@ public class TimeHelper {
      * 2:04 PM<br />
      */
     public static String formatTime12H(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
@@ -237,8 +239,9 @@ public class TimeHelper {
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
     public static String formatDateTimeForInstructorHomePage(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -253,8 +256,9 @@ public class TimeHelper {
     }
 
     public static String calendarToString(Calendar c) {
-        if (c == null)
+        if (c == null) {
             return "";
+        }
         return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
     }
 
@@ -273,8 +277,9 @@ public class TimeHelper {
 
     public static Calendar dateToCalendar(Date date) {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        if (date == null)
+        if (date == null) {
             return c;
+        }
         c.setTime(date);
         return c;
     }

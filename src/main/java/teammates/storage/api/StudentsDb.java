@@ -52,8 +52,9 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
                                             String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
                 new StudentSearchQuery(instructors, queryString, cursorString));
@@ -73,8 +74,9 @@ public class StudentsDb extends EntitiesDb {
      * @return null if no result found
      */ 
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
                 new StudentSearchQuery(queryString, cursorString));

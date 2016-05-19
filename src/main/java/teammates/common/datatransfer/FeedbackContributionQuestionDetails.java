@@ -869,20 +869,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..."
      */
     public static String convertToEqualShareFormat(int i) {
-        if (i > 100)
+        if (i > 100) {
             return "Equal share + " + (i - 100) + "%"; // Do more
-        else if (i == 100)
+        } else if (i == 100) {
             return "Equal share"; // Do same
-        else if (i > 0)
+        } else if (i > 0) {
             return "Equal share - " + (100 - i) + "%"; // Do less
-        else if (i == 0)
+        } else if (i == 0) {
             return "0%"; // Do none
-        else if (i == Const.POINTS_NOT_SURE)
+        } else if (i == Const.POINTS_NOT_SURE) {
             return "Not Sure";
-        else if (i == Const.POINTS_NOT_SUBMITTED)
+        } else if (i == Const.POINTS_NOT_SUBMITTED) {
             return "";
-        else
+        } else {
             return "";
+        }
     }
    
     /**
@@ -891,22 +892,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if (i == Const.INT_UNINITIALIZED)
+        if (i == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\">N/A</span>";
-        else if (i == Const.POINTS_NOT_SUBMITTED)
+        } else if (i == Const.POINTS_NOT_SUBMITTED) {
             return "<span class=\"color_neutral\"></span>";
-        else if (i == Const.POINTS_NOT_SURE)
+        } else if (i == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\">Not Sure</span>";
-        else if (i == 0)
+        } else if (i == 0) {
             return "<span class=\"color-negative\">0%</span>";
-        else if (i > 100)
+        } else if (i > 100) {
             return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
-        else if (i < 100)
+        } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
-        else if (i == 100)
+        } else if (i == 100) {
             return "<span class=\"color_neutral\">Equal Share</span>";
-        else
+        } else {
             return "";
+        }
     }
 
     public boolean isQuestionSkipped(String[] answer) {

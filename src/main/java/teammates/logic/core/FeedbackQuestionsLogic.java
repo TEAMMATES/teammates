@@ -41,8 +41,9 @@ public class FeedbackQuestionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     public static FeedbackQuestionsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackQuestionsLogic();
+        }
         return instance;
     }
     

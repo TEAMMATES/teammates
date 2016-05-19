@@ -41,7 +41,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     
     @Override
     protected void prepareData() {
-        if (comment == null) return;
+        if (comment == null) {
+            return;
+        }
         
         relatedSession = logic.getFeedbackSession(comment.feedbackSessionName, comment.courseId);
         
@@ -122,7 +124,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         String delim = ",";
         int counter = 0;
         for (StudentAttributes student:relatedStudents) {
-            if (counter == 25) break; //in case of exceeding size limit for document
+            if (counter == 25) {
+                break; //in case of exceeding size limit for document
+            }
             relatedPeopleBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)
@@ -131,7 +135,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
         counter = 0;
         for (InstructorAttributes instructor:relatedInstructors) {
-            if (counter == 25) break;
+            if (counter == 25) {
+                break;
+            }
             relatedPeopleBuilder.append(instructor.email).append(delim)
                 .append(instructor.name).append(delim)
                 .append(instructor.displayedName).append(delim);

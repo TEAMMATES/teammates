@@ -116,10 +116,12 @@ public class ImportData {
             count++;
             itr.remove();
             System.out.print(key + "\n");
-            if (type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
+            if (type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST) {
                 break;
-            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
+            }
+            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {
                 break;
+            }
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         

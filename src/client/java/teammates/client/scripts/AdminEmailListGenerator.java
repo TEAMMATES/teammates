@@ -475,8 +475,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private String formatTime(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy").format(date);
         
     }

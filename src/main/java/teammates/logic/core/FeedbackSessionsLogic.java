@@ -70,8 +70,9 @@ public class FeedbackSessionsLogic {
     private static final int EMAIL_TEAMNAME_PAIR = 2;
 
     public static FeedbackSessionsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackSessionsLogic();
+        }
         return instance;
     }
 
@@ -2351,8 +2352,9 @@ public class FeedbackSessionsLogic {
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false) {
                 fsDetailsWithoutPrivate.add(getFeedbackSessionDetails(fsa));
+            }
         }
 
         return fsDetailsWithoutPrivate;

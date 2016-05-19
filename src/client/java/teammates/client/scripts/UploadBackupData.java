@@ -181,9 +181,10 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
-            for (AccountAttributes accountData : accounts.values())
+            for (AccountAttributes accountData : accounts.values()) {
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
+            }
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
