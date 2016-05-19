@@ -57,6 +57,7 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_SUBMISSION_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");
     public static String RUBRIC_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionRubricEditFormTemplate.html");
     public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
+    public static String RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormWeightFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
     public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");

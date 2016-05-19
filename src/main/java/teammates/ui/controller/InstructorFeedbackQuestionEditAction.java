@@ -40,14 +40,14 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData(requestParameters);
         
         try {
-            if (editType.equals("edit")) {
+            if ("edit".equals(editType)) {
                 String questionText = HttpRequestHelper.getValueFromParamMap(
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
                 Assumption.assertNotNull("Null question text", questionText);
                 Assumption.assertNotEmpty("Empty question text", questionText);
                 
                 editQuestion(updatedQuestion);
-            } else if (editType.equals("delete")) {
+            } else if ("delete".equals(editType)) {
                 // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
                 deleteQuestion(updatedQuestion);
             } else {
@@ -238,7 +238,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (nEntityTypes.equals("custom") == false) {
+        if (!"custom".equals(nEntityTypes)) {
             return false;
         }
         

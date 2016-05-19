@@ -38,8 +38,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
     private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
-    final int MAX_READING_LENGTH = 900000; 
-    
+    private static final int MAX_READING_LENGTH = 900000; 
     
     private String adminEmailTaskQueueMode;
     
