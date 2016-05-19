@@ -29,8 +29,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     
     private static DataBundle dataBundle = getTypicalDataBundle();
     
-    
-    private final int NUMBER_OF_HOURS_IN_DAY = 24;
+    private static final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -218,7 +217,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         boolean isFirstFeedbackSessionHighlighted = false;
         boolean isOtherFeedbackSessionHighlighted = false;
         for (FeedbackSessionsTableRow row : sessionRows) {
-            if (row.getName().equals("First feedback session")) {
+            if ("First feedback session".equals(row.getName())) {
                 isFirstFeedbackSessionHighlighted = row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
             } else {
                 if (row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*")) {

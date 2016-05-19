@@ -215,12 +215,10 @@ public class AccountsDb extends EntitiesDb {
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
-            } else if (retrieveStudentProfile) {
-                if (account.getStudentProfile() == null) {
-                    // This situation cannot be reproduced and hence not tested
-                    // This only happens when existing data in the store do not have a profile 
-                    account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-                }
+            } else if (retrieveStudentProfile && account.getStudentProfile() == null) {
+                // This situation cannot be reproduced and hence not tested
+                // This only happens when existing data in the store do not have a profile 
+                account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             }
             
             return account;

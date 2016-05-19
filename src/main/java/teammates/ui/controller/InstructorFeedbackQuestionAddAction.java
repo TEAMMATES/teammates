@@ -111,7 +111,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
-        if (numberOfEntityTypes.equals("custom")
+        if ("custom".equals(numberOfEntityTypes)
             && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
                 || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities = HttpRequestHelper.getValueFromParamMap(

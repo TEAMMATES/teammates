@@ -143,7 +143,17 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
-        
+
+        // Submit another feedback response using another student's account 
+        submitPage = loginToStudentFeedbackSubmitPage("benny.tmms@FRubricQnUiT.CS2104", "openSession2");
+
+        submitPage.clickRubricCell(1, 0, 0, 0);
+        submitPage.clickRubricCell(1, 0, 1, 1);
+
+        submitPage.clickRubricCell(1, 1, 0, 0);
+        submitPage.clickRubricCell(1, 1, 1, 0);
+
+        submitPage.clickSubmitButton();
     }
     
     private void testStudentQuestionSubmitPage() {
@@ -194,6 +204,15 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+
+        ______TS("empty weight test");
+
+        feedbackEditPage.fillQuestionBox("empty weight test");
+        feedbackEditPage.clickAssignWeightsCheckbox(-1);
+        feedbackEditPage.fillRubricWeightBox("", -1, 3);
+        feedbackEditPage.clickAddQuestionButton();
+
+        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, feedbackEditPage.getStatus());
     }
     
     public void testCustomizeOptions() {
@@ -205,6 +224,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
+        feedbackEditPage.selectNewQuestionType("Rubric question");
+        feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -279,6 +300,16 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
+
+        ______TS("RUBRIC: edit weight success");
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+
+        // Edit the weight of the first choice
+        feedbackEditPage.clickAssignWeightsCheckbox(1);
+        feedbackEditPage.fillRubricWeightBox("2.25", 1, 0);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditWeightSuccess.html");
 
         ______TS("RUBRIC: edit descriptions success");
         assertTrue(feedbackEditPage.clickEditQuestionButton(1));

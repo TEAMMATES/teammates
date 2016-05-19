@@ -174,7 +174,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
             updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToEdit);
             String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
-            boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
+            boolean isSessionsSpecial = "true".equals(setSessionsStr);
             if (isSessionsSpecial) {
                 updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), feedbackNames, instructorToEdit);
             } else {
@@ -200,7 +200,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         if (instructorToEdit.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             for (int i = 0; i < sectionNames.size(); i++) {
                 String setSectionGroupStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
-                boolean isSectionGroupSpecial = setSectionGroupStr != null && setSectionGroupStr.equals("true");
+                boolean isSectionGroupSpecial = "true".equals(setSectionGroupStr);
                 for (int j = 0; j < sectionNames.size(); j++) {
                     String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + Const.ParamsNames.INSTRUCTOR_SECTION + j);
                     if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {

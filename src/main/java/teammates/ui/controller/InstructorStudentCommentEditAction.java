@@ -48,7 +48,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
         
         try {
-            if (editType.equals("edit")) {
+            if ("edit".equals(editType)) {
                 CommentAttributes updatedComment = logic.updateComment(comment);
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
@@ -58,7 +58,7 @@ public class InstructorStudentCommentEditAction extends Action {
                         + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
                         + comment.courseId + "]</span><br>" 
                         + "<span class=\"bold\">Comment:</span> " + comment.commentText;
-            } else if (editType.equals("delete")) {
+            } else if ("delete".equals(editType)) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));

@@ -50,7 +50,7 @@ public class AdminEmailLogPageAction extends Action {
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = pageChange != null && pageChange.equals("true") || timeOffset == null;
+        boolean isPageChanged = "true".equals(pageChange) || timeOffset == null;
         if (isPageChanged) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();

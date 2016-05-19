@@ -988,14 +988,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
          * we check against the name & team name associated by the participant identifier
          */
         String name = emailNameTable.get(participantIdentifier);
-        boolean isIdentifierName = (name == null) ? false
-                                                  : name.equals(participantIdentifier);
-        boolean isIdentifierTeam = (name == null) ? false
-                                                  : name.equals(Const.USER_IS_TEAM);
+        boolean isIdentifierName = name != null && name.equals(participantIdentifier);
+        boolean isIdentifierTeam = name != null && name.equals(Const.USER_IS_TEAM);
 
         String teamName = emailTeamNameTable.get(participantIdentifier);
-        boolean isIdentifierTeamName = (teamName == null) ? false
-                                                          : teamName.equals(participantIdentifier);
+        boolean isIdentifierTeamName = teamName != null && teamName.equals(participantIdentifier);
         return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     

@@ -250,6 +250,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             default:
                 Assumption.fail();
+                break;
         }
         
     }
@@ -972,6 +973,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             default:
                 Assumption.fail("There should be no headers for the view type");
+                break;
         }
     }
 
@@ -1040,6 +1042,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     break;
                 default:
                     Assumption.fail("View type should not involve question tables");
+                    break;
             }
             
             if (questionDetails.isQuestionSpecificSortingRequired()) {
@@ -1313,6 +1316,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             default:
                 Assumption.fail();            
+                break;
         }
     }
 

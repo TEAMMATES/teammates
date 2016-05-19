@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -226,7 +227,8 @@ public class AdminSearchPageData extends PageData {
                 links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
                 break;
             default:
-                assert false;
+                Assumption.fail();
+                break;
         }
         
         if (links != null) {

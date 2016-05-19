@@ -72,6 +72,6 @@ public class CompileLogs {
             } catch (UnsupportedEncodingException | MessagingException e) {
                 log.severe(e.getMessage());
             }
-        } 
+        }
     }
 }
