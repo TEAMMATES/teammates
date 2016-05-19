@@ -3,7 +3,6 @@ package teammates.common.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
@@ -161,7 +160,7 @@ public class ActivityLogEntry {
     
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
         for (String name : automatedActions) {
-            if (name.toLowerCase(Locale.ENGLISH).contains(servletName.toLowerCase(Locale.ENGLISH))) {
+            if (name.toLowerCase().contains(servletName.toLowerCase())) {
                 role = "Auto";
             }
         }
@@ -230,12 +229,12 @@ public class ActivityLogEntry {
             } else if (!userType.isInstructor && userType.isStudent && !userType.isAdmin) {
                 role = "Student";
             } else if (userType.isInstructor && userType.isStudent && !userType.isAdmin) {
-                role = servletName.toLowerCase(Locale.ENGLISH).startsWith("instructor") ? "Instructor" : "Student";
+                role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
                 role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else if (userType.isAdmin) {
                 role = "Admin";
-                role = servletName.toLowerCase(Locale.ENGLISH).startsWith("instructor") ? "Instructor" : role;
-                role = servletName.toLowerCase(Locale.ENGLISH).startsWith("student") ? "Student" : role;
+                role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : role;
+                role = servletName.toLowerCase().startsWith("student") ? "Student" : role;
                 role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName) ? "Instructor" : role;
             } else {
                 role = "Unregistered";
@@ -257,9 +256,7 @@ public class ActivityLogEntry {
         } else {
             
             //this is a shallow fix for logging redirected student to join authenticated action
-            if (Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                                            .toLowerCase(Locale.ENGLISH)
-                                            .contains(servletName.toLowerCase(Locale.ENGLISH))) {
+            if (Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED.toLowerCase().contains(servletName.toLowerCase())) {
                 role = "Unregistered";
             } else {
                 role = "Unknown";
@@ -366,9 +363,8 @@ public class ActivityLogEntry {
     public String getActionInfo() {
         String style = "";
         
-        if (message.toLowerCase(Locale.ENGLISH).contains(Const.ACTION_RESULT_FAILURE.toLowerCase(Locale.ENGLISH))
-           || message.toLowerCase(Locale.ENGLISH).contains(
-                                           Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase(Locale.ENGLISH))) {
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
+           || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             
                 style = "text-danger";      
         } else {
@@ -379,11 +375,10 @@ public class ActivityLogEntry {
     
     public String getMessageInfo() {
         
-        if (message.toLowerCase(Locale.ENGLISH).contains(Const.ACTION_RESULT_FAILURE.toLowerCase(Locale.ENGLISH))) {
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())) {
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_FAILURE + "</strong><br>");
             message = message + "</span><br>";
-        } else if (message.toLowerCase(Locale.ENGLISH).contains(
-                                        Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase(Locale.ENGLISH))) {
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</strong><br>");
             message = message + "</span><br>";
         }
@@ -427,11 +422,9 @@ public class ActivityLogEntry {
     public String getLogEntryActionsButtonClass() {
         
         String className = "";
-        if (message.toLowerCase(Locale.ENGLISH).contains(
-                                        Const.ACTION_RESULT_FAILURE.toLowerCase(Locale.ENGLISH))) {
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())) {
             className = "btn-warning";
-        } else if (message.toLowerCase(Locale.ENGLISH).contains(
-                                        Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase(Locale.ENGLISH))) {
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             className = "btn-danger";
         } else {
             className = "btn-info";
@@ -639,10 +632,9 @@ public class ActivityLogEntry {
         }
         
         for (String stringToHighlight : keyStringsToHighlight) {
-            if (message.toLowerCase(Locale.ENGLISH).contains(stringToHighlight.toLowerCase(Locale.ENGLISH))) {
+            if (message.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
-                int startIndex = message.toLowerCase(Locale.ENGLISH).indexOf(
-                                                stringToHighlight.toLowerCase(Locale.ENGLISH));
+                int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         
                 String realStringToHighlight = message.substring(startIndex, endIndex);               
                 message = message.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");

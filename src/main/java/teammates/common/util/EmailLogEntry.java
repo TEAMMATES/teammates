@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.Message;
@@ -129,11 +128,9 @@ public class EmailLogEntry {
         }
         
         for (String stringToHighlight : keyStringsToHighlight) {
-            if (text.toLowerCase(Locale.ENGLISH).contains(
-                                            stringToHighlight.toLowerCase(Locale.ENGLISH))) {
+            if (text.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
-                int startIndex = text.toLowerCase(Locale.ENGLISH).indexOf(
-                                                                    stringToHighlight.toLowerCase(Locale.ENGLISH));
+                int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         
                 String realStringToHighlight = text.substring(startIndex, endIndex);               
                 text = text.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");

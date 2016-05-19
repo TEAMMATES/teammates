@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -124,7 +123,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private boolean arrayContains(String[] arr, String value) {
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals(value.toLowerCase(Locale.ENGLISH).trim())) {
+            if (arr[i].equals(value.toLowerCase().trim())) {
                 return true;
             }
         }
@@ -137,7 +136,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase(Locale.ENGLISH);
+        query = filterQuery.toLowerCase();
         
         try {
             q = parseQuery(query);
@@ -197,12 +196,9 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase(Locale.ENGLISH)
-                                   .contains(q.personValue.toLowerCase(Locale.ENGLISH)) 
-                && !logEntry.getGoogleId().toLowerCase(Locale.ENGLISH)
-                                          .contains(q.personValue.toLowerCase(Locale.ENGLISH))
-                && !logEntry.getEmail().toLowerCase(Locale.ENGLISH)
-                                       .contains(q.personValue.toLowerCase(Locale.ENGLISH))) {
+            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
@@ -227,8 +223,7 @@ public class AdminActivityLogPageData extends PageData {
         if (q.isInfoInQuery) {
             
             for (String keyString : q.infoValues) {
-                if (!logEntry.getMessageInfo().toLowerCase(Locale.ENGLISH).contains(
-                                                                               keyString.toLowerCase(Locale.ENGLISH))) {
+                if (!logEntry.getMessageInfo().toLowerCase().contains(keyString.toLowerCase())) {
                     logEntry.setToShow(false);
                     return logEntry;
                 }

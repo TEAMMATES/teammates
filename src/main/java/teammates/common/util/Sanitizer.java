@@ -6,7 +6,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -38,7 +37,7 @@ public final class Sanitizer {
         }
         
         String sanitized = rawGoogleId.trim();
-        if (sanitized.toLowerCase(Locale.ENGLISH).endsWith("@gmail.com")) {
+        if (sanitized.toLowerCase().endsWith("@gmail.com")) {
             sanitized = sanitized.split("@")[0];
         }
         return sanitized.trim();

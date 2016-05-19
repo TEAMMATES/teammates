@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
@@ -85,7 +84,7 @@ public class AdminEmailLogPageData extends PageData {
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
-        query = query.toLowerCase(Locale.ENGLISH);
+        query = query.toLowerCase();
         
         try {
             q = parseQuery(query);
@@ -165,8 +164,7 @@ public class AdminEmailLogPageData extends PageData {
         if (q.isReceiverInQuery) {
             
             for (String keyString : q.receiverValues) {
-                if (!logEntry.getReceiver().toLowerCase(Locale.ENGLISH)
-                                           .contains(keyString.toLowerCase(Locale.ENGLISH))) {
+                if (!logEntry.getReceiver().toLowerCase().contains(keyString.toLowerCase())) {
                     return false;
                 }
             }
@@ -175,8 +173,7 @@ public class AdminEmailLogPageData extends PageData {
         if (q.isSubjectInQuery) {
     
             for (String keyString : q.subjectValues) {
-                if (!logEntry.getSubject().toLowerCase(Locale.ENGLISH)
-                                          .contains(keyString.toLowerCase(Locale.ENGLISH))) {
+                if (!logEntry.getSubject().toLowerCase().contains(keyString.toLowerCase())) {
                     return false;
                 }
             }
@@ -185,8 +182,7 @@ public class AdminEmailLogPageData extends PageData {
         if (q.isInfoInQuery) {
             
             for (String keyString : q.infoValues) {
-                if (!logEntry.getContent().toLowerCase(Locale.ENGLISH)
-                                          .contains(keyString.toLowerCase(Locale.ENGLISH))) {
+                if (!logEntry.getContent().toLowerCase().contains(keyString.toLowerCase())) {
                     return false;
                 }
             }

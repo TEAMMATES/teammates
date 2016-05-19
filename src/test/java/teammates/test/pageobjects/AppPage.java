@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -986,7 +985,7 @@ public abstract class AppPage {
         assertTrue(new File(downloadedFileAbsolutePath).exists());
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
-        assertEquals(expectedHash.toLowerCase(Locale.ENGLISH), actualHash);
+        assertEquals(expectedHash.toLowerCase(), actualHash);
         
         client.close();
     }

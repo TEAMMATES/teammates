@@ -1,7 +1,5 @@
 package teammates.ui.template;
 
-import java.util.Locale;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -65,7 +63,7 @@ public class FeedbackSessionPublishButton {
     }
 
     public String getActionNameLowercase() {
-        return actionName.toLowerCase(Locale.ENGLISH);
+        return actionName.toLowerCase();
     }
 
     public String getActionLink() {
