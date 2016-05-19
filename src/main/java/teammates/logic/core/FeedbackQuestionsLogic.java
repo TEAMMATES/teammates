@@ -338,31 +338,6 @@ public class FeedbackQuestionsLogic {
         
         return questions;
     }
-
-    /**
-     * Gets a {@code List} of all <b>unanswered</b> questions corresponding to
-     * the given session and team.
-     * TODO: remove this function after ensuring no other references exist
-     */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForTeam(
-            String feedbackSessionName, String courseId, String teamName)
-                    throws EntityDoesNotExistException {
-        
-        List<FeedbackQuestionAttributes> questions =
-                fqDb.getFeedbackQuestionsForGiverType(
-                feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
-        
-        List<FeedbackQuestionAttributes> unansweredQuestions =
-                new ArrayList<FeedbackQuestionAttributes>();
-        
-        for (FeedbackQuestionAttributes question : questions) {
-            if (isQuestionFullyAnsweredByTeam(
-                    question, teamName) == false)
-                unansweredQuestions.add(question);
-        }
-        
-        return unansweredQuestions;
-    }
     
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
             throws EntityDoesNotExistException {
@@ -464,28 +439,7 @@ public class FeedbackQuestionsLogic {
         return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
                        .isEmpty();
     }
-    
-    public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 
-            throws EntityDoesNotExistException {
-        
-        int numberOfResponsesGiven = 
-                frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
-        
-        // As long as a user has responded, we count the question as answered.
-        return numberOfResponsesGiven > 0 ? true : false;
-    }
-    
-    public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email,
-            List<FeedbackResponseAttributes> responses) {
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giverEmail.equals(email)
-                && response.feedbackQuestionId.equals(question.getId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+  
     public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email) 
             throws EntityDoesNotExistException {
         

@@ -36,7 +36,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -50,7 +49,6 @@ import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackSessionsLogic {
 
@@ -216,22 +214,6 @@ public class FeedbackSessionsLogic {
         }
 
         return fsDetails;
-    }
-
-    /**
-     * Returns a {@code List} of all feedback sessions WITHOUT their response
-     * statistics for a instructor given by his googleId.<br>
-     * Does not return private sessions unless the instructor is the creator.
-     * 
-     * @param googleId
-     * @return
-     * @throws EntityDoesNotExistException
-     */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
-            String googleId)
-            throws EntityDoesNotExistException {
-
-        return getFeedbackSessionsListForInstructor(googleId, false);
     }
     
     /**
@@ -1152,14 +1134,6 @@ public class FeedbackSessionsLogic {
 
         // if there is no question for instructor, session is complete
         return allQuestions.isEmpty();
-    }
-
-    // This method is for manual adding of additional responses to a FS.
-    public void addResponsesToFeedbackSession(List<FeedbackResponse> responses,
-            String feedbackSessionName, String courseId)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Can't do manual adding of responses yet");
     }
 
     public void updateFeedbackSession(FeedbackSessionAttributes newSession)
