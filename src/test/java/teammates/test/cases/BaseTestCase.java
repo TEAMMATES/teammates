@@ -109,6 +109,10 @@ public class BaseTestCase {
         assertTrue(true);
     }
     
+    protected static void ignorePossibleException() {
+        assertTrue(true);
+    }
+    
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.

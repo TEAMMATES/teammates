@@ -92,7 +92,7 @@ public class HttpRequestHelper {
             }
             requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
         }
-        if (!requestParameters.equals("{")) {
+        if (!"{".equals(requestParameters)) {
             requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
         }
         requestParameters += "}";

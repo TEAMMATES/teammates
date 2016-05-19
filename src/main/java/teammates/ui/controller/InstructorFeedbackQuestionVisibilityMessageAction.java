@@ -54,7 +54,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
 
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
-        if (numberOfEntityTypes.equals("custom")
+        if ("custom".equals(numberOfEntityTypes)
             && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
                 || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities =

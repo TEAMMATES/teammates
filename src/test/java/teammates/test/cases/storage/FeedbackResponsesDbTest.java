@@ -798,7 +798,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
         
-        String answer[] = {"New answer text!"};
+        String[] answer = {"New answer text!"};
         frd = frd.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
