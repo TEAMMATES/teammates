@@ -206,13 +206,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for (Object object : allInstructors) {
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
-            if (instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
-                || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
-                || emailListConfig.instructorStatus == InstructorStatus.ALL) {
-                
-                if (isInstructorCreatedInRange(instructor)) {
-                    instructorEmailSet.add(instructor.getEmail());
-                }
+            if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
+                     || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
+                     || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                 && isInstructorCreatedInRange(instructor)) {
+                instructorEmailSet.add(instructor.getEmail());
             }
             updateProgressIndicator();
         }
@@ -227,13 +225,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         for (Object object : allStudents) {
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
-            if (student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
-                || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
-                || emailListConfig.studentStatus == StudentStatus.ALL) {
-                
-                if (isStudentCreatedInRange(student)) {
-                    studentEmailSet.add(student.getEmail());
-                }
+            if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
+                     || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
+                     || emailListConfig.studentStatus == StudentStatus.ALL)
+                 && isStudentCreatedInRange(student)) {
+                studentEmailSet.add(student.getEmail());
             }
             updateProgressIndicator();
         } 

@@ -38,21 +38,13 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
-        EMAIL_SEND_DATE,
         EMAIL_CONTENT
     }
     
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-    
-    /*
-     * =======================================================================
-     * Field: Contribution
-     * Allowed: N/A, Not sure, 0%, E-90% to E+90% in 10% increments
-     */
     
     /*
      * =======================================================================
@@ -78,11 +70,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " 
             + "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " 
             + PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
-    
-    /*
-     * =======================================================================
-     * Field: Time zone 
-     */
 
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
@@ -165,27 +152,6 @@ public class FieldValidator {
             + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
-    
-    /*
-     * =======================================================================
-     * Field Course Instructor Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_INSTRUCTORNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Student Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_STUDENTNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Team Name
-     * Allowed: <= 60
-     */
-    public static final int COURSE_TEAMNAME_MAX_LENGTH = 60;
 
     /*
      * =======================================================================
@@ -742,13 +708,12 @@ public class FieldValidator {
         if (recipientType.isValidRecipient() == false) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
-        if (giverType == FeedbackParticipantType.TEAMS) {
-            if (recipientType == FeedbackParticipantType.OWN_TEAM 
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        recipientType.toDisplayRecipientName(),
-                        giverType.toDisplayGiverName()));
-            }
+        if (giverType == FeedbackParticipantType.TEAMS
+                && (recipientType == FeedbackParticipantType.OWN_TEAM 
+                        || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                    recipientType.toDisplayRecipientName(),
+                    giverType.toDisplayGiverName()));
         }
         
         return errors;

@@ -151,8 +151,6 @@ public class StudentAttributesFactory {
                 count++;
                 fieldCount = !hasComment ? fieldCount + 1 : fieldCount;
                 hasComment = true;
-            } else {
-                // do nothing as it is a empty column
             }
         }
 

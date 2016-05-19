@@ -149,11 +149,9 @@ public class AdminActivityLogPageAction extends Action {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
 
-            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED && courseId != null && !courseId.isEmpty()) {
                 // if the user is unregistered, try finding the timezone by course id passed from Search page
-                if (courseId != null && !courseId.isEmpty()) {
-                    targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
-                }
+                targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
             }
         } else {
             targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
