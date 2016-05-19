@@ -27,7 +27,7 @@ $(document).ready(function() {
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
         var target = $(e.target);
-    	var visibilityOptionsRow = target.closest('tr');
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
@@ -35,7 +35,7 @@ $(document).ready(function() {
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-        	visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
