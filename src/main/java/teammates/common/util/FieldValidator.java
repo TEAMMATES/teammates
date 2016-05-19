@@ -57,6 +57,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Email
      */
+    public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as an email because it %s. " 
@@ -414,9 +415,6 @@ public class FieldValidator {
         case COURSE_ID:
             returnValue = getValidityInfoForCourseId((String) value);
             break;
-        case EMAIL:
-            returnValue = getValidityInfoForEmail((String) value);
-            break;
         case INTRUCTOR_ROLE:
             returnValue = getValidityInfoForInstructorRole((String) value);
             break;
@@ -435,6 +433,30 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    /**
+     * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a
+     * valid email address according to {@code REGEX_EMAIL}
+     * @param email
+     * @return An explanation of why the {@code email} is not acceptable.
+     *         Returns an empty string if the {@code email} is acceptable.
+     */
+    public String getInvalidityInfoForEmail(String email) {
+
+        Assumption.assertTrue("Non-null value expected", email != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(email);
+
+        if (email.isEmpty()) {
+            return String.format(EMAIL_ERROR_MESSAGE, email, REASON_EMPTY);
+        } else if (!isTrimmed(email)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME);
+        } else if (email.length() > EMAIL_MAX_LENGTH) {
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
     }
 
     /**
@@ -852,23 +874,6 @@ public class FieldValidator {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForEmail(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (value.isEmpty()) {
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
-        } else if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
-        } else if (value.length() > EMAIL_MAX_LENGTH) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
