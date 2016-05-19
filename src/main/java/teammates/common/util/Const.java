@@ -786,7 +786,7 @@ public class Const {
     
     public class AutomatedActionNames {
         //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
+        public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";

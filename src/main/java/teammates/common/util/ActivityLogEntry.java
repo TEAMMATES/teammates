@@ -63,7 +63,7 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
     public static String[] automatedActions = {
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
