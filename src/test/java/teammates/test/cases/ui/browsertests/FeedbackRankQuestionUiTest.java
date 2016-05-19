@@ -52,6 +52,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank submission: input disabled for closed session");
         
         FeedbackSubmitPage submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "closed");
+        submitPage.waitForAndDismissWarningModal();
         assertTrue(submitPage.isElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0-0"));
         assertFalse(submitPage.isElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0-0"));
         
