@@ -47,7 +47,6 @@ public class GaeSimulation {
     public static GaeSimulation inst() {
         return instance;
     }
-
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");

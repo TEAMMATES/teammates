@@ -38,7 +38,6 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         repairman.doOperationRemotely();
     }
     
-
     @Override
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCourses();

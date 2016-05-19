@@ -177,14 +177,14 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
             
-            if (blobs != null && !blobs.isEmpty()) {
-                BlobInfo groupReceiverListFile = blobs.get(0);
-                return validateGroupReceiverListFile(groupReceiverListFile);
-            } else {
+            if (blobs == null || blobs.isEmpty()) {
                 data.ajaxStatus = Const.StatusMessages.NO_GROUP_RECEIVER_LIST_FILE_GIVEN;
                 isError = true;
                 return null;
             }
+            
+            BlobInfo groupReceiverListFile = blobs.get(0);
+            return validateGroupReceiverListFile(groupReceiverListFile);
         } catch (IllegalStateException e) {
             return null;
         }

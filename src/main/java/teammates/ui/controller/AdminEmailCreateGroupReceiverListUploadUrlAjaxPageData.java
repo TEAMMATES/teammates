@@ -11,6 +11,5 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData extends
             AccountAttributes account) {
         super(account);
     }
-    
 
 }

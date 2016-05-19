@@ -661,5 +661,4 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return "";
     }
 
-
 }

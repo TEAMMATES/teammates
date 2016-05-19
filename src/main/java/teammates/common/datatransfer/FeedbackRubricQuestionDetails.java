@@ -16,7 +16,6 @@ import teammates.common.util.Utils;
 
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
-
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     private static final Logger log = Utils.getLogger();
@@ -908,6 +907,5 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
-    
     
 }

@@ -31,7 +31,6 @@ public abstract class AdminEmailPageData extends PageData {
         trashEmailTable = createAdminTrashEmailTable();
     }
     
-    
     public AdminSentEmailTable getSentEmailTable() {
         return sentEmailTable;
     }

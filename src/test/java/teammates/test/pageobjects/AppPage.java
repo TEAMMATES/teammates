@@ -1010,7 +1010,6 @@ public abstract class AppPage {
         return this;
     }
         
-    
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {

@@ -10,5 +10,4 @@ public class AdminEmailCreateImageUploadUrlAjaxPageData extends PageData {
         super(account);
     }
     
-
 }
