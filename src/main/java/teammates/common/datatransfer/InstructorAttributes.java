@@ -200,7 +200,7 @@ public class InstructorAttributes extends EntityAttributes {
         String error;
         
         if (googleId != null) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
             if (!error.isEmpty()) { errors.add(error); }
         }
         

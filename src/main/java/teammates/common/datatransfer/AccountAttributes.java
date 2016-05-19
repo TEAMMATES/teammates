@@ -98,7 +98,7 @@ public class AccountAttributes extends EntityAttributes {
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+        error = validator.getInvalidityInfoForGoogleId(googleId);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);

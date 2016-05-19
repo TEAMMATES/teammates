@@ -98,7 +98,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
 
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+        error = validator.getInvalidityInfoForGoogleId(googleId);
         if (!error.isEmpty()) {
             errors.add(error);
         }

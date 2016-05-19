@@ -411,9 +411,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case GOOGLE_ID:
-            returnValue = getInvalidInfoForGoogleId((String) value);
-            break;
         case COURSE_ID:
             returnValue = getValidityInfoForCourseId((String) value);
             break;
