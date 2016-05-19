@@ -422,54 +422,54 @@ public class FieldValidatorTest extends BaseTestCase {
 
     private void invalidityInfoFor_validGoogleId_shouldReturnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
-        assertEquals("Valid Google ID should return empty string", "",
+        assertEquals("Valid Google ID (typical) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(typicalId));
 
         String shortId = "e";
-        assertEquals("Valid Google ID should return empty string", "",
+        assertEquals("Valid Google ID (short) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(shortId));
 
         String emailAsId = "someone@yahoo.com";
-        assertEquals("Valid Google ID should return empty string", "",
+        assertEquals("Valid Google ID (typical email) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(emailAsId));
     
         String shortEmailAsId = "e@y";
-        assertEquals("Valid Google ID should return empty string", "",
+        assertEquals("Valid Google ID (short email) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(shortEmailAsId));
 
         String maxLengthId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
-        assertEquals("Valid Google ID should return empty string", "",
+        assertEquals("Valid Google ID (max length) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(maxLengthId));
     }
 
     private void invalidityInfoFor_invalidGoogleId_shouldReturnErrorString() {
         String emptyId = "";
-        assertEquals("Empty Google ID should return appropriate error message",
+        assertEquals("Invalid Google ID (empty) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(emptyId),
                      String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY));
 
         String whitespaceId = "     ";
-        assertEquals("Whitespace-only Google ID should return appropriate error message",
+        assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(whitespaceId),
                      String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
 
         String untrimmedId = "  googleIdWithSpacesAround    ";
-        assertEquals("Google ID with untrimmed leading/trailing whitespaces should return appropriate error message",
+        assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(untrimmedId),
                      String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
 
         String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
-        assertEquals("Google ID that is too long should return appropriate error message",
+        assertEquals("Invalid Google ID (too long) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(tooLongId),
                      String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG));
 
         String idWithSpaces = "invalid google id with spaces";
-        assertEquals("Google ID with invalid characters should return appropriate error message",
+        assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(idWithSpaces),
                      String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT));
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
-        assertEquals("Google ID with invalid characters should return appropriate error message",
+        assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
                      String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
                                    REASON_INCORRECT_FORMAT));
