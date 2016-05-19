@@ -185,12 +185,8 @@ public abstract class FeedbackQuestionDetails {
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
                                             FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        if (question.recipientType == FeedbackParticipantType.STUDENTS
-            || question.recipientType == FeedbackParticipantType.TEAMS) {
-            return false;
-        }
-
-        return true;
+        return question.recipientType != FeedbackParticipantType.STUDENTS 
+            && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,

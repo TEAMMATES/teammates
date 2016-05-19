@@ -353,13 +353,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
-        if (this.options.size() != newRankQuestionDetails.options.size() 
+        return this.options.size() != newRankQuestionDetails.options.size() 
             || !this.options.containsAll(newRankQuestionDetails.options) 
-            || !newRankQuestionDetails.options.containsAll(this.options)) {
-            return true;
-        }
-        
-        return false;
+            || !newRankQuestionDetails.options.containsAll(this.options);
     }
 
     @Override
