@@ -38,7 +38,7 @@ public class ImportData {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
