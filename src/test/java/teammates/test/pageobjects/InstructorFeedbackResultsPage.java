@@ -307,6 +307,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
             // row expected to be missing
+            return;
         }
     }
 

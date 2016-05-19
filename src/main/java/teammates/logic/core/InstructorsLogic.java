@@ -27,8 +27,6 @@ public class InstructorsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
-    public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
-    
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -178,15 +176,6 @@ public class InstructorsLogic {
         if (!accountsLogic.isAccountAnInstructor(instructorId)) {
             throw new EntityDoesNotExistException("Instructor does not exist :"
                     + instructorId);
-        }
-    }
-    
-    public void verifyIsGoogleIdOfInstructorOfCourse(String instructorId, String courseId)
-            throws EntityDoesNotExistException {
-        
-        if (!isGoogleIdOfInstructorOfCourse(instructorId, courseId)) {
-            throw new EntityDoesNotExistException("Instructor " + instructorId
-                    + " does not belong to course " + courseId);
         }
     }
     

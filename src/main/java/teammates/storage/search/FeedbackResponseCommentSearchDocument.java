@@ -158,7 +158,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion || comment.isVisibleTo(FeedbackParticipantType.GIVER);
         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion 
                                     ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                     : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);

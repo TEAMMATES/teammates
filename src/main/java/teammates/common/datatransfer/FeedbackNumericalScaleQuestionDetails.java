@@ -425,7 +425,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return false;
         }
         Integer numOfResponses = numResponses.get(recipient);
-        return numOfResponses == null ? false : numOfResponses >= 2;
+        return numOfResponses != null && numOfResponses >= 2;
     }
 
     private String getAverageExcludingSelfText(boolean showAvgExcludingSelf, DecimalFormat df, Double averageExcludingSelf) {

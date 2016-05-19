@@ -76,18 +76,16 @@ public class StudentProfilePictureAction extends Action {
     }
 
     private String getPictureKeyForStudent(StudentAttributes student) {
-        String blobKey = "";
-        if (student.googleId.isEmpty()) {
-            // unregistered student, so ignore the picture request
-        } else {
+        // picture request is only relevant for registered student
+        if (!student.googleId.isEmpty()) {
             StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
 
             // TODO: remove the null check once all legacy data has been ported
             if (profile != null) {
-                blobKey = profile.pictureKey;
+                return profile.pictureKey;
             }
         }
-        return blobKey;
+        return "";
     }
 
 }

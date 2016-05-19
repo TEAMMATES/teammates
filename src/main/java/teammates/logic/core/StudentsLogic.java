@@ -513,10 +513,10 @@ public class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)) {
-                if (!invalidTeamList.contains(currentStudent.team)) {
-                    invalidTeamList.add(currentStudent.team);    
-                }
+            if (currentStudent.team.equals(previousStudent.team)
+                    && !currentStudent.section.equals(previousStudent.section)
+                    && !invalidTeamList.contains(currentStudent.team)) {
+                invalidTeamList.add(currentStudent.team);
             }
         }
 
