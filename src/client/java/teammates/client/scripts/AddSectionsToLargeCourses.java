@@ -31,22 +31,22 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     private Logic logic = new Logic();
     
     // modify this to modify only a specific course or all courses
-    private final boolean isForAllCourses = false;
+    private static final boolean isForAllCourses = false;
     
     // modify this to modify the max size of a course without a section
     // if numStudents in a course > maxCourseSizeWithoutSections,
     // then sections will be added to the course
-    private final int maxCourseSizeWithoutSections = 100;
+    private static final int maxCourseSizeWithoutSections = 100;
     
     // if not modifying all courses, specify which course to modify here
-    private final String courseToAddSectionsTo = "demo-course";
+    private static final String courseToAddSectionsTo = "demo-course";
     
     // when adding teams to a section, when this value is reached or exceeded,  
     // change the section for the next team
-    private final int numOfStudentsInSection = 100;
+    private static final int numOfStudentsInSection = 100;
     
     // modify for preview
-    boolean isPreview = true;
+    private static final boolean isPreview = true;
     
     /*
      * IMPORTANT: *******************************
@@ -55,8 +55,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
      * responses did not have comments)
      * ******************************************
      */
-    
-    
+
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
         
@@ -127,11 +126,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return largeCoursesWithoutSections;
     }
 
-    
     public void addSectionsToCourse(String courseId) {
         System.out.println("Course: [" + courseId + "] ");
-        
-        
+
         List<TeamDetailsBundle> teams;
         try {
             teams = logic.getTeamsForCourse(courseId);
@@ -166,8 +163,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
                 currentSectionSize = 0;
             }
         }
-        
-        
+
         System.out.println();
     }
 
@@ -215,7 +211,6 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         student.setSectionName(sectionToChangeTo);
     }
-    
 
     private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
         if (isPreview) {

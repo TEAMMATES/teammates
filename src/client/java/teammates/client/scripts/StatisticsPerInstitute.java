@@ -21,7 +21,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
-
 /**
  * Generate list of institutes and number of users per institute.
  */
@@ -44,8 +43,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
         statistics.doOperationRemotely();
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
@@ -70,19 +68,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         System.out.println("\n\n" + "***************************************************" + "\n\n");
         System.out.println(statsForUniqueInstructorEmail);
     }
-    
 
     private String generateUniqueInstructorEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
-       
-        
+
         String result = "===============Unique Instructor Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
                         + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
-    
-    
+
     private boolean isTestingInstructorData(Instructor instructor) {
         boolean isTestingData = false;
         
@@ -97,8 +92,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         return isTestingData;
     }
-    
-    
+
     private String generateUniqueStudentEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
        
         String result = "===============Unique Student Emails===============\n"
@@ -149,9 +143,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 updateProgressIndicator();
         }
 
-        
-        
-        
         for (Student student : allStudents) {
             
             if (isTestingStudentData(student) || student.getEmail() == null) {
@@ -189,21 +180,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     private String getInstituteForStudent(Student student) {
         
-        String institute = courseIdToInstituteMap.get(student.getCourseId());
-        
-        if (institute != null) {
-            return institute;
-        } else {
-            institute = UNKNOWN_INSTITUTE;
-        }
-        
-        
+        if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
+            return courseIdToInstituteMap.get(student.getCourseId());
+        } 
+
         Query q = pm.newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());        
         
-        institute = getInstituteForInstructors(instructorList);
+        String institute = getInstituteForInstructors(instructorList);
         
         courseIdToInstituteMap.put(student.getCourseId(), institute);
         
@@ -228,23 +214,18 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     private String getInstituteForInstructor(Instructor instructor) {
-        
-        String institute = null;
-        
         if (instructor.getGoogleId() == null) {
-            return institute;
+            return null;
         }
         
         Account account = getAccountEntity(instructor.getGoogleId());
         if (account != null) {
             return account.getInstitute();
-            
-        } else {
-            return institute;
         }
+        
+        return null;
     }
-    
-    
+
     private Account getAccountEntity(String googleId) {
         
         try {
@@ -263,8 +244,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             return null;
         }
     }
-    
-    
+
     private void print(List<InstituteStats> statList) {
         System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");

@@ -177,5 +177,4 @@ public class AccountAttributesTest extends BaseTestCase {
         printTestClassFooter();
     }
 
-
 }

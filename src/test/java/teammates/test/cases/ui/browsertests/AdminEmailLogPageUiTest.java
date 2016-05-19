@@ -32,8 +32,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         testContent();
         testFilterReference();
     }
-    
-    
+
     private void testFilterReference() {
         emailLogPage.clickReferenceButton();
         assertTrue(emailLogPage.isFilterReferenceVisible());

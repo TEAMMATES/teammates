@@ -181,9 +181,6 @@ public class DataGenerator {
             teams.add(team);
         }
     }
-    
-    
-    
 
     /**
      * @return json string presenting the databundle 
@@ -263,9 +260,7 @@ public class DataGenerator {
         output += "\n},";
         return output;
     }
-    
 
-    
     public static String account(String acc) {
         String result = "\"" + acc + "\":{";
         result += "\"googleId\":\"" + acc + "\",";
@@ -318,8 +313,7 @@ public class DataGenerator {
     }
     
     /*helper methods*/
-    
-    
+
     /**
      * @param id - id of student
      * @return email of that student

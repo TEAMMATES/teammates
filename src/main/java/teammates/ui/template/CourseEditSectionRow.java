@@ -28,12 +28,12 @@ public class CourseEditSectionRow {
         
         String content = "";
         String onClick = "";
-        if (!isSessionsInSectionSpecial()) {
-            content = "Give different permissions for sessions in this section";
-            onClick = "showTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
-        } else {
+        if (isSessionsInSectionSpecial()) {
             content = "Hide session-level permissions";
             onClick = "hideTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
+        } else {
+            content = "Give different permissions for sessions in this section";
+            onClick = "showTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
         }
         
         String id = "toggleSessionLevelInSection" + sectionIndex + "ForInstructor" + instructorIndex;

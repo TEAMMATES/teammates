@@ -40,17 +40,17 @@ public class AdminEmailLogPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
         Long endTimeToSearch;
-        if (timeOffset != null && !timeOffset.isEmpty()) {
-            endTimeToSearch = Long.parseLong(timeOffset);
-        } else {
+        if (timeOffset == null || timeOffset.isEmpty()) {
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
+        } else {
+            endTimeToSearch = Long.parseLong(timeOffset);
         }
         
         AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = pageChange != null && pageChange.equals("true") || timeOffset == null;
+        boolean isPageChanged = "true".equals(pageChange) || timeOffset == null;
         if (isPageChanged) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();

@@ -138,6 +138,7 @@ public class StudentProfilePage extends AppPage {
                 break;
             default:
                 fail("Given gender " + gender + " is not valid!");
+                break;
         }
     }
 
@@ -175,6 +176,7 @@ public class StudentProfilePage extends AppPage {
                 break;
             default:
                 fail("unexpected gender value given");
+                break;
         }
     }
 

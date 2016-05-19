@@ -145,9 +145,9 @@ public class StudentProfilePictureUploadAction extends Action {
             isError = true;
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, StatusMessageColor.DANGER));
             return null;
-        } else {
-            return profilePic;
         }
+        
+        return profilePic;
     }
 
     private void deletePicture(BlobKey blobKey) {
