@@ -454,7 +454,7 @@ rules:
     no-mixed-spaces-and-tabs: "error"
 
     # disallow multiple empty lines
-    # no-multiple-empty-lines: "off"
+    no-multiple-empty-lines: "error"
 
     # disallow negated conditions
     no-negated-condition: "error" # recommended by Google
