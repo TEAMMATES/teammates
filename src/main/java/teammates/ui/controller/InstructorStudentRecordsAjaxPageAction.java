@@ -19,8 +19,6 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsAjaxPageAction extends Action {
 
-    private InstructorStudentRecordsAjaxPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -69,7 +67,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
-        data = new InstructorStudentRecordsAjaxPageData(account, student, results);
+        InstructorStudentRecordsAjaxPageData data = 
+                                        new InstructorStudentRecordsAjaxPageData(account, student, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }
