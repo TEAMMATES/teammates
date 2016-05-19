@@ -7,8 +7,6 @@ import teammates.logic.api.GateKeeper;
 
 public class StudentCourseDetailsPageAction extends Action {
 
-    private StudentCourseDetailsPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -23,7 +21,8 @@ public class StudentCourseDetailsPageAction extends Action {
         new GateKeeper().verifyAccessible(logic.getStudentForGoogleId(courseId, account.googleId),
                                           logic.getCourse(courseId));
 
-        data = new StudentCourseDetailsPageData(account);
+        StudentCourseDetailsPageData data = 
+                                        new StudentCourseDetailsPageData(account);
         
         data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
                       logic.getStudentForGoogleId(courseId, account.googleId), 

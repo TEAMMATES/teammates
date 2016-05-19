@@ -70,11 +70,10 @@ public class GateKeeper {
     public String getLoginUrl(String redirectPage) {
         User user = userService.getCurrentUser();
 
-        if (user != null) {
-            return redirectPage;
-        } else {
+        if (user == null) {
             return userService.createLoginURL(redirectPage);
-        }
+        } 
+        return redirectPage;
     }
 
     public String getLogoutUrl(String redirectPage) {

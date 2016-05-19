@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * this class contains several nested classes, each containing a specific
  * category of constants.
  */
-
+@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class Const {
     
     public static class SystemParams {
@@ -245,6 +245,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+        public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS = "Assign weights to the columns for calculating statistics.";
         
         public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" 
                                                                      + "<br />in the course once the results are published.";
@@ -320,7 +321,10 @@ public final class Const {
         public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
-        
+        public static final String RUBRIC_ERROR_INVALID_WEIGHT = 
+                "The weights for the choices of a "
+                + Const.FeedbackQuestionTypeNames.RUBRIC
+                + " must be valid numbers with precision up to 2 decimal places.";
     }
 
     public class FeedbackQuestionTypeNames {
@@ -490,6 +494,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = "rubricSubQn";
         public static final String FEEDBACK_QUESTION_RUBRIC_CHOICE = "rubricChoice";
         public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
+        public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED = "rubricAssignWeights";
+        public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
         public static final String FEEDBACK_QUESTION_RANKOPTION = "rankOption";
@@ -1011,7 +1017,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT = "Trying to update recipient to an invalid recipient for question %d.";
         public static final String FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS = "Error trying to update recipient for response, as another response with the same recipient already exists.";
         
-        public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
+        public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "<strong>The feedback session is currently not open for submissions.</strong> You can view the questions and any submitted responses for this feedback session but cannot submit new responses.";
         public static final String FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE = "<strong>Submission Failure!</strong> You have exceeded the submission deadline.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";

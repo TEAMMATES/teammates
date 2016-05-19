@@ -78,6 +78,7 @@ public abstract class BaseUiTestCase extends BaseTestCase {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
+                ignorePossibleException();
             }
         }
         

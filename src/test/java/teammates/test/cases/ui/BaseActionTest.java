@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -109,7 +110,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
         if (order == 0) return typicalCase;
@@ -147,6 +147,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             case 3:
                 typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
                 typicalCase[indexOfSessionInstructionsValue] = "";
+                break;
+            default:
+                Assumption.fail("Incorrect order");
                 break;
         }
         
@@ -289,7 +292,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * 'mid-level' tests here tests access control of an action for 
      * one user types.
      */
-    
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));

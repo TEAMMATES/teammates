@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
-
 public class InstructorCourseStudentDetailsEditPageData extends  InstructorCourseStudentDetailsPageData {
     
     private String newEmail;

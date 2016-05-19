@@ -32,7 +32,6 @@ public class FeedbackQuestionEditForm {
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
-    
 
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;

@@ -479,12 +479,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         if (feedbackResponseCommentToGet.getId() != null) {
             return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
-        } else { 
-            return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.courseId,
-                feedbackResponseCommentToGet.createdAt,
-                feedbackResponseCommentToGet.giverEmail);
         }
+        
+        return getFeedbackResponseCommentEntity(
+            feedbackResponseCommentToGet.courseId,
+            feedbackResponseCommentToGet.createdAt,
+            feedbackResponseCommentToGet.giverEmail);
     }
     
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {

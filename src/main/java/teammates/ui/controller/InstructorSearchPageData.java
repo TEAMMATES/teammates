@@ -91,8 +91,7 @@ public class InstructorSearchPageData extends PageData {
     public boolean isStudentsEmpty() {
         return isStudentsEmpty;
     }
-    
-    
+
     public boolean isSearchCommentForStudents() {
         return isSearchCommentForStudents;
     }
@@ -104,8 +103,7 @@ public class InstructorSearchPageData extends PageData {
     public boolean isSearchForStudents() {
         return isSearchForStudents;
     }
-    
-    
+
     public List<CommentsForStudentsTable> getSearchCommentsForStudentsTables() {
         return searchCommentsForStudentsTables;
     }
@@ -237,7 +235,7 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
-            if (!frCommentGiver.equals("Anonymous")) {
+            if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
@@ -304,8 +302,7 @@ public class InstructorSearchPageData extends PageData {
         }
         return rows;
     }
-    
-    
+
     private List<String> getCourseIdsFromStudentSearchResultBundle(
                                     StudentSearchResultBundle studentSearchResultBundle) {
         List<String> courses = new ArrayList<String>();

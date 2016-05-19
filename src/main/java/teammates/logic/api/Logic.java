@@ -325,8 +325,7 @@ public class Logic {
     public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
         return instructorsLogic.createInstructor(instructor);
     }
-    
-    
+
     /**
      * This method should be used by admin only since the searching does not restrict the 
      * visibility according to the logged-in user's google ID. This is used by admin to
@@ -357,7 +356,6 @@ public class Logic {
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsLogic.deleteDocument(instructor);
     }
-    
 
     /**
      * Preconditions: <br>
@@ -464,15 +462,12 @@ public class Logic {
         
         return instructorsLogic.getAllInstructors();
     }
-    
-   
+
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         
         return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
     }
-    
-    
-    
+
     /**
      * @return true if this user has instructor privileges.
      */
@@ -553,7 +548,7 @@ public class Logic {
      * @throws InvalidParametersException 
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
@@ -563,13 +558,12 @@ public class Logic {
     }
     
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);   
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
-
 
     /**
      * Preconditions: <br>
@@ -591,8 +585,7 @@ public class Logic {
     
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
             throws EntityDoesNotExistException {
-         
-         
+
          Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
          Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
          Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
@@ -611,10 +604,7 @@ public class Logic {
              throw new InvalidParametersException(invalidityInfo);
          } 
      }
-     
-     
-    
-    
+
     /**
      * Removes instructor access but does not delete the account. 
      * The account will continue to have student access. <br>
@@ -669,8 +659,7 @@ public class Logic {
         
         return coursesLogic.getCourse(courseId);
     }
-    
-    
+
     /**
      * Returns a detailed version of course data. <br>
      * Preconditions: <br>
@@ -868,8 +857,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
     }
-    
-    
+
     /**
      * Change the archive status of a course for a instructor.<br>
      * Preconditions: <br>
@@ -983,7 +971,6 @@ public class Logic {
         return studentsLogic.getStudentForEmail(courseId, email);
     }
 
-    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1146,15 +1133,13 @@ public class Logic {
     
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
-    
-    
+
     public void resetStudentGoogleId(String originalEmail, String courseId) throws InvalidParametersException, 
                                                                                    EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
     }
-    
 
     /**
      * All attributes except courseId be changed. Trying to change courseId will
@@ -1192,7 +1177,7 @@ public class Logic {
      * @param googleId
      * @param key the encrypted registration key
      */
-    public void joinCourseForStudent(String key, String googleId) throws JoinCourseException {
+    public void joinCourseForStudent(String key, String googleId) throws JoinCourseException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
@@ -1268,8 +1253,7 @@ public class Logic {
     
         return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
     }
-    
-    
+
     /**
      * Sends reminders to students who haven't submitted yet. <br>
      * Preconditions: <br>
@@ -1451,6 +1435,7 @@ public class Logic {
         
         return feedbackSessionsLogic.getFeedbackSessionDetails(fsa);
     }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
@@ -1574,8 +1559,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
     }
-    
-    
+
     /**
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
@@ -1868,8 +1852,7 @@ public class Logic {
         
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
     }
-    
-    
+
     /**
      * Gets the response rate status for a session
      * Preconditions: <br>
@@ -2529,8 +2512,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
-    
-    
+
     /**
      * This method is not scalable. Not to be used unless for admin features.
      * @return the list of all adminEmails in the database.
@@ -2651,7 +2633,6 @@ public class Logic {
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
 
-
     public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
         return emailManager.sendErrorReport(req, error);
     }
@@ -2667,8 +2648,7 @@ public class Logic {
         Assumption.assertNotNull(googleId);
         return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
-   
-    
+
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
         Assumption.assertNotNull(instructorsForCourses);

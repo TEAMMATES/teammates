@@ -57,8 +57,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         // TODO: remove this test by 21/09/2014
         testJoinConfirmation();
     }
-    
-    
+
     private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
@@ -138,15 +137,13 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         studentHomePage.logout();
     }
 
-
     private void testContent(){
         
         /*covered in testJoinConfirmation() 
          *case: click join link then confirm: success: valid key
          */
     }
-     
-    
+
     private void testJoinConfirmation() throws Exception {
         logout(browser);
         removeAndRestoreTestDataOnServer(testData);
@@ -173,8 +170,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
-        
-        
+
         ______TS("test student confirmation page content");
         
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();

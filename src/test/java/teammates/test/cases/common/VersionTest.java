@@ -7,6 +7,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class VersionTest extends BaseTestCase {
     @Test
+    @SuppressWarnings("PMD.AvoidUsingHardCodedIP") // A version with 4 numbers is not an IP address
     public void testVersionConversion() {
         ______TS("Test versions with 2 numbers");
         Version version = new Version("15.09");

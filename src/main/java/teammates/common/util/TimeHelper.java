@@ -166,7 +166,7 @@ public final class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    public static String convertToOptionValueInTimeDropDown(Date date) { 
+    public static int convertToOptionValueInTimeDropDown(Date date) { 
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
@@ -174,7 +174,7 @@ public final class TimeHelper {
         int minutes = c.get(Calendar.MINUTE);
         hour = hour == 0 ? 24 : hour;
         hour = hour == 23 && minutes == 59 ? 24 : hour;
-        return Integer.toString(hour);
+        return hour;
     }
     
     /**
@@ -182,12 +182,12 @@ public final class TimeHelper {
      * Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
-        String optionValue = convertToOptionValueInTimeDropDown(date);
-        if (optionValue.equals("24")) {
+        int optionValue = convertToOptionValueInTimeDropDown(date);
+        if (optionValue == 24) {
             return "2359H";
-        } else if (optionValue.length() == 1) {
+        } else if (optionValue >= 0 && optionValue < 10) {
             return "0" + optionValue + "00H";
-        } else if (optionValue.length() == 2) {
+        } else if (optionValue >= 10 && optionValue < 24) {
             return optionValue + "00H";
         } else {
             throw new RuntimeException("Unrecognized time option: " + optionValue);
@@ -390,10 +390,12 @@ public final class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds) {
      
-        return timeInMilliseconds != null ? String.format("%d:%d:%d",
-                                                         timeInMilliseconds / 60000,
-                                                         timeInMilliseconds / 1000,
-                                                         timeInMilliseconds % 1000) : "";
+        return timeInMilliseconds == null 
+             ? "" 
+             : String.format("%d:%d:%d",
+                             timeInMilliseconds / 60000,
+                             timeInMilliseconds / 1000,
+                             timeInMilliseconds % 1000);
     }
     
   

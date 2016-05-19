@@ -21,6 +21,5 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         
         //TODO: implement this
     }
-    
 
 }

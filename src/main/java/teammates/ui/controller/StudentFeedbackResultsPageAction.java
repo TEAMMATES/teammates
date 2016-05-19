@@ -42,7 +42,7 @@ public class StudentFeedbackResultsPageAction extends Action {
                                                   + " does not exist in " + courseId + ".");
         }
 
-        if (data.getBundle().feedbackSession.isPublished() == false) {
+        if (!data.getBundle().feedbackSession.isPublished()) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
 
@@ -63,10 +63,9 @@ public class StudentFeedbackResultsPageAction extends Action {
     }
 
     protected StudentAttributes getCurrentStudent(String courseId) {
-        if (student != null) {
-            return student;
-        } else {
+        if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId);
-        }
+        } 
+        return student;
     }
 }

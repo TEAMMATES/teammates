@@ -38,7 +38,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 
-
     @Test
     public void allTests() {
         

@@ -28,9 +28,7 @@ import teammates.ui.template.FeedbackSessionsTableRow;
 public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    
-    private final int NUMBER_OF_HOURS_IN_DAY = 24;
+    private static final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -112,17 +110,14 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(firstFsName, fsRows.get(0).getName());
         String lastFsName = "First feedback session";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
-        
-        
+
         ______TS("typical success case: copy modal");
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
         assertEquals("", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
-        
-        
-        
+
         ______TS("case with instructor with only archived course");
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
         InstructorFeedbacksPageData instructorArchivedCourseData = new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount);
@@ -149,9 +144,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
-        
-        
-        
+
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
         
@@ -193,8 +186,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
         assertEquals("", copyModalModel.getFsName());
         assertEquals(0, copyModalModel.getExistingFeedbackSessions().size());
-        
-        
+
         ______TS("case with highlighted session in session table");
         
         instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
@@ -218,7 +210,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         boolean isFirstFeedbackSessionHighlighted = false;
         boolean isOtherFeedbackSessionHighlighted = false;
         for (FeedbackSessionsTableRow row : sessionRows) {
-            if (row.getName().equals("First feedback session")) {
+            if ("First feedback session".equals(row.getName())) {
                 isFirstFeedbackSessionHighlighted = row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
             } else {
                 if (row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*")) {
@@ -230,8 +222,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertFalse(isOtherFeedbackSessionHighlighted);
         
     }
-    
-    
+
     @Test
     public void testInit() throws Exception {
 
@@ -307,8 +298,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(firstFsName, fsRows.get(0).getName());
         String lastFsName = "First feedback session";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
-        
-        
+
         ______TS("typical success case with existing fs passed in: copy modal");
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
@@ -354,8 +344,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals("First feedback session", modal.getFsName());
         
     }
-    
-    
+
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>(dataBundle.instructors.values());
         

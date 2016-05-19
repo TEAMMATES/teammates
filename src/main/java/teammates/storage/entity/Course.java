@@ -27,7 +27,6 @@ public class Course {
     @Persistent
     private Boolean archiveStatus;
 
-
     public Course(String courseId, String courseName, Boolean archiveStatus, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);

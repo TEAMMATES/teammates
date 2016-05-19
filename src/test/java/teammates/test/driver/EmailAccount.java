@@ -131,7 +131,7 @@ public final class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message messages[] = inbox.search(ft);
+        Message[] messages = inbox.search(ft);
                 
         return messages;
     }

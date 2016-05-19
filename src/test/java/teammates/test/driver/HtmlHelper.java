@@ -208,16 +208,16 @@ public final class HtmlHelper {
      * (i.e <code>html</code>, <code>head</code>, <code>body</code>).
      */
     private static boolean shouldIncludeOpeningAndClosingTags(boolean isPart, String currentNodeName) {
-        return !(isPart && (currentNodeName.equals("html")
-                            || currentNodeName.equals("head")
-                            || currentNodeName.equals("body")));
+        return !(isPart && ("html".equals(currentNodeName)
+                            || "head".equals(currentNodeName)
+                            || "body".equals(currentNodeName)));
     }
     
     private static boolean shouldIndent(String currentNodeName) {
         // Indentation is not necessary for top level elements
-        return !(currentNodeName.equals("html")
-                 || currentNodeName.equals("head")
-                 || currentNodeName.equals("body"));
+        return !("html".equals(currentNodeName)
+                 || "head".equals(currentNodeName)
+                 || "body".equals(currentNodeName));
     }
 
     /**
@@ -252,7 +252,7 @@ public final class HtmlHelper {
     
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
-            return attrType.equals("class") ? isClassContainingValue(attrValue, attribute.getNodeValue())
+            return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
                                             : attribute.getNodeValue().equals(attrValue);
         } else {
             return false;
@@ -300,12 +300,12 @@ public final class HtmlHelper {
     }
 
     private static boolean isVoidElement(String elementName) {
-        return elementName.equals("br")
-                || elementName.equals("hr")
-                || elementName.equals("img")
-                || elementName.equals("input")
-                || elementName.equals("link")
-                || elementName.equals("meta");
+        return "br".equals(elementName)
+                || "hr".equals(elementName)
+                || "img".equals(elementName)
+                || "input".equals(elementName)
+                || "link".equals(elementName)
+                || "meta".equals(elementName);
     }
     
     /**

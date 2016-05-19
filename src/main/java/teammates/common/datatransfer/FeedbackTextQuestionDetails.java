@@ -1,12 +1,14 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -112,7 +114,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         //TODO: evaluate what statistics are needed for text questions later.
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -142,6 +143,16 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         return new ArrayList<String>();
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 
 }

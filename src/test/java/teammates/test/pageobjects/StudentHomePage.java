@@ -61,8 +61,7 @@ public class StudentHomePage extends AppPage {
         int rowId = getEvalRowId(EvalOrFeedbackName);       
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
-     
-    
+
     private int getEvalRowId(String name) {
         
         int id = 0;

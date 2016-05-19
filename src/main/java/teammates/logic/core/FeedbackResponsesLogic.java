@@ -19,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -194,7 +193,7 @@ public class FeedbackResponsesLogic {
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
 
-        return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
+        return !getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).isEmpty();
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
@@ -264,6 +263,7 @@ public class FeedbackResponsesLogic {
         default:
             Assumption
                     .fail("The role of the requesting use has to be Student or Instructor");
+            break;
         }
 
         return viewableResponses;
@@ -280,13 +280,13 @@ public class FeedbackResponsesLogic {
         }
         
         // Early return if user is giver
-        if (question.giverType != FeedbackParticipantType.TEAMS) {
-            if (response.giverEmail.equals(userEmail)) {
+        if (question.giverType == FeedbackParticipantType.TEAMS) {
+            // if response is given by team, then anyone in the team can see the response
+            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
                 return true;
             }
         } else {
-            // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+            if (response.giverEmail.equals(userEmail)) {
                 return true;
             }
         }
@@ -381,11 +381,7 @@ public class FeedbackResponsesLogic {
             || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
-        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
-            return true;
-        }
-        
-        return false;
+        return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     /**
@@ -468,16 +464,15 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) 
-            || !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
-            // Recreate response to prevent possible future id conflict.
-            recreateResponse(newResponse, oldResponse);
-        } else {
+        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail) && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail();
             }
+        } else {
+            // Recreate response to prevent possible future id conflict.
+            recreateResponse(newResponse, oldResponse);
         }
     }
 
@@ -493,7 +488,7 @@ public class FeedbackResponsesLogic {
                     oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
-            throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
+            throw e;
         }
     }
 

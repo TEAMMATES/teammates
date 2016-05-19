@@ -1,7 +1,6 @@
 package teammates.logic.backdoor;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -9,10 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -47,7 +44,6 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL";
-    public static final String OPERATION_GET_COURSES_BY_INSTRUCTOR = "get_courses_by_instructor";
     public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
     public static final String OPERATION_GET_STUDENTPROFILE_AS_JSON = "OPERATION_GET_STUDENTPROFILE_AS_JSON";
     public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
@@ -105,7 +101,6 @@ public class BackDoorServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
@@ -115,24 +110,26 @@ public class BackDoorServlet extends HttpServlet {
         String returnValue;
 
         String keyReceived = req.getParameter(PARAMETER_BACKDOOR_KEY);
-        if (!keyReceived.equals(Config.BACKDOOR_KEY)) {
-            returnValue = "Not authorized to access Backdoor Services";
-        } else {
+        
+        resp.setContentType("text/plain; charset=utf-8");
+        
+        boolean isAuthorized = keyReceived.equals(Config.BACKDOOR_KEY);
+        if (isAuthorized) {
             try {
                 returnValue = executeBackendAction(req, action);
             } catch (Exception e) {
                 log.info(e.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                        + TeammatesException.toStringWithStackTrace(e);
+                                                + TeammatesException.toStringWithStackTrace(e);
             } catch (AssertionError ae) {
                 log.info(ae.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                        + " Assertion error " + ae.getMessage();
+                                                + " Assertion error " + ae.getMessage();
             }
+            resp.getWriter().write(returnValue);
+        } else {
+            resp.getWriter().write("Not authorized to access Backdoor Services");
         }
-
-        resp.setContentType("text/plain; charset=utf-8");
-        resp.getWriter().write(returnValue);
         resp.flushBuffer();
     }
 
@@ -174,9 +171,6 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             return backDoorLogic.getCourseAsJson(courseId);
-        } else if (action.equals(OPERATION_GET_COURSES_BY_INSTRUCTOR)) {
-            String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-            return getCourseIDsForInstructor(instructorID);
         } else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
@@ -283,23 +277,6 @@ public class BackDoorServlet extends HttpServlet {
             throw new Exception("Unknown command: " + action);
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-
-    private String getCourseIDsForInstructor(String instructorID) {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        String courseIDs = "";
-
-        try {
-            HashMap<String, CourseDetailsBundle> courseList = backDoorLogic
-                    .getCourseSummariesForInstructor(instructorID);
-            for (String courseId : courseList.keySet()) {
-                courseIDs = courseIDs + courseId + " ";
-            }
-        } catch (EntityDoesNotExistException e) {
-            // Instructor does not exist, no action required.
-        }
-
-        return courseIDs.trim();
     }
 
 }
