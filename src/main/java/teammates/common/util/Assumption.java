@@ -288,6 +288,9 @@ public class Assumption {
      * Asserts that two objects refer to the same object. If they are not an
      * AssertionFailedError is thrown with the given message.
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
+    // the expected and actual are the same objects (not just equal to each other) 
     public static void assertSame(String message, Object expected, Object actual) {
         if (expected == actual) {
             return;
@@ -300,6 +303,9 @@ public class Assumption {
      * Asserts that two objects refer to the same object. If they are not the
      * same an AssertionFailedError is thrown.
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
+    // the expected and actual are the same objects (not just equal to each other) 
     public static void assertSame(Object expected, Object actual) {
         assertSame(null, expected, actual);
     }
@@ -309,6 +315,9 @@ public class Assumption {
      * refer to the same object an AssertionFailedError is thrown with the given
      * message.
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    // PMD.CompareObjectsWithEquals is suppressed as assertNotSame is checking if 
+    // the expected and actual are the different objects (not just equal to each other) 
     public static void assertNotSame(String message, Object expected,
             Object actual) {
         if (expected == actual) {

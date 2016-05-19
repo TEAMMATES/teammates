@@ -30,14 +30,14 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     protected static final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
+    
+    private int duplicateEmailCount;
 
     public static void main(String[] args) throws IOException {
         RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
         repairman.doOperationRemotely();
     }
     
-    private int duplicateEmailCount;
-
     @Override
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCourses();

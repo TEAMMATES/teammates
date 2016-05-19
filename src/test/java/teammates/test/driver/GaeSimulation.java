@@ -37,16 +37,16 @@ import com.meterware.servletunit.ServletUnitClient;
  */
 public class GaeSimulation {
 
-    public static GaeSimulation inst() {
-        return instance;
-    }
-
     private static final GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters */
     protected  ServletUnitClient sc;
     
     protected  LocalServiceTestHelper helper;
+
+    public static GaeSimulation inst() {
+        return instance;
+    }
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");
