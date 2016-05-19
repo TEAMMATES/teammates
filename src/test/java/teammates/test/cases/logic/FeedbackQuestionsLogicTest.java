@@ -15,7 +15,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -43,7 +42,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testGetRecipientsForQuestion();
         testGetFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForStudents();
-        testGetFeedbackQuestionsForTeam();
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testUpdateQuestionNumber();
@@ -554,18 +552,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         assertEquals(actualQuestions, expectedQuestions);
     }
-
-    public void testGetFeedbackQuestionsForTeam() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
-        
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
-        actualQuestions = 
-                fqLogic.getFeedbackQuestionsForTeam("Second feedback session", "idOfTypicalCourse1", "");
-        
-        assertEquals(actualQuestions, expectedQuestions);
-        
-    }
     
     public void testIsQuestionHasResponses() {
         FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
@@ -583,20 +569,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     
     public void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
-        ______TS("test question is answered by user");
-        
-        question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
-        assertFalse(fqLogic.isQuestionAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));
-
-        List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
-        assertFalse(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.tmt", responses));
-        
-        responses = frLogic.getFeedbackResponsesForQuestion(question.getId());
-        assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student2InCourse1@gmail.tmt", responses));
         
         ______TS("test question is fully answered by user");
         
+        question = getQuestionFromDatastore("qn1InSession1InCourse1");
         assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
         
         assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));

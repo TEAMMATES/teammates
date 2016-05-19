@@ -209,14 +209,14 @@ public class InstructorCourseEditPage extends AppPage {
         coursePanel.findElements(By.cssSelector("input[type=checkbox]")).get(linkNum - 1).click();
     }
     
-    public WebElement addSessionLevelPrivilegesLink(int instrNum) {
+    public WebElement addSectionLevelPrivilegesLink(int instrNum) {
         String idStr = "addSectionLevelForInstructor" + instrNum;
         
         return browser.driver.findElement(By.id(idStr));
     }
     
-    public void clickAddSessionLevelPrivilegesLink(int instrNum) {
-        this.addSessionLevelPrivilegesLink(instrNum).click();
+    public void clickAddSectionLevelPrivilegesLink(int instrNum) {
+        this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
     public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {

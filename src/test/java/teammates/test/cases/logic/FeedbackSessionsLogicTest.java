@@ -108,7 +108,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 finalFsa.add(fsa);
             }
         }
-        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
         
     }
     

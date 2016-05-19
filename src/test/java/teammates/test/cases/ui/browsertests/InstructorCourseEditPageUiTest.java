@@ -294,21 +294,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 1);
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 2);
         courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 1);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 2);
         courseEditPage.clickViewStudentCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(instructorIndex, 1);
         courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 2, 2);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
         courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 3);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertFalse(courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSectionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(instructorIndex);
@@ -407,7 +407,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("verify that session level checkboxes are accessible");
         
-        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
         courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
         assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(instructorIndex, 0));
         
