@@ -67,7 +67,7 @@ public class StudentCommentsPageAction extends Action {
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
                 new HashMap<String, FeedbackSessionResultsBundle>();
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        if (coursePaginationList.size() > 0) {
+        if (!coursePaginationList.isEmpty()) {
             roster = new CourseRoster(
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
@@ -156,7 +156,7 @@ public class StudentCommentsPageAction extends Action {
                 new ArrayList<FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes fr: bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if (frComment != null && frComment.size() != 0) {
+            if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
