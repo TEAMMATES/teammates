@@ -1,6 +1,8 @@
 package teammates.test.cases.common;
 
+//CHECKSTYLE:OFF
 import static teammates.common.util.FieldValidator.*;
+//CHECKSTYLE:ON
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

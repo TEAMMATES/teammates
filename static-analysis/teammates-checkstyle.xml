@@ -3,6 +3,7 @@
 <module name="Checker">
   <property name="severity" value="error"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="UnusedImports"/>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
@@ -31,6 +32,8 @@
     <module name="TypecastParenPad">
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
+    <module name="AvoidStarImport"/>
   </module>
   <module name="FileTabCharacter"/>
+  <module name="SuppressionCommentFilter"/>
 </module>

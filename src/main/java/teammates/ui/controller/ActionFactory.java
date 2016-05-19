@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+//CHECKSTYLE:OFF
 import static teammates.common.util.Const.ActionURIs.*;
+//CHECKSTYLE:ON
 
 import java.util.HashMap;
 import java.util.logging.Logger;

@@ -3,6 +3,7 @@ package teammates.logic.automated;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -17,7 +18,6 @@ import com.google.appengine.api.log.RequestLogs;
 import teammates.common.util.Utils;
 import teammates.logic.core.Emails;
 
-import java.util.logging.*;
 
 public class CompileLogs {
     private static Logger log = Utils.getLogger();
