@@ -109,7 +109,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 finalFsa.add(fsa);
             }
         }
-        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
         
     }
     
@@ -1602,9 +1602,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "Question 1,\"Please choose the best choice for the following sub-questions.\"",
             "",
             "Summary Statistics,",
-            ",\"Yes\",\"No\"",
-            "\"a) This student has done a good job.\",67% (2),33% (1)",
-            "\"b) This student has tried his/her best.\",75% (3),25% (1)",
+            ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
+            "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
+            "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
             "",
             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -2043,14 +2043,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if (!i.email.equals(instrToRemind.email)) {
-                // Only send notification (no reminder) if instructor is not selected
-                assertEquals(1, emailsToInstructor.size());
-                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
-            } else {
+            if (i.email.equals(instrToRemind.email)) {
                 // Send both notification and reminder if the instructor is selected
                 assertEquals(2, emailsToInstructor.size());
                 
@@ -2064,6 +2057,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(1).getSubject());
                 AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+            } else {
+                // Only send notification (no reminder) if instructor is not selected
+                assertEquals(1, emailsToInstructor.size());
+                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                        emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
             }
         }
         

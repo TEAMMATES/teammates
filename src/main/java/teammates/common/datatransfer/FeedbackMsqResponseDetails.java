@@ -39,7 +39,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER 
                                         + "-" + questionIndx + "-" + responseIndx);
         
-        if (isOtherOptionAnswer != null && isOtherOptionAnswer.equals("1")) {
+        if ("1".equals(isOtherOptionAnswer)) {
             isOther = true;
             try {
                 otherFieldContent = answer[answer.length - 1];

@@ -121,7 +121,7 @@ public class AdminEmailLogPageData extends PageData {
             String[] values = pair[1].split(",", -1);
             String label = pair[0];
             
-            if (label.equals("version")) {
+            if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
@@ -151,15 +151,11 @@ public class AdminEmailLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isToDateInQuery) {
-            if (logEntry.getTime() > q.toDateValue) {
-                return false;
-            }
+        if (q.isToDateInQuery && logEntry.getTime() > q.toDateValue) {
+            return false;
         }
-        if (q.isFromDateInQuery) {
-            if (logEntry.getTime() < q.fromDateValue) {
-                return false;
-            }
+        if (q.isFromDateInQuery && logEntry.getTime() < q.fromDateValue) {
+            return false;
         }
         if (q.isReceiverInQuery) {
             
@@ -226,7 +222,7 @@ public class AdminEmailLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception {
-            if (label.equals("after")) {
+            if ("after".equals(label)) {
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 0:00");                          
@@ -235,7 +231,7 @@ public class AdminEmailLogPageData extends PageData {
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
-            } else if (label.equals("before")) {
+            } else if ("before".equals(label)) {
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 23:59");  
@@ -243,13 +239,13 @@ public class AdminEmailLogPageData extends PageData {
                 cal.setTime(d);
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 toDateValue = cal.getTime().getTime();          
-            } else if (label.equals("receiver")) {
+            } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
-            } else if (label.equals("subject")) {
+            } else if ("subject".equals(label)) {
                 isSubjectInQuery = true;
                 subjectValues = values;
-            } else if (label.equals("info")) {
+            } else if ("info".equals(label)) {
                 isInfoInQuery = true;
                 infoValues = values;
             } else {

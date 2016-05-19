@@ -38,21 +38,13 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        ADMIN_EMAIL_RECEIVER,
         EMAIL_SUBJECT,
-        EMAIL_SEND_DATE,
         EMAIL_CONTENT
     }
     
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-    
-    /*
-     * =======================================================================
-     * Field: Contribution
-     * Allowed: N/A, Not sure, 0%, E-90% to E+90% in 10% increments
-     */
     
     /*
      * =======================================================================
@@ -78,11 +70,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. " 
             + "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than " 
             + PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
-    
-    /*
-     * =======================================================================
-     * Field: Time zone 
-     */
 
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
@@ -165,27 +152,6 @@ public class FieldValidator {
             + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
-    
-    /*
-     * =======================================================================
-     * Field Course Instructor Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_INSTRUCTORNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Student Name
-     * Allowed: <= 40
-     */
-    public static final int COURSE_STUDENTNAME_MAX_LENGTH = 40;
-    
-    /*
-     * =======================================================================
-     * Field: Course Team Name
-     * Allowed: <= 60
-     */
-    public static final int COURSE_TEAMNAME_MAX_LENGTH = 60;
 
     /*
      * =======================================================================
@@ -445,10 +411,10 @@ public class FieldValidator {
             throw new AssertionError("Unrecognized field type : " + fieldType);
         }
         
-        if (!fieldName.isEmpty() && !returnValue.isEmpty()) {
-            return "Invalid " + fieldName + ": " + returnValue;
-        } else {
+        if (fieldName.isEmpty() || returnValue.isEmpty()) {
             return returnValue;
+        } else {
+            return "Invalid " + fieldName + ": " + returnValue;
         }
     }
 
@@ -554,15 +520,18 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-        } else if (!isTrimmed(value)) {
+        } 
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength) {
+        } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")) {
+        } 
+        if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")) {
             return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
         }
         return "";
@@ -586,13 +555,15 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-        } else if (!isTrimmed(value)) {
+        } 
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength) {
+        } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
@@ -616,15 +587,18 @@ public class FieldValidator {
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-        } else if (!isTrimmed(value)) {
+        } 
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length() > maxLength) {
+        } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
+        } 
+        if (!Character.isLetterOrDigit(value.codePointAt(0))) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
@@ -632,8 +606,9 @@ public class FieldValidator {
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
             }
-            
-        } else if (!StringHelper.isMatching(value, REGEX_NAME)) {
+            return "";
+        } 
+        if (!StringHelper.isMatching(value, REGEX_NAME)) {
             return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
         }
         return "";
@@ -742,13 +717,12 @@ public class FieldValidator {
         if (recipientType.isValidRecipient() == false) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
-        if (giverType == FeedbackParticipantType.TEAMS) {
-            if (recipientType == FeedbackParticipantType.OWN_TEAM 
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        recipientType.toDisplayRecipientName(),
-                        giverType.toDisplayGiverName()));
-            }
+        if (giverType == FeedbackParticipantType.TEAMS
+                && (recipientType == FeedbackParticipantType.OWN_TEAM 
+                        || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                    recipientType.toDisplayRecipientName(),
+                    giverType.toDisplayGiverName()));
         }
         
         return errors;
@@ -826,15 +800,18 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        } else if (!isTrimmed(value)) {
+        } 
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
-        } else if (value.length() > GOOGLE_ID_MAX_LENGTH) {
+        } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > GOOGLE_ID_MAX_LENGTH) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)) {
+        } 
+        if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -843,15 +820,18 @@ public class FieldValidator {
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        } else if (!isTrimmed(value)) {
+        }
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
-        } else if (value.length() > COURSE_ID_MAX_LENGTH) {
+        }
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > COURSE_ID_MAX_LENGTH) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
+        }
+        if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
@@ -860,15 +840,18 @@ public class FieldValidator {
     private String getValidityInfoForEmail(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
-        } else if (!isTrimmed(value)) {
+        } 
+        if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
-        } else if (value.length() > EMAIL_MAX_LENGTH) {
+        } 
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        if (value.length() > EMAIL_MAX_LENGTH) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
+        }
+        if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";

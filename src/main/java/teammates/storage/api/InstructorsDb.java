@@ -538,16 +538,16 @@ public class InstructorsDb extends EntitiesDb {
         
         if (!omitArchived) {
             return getInstructorEntitiesForGoogleId(googleId);
-        } else {
-            Query q = getPM().newQuery(Instructor.class);
-            q.declareParameters("String googleIdParam, boolean omitArchivedParam");
-            // Omit archived == true, get instructors with isArchived != true
-            q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
-            
-            @SuppressWarnings("unchecked")
-            List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-            return instructorList;
-        }
+        } 
+        
+        Query q = getPM().newQuery(Instructor.class);
+        q.declareParameters("String googleIdParam, boolean omitArchivedParam");
+        // Omit archived == true, get instructors with isArchived != true
+        q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
+        return instructorList;
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorServlet;
@@ -338,23 +336,6 @@ public class BackDoor {
         return status;
     }
     
-
-    
-
-    public static String[] getCoursesByInstructorId(String instructorId) {
-
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_INSTRUCTOR);
-        params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
-        String courseString = makePOSTRequest(params);
-        String[] coursesArray = {};
-        if (StringHelper.isWhiteSpace(courseString)) {
-            return coursesArray;
-        }
-        coursesArray = courseString.trim().split(" ");
-        Arrays.sort(coursesArray);
-        return coursesArray;
-    }
-
     @SuppressWarnings("unused")
     private void ____COURSE_level_methods______________________________() {
     }
