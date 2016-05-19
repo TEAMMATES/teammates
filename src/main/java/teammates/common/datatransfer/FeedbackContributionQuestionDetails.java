@@ -702,7 +702,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</option>";
+        return "<li><a id = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</a></li>";
     }
 
     @Override

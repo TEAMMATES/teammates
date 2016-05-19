@@ -477,7 +477,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"MCQ\">" + Const.FeedbackQuestionTypeNames.MCQ + "</option>";
+        return "<li><a id = \"MCQ\">" + Const.FeedbackQuestionTypeNames.MCQ + "</a></li>";
     }
 
     @Override
