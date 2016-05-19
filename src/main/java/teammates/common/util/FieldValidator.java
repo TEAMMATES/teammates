@@ -595,7 +595,7 @@ public class FieldValidator {
         if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
-        if (!Character.isLetterOrDigit(value.codePointAt(0))) {           
+        if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
@@ -651,11 +651,9 @@ public class FieldValidator {
 
         String mainFieldName, earlierFieldName, laterFieldName;
         
-        switch (mainFieldType) {
-        case FEEDBACK_SESSION_TIME_FRAME:
-            mainFieldName = FEEDBACK_SESSION_NAME; 
-            break;
-        default:
+        if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
+            mainFieldName = FEEDBACK_SESSION_NAME;
+        } else {
             throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
         }
         
@@ -707,10 +705,10 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", recipientType);
         
         List<String> errors = new LinkedList<String>();
-        if (giverType.isValidGiver() == false) {
+        if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
         }
-        if (recipientType.isValidRecipient() == false) {
+        if (!recipientType.isValidRecipient()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
         if (giverType == FeedbackParticipantType.TEAMS
@@ -739,11 +737,11 @@ public class FieldValidator {
         List<String> errors = new LinkedList<String>();
         
         for (FeedbackParticipantType type : showGiverNameTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }            
-            if (showResponsesTo.contains(type) == false) {
+            if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show giver name to "
                         + type.toString()
                         + " without showing response first.");
@@ -751,11 +749,11 @@ public class FieldValidator {
         }
         
         for (FeedbackParticipantType type : showRecipientNameTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }            
-            if (showResponsesTo.contains(type) == false) {
+            if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show recipient name to "
                         + type.toString()
                         + " without showing response first.");
@@ -763,7 +761,7 @@ public class FieldValidator {
         }
         
         for (FeedbackParticipantType type : showResponsesTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }

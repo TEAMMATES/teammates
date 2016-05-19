@@ -24,7 +24,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private StudentFeedbackResultsPage resultsPage;
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -43,7 +42,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        StudentFeedbackResultsPage resultsPage = 
+                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
         // Mcq Session
