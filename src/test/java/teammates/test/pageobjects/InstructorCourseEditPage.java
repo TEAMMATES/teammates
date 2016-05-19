@@ -290,7 +290,7 @@ public class InstructorCourseEditPage extends AppPage {
                                             "div#tunePermissionsDivForInstructorAll"));
         waitForElementVisibility(viewDetailsModal);
         
-        if (viewDetailsModal.getAttribute("style").equals("display: block;")) {
+        if ("display: block;".equals(viewDetailsModal.getAttribute("style"))) {
             closeModal();
             return true;
         }

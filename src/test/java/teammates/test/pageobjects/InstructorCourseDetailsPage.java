@@ -156,7 +156,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
         
-        if (thirdLink.getText().equals("Delete")) {
+        if ("Delete".equals(thirdLink.getText())) {
             return thirdLink;
         } else {
             return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
@@ -167,7 +167,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         
-        if (thirdLink.getText().equals("All Records")) {
+        if ("All Records".equals(thirdLink.getText())) {
             return thirdLink;
         } else {
             return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));

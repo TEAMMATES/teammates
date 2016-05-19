@@ -144,22 +144,20 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if (!lastStringOfLastAddedList.contains("@")
-                    || !firstStringOfNewList.contains("@")) {
-                   //either the left part or the right part of the broken email string 
-                   //does not contains a "@".
-                   //simply append the right part to the left part(last item of the list from last reading)
+                if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
+                    // no broken email from last reading found, simply add the list
+                    // from current reading into the upper list.
+                    listOfList.add(newList);
+                   
+                } else {
+                   // either the left part or the right part of the broken email string 
+                   // does not contains a "@".
+                   // simply append the right part to the left part(last item of the list from last reading)
                    listOfList.get(listOfList.size() - 1)
-                             .set(lastAddedList.size() - 1,
-                                  lastStringOfLastAddedList + firstStringOfNewList);
+                             .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                    
                    //and also needs to delete the right part which is the first item of the list from current reading
                    listOfList.add(newList.subList(1, newList.size() - 1));
-                } else {
-                   
-                   //no broken email from last reading found, simply add the list
-                   //from current reading into the upper list.
-                   listOfList.add(newList);
                 }              
             }
             
@@ -197,16 +195,14 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     }
 
     private BlobInfo validateGroupReceiverListFile(BlobInfo groupReceiverListFile) {
-        
         if (!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
             data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;
             return null;
-        } else {
-            return groupReceiverListFile;
-        }
+        } 
         
+        return groupReceiverListFile;
     }
     
     private void deleteGroupReceiverListFile(BlobKey blobKey) {

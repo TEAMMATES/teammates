@@ -257,7 +257,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public boolean verifyAllStatsVisibility() {
         for (WebElement e : browser.driver.findElements(By.className("resultStatistics"))) {
-            if (e.getCssValue("display").equals("none")) {
+            if ("none".equals(e.getCssValue("display"))) {
                 return false;
             }
         }
@@ -307,6 +307,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
             // row expected to be missing
+            return;
         }
     }
 
