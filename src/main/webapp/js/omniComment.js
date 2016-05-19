@@ -85,12 +85,12 @@ $(document).ready(function() {
         if ($("input[id^='panel_check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
-            if (!$('#panel_all').prop('checked')) {
-                $('#giver_all').parent().parent().hide();
-                $('#status_all').parent().parent().hide();
-            } else {
+            if ($('#panel_all').prop('checked')) {
                 $('#giver_all').parent().parent().show();
                 $('#status_all').parent().parent().show();
+            } else {
+                $('#giver_all').parent().parent().hide();
+                $('#status_all').parent().parent().hide();
             }
         } else {
             $('#no-comment-panel').hide();

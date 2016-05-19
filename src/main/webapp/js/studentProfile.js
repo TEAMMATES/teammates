@@ -102,16 +102,16 @@ function finaliseUploadPictureForm() {
             scrollToTop({ duration: '' });
         },
         success: function(data) {
-            if (!data.isError) {
+            if (data.isError) {
+                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
+                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
+                scrollToTop({ duration: '' });
+            } else {
                 $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');
                 // for IE compatibility
                 $('#profilePictureUploadForm').attr('encoding', 'multipart/form-data');
                 $('#profilePictureUploadForm').attr('action', data.formUrl);
                 $('#profilePictureUploadForm').submit();
-            } else {
-                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
-                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-                scrollToTop({ duration: '' });
             }
         }
     });

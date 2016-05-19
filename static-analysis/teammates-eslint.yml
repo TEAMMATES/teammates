@@ -457,7 +457,7 @@ rules:
     # no-multiple-empty-lines: "off"
 
     # disallow negated conditions
-    no-negated-condition: "off" # recommended by Google
+    no-negated-condition: "error" # recommended by Google
 
     # disallow nested ternary expressions
     no-nested-ternary: "error"

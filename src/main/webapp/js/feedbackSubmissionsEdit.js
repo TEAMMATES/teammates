@@ -557,10 +557,10 @@ function updateConstSumMessageQn(qnNum) {
     }
 
     function updateSumBasedOn(pointsAllocated) {
-        if (!isNumber(pointsAllocated)) {
-            pointsAllocated = 0;
-        } else {
+        if (isNumber(pointsAllocated)) {
             allNotNumbers = false;
+        } else {
+            pointsAllocated = 0;
         }
 
         sum += pointsAllocated;

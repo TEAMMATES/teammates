@@ -488,8 +488,8 @@ function scrollToElement(element, options) {
     
     options = options || {};
     var type = options.type || defaultOptions.type;
-    var offset = options.offset !== undefined ? options.offset : defaultOptions.offset;
-    var duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    var offset = options.offset || defaultOptions.offset;
+    var duration = options.duration || defaultOptions.duration;
     
     var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
@@ -836,10 +836,10 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') !== -1) {
-        hideSingleCollapse($(e.currentTarget).attr('data-target'));
-    } else {
+    if (className.indexOf('glyphicon-chevron-up') === -1) {
         showSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
     }
 }
 
