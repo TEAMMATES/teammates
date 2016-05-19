@@ -157,7 +157,7 @@ public class CoursesLogic {
                     + googleId + "<br/> Course: " + c.getId()
                     + "<br/> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
-                    logMsg.append("<br/>").append(course.getId());
+                    logMsg.append("<br>").append(course.getId());
                 }
                 log.severe(logMsg.toString());
                 

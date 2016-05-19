@@ -420,14 +420,10 @@ public class ActivityLogEntry {
     public String getUrlToShow() {
         //If not in masquerade mode, add masquerade mode
         if (!url.contains("user=")) {
-            StringBuilder urlToShow = new StringBuilder(); 
-            urlToShow.append(url);
             if (url.contains("?")) {
-                urlToShow.append("&user=").append(googleId);
-            } else {
-                urlToShow.append("?user=").append(googleId);
-            }
-            return urlToShow.toString();
+                return url + "&user=" + googleId;
+            } 
+            return url + "?user=" + googleId;
         }
         return url;
     }

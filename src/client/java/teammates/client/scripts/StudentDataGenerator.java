@@ -75,8 +75,7 @@ public class StudentDataGenerator {
         StringBuilder name = new StringBuilder();
 
         for (int j = 0; j < length; j++) {
-            name.append(RANDOM_ALLOWED_CHARS.charAt(
-                                                new Random().nextInt(RANDOM_ALLOWED_CHARS.length())));
+            name.append(RANDOM_ALLOWED_CHARS.charAt(new Random().nextInt(RANDOM_ALLOWED_CHARS.length())));
         }
         return name.toString();
     }
