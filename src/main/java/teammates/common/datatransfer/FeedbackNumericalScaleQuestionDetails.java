@@ -157,7 +157,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
+        if ("student".equals(view)) {
             return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
@@ -427,7 +427,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return false;
         }
         Integer numOfResponses = numResponses.get(recipient);
-        return numOfResponses == null ? false : numOfResponses >= 2;
+        return numOfResponses != null && numOfResponses >= 2;
     }
 
     private String getAverageExcludingSelfText(boolean showAvgExcludingSelf, DecimalFormat df, Double averageExcludingSelf) {

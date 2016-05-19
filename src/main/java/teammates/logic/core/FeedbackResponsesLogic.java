@@ -19,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -264,6 +263,7 @@ public class FeedbackResponsesLogic {
         default:
             Assumption
                     .fail("The role of the requesting use has to be Student or Instructor");
+            break;
         }
 
         return viewableResponses;
@@ -493,7 +493,7 @@ public class FeedbackResponsesLogic {
                     oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
-            throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
+            throw e;
         }
     }
 

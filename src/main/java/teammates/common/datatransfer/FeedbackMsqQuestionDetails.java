@@ -47,7 +47,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
-        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
+        if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
@@ -392,11 +392,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
-            return "";
-        }
-        
-        if (responses.isEmpty()) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         

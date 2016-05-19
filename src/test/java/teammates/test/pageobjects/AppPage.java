@@ -200,7 +200,7 @@ public abstract class AppPage {
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
-                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+                return "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"));
             }
         });
     }
@@ -266,7 +266,7 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) {
+                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -928,6 +928,7 @@ public abstract class AppPage {
             } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
+                ThreadHelper.waitFor(0);
             }
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
@@ -1051,6 +1052,7 @@ public abstract class AppPage {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
         } catch (NoSuchElementException alreadydisappears) {
             // ok to ignore
+            return;
         }
     }
 

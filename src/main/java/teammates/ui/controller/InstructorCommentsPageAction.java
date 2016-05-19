@@ -101,7 +101,7 @@ public class InstructorCommentsPageAction extends Action {
 
     private void getDisplayArchivedOptionFromSession() {
         Boolean isDisplayBooleanInSession = (Boolean) session.getAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION);
-        isDisplayArchivedCourse = isDisplayBooleanInSession != null ? isDisplayBooleanInSession : false;
+        isDisplayArchivedCourse = isDisplayBooleanInSession != null && isDisplayBooleanInSession;
     }
 
     private void putDisplayArchivedOptionToSession() {

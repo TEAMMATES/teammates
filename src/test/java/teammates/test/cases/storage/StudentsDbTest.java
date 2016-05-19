@@ -317,6 +317,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
             // Okay if it's already inside
+            ignorePossibleException();
         }
         
         return s;
@@ -335,6 +336,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
             // Okay if it's already inside
+            ignorePossibleException();
         }
         
         return s;

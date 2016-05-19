@@ -43,12 +43,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        Boolean isNotSureAllowed;
-        if (isNotSureAllowedString == null) {
-            isNotSureAllowed = false;
-        } else {
-            isNotSureAllowed = isNotSureAllowedString.equals("on");
-        }
+        boolean isNotSureAllowed = "on".equals(isNotSureAllowedString);
         this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }
@@ -149,9 +144,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if (view.equals("question")) { //for instructor, only question view has stats.
+        if ("question".equals(view)) { //for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
-        } else if (view.equals("student")) { //Student view of stats.
+        } else if ("student".equals(view)) { //Student view of stats.
             return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
