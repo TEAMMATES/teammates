@@ -36,6 +36,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -53,9 +54,7 @@ public class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance;
 
-    @SuppressWarnings("unused")
     private static Logger log = Utils.getLogger();
-    // Used by the FeedbackSessionsLogicTest for logging
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -1654,6 +1653,7 @@ public class FeedbackSessionsLogic {
             fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
             // Silently fail if session does not exist
+            log.warning(TeammatesException.toStringWithStackTrace(e));
         }
 
         FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
@@ -2402,11 +2402,9 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
-            if (!instructorQns.isEmpty()) {
-                if (responseStatus.emailNameTable.get(instructor.email) == null) {
-                    instructorNoResponses.add(instructor.email);
-                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
-                }
+            if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
+                instructorNoResponses.add(instructor.email);
+                responseStatus.emailNameTable.put(instructor.email, instructor.name);
             }
         }
         instructorNoResponses.removeAll(fsa.respondingInstructorList);

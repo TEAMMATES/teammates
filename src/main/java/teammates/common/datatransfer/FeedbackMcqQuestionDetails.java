@@ -501,10 +501,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
             
-            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE) {
-                if (!mcqChoices.contains(frd.getAnswerString())) {
-                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
-                }
+            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
+                    && !mcqChoices.contains(frd.getAnswerString())) {
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
             }
         }
         return errors;

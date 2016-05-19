@@ -4,14 +4,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
+    
+    private static final Logger log = Utils.getLogger();
+    
     public boolean hasAssignedWeights;
     public List<Double> rubricWeights;
     public int numOfRubricChoices;
@@ -101,6 +106,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 rubricWeights.add(Double.parseDouble(weight));
             } catch (NumberFormatException e) {
                 // Do not add weight to rubricWeights if the weight cannot be parsed
+                log.warning("Failed to parse weight for rubric question: " + weight);
             }
         }
 

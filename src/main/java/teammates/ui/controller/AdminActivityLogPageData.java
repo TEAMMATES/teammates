@@ -183,31 +183,24 @@ public class AdminActivityLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isRequestInQuery) {
-            if (!arrayContains(q.requestValues, logEntry.getServletName())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getServletName())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isResponseInQuery) {
-            if (!arrayContains(q.responseValues, logEntry.getAction())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getAction())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+        if (q.isPersonInQuery
+                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
                 && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
                 && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isRoleInQuery) {
-            if (!arrayContains(q.roleValues, logEntry.getRole())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getRole())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
         if (q.isCutoffInQuery) {
             if (logEntry.getTimeTaken() == null) {
@@ -234,11 +227,9 @@ public class AdminActivityLogPageData extends PageData {
             logEntry.highlightKeyStringInMessageInfoHtml();
             return logEntry;
         }
-        if (q.isIdInQuery) {
-            if (!arrayContains(q.idValues, logEntry.getId())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getId())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
         
         if (shouldExcludeLogEntry(logEntry)) {
