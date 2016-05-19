@@ -496,7 +496,7 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
         
-        if (studentDataList.size() == 0) {
+        if (studentDataList.isEmpty()) {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         

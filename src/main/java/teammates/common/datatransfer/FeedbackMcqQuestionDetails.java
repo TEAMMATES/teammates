@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMcqChoices;
@@ -355,7 +357,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if ("student".equals(view) || responses.size() == 0) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         
@@ -408,7 +410,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
@@ -493,5 +495,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return errors;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 }

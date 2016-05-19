@@ -42,10 +42,10 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
             a.setInstitute(toInstitute);
             updateProgressIndicator(accountsList.size());
         }
-
-        if (accountsList.size() == 0) {
+              
+        
+        if (accountsList.isEmpty()) {
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
-         
         }
   
         pm.close();

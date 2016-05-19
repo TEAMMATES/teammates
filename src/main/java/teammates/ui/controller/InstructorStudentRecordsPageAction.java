@@ -76,7 +76,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             } 
         }
 
-        if (sessions.size() == 0 && comments.size() == 0) {
+        if (sessions.isEmpty() && comments.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
         }
 

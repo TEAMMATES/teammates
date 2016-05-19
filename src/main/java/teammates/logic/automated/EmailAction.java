@@ -92,8 +92,7 @@ public abstract class EmailAction {
     
     protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
     
-    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
-    }
+    protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     
