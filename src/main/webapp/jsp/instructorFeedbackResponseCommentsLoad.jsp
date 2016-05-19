@@ -56,7 +56,7 @@
                                         id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
                                         <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
                                         <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
-                                            <shared:feedbackResponseComment frc="${frc}"
+                                            <shared:feedbackResponseCommentRow frc="${frc}"
                                                                             firstIndex="${fsIndex}"
                                                                             secondIndex="${responseEntriesStatus.count}"
                                                                             thirdIndex="${responseStatus.count}"
