@@ -296,7 +296,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, choice);
     }
-    
+
+    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+        String idSuffix = getIdSuffix(qnNumber);
+        
+        String elemid = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        
+        WebElement weightBox = browser.driver.findElement(By.id(elemid));
+        fillTextBox(weightBox, weight);
+    }
+
     public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
         
@@ -789,6 +798,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
+    public void clickAssignWeightsCheckbox(int qnIndex) {
+        By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
+        WebElement assignWeightsCheckbox = browser.driver.findElement(by);
+        assignWeightsCheckbox.click();
+    }
+
     public void clickAddRubricRowLink(int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricAddSubQuestionLink" + idSuffix));
