@@ -403,7 +403,7 @@ public class Const {
         
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
-        public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
+        public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
         public static final String ADMIN_EMAIL_ADDRESS_RECEVIERS = "adminemailaddressreceivers";
         public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
