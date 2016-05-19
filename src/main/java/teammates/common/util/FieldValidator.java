@@ -22,9 +22,8 @@ public class FieldValidator {
         EMAIL, 
         FEEDBACK_SESSION_NAME, 
         GENDER, 
-        /** This can be a Google username e.g. david.lo 
-         * or an email address e.g. david.lo@yahoo.com
-         */
+        /** Valid {@code Google_ID} includes Google username (e.g., tony.wayne) and any email address
+         *  (e.g., bruce@stark.com), but excludes full GMail address (e.g., ironbat@gmail.com) */
         GOOGLE_ID, 
         INSTITUTE_NAME, 
         PERSON_NAME, 
@@ -213,6 +212,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Google ID
      */    
+    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. " 
@@ -438,6 +438,36 @@ public class FieldValidator {
         } else {
             return returnValue;
         }
+    }
+
+    /**
+     * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
+     * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
+     * or a valid email address that does not end in "@gmail.com"
+     * @param googleId
+     * @return An explanation of why the {@code googleId} is not acceptable.
+     *         Returns an empty string if the {@code googleId} is acceptable.
+     */
+    public String getInvalidityInfoForGoogleId(String googleId) {
+
+        Assumption.assertTrue("Non-null value expected", googleId != null);
+        Assumption.assertTrue("\"" + googleId + "\"" +  "is not expected to be a gmail address.",
+                !googleId.toLowerCase().endsWith("@gmail.com"));
+        String sanitizedValue = Sanitizer.sanitizeForHtml(googleId);
+
+        boolean isValidFullEmail = StringHelper.isMatching(googleId, REGEX_EMAIL);
+        boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
+
+        if (googleId.isEmpty()) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, googleId, REASON_EMPTY);
+        } else if (!isTrimmed(googleId)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME);
+        } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
     }
     
     /**
@@ -812,25 +842,6 @@ public class FieldValidator {
     }
     
 
-    private String getInvalidInfoForGoogleId(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
-                !value.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        
-        if (value.isEmpty()) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        } else if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
-        } else if (value.length() > GOOGLE_ID_MAX_LENGTH) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        } else if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
