@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
@@ -492,77 +493,73 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetValidityInfo_EMAIL() {
-        
-        verifyAssertError("null value", FieldType.EMAIL, null);
-        
-        
-        testOnce("valid: typical value, without field name", 
-                FieldType.EMAIL, 
-                "someone@yahoo.com", 
-                "");
-        
-        testOnce("valid: typical value, with field name", 
-                FieldType.EMAIL, 
-                "student email",
-                "someone@yahoo.com", 
-                "");
-        
-        testOnce("valid: minimal", 
-                FieldType.EMAIL, 
-                "e@y", 
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
-        testOnce("valid: max length", 
-                FieldType.EMAIL, 
-                maxLengthValue, 
-                "");
-
-        String emptyValue = "";
-        testOnce("invalid: empty string", 
-                FieldType.EMAIL, 
-                emptyValue, 
-                String.format(EMAIL_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
-        
-        String untrimmedValue = " e@email.com ";
-        testOnce("invalid: untrimmed", 
-                FieldType.EMAIL, 
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only", 
-                FieldType.EMAIL, 
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long", 
-                FieldType.EMAIL, 
-                tooLongValue, 
-                String.format(EMAIL_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "woMAN@com. sg";
-        testOnce("invalid: disallowed char (space) after @", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man woman@com.sg";
-        testOnce("invalid: disallowed char (space)", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man@woman@com.lk";
-        testOnce("invalid: multiple '@' signs", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
+    public void testGetValidityInfoEmail() {
+        invalidityInfoFor_nullEmail_shouldThowException();
+        invalidityInfoFor_validEmail_shouldReturnEmptyString();
+        invalidityInfoFor_invalidEmail_shouldReturnErrorString();
     }
-    
+
+    private void invalidityInfoFor_nullEmail_shouldThowException() {
+        String errorMessage = "Did not throw the expected AssertionError for null email";
+        try {
+            validator.getInvalidityInfoForEmail(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    private void invalidityInfoFor_validEmail_shouldReturnEmptyString() {
+        String typicalEmail = "someone@yahoo.com";
+        assertEquals("Valid email (typical) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(typicalEmail));
+
+        String shortEmail = "e@y";
+        assertEquals("Valid email (short) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(shortEmail));
+
+        String maxLengthEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
+        assertEquals("Valid email (max-length) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(maxLengthEmail));
+    }
+
+    private void invalidityInfoFor_invalidEmail_shouldReturnErrorString() {
+        String emptyEmail = "";
+        assertEquals("Invalid email (empty) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emptyEmail, REASON_EMPTY),
+                     validator.getInvalidityInfoForEmail(emptyEmail));
+
+        String untrimmedEmail = "  untrimmed@email.com  ";
+        assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME),
+                     validator.getInvalidityInfoForEmail(untrimmedEmail));
+
+        String whitespaceEmail = "    ";
+        assertEquals("Invalid email (only whitespaces) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME),
+                     validator.getInvalidityInfoForEmail(whitespaceEmail));
+
+        String tooLongEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
+        assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, tooLongEmail, REASON_TOO_LONG),
+                     validator.getInvalidityInfoForEmail(tooLongEmail));
+
+        String emailWithSpaceAfterAtSymbol = "woMAN@com. sg";
+        assertEquals("Invalid email (space character after '@') should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceAfterAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol));
+
+        String emailWithSpaceBeforeAtSymbol = "man woman@com.sg";
+        assertEquals("Invalid email (space character before '@') should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceBeforeAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol));
+
+        String emailWithMultipleAtSymbol = "man@woman@com.lk";
+        assertEquals("Invalid email (multiple '@' characters) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithMultipleAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
+    }
+
     @Test
     public void testGetValidityInfo_COURSE_ID() {
         
@@ -720,14 +717,6 @@ public class FieldValidatorTest extends BaseTestCase {
     private void testOnce(String description, FieldType fieldType, String value, String expected) {
         assertEquals(description, expected, 
                 validator.getInvalidityInfo(fieldType, value));
-    }
-    
-    private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if (!fieldName.isEmpty() && !expected.isEmpty()) {
-            expected = "Invalid " + fieldName + ": " + expected;
-        }
-        assertEquals(description, expected, 
-                validator.getInvalidityInfo(fieldType, fieldName, value));
     }
 
     private void verifyAssertError(String description, FieldType fieldType, String value) {
