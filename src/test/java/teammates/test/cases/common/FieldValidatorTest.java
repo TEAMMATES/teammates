@@ -1,6 +1,6 @@
 package teammates.test.cases.common;
 
-//CHECKSTYLE:OFF
+//CHECKSTYLE:OFF as we want perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
 //CHECKSTYLE:ON
 

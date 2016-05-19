@@ -1,6 +1,6 @@
 package teammates.ui.controller;
 
-//CHECKSTYLE:OFF
+//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
 //CHECKSTYLE:ON
 
