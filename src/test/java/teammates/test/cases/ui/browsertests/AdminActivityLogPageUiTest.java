@@ -70,7 +70,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertEquals(2, logPage.getNumberOfTableHeaders());
         
         ______TS("content: ensure default search period is not more than one day");
-        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
         
         assertTrue(logPage.getDateOfEarliestLog()
