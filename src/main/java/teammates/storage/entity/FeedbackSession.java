@@ -143,8 +143,6 @@ public class FeedbackSession {
         this.respondingStudentList = studentList;
     }
 
-
-        
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }

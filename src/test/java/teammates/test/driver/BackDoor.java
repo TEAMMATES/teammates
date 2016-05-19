@@ -335,7 +335,7 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-    
+
     @SuppressWarnings("unused")
     private void ____COURSE_level_methods______________________________() {
     }
@@ -420,6 +420,7 @@ public class BackDoor {
                 .getType());
         return studentList;
     }
+    
     public static String getKeyForStudent(String courseId, String studentEmail) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
@@ -445,7 +446,6 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-
 
     @SuppressWarnings("unused")
     private void ____FEEDBACK_SESSION_level_methods______________________________() {

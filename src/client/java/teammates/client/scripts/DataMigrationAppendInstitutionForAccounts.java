@@ -12,7 +12,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
-
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     
     private static final boolean isTrial = true;

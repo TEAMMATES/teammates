@@ -591,7 +591,6 @@ public class FeedbackQuestionsLogic {
         updateFeedbackQuestion(newAttributes, true);
     }
 
-
     private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;

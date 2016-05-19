@@ -70,6 +70,5 @@ public class InstructorFeedbackResultsNoResponsePanel {
     public Map<String, InstructorFeedbackResultsModerationButton> getModerationButtons() {
         return moderationButtons;
     }
-    
 
 }

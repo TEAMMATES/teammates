@@ -112,7 +112,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         //TODO: evaluate what statistics are needed for text questions later.
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(

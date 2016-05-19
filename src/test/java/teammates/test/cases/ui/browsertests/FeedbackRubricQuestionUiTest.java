@@ -42,8 +42,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage = getFeedbackEditPage();
 
     }
-    
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
@@ -70,8 +69,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.waitForPanelsToExpand();
         
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
-        
-        
+
         // Giver Recipient Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
@@ -103,7 +101,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int responseNumber = 0;
         int rowNumber = 0;
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
-        
 
         ______TS("test rubric question submission");
         // Done in testStudentSubmitPage
@@ -187,8 +184,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
         testInputJsValidationForRubricQuestion();
     }
-    
-    
 
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
@@ -430,8 +425,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
     }
-    
-    
+
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
             String studentName, String fsName, String questionId) {
         StudentAttributes s = testData.students.get(studentName);

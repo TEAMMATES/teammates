@@ -33,8 +33,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
-    
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
@@ -52,8 +51,6 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
         testAddContributionQuestionAsSecondQuestion();
     }
-    
-    
 
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
@@ -71,7 +68,6 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
         
     }
-    
 
     public void testCustomizeOptions() {
 

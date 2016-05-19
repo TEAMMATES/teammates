@@ -17,7 +17,6 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     
     private List<InstructorFeedbackResultsResponsePanel> responsePanels;
 
-    
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
                                     String secondaryParticipantIdentifier,
                                     String secondaryParticipantDisplayableName,
@@ -38,8 +37,6 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     public List<InstructorFeedbackResultsResponsePanel> getResponsePanels() {
         return responsePanels;
     }
-
-
 
     public String getProfilePictureLink() {
         return profilePictureLink;

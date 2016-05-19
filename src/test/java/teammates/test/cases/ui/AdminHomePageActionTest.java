@@ -43,5 +43,4 @@ public class AdminHomePageActionTest extends BaseActionTest {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
-
 }

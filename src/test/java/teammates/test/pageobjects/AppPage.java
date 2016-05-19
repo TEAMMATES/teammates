@@ -76,6 +76,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____Common_page_elements___________________________________() {
     }
+    
     @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
@@ -1037,7 +1038,6 @@ public abstract class AppPage {
             throw new RuntimeException(e);
         }
     }
-
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();

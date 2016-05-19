@@ -97,6 +97,7 @@ public class AdminSessionsPageData extends PageData {
     public List<InstitutionPanel> getInstitutionPanels() {
         return institutionPanels;
     }
+    
     public String getInstructorHomePageViewLink(String email) {
 
         Logic logic = new Logic();
@@ -204,8 +205,7 @@ public class AdminSessionsPageData extends PageData {
         }
         return feedbackSessionRows;
     }
-    
-    
+
     private void setFilter() {
         filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), 
                                  getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd), 

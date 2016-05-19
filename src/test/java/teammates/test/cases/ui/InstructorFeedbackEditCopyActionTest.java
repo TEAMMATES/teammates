@@ -14,7 +14,6 @@ import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
-
 public class InstructorFeedbackEditCopyActionTest extends
         BaseActionTest {
     private static DataBundle dataBundle;

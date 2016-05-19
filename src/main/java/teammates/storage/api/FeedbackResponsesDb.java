@@ -64,7 +64,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         }
         return new FeedbackResponseAttributes(feedbackResponse);        
     }
-    
 
     /**
      * Preconditions: <br>
@@ -453,7 +452,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestion(feedbackQuestionId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -530,7 +528,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver);
         List<FeedbackResponseAttributes> fraList =
@@ -556,7 +553,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -720,7 +716,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses.get(0);
     }
 
-        
     private FeedbackResponse getFeedbackResponseEntity(
             String feedbackQuestionId, String giverEmail, String receiver) {
         

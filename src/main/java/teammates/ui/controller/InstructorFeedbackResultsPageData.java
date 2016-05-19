@@ -39,7 +39,6 @@ import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 
-
 public class InstructorFeedbackResultsPageData extends PageData {
     private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
 
@@ -69,7 +68,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // used for html table ajax loading
     private String ajaxStatus;
     private String sessionResultsHtmlTableAsString;
-    
 
     // for question view
     private List<InstructorFeedbackResultsQuestionTable> questionPanels;
@@ -113,8 +111,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
     }
-    
-    
+
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
     }
@@ -186,8 +183,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Collections.sort(sectionNames);
         return sectionNames;
     }
-    
-  
+
     /**
      * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
      * 
@@ -553,8 +549,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     additionalInfoId, giverIndex, recipientIndex));
             ElementTag rowAttributes = null;
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
-            
-            
+
             String giverName = bundle.getNameForEmail(response.giverEmail);
             String recipientName = bundle.getNameForEmail(response.recipientEmail);
             
@@ -909,7 +904,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.addParticipantPanel(teamName, giverPanel);
         }
     }
-    
 
     /**
      * Constructs InstructorFeedbackResultsQuestionTable containing statistics for each team.
@@ -977,7 +971,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
-    
     private InstructorFeedbackResultsQuestionTable buildQuestionTableAndResponseRows(
                                     FeedbackQuestionAttributes question,
                                     List<FeedbackResponseAttributes> responses,
@@ -1255,11 +1248,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String participantWithResponse =          isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
             removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses, 
                                                 participantWithResponse);
-            
+
             InstructorFeedbackResultsModerationButton moderationButton = 
                     buildModerationButtonForExistingResponse(question, response);
-                                                               
-            
+
             InstructorFeedbackResultsResponseRow responseRow = 
                     new InstructorFeedbackResultsResponseRow(
                             bundle.getGiverNameForResponse(response), 
@@ -1267,7 +1259,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             bundle.getRecipientNameForResponse(response), 
                             bundle.getTeamNameForEmail(response.recipientEmail), 
                             bundle.getResponseAnswerHtml(response, question), moderationButton);
-            
+
             configureResponseRow(response.giverEmail, response.recipientEmail, responseRow);
                         
             responseRows.add(responseRow);
@@ -1284,11 +1276,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                             bundle.getNameForEmail(participantIdentifier),
                                             bundle.getTeamNameForEmail(participantIdentifier)));
         }
-        
-        
+
         return responseRows;
     }
-    
 
     private void configureResponseRow(String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
@@ -1449,7 +1439,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         return responseRows;
     }
-    
 
     private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
@@ -1492,18 +1481,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String moderateFeedbackResponseLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
                                                                         : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
-        
-        
+
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                             isDisabled, className,
                                                                             giverIdentifier, getCourseId(), 
                                                                             getFeedbackSessionName(), question, buttonText, moderateFeedbackResponseLink);
         return moderationButton;
    }
-    
 
-
-   
    private InstructorFeedbackResultsGroupByParticipantPanel buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                    String participantIdentifier, String participantName, 
                                    List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels, 
@@ -1517,11 +1502,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
         bySecondaryParticipantPanel.setEmailValid(isEmailValid);
-        
-        
+
         bySecondaryParticipantPanel.setProfilePictureLink(getProfilePictureIfEmailValid(participantIdentifier));
-        
-        
+
         bySecondaryParticipantPanel.setModerationButton(moderationButton);
         
         bySecondaryParticipantPanel.setHasResponses(true);
@@ -1582,7 +1565,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return frc;
     }
 
-    
     private FeedbackResponseComment buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {                        
@@ -1830,7 +1812,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
     }
 
-    
     // Only used for testing the ui
     public void setLargeNumberOfRespondents(boolean needAjax) {
         this.isLargeNumberOfRespondents = needAjax;

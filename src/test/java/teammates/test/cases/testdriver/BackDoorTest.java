@@ -113,8 +113,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         verifyAbsentInDatastore(student1InCourse1);
-        
-        
+
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
@@ -247,7 +246,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(course);
     }
 
-    
     public void testGetCourseAsJson() {
         // already tested by testPersistenceAndDeletion
     }
@@ -256,7 +254,6 @@ public class BackDoorTest extends BaseTestCase {
         // not implemented
     }
 
-    
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
     }
@@ -391,13 +388,10 @@ public class BackDoorTest extends BaseTestCase {
     @SuppressWarnings("unused")
     private void ____EVALUATION_level_methods______________________________() {
     }
-    
 
     @SuppressWarnings("unused")
     private void ____helper_methods_________________________________() {
     }
-
-    
 
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
@@ -449,7 +443,6 @@ public class BackDoorTest extends BaseTestCase {
         }
 
     }
-
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = "null";
