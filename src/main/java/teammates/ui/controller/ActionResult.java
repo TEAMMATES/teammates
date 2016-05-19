@@ -36,6 +36,14 @@ public abstract class ActionResult {
     /** A list of status messages to be shown to the user */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
     
+    /**
+     * Parameters to be sent with the result. These will be automatically added
+     * to the {@code destination} of the result. For example, if the {@code destination}
+     * is {@code /page/instructorHome} and if we have {@code user=abc} in this map, 
+     * the result will be sent to {@code /page/instructorHome?user=abc}
+     */
+    protected Map<String, String> responseParams = new HashMap<String, String>();
+    
     public ActionResult(
             String destination, 
             AccountAttributes account, 
@@ -64,14 +72,6 @@ public abstract class ActionResult {
     public String getStatusMessageColor() {
         return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
-    
-    /**
-     * Parameters to be sent with the result. These will be automatically added
-     * to the {@code destination} of the result. For example, if the {@code destination}
-     * is {@code /page/instructorHome} and if we have {@code user=abc} in this map, 
-     * the result will be sent to {@code /page/instructorHome?user=abc}
-     */
-    protected Map<String, String> responseParams = new HashMap<String, String>();
     
     /**
      * Add a (key,value) pair ot the list of response parameters.

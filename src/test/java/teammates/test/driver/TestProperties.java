@@ -13,7 +13,7 @@ import teammates.common.util.Url;
 /** 
  * Represents properties in test.properties file
  */
-public class TestProperties {
+public final class TestProperties {
     
     public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
     public int TEAMMATES_REMOTEAPI_APP_PORT;

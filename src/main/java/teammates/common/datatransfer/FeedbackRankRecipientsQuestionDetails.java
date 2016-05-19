@@ -381,4 +381,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             
         };
     }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
 }
