@@ -179,13 +179,7 @@ public class TeamEvalResult {
     }
 
     private static boolean isSanitized(int i) {
-        if (i == NSU) {
-            return false;
-        }
-        if (i == NSB) {
-            return false;
-        }
-        return true;
+        return i != NSB && i != NSU;
     }
 
     private static boolean isSpecialValue(int value) {

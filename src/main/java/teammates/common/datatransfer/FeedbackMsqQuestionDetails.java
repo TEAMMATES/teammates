@@ -108,8 +108,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices 
-            || this.msqChoices.containsAll(newMsqDetails.msqChoices) == false
-            || newMsqDetails.msqChoices.containsAll(this.msqChoices) == false) {
+            || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+            || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
             return true;
         }
         
@@ -117,11 +117,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.otherEnabled != newMsqDetails.otherEnabled) {
-            return true;
-        }
-        
-        return false;
+        return this.otherEnabled != newMsqDetails.otherEnabled;
     }
 
     @Override

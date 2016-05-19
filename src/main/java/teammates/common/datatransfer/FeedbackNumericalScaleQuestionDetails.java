@@ -602,7 +602,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false
+            if (!bundle.visibilityTable.get(response.getId())[1]
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 
@@ -658,12 +658,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
         
-        if (this.minScale != newNumScaleDetails.minScale 
-                || this.maxScale != newNumScaleDetails.maxScale
-                || this.step != newNumScaleDetails.step) {
-            return true;
-        }
-        return false;
+        return this.minScale != newNumScaleDetails.minScale 
+               || this.maxScale != newNumScaleDetails.maxScale
+               || this.step != newNumScaleDetails.step;
     }
 
     @Override
