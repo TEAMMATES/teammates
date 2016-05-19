@@ -225,6 +225,7 @@ public class BackDoorLogic extends Logic {
 
         default:
             Assumption.fail("Invalid instructor permission role name");
+            break;
         }
     }
 

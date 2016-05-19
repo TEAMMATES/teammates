@@ -538,7 +538,8 @@ public abstract class Action {
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
         return loggedInUser != null && requestedUserId != null 
-               && !requestedUserId.trim().equals("null")
+               && !"null".equals(requestedUserId.trim())
+               && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
     

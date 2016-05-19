@@ -419,10 +419,10 @@ public class Sendgrid {
             final String key = paramIterator.next();
             final String value = data.get(key);
             
-            if (key.equals("to") && this.getTos().size() > 0) {
+            if ("to".equals(key) && this.getTos().size() > 0) {
                 requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
             } else {
-                if (key.equals("toname") && this.getToNames().size() > 0) {
+                if ("toname".equals(key) && this.getToNames().size() > 0) {
                     requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
                 } else {
                     try {

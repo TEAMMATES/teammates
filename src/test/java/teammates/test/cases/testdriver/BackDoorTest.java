@@ -453,7 +453,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = "null";
-        while (studentJsonString.equals("null")) {
+        while ("null".equals(studentJsonString)) {
             studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
         }
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
@@ -465,7 +465,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
         String courseJsonString = "null";
-        while (courseJsonString.equals("null")) {
+        while ("null".equals(courseJsonString)) {
             courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
         }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
@@ -477,7 +477,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
         String instructorJsonString = "null";
-        while (instructorJsonString.equals("null")) {
+        while ("null".equals(instructorJsonString)) {
             instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
         }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
