@@ -111,24 +111,26 @@ public class BackDoorServlet extends HttpServlet {
         String returnValue;
 
         String keyReceived = req.getParameter(PARAMETER_BACKDOOR_KEY);
-        if (!keyReceived.equals(Config.BACKDOOR_KEY)) {
-            returnValue = "Not authorized to access Backdoor Services";
-        } else {
+        
+        resp.setContentType("text/plain; charset=utf-8");
+        
+        boolean isAuthorized = keyReceived.equals(Config.BACKDOOR_KEY);
+        if (isAuthorized) {
             try {
                 returnValue = executeBackendAction(req, action);
             } catch (Exception e) {
                 log.info(e.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                        + TeammatesException.toStringWithStackTrace(e);
+                                                + TeammatesException.toStringWithStackTrace(e);
             } catch (AssertionError ae) {
                 log.info(ae.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                        + " Assertion error " + ae.getMessage();
+                                                + " Assertion error " + ae.getMessage();
             }
+            resp.getWriter().write(returnValue);
+        } else {
+            resp.getWriter().write("Not authorized to access Backdoor Services");
         }
-
-        resp.setContentType("text/plain; charset=utf-8");
-        resp.getWriter().write(returnValue);
         resp.flushBuffer();
     }
 

@@ -1094,11 +1094,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         if (FeedbackResponseToGet.getId() != null) {
             return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
-        } else { 
-            return getFeedbackResponseEntity(
-                FeedbackResponseToGet.feedbackQuestionId,
-                FeedbackResponseToGet.giverEmail,
-                FeedbackResponseToGet.recipientEmail);
-        }
+        } 
+        
+        return getFeedbackResponseEntity(
+            FeedbackResponseToGet.feedbackQuestionId,
+            FeedbackResponseToGet.giverEmail,
+            FeedbackResponseToGet.recipientEmail);
     }
 }

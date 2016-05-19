@@ -68,13 +68,7 @@ public abstract class SearchQuery {
         String key = "";
         boolean isStartQuote = false;
         for (int i = 0; i < splitStrings.length; i++) {
-            if (!splitStrings[i].equals("\"")) {
-                if (isStartQuote) {
-                    key += " " + splitStrings[i];
-                } else {
-                    keywords.add(splitStrings[i]);
-                }
-            } else {
+            if (splitStrings[i].equals("\"")) {
                 if (isStartQuote) {
                     isStartQuote = false;
                     if (!key.trim().isEmpty()) {
@@ -83,6 +77,12 @@ public abstract class SearchQuery {
                     key = "";
                 } else {
                     isStartQuote = true;
+                }
+            } else {
+                if (isStartQuote) {
+                    key += " " + splitStrings[i];
+                } else {
+                    keywords.add(splitStrings[i]);
                 }
             }
         }
