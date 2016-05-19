@@ -49,12 +49,10 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private String groupReceiverListFileKey;
     private int groupReceiverListFileSize;
     private String emailId;
-    
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        
-        
+
         adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         

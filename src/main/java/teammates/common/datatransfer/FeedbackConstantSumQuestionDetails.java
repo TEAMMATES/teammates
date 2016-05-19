@@ -179,8 +179,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -236,8 +235,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -333,7 +331,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         //Point information
         additionalInfo += pointsPerOption ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points : "Total points: " + points;
 
-        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
@@ -341,8 +338,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        
+
         return html;
     }
 
@@ -402,12 +398,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     "${optionRecipientDisplayName}", "Option",
                     "${fragments}", fragments);
         }
-        
-        
+
         return html;
     }
-    
-    
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -523,8 +517,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         average = average / points.size();
         return average;
     }
-    
-    
+
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackQuestionDetails newDetails) {
@@ -652,8 +645,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
-        
-        
+
         return errors;
     }
 

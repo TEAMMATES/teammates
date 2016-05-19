@@ -223,9 +223,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.goToPreviousPage(InstructorHomePage.class);
         
     }
-    
-    
-    
+
     public void testRemindActions() {
         
         ______TS("remind action: AWAITING feedback session");
@@ -443,8 +441,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
         homePage.fsCopyModal.waitForModalLoadingError();
-        
-        
+
     }
 
     public void testDeleteCourseAction() throws Exception {

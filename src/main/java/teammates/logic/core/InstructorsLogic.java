@@ -17,7 +17,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
-
 /**
  * Handles  operations related to instructor roles.
  */
@@ -82,8 +81,7 @@ public class InstructorsLogic {
         
         return instructorsDb.createInstructor(instructorToAdd);
     }
-    
-    
+
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
            throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -145,7 +143,6 @@ public class InstructorsLogic {
         
         return instructorsDb.getAllInstructors();
     }
-
 
     public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
         
@@ -328,8 +325,7 @@ public class InstructorsLogic {
         
         return joinLink;
     }
-    
-    
+
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
         
         FieldValidator validator = new FieldValidator();

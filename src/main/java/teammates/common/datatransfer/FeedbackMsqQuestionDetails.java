@@ -122,7 +122,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return false;
     }
 
-
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
@@ -230,8 +229,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${msqChoiceValue}",  "",
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
@@ -462,7 +460,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -591,6 +588,5 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public boolean isQuestionSkipped(String[] answer) {
         return answer == null;
     }
-
 
 }

@@ -53,8 +53,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
+
     private void sortInstructorResultList() {
         
         Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
@@ -79,8 +78,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
             }
         });
     }
-    
-    
+
     @Override
     public int getResultSize() {
         return numberOfResults;

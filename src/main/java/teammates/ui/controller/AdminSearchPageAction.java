@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +19,8 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-
 public class AdminSearchPageAction extends Action {
-    
-        
-    
+
     private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
     private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
@@ -67,8 +63,7 @@ public class AdminSearchPageAction extends Action {
         data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
                                     data.instructorResultBundle.instructorList,
                                     data);
-        
-        
+
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
@@ -173,9 +168,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
-    
+
     private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         Logic logic = new Logic();
@@ -203,8 +196,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         for (StudentAttributes student : students) {
@@ -245,8 +237,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     /**
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
@@ -340,8 +331,7 @@ public class AdminSearchPageAction extends Action {
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
-         
-         
+
          String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                     .withCourseId(student.course)
                                     .withSessionName(fsa.feedbackSessionName)
@@ -360,8 +350,7 @@ public class AdminSearchPageAction extends Action {
              
              data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
          }
-        
-           
+
          return data;
     }
     

@@ -63,7 +63,6 @@ public class CoursesLogic {
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
-    
     public static CoursesLogic inst() {
         if (instance == null)
             instance = new CoursesLogic();
@@ -776,8 +775,7 @@ public class CoursesLogic {
         }
         return false;
     }
-    
-    
+
     public boolean isCourseArchived(String courseId, String instructorGoogleId) {
         CourseAttributes course = getCourse(courseId);
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);

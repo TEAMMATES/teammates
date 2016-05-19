@@ -13,8 +13,7 @@ import teammates.test.pageobjects.BrowserPool;
 public class AppPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
