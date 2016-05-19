@@ -64,8 +64,7 @@ public class StudentHomePage extends AppPage {
         WebElement button = browser.driver.findElement(By.id("submitFeedback" + rowId));
         return button;
     }
-     
-    
+
     private int getEvalRowId(String name) {
         
         int id = 0;

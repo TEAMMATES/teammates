@@ -23,8 +23,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private boolean isAbleToAddComment;
     private boolean hasSection;
     private String commentRecipient;
-    
-    
+
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();

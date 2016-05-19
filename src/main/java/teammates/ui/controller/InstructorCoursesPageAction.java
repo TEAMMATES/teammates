@@ -21,8 +21,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCoursesPageAction extends Action {
     /* Explanation: Get a logger to be used for any logging */
     protected static final Logger log = Utils.getLogger();
-    
-    
+
     @Override
     public ActionResult execute() 
             throws EntityDoesNotExistException {

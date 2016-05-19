@@ -27,7 +27,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
     }
 
-    
     @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
@@ -60,9 +59,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
-        
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -98,8 +95,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
-    
-    
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -116,8 +112,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         return html;
     }
-    
-    
+
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {       
         
         StringBuilder result = new StringBuilder(100);
@@ -134,8 +129,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         + option.getContent()
                         + "</option>");
         }
-        
-       
+
         return result.toString();
     }
 
@@ -218,8 +212,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         return html;
     }
-    
-    
+
     @Override
     public String getQuestionResultStatisticsCsv(
                         List<FeedbackResponseAttributes> responses,
@@ -242,8 +235,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String option = Sanitizer.sanitizeForCsv(teamName) 
                             + "," 
                             + Sanitizer.sanitizeForCsv(recipientName);
-           
-            
+
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
             fragments += option + "," 
@@ -310,13 +302,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return normalisedRankOfResponse;
     }
 
-    
-    
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
-    
 
     @Override
     public String getCsvHeader() {

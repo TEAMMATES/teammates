@@ -22,14 +22,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
-
-        int queryRange;
-        if (needAjax != null) {
-            queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
-        } else {
-            queryRange = DEFAULT_QUERY_RANGE;
-        }
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -81,6 +73,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
+        int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
         
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !"question".equals(sortType)) {
             // bundle for all questions and all sections  
@@ -90,7 +84,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            instructor.email,
                                                                            queryRange, sortType));
         } else if ("question".equals(sortType)) {
-            data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
+            data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
         } else if ("giver-question-recipient".equals(sortType)
                 || "giver-recipient-question".equals(sortType)) {
@@ -206,14 +200,16 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                     String selectedSection)
                                     throws EntityDoesNotExistException {
         try {
-            if (!selectedSection.contentEquals(ALL_SECTION_OPTION)) {
+            if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                        logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
-                                                                            instructor.email, selectedSection)));
+                                            logic.getFeedbackSessionResultSummaryAsCsv(
+                                                                            courseId, feedbackSessionName,
+                                                                            instructor.email)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                        logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
-                                                                   instructor.email)));
+                                            logic.getFeedbackSessionResultSummaryInSectionAsCsv(
+                                                                            courseId, feedbackSessionName,
+                                                                            instructor.email, selectedSection)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

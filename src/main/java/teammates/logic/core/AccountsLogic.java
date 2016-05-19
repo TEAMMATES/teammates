@@ -42,8 +42,7 @@ public class AccountsLogic {
             instance = new AccountsLogic();
         return instance;
     }
-    
-    
+
     public void createAccount(AccountAttributes accountData) 
                     throws InvalidParametersException {
     
@@ -130,7 +129,6 @@ public class AccountsLogic {
             createStudentAccount(student);
         }
     }
-    
 
     /**
      * Joins the user as an instructor, and sets the institute too.
@@ -151,8 +149,7 @@ public class AccountsLogic {
         joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
         
     }
-    
-    
+
     /**
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
@@ -227,7 +224,6 @@ public class AccountsLogic {
         
     }
 
-
     /**
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
@@ -244,7 +240,6 @@ public class AccountsLogic {
         }
         
     }
-
 
     /**
      * @throws JoinCourseException if the key does not correspond to an
@@ -277,8 +272,6 @@ public class AccountsLogic {
                                                   StringHelper.obscure(instructorForKey.googleId)));
         }
     }
-    
-
 
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
@@ -317,16 +310,16 @@ public class AccountsLogic {
 
     public void makeAccountNonInstructor(String googleId) {
         AccountAttributes account = accountsDb.getAccount(googleId, true);
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
+        } else {
             account.isInstructor = false;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while removing instruction privileges from account :" + account.toString());
+                                + "while removing instruction privileges from account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         }
     }
 
@@ -334,16 +327,16 @@ public class AccountsLogic {
         
         AccountAttributes account = accountsDb.getAccount(googleId, true);
         
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
+        } else {
             account.isInstructor = true;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while adding instruction privileges to account :" + account.toString());
+                                + "while adding instruction privileges to account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         }
     }
 

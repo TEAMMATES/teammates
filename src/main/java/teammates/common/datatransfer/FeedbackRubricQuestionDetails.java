@@ -908,6 +908,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
-
-
+    
+    
 }

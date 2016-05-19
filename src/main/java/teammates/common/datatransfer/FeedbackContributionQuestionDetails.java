@@ -245,8 +245,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
-        
-        
+
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
@@ -257,7 +256,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 hideRecipient = true;
             }
         }
-        
 
         String html = "";
         String contribFragments = "";
@@ -304,7 +302,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
-        
         return html;
     }
     
@@ -354,8 +351,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 hideRecipient = true;
             }
         }
-        
-        
+
         String contribFragments = "";
         Map<String, String> sortedMap = new TreeMap<String, String>();
         
@@ -759,7 +755,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return errorMsg;
     }
-    
 
     public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
@@ -805,8 +800,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } 
         return noResponseHtml;
     }
-    
-    
+
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------

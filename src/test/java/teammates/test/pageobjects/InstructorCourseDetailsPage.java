@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 
-
 public class InstructorCourseDetailsPage extends AppPage {
     
     @FindBy (id = "button_sortstudentstatus")

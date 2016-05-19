@@ -180,15 +180,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                     line += ", and your name";
                 }
 
-                if (recipientType != FeedbackParticipantType.NONE) {
-                    line += ", but not the name of the recipient";
-
-                    if (showGiverNameTo.contains(participant) == false) {
-                        line += ", or your name";
-                    }
-                } else {
+                if (recipientType == FeedbackParticipantType.NONE) {
                     if (showGiverNameTo.contains(participant) == false) {
                         line += ", but not your name";
+                    }
+                } else {
+                    line += ", but not the name of the recipient";
+                    
+                    if (showGiverNameTo.contains(participant) == false) {
+                        line += ", or your name";
                     }
                 }
 

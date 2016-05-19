@@ -1,6 +1,3 @@
-/**
- * 
- */
 package teammates.test.cases.common;
 
 import java.text.SimpleDateFormat;

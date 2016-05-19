@@ -36,7 +36,6 @@ public class ShowPageResult extends ActionResult {
         this.data = data;
     }
 
-
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {

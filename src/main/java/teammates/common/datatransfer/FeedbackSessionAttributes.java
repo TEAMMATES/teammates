@@ -448,15 +448,15 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {
-                    if (session1.endTime != null && session2.endTime != null) {
-                        result = session2.endTime.compareTo(session1.endTime);
-                    } else {
+                    if (session1.endTime == null || session2.endTime == null) {
                         if (session1.endTime == null) {
                             --result;
                         }
                         if (session2.endTime == null) {
                             ++result;
                         }
+                    } else {
+                        result = session2.endTime.compareTo(session1.endTime);
                     }
                 }
 

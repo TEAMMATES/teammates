@@ -44,8 +44,7 @@ public abstract class EmailAction {
         req = request;
         emailsToBeSent = null;
     }
-    
-    
+
     public void sendEmails() {
         try {
             emailsToBeSent = prepareMailToBeSent();

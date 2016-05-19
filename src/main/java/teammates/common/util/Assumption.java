@@ -362,8 +362,7 @@ public class Assumption {
         }
         return formatted + "expected:<" + expected + "> but was:<" + actual + ">";
     }
-    
-    
+
     public static void assertPostParamNotNull(String parameterName, String postParameter) {
         if (postParameter == null) {
             throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 

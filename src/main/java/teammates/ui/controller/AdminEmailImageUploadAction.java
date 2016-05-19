@@ -13,7 +13,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-
 public class AdminEmailImageUploadAction extends Action {
     
     AdminEmailComposePageData data;
@@ -83,10 +82,9 @@ public class AdminEmailImageUploadAction extends Action {
             isError = true;
             data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
-        } else {
-            return image;
-        }
-        
+        } 
+           
+        return image;
     }
     
     private void deleteImage(BlobKey blobKey) {

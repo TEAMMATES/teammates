@@ -38,7 +38,6 @@ public class TeamEvalResult {
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
     public List<String> studentEmails;
-    
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the 
@@ -92,7 +91,6 @@ public class TeamEvalResult {
 
         log.fine("==================");
     }
-    
 
     /**
      * Replaces all missing points (for various reasons such as 'not sure' or
@@ -208,10 +206,10 @@ public class TeamEvalResult {
         double[] output = new double[teamSize];
         for (int j = 0; j < teamSize; j++) {
             double value = input[j];
-            if (!isSpecialValue((int) value)) {
-                output[j] = (factor == 0 ? value : value * factor);
-            } else {
+            if (isSpecialValue((int) value)) {
                 output[j] = value;
+            } else {
+                output[j] = (factor == 0 ? value : value * factor);
             }
         }
         return output;

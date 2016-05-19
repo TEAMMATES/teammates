@@ -179,7 +179,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
-        
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total, 
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
         
@@ -234,7 +233,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return html;
     }
 
-
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
@@ -251,7 +249,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
-        
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total, 
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
@@ -265,7 +262,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS 
                                       || question.recipientType == FeedbackParticipantType.OWN_TEAM;
@@ -538,8 +534,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }            
             int numOfResponses = numResponses.get(recipientEmail) + 1;
             numResponses.put(recipientEmail, numOfResponses);
-            
-            
+
             // Compute number of responses excluding user's self response
             if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
                 numResponsesExcludingSelf.put(recipientEmail, 0);
@@ -549,32 +544,28 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
                 numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
             }
-            
-            
+
             // Compute minimum score received
             if (!min.containsKey(recipientEmail)) {
                 min.put(recipientEmail, answer);
             }            
             double minScoreReceived = Math.min(answer, min.get(recipientEmail));
             min.put(recipientEmail, minScoreReceived);
-            
-            
+
             // Compute maximum score received
             if (!max.containsKey(recipientEmail)) {
                 max.put(recipientEmail, answer);
             }
             double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
             max.put(recipientEmail, maxScoreReceived);
-            
-            
+
             // Compute total score received
             if (!total.containsKey(recipientEmail)) {
                 total.put(recipientEmail, 0.0);
             }
             double totalScore = total.get(recipientEmail) + answer;
             total.put(recipientEmail, totalScore);
-            
-            
+
             // Compute total score received excluding self
             if (!totalExcludingSelf.containsKey(recipientEmail)) {
                 totalExcludingSelf.put(recipientEmail, null);
@@ -585,16 +576,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 // totalScoreExcludingSelf == null when the user has only self response
                 totalExcludingSelf.put(recipientEmail, totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);                
             }
-            
-            
+
             // Compute average score received
             if (!average.containsKey(recipientEmail)) {
                 average.put(recipientEmail, 0.0);
             }
             double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
             average.put(recipientEmail, averageReceived);
-            
-            
+
             // Compute average score received excluding self
             if (!averageExcludingSelf.containsKey(recipientEmail)) {
                 averageExcludingSelf.put(recipientEmail, null);
@@ -623,7 +612,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return hiddenRecipients;
     }
 
-    
     private String getStatsTitle(boolean isDirectedAtGeneral,
             boolean isDirectedAtTeams, boolean isAbleToSeeAllResponses) {
         String statsTitle;
@@ -663,8 +651,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         return isAtLeastTwoResponsesOtherThanCurrentUser;
     }
-    
-    
+
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackQuestionDetails newDetails) {

@@ -92,7 +92,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         points = Integer.parseInt(pointsString);
         forceUnevenDistribution = "on".equals(forceUnevenDistributionString); 
         
-        if (!distributeToRecipients) {
+        if (distributeToRecipients) {
+            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
+        } else {
             String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
             int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
@@ -105,8 +107,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
             this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
-        } else {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
         }
         return true;
     }
@@ -137,10 +137,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public String getQuestionTypeDisplayName() {
-        if (!distributeToRecipients) {
-            return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
-        } else {
+        if (distributeToRecipients) {
             return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;    
+        } else {
+            return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
         }
     }
 
@@ -181,8 +181,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -238,8 +237,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -335,7 +333,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         //Point information
         additionalInfo += pointsPerOption ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points : "Total points: " + points;
 
-        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
@@ -343,8 +340,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        
+
         return html;
     }
 
@@ -404,12 +400,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     "${optionRecipientDisplayName}", "Option",
                     "${fragments}", fragments);
         }
-        
-        
+
         return html;
     }
-    
-    
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -525,8 +519,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         average = average / points.size();
         return average;
     }
-    
-    
+
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackQuestionDetails newDetails) {
@@ -654,8 +647,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
-        
-        
+
         return errors;
     }
 
