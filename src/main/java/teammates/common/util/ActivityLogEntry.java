@@ -3,7 +3,6 @@ package teammates.common.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
@@ -272,7 +271,7 @@ public class ActivityLogEntry {
     }
     
     private String formatTimeForId(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
         sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         return sdf.format(date.getTime());
     }
@@ -335,7 +334,7 @@ public class ActivityLogEntry {
     
     public String getDateInfo() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         appCal.setTimeInMillis(time);
 

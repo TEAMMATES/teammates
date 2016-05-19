@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.CommentAttributes;
@@ -180,7 +179,7 @@ public class AdminInstructorAccountAddAction extends Action {
         c.set(Calendar.HOUR, 11);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z", Locale.ENGLISH);
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
         jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
                 formatter.format(c.getTime()));

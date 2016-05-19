@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -444,7 +443,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private String formatTime(Date date) {
         if (date == null)
             return "";
-        return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy", Locale.ENGLISH).format(date);
+        return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy").format(date);
         
     }
     

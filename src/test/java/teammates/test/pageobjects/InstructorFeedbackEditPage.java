@@ -588,7 +588,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
         String year = Integer.toString(date.get(Calendar.YEAR));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
 

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -365,7 +364,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
         TimeHelper.convertToUserTimeZone(appCal, timeZone);
         return sdf.format(appCal.getTime());

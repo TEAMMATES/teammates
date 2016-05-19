@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -279,16 +278,17 @@ public class AdminActivityLogPageData extends PageData {
                 }
                 
             } else if ("from".equals(label)) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 00:00");                
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
                 isFromDateSpecifiedInQuery = true;
-                                                
+
             } else if ("to".equals(label)) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);

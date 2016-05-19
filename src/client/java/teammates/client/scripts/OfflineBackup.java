@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -108,7 +107,7 @@ public class OfflineBackup extends RemoteApiClient {
      * Returns the current date and time to label the backup folder
      */
     protected String getCurrentDateAndTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
         Calendar cal = Calendar.getInstance();
         return dateFormat.format(cal.getTime());
     }

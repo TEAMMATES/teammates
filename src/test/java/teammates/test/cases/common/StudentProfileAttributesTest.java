@@ -6,7 +6,6 @@ package teammates.test.cases.common;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -59,7 +58,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
