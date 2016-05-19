@@ -2,11 +2,14 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     /**
@@ -14,6 +17,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      * Each integer at index i, represents the choice chosen for sub-question i
      */
     public List<Integer> answer;
+    
+    private static final Logger log = Utils.getLogger();
 
     public FeedbackRubricResponseDetails() {
         super(FeedbackQuestionType.RUBRIC);
@@ -54,6 +59,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {
                 // Failed to parse, ignore response.
+                log.warning(TeammatesException.toStringWithStackTrace(e));
             } 
         }
     }

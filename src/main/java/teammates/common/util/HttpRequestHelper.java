@@ -94,7 +94,7 @@ public class HttpRequestHelper {
             requestParameters.setLength(requestParameters.length() - 2);
             requestParameters.append(", ");
         }
-        if (!requestParameters.toString().equals("{")) {
+        if (!"{".equals(requestParameters)) {
             requestParameters.setLength(requestParameters.length() - 2);
         }
         return requestParameters.append("}").toString();

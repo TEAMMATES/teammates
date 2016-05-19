@@ -26,8 +26,8 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
     public String getConfirmationLink() {
         
         return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
-             + (institute != null 
-                ? '&' + Const.ParamsNames.INSTRUCTOR_INSTITUTION + '=' + Sanitizer.sanitizeForUri(institute) 
-                : "");
+             + (institute == null
+                ? ""
+                : '&' + Const.ParamsNames.INSTRUCTOR_INSTITUTION + '=' + Sanitizer.sanitizeForUri(institute));
     }
 }

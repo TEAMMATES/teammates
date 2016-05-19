@@ -10,7 +10,6 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
     @FindBy (id = "studentemail")
     WebElement studentEmail;
     
-
     public InstructorCourseStudentDetailsViewPage(Browser browser) {
         super(browser);
     }

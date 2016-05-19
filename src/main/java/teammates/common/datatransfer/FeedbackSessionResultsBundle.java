@@ -380,12 +380,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @return a set of emails of the students in the team
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
-        if (rosterTeamNameMembersTable.get(teamName) != null) {
-            Set<String> teamMembers = new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
-            return teamMembers;
-        } else {
+        if (!rosterTeamNameMembersTable.containsKey(teamName)) {
             return new HashSet<String>();
         }
+        
+        Set<String> teamMembers = new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
+        return teamMembers;
     }
 
     /**
@@ -987,14 +987,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
          * we check against the name & team name associated by the participant identifier
          */
         String name = emailNameTable.get(participantIdentifier);
-        boolean isIdentifierName = (name == null) ? false
-                                                  : name.equals(participantIdentifier);
-        boolean isIdentifierTeam = (name == null) ? false
-                                                  : name.equals(Const.USER_IS_TEAM);
+        boolean isIdentifierName = name != null && name.equals(participantIdentifier);
+        boolean isIdentifierTeam = name != null && name.equals(Const.USER_IS_TEAM);
 
         String teamName = emailTeamNameTable.get(participantIdentifier);
-        boolean isIdentifierTeamName = (teamName == null) ? false
-                                                          : teamName.equals(participantIdentifier);
+        boolean isIdentifierTeamName = teamName != null && teamName.equals(participantIdentifier);
         return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     
@@ -1308,8 +1305,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         
         for (FeedbackResponseAttributes response : responses) {
-            // New recipient, add response package to map.
-            if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            
+            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
+            boolean isNewGiver = !response.giverEmail.equals(prevGiver) && prevGiver != null;
+            
+            if (isNewRecipient) {
                 // Put previous giver responses into inner map.
                 responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous recipient into outer map.
@@ -1317,7 +1317,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            } else if (isNewGiver) {
                 // New giver, add giver responses to response package for one recipient
                 responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1378,7 +1378,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            if (isNewRecipient) {
                 // Put previous giver responses into inner map.
                 responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous recipient into outer map.
@@ -1386,7 +1388,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            } else if (isNewGiver) {
                 // New giver, add giver responses to response package for one recipient
                 responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1509,7 +1511,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
+            if (isNewGiver) {
                 // Put previous recipient responses into inner map.
                 responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous giver into outer map.
@@ -1517,7 +1521,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            } else if (isNewRecipient) {
                 // New recipient, add recipient responses to response package for one giver
                 responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1574,7 +1578,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
+            if (isNewGiver) {
                 // Put previous recipient responses into inner map.
                 responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous giver into outer map.
@@ -1582,7 +1588,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            } else if (isNewRecipient) {
                 // New recipient, add recipient responses to response package for one giver
                 responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -2289,6 +2295,5 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
-
 
 }

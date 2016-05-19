@@ -57,8 +57,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -109,7 +108,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 finalFsa.add(fsa);
             }
         }
-        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
         
     }
     
@@ -139,8 +138,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
-        
-        
+
         ______TS("init : 0 non private sessions closing within time-limit");
         List<FeedbackSessionAttributes> sessionList = fsLogic
                 .getFeedbackSessionsClosingWithinTimeLimit();
@@ -226,8 +224,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
-        
-        
+
         ______TS("init : no published sessions");
         unpublishAllSessions();
         List<FeedbackSessionAttributes> sessionList = fsLogic
@@ -356,8 +353,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fsLogic.deleteFeedbackSessionCascade(copiedSession.feedbackSessionName, copiedSession.courseId);
     }
-    
-    
+
     public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
         
         // This file contains a session with a private session + a standard
@@ -399,8 +395,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(8, stats.expectedTotal);
         // 1 instructor, 1 student, did not respond => 8-2=6
         assertEquals(6, stats.submittedTotal);
-        
-        
+
         ______TS("No recipients session");
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" 
                                + newDataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
@@ -578,7 +573,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
         assertEquals(1, actualSessions.size());
 
-        
         ______TS("Private session viewing");
         
         // This is the creator for the private session.
@@ -587,7 +581,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actualSessions.toString());
 
-        
         ______TS("Feedback session without questions for students but with visible responses are visible");
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
@@ -598,8 +591,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("standard test");
 
-        
-        
         FeedbackSessionQuestionsBundle actual =
                 fsLogic.getFeedbackSessionQuestionsForStudent(
                         "First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
@@ -695,9 +686,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to get a feedback session for student that does not exist.", edne.getMessage());
         }
-        
-        
-        
+
     }
     
     public void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
@@ -893,8 +882,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 getResponseId("qn8.resp2", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(11, results.visibilityTable.size());
-        
-        
+
         /*** Test result bundle for instructor1 within a course ***/
         InstructorAttributes instructor =
                 responseBundle.instructors.get("instructor1OfCourse1");        
@@ -1095,8 +1083,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         //TODO: check for cases where a person is both a student and an instructor
     }
-    
-    
+
     public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
 
         ______TS("typical case");
@@ -1608,9 +1595,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "Question 1,\"Please choose the best choice for the following sub-questions.\"",
             "",
             "Summary Statistics,",
-            ",\"Yes\",\"No\"",
-            "\"a) This student has done a good job.\",67% (2),33% (1)",
-            "\"b) This student has tried his/her best.\",75% (3),25% (1)",
+            ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
+            "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
+            "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
             "",
             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -1726,8 +1713,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testUpdateFeedbackSession() throws Exception {
-        
-        
+
         FeedbackSessionAttributes fsa = null;
         
         ______TS("failure 1: null object");
@@ -1908,9 +1894,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
-        
-        
-        
+
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student3OfCourse1 = dataBundle.students.get("student3InCourse1");
@@ -2000,8 +1984,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         emailsToInstructor.get(1).getSubject());
                 AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
             }
-            
-            
+
         }
         
         ______TS("failure: non-existent Feedback session");
@@ -2049,14 +2032,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if (!i.email.equals(instrToRemind.email)) {
-                // Only send notification (no reminder) if instructor is not selected
-                assertEquals(1, emailsToInstructor.size());
-                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
-            } else {
+            if (i.email.equals(instrToRemind.email)) {
                 // Send both notification and reminder if the instructor is selected
                 assertEquals(2, emailsToInstructor.size());
                 
@@ -2070,6 +2046,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(1).getSubject());
                 AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+            } else {
+                // Only send notification (no reminder) if instructor is not selected
+                assertEquals(1, emailsToInstructor.size());
+                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                        emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
             }
         }
         

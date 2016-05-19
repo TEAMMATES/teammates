@@ -62,9 +62,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
-    
+
     /**
      * This method should be used by admin only since the previous searching does not restrict the 
      * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
@@ -97,8 +95,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
+
     private void sortStudentResultList() {
         
         Collections.sort(studentList, new Comparator<StudentAttributes>() {
@@ -128,8 +125,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             }
         });
     }
-    
-    
+
     @Override
     public int getResultSize() {
         return numberOfResults;

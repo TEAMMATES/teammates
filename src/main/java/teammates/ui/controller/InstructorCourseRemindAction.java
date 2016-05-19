@@ -40,10 +40,12 @@ public class InstructorCourseRemindAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
-        if (studentEmail != null) {
+        boolean isSendingToStudent = studentEmail != null;
+        boolean isSendingToInstructor = instructorEmail != null;
+        if (isSendingToStudent) {
             new GateKeeper().verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        } else if (instructorEmail != null) {
+        } else if (isSendingToInstructor) {
             new GateKeeper().verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         } else {
@@ -57,13 +59,13 @@ public class InstructorCourseRemindAction extends Action {
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
         String redirectUrl = "";
         try {
-            if (studentEmail != null) {
+            if (isSendingToStudent) {
                 MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
                 emailsSent.add(emailSent);
                 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail, StatusMessageColor.SUCCESS));
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (instructorEmail != null) {
+            } else if (isSendingToInstructor) {
                 MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
                 emailsSent.add(emailSent);
                 

@@ -44,8 +44,7 @@ public abstract class EmailAction {
         req = request;
         emailsToBeSent = null;
     }
-    
-    
+
     public void sendEmails() {
         try {
             emailsToBeSent = prepareMailToBeSent();
@@ -93,8 +92,7 @@ public abstract class EmailAction {
     
     protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
     
-    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
-    }
+    protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     

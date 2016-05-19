@@ -17,7 +17,7 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
-    private final boolean isPreview = true;
+    private static final boolean isPreview = true;
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     private int numberOfSanitizedEmail;
@@ -40,12 +40,12 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         numberOfSanitizedEmail = 0;
         numberOfSanitizedGoogleId = 0;
         for (StudentAttributes student : allStudents) {
-            if (!isPreview) {
-                fixSanitizedDataForStudent(student);
-            } else {
+            if (isPreview) {
                 if (previewSanitizedDataForStudent(student)) {
                     numberOfAffectedStudents++;
                 }
+            } else {
+                fixSanitizedDataForStudent(student);
             }
         }
         if (isPreview) {

@@ -32,25 +32,23 @@ public class AdminEmailLogPageAction extends Action {
      */
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
-    private Long nextEndTimeToSearch;
-    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
         Long endTimeToSearch;
-        if (timeOffset != null && !timeOffset.isEmpty()) {
-            endTimeToSearch = Long.parseLong(timeOffset);
-        } else {
+        if (timeOffset == null || timeOffset.isEmpty()) {
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
+        } else {
+            endTimeToSearch = Long.parseLong(timeOffset);
         }
         
         AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = pageChange != null && pageChange.equals("true") || timeOffset == null;
+        boolean isPageChanged = "true".equals(pageChange) || timeOffset == null;
         if (isPageChanged) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
@@ -113,7 +111,7 @@ public class AdminEmailLogPageAction extends Action {
             totalLogsSearched += searchResult.size();
             query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
-        nextEndTimeToSearch = query.getEndTime();
+        Long nextEndTimeToSearch = query.getEndTime();
         
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"

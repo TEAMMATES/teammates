@@ -16,8 +16,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    
-    
+
     // modify this value to choose to update respondants for all sessions or a specific session
     boolean isForAllSession = true; 
     // if modifying all sessions, modify this value to only update sessions with no respondants
@@ -47,7 +46,6 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         }
     }
 
-    
     @SuppressWarnings("deprecation")
     private void updateRespondantsForAllSessions() {
         List<FeedbackSessionAttributes> feedbackSessions;

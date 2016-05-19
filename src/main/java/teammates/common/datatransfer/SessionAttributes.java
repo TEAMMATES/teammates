@@ -13,7 +13,9 @@ import teammates.common.util.Assumption;
  */
 public interface SessionAttributes {
     Date getSessionStartTime();
+    
     Date getSessionEndTime();
+    
     String getSessionName();
     
     /**

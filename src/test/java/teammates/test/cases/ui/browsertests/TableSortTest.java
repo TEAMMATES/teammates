@@ -14,8 +14,7 @@ import teammates.test.pageobjects.BrowserPool;
 public class TableSortTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -89,7 +88,6 @@ public class TableSortTest extends BaseUiTestCase {
                 "01 January 2013",
                 "05 June 2013");
     }
-
 
     @Test
     public void testTableSortingDiff() throws Exception {

@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -123,11 +123,14 @@ public class AdminSearchPageData extends PageData {
     private String createViewRecentActionsId(InstructorAttributes instructor) {
         String availableIdString = "";
         
-        if (instructor.googleId != null && !instructor.googleId.trim().isEmpty()) {
+        boolean isSearchingUsingGoogleId = instructor.googleId != null && !instructor.googleId.trim().isEmpty();
+        boolean isSearchingUsingName = instructor.name != null && !instructor.name.trim().isEmpty();
+        boolean isSearchingUsingEmail = instructor.email != null && !instructor.email.trim().isEmpty();
+        if (isSearchingUsingGoogleId) {
             availableIdString = "person:" + instructor.googleId;
-        } else if (instructor.name != null && !instructor.name.trim().isEmpty()) {
+        } else if (isSearchingUsingName) {
             availableIdString = "person:" + instructor.name;
-        } else if (instructor.email != null && !instructor.email.trim().isEmpty()) {
+        } else if (isSearchingUsingEmail) {
             availableIdString = "person:" + instructor.email;
         }
         
@@ -181,11 +184,14 @@ public class AdminSearchPageData extends PageData {
     private String createViewRecentActionsId(StudentAttributes student) {
         String availableIdString = "";
         
-        if (student.googleId != null && !student.googleId.trim().isEmpty()) {
+        boolean isSearchingUsingGoogleId = student.googleId != null && !student.googleId.trim().isEmpty();
+        boolean isSearchingUsingName = student.name != null && !student.name.trim().isEmpty();
+        boolean isSearchingUsingEmail = student.email != null && !student.email.trim().isEmpty();
+        if (isSearchingUsingGoogleId) {
             availableIdString = "person:" + student.googleId;
-        } else if (student.name != null && !student.name.trim().isEmpty()) {
+        } else if (isSearchingUsingName) {
             availableIdString = "person:" + student.name;
-        } else if (student.email != null && !student.email.trim().isEmpty()) {
+        } else if (isSearchingUsingEmail) {
             availableIdString = "person:" + student.email;
         }
         
@@ -217,7 +223,8 @@ public class AdminSearchPageData extends PageData {
                 links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
                 break;
             default:
-                assert false;
+                Assumption.fail();
+                break;
         }
         
         if (links != null) {
