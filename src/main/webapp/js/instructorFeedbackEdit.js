@@ -5,17 +5,17 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
-var CONFIRMATION_MODAL = "#confirmation-modal";
-var CONFIRMATION_MODAL_TITLE = "#confirmation-modal-title"; 
-var CONFIRMATION_MODAL_BODY = "#confirmation-modal-body";
-var CONFIRMATION_MODAL_CANCEL = "#confirmation-modal-cancel";
-var CONFIRMATION_MODAL_OK = "#confirmation-modal-ok"; 
+var CONFIRMATION_MODAL = '#confirmation-modal';
+var CONFIRMATION_MODAL_TITLE = '#confirmation-modal-title';
+var CONFIRMATION_MODAL_BODY = '#confirmation-modal-body';
+var CONFIRMATION_MODAL_CANCEL = '#confirmation-modal-cancel';
+var CONFIRMATION_MODAL_OK = '#confirmation-modal-ok';
 
-var DEFAULT_CANCEL_BUTTON_TEXT = "Cancel";
-var WARNING_DELETE_RESPONSES = "Warning: Existing responses will be deleted by your action";
-var CONFIRMATION_BODY = "<p>Editing these fields will result in all <strong>existing responses for this question to be deleted.</strong></p>"
-                        + "<p>Are you sure you want to continue?</p>"
-var CONFIRM_DELETE = "Yes, continue and delete the existing responses.";
+var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
+var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
+var CONFIRMATION_BODY = '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+                        + '<p>Are you sure you want to continue?</p>';
+var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
 
 /**
  * This function is called on edit page load.
@@ -38,7 +38,7 @@ function readyFeedbackEditPage() {
             event.preventDefault();
             showConfirmationModal(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, DEFAULT_CANCEL_BUTTON_TEXT, CONFIRM_DELETE);
             checkForConfirmation(event);
-        };
+        }
     });
     $('form.form_question').submit(function() {
         return checkFeedbackQuestion(this);
@@ -1713,7 +1713,7 @@ function showConfirmationModal(title, body, cancelButtonText, confirmButtonText)
 }
 
 function checkForConfirmation(event) {
-    $(CONFIRMATION_MODAL_OK).on('click', function(e) {
+    $(CONFIRMATION_MODAL_OK).on('click', function() {
         event.currentTarget.submit();
     });
 }
