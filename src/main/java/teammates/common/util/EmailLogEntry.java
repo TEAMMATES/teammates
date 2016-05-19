@@ -98,7 +98,7 @@ public class EmailLogEntry {
     public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
-        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         return TimeHelper.formatTime12H(appCal.getTime());
     }
     
