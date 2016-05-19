@@ -391,76 +391,89 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_GOOGLE_ID() {
-        
-        verifyAssertError("null value", FieldType.GOOGLE_ID, null);
-        verifyAssertError("contains '@gmail.com'", FieldType.GOOGLE_ID, "abc@GMAIL.com");
-        
-        
-        testOnce("valid: typical value", 
-                FieldType.GOOGLE_ID, 
-                "valid9.Goo-gle.id_", 
-                "");
-        
-        testOnce("valid: minimal non-email id accepted", 
-                FieldType.GOOGLE_ID, 
-                "e", 
-                "");
-        
-        testOnce("valid: typical email address used as id", 
-                FieldType.GOOGLE_ID, 
-                "someone@yahoo.com", "");
-        
-        testOnce("valid: minimal email id accepted as id", 
-                FieldType.GOOGLE_ID, 
-                "e@y", 
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
-        testOnce("valid: max length", 
-                FieldType.GOOGLE_ID, 
-                maxLengthValue, 
-                "");
-
-        String emptyValue = "";
-        testOnce("invalid: empty string", 
-                FieldType.GOOGLE_ID, 
-                emptyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
-        
-        String untrimmedValue = " e@email.com ";
-        testOnce("invalid: untrimmed", 
-                FieldType.GOOGLE_ID, 
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only", 
-                FieldType.GOOGLE_ID, 
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long", 
-                FieldType.GOOGLE_ID, 
-                tooLongValue, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "man woman";
-        testOnce("invalid: disallowed char (space)", 
-                FieldType.GOOGLE_ID, 
-                valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man/woman";
-        testOnce("invalid: disallowed char", 
-                FieldType.GOOGLE_ID, 
-                valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(valueWithDisallowedChar),
-                              REASON_INCORRECT_FORMAT));
-        
+    public void testGetInvalidityInfoFor_GoogleId() {
+        invalidityInfoFor_nullGoogleId_shouldThowException();
+        invalidityInfoFor_googleIdWithGmailDomain_shouldThrowException();
+        invalidityInfoFor_validGoogleId_shouldReturnEmptyString();
+        invalidityInfoFor_invalidGoogleId_shouldReturnErrorString();
     }
+
+    private void invalidityInfoFor_nullGoogleId_shouldThowException() {
+        String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
+        try {
+            validator.getInvalidityInfoForGoogleId(null);
+            signalFailureToDetectException(errorMessageForNullGoogleId);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    private void invalidityInfoFor_googleIdWithGmailDomain_shouldThrowException() {
+        String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
+                                                     + "with untrimmed GMail domain (i.e., @gmail.com)";
+        try {
+            validator.getInvalidityInfoForGoogleId("abc@GMAIL.com");
+            signalFailureToDetectException(errorMessageForUntrimmedEmailDomain);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    private void invalidityInfoFor_validGoogleId_shouldReturnEmptyString() {
+        String typicalId = "valid9.Goo-gle.id_";
+        assertEquals("Valid Google ID should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(typicalId));
+
+        String shortId = "e";
+        assertEquals("Valid Google ID should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(shortId));
+
+        String emailAsId = "someone@yahoo.com";
+        assertEquals("Valid Google ID should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(emailAsId));
     
+        String shortEmailAsId = "e@y";
+        assertEquals("Valid Google ID should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(shortEmailAsId));
+
+        String maxLengthId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
+        assertEquals("Valid Google ID should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(maxLengthId));
+    }
+
+    private void invalidityInfoFor_invalidGoogleId_shouldReturnErrorString() {
+        String emptyId = "";
+        assertEquals("Empty Google ID should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(emptyId),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY));
+
+        String whitespaceId = "     ";
+        assertEquals("Whitespace-only Google ID should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(whitespaceId),
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
+
+        String untrimmedId = "  googleIdWithSpacesAround    ";
+        assertEquals("Google ID with untrimmed leading/trailing whitespaces should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(untrimmedId),
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
+
+        String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
+        assertEquals("Google ID that is too long should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(tooLongId),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG));
+
+        String idWithSpaces = "invalid google id with spaces";
+        assertEquals("Google ID with invalid characters should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(idWithSpaces),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT));
+
+        String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
+        assertEquals("Google ID with invalid characters should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
+                                   REASON_INCORRECT_FORMAT));
+    }
+
     @Test
     public void TestGetValidityInfo_INSTRUCTOR_ROLE() {
         
