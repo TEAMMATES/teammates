@@ -1,7 +1,6 @@
 package teammates.logic.backdoor;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -9,10 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -47,7 +44,6 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL";
-    public static final String OPERATION_GET_COURSES_BY_INSTRUCTOR = "get_courses_by_instructor";
     public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
     public static final String OPERATION_GET_STUDENTPROFILE_AS_JSON = "OPERATION_GET_STUDENTPROFILE_AS_JSON";
     public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
@@ -174,9 +170,6 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             return backDoorLogic.getCourseAsJson(courseId);
-        } else if (action.equals(OPERATION_GET_COURSES_BY_INSTRUCTOR)) {
-            String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-            return getCourseIDsForInstructor(instructorID);
         } else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
@@ -283,23 +276,6 @@ public class BackDoorServlet extends HttpServlet {
             throw new Exception("Unknown command: " + action);
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-
-    private String getCourseIDsForInstructor(String instructorID) {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        String courseIDs = "";
-
-        try {
-            HashMap<String, CourseDetailsBundle> courseList = backDoorLogic
-                    .getCourseSummariesForInstructor(instructorID);
-            for (String courseId : courseList.keySet()) {
-                courseIDs = courseIDs + courseId + " ";
-            }
-        } catch (EntityDoesNotExistException e) {
-            // Instructor does not exist, no action required.
-        }
-
-        return courseIDs.trim();
     }
 
 }

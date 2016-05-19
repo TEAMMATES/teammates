@@ -85,10 +85,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Assumption.assertNotNull("Null points", pointsString);
         forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
-        distributeToRecipients = distributeToRecipientsString != null && distributeToRecipientsString.equals("true");
-        pointsPerOption = pointsPerOptionString != null && pointsPerOptionString.equals("true");
+        distributeToRecipients = "true".equals(distributeToRecipientsString);
+        pointsPerOption = "true".equals(pointsPerOptionString);
         points = Integer.parseInt(pointsString);
-        forceUnevenDistribution = forceUnevenDistributionString != null && forceUnevenDistributionString.equals("on"); 
+        forceUnevenDistribution = "on".equals(forceUnevenDistributionString); 
         
         if (!distributeToRecipients) {
             String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
@@ -354,7 +354,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student") || responses.size() == 0) {
+        if ("student".equals(view) || responses.size() == 0) {
             return "";
         }
         

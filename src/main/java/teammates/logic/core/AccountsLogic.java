@@ -71,7 +71,7 @@ public class AccountsLogic {
     
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
-        return a == null ? false : a.isInstructor;
+        return a != null && a.isInstructor;
     }
 
     public List<AccountAttributes> getInstructorAccounts() {
@@ -112,7 +112,7 @@ public class AccountsLogic {
     }
     
     public void joinCourseForStudent(String registrationKey, String googleId) 
-            throws JoinCourseException {
+            throws JoinCourseException, InvalidParametersException {
         
         verifyStudentJoinCourseRequest(registrationKey, googleId);
         
@@ -124,16 +124,10 @@ public class AccountsLogic {
             StudentsLogic.inst().updateStudentCascade(student.email, student);
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
-        } catch (InvalidParametersException e) {
-            throw new JoinCourseException(e.getMessage());
         } 
         
         if (accountsDb.getAccount(googleId) == null) {
-            try {
-                createStudentAccount(student);
-            } catch (InvalidParametersException e) {
-                throw new JoinCourseException(e.getLocalizedMessage());
-            }
+            createStudentAccount(student);
         }
     }
     
@@ -142,13 +136,9 @@ public class AccountsLogic {
      * Joins the user as an instructor, and sets the institute too.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        try {
-            joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
-        } catch (EntityDoesNotExistException e) {
-            throw new JoinCourseException(e.getMessage());
-        }
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
         
     }
     
@@ -156,13 +146,9 @@ public class AccountsLogic {
      * Joins the user as an instructor.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        try {
-            joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
-        } catch (EntityDoesNotExistException e) {
-            throw new JoinCourseException(e.getMessage());
-        }
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
         
     }
     

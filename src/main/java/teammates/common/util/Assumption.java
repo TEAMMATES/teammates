@@ -125,7 +125,7 @@ public class Assumption {
             return;
         }
         
-        if (!(Math.abs(expected - actual) <= delta)) {
+        if (Math.abs(expected - actual) > delta) {
             failNotEquals(message, new Double(expected), new Double(actual));
         }
     }
@@ -149,7 +149,7 @@ public class Assumption {
             return;
         }
         
-        if (!(Math.abs(expected - actual) <= delta)) {
+        if (Math.abs(expected - actual) > delta) {
             failNotEquals(message, new Float(expected), new Float(actual));
         }
     }

@@ -85,7 +85,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
             try {
                 newSession.timeZone = Double.parseDouble(paramTimeZone);
             } catch (NumberFormatException nfe) {
-                // do nothing
+                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             } 
         }
         
@@ -93,7 +93,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         try {
             newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
         } catch (NumberFormatException nfe) {
-            //do nothing
+            log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
         
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;

@@ -154,19 +154,17 @@ public abstract class Action {
         if (regkey != null && loggedInUserId != null) {
             student = logic.getStudentForRegistrationKey(regkey);
             boolean isKnownKey = student != null;
-            if (isKnownKey) {
-                if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
-                    String expectedId = StringHelper.obscure(student.googleId);
-                    expectedId = StringHelper.encrypt(expectedId);
-                    String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
-                                              .withUserId(StringHelper.encrypt(loggedInUserId))
-                                              .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
-                                              .withParam(Const.ParamsNames.HINT, expectedId)
-                                              .toString();
-                    
-                    setRedirectPage(redirectUrl);
-                    return false;
-                }
+            if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
+                String expectedId = StringHelper.obscure(student.googleId);
+                expectedId = StringHelper.encrypt(expectedId);
+                String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
+                                          .withUserId(StringHelper.encrypt(loggedInUserId))
+                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.HINT, expectedId)
+                                          .toString();
+                
+                setRedirectPage(redirectUrl);
+                return false;
             }
         }
         return true;
@@ -216,6 +214,7 @@ public abstract class Action {
         return false;
     }
 
+    @SuppressWarnings("PMD.EmptyIfStmt")
     protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         
@@ -539,7 +538,8 @@ public abstract class Action {
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
         return loggedInUser != null && requestedUserId != null 
-               && !requestedUserId.trim().equals("null")
+               && !"null".equals(requestedUserId.trim())
+               && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
     

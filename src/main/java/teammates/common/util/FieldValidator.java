@@ -706,13 +706,12 @@ public class FieldValidator {
         if (!recipientType.isValidRecipient()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
-        if (giverType == FeedbackParticipantType.TEAMS) {
-            if (recipientType == FeedbackParticipantType.OWN_TEAM 
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        recipientType.toDisplayRecipientName(),
-                        giverType.toDisplayGiverName()));
-            }
+        if (giverType == FeedbackParticipantType.TEAMS
+                && (recipientType == FeedbackParticipantType.OWN_TEAM 
+                        || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                    recipientType.toDisplayRecipientName(),
+                    giverType.toDisplayGiverName()));
         }
         
         return errors;

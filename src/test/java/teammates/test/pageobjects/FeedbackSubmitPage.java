@@ -122,14 +122,12 @@ public class FeedbackSubmitPage extends AppPage {
     public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
         WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
-        // getAttributes can return null when attribute does'nt exist
         return "true".equals(isChecked);
     }
 
     public boolean isRubricRadioChecked(int qnIndex, int respIndex, int row, int col) {
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
-        // getAttributes can return null when attribute does'nt exist
         return "true".equals(isChecked);
     }
 
@@ -163,5 +161,14 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
+    }
+
+    public void waitForAndDismissWarningModal() {
+        WebElement okayButton = browser.driver.findElement(By.id("warning-modal-ok"));
+        waitForElementToBeClickable(okayButton);
+        okayButton.click();
+
+        By warningModalOverlay = By.id("warning-modal");
+        waitForElementToDisappear(warningModalOverlay);
     }
 }

@@ -82,25 +82,25 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !sortType.equals("question")) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !"question".equals(sortType)) {
             // bundle for all questions and all sections  
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                                                            feedbackSessionName, courseId,
                                                                            instructor.email,
                                                                            queryRange, sortType));
-        } else if (sortType.equals("question")) {
+        } else if ("question".equals(sortType)) {
             data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
-        } else if (sortType.equals("giver-question-recipient")
-                || sortType.equals("giver-recipient-question")) {
+        } else if ("giver-question-recipient".equals(sortType)
+                || "giver-recipient-question".equals(sortType)) {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
                                                                                   instructor.email,
                                                                                   selectedSection,
                                                                                   DEFAULT_SECTION_QUERY_RANGE));
-        } else if (sortType.equals("recipient-question-giver")
-                || sortType.equals("recipient-giver-question")) {
+        } else if ("recipient-question-giver".equals(sortType)
+                || "recipient-giver-question".equals(sortType)) {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
                                                                                 instructor.email,
@@ -115,9 +115,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         // Warning for section wise viewing in case of many responses.
         boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondents() 
-                                                   && sortType.equals("question");
+                                                   && "question".equals(sortType);
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
-                                                   && !sortType.equals("question");
+                                                   && !"question".equals(sortType);
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
