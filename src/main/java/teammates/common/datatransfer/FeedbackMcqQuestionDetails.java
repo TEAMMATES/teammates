@@ -377,16 +377,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
         }
         
@@ -433,16 +431,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
         }
         

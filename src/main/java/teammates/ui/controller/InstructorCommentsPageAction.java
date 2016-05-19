@@ -44,10 +44,10 @@ public class InstructorCommentsPageAction extends Action {
 
         verifyAccessible();
         
-        if (isDisplayArchivedCourseString != null) {
-            putDisplayArchivedOptionToSession();
-        } else {
+        if (isDisplayArchivedCourseString == null) {
             getDisplayArchivedOptionFromSession();
+        } else {
+            putDisplayArchivedOptionToSession();
         }
         
         List<String> coursePaginationList = new ArrayList<String>(); 
@@ -88,12 +88,12 @@ public class InstructorCommentsPageAction extends Action {
 
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
-        if (!isViewingDraft) { //view by Course
-            instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
-        } else { //view by Draft
+        if (isViewingDraft) { 
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
+        } else { //view by Course
+            instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         }
         isViewingDraft = false; //TODO: handle the draft page
     }
@@ -165,12 +165,10 @@ public class InstructorCommentsPageAction extends Action {
     private void updateCommentList(CommentAttributes comment,
                                    boolean isCurrentInstructorGiver,
                                    List<CommentAttributes> commentList) {
-        if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                commentList.add(comment);
-            }
-        } else {
+        if (isViewingDraft || isCurrentInstructorGiver) { 
+            commentList.add(comment);
+        } else if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
             commentList.add(comment);
         }
     }

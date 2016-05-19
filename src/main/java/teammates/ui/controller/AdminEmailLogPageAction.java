@@ -38,10 +38,10 @@ public class AdminEmailLogPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
         Long endTimeToSearch;
-        if (timeOffset != null && !timeOffset.isEmpty()) {
-            endTimeToSearch = Long.parseLong(timeOffset);
-        } else {
+        if (timeOffset == null || timeOffset.isEmpty()) {
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
+        } else {
+            endTimeToSearch = Long.parseLong(timeOffset);
         }
         
         AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 

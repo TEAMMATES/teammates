@@ -40,12 +40,12 @@ public class AdminSearchPageAction extends Action {
         
         if (searchKey == null || searchKey.trim().isEmpty()) {
             
-            if (searchButtonHit != null) {             
+            if (searchButtonHit == null) {             
+                statusToAdmin = "AdminSearchPaga Page Load";
+            } else {
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
-            } else {
-                statusToAdmin = "AdminSearchPaga Page Load";
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
@@ -317,8 +317,18 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if (!fsa.isOpened()) {
+         if (fsa.isOpened()) {
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
              
+         } else {                 
              if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> submitUrlList = new ArrayList<String>();
                  submitUrlList.add(submitUrl);   
@@ -328,17 +338,6 @@ public class AdminSearchPageAction extends Action {
              }
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
-             
-         } else {                 
-             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                  List<String> submitUrlList = new ArrayList<String>();
-                  submitUrlList.add(submitUrl);   
-                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
          
          

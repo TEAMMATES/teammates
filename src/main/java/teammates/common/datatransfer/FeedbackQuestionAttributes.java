@@ -175,24 +175,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             line += "can see your response";
 
             // Visibility fragment: e.g. can see your name, but not...
-            if (!showRecipientNameTo.contains(participant)) {
-                if (showGiverNameTo.contains(participant)) {
-                    line += ", and your name";
-                }
-
-                if (recipientType != FeedbackParticipantType.NONE) {
-                    line += ", but not the name of the recipient";
-
-                    if (!showGiverNameTo.contains(participant)) {
-                        line += ", or your name";
-                    }
-                } else {
-                    if (!showGiverNameTo.contains(participant)) {
-                        line += ", but not your name";
-                    }
-                }
-
-            } else if (showRecipientNameTo.contains(participant)) {
+            if (showRecipientNameTo.contains(participant)) {
                 if (participant != FeedbackParticipantType.RECEIVER
                     && recipientType != FeedbackParticipantType.NONE) {
                     line += ", the name of the recipient";
@@ -203,7 +186,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                 } else {
                     line += ", but not your name";
                 }
-            }
+            } else {
+                if (showGiverNameTo.contains(participant)) {
+                    line += ", and your name";
+                }
+
+                if (recipientType == FeedbackParticipantType.NONE) {
+                    if (!showGiverNameTo.contains(participant)) {
+                        line += ", but not your name";
+                    }
+                } else {
+                    line += ", but not the name of the recipient";
+                    
+                    if (!showGiverNameTo.contains(participant)) {
+                        line += ", or your name";
+                    }
+                }
+
+            } 
 
             line += ".";
             message.add(line);

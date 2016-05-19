@@ -359,9 +359,11 @@ public class FeedbackQuestionsLogic {
         
         String giverTeam = null;
         
-        if (studentGiver != null) {
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
             giverTeam = studentGiver.team;
-        } else if (instructorGiver != null) {
+        } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             giverTeam = giver;
@@ -631,20 +633,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
      * 
+     * Silently fails if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, false);
-        } else {
+        if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+        } else {
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, false);
         }
-        
     }
 
     /**
@@ -653,20 +656,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
      * 
+     * Silently fail if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, true);
-        } else {
+        if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+        } else {
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, true);
         }
-        
     }
     
     /**

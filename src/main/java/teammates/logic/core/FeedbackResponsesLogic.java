@@ -280,13 +280,13 @@ public class FeedbackResponsesLogic {
         }
         
         // Early return if user is giver
-        if (question.giverType != FeedbackParticipantType.TEAMS) {
-            if (response.giverEmail.equals(userEmail)) {
+        if (question.giverType == FeedbackParticipantType.TEAMS) {
+            // if response is given by team, then anyone in the team can see the response
+            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
                 return true;
             }
         } else {
-            // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+            if (response.giverEmail.equals(userEmail)) {
                 return true;
             }
         }
@@ -464,16 +464,15 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) 
-            || !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
-            // Recreate response to prevent possible future id conflict.
-            recreateResponse(newResponse, oldResponse);
-        } else {
+        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail) && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail();
             }
+        } else {
+            // Recreate response to prevent possible future id conflict.
+            recreateResponse(newResponse, oldResponse);
         }
     }
 

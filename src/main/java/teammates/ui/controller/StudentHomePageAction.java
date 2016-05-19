@@ -47,11 +47,11 @@ public class StudentHomePageAction extends Action {
             }
         
         } catch (EntityDoesNotExistException e) {
-            if (recentlyJoinedCourseId != null) {
-                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
-            } else {
+            if (recentlyJoinedCourseId == null) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_FIRST_TIME, StatusMessageColor.WARNING));
                 statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
+            } else {
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
             }
         }
         
