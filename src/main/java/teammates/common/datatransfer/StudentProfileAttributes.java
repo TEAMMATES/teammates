@@ -113,7 +113,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         if (!email.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+            error = validator.getInvalidityInfoForEmail(email);
             if (!error.isEmpty()) {
                 errors.add(error);
             }

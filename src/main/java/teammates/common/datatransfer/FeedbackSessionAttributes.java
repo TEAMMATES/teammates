@@ -199,8 +199,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForEmail(creatorEmail);
+        if (!error.isEmpty()) { errors.add("Invalid creator's email: " + error); }
 
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) { return errors; }

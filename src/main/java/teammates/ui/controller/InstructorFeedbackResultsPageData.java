@@ -495,7 +495,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String secondaryParticipantIdentifier = secondaryParticipantResponses.getKey();
             String secondaryParticipantDisplayableName = bundle.getNameForEmail(secondaryParticipantIdentifier); 
             
-            boolean isEmail = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, secondaryParticipantIdentifier).isEmpty();
+            boolean isEmail = validator.getInvalidityInfoForEmail(secondaryParticipantIdentifier).isEmpty();
             if (isEmail && !bundle.getTeamNameForEmail(secondaryParticipantIdentifier).isEmpty()) {
                 secondaryParticipantDisplayableName += " (" + bundle.getTeamNameForEmail(secondaryParticipantIdentifier)
                                                      + ")";
@@ -1322,7 +1322,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String getProfilePictureIfEmailValid(String email) {
         // TODO the check for determining whether to show a profile picture 
         // can be improved to use isStudent
-        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
+        boolean isEmailValid = validator.getInvalidityInfoForEmail(email).isEmpty();
         return isEmailValid ? getStudentProfilePictureLink(email, instructor.courseId)
                             : null;
     }
@@ -1513,7 +1513,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         bySecondaryParticipantPanel.setName(participantName);
         bySecondaryParticipantPanel.setIsGiver(viewType.isPrimaryGroupingOfGiverType());
         
-        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
+        boolean isEmailValid = validator.getInvalidityInfoForEmail(participantIdentifier).isEmpty();
         bySecondaryParticipantPanel.setEmailValid(isEmailValid);
         
         

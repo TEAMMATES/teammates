@@ -101,7 +101,7 @@ public class AccountAttributes extends EntityAttributes {
         error = validator.getInvalidityInfoForGoogleId(googleId);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfoForInstituteName(institute);

@@ -25,7 +25,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.TaskQueuesLogic;
 
@@ -123,7 +122,7 @@ public class AdminEmailComposeSendAction extends Action {
        
        String[] emails = addressReceiverString.split(",");
        for (String email : emails) {
-           String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+           String error = validator.getInvalidityInfoForEmail(email);
            if (error != null && !error.isEmpty()) {
                isError = true;
                statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));

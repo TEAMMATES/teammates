@@ -148,7 +148,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) { errors.add(error); }
         
         //TODO: handle the new attributes showCommentTo and showGiverNameTo

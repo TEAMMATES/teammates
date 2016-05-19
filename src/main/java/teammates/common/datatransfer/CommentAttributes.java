@@ -111,7 +111,7 @@ public class CommentAttributes extends EntityAttributes
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -120,7 +120,7 @@ public class CommentAttributes extends EntityAttributes
             switch (recipientType) {
                 case PERSON :
                     for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                        error = validator.getInvalidityInfoForEmail(recipientId);
                         if (!error.isEmpty()) {
                             errors.add(error);
                         }

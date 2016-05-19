@@ -209,7 +209,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
 
         if (!error.isEmpty()) { errors.add(error); }
 

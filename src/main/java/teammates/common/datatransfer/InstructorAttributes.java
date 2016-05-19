@@ -210,7 +210,7 @@ public class InstructorAttributes extends EntityAttributes {
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfoForPersonName(displayedName);
