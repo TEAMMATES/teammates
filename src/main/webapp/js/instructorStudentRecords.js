@@ -27,14 +27,15 @@ $(document).ready(function() {
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
         var target = $(e.target);
+    	var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+        	visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
