@@ -3,6 +3,12 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+
+    $(".dropdown-menu li a").click(function(){
+    	showNewQuestionFrame(this.id)
+     });
+
+
 });
 
 /**
