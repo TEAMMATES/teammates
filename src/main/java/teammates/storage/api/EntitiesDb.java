@@ -113,10 +113,10 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null) {
-                entitiesToUpdate.add(entityToAdd);
-            } else {
+            if (getEntity(entityToAdd) == null) {
                 entities.add(entityToAdd.toEntity());
+            } else {
+                entitiesToUpdate.add(entityToAdd);
             }
             
             log.info(entityToAdd.getBackupIdentifier());
@@ -144,10 +144,10 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null) {
-                entitiesToUpdate.add(entityToAdd);
-            } else {
+            if (getEntity(entityToAdd) == null) {
                 entities.add(entityToAdd.toEntity());
+            } else {
+                entitiesToUpdate.add(entityToAdd);
             }
             
             log.info(entityToAdd.getBackupIdentifier());

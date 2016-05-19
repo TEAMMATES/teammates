@@ -191,7 +191,7 @@ public class ActivityLogEntry {
             email = "Unknown";
             
             UserType userType = GateKeeper.inst().getCurrentUser();
-            googleId = userType != null ? userType.id : "Unknown";
+            googleId = userType == null ?  "Unknown" : userType.id;
         
         } else {
             role = acc.isInstructor ? "Instructor" : "Student"; 
@@ -205,7 +205,7 @@ public class ActivityLogEntry {
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
-                            String requestUrl, StudentAttributes student, UserType userType) {
+                            String requestUrl, StudentAttributes unregisteredStudent, UserType userType) {
         time = System.currentTimeMillis();
         try {
             servletName = getActionName(requestUrl);
@@ -217,8 +217,9 @@ public class ActivityLogEntry {
         message = logMessage;
         url = requestUrl;    
        
-        if (userAccount != null && userAccount.googleId != null) {                 
-            
+        boolean isAccountWithGoogleId = userAccount != null && userAccount.googleId != null;
+        boolean isUnregisteredStudent = unregisteredStudent != null;
+        if (isAccountWithGoogleId) {
             if (userType.isInstructor && !userType.isStudent && !userType.isAdmin) {
                 role = "Instructor";
             } else if (!userType.isInstructor && userType.isStudent && !userType.isAdmin) {
@@ -239,15 +240,15 @@ public class ActivityLogEntry {
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
-        } else if (student != null) {
-            if (student.course != null && !student.course.isEmpty()) {
-                role = "Unregistered" + ":" + student.course;
-            } else {
-                role = "Unregistered";
-            }
-            name = student.name;
+        } else if (isUnregisteredStudent) {
+            role = "Unregistered";
+            if (unregisteredStudent.course != null && !unregisteredStudent.course.isEmpty()) {
+                role = "Unregistered" + ":" + unregisteredStudent.course;
+            } 
+            
+            name = unregisteredStudent.name;
             googleId = "Unregistered";
-            email = student.email;          
+            email = unregisteredStudent.email;          
         } else {
             
             //this is a shallow fix for logging redirected student to join authenticated action
@@ -262,7 +263,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = generateLogId(googleId, student, time);
+        id = generateLogId(googleId, unregisteredStudent, time);
     }
     
     private String formatTimeForId(Date date) {
@@ -425,10 +426,10 @@ public class ActivityLogEntry {
         String urlToShow = url;
         //If not in masquerade mode, add masquerade mode
         if (!urlToShow.contains("user=")) {
-            if (!urlToShow.contains("?")) {
-                urlToShow += "?user=" + googleId;
-            } else {
+            if (urlToShow.contains("?")) {
                 urlToShow += "&user=" + googleId;
+            } else {
+                urlToShow += "?user=" + googleId;
             }
         }
         return urlToShow;
@@ -491,8 +492,8 @@ public class ActivityLogEntry {
      * @return log ID
      */
     public String generateLogId(String googleId, StudentAttributes student, long time) {
-        return (student != null) ? generateLogId(googleId, student.email, student.course, time)
-                                 : generateLogId(googleId, null, null, time);
+        return student == null ? generateLogId(googleId, null, null, time)
+                               : generateLogId(googleId, student.email, student.course, time);
     }
     
     /**
@@ -601,9 +602,11 @@ public class ActivityLogEntry {
     private String getAvailableIdenficationString() {
         if (!getGoogleId().contentEquals("Unregistered") && !getGoogleId().contentEquals("Unknown")) {
             return getGoogleId();
-        } else if (getEmail() != null && !getEmail().contentEquals("Unknown")) {
+        } 
+        if (getEmail() != null && !getEmail().contentEquals("Unknown")) {
             return getEmail();
-        } else if (getName() != null && !getName().contentEquals("Unknown")) {
+        } 
+        if (getName() != null && !getName().contentEquals("Unknown")) {
             return getName();
         }
         return "";

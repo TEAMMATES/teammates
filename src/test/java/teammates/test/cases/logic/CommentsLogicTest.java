@@ -395,7 +395,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
         for (CommentAttributes c: comments) {
-            assertFalse(c.giverEmail.equals("Anonymous"));
+            assertFalse("Anonymouse".equals(c.giverEmail));
         }
     }
     
@@ -413,7 +413,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
         for (CommentAttributes c: comments) {
-            assertFalse(c.recipients.iterator().next().equals("Anonymous"));
+            assertFalse("Anonymous".equals(c.recipients.iterator().next()));
         }
     }
     

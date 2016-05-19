@@ -180,20 +180,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     private String getInstituteForStudent(Student student) {
         
-        String institute = courseIdToInstituteMap.get(student.getCourseId());
-        
-        if (institute != null) {
-            return institute;
-        } else {
-            institute = UNKNOWN_INSTITUTE;
-        }
+        if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
+            return courseIdToInstituteMap.get(student.getCourseId());
+        } 
 
         Query q = pm.newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());        
         
-        institute = getInstituteForInstructors(instructorList);
+        String institute = getInstituteForInstructors(instructorList);
         
         courseIdToInstituteMap.put(student.getCourseId(), institute);
         
@@ -218,20 +214,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     private String getInstituteForInstructor(Instructor instructor) {
-        
-        String institute = null;
-        
         if (instructor.getGoogleId() == null) {
-            return institute;
+            return null;
         }
         
         Account account = getAccountEntity(instructor.getGoogleId());
         if (account != null) {
             return account.getInstitute();
-            
-        } else {
-            return institute;
         }
+        
+        return null;
     }
 
     private Account getAccountEntity(String googleId) {

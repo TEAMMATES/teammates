@@ -28,7 +28,6 @@ import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
     
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
 
     private static FeedbackQuestionsLogic instance;
@@ -360,9 +359,11 @@ public class FeedbackQuestionsLogic {
         
         String giverTeam = null;
         
-        if (studentGiver != null) {
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
             giverTeam = studentGiver.team;
-        } else if (instructorGiver != null) {
+        } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             giverTeam = giver;
@@ -631,20 +632,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
      * 
+     * Silently fails if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, false);
+        if (questionToDeleteById == null) {
+            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
         } else {
-            // Silently fail if question does not exist.
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, false);
         }
-        
     }
 
     /**
@@ -653,20 +655,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
      * 
+     * Silently fail if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, true);
+        if (questionToDeleteById == null) {
+            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
         } else {
-            // Silently fail if question does not exist.
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, true);
         }
-        
     }
     
     /**

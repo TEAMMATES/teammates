@@ -146,9 +146,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
             frLogic.updateFeedbackResponse(responseToUpdate);
             signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(
-                    "Error trying to update recipient for response, as another response with the same recipient already exists.", 
-                        e.getMessage());
+            AssertHelper.assertContains("Trying to create a Feedback Response that exists", e.getMessage());
         }
         
         ______TS("success: standard update with carried params - using createFeedbackResponse");

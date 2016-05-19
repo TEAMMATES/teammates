@@ -103,7 +103,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         instructors, feedbackSessionNameForSessionList,
                                                                         courseIdForNewSession);
         
-        String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
@@ -231,9 +231,9 @@ public class InstructorFeedbacksPageData extends PageData {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
         ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD", 
-                                                          defaultSessionType != null && defaultSessionType.equals("STANDARD"));
+                                                          "STANDARD".equals(defaultSessionType));
         ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION", 
-                                                            defaultSessionType == null || defaultSessionType.equals("TEAMEVALUATION")); 
+                                                            defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
         
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);

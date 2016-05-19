@@ -311,11 +311,10 @@ public class AdminEmailsDb extends EntitiesDb {
         
         if (adminEmailToGet.getEmailId() != null) {
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
-        } else {
-            return getAdminEmailEntity(adminEmailToGet.getSubject(),
-                                       adminEmailToGet.getCreateDate());
-        }
+        } 
         
+        return getAdminEmailEntity(adminEmailToGet.getSubject(),
+                                   adminEmailToGet.getCreateDate());
     }
 
 }

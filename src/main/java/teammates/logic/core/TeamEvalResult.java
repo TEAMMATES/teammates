@@ -206,10 +206,10 @@ public class TeamEvalResult {
         double[] output = new double[teamSize];
         for (int j = 0; j < teamSize; j++) {
             double value = input[j];
-            if (!isSpecialValue((int) value)) {
-                output[j] = (factor == 0 ? value : value * factor);
-            } else {
+            if (isSpecialValue((int) value)) {
                 output[j] = value;
+            } else {
+                output[j] = (factor == 0 ? value : value * factor);
             }
         }
         return output;

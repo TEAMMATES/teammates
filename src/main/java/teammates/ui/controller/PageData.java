@@ -1009,14 +1009,14 @@ public class PageData {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");
-            } else if (student != null) {
+            } else if (student == null) {
+                namesStringBuilder.append(recipient);
+            } else {
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
                     namesStringBuilder.append(student.name);
                 }
-            } else {
-                namesStringBuilder.append(recipient);
             }
             i++;
         }

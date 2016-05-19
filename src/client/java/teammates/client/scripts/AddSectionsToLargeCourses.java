@@ -31,22 +31,22 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     private Logic logic = new Logic();
     
     // modify this to modify only a specific course or all courses
-    private final boolean isForAllCourses = false;
+    private static final boolean isForAllCourses = false;
     
     // modify this to modify the max size of a course without a section
     // if numStudents in a course > maxCourseSizeWithoutSections,
     // then sections will be added to the course
-    private final int maxCourseSizeWithoutSections = 100;
+    private static final int maxCourseSizeWithoutSections = 100;
     
     // if not modifying all courses, specify which course to modify here
-    private final String courseToAddSectionsTo = "demo-course";
+    private static final String courseToAddSectionsTo = "demo-course";
     
     // when adding teams to a section, when this value is reached or exceeded,  
     // change the section for the next team
-    private final int numOfStudentsInSection = 100;
+    private static final int numOfStudentsInSection = 100;
     
     // modify for preview
-    boolean isPreview = true;
+    private static final boolean isPreview = true;
     
     /*
      * IMPORTANT: *******************************

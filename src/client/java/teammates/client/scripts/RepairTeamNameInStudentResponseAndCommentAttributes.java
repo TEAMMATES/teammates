@@ -37,7 +37,7 @@ import teammates.storage.entity.Student;
  * and CommentAttributes.
  */
 public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteApiClient {
-    private final boolean isPreview = true;
+    private static final boolean isPreview = true;
     
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();

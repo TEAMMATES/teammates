@@ -300,7 +300,7 @@ public class InstructorFeedbacksPage extends AppPage {
             js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
             
             String timeDropdownId = timeDropdown.getAttribute("id");
-            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
             js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }

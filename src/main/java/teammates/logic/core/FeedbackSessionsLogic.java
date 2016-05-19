@@ -36,6 +36,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -53,9 +54,7 @@ public class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance;
 
-    @SuppressWarnings("unused")
     private static Logger log = Utils.getLogger();
-    // Used by the FeedbackSessionsLogicTest for logging
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -1643,6 +1642,7 @@ public class FeedbackSessionsLogic {
             fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
             // Silently fail if session does not exist
+            log.warning(TeammatesException.toStringWithStackTrace(e));
         }
 
         FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
@@ -1873,6 +1873,7 @@ public class FeedbackSessionsLogic {
             UserType.Role role, CourseRoster roster, Map<String, String> params)
             throws EntityDoesNotExistException {
         
+
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -2026,17 +2027,30 @@ public class FeedbackSessionsLogic {
         boolean isComplete = params.get("range") == null;
         
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        if (params.get("range") != null) {
+        if (params.get("range") == null) {
+            if (isInSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else if (isFromSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
+                                                                                 courseId, section);
+            } else if (isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else {
+                Assumption.fail("Client did not indicate the origin of the response");
+            }
+        } else {
             long range = Long.parseLong(params.get("range"));
             if (isInSection) {
                 allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                            courseId, section, range);
+                                                                                          courseId, section, range);
             } else if (isFromSection) {
                 allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                            courseId, section, range);
+                                                                                            courseId, section, range);
             } else if (isToSection) {
                 allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                            courseId, section, range);
+                                                                                          courseId, section, range);
             } else {
                 Assumption.fail("Client did not indicate the origin of the responses");
             }
@@ -2047,19 +2061,6 @@ public class FeedbackSessionsLogic {
                     relevantQuestions.put(qn.getId(), qn);
                 }
                 
-            }
-        } else {
-            if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                        courseId, section);
-            } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                        courseId, section);
-            } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                        courseId, section);
-            } else {
-                Assumption.fail("Client did not indicate the origin of the response");
             }
         }
         
@@ -2110,8 +2111,8 @@ public class FeedbackSessionsLogic {
         }
 
         if (params.get("viewType") == null
-                || params.get("viewType").equals("giver-recipient-question")
-                || params.get("viewType").equals("recipient-giver-question")) {
+                || "giver-recipient-question".equals(params.get("viewType"))
+                || "recipient-giver-question".equals(params.get("viewType"))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
                             feedbackSessionName, section);
@@ -2389,11 +2390,9 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
-            if (!instructorQns.isEmpty()) {
-                if (responseStatus.emailNameTable.get(instructor.email) == null) {
-                    instructorNoResponses.add(instructor.email);
-                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
-                }
+            if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
+                instructorNoResponses.add(instructor.email);
+                responseStatus.emailNameTable.put(instructor.email, instructor.name);
             }
         }
         instructorNoResponses.removeAll(fsa.respondingInstructorList);
@@ -2417,14 +2416,20 @@ public class FeedbackSessionsLogic {
         String team = null;
 
         StudentAttributes student = roster.getStudentForEmail(email);
-        if (student != null) {
+        boolean isStudent = student != null;
+        if (isStudent) {
             name = student.name;
             team = student.team;
             lastName = student.lastName;
         } else {
             InstructorAttributes instructor = roster
                     .getInstructorForEmail(email);
-            if (instructor == null) {
+            boolean isInstructor = instructor != null;
+            if (isInstructor) {                
+                name = instructor.name;
+                lastName = instructor.name;
+                team = Const.USER_TEAM_FOR_INSTRUCTOR;
+            } else {
                 if (email.equals(Const.GENERAL_QUESTION)) {
                     // Email represents that there is no specific recipient.
                     name = Const.USER_IS_NOBODY;
@@ -2437,26 +2442,21 @@ public class FeedbackSessionsLogic {
                     lastName = Const.USER_IS_MISSING;
                     team = email;
                 }
-            } else {
-                name = instructor.name;
-                lastName = instructor.name;
-                team = Const.USER_TEAM_FOR_INSTRUCTOR;
-            }
+            } 
         }
 
-        if (type == FeedbackParticipantType.TEAMS
-                || type == FeedbackParticipantType.OWN_TEAM) {
+        if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM) {
             giverRecipientName = team;
             giverRecipientLastName = team;
             teamName = "";
-        } else if (!name.equals(Const.USER_IS_NOBODY) && !name.equals(Const.USER_IS_MISSING)) {
-            giverRecipientName = name;
-            giverRecipientLastName = lastName;
-            teamName = team;
         } else {
             giverRecipientName = name;
             giverRecipientLastName = lastName;
-            teamName = "";
+            if (name.equals(Const.USER_IS_NOBODY) || name.equals(Const.USER_IS_MISSING)) {
+                teamName = "";
+            } else {
+                teamName = team;
+            }
         }
         return new String[] { giverRecipientName, giverRecipientLastName, teamName };
     }

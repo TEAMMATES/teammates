@@ -142,7 +142,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Submit Feedback"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));
-        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
         studentHomePage.clickHomeTab();
 
         ______TS("link: link of Grace period feedback");
@@ -155,7 +155,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Submit Feedback"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Graced Feedback Session"));
-        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
         studentHomePage.clickHomeTab();
 
         ______TS("link: link of pending feedback");

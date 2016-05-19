@@ -637,10 +637,10 @@ public class CommentsDb extends EntitiesDb {
         CommentAttributes commentToGet = (CommentAttributes) attributes;
         if (commentToGet.getCommentId() != null) {
             return getCommentEntity(commentToGet.getCommentId());
-        } else {
-            return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                                    commentToGet.recipients, commentToGet.createdAt);
-        }
+        } 
+        
+        return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
+                                commentToGet.recipients, commentToGet.createdAt);
     }
     
     // Gets a comment entity if the ID is known

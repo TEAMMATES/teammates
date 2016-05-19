@@ -89,7 +89,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            // similar to the previous case, so not tested again
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
         }
 
         // remaining cases have been implicitly tested in testMakeStudent()

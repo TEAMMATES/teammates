@@ -47,7 +47,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
         
         try {
-            if (editType.equals("edit")) {
+            if ("edit".equals(editType)) {
                 CommentAttributes updatedComment = logic.updateComment(comment);
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
@@ -57,7 +57,7 @@ public class InstructorStudentCommentEditAction extends Action {
                         + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
                         + comment.courseId + "]</span><br>" 
                         + "<span class=\"bold\">Comment:</span> " + comment.commentText;
-            } else if (editType.equals("delete")) {
+            } else if ("delete".equals(editType)) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));
@@ -73,12 +73,10 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return !isFromCommentPage 
-                ? createRedirectResult(
-                        new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)) 
-                : createRedirectResult(
-                        new PageData(account).getInstructorCommentsLink() + "&" 
-                        + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return isFromCommentPage 
+             ? createRedirectResult(new PageData(account).getInstructorCommentsLink() 
+                                    + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId)
+             : createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)); 
     }
 
     private void verifyAccessibleByInstructor(String courseId, String commentId) {
@@ -151,21 +149,21 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
-        if (recipientType != null) {
-            comment.recipientType = CommentParticipantType.valueOf(recipientType);
-        } else {
+        if (recipientType == null) {
             comment.recipientType = null;
+        } else {
+            comment.recipientType = CommentParticipantType.valueOf(recipientType);
         }
         
         if (recipients != null) {
             comment.recipients = new HashSet<String>();
-            if (!recipients.isEmpty()) {
+            if (recipients.isEmpty()) {
+                comment.recipients.add(studentEmail);
+            } else {
                 String[] recipientsArray = recipients.split(",");
                 for (String recipient : recipientsArray) {
                     comment.recipients.add(recipient.trim());
                 }
-            } else {
-                comment.recipients.add(studentEmail);
             }
         }
         comment.status = CommentStatus.FINAL;

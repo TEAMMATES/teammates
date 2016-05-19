@@ -246,7 +246,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         FeedbackSessionResultsBundle bundle,
                         String view) {
         
-        if (view.equals("student") || responses.isEmpty()) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         

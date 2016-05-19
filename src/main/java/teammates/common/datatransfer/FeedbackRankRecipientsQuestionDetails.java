@@ -177,7 +177,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         FeedbackSessionResultsBundle bundle,
                         String view) {
         
-        if (view.equals("student") || responses.isEmpty()) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         

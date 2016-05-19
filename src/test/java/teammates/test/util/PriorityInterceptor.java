@@ -79,13 +79,13 @@ public class PriorityInterceptor implements IMethodInterceptor {
                     return -1000000;
                 }
 
+
                 int index = packageOrder.indexOf(packageName);
 
-                if (index != -1) {
-                    return -index;
-                } else {
+                if (index == -1) {
                     return 0;
-                }
+                } 
+                return -index;
             }
 
             public int compare(IMethodInstance m1, IMethodInstance m2) {
