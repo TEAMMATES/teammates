@@ -104,17 +104,14 @@ public class AdminSessionsPageData extends PageData {
         List<InstructorAttributes> instructors = logic
                 .getInstructorsForEmail(email);
 
-
         if (instructors == null || instructors.isEmpty()) {
             return "";
         }
         
-        
         String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-        link = "href=\"" + link + "\"";
-        return link;
+        return "href=\"" + link + "\"";
     }
 
     @SuppressWarnings("deprecation")
@@ -162,27 +159,24 @@ public class AdminSessionsPageData extends PageData {
     
     public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
         
-        String status = "";
+        StringBuilder status = new StringBuilder(100);
         if (fs.isClosed()) {
-            status += "[Closed]";   
+            status.append("[Closed]");   
         }
         if (fs.isOpened()) {
-            status += "[Opened]";
+            status.append("[Opened]");
         }
         if (fs.isWaitingToOpen()) {
-            status += "[Waiting To Open]";
+            status.append("[Waiting To Open]");   
         }
         if (fs.isPublished()) {
-            status += "[Published]";
+            status.append("[Published]");
         }
         if (fs.isInGracePeriod()) {
-            status +=  "[Grace Period]";   
+            status.append("[Grace Period]");
         }
           
-        status = status.isEmpty() ? "No Status" : status;
-        
-        return status;
-        
+        return status.length() == 0 ? "No Status" : status.toString();
     }
     
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(

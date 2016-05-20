@@ -36,8 +36,9 @@ public class FeedbackResponsesLogic {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
     public static FeedbackResponsesLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackResponsesLogic();
+        }
         return instance;
     }
 

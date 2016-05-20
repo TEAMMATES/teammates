@@ -373,13 +373,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("private.session").toString());
         
-        String actualSessions = "";
+        StringBuilder actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%"
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
         
+        String actualSessions = actualSessionsBuilder.toString();
         ______TS("standard session");
         
         assertEquals(4, detailsList.size());
@@ -452,12 +454,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor2OfCourse1").googleId);
         
         detailsMap.clear();
-        actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
+        actualSessions = actualSessionsBuilder.toString();
         
         AssertHelper.assertContains(expectedSessions, actualSessions);   
         
@@ -485,12 +489,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         detailsMap.clear();
         actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                           + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
-        
+        actualSessions = actualSessionsBuilder.toString();
         AssertHelper.assertContains(expectedSessions, actualSessions);  
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
                 + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
@@ -2125,16 +2131,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
-        String tableString = "";
+        StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableString += "{";
-            tableString += entry.getKey().toString();
-            tableString += "={";
-            tableString += String.valueOf(entry.getValue()[0]);
-            tableString += ",";
-            tableString += String.valueOf(entry.getValue()[1]);
-            tableString += "}},";
+            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+                                      + entry.getValue()[0] + ','
+                                      + entry.getValue()[1] + "}},");
         }
+        String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {
             tableString = tableString.substring(0, tableString.length() - 1);
         }

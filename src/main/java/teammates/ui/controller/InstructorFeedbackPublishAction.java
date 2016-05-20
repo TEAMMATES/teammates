@@ -37,9 +37,7 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
             setStatusForException(e);
         }
         
-        nextUrl = nextUrl == null 
-                ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE 
-                : nextUrl;
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; //NOPMD
         
         return createRedirectResult(nextUrl);
     }

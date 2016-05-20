@@ -176,9 +176,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             /* Change display name to 'You' or 'Your team' if necessary */
             boolean isUserGiver = student.email.equals(response.giverEmail);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
-            if (question.giverType == FeedbackParticipantType.TEAMS
-                && isUserPartOfGiverTeam) {
-                giverName = "Your Team (" + giverName + ")";
+            if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
+                giverName = "Your Team (" + giverName + ")"; // NOPMD
             } else if (isUserGiver) {
                 giverName = "You";
             }

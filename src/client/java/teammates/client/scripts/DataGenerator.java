@@ -190,129 +190,124 @@ public final class DataGenerator {
      */
     public static String output() {
         System.out.println("Start writing to file !");
-        String output = "{\n";
-        output += allAccounts() + "\n\n";
-        output += allCourses() + "\n\n";
-        output += allInstructors() + "\n\n";
-        output += allStudents() + "\n\n";
-        output += "}";
+        String output = "{\n" + allAccounts() + "\n\n"
+                      + allCourses() + "\n\n"
+                      + allInstructors() + "\n\n"
+                      + allStudents() + "\n\n}";
         
         System.out.println("Finish writing to file !");
         return output;
     }
     
     public static String allAccounts() {
-        String output = "\"accounts\":{\n";
+        StringBuilder outputBuilder = new StringBuilder(100);
+        outputBuilder.append("\"accounts\":{\n");
         for (String email : studentEmails) {
             email = email.split("@")[0];
-            output += "\t" + account(email);
-            output += ",\n";
+            outputBuilder.append('\t').append(account(email));
+            outputBuilder.append(",\n");
         }
-        output = output.substring(0, output.length() - 2);
-        output += "\n},";
-        return output;
+        String output = outputBuilder.substring(0, outputBuilder.length() - 2);
+        return output + "\n},";
     }
     
     /**
      * @return Json string presentation for all instructors
      */
     public static String allInstructors() {
-        String output = "\"instructors\":{\n";
+        StringBuilder outputBuilder = new StringBuilder(100); 
+        outputBuilder.append("\"instructors\":{\n");
         for (String instructor : instructors.keySet()) {
             String course = PREFIX + instructors.get(instructor);
-            instructor = PREFIX + instructor;
-            output += "\t" + instructor(instructor, "googleIdOf_" + instructor, "courseIdOf_" + course, "nameOf_" + instructor, "emailOf_" + instructor + "@gmail.com");
-            output += ",\n";
+            String instructorWithPrefix = PREFIX + instructor;
+            outputBuilder.append('\t')
+                         .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix, 
+                                            "courseIdOf_" + course, "nameOf_" + instructorWithPrefix, 
+                                            "emailOf_" + instructorWithPrefix + "@gmail.com"))
+                         .append(",\n");
         }
-        output = output.substring(0, output.length() - 2);
-        output += "\n},";
-        return output;
+        String output = outputBuilder.substring(0, outputBuilder.length() - 2);
+        return output + "\n},";
+
     }
     
     /**
      * @return Json string presentation for all courses
      */
     public static String allCourses() {
-        String output = "\"courses\":{\n";
+        StringBuilder output = new StringBuilder(100); 
+        output.append("\"courses\":{\n");
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX + courses.get(i);
-            output += "\t" + course(course, "courseIdOf_" + course, "nameOf_" + course);
-            if (i != courses.size() - 1)
-                output += ",\n";
+
+            output.append('\t').append(course(course, "courseIdOf_" + course, "nameOf_" + course));
+            if (i != courses.size() - 1) {
+                output.append(",\n");
+            }
         }
-        output += "\n},";
-        return output;
+        return output.append("\n},").toString();
     }
     
     /**
      * @return Json string presentation for all students
      */
     public static String allStudents() {
-        String output = "\"students\":{\n";
+        StringBuilder outputBuilder = new StringBuilder(100); 
+        outputBuilder.append("\"students\":{\n");
         for (int i = 0; i < students.size(); i++) {
             String student = students.get(i);
             String index = student.split("Stu")[1].split("Team")[0];
             String team  = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
-            output += "\t" + student(student, email, "Student " + index + " in " + course,
-                    "Team " + team, email.split("@")[0], "comment", "courseIdOf_" + course, "profile");
-            if (i != students.size() - 1)
-                output += ",\n";
+
+            outputBuilder.append('\t')
+                         .append(student(student, email, "Student " + index + " in " + course,
+                                        "Team " + team, email.split("@")[0], "comment", 
+                                        "courseIdOf_" + course, "profile"));
+            if (i != students.size() - 1) {
+                outputBuilder.append(",\n");
+            }
         }
-        output += "\n},";
-        return output;
+        return outputBuilder.append("\n},").toString();
     }
 
     public static String account(String acc) {
-        String result = "\"" + acc + "\":{";
-        result += "\"googleId\":\"" + acc + "\",";
-        result += "\"name\":\"" + acc + "\",";
-        result += "\"email\":\"" + acc + "@gmail.com\",";
-        result += "\"institute\":\"\"";
-        result += "}";
-        return result;
+        return "\"" + acc
+              + "\":{\"googleId\":\"" + acc
+              + "\",\"name\":\"" + acc
+              + "\",\"email\":\"" + acc + "@gmail.com\",\"institute\":\"\"}";
     }
     
     /**
      * @return Json string presentation for a instructor entity
      */
     public static String instructor(String objName, String googleId, String courseId, String name, String email) {
-        String result = "\"" + objName + "\":{";
-        result += "\"googleId\":\"" + googleId + "\",";
-        result += "\"courseId\":\"" + courseId + "\",";
-        result += "\"name\":\"" + name + "\",";
-        result += "\"email\":\"" + email + "\"";
-        result += "}";
-        return result;
+        return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\"" 
+               + courseId + "\",\"name\":\"" + name + "\",\"email\":\"" + email + "\"}";
     }
     
     /**
      * @return Json string presentation for a course entity
      */
     public static String course(String objName, String id, String name) {
-        String result = "\"" + objName + "\":{";
-        result += "\"id\":\"" + id + "\",";
-        result += "\"name\":\"" + name + "\"";
-        result += "}";
-        return result;
+        return "\"" + objName + "\":{\"id\":\"" + id + "\",\"name\":\"" + name + "\"}";
     }
     
     /**
      * @return Json string presentation for a student entity
      */
     public static String student(String objName, String email, String name, 
-            String team, String id, String comments, String course, String profile) {
-        String result = "\"" + objName + "\":{";
-        result += "\"email\":\"" + email + "\",";
-        result += "\"name\":\"" + name + "\",";
-        result += "\"team\":\"" + team + "\",";
-        result += "\"id\":\"" + id + "\",";
-        result += "\"comments\":\"" + comments + "\",";
-        result += "\"course\":\"" + course + "\",";
-        result += "\"profile\":{\"value\": \"" + name + "\"}";
-        result += "}";
-        return result;
+                                  String team, String id, String comments, String course, String profile) {
+        return "\"" + objName + "\":{"
+               + "\"email\":\"" + email + "\","
+               + "\"name\":\"" + name + "\","
+               + "\"team\":\"" + team + "\","
+               + "\"id\":\"" + id + "\","
+               + "\"comments\":\"" + comments + "\","
+               + "\"course\":\"" + course + "\","
+               + "\"profile\":{\"value\": \"" + name + "\"}"
+               + "}";
     }
     
     /*helper methods*/
