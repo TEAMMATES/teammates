@@ -839,24 +839,24 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         actualStrings.clear();
         
         // case: Unknown User
-        String UnknownUserName = Const.USER_UNKNOWN_TEXT;
+        String unknownUserName = Const.USER_UNKNOWN_TEXT;
         String someTeamName = "Some Team Name";
-        UnknownUserName = results.appendTeamNameToName(UnknownUserName, someTeamName);
-        actualStrings.add(UnknownUserName);
+        unknownUserName = results.appendTeamNameToName(unknownUserName, someTeamName);
+        actualStrings.add(unknownUserName);
         
         // case: Nobody
-        String NobodyUserName = Const.USER_NOBODY_TEXT;
-        NobodyUserName = results.appendTeamNameToName(NobodyUserName, someTeamName);
-        actualStrings.add(NobodyUserName);
+        String nobodyUserName = Const.USER_NOBODY_TEXT;
+        nobodyUserName = results.appendTeamNameToName(nobodyUserName, someTeamName);
+        actualStrings.add(nobodyUserName);
         
         // case: Anonymous User
-        String AnonymousUserName = "Anonymous " + System.currentTimeMillis();
-        AnonymousUserName = results.appendTeamNameToName(AnonymousUserName, someTeamName);
-        actualStrings.add(AnonymousUserName);
+        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
+        actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
                 Const.USER_UNKNOWN_TEXT,
                 Const.USER_NOBODY_TEXT,
-                AnonymousUserName);
+                anonymousUserName);
         assertEquals(expectedStrings.toString(), actualStrings.toString());
         
         // Test the generated response visibilityTable for userNames.        

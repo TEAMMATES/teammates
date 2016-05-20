@@ -196,7 +196,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.resultsVisibleFromTime.getTime();
         long dataBundleResultsVisibleFromTime = dataBundle.feedbackSessions.get("session1InCourse1")
                                                                            .resultsVisibleFromTime.getTime();
-        long TOLERANCE_TIME_IN_MILLISECONDS = 1000;
+        final long TOLERANCE_TIME_IN_MILLISECONDS = 1000;
         if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < TOLERANCE_TIME_IN_MILLISECONDS) {
             // change to the value that will never make the test fail
             dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = 
