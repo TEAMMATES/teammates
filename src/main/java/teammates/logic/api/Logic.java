@@ -587,24 +587,24 @@ public class Logic {
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
             throws EntityDoesNotExistException {
 
-         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-         Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
-         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
          
-         return instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
+        return instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
          
-     }
+    }
      
-     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) 
-             throws InvalidParametersException {
+    public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) 
+            throws InvalidParametersException {
          
-         List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, 
+        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, 
                                                                                               institute, email);
          
-         if (!invalidityInfo.isEmpty()) {
-             throw new InvalidParametersException(invalidityInfo);
-         } 
-     }
+        if (!invalidityInfo.isEmpty()) {
+            throw new InvalidParametersException(invalidityInfo);
+        }
+    }
 
     /**
      * Removes instructor access but does not delete the account. 

@@ -356,9 +356,8 @@ public class ActivityLogEntry {
         String style = "";
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
-           || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
-            
-                style = "text-danger";      
+             || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
+            style = "text-danger";
         } else {
             style = "text-success bold";
         }
@@ -420,7 +419,7 @@ public class ActivityLogEntry {
             className = "btn-info";
         }
         return className;
-   }
+    }
 
     public String getUrlToShow() {
         String urlToShow = url;

@@ -166,16 +166,16 @@ public class AdminSessionsPageData extends PageData {
         if (fs.isClosed()) {
             status += "[Closed]";   
         }
-          if (fs.isOpened()) {
-            status += "[Opened]";    
-        } 
-          if (fs.isWaitingToOpen()) {
-            status +=  "[Waiting To Open]";   
-        } 
-          if (fs.isPublished()) {
-            status +=  "[Published]";   
+        if (fs.isOpened()) {
+            status += "[Opened]";
         }
-          if (fs.isInGracePeriod()) {
+        if (fs.isWaitingToOpen()) {
+            status += "[Waiting To Open]";
+        }
+        if (fs.isPublished()) {
+            status += "[Published]";
+        }
+        if (fs.isInGracePeriod()) {
             status +=  "[Grace Period]";   
         }
           

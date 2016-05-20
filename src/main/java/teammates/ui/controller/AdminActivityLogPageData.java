@@ -45,9 +45,11 @@ public class AdminActivityLogPageData extends PageData {
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
-                                                      //this servlet name is set in CompileLogsServlet
-                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
+    private static String[] excludedLogRequestURIs = {
+            Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
+            // this servlet name is set in CompileLogsServlet
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION
+    };
     
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
@@ -438,36 +440,36 @@ public class AdminActivityLogPageData extends PageData {
          */
         public void add(String label, String[] values) throws Exception {
             switch (label) {
-            case "request":
-                isRequestInQuery = true;
-                requestValues = values;
-                break;
-            case "response":
-                isResponseInQuery = true;
-                responseValues = values;
-                break;
-            case "person":
-                isPersonInQuery = true;
-                personValue = values[0];
-                break;
-            case "role":
-                isRoleInQuery = true;
-                roleValues = values;
-                break;
-            case "time":
-                isCutoffInQuery = true;
-                cutoffValue = Long.parseLong(values[0]);
-                break;
-            case "info":
-                isInfoInQuery = true;
-                infoValues = values;
-                break;
-            case "id":
-                isIdInQuery = true;
-                idValues = values;
-                break;
-            default:
-                throw new Exception("Invalid label");
+                case "request":
+                    isRequestInQuery = true;
+                    requestValues = values;
+                    break;
+                case "response":
+                    isResponseInQuery = true;
+                    responseValues = values;
+                    break;
+                case "person":
+                    isPersonInQuery = true;
+                    personValue = values[0];
+                    break;
+                case "role":
+                    isRoleInQuery = true;
+                    roleValues = values;
+                    break;
+                case "time":
+                    isCutoffInQuery = true;
+                    cutoffValue = Long.parseLong(values[0]);
+                    break;
+                case "info":
+                    isInfoInQuery = true;
+                    infoValues = values;
+                    break;
+                case "id":
+                    isIdInQuery = true;
+                    idValues = values;
+                    break;
+                default:
+                    throw new Exception("Invalid label");
             }
         }
     }

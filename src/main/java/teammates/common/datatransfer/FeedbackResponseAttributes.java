@@ -224,7 +224,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-       return responseMetaData == null; 
+        return responseMetaData == null; 
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {

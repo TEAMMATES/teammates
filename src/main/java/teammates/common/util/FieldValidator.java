@@ -375,38 +375,38 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case STUDENT_ROLE_COMMENTS:
-            returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
-            break;
-        case TEAM_NAME:
-            returnValue = getValidityInfoForAllowedName(
-            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
-            break;
-        case SECTION_NAME:
-            returnValue = getValidityInfoForAllowedName(
-            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
-            break;
-        case GOOGLE_ID:
-            returnValue = getInvalidInfoForGoogleId((String) value);
-            break;
-        case COURSE_ID:
-            returnValue = getValidityInfoForCourseId((String) value);
-            break;
-        case EMAIL:
-            returnValue = getValidityInfoForEmail((String) value);
-            break;
-        case INTRUCTOR_ROLE:
-            returnValue = getValidityInfoForInstructorRole((String) value);
-            break;
-        case EMAIL_SUBJECT:
-            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
-            break;
-        case EMAIL_CONTENT:
-            returnValue = this.getValidityInfoForEmailContent((Text) value);
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type : " + fieldType);
+            case STUDENT_ROLE_COMMENTS:
+                returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
+                        STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
+                break;
+            case TEAM_NAME:
+                returnValue = getValidityInfoForAllowedName(
+                TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
+                break;
+            case SECTION_NAME:
+                returnValue = getValidityInfoForAllowedName(
+                SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
+                break;
+            case GOOGLE_ID:
+                returnValue = getInvalidInfoForGoogleId((String) value);
+                break;
+            case COURSE_ID:
+                returnValue = getValidityInfoForCourseId((String) value);
+                break;
+            case EMAIL:
+                returnValue = getValidityInfoForEmail((String) value);
+                break;
+            case INTRUCTOR_ROLE:
+                returnValue = getValidityInfoForInstructorRole((String) value);
+                break;
+            case EMAIL_SUBJECT:
+                returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
+                break;
+            case EMAIL_CONTENT:
+                returnValue = this.getValidityInfoForEmailContent((Text) value);
+                break;
+            default:
+                throw new AssertionError("Unrecognized field type : " + fieldType);
         }
         
         if (fieldName.isEmpty() || returnValue.isEmpty()) {
@@ -486,8 +486,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public String getInvalidityInfoForInstituteName(String instituteName) {
-         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                              instituteName);
+        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                             instituteName);
     }
 
     /**
@@ -658,37 +658,37 @@ public class FieldValidator {
         }
         
         switch (earlierFieldType) {
-        case START_TIME:
-            earlierFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            earlierFieldName = END_TIME_FIELD_NAME; 
-            break;
-        case SESSION_VISIBLE_TIME:
-            earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;
-        case RESULTS_VISIBLE_TIME:
-            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
+            case START_TIME:
+                earlierFieldName = START_TIME_FIELD_NAME;
+                break;
+            case END_TIME:
+                earlierFieldName = END_TIME_FIELD_NAME; 
+                break;
+            case SESSION_VISIBLE_TIME:
+                earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
+                break;
+            case RESULTS_VISIBLE_TIME:
+                earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+                break;
+            default:
+                throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
         }
         
         switch (laterFieldType) {
-        case START_TIME:
-            laterFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            laterFieldName = END_TIME_FIELD_NAME; 
-            break;
-        case SESSION_VISIBLE_TIME:
-            laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;    
-        case RESULTS_VISIBLE_TIME:
-            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
+            case START_TIME:
+                laterFieldName = START_TIME_FIELD_NAME;
+                break;
+            case END_TIME:
+                laterFieldName = END_TIME_FIELD_NAME; 
+                break;
+            case SESSION_VISIBLE_TIME:
+                laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
+                break;    
+            case RESULTS_VISIBLE_TIME:
+                laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+                break;
+            default:
+                throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
         }
         
         if (laterTime.before(earlierTime)) {
@@ -895,5 +895,5 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
-     }
+    }
 }

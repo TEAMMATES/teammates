@@ -766,8 +766,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-       return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
-            + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
+             + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
     
     @Override

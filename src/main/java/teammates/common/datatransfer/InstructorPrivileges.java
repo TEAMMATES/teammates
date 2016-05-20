@@ -132,24 +132,24 @@ public final class InstructorPrivileges {
     public InstructorPrivileges(String instrRole) {
         this();
         switch (instrRole) {
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            setDefaultPrivilegesForCoowner();
-            break;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            setDefaultPrivilegesForManager();
-            break;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            setDefaultPrivilegesForObserver();
-            break;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            setDefaultPrivilegesForTutor();
-            break;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            setDefaultPrivilegesForCustom();
-            break;
-        default:
-            setDefaultPrivilegesForCustom();
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+                setDefaultPrivilegesForCoowner();
+                break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+                setDefaultPrivilegesForManager();
+                break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+                setDefaultPrivilegesForObserver();
+                break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+                setDefaultPrivilegesForTutor();
+                break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+                setDefaultPrivilegesForCustom();
+                break;
+            default:
+                setDefaultPrivilegesForCustom();
+                break;
         }
     }
     

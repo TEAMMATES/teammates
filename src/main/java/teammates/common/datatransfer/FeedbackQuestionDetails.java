@@ -117,7 +117,7 @@ public abstract class FeedbackQuestionDetails {
      * @return boolean indicating if individual responses are to be shown to students.
      */
     public boolean isIndividualResponsesShownToStudents() {
-       return true;
+        return true;
     }
 
     /**
@@ -192,7 +192,7 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
                                          FeedbackSessionResultsBundle bundle,
                                          FeedbackQuestionAttributes question) {
-       return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
 
     /**

@@ -63,7 +63,7 @@ public class FeedbackSessionDetailsBundle {
         StringBuilder sb = new StringBuilder(100);
         sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
                 + Const.EOL)
-          .append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
+            .append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
         return sb.toString();
     }
 }

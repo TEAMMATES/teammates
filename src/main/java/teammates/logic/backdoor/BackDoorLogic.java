@@ -204,28 +204,28 @@ public class BackDoorLogic extends Logic {
 
         switch (instructor.getRole()) {
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            break;
-
-        default:
-            Assumption.fail("Invalid instructor permission role name");
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+                Assumption.assertTrue(privileges.hasCoownerPrivileges());
+                break;
+    
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+                Assumption.assertTrue(privileges.hasManagerPrivileges());
+                break;
+    
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+                Assumption.assertTrue(privileges.hasObserverPrivileges());
+                break;
+    
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+                Assumption.assertTrue(privileges.hasTutorPrivileges());
+                break;
+    
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+                break;
+    
+            default:
+                Assumption.fail("Invalid instructor permission role name");
+                break;
         }
     }
 

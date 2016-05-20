@@ -244,26 +244,26 @@ public class FeedbackResponsesLogic {
         }
 
         switch (role) {
-        case STUDENT:
-            addNewResponses(
-                    viewableResponses,
-                    // many queries
-                    getViewableFeedbackResponsesForStudentForQuestion(question,
-                            userEmail));
-            break;
-        case INSTRUCTOR:
-            if (question
-                    .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
+            case STUDENT:
                 addNewResponses(
                         viewableResponses,
-                        getFeedbackResponsesForQuestionInSection(
-                                question.getId(), section));
-            }
-            break;
-        default:
-            Assumption
-                    .fail("The role of the requesting use has to be Student or Instructor");
-            break;
+                        // many queries
+                        getViewableFeedbackResponsesForStudentForQuestion(question,
+                                userEmail));
+                break;
+            case INSTRUCTOR:
+                if (question
+                        .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
+                    addNewResponses(
+                            viewableResponses,
+                            getFeedbackResponsesForQuestionInSection(
+                                    question.getId(), section));
+                }
+                break;
+            default:
+                Assumption
+                        .fail("The role of the requesting use has to be Student or Instructor");
+                break;
         }
 
         return viewableResponses;
@@ -296,59 +296,59 @@ public class FeedbackResponsesLogic {
                                                  : question.showRecipientNameTo;
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
-            case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null && role == UserType.Role.INSTRUCTOR) {
-                    return true;
-                } else {
-                    break;
-                }
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
-                    return true;
-                } else {
-                    break;
-                }
-            case RECEIVER:
-                // Response to team
-                if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, /* this is a team name */
-                            response.recipientEmail)) {
+                case INSTRUCTORS:
+                    if (roster.getInstructorForEmail(userEmail) != null && role == UserType.Role.INSTRUCTOR) {
                         return true;
+                    } else {
+                        break;
                     }
-                    break;
-                    // Response to individual
-                } else if (response.recipientEmail.equals(userEmail)) {
-                    return true;
-                } else {
-                    break;
-                }
-            case RECEIVER_TEAM_MEMBERS:
-                // Response to team; recipient = teamName
-                if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, /* this is a team name */
-                            response.recipientEmail)) {
+                case OWN_TEAM_MEMBERS:
+                case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                    // Refers to Giver's Team Members
+                    if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
                         return true;
+                    } else {
+                        break;
                     }
+                case RECEIVER:
+                    // Response to team
+                    if (question.recipientType.isTeam()) {
+                        if (roster.isStudentInTeam(userEmail, /* this is a team name */
+                                response.recipientEmail)) {
+                            return true;
+                        }
+                        break;
+                        // Response to individual
+                    } else if (response.recipientEmail.equals(userEmail)) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                case RECEIVER_TEAM_MEMBERS:
+                    // Response to team; recipient = teamName
+                    if (question.recipientType.isTeam()) {
+                        if (roster.isStudentInTeam(userEmail, /* this is a team name */
+                                response.recipientEmail)) {
+                            return true;
+                        }
+                        break;
+                        // Response to individual
+                    } else if (roster.isStudentsInSameTeam(response.recipientEmail,
+                            userEmail)) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                case STUDENTS:
+                    if (roster.isStudentInCourse(userEmail)) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                default:
+                    Assumption.fail("Invalid FeedbackPariticipantType for showNameTo in "
+                                    + "FeedbackResponseLogic.isNameVisible()");
                     break;
-                    // Response to individual
-                } else if (roster.isStudentsInSameTeam(response.recipientEmail,
-                        userEmail)) {
-                    return true;
-                } else {
-                    break;
-                }
-            case STUDENTS:
-                if (roster.isStudentInCourse(userEmail)) {
-                    return true;
-                } else {
-                    break;
-                }
-            default:
-                Assumption.fail("Invalid FeedbackPariticipantType for showNameTo in "
-                                + "FeedbackResponseLogic.isNameVisible()");
-                break;
             }
         }
         return false;
@@ -587,7 +587,7 @@ public class FeedbackResponsesLogic {
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
         return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-           || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+               || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
     
     public void updateFeedbackResponseForChangingSection(

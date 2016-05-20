@@ -446,7 +446,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                     List<String> creatorEmail = new ArrayList<String>();
                     creatorEmail.add(fqa.creatorEmail);
                     return creatorEmail;
-                 default:
+                default:
                     log.severe("Invalid giver type specified");
                     return new ArrayList<String>();
             }
@@ -1019,7 +1019,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
         if (name.contains("Anonymous") || name.equals(Const.USER_UNKNOWN_TEXT)
-         || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
+             || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
             outputName = name;
         } else {
             outputName = name + " (" + teamName + ")";
@@ -1116,7 +1116,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                    ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
                    : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
-                 && responsesForOneRecipient != null) {
+                     && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),
                                                  responsesForOneRecipientOneQuestion);
                 }
@@ -1141,7 +1141,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesForOneRecipientOneQuestion.add(response);
         }
         if (questionId != null && responsesForOneRecipientOneQuestion != null
-         && responsesForOneRecipient != null) {
+             && responsesForOneRecipient != null) {
             responsesForOneRecipient.put(questions.get(questionId),
                                          responsesForOneRecipientOneQuestion);
         }
@@ -1170,7 +1170,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                             ? getNameForEmail(response.giverEmail).equals(giverTeam)
                             : getTeamNameForEmail(response.giverEmail).equals(giverTeam))) {
                 if (questionId != null && responsesFromOneGiverOneQuestion != null
-                 && responsesFromOneGiver != null) {
+                     && responsesFromOneGiver != null) {
                     responsesFromOneGiver.put(questions.get(questionId),
                                               responsesFromOneGiverOneQuestion);
                 }
@@ -1195,7 +1195,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesFromOneGiverOneQuestion.add(response);
         }
         if (questionId != null && responsesFromOneGiverOneQuestion != null
-         && responsesFromOneGiver != null) {
+             && responsesFromOneGiver != null) {
             responsesFromOneGiver.put(questions.get(questionId),
                                       responsesFromOneGiverOneQuestion);
         }
@@ -1232,7 +1232,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             if (recipient == null || !response.recipientEmail.equals(recipient)) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
-                 && responsesForOneRecipient != null) {
+                     && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),
                                                  responsesForOneRecipientOneQuestion);
                 }
@@ -1255,7 +1255,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesForOneRecipientOneQuestion.add(response);
         }
         if (questionId != null && responsesForOneRecipientOneQuestion != null
-         && responsesForOneRecipient != null) {
+             && responsesForOneRecipient != null) {
             responsesForOneRecipient.put(questions.get(questionId),
                                          responsesForOneRecipientOneQuestion);
         }
@@ -1437,7 +1437,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             if (giver == null || !response.giverEmail.equals(giver)) {
                 if (questionId != null && responsesFromOneGiverOneQuestion != null
-                 && responsesFromOneGiver != null) {
+                     && responsesFromOneGiver != null) {
                     responsesFromOneGiver.put(questions.get(questionId),
                                               responsesFromOneGiverOneQuestion);
                 }
@@ -1460,7 +1460,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesFromOneGiverOneQuestion.add(response);
         }
         if (questionId != null && responsesFromOneGiverOneQuestion != null
-         && responsesFromOneGiver != null) {
+             && responsesFromOneGiver != null) {
             responsesFromOneGiver.put(questions.get(questionId),
                                       responsesFromOneGiverOneQuestion);
         }

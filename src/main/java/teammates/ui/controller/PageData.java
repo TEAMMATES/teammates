@@ -161,18 +161,18 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-       List<Double> options = TimeHelper.getTimeZoneValues();
-       ArrayList<String> result = new ArrayList<String>();
-       if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-       }
-       for (Double timeZoneOption : options) {
-           String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
-           result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
-                      + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
-                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-       }
-       return result;
+        List<Double> options = TimeHelper.getTimeZoneValues();
+        ArrayList<String> result = new ArrayList<String>();
+        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
+        }
+        for (Double timeZoneOption : options) {
+            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
+            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
+                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
+                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
+        }
+        return result;
     }
     
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
@@ -709,7 +709,7 @@ public class PageData {
 
     public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
-             return "Private";
+            return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
@@ -781,35 +781,35 @@ public class PageData {
             }
             
             switch (commentViewer) {
-            case PERSON :
-                peopleCanView.append("recipient, ");
-                break;
-            case TEAM :
-                if (comment.recipientType == CommentParticipantType.TEAM) {
-                    peopleCanView.append("recipient team, ");
-                } else {
-                    peopleCanView.append("recipient's team, ");
-                }
-                break;
-            case SECTION :
-                if (comment.recipientType == CommentParticipantType.SECTION) {
-                    peopleCanView.append("recipient section, ");
-                } else {
-                    peopleCanView.append("recipient's section, ");
-                }
-                break;
-            case COURSE :
-                if (comment.recipientType == CommentParticipantType.COURSE) {
-                    peopleCanView.append("the whole class, ");
-                } else {
-                    peopleCanView.append("other students in this course, ");
-                }
-                break;
-            case INSTRUCTOR :
-                peopleCanView.append("instructors, ");
-                break;
-            default :
-                break;
+                case PERSON :
+                    peopleCanView.append("recipient, ");
+                    break;
+                case TEAM :
+                    if (comment.recipientType == CommentParticipantType.TEAM) {
+                        peopleCanView.append("recipient team, ");
+                    } else {
+                        peopleCanView.append("recipient's team, ");
+                    }
+                    break;
+                case SECTION :
+                    if (comment.recipientType == CommentParticipantType.SECTION) {
+                        peopleCanView.append("recipient section, ");
+                    } else {
+                        peopleCanView.append("recipient's section, ");
+                    }
+                    break;
+                case COURSE :
+                    if (comment.recipientType == CommentParticipantType.COURSE) {
+                        peopleCanView.append("the whole class, ");
+                    } else {
+                        peopleCanView.append("other students in this course, ");
+                    }
+                    break;
+                case INSTRUCTOR :
+                    peopleCanView.append("instructors, ");
+                    break;
+                default :
+                    break;
             }
         }
         String peopleCanViewString = peopleCanView.toString();
@@ -838,26 +838,26 @@ public class PageData {
             }
             
             switch (commentViewer) {
-            case GIVER :
-                peopleCanView.append("response giver, ");
-                break;
-            case RECEIVER :
-                peopleCanView.append("response recipient, ");
-                break;
-            case OWN_TEAM :
-                peopleCanView.append("response giver's team, ");
-                break;
-            case RECEIVER_TEAM_MEMBERS :
-                peopleCanView.append("response recipient's team, ");
-                break;
-            case STUDENTS :
-                peopleCanView.append("other students in this course, ");
-                break;
-            case INSTRUCTORS :
-                peopleCanView.append("instructors, ");
-                break;
-            default :
-                break;
+                case GIVER :
+                    peopleCanView.append("response giver, ");
+                    break;
+                case RECEIVER :
+                    peopleCanView.append("response recipient, ");
+                    break;
+                case OWN_TEAM :
+                    peopleCanView.append("response giver's team, ");
+                    break;
+                case RECEIVER_TEAM_MEMBERS :
+                    peopleCanView.append("response recipient's team, ");
+                    break;
+                case STUDENTS :
+                    peopleCanView.append("other students in this course, ");
+                    break;
+                case INSTRUCTORS :
+                    peopleCanView.append("instructors, ");
+                    break;
+                default :
+                    break;
             }
         }
         String peopleCanViewString = peopleCanView.toString();

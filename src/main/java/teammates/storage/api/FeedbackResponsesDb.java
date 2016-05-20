@@ -115,7 +115,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-         return (FeedbackResponse) getEntity(response); 
+        return (FeedbackResponse) getEntity(response); 
     }
     
     /**
