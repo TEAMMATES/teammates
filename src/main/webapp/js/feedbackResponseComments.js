@@ -6,7 +6,7 @@ var addCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).closest('form');
-    var addFormRow = formObject.parent();
+    var addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
@@ -67,7 +67,7 @@ var editCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).closest('form');
-    var displayedText = formObject.prev();
+    var displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     var commentBar = displayedText.parent().find('div[id^=commentBar]');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
