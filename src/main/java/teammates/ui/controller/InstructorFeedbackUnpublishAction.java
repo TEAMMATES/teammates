@@ -10,7 +10,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAction {
+public class InstructorFeedbackUnpublishAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);

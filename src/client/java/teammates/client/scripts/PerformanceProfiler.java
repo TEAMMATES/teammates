@@ -168,7 +168,6 @@ public class PerformanceProfiler extends Thread {
      * Run this script as an single-thread Java application (for simple, non-parallel profiling)
      * For parallel profiling, please use ParallelProfiler.java
      * @param args
-     * @throws Exception
      */
     public static void main(String[] args) {
         (new PerformanceProfiler(defaultReportPath)).start();

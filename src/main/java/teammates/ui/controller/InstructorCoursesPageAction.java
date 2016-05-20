@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
@@ -23,7 +22,7 @@ public class InstructorCoursesPageAction extends Action {
     protected static final Logger log = Utils.getLogger();
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         /* Explanation: First, we extract any parameters from the request object.
          * e.g., idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
          * After that, we may verify parameters.

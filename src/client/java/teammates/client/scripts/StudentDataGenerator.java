@@ -18,7 +18,7 @@ public final class StudentDataGenerator {
         // script, not meant to be instantiated
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         exitIfParametersMissing(args);
         
