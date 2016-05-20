@@ -120,10 +120,8 @@ public class ImportData {
             count++;
             itr.remove();
             System.out.print(key + "\n");
-            if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST) {
-                break;
-            }
-            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {
+            if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST
+                || count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {
                 break;
             }
         }
