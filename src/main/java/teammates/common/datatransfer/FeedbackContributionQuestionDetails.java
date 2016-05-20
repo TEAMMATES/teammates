@@ -869,8 +869,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "0%"; // Do none
         } else if (i == Const.POINTS_NOT_SURE) {
             return "Not Sure";
-        } else if (i == Const.POINTS_NOT_SUBMITTED) {
-            return "";
         } else {
             return "";
         }
