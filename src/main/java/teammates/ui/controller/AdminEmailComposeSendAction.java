@@ -229,8 +229,7 @@ public class AdminEmailComposeSendAction extends Action {
     private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
     private void moveJobToGroupModeTaskQueue() {

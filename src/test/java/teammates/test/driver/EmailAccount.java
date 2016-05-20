@@ -16,7 +16,11 @@ import javax.mail.search.FlagTerm;
 
 import teammates.logic.core.Emails;
 
-public class EmailAccount {
+public final class EmailAccount {
+    
+    private EmailAccount() {
+        // utility class
+    }
 
     /**
      * Retrieve registration key sent to Gmail inbox. After retrieving, marks 

@@ -41,14 +41,12 @@ public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
     }
     
     public WebElement getSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        return button;
+        return browser.driver.findElement(By.id("response_submit_button"));
     }
     
     public WebElement getTextArea(int questionNum, int responseNum) {
         String textAreaName = "responsetext-" + questionNum + "-" + responseNum; 
-        WebElement textArea = browser.driver.findElement(By.name(textAreaName));     
-        return textArea;
+        return browser.driver.findElement(By.name(textAreaName));
     }   
     
     public void clickRubricCell(int respIndex, int row, int col) {

@@ -20,7 +20,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
-public class HtmlHelper {
+public final class HtmlHelper {
     
     private static final String INDENTATION_STEP = "  ";
     
@@ -35,6 +35,10 @@ public class HtmlHelper {
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     
     private static final TestProperties TP = TestProperties.inst();
+    
+    private HtmlHelper() {
+        // utility class
+    }
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores

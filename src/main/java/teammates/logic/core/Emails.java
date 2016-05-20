@@ -820,50 +820,32 @@ public class Emails {
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
-
-        String joinUrl;
-        if (s == null) {    
-            joinUrl = "{The join link unique for each student appears here}";
-        } else {
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        }
-
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
+        String joinUrl = s == null
+                       ? "{The join link unique for each student appears here}"
+                       : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
+        
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN)
+                        .replace("${joinUrl}", joinUrl);
     }
 
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes s, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
-
-        String joinUrl;
-        if (s == null) {    
-            joinUrl = "{The join link unique for each student appears here}";
-        } else {
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        }
-
-        return emailBody.replace("${joinUrl}", joinUrl);
+        String joinUrl = s == null
+                       ? "{The join link unique for each student appears here}"
+                       : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
+        
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET)
+                        .replace("${joinUrl}", joinUrl);
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN);
+        String joinUrl = instructor == null
+                       ? "" 
+                       : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                               .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                               .toAbsoluteString();
 
-        String joinUrl = "";
-        if (instructor != null) {
-            String key;
-            key = StringHelper.encrypt(instructor.key);
-    
-            joinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                            .withRegistrationKey(key)
-                                            .toAbsoluteString();
-        }
-
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN)
+                        .replace("${joinUrl}", joinUrl);
     }
 
     private MimeMessage getEmptyEmailAddressedToEmail(String email)
@@ -923,7 +905,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
+            return from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }

@@ -29,7 +29,10 @@ public class SearchQuery {
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
     
-    protected SearchQuery() { }
+    protected SearchQuery() {
+        // Prevents instantiation of the base SearchQuery. 
+        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead 
+    }
     
     protected void setOptions(QueryOptions options) {
         this.options = options;
@@ -63,8 +66,7 @@ public class SearchQuery {
     }
     
     private String prepareOrQueryString(String queryString) {
-        queryString = queryString.replaceAll("\"", " \" ");
-        String[] splitStrings = queryString.trim().split("\\s+");
+        String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
         String key = "";

@@ -236,8 +236,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        int retVal = (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return retVal;
+        return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     private String[] invokeSplitLineIntoColumns(String line) throws Exception {
@@ -245,8 +244,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        String[] strs = (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return strs;
+        return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     @AfterClass

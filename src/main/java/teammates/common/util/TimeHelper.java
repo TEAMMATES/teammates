@@ -17,7 +17,7 @@ import teammates.common.util.Const.SystemParams;
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  * Time zone is assumed as UTC unless specifically mentioned.
  */
-public class TimeHelper {
+public final class TimeHelper {
     
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
@@ -70,6 +70,10 @@ public class TimeHelper {
         map("13.0", "Phoenix Islands, Tokelau, Tonga");
         map("14.0", "Line Islands");
         
+    }
+    
+    private TimeHelper() {
+        // utility class
     }
         
     private static void map(String timeZone, String cities) {
@@ -422,26 +426,19 @@ public class TimeHelper {
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
-        String oldDateString = date;
         SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        Date d;
         try {
-            d = sdf.parse(oldDateString);
+            Date d = sdf.parse(date);
             sdf.applyPattern(NEW_FORMAT);
-            date = sdf.format(d);
+            int intHour = Integer.parseInt(hour);
+            String amOrPm = intHour >= 12 ? "PM" : "AM";
+            intHour = intHour >= 13 ? intHour - 12 : intHour;
+            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
         } catch (ParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
         
-        int intHour = Integer.parseInt(hour);
-        
-        String amOrPm = intHour >= 12 ? "PM" : "AM";
-        intHour = intHour >= 13 ? intHour - 12 : intHour;
-        
-        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-
-        return formatedStr;
 
     }
 

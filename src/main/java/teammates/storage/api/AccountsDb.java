@@ -96,8 +96,7 @@ public class AccountsDb extends EntitiesDb {
         }
         closePM();
         
-        AccountAttributes accAttr = new AccountAttributes(a);
-        return accAttr;
+        return new AccountAttributes(a);
     }
     
     public AccountAttributes getAccount(String googleId) {
