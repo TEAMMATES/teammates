@@ -392,13 +392,13 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoFor_GoogleId() {
-        invalidityInfoFor_nullGoogleId_shouldThowException();
+        invalidityInfoFor_nullGoogleId_shouldThrowException();
         invalidityInfoFor_googleIdWithGmailDomain_shouldThrowException();
         invalidityInfoFor_validGoogleId_shouldReturnEmptyString();
         invalidityInfoFor_invalidGoogleId_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_nullGoogleId_shouldThowException() {
+    private void invalidityInfoFor_nullGoogleId_shouldThrowException() {
         String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
         try {
             validator.getInvalidityInfoForGoogleId(null);
@@ -493,12 +493,12 @@ public class FieldValidatorTest extends BaseTestCase {
     
     @Test
     public void testGetValidityInfoEmail() {
-        invalidityInfoFor_nullEmail_shouldThowException();
+        invalidityInfoFor_nullEmail_shouldThrowException();
         invalidityInfoFor_validEmail_shouldReturnEmptyString();
         invalidityInfoFor_invalidEmail_shouldReturnErrorString();
     }
 
-    private void invalidityInfoFor_nullEmail_shouldThowException() {
+    private void invalidityInfoFor_nullEmail_shouldThrowException() {
         String errorMessage = "Did not throw the expected AssertionError for null email";
         try {
             validator.getInvalidityInfoForEmail(null);
