@@ -18,7 +18,6 @@ import com.google.appengine.api.log.RequestLogs;
 import teammates.common.util.Utils;
 import teammates.logic.core.Emails;
 
-
 public class CompileLogs {
     private static Logger log = Utils.getLogger();
     
