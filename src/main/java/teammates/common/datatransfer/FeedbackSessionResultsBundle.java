@@ -248,8 +248,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         // return person name if participant is an instructor
         if (isParticipantIdentifierInstructor(participantIdentifier)) {
-            InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-            return instructor.name;
+            return roster.getInstructorForEmail(participantIdentifier)
+                         .name;
         }
 
         // return team name if participantIdentifier is a team name
@@ -365,8 +365,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
 
         if (isStudent) {
-            StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-            return student.section;
+            return roster.getStudentForEmail(participantIdentifier)
+                         .section;
         } else if (isInstructor || participantIsGeneral) {
             return Const.USER_NOT_IN_A_SECTION;
         } else {
@@ -385,8 +385,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return new HashSet<String>();
         }
         
-        Set<String> teamMembers = new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
-        return teamMembers;
+        return new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
     }
 
     /**
@@ -398,8 +397,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
-            Set<String> teams = new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
-            return teams;
+            return new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
         } else {
             return new HashSet<String>();
         }
@@ -1678,10 +1676,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sectionToTeam;
     }
 
-    @SuppressWarnings("unused")
-    // TODO unused. Can remove?
-    private void ________________COMPARATORS_____________() {
-    }
 
     // Sorts by giverName > recipientName
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipient =
@@ -2296,6 +2290,5 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
-
 
 }

@@ -27,7 +27,7 @@ import teammates.test.driver.TestProperties;
  * 
  */
 
-public class DataGenerator {
+public final class DataGenerator {
     // Name of the result file, please do not override existing file
     public static final String FILE_NAME = "ResultFileName.json";
     // Prefix used in all entities
@@ -61,6 +61,10 @@ public class DataGenerator {
     public static ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
     
     public static Random random = new Random();
+    
+    private DataGenerator() {
+        // script, not meant to be instantiated
+    }
 
     public static void main(String[] args) throws IOException {
         String data = generateData();
@@ -114,8 +118,7 @@ public class DataGenerator {
         System.out.println("Done generating data!");
         
         //Create output string
-        String data = output();
-        return data;
+        return output();
     }
     
     /**
@@ -162,10 +165,10 @@ public class DataGenerator {
         
         //Add teams
         int teamCount = 1;
-        while (studentEmailInCourse.size() > 0) {
+        while (!studentEmailInCourse.isEmpty()) {
             long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
             ArrayList<String> team = new ArrayList<String>();
-            for (int k = 0; studentEmailInCourse.size() > 0 && k < teamSize; k++) {
+            for (int k = 0; !studentEmailInCourse.isEmpty() && k < teamSize; k++) {
                 
                 String email = studentEmailInCourse.remove(0);
                 
@@ -181,9 +184,6 @@ public class DataGenerator {
             teams.add(team);
         }
     }
-    
-    
-    
 
     /**
      * @return json string presenting the databundle 
@@ -263,9 +263,7 @@ public class DataGenerator {
         output += "\n},";
         return output;
     }
-    
 
-    
     public static String account(String acc) {
         String result = "\"" + acc + "\":{";
         result += "\"googleId\":\"" + acc + "\",";
@@ -318,8 +316,7 @@ public class DataGenerator {
     }
     
     /*helper methods*/
-    
-    
+
     /**
      * @param id - id of student
      * @return email of that student

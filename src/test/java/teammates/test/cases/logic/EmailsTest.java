@@ -44,8 +44,6 @@ import teammates.test.driver.TestProperties;
 public class EmailsTest extends BaseComponentTestCase {
     
     private String from; // For MimeMessage testing
-    private String fromEmail; // For Sendgrid testing
-    private String fromName;  // For Sendgrid testing
     private String replyTo;
     
     @BeforeClass
@@ -56,8 +54,8 @@ public class EmailsTest extends BaseComponentTestCase {
     @BeforeMethod
     public void caseSetUp() throws ServletException, IOException {
         /* For Sendgrid testing */
-        fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
-        fromName = "TEAMMATES Admin";
+        String fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        String fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
         
         /* For MimeMessage testing */

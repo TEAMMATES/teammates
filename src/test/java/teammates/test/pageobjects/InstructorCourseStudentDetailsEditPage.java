@@ -25,7 +25,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     @FindBy (id = "button_submit")
     private WebElement submitButton;
     
-
     public InstructorCourseStudentDetailsEditPage(Browser browser) {
         super(browser);
     }

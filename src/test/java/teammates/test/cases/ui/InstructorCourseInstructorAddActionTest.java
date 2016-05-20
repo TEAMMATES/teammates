@@ -13,7 +13,6 @@ import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
-
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();

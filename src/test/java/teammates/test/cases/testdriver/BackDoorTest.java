@@ -46,10 +46,6 @@ public class BackDoorTest extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
     }
 
-    @SuppressWarnings("unused")
-    private void ____SYSTEM_level_methods_________________________________() {
-    }
-    
     @Priority(-2)
     @Test
     public void testPersistence() {
@@ -113,8 +109,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         verifyAbsentInDatastore(student1InCourse1);
-        
-        
+
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
@@ -126,10 +121,6 @@ public class BackDoorTest extends BaseTestCase {
         // TODO: do proper deletion test
         BackDoor.deleteFeedbackSessions(dataBundle);
 
-    }
-    
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods_________________________________() {
     }
     
     @Test
@@ -175,10 +166,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(testAccount);
     }
 
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods_________________________________() {
-    }
-
     public void testDeleteInstructors() {
         // already tested by testPersistenceAndDeletion
     }
@@ -221,10 +208,6 @@ public class BackDoorTest extends BaseTestCase {
         // method not implemented
     }
 
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods_________________________________() {
-    }
-
     @Test
     public void testCreateCourse() throws InvalidParametersException {
         // only minimal testing because this is a wrapper method for
@@ -247,7 +230,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(course);
     }
 
-    
     public void testGetCourseAsJson() {
         // already tested by testPersistenceAndDeletion
     }
@@ -256,13 +238,8 @@ public class BackDoorTest extends BaseTestCase {
         // not implemented
     }
 
-    
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
-    }
-
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods_________________________________() {
     }
 
     @Test
@@ -351,10 +328,6 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
-    }
-
     @Test
     public void testCreateFeedbackResponse() {
 
@@ -387,18 +360,7 @@ public class BackDoorTest extends BaseTestCase {
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
         verifyAbsentInDatastore(fr);
     }
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
     
-
-    @SuppressWarnings("unused")
-    private void ____helper_methods_________________________________() {
-    }
-
-    
-
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
     }
@@ -449,7 +411,6 @@ public class BackDoorTest extends BaseTestCase {
         }
 
     }
-
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = "null";

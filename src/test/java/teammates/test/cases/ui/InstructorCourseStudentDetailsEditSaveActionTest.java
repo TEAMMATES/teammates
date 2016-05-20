@@ -16,13 +16,10 @@ import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
-
-
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -58,7 +55,6 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         };
         verifyAssumptionFailure(invalidParams);
 
-        
         ______TS("Typical case, successful edit and save student detail");
         
         String[] submissionParams = new String[]{
@@ -70,7 +66,6 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.TEAM_NAME, newStudentTeam
         };
 
-        
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
         
@@ -91,8 +86,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                                   + "<br>Comments: " + newStudentComments 
                                   + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   ";  // after trim, this is equal to newStudentEmail
@@ -128,8 +122,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                                              + "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() 
                                              + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
-        
-        
+
         ______TS("Error case, invalid email parameter (email has too many characters)");
         
         String invalidStudentEmail = StringHelper.generateStringOfLength(255 - "@gmail.tmt".length()) + "@gmail.tmt";
@@ -203,8 +196,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
         AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
-        
-        
+
         ______TS("Error case, student does not exist");
         
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
@@ -238,8 +230,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("Unsuccessful case: test null student email parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
@@ -253,8 +244,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.STUDENT_EMAIL), e.getMessage());
         }
-                
-        
+
         ______TS("Unsuccessful case: test null course id parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail
@@ -273,6 +263,5 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

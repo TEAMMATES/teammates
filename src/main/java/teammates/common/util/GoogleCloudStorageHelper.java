@@ -15,11 +15,15 @@ import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
-public class GoogleCloudStorageHelper {
+public final class GoogleCloudStorageHelper {
     
     private static GcsService gcsService;
     private static Logic logic = new Logic();
 
+    private GoogleCloudStorageHelper() {
+        // utility class
+    }
+    
     public static String writeFileToGcs(String googleId, String filename, String suffix) throws IOException {
         byte[] image = FileHelper.readFile(filename).getBytes();
         
