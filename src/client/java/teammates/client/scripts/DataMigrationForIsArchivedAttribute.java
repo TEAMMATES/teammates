@@ -54,7 +54,6 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         }
     }
 
-    
     private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
                                     EntityDoesNotExistException {
         if (course.isArchived) {

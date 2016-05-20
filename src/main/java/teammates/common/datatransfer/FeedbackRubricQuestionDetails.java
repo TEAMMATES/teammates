@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -12,6 +13,8 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
@@ -147,7 +150,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, 
                                                            Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if (description != null) {
-                    if (rowAdded == false) {
+                    if (!rowAdded) {
                         descRows++;
                         rubricDescriptions.add(new ArrayList<String>());
                         rowAdded = true;
@@ -201,19 +204,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-            || this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false
-            || newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
+            || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+            || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
-        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
-            || this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false
-            || newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
-            return true;
-        }
-        
-        return false;
+        return this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+            || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
+            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
 
     @Override
@@ -894,4 +893,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         return errors;
     }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
+    
 }

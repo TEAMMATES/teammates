@@ -129,8 +129,7 @@ public class AdminActivityLogPageData extends PageData {
         }
         return false;
     }
-    
-    
+
     /**
      * Creates a QueryParameters object used for filtering
      */
@@ -150,7 +149,7 @@ public class AdminActivityLogPageData extends PageData {
      */   
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if (ifShowAll == true) {        
+        if (ifShowAll) {        
             return false;
         }
         
@@ -284,9 +283,10 @@ public class AdminActivityLogPageData extends PageData {
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
                 isFromDateSpecifiedInQuery = true;
-                                                
+
             } else if ("to".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);
@@ -308,8 +308,7 @@ public class AdminActivityLogPageData extends PageData {
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
         return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
     }
-    
-    
+
     private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns) {
         
         String outputHtml = "<tr>";      
@@ -333,13 +332,11 @@ public class AdminActivityLogPageData extends PageData {
             outputHtml += "</ul>";
             outputHtml += "</td>";
         }
-        
-       
+
         return outputHtml;    
 
     }
-    
-    
+
     private String getStyleForListGroupItem(String actionName) {
         
         String style = "";
@@ -368,8 +365,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return rowsPerCol;
     }
-    
-     
+
     private List<String> getAllActionNames() {
        
         List<String> actionNameList = new ArrayList<String>();
@@ -382,8 +378,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return actionNameList;            
     }
-    
-    
+
     private String getActionNameStringFromField(Field field) {
         
         String rawActionString = "";
@@ -507,7 +502,5 @@ public class AdminActivityLogPageData extends PageData {
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }
-  
 
-    
 }

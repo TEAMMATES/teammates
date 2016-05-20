@@ -63,7 +63,6 @@ public class CoursesLogic {
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
-    
     public static CoursesLogic inst() {
         if (instance == null)
             instance = new CoursesLogic();
@@ -497,7 +496,7 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
         
-        if (studentDataList.size() == 0) {
+        if (studentDataList.isEmpty()) {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
@@ -776,8 +775,7 @@ public class CoursesLogic {
         }
         return false;
     }
-    
-    
+
     public boolean isCourseArchived(String courseId, String instructorGoogleId) {
         CourseAttributes course = getCourse(courseId);
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);

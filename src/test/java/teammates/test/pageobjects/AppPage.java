@@ -73,9 +73,6 @@ public abstract class AppPage {
     protected Browser browser;
     
     /** These are elements common to most pages in our app */
-    @SuppressWarnings("unused")
-    private void ____Common_page_elements___________________________________() {
-    }
     @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
@@ -118,9 +115,6 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
     
-    @SuppressWarnings("unused")
-    private void ____creation_and_navigation_______________________________() {
-    }
     
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -464,9 +458,6 @@ public abstract class AppPage {
         return this;
     }
     
-    @SuppressWarnings("unused")
-    private void ____accessing_elements___________________________________() {
-    }
     
     /**
      * @return the HTML source of the currently loaded page.
@@ -682,10 +673,7 @@ public abstract class AppPage {
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
-    
-    @SuppressWarnings("unused")
-    private void ____verification_methods___________________________________() {
-    }
+
 
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
@@ -976,7 +964,7 @@ public abstract class AppPage {
         if (downloadedFile.exists()) { 
             downloadedFile.delete();
         }
-        if (downloadedFile.canWrite() == false) { 
+        if (!downloadedFile.canWrite()) { 
             downloadedFile.setWritable(true);
         }
         
@@ -1020,10 +1008,6 @@ public abstract class AppPage {
         return this;
     }
         
-    @SuppressWarnings("unused")
-    private void ____private_utility_methods________________________________() {
-    }
-    
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
@@ -1035,7 +1019,6 @@ public abstract class AppPage {
             throw new RuntimeException(e);
         }
     }
-
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();

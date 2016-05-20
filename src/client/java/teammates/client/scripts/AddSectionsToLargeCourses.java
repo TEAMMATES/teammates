@@ -55,8 +55,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
      * responses did not have comments)
      * ******************************************
      */
-    
-    
+
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
         
@@ -127,11 +126,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return largeCoursesWithoutSections;
     }
 
-    
     public void addSectionsToCourse(String courseId) {
         System.out.println("Course: [" + courseId + "] ");
-        
-        
+
         List<TeamDetailsBundle> teams;
         try {
             teams = logic.getTeamsForCourse(courseId);
@@ -166,8 +163,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
                 currentSectionSize = 0;
             }
         }
-        
-        
+
         System.out.println();
     }
 
@@ -215,7 +211,6 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         student.setSectionName(sectionToChangeTo);
     }
-    
 
     private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
         if (isPreview) {

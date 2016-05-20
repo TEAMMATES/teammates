@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Manage the pool of {@link Browser} instances.
  * This class is thread-safe.  
  */
-public class BrowserPool {
+public final class BrowserPool {
     /* This class is implemented as a Singleton class.
      * The reason we're not implementing this class as static because we want to
      * use wait() and notify().

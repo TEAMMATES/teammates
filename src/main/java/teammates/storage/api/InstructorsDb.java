@@ -37,8 +37,7 @@ import teammates.storage.search.InstructorSearchQuery;
 public class InstructorsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
-    
-    
+
     /* =========================================================================
      * Methods related to Google Search API
      * =========================================================================
@@ -88,13 +87,11 @@ public class InstructorsDb extends EntitiesDb {
         
         return new InstructorSearchResultBundle().getInstructorsfromResults(results);
     }
-    
-    
+
     /* =========================================================================
      * =========================================================================
      */
-    
-    
+
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
@@ -117,8 +114,7 @@ public class InstructorsDb extends EntitiesDb {
             putDocument(instructor);
         }
     }
-    
-    
+
     public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
@@ -161,7 +157,6 @@ public class InstructorsDb extends EntitiesDb {
         return new InstructorAttributes(i);
     }
 
-    
     /**
      * @return null if no matching objects. 
      */
@@ -281,7 +276,6 @@ public class InstructorsDb extends EntitiesDb {
         }    
         return list;
     }
-    
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
@@ -452,8 +446,7 @@ public class InstructorsDb extends EntitiesDb {
         }        
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
-        
-        
+
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
@@ -522,8 +515,7 @@ public class InstructorsDb extends EntitiesDb {
         Query q = getPM().newQuery(Instructor.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
-        
-        
+
         @SuppressWarnings("unchecked")
         List<Instructor> instructorList = (List<Instructor>) q.execute(googleId);
         
@@ -592,7 +584,6 @@ public class InstructorsDb extends EntitiesDb {
             
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }
-    
 
 }
 

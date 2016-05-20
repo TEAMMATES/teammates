@@ -82,8 +82,6 @@ public class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    
-
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         
         return fsDb.getAllOpenFeedbackSessions(start, end, zone);
@@ -138,7 +136,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (coursesLogic.isCoursePresent(courseId) == false) {
+        if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to get feedback sessions for a course that does not exist.");
         }
@@ -234,7 +232,6 @@ public class FeedbackSessionsLogic {
         List<InstructorAttributes> instructorList =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
-
         return getFeedbackSessionsListForInstructor(instructorList);
     }
     
@@ -310,8 +307,7 @@ public class FeedbackSessionsLogic {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = 
                 new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
         Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-        
-        
+
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
@@ -320,7 +316,6 @@ public class FeedbackSessionsLogic {
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
                 question, instructorGiver, studentGiver);
-    
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -545,8 +540,7 @@ public class FeedbackSessionsLogic {
     }
 
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
-        
-        
+
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -562,8 +556,7 @@ public class FeedbackSessionsLogic {
                                                new InstructorsDb().getInstructorsForCourse(courseId));
         return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
-    
-    
+
     /**
      * Gets results of a feedback session to show to an instructor from an indicated question
      * This will not retrieve the list of comments for this question
@@ -903,8 +896,6 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
-                
-                
                 String giverIdentifier = question.giverType == FeedbackParticipantType.TEAMS 
                                        ? fsrBundle.getFullNameFromRoster(response.giverEmail) 
                                        : response.giverEmail;
@@ -981,8 +972,7 @@ public class FeedbackSessionsLogic {
         }
         
         removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver, results);
-            
-        
+
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             List<String> possibleRecipientsForRemainingGiver =
                     results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
@@ -994,7 +984,6 @@ public class FeedbackSessionsLogic {
         
         return exportBuilder;
     }
-
 
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows 
@@ -1086,7 +1075,7 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionHasQuestionForStudents(
             String feedbackSessionName,
             String courseId) throws EntityDoesNotExistException {
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
@@ -2016,8 +2005,7 @@ public class FeedbackSessionsLogic {
                     }
                 }
             }
-            
-            
+
             addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
@@ -2307,8 +2295,7 @@ public class FeedbackSessionsLogic {
             int pairType) throws EntityDoesNotExistException {
         if (question.giverType == FeedbackParticipantType.TEAMS 
             && roster.isStudentInCourse(response.giverEmail)) {
-            if (emailNameTable.containsKey(response.giverEmail
-                    + Const.TEAM_OF_EMAIL_OWNER) == false) {
+            if (!emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER)) {
                 emailNameTable.put(
                         response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType,
@@ -2321,7 +2308,7 @@ public class FeedbackSessionsLogic {
                                                         question.giverType,
                                                         response.giverEmail, roster)[pairType]);
             }
-        } else if (emailNameTable.containsKey(response.giverEmail) == false) {
+        } else if (!emailNameTable.containsKey(response.giverEmail)) {
             emailNameTable.put(
                     response.giverEmail,
                     getNameTeamNamePairForEmail(question.giverType,
@@ -2334,7 +2321,7 @@ public class FeedbackSessionsLogic {
         } else {
             recipientType = question.recipientType;
         }
-        if (emailNameTable.containsKey(response.recipientEmail) == false) {
+        if (!emailNameTable.containsKey(response.recipientEmail)) {
             emailNameTable.put(
                     response.recipientEmail,
                     getNameTeamNamePairForEmail(recipientType,
@@ -2353,7 +2340,7 @@ public class FeedbackSessionsLogic {
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail))
                 fsDetailsWithoutPrivate.add(getFeedbackSessionDetails(fsa));
         }
 
@@ -2398,7 +2385,6 @@ public class FeedbackSessionsLogic {
             }
         }
         studentNoResponses.removeAll(fsa.respondingStudentList);
-
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -2480,7 +2466,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
@@ -2504,7 +2490,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
@@ -2626,6 +2612,5 @@ public class FeedbackSessionsLogic {
         emails.addFeedbackSessionReminderToEmailsQueue(session,
                 Emails.EmailType.FEEDBACK_PUBLISHED);
     }
-    
-    
+
 }

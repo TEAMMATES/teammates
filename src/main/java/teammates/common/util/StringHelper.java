@@ -160,7 +160,7 @@ public class StringHelper {
     public static String toString(List<String> strings, String delimiter) {
         String returnValue = "";
         
-        if (strings.size() == 0) {
+        if (strings.isEmpty()) {
             return returnValue;
         }
         

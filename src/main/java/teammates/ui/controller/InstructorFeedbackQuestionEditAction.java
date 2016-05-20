@@ -127,6 +127,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", 
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
+            
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
@@ -238,11 +239,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (!"custom".equals(nEntityTypes)) {
-            return false;
-        }
-        
-        return true;
+        return "custom".equals(nEntityTypes);
     }
 
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
