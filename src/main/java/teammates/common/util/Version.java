@@ -103,10 +103,10 @@ public class Version implements Comparable<Version> {
         String convertedS1 = s1;
         String convertedS2 = s2;
         while (convertedS1.length() < convertedS2.length()) {
-            convertedS1 = "0" + convertedS1;
+            convertedS1 = "0" + convertedS1; // NOPMD
         }
         while (convertedS2.length() < convertedS1.length()) {
-            convertedS2 = "0" + convertedS2;
+            convertedS2 = "0" + convertedS2; // NOPMD
         }
         return convertedS2.compareTo(convertedS1);
     }
