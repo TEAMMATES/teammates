@@ -157,9 +157,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         
         if ("Delete".equals(thirdLink.getText())) {
             return thirdLink;
-        } else {
-            return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
     
     private WebElement getAllRecordsLink(int studentNum) {
@@ -168,9 +167,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         
         if ("All Records".equals(thirdLink.getText())) {
             return thirdLink;
-        } else {
-            return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
         }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }
     
     private WebElement getAddCommentDropDownLink(int studentNum) {
