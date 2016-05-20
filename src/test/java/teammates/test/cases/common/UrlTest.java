@@ -67,6 +67,7 @@ public class UrlTest extends BaseTestCase {
     }
     
     @Test
+    @SuppressWarnings("PMD.UseStringBufferForStringAppends")
     public void testAppendParameters() {
         
         ______TS("static method addParamToUrl");

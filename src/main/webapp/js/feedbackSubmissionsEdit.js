@@ -556,7 +556,8 @@ function updateConstSumMessageQn(qnNum) {
         messageElement.text(message);
     }
 
-    function updateSumBasedOn(pointsAllocated) {
+    function updateSumBasedOn(ptsAllocatedParam) {
+        var pointsAllocated = ptsAllocatedParam;
         if (isNumber(pointsAllocated)) {
             allNotNumbers = false;
         } else {

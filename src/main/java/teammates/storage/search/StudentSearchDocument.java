@@ -18,8 +18,9 @@ public class StudentSearchDocument extends SearchDocument {
     
     @Override
     protected void prepareData() {
-        if (student == null) 
+        if (student == null) {
             return;
+        }
         
         course = logic.getCourse(student.course);
     }

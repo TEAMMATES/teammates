@@ -156,7 +156,7 @@ public class ActivityLogEntry {
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
         for (String name : automatedActions) {
             if (name.toLowerCase().contains(servletName.toLowerCase())) {
-                role = "Auto";
+                return "Auto";
             }
         }
         
@@ -273,37 +273,32 @@ public class ActivityLogEntry {
     }
 
     public String getIconRoleForShow() {
-        String iconRole = "";
+        StringBuilder iconRole = new StringBuilder(100);
         
-        if (role.contains("Instructor")) {   
-           
+        if (role.contains("Instructor")) {
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>");
             if (role.contains("(M)")) {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
-            } else {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+                iconRole.append(
+                    "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
         } else if (role.contains("Student")) {
-            
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>");
             if (role.contains("(M)")) {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
-            } else {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+                iconRole.append("-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
         } else if (role.contains("Unregistered")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-user\"></span>");
         } else if (role.contains("Auto")) {
-            iconRole = "<span class = \"glyphicon glyphicon-cog\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-cog\"></span>");
         } else {
-            iconRole = role;
+            iconRole.append(role);
         }
 
         if (role.contains("Admin")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>");
         }
 
-        return iconRole;
+        return iconRole.toString();
     }
     
     /**
@@ -420,19 +415,17 @@ public class ActivityLogEntry {
             className = "btn-info";
         }
         return className;
-   }
+    }
 
     public String getUrlToShow() {
-        String urlToShow = url;
-        //If not in masquerade mode, add masquerade mode
-        if (!urlToShow.contains("user=")) {
-            if (urlToShow.contains("?")) {
-                urlToShow += "&user=" + googleId;
-            } else {
-                urlToShow += "?user=" + googleId;
-            }
+        if (url.contains("user=")) {
+            return url;
         }
-        return urlToShow;
+        // If not in masquerade mode, add masquerade mode
+        if (url.contains("?")) {
+            return url + "&user=" + googleId;
+        } 
+        return url + "?user=" + googleId;
     }
     
     public String getId() {
@@ -520,14 +513,14 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>";
-        message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
-        message += HttpRequestHelper.printRequestParameters(req) + "</span>";
+        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>"
+                       + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>"
+                       + HttpRequestHelper.printRequestParameters(req) + "</span>";
         
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url, 
-                                                             courseId, studentEmail);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
+                                                             url, courseId, studentEmail);
         
         return exceptionLog.generateLogMessage();
     }
@@ -576,9 +569,7 @@ public class ActivityLogEntry {
     }
 
     public String getLogInfoForTableRowAsHtml() {
-
-        String result = "";
-        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
@@ -595,8 +586,6 @@ public class ActivityLogEntry {
                + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\" value=\"false\">"
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
-        return result;
-        
     }
     
     private String getAvailableIdenficationString() {
