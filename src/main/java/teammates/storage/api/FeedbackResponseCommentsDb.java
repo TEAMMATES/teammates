@@ -69,8 +69,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
         } else {
-            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            return createdComment;
+            return new FeedbackResponseCommentAttributes(createdEntity);
         }
     }
     
@@ -345,8 +344,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        return updatedComment;
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /*
@@ -481,12 +479,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         if (feedbackResponseCommentToGet.getId() != null) {
             return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
-        } else { 
-            return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.courseId,
-                feedbackResponseCommentToGet.createdAt,
-                feedbackResponseCommentToGet.giverEmail);
         }
+        
+        return getFeedbackResponseCommentEntity(
+            feedbackResponseCommentToGet.courseId,
+            feedbackResponseCommentToGet.createdAt,
+            feedbackResponseCommentToGet.giverEmail);
     }
     
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {

@@ -1,11 +1,5 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_EMPTY;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EntitiesDb;
@@ -89,7 +84,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT),
+                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId, FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
         
@@ -100,7 +95,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT),
+                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
 
@@ -323,8 +318,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY) + Const.EOL 
-                        + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
+                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL 
+                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email, FieldValidator.REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
 
@@ -376,9 +371,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, REASON_INCORRECT_FORMAT)
+                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, FieldValidator.REASON_INCORRECT_FORMAT)
                             + Const.EOL
-                            + String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY),
+                            + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY),
                     e.getMessage());
         }
 

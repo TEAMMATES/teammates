@@ -15,8 +15,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -49,8 +48,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         verifyAssumptionFailure(invalidParams);
-        
-        
+
         ______TS("Typical case, edit student detail page");
 
         String[] submissionParams = new String[]{
@@ -82,13 +80,11 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
                                   + "<span class=\"bold\">[idOfTypicalCourse1]</span>" 
                                   + "|||/page/instructorCourseStudentDetailsEdit";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
     }
     
     private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

@@ -8,11 +8,14 @@
 package teammates.logic.core;
 
 import java.net.HttpURLConnection;
-import java.util.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -335,12 +338,12 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
-        String string = "";
+        StringBuilder urlPart = new StringBuilder();
         for (int i = 0; i < array.size(); i++) {
-            string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
+            urlPart.append('&').append(token).append("[]=").append(URLEncoder.encode(array.get(i), "UTF-8"));
         }
 
-        return string;
+        return urlPart.toString();
     }
 
     /**
@@ -419,10 +422,10 @@ public class Sendgrid {
             final String key = paramIterator.next();
             final String value = data.get(key);
             
-            if (key.equals("to") && this.getTos().size() > 0) {
+            if ("to".equals(key) && this.getTos().size() > 0) {
                 requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
             } else {
-                if (key.equals("toname") && this.getToNames().size() > 0) {
+                if ("toname".equals(key) && this.getToNames().size() > 0) {
                     requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
                 } else {
                     try {
@@ -443,14 +446,15 @@ public class Sendgrid {
             }
         }
         
-        String request = this.domain + this.endpoint;
+        StringBuilder request = new StringBuilder(); 
+        request.append(this.domain).append(this.endpoint);
 
         if (this.getBccs().size() > 0) {
-            request += "?" + this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
+            request.append('?').append(this.arrayToUrlPart(this.getBccs(), "bcc").substring(1));
         }
         
         try {
-            URL url = new URL(request);
+            URL url = new URL(request.toString());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -461,11 +465,12 @@ public class Sendgrid {
             writer.flush();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line, response = "";
+            String line;
+            StringBuilder response = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
                 // Process line
-                response += line;
+                response.append(line);
             }
             reader.close();
             writer.close();
@@ -475,7 +480,7 @@ public class Sendgrid {
                 serverResponse = "success";
             } else {
                 // Server returned HTTP error code.
-                JSONObject apiResponse = new JSONObject(response);
+                JSONObject apiResponse = new JSONObject(response.toString());
                 JSONArray errorsObj = (JSONArray) apiResponse.get("errors");
                 
                 for (int i = 0; i < errorsObj.length(); i++) {

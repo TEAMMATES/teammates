@@ -271,7 +271,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
             signalFailureToDetectException();
-        } catch (JoinCourseException e) {
+        } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
                     e.getMessage());
         }

@@ -38,10 +38,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
     private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
-    final int MAX_READING_LENGTH = 900000; 
-    
-    
-    private String adminEmailTaskQueueMode;
+    private static final int MAX_READING_LENGTH = 900000; 
     
     //param needed for sending small number of emails
     private String addressReceiverListString;
@@ -50,13 +47,12 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private String groupReceiverListFileKey;
     private int groupReceiverListFileSize;
     private String emailId;
-    
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
-        
-        adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
+        String adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
+
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         
         if (adminEmailTaskQueueMode.contains(Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE)) {
@@ -103,8 +99,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
     /**
@@ -116,7 +111,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
      * @param size
      * @throws IOException
      */
-    private List<List<String>> getReceiverList(String listFileKey, int size) 
+    private List<List<String>> getReceiverList(String listFileKey, int sizeParam) 
             throws IOException {
         
         Assumption.assertNotNull(listFileKey);   
@@ -150,6 +145,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
+        int size = sizeParam;
         //file size is needed to track the number of unread bytes 
         while (size > 0) {
             //makes sure not to over-read
@@ -178,20 +174,18 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if (!lastStringOfLastAddedList.contains("@")
-                    || !firstStringOfNewList.contains("@")) {
-                   //either the left part or the right part of the broken email string 
-                   //does not contains a "@".
-                   //simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() - 1)
-                             .set(lastAddedList.size() - 1,
-                                  lastStringOfLastAddedList + firstStringOfNewList);
-                   //and also needs to delete the right part which is the first item of the list from current reading
-                   listOfList.add(newList.subList(1, newList.size() - 1));
+                if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
+                    // no broken email from last reading found, simply add the list
+                    // from current reading into the upper list.
+                    listOfList.add(newList);
                 } else {
-                   //no broken email from last reading found, simply add the list
-                   //from current reading into the upper list.
-                   listOfList.add(newList);
+                    // either the left part or the right part of the broken email string 
+                    // does not contains a "@".
+                    // simply append the right part to the left part(last item of the list from last reading)
+                    listOfList.get(listOfList.size() - 1)
+                    .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    // and also needs to delete the right part which is the first item of the list from current reading
+                    listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
             }
             
@@ -205,11 +199,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private boolean isNearDeadline() {
         
         long timeLeftInMillis = ApiProxy.getCurrentEnvironment().getRemainingMillis();
-        if (timeLeftInMillis / 1000 < 100) {
-            return true;
-        }
-        
-        return false;
+        return timeLeftInMillis / 1000 < 100;
     }
     
     private void pauseAndCreateAnNewTask(int indexOfEmailList, int indexOfEmail) {
@@ -234,10 +224,10 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();         
         List<String> addressList = new ArrayList<String>();
         
-        if (!addressReceiverListString.contains(",")) {
-            addressList.add(addressReceiverListString);
-        } else {
+        if (addressReceiverListString.contains(",")) {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));
+        } else {
+            addressList.add(addressReceiverListString);
         }    
         
         for (String emailAddress : addressList) {     

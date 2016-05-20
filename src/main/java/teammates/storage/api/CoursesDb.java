@@ -152,7 +152,6 @@ public class CoursesDb extends EntitiesDb {
         return getCourseEntity(((CourseAttributes) attributes).getId());
     }
 
-
     private Course getCourseEntity(String courseId) {
         Query q = getPM().newQuery(Course.class);
         q.declareParameters("String courseIdParam");

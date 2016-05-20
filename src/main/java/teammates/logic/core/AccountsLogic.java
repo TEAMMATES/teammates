@@ -38,12 +38,12 @@ public class AccountsLogic {
     private static Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AccountsLogic();
+        }
         return instance;
     }
-    
-    
+
     public void createAccount(AccountAttributes accountData) 
                     throws InvalidParametersException {
     
@@ -71,7 +71,7 @@ public class AccountsLogic {
     
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
-        return a == null ? false : a.isInstructor;
+        return a != null && a.isInstructor;
     }
 
     public List<AccountAttributes> getInstructorAccounts() {
@@ -112,7 +112,7 @@ public class AccountsLogic {
     }
     
     public void joinCourseForStudent(String registrationKey, String googleId) 
-            throws JoinCourseException {
+            throws JoinCourseException, InvalidParametersException {
         
         verifyStudentJoinCourseRequest(registrationKey, googleId);
         
@@ -124,31 +124,20 @@ public class AccountsLogic {
             StudentsLogic.inst().updateStudentCascade(student.email, student);
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
-        } catch (InvalidParametersException e) {
-            throw new JoinCourseException(e.getMessage());
         } 
         
         if (accountsDb.getAccount(googleId) == null) {
-            try {
-                createStudentAccount(student);
-            } catch (InvalidParametersException e) {
-                throw new JoinCourseException(e.getLocalizedMessage());
-            }
+            createStudentAccount(student);
         }
     }
-    
 
     /**
      * Joins the user as an instructor, and sets the institute too.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        try {
-            joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
-        } catch (EntityDoesNotExistException e) {
-            throw new JoinCourseException(e.getMessage());
-        }
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
         
     }
     
@@ -156,17 +145,12 @@ public class AccountsLogic {
      * Joins the user as an instructor.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        try {
-            joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
-        } catch (EntityDoesNotExistException e) {
-            throw new JoinCourseException(e.getMessage());
-        }
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
         
     }
-    
-    
+
     /**
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
@@ -241,7 +225,6 @@ public class AccountsLogic {
         
     }
 
-
     /**
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
@@ -258,7 +241,6 @@ public class AccountsLogic {
         }
         
     }
-
 
     /**
      * @throws JoinCourseException if the key does not correspond to an
@@ -291,8 +273,6 @@ public class AccountsLogic {
                                                   StringHelper.obscure(instructorForKey.googleId)));
         }
     }
-    
-
 
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
@@ -331,16 +311,16 @@ public class AccountsLogic {
 
     public void makeAccountNonInstructor(String googleId) {
         AccountAttributes account = accountsDb.getAccount(googleId, true);
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
+        } else {
             account.isInstructor = false;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while removing instruction privileges from account :" + account.toString());
+                                + "while removing instruction privileges from account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         }
     }
 
@@ -348,16 +328,16 @@ public class AccountsLogic {
         
         AccountAttributes account = accountsDb.getAccount(googleId, true);
         
-        if (account != null) {
+        if (account == null) {
+            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
+        } else {
             account.isInstructor = true;
             try {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while adding instruction privileges to account :" + account.toString());
+                                + "while adding instruction privileges to account :" + account.toString());
             }
-        } else {
-            log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
         }
     }
 

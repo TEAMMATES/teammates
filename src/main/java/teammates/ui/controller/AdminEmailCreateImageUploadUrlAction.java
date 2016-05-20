@@ -36,8 +36,7 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
         return createAjaxResult(data);
         
     }
-    
-    
+
     public String getNewUploadUrl() throws EntityDoesNotExistException {     
         try {
             return generateNewUploadUrl();

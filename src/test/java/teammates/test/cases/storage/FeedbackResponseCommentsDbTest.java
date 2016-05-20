@@ -446,7 +446,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertTrue(actualFrcs.isEmpty());
     }
 
-    
     private void verifyListsContainSameResponseCommentAttributes(
             List<FeedbackResponseCommentAttributes> expectedFrcas,
             List<FeedbackResponseCommentAttributes> actualFrcas) {

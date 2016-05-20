@@ -153,7 +153,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-
+        // deprecated
     }
     
     public String getTextFromInstructorPrivileges() {
@@ -188,10 +188,9 @@ public class InstructorAttributes extends EntityAttributes {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        } else {
-            return new Instructor(googleId, courseId, isArchived, name, email, role,
-                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        }
+        } 
+        return new Instructor(googleId, courseId, isArchived, name, email, role,
+                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }
 
     public List<String> getInvalidityInfo() {
