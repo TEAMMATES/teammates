@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -109,7 +110,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
         if (order == 0) return typicalCase;
@@ -147,6 +147,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             case 3:
                 typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
                 typicalCase[indexOfSessionInstructionsValue] = "";
+                break;
+            default:
+                Assumption.fail("Incorrect order");
                 break;
         }
         
@@ -228,13 +231,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
     }
 
-    /*
-     * 'high-level' here means it tests access control of an action for the 
-     * full range of user types.
-     */
-    @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks() {};
-    
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
@@ -287,13 +283,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
 
-    /*
-     * 'mid-level' here means it tests access control of an action for 
-     * one user types.
-     */
-    @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks() {};
-    
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
@@ -606,13 +595,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         gaeSimulation.loginAsInstructor(otherInstructor.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
-    /*
-     * 'low-level' here means it tests an action once with the given parameters.
-     * These methods are not aware of the user type.
-     */
-    @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks() {};
     
     /**
      * Verifies that the {@link Action} matching the {@code params} is 

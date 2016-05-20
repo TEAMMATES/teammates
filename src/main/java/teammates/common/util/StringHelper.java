@@ -71,7 +71,7 @@ public class StringHelper {
      * E.g., "12345678" truncated to length 6 returns "123..."
      */
     public static String truncate(String inputString, int truncateLength) {
-        if (!(inputString.length() > truncateLength)) {
+        if (inputString.length() <= truncateLength) {
             return inputString;
         }
         String result = inputString;
@@ -160,7 +160,7 @@ public class StringHelper {
     public static String toString(List<String> strings, String delimiter) {
         String returnValue = "";
         
-        if (strings.size() == 0) {
+        if (strings.isEmpty()) {
             return returnValue;
         }
         

@@ -4,7 +4,6 @@ import java.util.List;
 
 import teammates.common.util.FieldValidator;
 
-
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Question > Recipient,
  * and for the recipient panel in Recipient > Question > Giver
@@ -58,7 +57,6 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this(questionTables, profilePictureLink, isGroupedByGiver, participantIdentifier, 
              participantName, moderationButton);
     }
-    
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionTables() {
         return questionTables;
@@ -68,5 +66,4 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.questionTables = questionTables;
     }
 
-    
 }

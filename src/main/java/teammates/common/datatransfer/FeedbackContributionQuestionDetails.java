@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
@@ -41,12 +43,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        Boolean isNotSureAllowed;
-        if (isNotSureAllowedString == null) {
-            isNotSureAllowed = false;
-        } else {
-            isNotSureAllowed = isNotSureAllowedString.equals("on");
-        }
+        boolean isNotSureAllowed = "on".equals(isNotSureAllowedString);
         this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }
@@ -147,9 +144,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if (view.equals("question")) { //for instructor, only question view has stats.
+        if ("question".equals(view)) { //for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
-        } else if (view.equals("student")) { //Student view of stats.
+        } else if ("student".equals(view)) { //Student view of stats.
             return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
@@ -160,8 +157,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
-    
-        if (responses.size() == 0) {
+
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -220,7 +217,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -248,19 +245,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
-        
-        
+
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF 
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
-        
 
         String html = "";
         String contribFragments = "";
@@ -277,7 +272,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -307,7 +302,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
-        
         return html;
     }
     
@@ -317,8 +311,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
         
-        
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -352,14 +345,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
-        
-        
+
         String contribFragments = "";
         Map<String, String> sortedMap = new TreeMap<String, String>();
         
@@ -376,7 +368,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName = name;
             String displayTeam = team;
             String displayEmail = email;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -729,7 +721,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if (validAnswer == false) {
+            if (!validAnswer) {
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
@@ -763,7 +755,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return errorMsg;
     }
-    
 
     public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
@@ -809,8 +800,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } 
         return noResponseHtml;
     }
-    
-    
+
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -919,6 +909,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return true;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
     }
 
 }

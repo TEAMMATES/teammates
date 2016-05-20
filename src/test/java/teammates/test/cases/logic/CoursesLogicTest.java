@@ -75,7 +75,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testDeleteCourse();
     }
 
-
     public void testGetCourse() throws Exception {
 
         ______TS("failure: course doesn't exist");
@@ -477,7 +476,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(2, teams.size()); 
         assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
         assertEquals("Team 1.2", teams.get(1).name);
-
 
         ______TS("course without students");
 

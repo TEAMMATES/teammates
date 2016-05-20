@@ -290,7 +290,7 @@ public class InstructorCourseEditPage extends AppPage {
                                             "div#tunePermissionsDivForInstructorAll"));
         waitForElementVisibility(viewDetailsModal);
         
-        if (viewDetailsModal.getAttribute("style").equals("display: block;")) {
+        if ("display: block;".equals(viewDetailsModal.getAttribute("style"))) {
             closeModal();
             return true;
         }
@@ -355,11 +355,11 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndCancel(deleteInstructorLink);
     }
-    
-    
+
     public WebElement getNameField(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
+    
     public WebElement getEmailField(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }

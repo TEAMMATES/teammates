@@ -1000,8 +1000,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-    
-    
+
     @Test
     public void StudentFeedbackQuestionSubmissionEditPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;

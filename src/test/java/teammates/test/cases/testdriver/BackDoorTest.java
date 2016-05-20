@@ -113,8 +113,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         verifyAbsentInDatastore(student1InCourse1);
-        
-        
+
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
@@ -247,7 +246,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(course);
     }
 
-    
     public void testGetCourseAsJson() {
         // already tested by testPersistenceAndDeletion
     }
@@ -256,7 +254,6 @@ public class BackDoorTest extends BaseTestCase {
         // not implemented
     }
 
-    
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
     }
@@ -391,13 +388,10 @@ public class BackDoorTest extends BaseTestCase {
     @SuppressWarnings("unused")
     private void ____EVALUATION_level_methods______________________________() {
     }
-    
 
     @SuppressWarnings("unused")
     private void ____helper_methods_________________________________() {
     }
-
-    
 
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
@@ -450,10 +444,9 @@ public class BackDoorTest extends BaseTestCase {
 
     }
 
-
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = "null";
-        while (studentJsonString.equals("null")) {
+        while ("null".equals(studentJsonString)) {
             studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
         }
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
@@ -465,7 +458,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
         String courseJsonString = "null";
-        while (courseJsonString.equals("null")) {
+        while ("null".equals(courseJsonString)) {
             courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
         }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
@@ -477,7 +470,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
         String instructorJsonString = "null";
-        while (instructorJsonString.equals("null")) {
+        while ("null".equals(instructorJsonString)) {
             instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
         }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);

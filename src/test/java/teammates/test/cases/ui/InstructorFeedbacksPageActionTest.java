@@ -60,8 +60,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("0 sessions");
         
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
@@ -120,8 +119,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
-    
-    
+
     private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
             return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }

@@ -162,10 +162,10 @@ public class AdminActivityLogPageAction extends Action {
         String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
         status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
                   + adminTimeZone + ") and ";
-        if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
-            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
-        } else {
+        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
             status += timeInUserTimeZone + ".<br>";
+        } else {
+            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
         }
         
         status += "Logs are from following version(s): ";
@@ -341,21 +341,21 @@ public class AdminActivityLogPageAction extends Action {
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
-        } else if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
+        } 
+        if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
             String coureseId = logRole.split(":")[1];
             return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
-        } else {
-            return Const.DOUBLE_UNINITIALIZED;
-        }
+        } 
+        
+        return Const.DOUBLE_UNINITIALIZED;    
     }
     
     private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
-        if (timeZone != Const.DOUBLE_UNINITIALIZED) {
-            return computeLocalTime(timeZone, logTimeInAdminTimeZone);
-        } else {
+        if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
-        }
+        } 
+        return computeLocalTime(timeZone, logTimeInAdminTimeZone);
     }
     
     private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {

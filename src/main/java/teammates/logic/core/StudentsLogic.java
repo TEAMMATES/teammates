@@ -701,9 +701,10 @@ public class StudentsLogic {
         enrollmentDetails.newTeam = validStudentAttributes.team;
         enrollmentDetails.newSection = validStudentAttributes.section;
 
+        boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
-        } else if (originalStudentAttributes != null) {
+        } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
