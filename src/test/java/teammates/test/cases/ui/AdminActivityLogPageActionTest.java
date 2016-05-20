@@ -8,8 +8,7 @@ import teammates.common.util.Const;
 public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     // private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -22,6 +21,5 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         
         //TODO: implement this
     }
-    
 
 }

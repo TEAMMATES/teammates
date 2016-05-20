@@ -62,6 +62,7 @@ public class CompileLogs {
     }
 
     public void sendEmail(String logs) {
+        // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
             Emails emails = new Emails();
             MimeMessage message;
@@ -71,8 +72,6 @@ public class CompileLogs {
             } catch (UnsupportedEncodingException | MessagingException e) {
                 log.severe(e.getMessage());
             }
-        } else {
-            // Do not send any emails if there are no severe logs; prevents spamming
         }
     }
 }

@@ -11,7 +11,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.ui.controller.PageData;
 
-
 /**
  * Data model for the form for creating/editing a feedback session.
  *
@@ -61,8 +60,7 @@ public class FeedbackSessionsForm {
     
     public FeedbackSessionsForm() {
     }
-    
-    
+
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,
                                                   String fsDeleteLink, String fsEditCopyLink) {
@@ -141,8 +139,7 @@ public class FeedbackSessionsForm {
         newFsForm.fsStartDate = feedbackSession == null 
                               ? TimeHelper.formatDate(TimeHelper.getNextHour()) 
                               : TimeHelper.formatDate(feedbackSession.startTime);
-        
-        
+
         Date startDate = feedbackSession == null ? null : feedbackSession.startTime;
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
         
@@ -263,16 +260,13 @@ public class FeedbackSessionsForm {
         return fsDeleteLink;
     }
 
-
     public String getCopyToLink() {
         return copyToLink;
     }
 
-
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
     }
-
 
     public ElementTag getEditButtonTags() {
         return editButtonTags;

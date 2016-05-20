@@ -37,8 +37,8 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     }
     
     public boolean isCommentBoxShown() {
-        return commentRecipient != null && (commentRecipient.equals("student")
-                                            || commentRecipient.equals("team")
-                                            || commentRecipient.equals("section"));
+        return "student".equals(commentRecipient)
+               || "team".equals(commentRecipient)
+               || "section".equals(commentRecipient);
     }
 }

@@ -13,7 +13,7 @@ import teammates.common.util.Url;
 /** 
  * Represents properties in test.properties file
  */
-public class TestProperties {
+public final class TestProperties {
     
     public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
     public int TEAMMATES_REMOTEAPI_APP_PORT;
@@ -44,14 +44,14 @@ public class TestProperties {
     public int TEST_TIMEOUT;
     
     private static TestProperties instance;
-    private Properties prop;
+    
     public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
     /// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
     // functions to that sub class. It should be in util package.
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
     
     private TestProperties() {
-        prop = new Properties();
+        Properties prop = new Properties();
         try {
             
             prop.load(new FileInputStream("src/test/resources/test.properties"));

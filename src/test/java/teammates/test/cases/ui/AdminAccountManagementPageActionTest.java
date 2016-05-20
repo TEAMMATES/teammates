@@ -38,7 +38,6 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         assertFalse(result.isError);      
                 
     }
-    
 
     private AdminAccountManagementPageAction getAction(String... params) throws Exception {
         return (AdminAccountManagementPageAction) (gaeSimulation.getActionObject(uri, params));

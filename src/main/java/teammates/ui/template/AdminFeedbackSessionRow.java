@@ -24,6 +24,7 @@ public class AdminFeedbackSessionRow {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
     }
+    
     public String getSessionStatusForShow() {
         return sessionStatusForShow;
     }

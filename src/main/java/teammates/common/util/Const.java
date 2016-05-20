@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * this class contains several nested classes, each containing a specific
  * category of constants.
  */
-
+@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public class Const {
     
     public static class SystemParams {
@@ -1013,7 +1013,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT = "Trying to update recipient to an invalid recipient for question %d.";
         public static final String FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS = "Error trying to update recipient for response, as another response with the same recipient already exists.";
         
-        public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
+        public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "<strong>The feedback session is currently not open for submissions.</strong> You can view the questions and any submitted responses for this feedback session but cannot submit new responses.";
         public static final String FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE = "<strong>Submission Failure!</strong> You have exceeded the submission deadline.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";

@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
@@ -45,7 +47,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
-        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
+        if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
@@ -106,8 +108,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices 
-            || this.msqChoices.containsAll(newMsqDetails.msqChoices) == false
-            || newMsqDetails.msqChoices.containsAll(this.msqChoices) == false) {
+            || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+            || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
             return true;
         }
         
@@ -115,13 +117,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.otherEnabled != newMsqDetails.otherEnabled) {
-            return true;
-        }
-        
-        return false;
+        return this.otherEnabled != newMsqDetails.otherEnabled;
     }
-
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
@@ -230,8 +227,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${msqChoiceValue}",  "",
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
@@ -390,11 +386,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
-            return "";
-        }
-        
-        if (responses.size() == 0) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         
@@ -417,10 +409,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -437,10 +429,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 numChoicesSelected++;
                 
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }               
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
             
             // restore other answer if any
@@ -467,14 +458,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
@@ -498,10 +488,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
                 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -516,10 +505,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                
             }
             
             // restore other answer if any
@@ -598,5 +587,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return answer == null;
     }
 
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
 
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
 }

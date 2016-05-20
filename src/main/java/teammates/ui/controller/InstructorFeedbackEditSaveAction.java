@@ -85,7 +85,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
             try {
                 newSession.timeZone = Double.parseDouble(paramTimeZone);
             } catch (NumberFormatException nfe) {
-                // do nothing
+                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             } 
         }
         
@@ -93,7 +93,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         try {
             newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
         } catch (NumberFormatException nfe) {
-            //do nothing
+            log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
         
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
@@ -115,6 +115,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
             case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 break;
+            default:
+                log.severe("Invalid resultsVisibleFrom setting editing " + newSession.getIdentificationString());
+                break;
         }
         
         // handle session visible after results visible to avoid having a
@@ -135,6 +138,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
                 newSession.endTime = null;
                 newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+                break;
+            default:
+                log.severe("Invalid sessionVisibleFrom setting editing " + newSession.getIdentificationString());
                 break;
         }
         

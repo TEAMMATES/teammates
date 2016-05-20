@@ -58,7 +58,10 @@ public class InstructorSearchPageAction extends Action {
         StudentSearchResultBundle studentSearchResults = new StudentSearchResultBundle();
         int totalResultsSize = 0;
         
-        if (!searchKey.isEmpty() && numberOfSearchOptions != 0) {
+        if (searchKey.isEmpty() || numberOfSearchOptions == 0) {
+            //display search tips and tutorials
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
+        } else {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             if (isSearchCommentForStudents) {
@@ -72,7 +75,7 @@ public class InstructorSearchPageAction extends Action {
             }
             
             totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
-                               + studentSearchResults.getResultSize();
+                                            + studentSearchResults.getResultSize();
             
             Set<String> instructorEmails = new HashSet<String>();
             
@@ -86,9 +89,6 @@ public class InstructorSearchPageAction extends Action {
             if (totalResultsSize == 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
             }
-        } else {
-            //display search tips and tutorials
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
@@ -154,8 +154,8 @@ public class InstructorSearchPageAction extends Action {
                         }
 
                         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true
-                                                 : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
+                                                 || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
                         if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
                             continue;

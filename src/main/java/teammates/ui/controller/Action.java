@@ -154,19 +154,17 @@ public abstract class Action {
         if (regkey != null && loggedInUserId != null) {
             student = logic.getStudentForRegistrationKey(regkey);
             boolean isKnownKey = student != null;
-            if (isKnownKey) {
-                if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
-                    String expectedId = StringHelper.obscure(student.googleId);
-                    expectedId = StringHelper.encrypt(expectedId);
-                    String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
-                                              .withUserId(StringHelper.encrypt(loggedInUserId))
-                                              .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
-                                              .withParam(Const.ParamsNames.HINT, expectedId)
-                                              .toString();
-                    
-                    setRedirectPage(redirectUrl);
-                    return false;
-                }
+            if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
+                String expectedId = StringHelper.obscure(student.googleId);
+                expectedId = StringHelper.encrypt(expectedId);
+                String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
+                                          .withUserId(StringHelper.encrypt(loggedInUserId))
+                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.HINT, expectedId)
+                                          .toString();
+                
+                setRedirectPage(redirectUrl);
+                return false;
             }
         }
         return true;
@@ -216,53 +214,59 @@ public abstract class Action {
         return false;
     }
 
+    @SuppressWarnings("PMD.EmptyIfStmt")
     protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         
         AccountAttributes account = null;
         
-        if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
-            account = loggedInUser;
-            boolean isUserLoggedIn = account.googleId != null;
-            if (isPersistenceIssue() && isHomePage()) {
-                // let the user go through as this is a persistence issue
-            } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
-                if (regkey != null && student != null) {
-                    // TODO: encrypt the email as currently anyone with the regkey can
-                    //       get the email because of this redirect:                    
-                    String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
-                                        .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                                        .toString();
-                    setRedirectPage(joinUrl);
-                    return null;
+        if (isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
+            if (loggedInUserType.isAdmin) {
+                // Allowing admin to masquerade as another user
+                account = logic.getAccount(paramRequestedUserId);
+                if (account == null) { // Unregistered user
+                    regkey = getRegkeyFromRequest();
+                    if (regkey == null) {
+                        // since admin is masquerading, fabricate a regkey
+                        regkey = "any-non-null-value";
+                    }
+                    account = new AccountAttributes();
+                    account.googleId = paramRequestedUserId;
                 }
-                
-                throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
-            } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-                String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
-                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                                      .toString();
-                setRedirectPage(redirectUrl);
-                return null;
+                return account;
+            } else {
+                throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                                                    + " is trying to masquerade as " + paramRequestedUserId 
+                                                    + " without admin permission.");
             }
-        } else if (loggedInUserType.isAdmin) {
-            // Allowing admin to masquerade as another user
-            account = logic.getAccount(paramRequestedUserId);
-            if (account == null) { // Unregistered user
-                regkey = getRegkeyFromRequest();
-                if (regkey == null) {
-                    // since admin is masquerading, fabricate a regkey
-                    regkey = "any-non-null-value";
-                }
-                account = new AccountAttributes();
-                account.googleId = paramRequestedUserId;
-            }
-        } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
-                    + " is trying to masquerade as " + paramRequestedUserId
-                    + " without admin permission.");
         }
         
+        account = loggedInUser;
+        if (isPersistenceIssue() && isHomePage()) {
+            // let the user go through as this is a persistence issue
+        } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+            if (regkey != null && student != null) {
+                // TODO: encrypt the email as currently anyone with the regkey can
+                //       get the email because of this redirect:                    
+                String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
+                                    .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                    .toString();
+                setRedirectPage(joinUrl);
+                return null;
+            }
+            
+            throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
+        } 
+        
+        boolean isUserLoggedIn = account.googleId != null;
+        if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
+            String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
+                                  .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                  .toString();
+            setRedirectPage(redirectUrl);
+            return null;
+        }
+   
         return account;
     }
 
@@ -459,11 +463,10 @@ public abstract class Action {
     }
     
     protected boolean isJoinedCourse(String courseId) {
-        if (student != null) {
-            return true;
-        } else {
+        if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId) != null;
-        }
+        } 
+        return true;
     }
 
     /**
@@ -539,7 +542,8 @@ public abstract class Action {
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
         return loggedInUser != null && requestedUserId != null 
-               && !requestedUserId.trim().equals("null")
+               && !"null".equals(requestedUserId.trim())
+               && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
     

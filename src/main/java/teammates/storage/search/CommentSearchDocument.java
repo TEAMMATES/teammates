@@ -49,12 +49,12 @@ public class CommentSearchDocument extends SearchDocument {
         case PERSON:
             for (String email:comment.recipients) {
                 StudentAttributes student = logic.getStudentForEmail(comment.courseId, email);
-                if (student != null) {
-                    relatedStudents.add(student);
-                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
+                if (student == null) {
+                    commentRecipientNameBuilder.append(delim).append(email);
                     delim = ", ";
                 } else {
-                    commentRecipientNameBuilder.append(delim).append(email);
+                    relatedStudents.add(student);
+                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
                     delim = ", ";
                 }
             }
@@ -115,9 +115,9 @@ public class CommentSearchDocument extends SearchDocument {
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course != null ? course.getName() : "").append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
                              .append(comment.giverEmail).append(delim)
-                             .append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim)
+                             .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
                              .append(recipientsBuilder.toString()).append(delim)
                              .append(comment.commentText.getValue());
         
@@ -133,7 +133,7 @@ public class CommentSearchDocument extends SearchDocument {
             //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor == null ? comment.giverEmail : giverAsInstructor.displayedName + " " + giverAsInstructor.name)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
                     new Gson().toJson(commentRecipientName)))
             .setId(comment.getCommentId().toString())
