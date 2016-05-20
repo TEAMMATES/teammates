@@ -86,16 +86,16 @@ $(document).ready(function() {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if (!$('#panel_all').prop('checked')) {
-                $('#giver_all').closest('.col-sm-4').hide();
-                $('#status_all').closest('.col-sm-4').hide();
+                $('#giver_all').closest('.filter-options').hide();
+                $('#status_all').closest('.filter-options').hide();
             } else {
-                $('#giver_all').closest('.col-sm-4').show();
-                $('#status_all').closest('.col-sm-4').show();
+                $('#giver_all').closest('.filter-options').show();
+                $('#status_all').closest('.filter-options').show();
             }
         } else {
             $('#no-comment-panel').hide();
-            $('#giver_all').closest('.col-sm-4').show();
-            $('#status_all').closest('.col-sm-4').show();
+            $('#giver_all').closest('.filter-options').show();
+            $('#status_all').closest('.filter-option').show();
         }
         
         // hide the panel accordingly based on panel_check checkbox
@@ -230,12 +230,12 @@ $(document).ready(function() {
                 commentListRegionForFeedbackResponse.prev().prev().show();
                 commentListRegionForFeedbackResponse.prev().prev().prev().show();
                 
-                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.panel');
+                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
                     // if not all responses are hidden within fbQuestion, then show the fbQuestion
                     feedbackQuestion.show();
                     
-                    var feedbackSessionPanel = feedbackQuestion.closest('.panel-primary');
+                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
                     if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if not all questions are hidden within fbSession, then show the fbsession's body
@@ -246,7 +246,7 @@ $(document).ready(function() {
         }
         // to show student comments (only works for Giver filter)
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).closest('.panel-primary');
+            var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
@@ -272,12 +272,12 @@ $(document).ready(function() {
                 commentListRegionForFeedbackResponse.prev().prev().hide();
                 commentListRegionForFeedbackResponse.prev().prev().prev().hide();
                 
-                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.panel');
+                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
                     // if all responses are hidden within fbQuestion, then hide the fbQuestion
                     feedbackQuestion.hide();
                     
-                    var feedbackSessionPanel = feedbackQuestion.closest('.panel-primary');
+                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
                     if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if all questions are hidden within fbSession, then hide the fbsession's body
@@ -288,7 +288,7 @@ $(document).ready(function() {
         }
         // to hide student comments
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).closest('.panel-primary');
+            var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
