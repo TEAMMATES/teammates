@@ -169,7 +169,6 @@ public class StudentAttributesFactory {
 
     private String[] splitLineIntoColumns(String line) {
         Assumption.assertNotNull(line);
-        String[] cols = line.replace("|", "\t").split("\t", -1);
-        return cols;
+        return line.replace("|", "\t").split("\t", -1);
     }
 }

@@ -14,7 +14,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 /** Holds String-related helper functions
  */
-public class StringHelper {
+public final class StringHelper {
+    
+    private StringHelper() {
+        // utility class
+    }
 
     public static String generateStringOfLength(int length) {
         return StringHelper.generateStringOfLength(length, 'a');
@@ -274,8 +278,7 @@ public class StringHelper {
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
         
-        String[] splitNames = {firstName, lastName, processedfullName};       
-        return splitNames;
+        return new String[] {firstName, lastName, processedfullName}; 
     }
     
     

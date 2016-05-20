@@ -493,6 +493,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                            + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
                            + Const.EOL);
         }
+
         return csvHeader + csvBody.toString();
     }
     
