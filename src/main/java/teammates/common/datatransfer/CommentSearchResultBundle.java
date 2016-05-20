@@ -32,7 +32,9 @@ public class CommentSearchResultBundle extends SearchResultBundle {
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();

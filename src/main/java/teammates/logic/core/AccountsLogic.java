@@ -38,8 +38,9 @@ public class AccountsLogic {
     private static Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AccountsLogic();
+        }
         return instance;
     }
 
