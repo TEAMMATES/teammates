@@ -117,14 +117,13 @@ public class StudentProfilePictureUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService()
                                                                           .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
-            if (blobs != null && blobs.size() > 0) {
-                BlobInfo profilePic = blobs.get(0);
-                return validateProfilePicture(profilePic);
-            } else {
+            if (blobs == null || blobs.isEmpty()) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN, StatusMessageColor.DANGER));
                 isError = true;
                 return null;
-            }
+            } 
+            BlobInfo profilePic = blobs.get(0);
+            return validateProfilePicture(profilePic);
         } catch (IllegalStateException e) {
             /*
              * This means the action was called directly (and not via BlobStore API callback).
@@ -145,13 +144,13 @@ public class StudentProfilePictureUploadAction extends Action {
             isError = true;
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, StatusMessageColor.DANGER));
             return null;
-        } else {
-            return profilePic;
         }
+        
+        return profilePic;
     }
 
     private void deletePicture(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) {
+        if (blobKey.equals(new BlobKey(""))) {
             return;
         }
         try {

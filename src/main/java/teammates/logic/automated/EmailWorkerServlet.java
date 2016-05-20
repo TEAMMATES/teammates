@@ -48,11 +48,11 @@ public class EmailWorkerServlet extends WorkerServlet {
                 break;
         }
         
-        if (emailObj != null) {
-            emailObj.sendEmails();
-        } else {
+        if (emailObj == null) {
             log.severe("Email object is null");
             responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+        } else {
+            emailObj.sendEmails();
         }
         
         resp.setStatus(responseCode);

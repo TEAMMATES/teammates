@@ -62,21 +62,21 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
             || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
             InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giverEmail);
-            if (ins != null && !addedEmailSet.contains(ins.email)) {
+            if (ins == null || addedEmailSet.contains(ins.email)) {
+                responseGiverName = Const.USER_UNKNOWN_TEXT;
+            } else {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
-            } else {
-                responseGiverName = Const.USER_UNKNOWN_TEXT;
             }
         } else {
             StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giverEmail);
-            if (stu != null && !addedEmailSet.contains(stu.email)) {
+            if (stu == null || addedEmailSet.contains(stu.email)) {
+                responseGiverName = Const.USER_UNKNOWN_TEXT;
+            } else {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseGiverName = stu.name + " (" + stu.team + ")";
-            } else {
-                responseGiverName = Const.USER_UNKNOWN_TEXT;
             }
         }
         
@@ -146,13 +146,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course != null ? course.getName() : "").append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
                              .append(relatedSession.feedbackSessionName).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
                              .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
                              .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
                              .append(comment.giverEmail).append(delim)
-                             .append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim)
+                             .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
                              .append(relatedPeopleBuilder.toString()).append(delim)
                              .append(comment.commentText.getValue());
         
@@ -192,7 +192,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null ? giverAsInstructor.displayedName + " " + giverAsInstructor.name : comment.giverEmail)))
+                    new Gson().toJson(giverAsInstructor == null ? comment.giverEmail : giverAsInstructor.displayedName + " " + giverAsInstructor.name)))
             .setId(comment.getId().toString())
             .build();
         return doc;

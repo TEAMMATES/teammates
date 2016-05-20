@@ -60,10 +60,7 @@ public class StudentsDb extends EntitiesDb {
         
         return new StudentSearchResultBundle().fromResults(results, instructors);
     }
-    
-    
-    
-    
+
     /**
      * This method should be used by admin only since the searching does not restrict the 
      * visibility according to the logged-in user's google ID. This is used by amdin to
@@ -81,7 +78,6 @@ public class StudentsDb extends EntitiesDb {
         
         return new StudentSearchResultBundle().getStudentsfromResults(results);
     }
-    
 
     public void deleteDocument(StudentAttributes studentToDelete) {
         if (studentToDelete.key == null) {
@@ -212,7 +208,6 @@ public class StudentsDb extends EntitiesDb {
         
         return studentAttributes;
     }
-
 
     /**
      * Preconditions: 
@@ -358,6 +353,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                 newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
     }
+    
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
@@ -382,6 +378,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                                         newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
     }
+    
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
@@ -574,14 +571,13 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
     
     private List<Student> getStudentEntitiesForCourses(List<String> courseIds) {
@@ -594,7 +590,6 @@ public class StudentsDb extends EntitiesDb {
         return studentList;
     }
 
-    
     private List<Student> getStudentEntitiesForGoogleId(String googleId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String googleIdParam");
@@ -647,7 +642,6 @@ public class StudentsDb extends EntitiesDb {
         StudentAttributes studentToGet = (StudentAttributes) entity;
         return getStudentForEmail(studentToGet.course, studentToGet.email);
     }
-    
 
 }
 

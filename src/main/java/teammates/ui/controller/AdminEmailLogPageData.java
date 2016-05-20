@@ -188,7 +188,6 @@ public class AdminEmailLogPageData extends PageData {
         return true;
     }
 
-
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
      * The boolean variables determine if the specific label was within the query
@@ -252,8 +251,5 @@ public class AdminEmailLogPageData extends PageData {
                 throw new Exception("Invalid label");
             }
         }
-    }
-
-    
-    
+    }   
 }

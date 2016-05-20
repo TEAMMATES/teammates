@@ -702,9 +702,10 @@ public class StudentsLogic {
         enrollmentDetails.newTeam = validStudentAttributes.team;
         enrollmentDetails.newSection = validStudentAttributes.section;
 
+        boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
-        } else if (originalStudentAttributes != null) {
+        } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
@@ -772,8 +773,7 @@ public class StudentsLogic {
     
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList) {
-        boolean isEmailDuplicated = studentEmailList.contains(email);
-        return isEmailDuplicated;
+        return studentEmailList.contains(email);
     }
     
     private boolean isInEnrollList(StudentAttributes student,

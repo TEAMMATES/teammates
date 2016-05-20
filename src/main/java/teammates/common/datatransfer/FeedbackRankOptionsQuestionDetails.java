@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public transient static final int MIN_NUM_OF_OPTIONS = 2;
@@ -37,7 +39,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         this.options = rankOptions;
     }
 
-    
     @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
@@ -131,8 +132,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
-        
-        
+
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
@@ -168,7 +168,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
        
         return result.toString();
     }
-    
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
@@ -230,7 +229,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             "${questionTypeName}", this.getQuestionTypeDisplayName(),
             "${msqAdditionalInfoFragments}", optionListHtml.toString());
 
-        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
@@ -238,8 +236,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        
+
         return html;
     }
 
@@ -283,8 +280,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         return html;
     }
-    
-    
+
     @Override
     public String getQuestionResultStatisticsCsv(
                         List<FeedbackResponseAttributes> responses,
@@ -332,8 +328,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             Map<String, Integer> mapOfOptionToRank = new HashMap<>();
             
             Assumption.assertEquals(answers.size(), options.size());
-            
-            
+
             for (int i = 0; i < options.size(); i++) {
                 int rankReceived = answers.get(i);
                 mapOfOptionToRank.put(options.get(i), rankReceived);
@@ -341,8 +336,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
             Map<String, Integer> normalisedRankForOption =
                     obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
-            
-            
+
             for (int i = 0; i < options.size(); i++) {
                 String optionReceivingRanks =  options.get(i);
                 int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
@@ -355,20 +349,14 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         return optionRanks;
     }
 
-
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
-        if (this.options.size() != newRankQuestionDetails.options.size() 
+        return this.options.size() != newRankQuestionDetails.options.size() 
             || !this.options.containsAll(newRankQuestionDetails.options) 
-            || !newRankQuestionDetails.options.containsAll(this.options)) {
-            return true;
-        }
-        
-        return false;
+            || !newRankQuestionDetails.options.containsAll(this.options);
     }
-    
 
     @Override
     public String getCsvHeader() {
@@ -423,6 +411,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
             return errors;
         }
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 
 }

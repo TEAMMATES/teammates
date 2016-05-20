@@ -76,8 +76,7 @@ public class FeedbackQuestionsLogic {
             FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
-        return newFqa;
+        return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
@@ -359,9 +358,11 @@ public class FeedbackQuestionsLogic {
         
         String giverTeam = null;
         
-        if (studentGiver != null) {
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
             giverTeam = studentGiver.team;
-        } else if (instructorGiver != null) {
+        } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
             giverTeam = giver;
@@ -380,7 +381,7 @@ public class FeedbackQuestionsLogic {
                 studentsLogic.getStudentsForCourse(question.courseId);
             for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
-                if (giver.equals(student.email) == false) {
+                if (!giver.equals(student.email)) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -400,7 +401,7 @@ public class FeedbackQuestionsLogic {
                 coursesLogic.getTeamsForCourse(question.courseId);
             for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
-                if (giverTeam.equals(team.name) == false) {
+                if (!giverTeam.equals(team.name)) {
                     // recipientEmail doubles as team name in this case.
                     recipients.put(team.name, team.name);
                 }
@@ -413,7 +414,7 @@ public class FeedbackQuestionsLogic {
             List<StudentAttributes> students = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : students) {
-                if (student.email.equals(giver) == false) {
+                if (!student.email.equals(giver)) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -589,7 +590,6 @@ public class FeedbackQuestionsLogic {
         updateFeedbackQuestion(newAttributes, true);
     }
 
-
     private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
@@ -631,20 +631,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
      * 
+     * Silently fails if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, false);
-        } else {
+        if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+        } else {
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, false);
         }
-        
     }
 
     /**
@@ -653,20 +654,21 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
      * 
+     * Silently fail if question does not exist.
+     * 
      * @param feedbackQuestionId
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
-        if (questionToDeleteById != null) {
-            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
-                                        questionToDeleteById.courseId, 
-                                        questionToDeleteById.questionNumber, true);
-        } else {
+        if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+        } else {
+            deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+                                            questionToDeleteById.courseId, 
+                                            questionToDeleteById.questionNumber, true);
         }
-        
     }
     
     /**

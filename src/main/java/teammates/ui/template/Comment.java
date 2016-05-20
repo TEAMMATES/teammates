@@ -5,6 +5,8 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
+import static teammates.common.datatransfer.CommentParticipantType.*;
+
 public class Comment {
 
     private CommentAttributes comment;

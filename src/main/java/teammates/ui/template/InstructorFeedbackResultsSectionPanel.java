@@ -50,8 +50,7 @@ public class InstructorFeedbackResultsSectionPanel {
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
     }
-    
-    
+
     public String getPanelClass() {
         return panelClass;
     }
@@ -148,7 +147,6 @@ public class InstructorFeedbackResultsSectionPanel {
     public void setAbleToLoadResponses(boolean isUnableToLoadResponses) {
         this.isAbleToLoadResponses = isUnableToLoadResponses;
     }
-
 
     public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
         List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();

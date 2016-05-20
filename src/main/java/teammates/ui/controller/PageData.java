@@ -261,8 +261,7 @@ public class PageData {
         }
         return result;
     }
-    
-    
+
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_student_links() {
     //========================================================================    
@@ -396,16 +395,14 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollSaveLink(String courseId) {
         //TODO: instead of using this method, the form should include these data as hidden fields?
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
@@ -420,8 +417,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEditLink(String courseID) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID); 
@@ -604,8 +600,7 @@ public class PageData {
         
         return link;
     }
-    
-    
+
     public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
@@ -873,7 +868,6 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
@@ -1015,19 +1009,18 @@ public class PageData {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");
-            } else if (student != null) {
+            } else if (student == null) {
+                namesStringBuilder.append(recipient);
+            } else {
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
                     namesStringBuilder.append(student.name);
                 }
-            } else {
-                namesStringBuilder.append(recipient);
             }
             i++;
         }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
+        return namesStringBuilder.toString();
     }
     
     @SuppressWarnings("unused")

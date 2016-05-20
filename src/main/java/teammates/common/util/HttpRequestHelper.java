@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class HttpRequestHelper {
+public final class HttpRequestHelper {
+    
+    private HttpRequestHelper() {
+        // utility class
+    }
 
     /**
      * 

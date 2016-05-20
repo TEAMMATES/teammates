@@ -89,20 +89,20 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        if (!questionDetailsErrors.isEmpty()) {
-            statusToUser.addAll(questionDetailsErrorsMessages);
-            isError = true;
-        } else {
+        if (questionDetailsErrors.isEmpty()) {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber 
-                            + " for session:<span class=\"bold\">("
-                            + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                            + updatedQuestion.courseId + "]</span> edited.<br>"
-                            + "<span class=\"bold\">" 
-                            + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
-                            + updatedQuestionDetails.questionText;
+                          + " for session:<span class=\"bold\">("
+                          + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                          + updatedQuestion.courseId + "]</span> edited.<br>"
+                          + "<span class=\"bold\">" 
+                          + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
+                          + updatedQuestionDetails.questionText;
+        } else {
+            statusToUser.addAll(questionDetailsErrorsMessages);
+            isError = true;
         }
     }
     
@@ -127,6 +127,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", 
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
+            
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
@@ -238,11 +239,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (!"custom".equals(nEntityTypes)) {
-            return false;
-        }
-        
-        return true;
+        return "custom".equals(nEntityTypes);
     }
 
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {

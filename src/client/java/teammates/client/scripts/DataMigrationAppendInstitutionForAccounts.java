@@ -12,7 +12,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
-
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     
     private static final boolean isTrial = true;
@@ -95,6 +94,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
             
             @SuppressWarnings("unchecked")
             List<Account> studentAccounts = (List<Account>) pm.newQuery(query).execute();
+
             if (studentAccounts.isEmpty()) {
                 continue;
             }

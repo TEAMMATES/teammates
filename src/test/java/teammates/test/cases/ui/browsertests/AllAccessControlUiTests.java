@@ -76,18 +76,15 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         ______TS("student pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
-        
 
         ______TS("instructor pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
-        
 
         ______TS("admin pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
-        
-        
+
     }
 
     @Test
@@ -99,7 +96,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         verifyRedirectToWelcomeStrangerPage(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), unregUsername);
 
-
         ______TS("instructor pages");
 
         loginInstructorUnsuccessfully(unregUsername, unregPassword);
@@ -107,7 +103,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         verifyRedirectToNotAuthorized(url);
         verifyCannotMasquerade(url, otherInstructor.googleId);
-
 
         ______TS("admin pages");
         
@@ -178,7 +173,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.verifyHtml("/pageNotFound.html");
  
     }
-    
 
     private void loginStudent(String userName, String password) {
         logout(browser);

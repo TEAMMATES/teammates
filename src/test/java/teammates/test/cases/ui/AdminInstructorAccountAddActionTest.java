@@ -16,7 +16,6 @@ import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
 import teammates.ui.controller.AjaxResult; 
 
-
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
     // private final DataBundle dataBundle = getTypicalDataBundle();
@@ -62,15 +61,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        
-        
+
         ______TS("Normal case: not importing demo couse, extra spaces around values");
         final String newInstructorShortNameWithSpaces = "   " + newInstructorShortName + "   ";
         final String nameWithSpaces = "   " + name + "   ";
         final String emailWithSpaces = "   " + email + "   ";
         final String instituteWithSpaces = "   " + institute + "   ";
-        
-        
+
         Action a = getAction(
                 Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortNameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
@@ -115,7 +112,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
-    
 
     private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();

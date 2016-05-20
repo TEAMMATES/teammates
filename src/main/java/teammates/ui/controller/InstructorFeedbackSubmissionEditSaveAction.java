@@ -90,9 +90,11 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void setAdditionalParameters() throws EntityDoesNotExistException {
+        // no additional parameters to set for the standard instructor submit page
     }
 
     @Override
     protected void checkAdditionalConstraints() {
+        // no additional constraints for the standard instructor submit page
     }
 }
