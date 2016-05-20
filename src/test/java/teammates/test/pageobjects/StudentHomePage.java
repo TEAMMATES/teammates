@@ -71,7 +71,7 @@ public class StudentHomePage extends AppPage {
             WebElement text = element.findElement(By.tagName("td"));
 
             if (text.getText().contains(name)) {
-            return id;
+                return id;
             }
             
             id++;

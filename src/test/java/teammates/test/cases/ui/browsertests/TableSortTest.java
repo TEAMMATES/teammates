@@ -139,22 +139,23 @@ public class TableSortTest extends BaseUiTestCase {
         page.click(By.id("button_sortid"));
         page.click(By.id("button_sortname"));
 
-        String[] idList = { "15", 
-                            "0", 
-                            "-13.5",
-                            "2",
-                            "-2",
-                            "-1.3",
-                            "10.01",
-                            "24",
-                            "1",
-                            "10.7",
-                            "3",
-                            "33",
-                            "10.35",
-                            "-0.001",
-                            "10.3"
-                          };
+        String[] idList = {
+                "15",
+                "0",
+                "-13.5",
+                "2",
+                "-2",
+                "-1.3",
+                "10.01",
+                "24",
+                "1",
+                "10.7",
+                "3",
+                "33",
+                "10.35",
+                "-0.001",
+                "10.3"
+        };
 
         String searchString = "";
         for (int i = 0; i < idList.length; i++) {
@@ -163,22 +164,23 @@ public class TableSortTest extends BaseUiTestCase {
         page.verifyContains(searchString);
 
         page.click(By.id("button_sortname"));
-        String[] reversedIdList = {  "10.3",
-                    "-0.001",
-                    "10.35",
-                    "33",
-                    "3",
-                    "10.7",
-                    "1",
-                    "-2",
-                    "-1.3",
-                    "10.01",
-                    "24",
-                    "2",
-                    "-13.5",
-                    "0",
-                    "15"
-                 };
+        String[] reversedIdList = {
+                "10.3",
+                "-0.001",
+                "10.35",
+                "33",
+                "3",
+                "10.7",
+                "1",
+                "-2",
+                "-1.3",
+                "10.01",
+                "24",
+                "2",
+                "-13.5",
+                "0",
+                "15"
+        };
 
         searchString = "";
         for (int i = 0; i < reversedIdList.length; i++) {

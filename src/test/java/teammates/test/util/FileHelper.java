@@ -59,8 +59,8 @@ public final class FileHelper {
     }
     
     public static void deleteFile(String fileName) {
-       File file = new File(fileName);
-       file.delete();
+        File file = new File(fileName);
+        file.delete();
     }
 
     public static String readFile(String path, Charset encoding) {
