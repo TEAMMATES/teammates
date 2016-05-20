@@ -34,8 +34,7 @@ public class ActivityLogEntry {
     public static final int POSITION_OF_TIMETAKEN = 11;
     
     private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
-    
-    
+
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -91,8 +90,7 @@ public class ActivityLogEntry {
         url = link;
         id = "Unknown";
     }
-    
-    
+
     /**
      * Constructor that creates an ActivityLog object from a app log on the server.
      * Used in AdminActivityLogServlet.
@@ -110,7 +108,6 @@ public class ActivityLogEntry {
         keyStringsToHighlight = null;
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
-
 
     private void initUsingAppLogMessage(String[] tokens) {
         servletName = tokens[POSITION_OF_SERVLETNAME];
@@ -141,7 +138,6 @@ public class ActivityLogEntry {
         }
     }
 
-
     private void initAsFailure(AppLogLine appLog, Exception e) {
         servletName = "Unknown";
         action = "Unknown";
@@ -156,12 +152,11 @@ public class ActivityLogEntry {
         id = "Unknown" + "%" + formatTimeForId(new Date(time));
         timeTaken = null;
     }
-    
-    
+
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
         for (String name : automatedActions) {
             if (name.toLowerCase().contains(servletName.toLowerCase())) {
-                role = "Auto";
+                return "Auto";
             }
         }
         
@@ -276,8 +271,7 @@ public class ActivityLogEntry {
         sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         return sdf.format(date.getTime());
     }
-    
-    
+
     public String getIconRoleForShow() {
         String iconRole = "";
         
@@ -308,8 +302,7 @@ public class ActivityLogEntry {
         if (role.contains("Admin")) {
             iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
         }
-            
-        
+
         return iconRole;
     }
     
@@ -322,7 +315,6 @@ public class ActivityLogEntry {
         return requestUrl.split("/")[2].split("\\?")[0];
     }
 
-
     /**
      * Generates a log message that will be logged in the server
      */
@@ -331,8 +323,7 @@ public class ActivityLogEntry {
         return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow ? "true" : "false") + "|||" 
                 + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url + "|||" + id;
     }
-    
-    
+
     public String getDateInfo() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -386,7 +377,6 @@ public class ActivityLogEntry {
                 
         return message;
     }
-    
 
     public String getColorCode(Long timeTaken) {
         
@@ -403,8 +393,7 @@ public class ActivityLogEntry {
         
         return colorCode;            
     }
-    
-    
+
     public String getTableCellColorCode(Long timeTaken) {
         
         if (timeTaken == null) {
@@ -432,9 +421,7 @@ public class ActivityLogEntry {
         }
         return className;
    }
-    
-    
-    
+
     public String getUrlToShow() {
         String urlToShow = url;
         //If not in masquerade mode, add masquerade mode
@@ -545,7 +532,6 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-
     public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
@@ -588,11 +574,9 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-    
-    
+
     public String getLogInfoForTableRowAsHtml() {
-        
-        
+
         String result = "";
         result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"

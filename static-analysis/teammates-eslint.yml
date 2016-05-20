@@ -232,7 +232,7 @@ rules:
     # no-octal-escape: "off"
 
     # disallow reassigning function parameters
-    no-param-reassign: "off" # recommended by Airbnb
+    no-param-reassign: "error"
 
     # disallow usage of __proto__ property
     # no-proto: "off"

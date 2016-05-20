@@ -20,8 +20,6 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
 
-    private InstructorStudentRecordsPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -78,7 +76,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             } 
         }
 
-        if (sessions.size() == 0 && comments.size() == 0) {
+        if (sessions.isEmpty() && comments.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
         }
 
@@ -87,8 +85,10 @@ public class InstructorStudentRecordsPageAction extends Action {
             sessionNames.add(fsa.feedbackSessionName);
         }
         
-        data = new InstructorStudentRecordsPageData(account, student, courseId, showCommentBox, studentProfile,
-                                                    comments, sessionNames, instructor);
+        InstructorStudentRecordsPageData data = 
+                                        new InstructorStudentRecordsPageData(account, student, courseId, 
+                                                                             showCommentBox, studentProfile,
+                                                                             comments, sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "

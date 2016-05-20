@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class StudentDataGenerator {
+public final class StudentDataGenerator {
 
     private static int LENGTH_OF_STUDENT_NAME = 8;
     private static int LENGTH_OF_TEAM_SUFFIX = 3;
@@ -13,8 +13,12 @@ public class StudentDataGenerator {
     
     private static int numberOfStudents;
     private static int numberOfTeams;
+    
+    private StudentDataGenerator() {
+        // script, not meant to be instantiated
+    }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         exitIfParametersMissing(args);
         

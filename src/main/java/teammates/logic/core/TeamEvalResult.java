@@ -38,7 +38,6 @@ public class TeamEvalResult {
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
     public List<String> studentEmails;
-    
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the 
@@ -92,7 +91,6 @@ public class TeamEvalResult {
 
         log.fine("==================");
     }
-    
 
     /**
      * Replaces all missing points (for various reasons such as 'not sure' or
@@ -181,13 +179,7 @@ public class TeamEvalResult {
     }
 
     private static boolean isSanitized(int i) {
-        if (i == NSU) {
-            return false;
-        }
-        if (i == NSB) {
-            return false;
-        }
-        return true;
+        return i != NSB && i != NSU;
     }
 
     private static boolean isSpecialValue(int value) {
@@ -409,11 +401,10 @@ public class TeamEvalResult {
     /** replaces 999 etc. with NA, NSB, NSU etc.
      */
     public static String replaceMagicNumbers(String returnValue) {
-        returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(Integer.toString(NA), " NA");
-        returnValue = returnValue.replace(NSB + ".0", "NSB");
-        returnValue = returnValue.replace(NSU + ".0", "NSU");
-        return returnValue;
+        return returnValue.replace(NA + ".0", " NA")
+                          .replace(Integer.toString(NA), " NA")
+                          .replace(NSB + ".0", "NSB")
+                          .replace(NSU + ".0", "NSU");
     }
 
     public String toString() {

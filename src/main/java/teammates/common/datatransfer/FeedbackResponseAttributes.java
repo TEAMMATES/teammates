@@ -38,7 +38,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public Text responseMetaData;
     
     public FeedbackResponseAttributes() {
-        
+        // attributes to be set after construction
     }
     
     public FeedbackResponseAttributes(String feedbackSessionName,

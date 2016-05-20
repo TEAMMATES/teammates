@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,6 @@ public class AccountAttributes extends EntityAttributes {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
     
-    
     public AccountAttributes(Account a) {
         googleId = a.getGoogleId();
         name = a.getName();
@@ -41,6 +39,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public AccountAttributes() {
+        // attributes to be set after construction
     }
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,

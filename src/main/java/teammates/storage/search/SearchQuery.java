@@ -15,7 +15,7 @@ import teammates.common.util.Utils;
 /**
  * The SearchQuery object that defines how we query {@link Document}
  */
-public abstract class SearchQuery {
+public class SearchQuery {
 
     protected static Logger log = Utils.getLogger();
     protected static final String AND = " AND ";
@@ -28,6 +28,11 @@ public abstract class SearchQuery {
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
+    
+    protected SearchQuery() {
+        // Prevents instantiation of the base SearchQuery. 
+        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead 
+    }
     
     protected void setOptions(QueryOptions options) {
         this.options = options;
@@ -61,8 +66,7 @@ public abstract class SearchQuery {
     }
     
     private String prepareOrQueryString(String queryString) {
-        queryString = queryString.replaceAll("\"", " \" ");
-        String[] splitStrings = queryString.trim().split("\\s+");
+        String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
         String key = "";
@@ -91,7 +95,7 @@ public abstract class SearchQuery {
             keywords.add(key.trim());
         }
 
-        if (keywords.size() < 1) return "";
+        if (keywords.isEmpty()) return "";
         
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         

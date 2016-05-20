@@ -25,7 +25,7 @@ import teammates.test.driver.TestProperties;
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
  * 
  */
-public class ImportData {
+public final class ImportData {
     //  
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
@@ -38,7 +38,11 @@ public class ImportData {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    public static void main(String args[]) throws Exception {
+    private ImportData() {
+        // script, not meant to be instantiated
+    }
+
+    public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         

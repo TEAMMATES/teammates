@@ -9,9 +9,6 @@ public class FeedbackQuestionVisibilitySettings {
     private Map<String, Boolean> recipientNameVisibleFor;
     private Map<String, Boolean> responseVisibleFor;
     
-    public FeedbackQuestionVisibilitySettings() {
-    }
-    
     public FeedbackQuestionVisibilitySettings(List<String> visibilityMessages,
                                               Map<String, Boolean> responseVisibleFor,
                                               Map<String, Boolean> giverNameVisibleFor,

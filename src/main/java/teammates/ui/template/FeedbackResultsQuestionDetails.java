@@ -36,6 +36,5 @@ public class FeedbackResultsQuestionDetails {
     public boolean isIndividualResponsesShownToStudents() {
         return isIndividualResponsesShownToStudents;
     }
-    
-    
+
 }
