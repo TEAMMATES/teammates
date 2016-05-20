@@ -526,20 +526,19 @@ public class InstructorsDb extends EntitiesDb {
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
+        if (omitArchived) {
+            Query q = getPM().newQuery(Instructor.class);
+            q.declareParameters("String googleIdParam, boolean omitArchivedParam");
+            // Omit archived == true, get instructors with isArchived != true
+            q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
+            
+            return (List<Instructor>) q.execute(googleId, omitArchived);
+        } else {
             return getInstructorEntitiesForGoogleId(googleId);
-        } 
-        
-        Query q = getPM().newQuery(Instructor.class);
-        q.declareParameters("String googleIdParam, boolean omitArchivedParam");
-        // Omit archived == true, get instructors with isArchived != true
-        q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
-        
-        @SuppressWarnings("unchecked")
-        List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-        return instructorList;
+        }
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

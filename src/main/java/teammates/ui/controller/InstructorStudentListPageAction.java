@@ -66,9 +66,7 @@ public class InstructorStudentListPageAction extends Action {
         InstructorStudentListPageData data = 
                 new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
-        return response;
-
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
     }
 
 }

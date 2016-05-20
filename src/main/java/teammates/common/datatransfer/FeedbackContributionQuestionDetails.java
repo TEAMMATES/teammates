@@ -699,8 +699,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
 
     @Override

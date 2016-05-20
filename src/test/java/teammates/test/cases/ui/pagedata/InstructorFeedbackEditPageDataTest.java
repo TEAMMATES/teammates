@@ -302,8 +302,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
-        InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
-        return instructorAttributes;
+        return dataBundle.instructors.get(instructor);
     }
 
     public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {

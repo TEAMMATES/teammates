@@ -569,14 +569,13 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
     
     private List<Student> getStudentEntitiesForCourses(List<String> courseIds) {
