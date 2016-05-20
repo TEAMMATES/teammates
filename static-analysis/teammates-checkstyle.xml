@@ -42,7 +42,6 @@
       <property name="allowMultipleEmptyLines" value="false"/>
     </module>
     <module name="ArrayTypeStyle"/>
->>>>>>> refs/heads/master
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
