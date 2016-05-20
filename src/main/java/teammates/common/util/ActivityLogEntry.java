@@ -418,14 +418,14 @@ public class ActivityLogEntry {
     }
 
     public String getUrlToShow() {
-        //If not in masquerade mode, add masquerade mode
-        if (!url.contains("user=")) {
-            if (url.contains("?")) {
-                return url + "&user=" + googleId;
-            } 
-            return url + "?user=" + googleId;
+        if (url.contains("user=")) {
+            return url;
         }
-        return url;
+        // If not in masquerade mode, add masquerade mode
+        if (url.contains("?")) {
+            return url + "&user=" + googleId;
+        } 
+        return url + "?user=" + googleId;
     }
     
     public String getId() {

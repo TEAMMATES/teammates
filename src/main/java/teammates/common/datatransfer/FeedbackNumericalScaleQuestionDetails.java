@@ -429,9 +429,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         if (showAvgExcludingSelf) {
             // Display a dash if the user has only self response
             return averageExcludingSelf == null ? "-" : df.format(averageExcludingSelf);
-        } else {
-            return "";
         }
+        return "";
     }
     
     @Override

@@ -84,7 +84,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        StringBuilder html = new StringBuilder();
+        StringBuilder html = new StringBuilder(100);
         for (int i = 0; i < answer.size(); i++) {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
@@ -92,13 +92,12 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 chosenChoice = "<span class=\"color_neutral\"><i>" 
                              + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE 
                              + "</i></span>";
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ")
-                    .append(chosenChoice).append("<br>");
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)).append(") ").append(chosenChoice)
-                    .append(" <span class=\"color_neutral\"><i>(Choice ").append(chosenIndex + 1)
-                    .append(")</i></span><br>");
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
+                            + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
+                            + ")</i></span><br>");
             }
             
         }
