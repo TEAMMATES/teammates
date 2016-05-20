@@ -51,10 +51,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
-        } else {
-            data.setSessionResultsHtmlTableAsString("");
-            data.setAjaxStatus("");
         }
+        data.setSessionResultsHtmlTableAsString("");
+        data.setAjaxStatus("");
         
         String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);

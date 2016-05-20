@@ -57,11 +57,10 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException {
-        if (isRegisteredStudent()) {
-            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        } else {
+        if (!isRegisteredStudent()) {
             throw new EntityDoesNotExistException("unregistered student trying to access non-existent session");
         }
+        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
     protected StudentAttributes getStudent() {

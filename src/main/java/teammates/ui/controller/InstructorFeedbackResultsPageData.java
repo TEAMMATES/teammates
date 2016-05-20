@@ -1451,9 +1451,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (isGiverStudentOrTeam || isGiverInstructor) {
             return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
-        } else {
-            return null;
         }
+        return null;
     }
     
     /**

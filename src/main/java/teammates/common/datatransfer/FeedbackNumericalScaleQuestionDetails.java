@@ -160,9 +160,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         if ("student".equals(view)) {
             return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
-        } else {
-            return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
+        return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(
