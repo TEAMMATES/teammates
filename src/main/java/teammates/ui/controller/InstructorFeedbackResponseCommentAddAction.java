@@ -130,9 +130,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         if (participants.isEmpty()) {
             return "";
         } else {
-            String result = "";
+            StringBuilder result = new StringBuilder();
             for (FeedbackParticipantType fpt: participants) {
-                result += fpt + joiner;
+                result.append(fpt).append(joiner);
             }
             return result.substring(0, result.length() - joiner.length());
         }

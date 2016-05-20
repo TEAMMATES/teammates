@@ -3,6 +3,7 @@ package teammates.logic.automated;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,8 +17,6 @@ import com.google.appengine.api.log.RequestLogs;
 
 import teammates.common.util.Utils;
 import teammates.logic.core.Emails;
-
-import java.util.logging.*;
 
 public class CompileLogs {
     private static Logger log = Utils.getLogger();
@@ -37,7 +36,7 @@ public class CompileLogs {
                                      .minLogLevel(LogLevel.ERROR);
         
         Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
-        String message = "";
+        StringBuilder message = new StringBuilder(100);
 
         int numberOfErrors = 0;
 
@@ -51,14 +50,13 @@ public class CompileLogs {
                 
                 if (LogService.LogLevel.FATAL.equals(logLevel) || LogService.LogLevel.ERROR.equals(logLevel)) {
                     numberOfErrors++;
-                    message += numberOfErrors + ". " 
-                             + "Error Type: " + currentLog.getLogLevel().toString() + "<br/>" 
-                             + "Error Message: " + currentLog.getLogMessage() + "<br/><br/>";
+                    message.append(numberOfErrors + ". Error Type: " + currentLog.getLogLevel().toString()
+                                   + "<br/>Error Message: " + currentLog.getLogMessage() + "<br/><br/>");
                 }
             }
         }
 
-        return message;
+        return message.toString();
     }
 
     public void sendEmail(String logs) {

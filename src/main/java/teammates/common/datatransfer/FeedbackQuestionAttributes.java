@@ -149,7 +149,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         List<String> message = new ArrayList<String>();
 
         for (FeedbackParticipantType participant : showResponsesTo) {
-            String line = "";
+            StringBuilder line = new StringBuilder(100);
 
             // Exceptional case: self feedback
             if (participant == FeedbackParticipantType.RECEIVER
@@ -159,54 +159,54 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             }
 
             // Front fragment: e.g. Other students in the course..., The receiving.., etc.
-            line = participant.toVisibilityString() + " ";
+            line.append(participant.toVisibilityString()).append(' ');
 
             // Recipient fragment: e.g. student, instructor, etc.
             if (participant == FeedbackParticipantType.RECEIVER) {
-                line += recipientType.toSingularFormString();
+                line.append(recipientType.toSingularFormString());
 
                 if (numberOfEntitiesToGiveFeedbackTo > 1) {
-                    line += "s";
+                    line.append('s');
                 }
 
-                line += " ";
+                line.append(' ');
             }
 
-            line += "can see your response";
+            line.append("can see your response");
 
             // Visibility fragment: e.g. can see your name, but not...
             if (showRecipientNameTo.contains(participant)) {
                 if (participant != FeedbackParticipantType.RECEIVER
                     && recipientType != FeedbackParticipantType.NONE) {
-                    line += ", the name of the recipient";
+                    line.append(", the name of the recipient");
                 }
 
                 if (showGiverNameTo.contains(participant)) {
-                    line += ", and your name";
+                    line.append(", and your name");
                 } else {
-                    line += ", but not your name";
+                    line.append(", but not your name");
                 }
             } else {
                 if (showGiverNameTo.contains(participant)) {
-                    line += ", and your name";
+                    line.append(", and your name");
                 }
 
                 if (recipientType == FeedbackParticipantType.NONE) {
                     if (!showGiverNameTo.contains(participant)) {
-                        line += ", but not your name";
+                        line.append(", but not your name");
                     }
                 } else {
-                    line += ", but not the name of the recipient";
+                    line.append(", but not the name of the recipient");
                     
                     if (!showGiverNameTo.contains(participant)) {
-                        line += ", or your name";
+                        line.append(", or your name");
                     }
                 }
 
             } 
 
-            line += ".";
-            message.add(line);
+            line.append('.');
+            message.add(line.toString());
         }
 
         if (message.isEmpty()) {

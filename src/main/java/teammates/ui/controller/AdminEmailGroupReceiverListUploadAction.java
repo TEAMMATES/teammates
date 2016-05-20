@@ -201,7 +201,9 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     }
     
     private void deleteGroupReceiverListFile(BlobKey blobKey) {
-        if (blobKey.equals(new BlobKey(""))) return;
+        if (blobKey.equals(new BlobKey(""))) {
+            return;
+        }
         
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);

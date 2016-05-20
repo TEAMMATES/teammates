@@ -87,8 +87,10 @@ public class InstructorCourseRemindAction extends Action {
     }
     
     private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
-        String statusToAdmin = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
+        StringBuilder statusToAdmin = new StringBuilder(200);
+        statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
+                     .append(courseId)
+                     .append("]</span>:<br/>");
         
         Iterator<Entry<String, JoinEmailData>> extractedEmailIterator = 
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -99,11 +101,11 @@ public class InstructorCourseRemindAction extends Action {
             String userEmail = extractedEmail.getKey();
             JoinEmailData joinEmailData = extractedEmail.getValue();
             
-            statusToAdmin += joinEmailData.userName + "<span class=\"bold\"> (" + userEmail + ")"
-                    + "</span>.<br/>" + joinEmailData.regKey + "<br/>";
+            statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
+                         .append(")</span>.<br/>").append(joinEmailData.regKey).append("<br/>");
         }
         
-        return statusToAdmin;
+        return statusToAdmin.toString();
     }
 
     private Map<String, JoinEmailData> extractEmailDataForLogging(List<MimeMessage> emails) {

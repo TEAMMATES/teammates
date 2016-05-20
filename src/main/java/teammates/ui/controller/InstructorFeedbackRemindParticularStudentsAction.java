@@ -13,7 +13,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; //NOPMD
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),

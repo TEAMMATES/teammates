@@ -1,6 +1,8 @@
 package teammates.test.cases.common;
 
+//CHECKSTYLE:OFF as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
+//CHECKSTYLE:ON
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -710,9 +712,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if (!fieldName.isEmpty() && !expected.isEmpty()) {
-            expected = "Invalid " + fieldName + ": " + expected;
-        }
         assertEquals(description, expected, 
                 validator.getInvalidityInfo(fieldType, fieldName, value));
     }

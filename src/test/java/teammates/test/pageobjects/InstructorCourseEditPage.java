@@ -219,49 +219,41 @@ public class InstructorCourseEditPage extends AppPage {
         this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
-    public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        sectionLevelNum--;
-        sectionNum--;
+    private WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
         return browser.driver.findElement(By.cssSelector(cssSelector));
     }
     
     public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum, sectionNum).click();
+        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum - 1, sectionNum - 1).click();
     }
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        // in page, sectionLevel is 0 based
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String linkId = "toggleSessionLevelInSection" + sectionLevelNum + "ForInstructor" + instrNum;
         browser.driver.findElement(By.id(linkId)).click();
     }

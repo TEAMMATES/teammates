@@ -27,8 +27,9 @@ public class AdminEmailsLogic {
     private static Logger log = Utils.getLogger();
     
     public static AdminEmailsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AdminEmailsLogic();
+        }
         return instance;
     }
 

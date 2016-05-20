@@ -76,12 +76,11 @@ public final class StudentDataGenerator {
     }
 
     private static String generateRandomString(int length) {
-        String name = "";
+        StringBuilder name = new StringBuilder();
 
         for (int j = 0; j < length; j++) {
-            name += RANDOM_ALLOWED_CHARS.charAt(new Random()
-                    .nextInt(RANDOM_ALLOWED_CHARS.length()));
+            name.append(RANDOM_ALLOWED_CHARS.charAt(new Random().nextInt(RANDOM_ALLOWED_CHARS.length())));
         }
-        return name;
+        return name.toString();
     }
 }
