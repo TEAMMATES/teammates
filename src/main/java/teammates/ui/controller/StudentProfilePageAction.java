@@ -8,8 +8,6 @@ import teammates.common.util.Const;
  */
 public class StudentProfilePageAction extends Action {
 
-    private StudentProfilePageData data;
-
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         account.studentProfile = logic.getStudentProfile(account.googleId);
@@ -23,11 +21,10 @@ public class StudentProfilePageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
 
-        data = new StudentProfilePageData(account, isEditingPhoto);
+        StudentProfilePageData data = new StudentProfilePageData(account, isEditingPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
     }
 
 }

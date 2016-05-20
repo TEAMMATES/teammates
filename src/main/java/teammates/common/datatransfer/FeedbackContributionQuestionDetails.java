@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
@@ -155,8 +157,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
-    
-        if (responses.size() == 0) {
+
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -215,7 +217,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -243,19 +245,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
-        
-        
+
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF 
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
-        
 
         String html = "";
         String contribFragments = "";
@@ -272,7 +272,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -302,7 +302,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
-        
         return html;
     }
     
@@ -312,8 +311,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
         
-        
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
@@ -347,14 +345,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
+            if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
-        
-        
+
         String contribFragments = "";
         Map<String, String> sortedMap = new TreeMap<String, String>();
         
@@ -371,7 +368,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName = name;
             String displayTeam = team;
             String displayEmail = email;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -702,8 +699,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -724,7 +720,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if (validAnswer == false) {
+            if (!validAnswer) {
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
@@ -758,7 +754,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return errorMsg;
     }
-    
 
     public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
@@ -804,8 +799,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } 
         return noResponseHtml;
     }
-    
-    
+
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -914,6 +908,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return true;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
     }
 
 }

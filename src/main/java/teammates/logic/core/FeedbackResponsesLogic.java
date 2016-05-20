@@ -193,7 +193,7 @@ public class FeedbackResponsesLogic {
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
 
-        return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
+        return !getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).isEmpty();
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
@@ -381,11 +381,7 @@ public class FeedbackResponsesLogic {
             || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
-        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
-            return true;
-        }
-        
-        return false;
+        return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     /**

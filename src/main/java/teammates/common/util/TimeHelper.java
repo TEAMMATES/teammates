@@ -17,7 +17,7 @@ import teammates.common.util.Const.SystemParams;
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  * Time zone is assumed as UTC unless specifically mentioned.
  */
-public class TimeHelper {
+public final class TimeHelper {
     
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
@@ -70,6 +70,10 @@ public class TimeHelper {
         map("13.0", "Phoenix Islands, Tokelau, Tonga");
         map("14.0", "Line Islands");
         
+    }
+    
+    private TimeHelper() {
+        // utility class
     }
         
     private static void map(String timeZone, String cities) {

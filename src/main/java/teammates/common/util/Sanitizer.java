@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,7 +17,11 @@ import com.google.appengine.api.datastore.Text;
  * parameters so that they conform to our data format
  * and possible threats can be removed first.
  */
-public class Sanitizer {
+public final class Sanitizer {
+    
+    private Sanitizer() {
+        // utility class
+    }
     
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace

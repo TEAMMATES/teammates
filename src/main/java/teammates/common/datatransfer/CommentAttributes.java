@@ -41,7 +41,7 @@ public class CommentAttributes extends EntityAttributes
     public Date lastEditedAt;
 
     public CommentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
@@ -294,7 +294,7 @@ public class CommentAttributes extends EntityAttributes
         Iterator<CommentParticipantType> iter = visibilityOptions.iterator();
         while (iter.hasNext()) {
             CommentParticipantType otherType = iter.next();
-            if (otherType == typeToRemove) {
+            if (otherType.equals(typeToRemove)) {
                 iter.remove();
             }
         }

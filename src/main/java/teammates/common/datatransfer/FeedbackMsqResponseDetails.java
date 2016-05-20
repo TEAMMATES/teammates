@@ -27,7 +27,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answers = Arrays.asList(answer);      
     }
-    
 
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                     FeedbackQuestionDetails questionDetails, String[] answer,

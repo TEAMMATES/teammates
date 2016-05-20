@@ -153,7 +153,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-
+        // deprecated
     }
     
     public String getTextFromInstructorPrivileges() {

@@ -129,8 +129,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
- 
-    
+
     @FindBy(id = "button_copy")
     private WebElement copyButton;
     
@@ -145,8 +144,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
-    
-    
+
     public InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
@@ -189,8 +187,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
@@ -424,6 +421,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickVisibilityPreviewForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
     }
+    
     public void clickVisibilityOptionsForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
     }
@@ -831,8 +829,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
         clickAndConfirm(removeRubricColLink);
     }
-    
-    
+
     public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
         assertFalse(optionBox.isDisplayed());
@@ -861,6 +858,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
+    
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         checkBox.click();

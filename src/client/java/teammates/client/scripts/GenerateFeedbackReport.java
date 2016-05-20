@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-
 import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -14,8 +13,7 @@ import teammates.test.util.FileHelper;
  * Generates the feedback report as a csv.
  */
 public class GenerateFeedbackReport extends RemoteApiClient {
-    
-    
+
     public static void main(String[] args) throws IOException {
         GenerateFeedbackReport reportGenerator = new GenerateFeedbackReport();
         reportGenerator.doOperationRemotely();

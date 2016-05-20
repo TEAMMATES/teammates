@@ -35,7 +35,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         return true;
     }
 
-
     @Override
     public abstract String getQuestionTypeDisplayName();
 
@@ -48,12 +47,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients);
-    
-
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
-
 
     /**
      * Used to update the mapping of ranks for the option optionReceivingPoints

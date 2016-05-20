@@ -45,7 +45,6 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
-    
     @SuppressWarnings("serial")
     public static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
         

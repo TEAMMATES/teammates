@@ -78,7 +78,6 @@ public class InstructorFeedbackResultsResponsePanel {
         return isAllowedToAddComment;
     }
 
-    
     public int getRecipientIndex() {
         return recipientIndex;
     }
@@ -90,7 +89,6 @@ public class InstructorFeedbackResultsResponsePanel {
     public int getQnIndex() {
         return qnIndex;
     }
-    
 
     public void setFrcForAdding(FeedbackResponseComment frcForAdding) {
         this.frcForAdding = frcForAdding;

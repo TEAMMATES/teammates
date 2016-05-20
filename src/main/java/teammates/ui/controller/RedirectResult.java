@@ -24,7 +24,6 @@ public class RedirectResult extends ActionResult {
         super(destination, account, status);
     }
 
-
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.sendRedirect(getDestinationWithParams());
