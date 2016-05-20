@@ -5,6 +5,7 @@ $(document).ready(function() {
     hideUncommonPanels();
 
     $(".dropdown-menu li a").click(function(){
+    	$('#questiontype').val(this.id)
     	showNewQuestionFrame(this.id)
      });
 

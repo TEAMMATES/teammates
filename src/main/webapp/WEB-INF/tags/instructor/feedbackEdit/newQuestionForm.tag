@@ -102,6 +102,7 @@
         </div>
     </div>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="${nextQnNum}">
+    <input type="hidden" id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fqForm.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fqForm.courseId}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO %>" >
