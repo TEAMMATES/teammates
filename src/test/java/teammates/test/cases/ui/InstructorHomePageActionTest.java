@@ -177,7 +177,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
-    private InstructorHomePageAction getAction(String... params) throws Exception {
+    private InstructorHomePageAction getAction(String... params) {
             return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

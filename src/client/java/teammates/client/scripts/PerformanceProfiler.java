@@ -170,7 +170,7 @@ public class PerformanceProfiler extends Thread {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         (new PerformanceProfiler(defaultReportPath)).start();
     }
 

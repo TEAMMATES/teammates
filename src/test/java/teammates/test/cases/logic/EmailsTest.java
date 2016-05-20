@@ -45,7 +45,7 @@ public class EmailsTest extends BaseComponentTestCase {
     private String replyTo;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -508,7 +508,7 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     @AfterClass()
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

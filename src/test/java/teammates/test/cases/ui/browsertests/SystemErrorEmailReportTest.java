@@ -26,7 +26,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     private static AppPage page;
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
 
         browser = BrowserPool.getBrowser();
@@ -35,7 +35,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll() throws Exception {
+    public void testAll() {
         testAssertionError();
         testEntityDoesNotExistException();
         testNullPointerException();
@@ -75,7 +75,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
     }
     
-    public void testDeadlineExceededException() throws Exception {
+    public void testDeadlineExceededException() {
         
         ______TS("Deadline Exceeded testing");
         
@@ -108,7 +108,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     }
 
     @AfterClass()
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);
     }

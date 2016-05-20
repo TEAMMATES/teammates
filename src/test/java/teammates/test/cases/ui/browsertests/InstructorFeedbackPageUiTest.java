@@ -46,7 +46,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes newSession;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();
@@ -80,7 +80,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testLinks() throws Exception {
+    public void testLinks() {
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
@@ -88,12 +88,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testButtons() throws Exception {
+    public void testButtons() {
         testCopySessionModalButtons();
     }
 
     @Test
-    public void testMiscellaneous() throws Exception {
+    public void testMiscellaneous() {
         testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
@@ -479,7 +479,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
     
-    public void testCopyToAction() throws Exception {
+    public void testCopyToAction() {
         String feedbackSessionName = "Open Session #";
         String courseId = newSession.courseId;
         
@@ -1004,7 +1004,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

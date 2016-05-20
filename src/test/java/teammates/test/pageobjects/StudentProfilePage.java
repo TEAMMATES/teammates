@@ -94,13 +94,13 @@ public class StudentProfilePage extends AppPage {
         return changePageType(StudentProfilePage.class);
     }
 
-    public void fillProfilePic(String fileName) throws Exception {
+    public void fillProfilePic(String fileName) {
         showPictureEditor();
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
     }
 
-    public void showPictureEditor() throws Exception {
+    public void showPictureEditor() {
         uploadPopupButton.click();
         waitForUploadEditModalVisible();
     }
@@ -143,7 +143,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) throws Exception {
+                                     String nationality, String gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -205,7 +205,7 @@ public class StudentProfilePage extends AppPage {
         editPictureSubmit.click();
     }
 
-    public void verifyPhotoSize(int height, int width) throws Exception {
+    public void verifyPhotoSize(int height, int width) {
         assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight"))
                                                            .getAttribute("value"));
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))

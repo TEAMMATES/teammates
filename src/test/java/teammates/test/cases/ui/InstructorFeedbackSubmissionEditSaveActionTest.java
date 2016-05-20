@@ -33,7 +33,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         new BackDoorLogic().removeDataBundle(dataBundle);
     }
 
@@ -583,7 +583,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }
 
-    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

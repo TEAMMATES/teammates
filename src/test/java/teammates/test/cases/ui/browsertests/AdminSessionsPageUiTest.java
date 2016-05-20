@@ -24,19 +24,19 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     AdminSessionsPage sessionsPage;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();      
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     
     @Test
-    public void testAll() throws Exception {
+    public void testAll() {
         testContent();
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

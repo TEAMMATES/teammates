@@ -6,12 +6,12 @@ import org.testng.annotations.Test;
 public class AdminSearchPageActionTest extends BaseActionTest {
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         // TODO : Test is done as a browser test,
         // cuz gaeSimulation gives problems when rebuilding the document
     }

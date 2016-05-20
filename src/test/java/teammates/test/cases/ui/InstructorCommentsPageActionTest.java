@@ -104,7 +104,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
-    private InstructorCommentsPageAction getAction(String... params) throws Exception {
+    private InstructorCommentsPageAction getAction(String... params) {
         return (InstructorCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

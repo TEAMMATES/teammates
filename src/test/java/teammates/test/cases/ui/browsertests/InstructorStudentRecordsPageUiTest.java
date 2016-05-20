@@ -26,7 +26,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static String studentEmail;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
         testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
@@ -113,11 +113,11 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testLinks() throws Exception {
+    private void testLinks() {
         // TODO add link to a feedback session
     }
 
-    private void testScript() throws Exception {
+    private void testScript() {
         InstructorAttributes instructor = testDataNormal.instructors.get("teammates.test.CS2104");
         StudentAttributes student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
 
@@ -134,7 +134,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.verifyEditCommentButtonClick(1);
     }
 
-    private void testAction() throws Exception {
+    private void testAction() {
         
         ______TS("add comment: failure (empty comment)");
 
@@ -190,7 +190,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

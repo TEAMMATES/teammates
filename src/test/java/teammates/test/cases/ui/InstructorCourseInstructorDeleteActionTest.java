@@ -108,7 +108,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
-    private Action getAction(String... params) throws Exception {
+    private Action getAction(String... params) {
             return gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -32,7 +32,7 @@ public class BackDoorTest extends BaseTestCase {
     private static String jsonString = gson.toJson(dataBundle);
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         printTestClassHeader();
         dataBundle = getTypicalDataBundle();
         int retryLimit = 5;
@@ -122,7 +122,7 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     @Test
-    public void testAccounts() throws Exception {
+    public void testAccounts() {
         
         testCreateAccount();
         testGetAccountAsJson();

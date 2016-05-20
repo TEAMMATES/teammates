@@ -95,7 +95,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(frcaTemp);
     }
     
-    public void testGetFeedbackResponseCommentFromId() throws Exception {
+    public void testGetFeedbackResponseCommentFromId() {
         
         ______TS("null parameter");
 
@@ -121,7 +121,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertNull(frcDb.getFeedbackResponseComment(-1L));
     }
 
-    public void testGetFeedbackResponseCommentFromCommentDetails() throws Exception {
+    public void testGetFeedbackResponseCommentFromCommentDetails() {
 
         ______TS("null parameter");
 
@@ -286,7 +286,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetFeedbackResponseCommentsForSession() throws Exception {
+    public void testGetFeedbackResponseCommentsForSession() {
         
         ______TS("null parameter");
 
@@ -464,7 +464,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

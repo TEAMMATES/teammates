@@ -96,7 +96,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor() throws Exception {        
+    public void testGetFeedbackSessionsListForInstructor() {        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
@@ -1875,7 +1875,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testIsFeedbackSessionCompletedByStudent() throws Exception {
+    public void testIsFeedbackSessionCompletedByStudent() {
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
@@ -2141,7 +2141,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         return tableString;
     }
     
-    public void testDeleteFeedbackSessionsForCourse() throws Exception {
+    public void testDeleteFeedbackSessionsForCourse() {
         
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
         fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
@@ -2149,7 +2149,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

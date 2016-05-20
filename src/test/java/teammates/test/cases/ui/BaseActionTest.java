@@ -393,7 +393,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
         
         ______TS("not-logged-in users cannot access");
         

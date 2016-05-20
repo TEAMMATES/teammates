@@ -130,7 +130,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                      redirectResult.getDestinationWithParams());
     }
 
-    private InstructorCourseEditSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseEditSaveAction getAction(String... params) {
         return (InstructorCourseEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

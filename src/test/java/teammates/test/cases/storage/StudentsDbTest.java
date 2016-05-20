@@ -24,7 +24,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     private StudentsDb studentsDb = new StudentsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     

@@ -210,7 +210,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         }
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return gaeSimulation.getActionObject(uri, parameters);
     }
 }

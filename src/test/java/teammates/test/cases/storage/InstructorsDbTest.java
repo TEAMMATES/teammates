@@ -191,7 +191,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("Success: get instructors with specific email");
         
@@ -259,7 +259,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorsForCourse() throws Exception {
+    public void testGetInstructorsForCourse() {
         
         ______TS("Success: get instructors of a specific course");
         
@@ -428,7 +428,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForGoogleId() throws Exception {
+    public void testDeleteInstructorsForGoogleId() {
         
         ______TS("Success: delete instructors with specific googleId");
         
@@ -453,7 +453,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("Success: delete instructors of a specific course");
         
@@ -478,12 +478,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public void classTearDown() throws Exception {
+    public void classTearDown() {
         deleteInstructorsFromDb();
         printTestClassFooter();
     }
     
-    private static void deleteInstructorsFromDb() throws Exception {
+    private static void deleteInstructorsFromDb() {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
             instructorsDb.deleteEntity(dataBundle.instructors.get(i));

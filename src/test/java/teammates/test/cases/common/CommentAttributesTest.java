@@ -28,7 +28,7 @@ public class CommentAttributesTest extends BaseTestCase {
     private static Date createdAt;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         courseId = "test-course-id";
         giverEmail = "email from giver";
@@ -129,7 +129,7 @@ public class CommentAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

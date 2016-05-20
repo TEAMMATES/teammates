@@ -19,7 +19,7 @@ import teammates.test.cases.BaseTestCase;
 public class StudentAttributesTest extends BaseTestCase {
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
@@ -236,7 +236,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsRegistered() throws Exception {
+    public void testIsRegistered() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                                      "comment 1", "course1");
 

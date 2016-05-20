@@ -35,7 +35,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     

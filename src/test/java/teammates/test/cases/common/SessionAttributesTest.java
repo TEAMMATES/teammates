@@ -15,7 +15,7 @@ import teammates.test.cases.BaseTestCase;
 public class SessionAttributesTest extends BaseTestCase {
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -68,7 +68,7 @@ public class SessionAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     

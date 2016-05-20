@@ -22,7 +22,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackMsqQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -220,7 +220,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

@@ -119,7 +119,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         }
     }
 
-    private InstructorEditInstructorFeedbackPageAction getAction(String... params) throws Exception {
+    private InstructorEditInstructorFeedbackPageAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

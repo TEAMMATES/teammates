@@ -31,7 +31,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private AppUrl enrollUrl;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -234,7 +234,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() throws Exception {
+        public static void classTearDown() {
             BrowserPool.release(browser);
         }
 }
