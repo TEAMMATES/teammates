@@ -44,4 +44,7 @@
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf_cr_crlf"/>
+  </module>
 </module>
