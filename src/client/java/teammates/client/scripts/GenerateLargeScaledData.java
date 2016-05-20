@@ -67,9 +67,9 @@ public class GenerateLargeScaledData extends RemoteApiClient {
     }
     
     protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
-        String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
-                              + pathToJsonFileParam;
         try {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                                  + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
         } catch (FileNotFoundException e) {
