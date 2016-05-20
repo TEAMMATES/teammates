@@ -328,7 +328,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         return null;
         
-}
+    }
 
     private boolean isStudentCreatedInRange(Student student) {
         
@@ -442,23 +442,23 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private boolean isValidDate(int day, int month, int year) {
         
-       boolean isDateValid = false; 
+        boolean isDateValid = false; 
 
         if (day <= 0 || month <= 0 || year <= 0) {
             isDateValid = false;
         } else if (day > getMaxNumOfDayForMonth(month, year)) {
             isDateValid = false;
         } else {
-          isDateValid = true;
+            isDateValid = true;
         }
    
-       if (isDateValid) {
-           System.out.print("Date Entered is valid.\n\n");
-       } else {
-           System.out.print("Date is not valid. Please Re-enter date.\n\n");
-       }
+        if (isDateValid) {
+            System.out.print("Date Entered is valid.\n\n");
+        } else {
+            System.out.print("Date is not valid. Please Re-enter date.\n\n");
+        }
        
-       return isDateValid;
+        return isDateValid;
         
     }
     

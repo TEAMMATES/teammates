@@ -270,8 +270,8 @@ public final class DataGenerator {
         result += "\"name\":\"" + acc + "\",";
         result += "\"email\":\"" + acc + "@gmail.com\",";
         result += "\"institute\":\"\"";
-          result += "}";
-          return result;
+        result += "}";
+        return result;
     }
     
     /**
@@ -283,8 +283,8 @@ public final class DataGenerator {
         result += "\"courseId\":\"" + courseId + "\",";
         result += "\"name\":\"" + name + "\",";
         result += "\"email\":\"" + email + "\"";
-          result += "}";
-          return result;
+        result += "}";
+        return result;
     }
     
     /**
@@ -294,8 +294,8 @@ public final class DataGenerator {
         String result = "\"" + objName + "\":{";
         result += "\"id\":\"" + id + "\",";
         result += "\"name\":\"" + name + "\"";
-          result += "}";
-          return result;
+        result += "}";
+        return result;
     }
     
     /**
@@ -311,8 +311,8 @@ public final class DataGenerator {
         result += "\"comments\":\"" + comments + "\",";
         result += "\"course\":\"" + course + "\",";
         result += "\"profile\":{\"value\": \"" + name + "\"}";
-          result += "}";
-          return result;
+        result += "}";
+        return result;
     }
     
     /*helper methods*/

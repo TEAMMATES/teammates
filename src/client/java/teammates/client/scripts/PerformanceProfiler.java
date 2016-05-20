@@ -226,7 +226,7 @@ public class PerformanceProfiler extends Thread {
     {
         List<String> list = new ArrayList<String>();
         for (String str : results.keySet()) {
-         list.add(str);
+            list.add(str);
         }
         Collections.sort(list);
         FileWriter fstream = new FileWriter(filePath);

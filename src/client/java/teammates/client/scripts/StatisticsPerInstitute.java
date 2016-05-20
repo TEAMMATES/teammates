@@ -137,10 +137,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
-                institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
-                allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
-                instructorEmailCounter++;
-                updateProgressIndicator();
+            institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+            allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
+            instructorEmailCounter++;
+            updateProgressIndicator();
         }
 
         for (Student student : allStudents) {
