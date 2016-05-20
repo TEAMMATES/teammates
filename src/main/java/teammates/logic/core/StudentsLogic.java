@@ -62,8 +62,9 @@ public class StudentsLogic {
     private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new StudentsLogic();
+        }
         return instance;
     }
 

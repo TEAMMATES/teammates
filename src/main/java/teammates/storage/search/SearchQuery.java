@@ -95,7 +95,9 @@ public class SearchQuery {
             keywords.add(key.trim());
         }
 
-        if (keywords.isEmpty()) return "";
+        if (keywords.isEmpty()) {
+            return "";
+        }
         
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         

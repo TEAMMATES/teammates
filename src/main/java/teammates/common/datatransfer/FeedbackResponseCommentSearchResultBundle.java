@@ -54,7 +54,9 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
