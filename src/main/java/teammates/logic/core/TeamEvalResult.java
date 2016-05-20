@@ -401,11 +401,10 @@ public class TeamEvalResult {
     /** replaces 999 etc. with NA, NSB, NSU etc.
      */
     public static String replaceMagicNumbers(String returnValue) {
-        returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(Integer.toString(NA), " NA");
-        returnValue = returnValue.replace(NSB + ".0", "NSB");
-        returnValue = returnValue.replace(NSU + ".0", "NSU");
-        return returnValue;
+        return returnValue.replace(NA + ".0", " NA")
+                          .replace(Integer.toString(NA), " NA")
+                          .replace(NSB + ".0", "NSB")
+                          .replace(NSU + ".0", "NSU");
     }
 
     public String toString() {

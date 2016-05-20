@@ -164,17 +164,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
 
         //List of teams with at least one response
-        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
         
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
         
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -221,7 +221,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
     
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
         
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -231,7 +231,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -249,7 +249,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses) {
+        for (FeedbackResponseAttributes response : actualResponses) {
             if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF 
                 && type != FeedbackParticipantType.NONE) {
@@ -315,7 +315,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
     
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -325,7 +325,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -344,7 +344,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses) {
+        for (FeedbackResponseAttributes response : actualResponses) {
             if (!bundle.visibilityTable.get(response.getId())[1] 
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
@@ -808,7 +808,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * Returns the options for contribution share in a team. 
      */
-    private String getContributionOptionsHtml(int points) {
+    private String getContributionOptionsHtml(int pointsParam) {
+        int points = pointsParam;
         if (points == Const.INT_UNINITIALIZED) {
             points = Const.POINTS_NOT_SUBMITTED;
         }
