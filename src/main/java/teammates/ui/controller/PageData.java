@@ -729,27 +729,28 @@ public class PageData {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
         
-        String msg = "The feedback session has been created";
+        StringBuilder msg = new StringBuilder(50);
+        msg.append("The feedback session has been created");
         
         if (session.isVisible()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
         
         if (session.isOpened()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (session.isClosed()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
         if (session.isPublished()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
         
-        msg += ".";
+        msg.append('.');
         
-        return msg;
+        return msg.toString();
     }
     
     /**

@@ -349,17 +349,17 @@ public class OfflineBackup extends RemoteApiClient {
      *  Perform formatting of the string to ensure that it conforms to json formatting
      */
     protected String formatJsonString(String entityJsonString, String name) {
-        String formattedString = "";
+        StringBuilder formattedString = new StringBuilder();
         
         if (hasPreviousEntity) {
-            formattedString += ",\n";
+            formattedString.append(",\n");
         } else {
             hasPreviousEntity = true;
         }
         
-        formattedString += "\t\t\"" + name + "\":" + entityJsonString.replace("\n", "\n\t\t");
+        formattedString.append("\t\t\"" + name + "\":" + entityJsonString.replace("\n", "\n\t\t"));
         
-        return formattedString;
+        return formattedString.toString();
     }
     
     /** 

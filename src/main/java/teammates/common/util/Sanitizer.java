@@ -282,27 +282,27 @@ public final class Sanitizer {
      * @return safer version of the text for XPath
      */
     public static String convertStringForXPath(String text) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int startPos = 0, i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "'" + text.substring(startPos, i) + "',";
+                result.append('\'').append(text.substring(startPos, i)).append("',");
                 startPos = i;
             }
             while (i < text.length() && text.charAt(i) == '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "\"" + text.substring(startPos, i) + "\",";
+                result.append('\"').append(text.substring(startPos, i)).append("\",");
                 startPos = i;
             }
         }
-        if (result.isEmpty()) {
+        if (result.length() == 0) {
             return "''";
         }
-        return "concat(" + result + "'')";
+        return "concat(" + result.toString() + "'')";
     }
 }

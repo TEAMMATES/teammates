@@ -181,8 +181,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return "";
         }
         
-        String html = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
@@ -198,19 +197,19 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                                                                         "${rankOptionValue}",  Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
-                                                                        "${averageRank}", df.format(average));
+                                                                        "${averageRank}", df.format(average)));
 
         }
      
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
                                                              "${optionRecipientDisplayName}", "Recipient",
-                                                             "${fragments}", fragments);
+                                                             "${fragments}", fragments.toString());
         
-        return html;
+        
     }
 
     @Override
@@ -222,8 +221,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
@@ -238,15 +236,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
-            fragments += option + "," 
-                         + df.format(average) + Const.EOL;
-            
+            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
         }
         
-        csv += "Team, Recipient" + ", Average Rank" + Const.EOL 
-                + fragments + Const.EOL;
-        
-        return csv;
+        return "Team, Recipient" + ", Average Rank" + Const.EOL + fragments + Const.EOL;
     }
 
     /**
