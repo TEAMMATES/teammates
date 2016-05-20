@@ -83,5 +83,6 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
 
     @Override
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+        // TODO fix this
     }
 }

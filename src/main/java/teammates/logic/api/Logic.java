@@ -93,9 +93,6 @@ public class Logic {
     protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
     
-    @SuppressWarnings("unused")
-    private void ____USER_level_methods__________________________________() {
-    }
 
     /**
      * Produces the URL the user should use to login to the system
@@ -130,10 +127,7 @@ public class Logic {
     public UserType getCurrentUser() {
         return gateKeeper.getCurrentUser();
     }
-    
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods____________________________________() {
-    }
+
 
     /**
      * Creates a new Account based on given values. If a profile is not given,
@@ -267,10 +261,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         
         accountsLogic.deletePicture(key);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods____________________________________() {
     }
     
     /**
@@ -642,10 +632,6 @@ public class Logic {
         instructorsLogic.deleteInstructorCascade(courseId, email);
     }
 
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods__________________________________() {
-    }
-
     /**
      * Creates a course and an instructor for it. <br>
      * Preconditions: <br>
@@ -902,9 +888,6 @@ public class Logic {
         coursesLogic.deleteCourseCascade(courseId);
     }
 
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods__________________________________() {
-    }
 
     /**
      * Creates a student. <br> 
@@ -1384,10 +1367,6 @@ public class Logic {
         return coursesLogic.getCourseStudentListAsCsv(courseId, googleId);
     }
 
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_SESSION_level_methods_____________________________() {
-    }
-    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1752,9 +1731,6 @@ public class Logic {
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_QUESTION_level_methods_____________________________() {
-    }
     
     /**
      * Preconditions: <br>
@@ -2142,10 +2118,6 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSection(feedbackSessionName, courseId, 
                                                                                      userEmail, section);
     }
-
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
-    }
     
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseId);
@@ -2208,9 +2180,6 @@ public class Logic {
         feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_COMMENT_level_methods_____________________________() {
-    }
     
     /**
      * Create a feedback response comment, and return the created comment
@@ -2343,10 +2312,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
     }    
-    
-    @SuppressWarnings("unused")
-    private void ____COMMENT_level_methods_____________________________() {
-    }
     
     /**
      * Create a comment, and return the created comment
@@ -2668,16 +2633,8 @@ public class Logic {
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
 
-    @SuppressWarnings("unused")
-    private void ____MISC_methods__________________________________________() {
-    }
-
     public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
         return emailManager.sendErrorReport(req, error);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____helper_methods________________________________________() {
     }
     
     public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {

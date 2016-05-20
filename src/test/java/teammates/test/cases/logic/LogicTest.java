@@ -24,10 +24,6 @@ public class LogicTest extends BaseComponentTestCase {
         removeAndRestoreTypicalDataInDatastore();
     }
 
-    @SuppressWarnings("unused")
-    private void ____USER_level_methods___________________________________() {
-    }
-
     @Test
     public void testGetLoginUrl() {
         gaeSimulation.logoutUser();

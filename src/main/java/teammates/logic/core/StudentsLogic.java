@@ -773,8 +773,7 @@ public class StudentsLogic {
     
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList) {
-        boolean isEmailDuplicated = studentEmailList.contains(email);
-        return isEmailDuplicated;
+        return studentEmailList.contains(email);
     }
     
     private boolean isInEnrollList(StudentAttributes student,
