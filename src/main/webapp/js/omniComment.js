@@ -95,7 +95,7 @@ $(document).ready(function() {
         } else {
             $('#no-comment-panel').hide();
             $('#giver_all').closest('.filter-options').show();
-            $('#status_all').closest('.filter-option').show();
+            $('#status_all').closest('.filter-options').show();
         }
         
         // hide the panel accordingly based on panel_check checkbox
