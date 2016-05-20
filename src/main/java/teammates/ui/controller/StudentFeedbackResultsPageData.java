@@ -164,11 +164,12 @@ public class StudentFeedbackResultsPageData extends PageData {
      */
     private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
                                     List<FeedbackResponseAttributes> responsesBundleForRecipient,
-                                    String recipientName) {
+                                    String recipientNameParam) {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
      
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        String recipientName = recipientNameParam;
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(response);
             

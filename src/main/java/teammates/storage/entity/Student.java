@@ -156,10 +156,10 @@ public class Student implements StoreCallback {
     }
 
     public void setName(String name) {
-        name = name.trim();
-        String processedFullName = StringHelper.splitName(name)[2];
+        String trimmedName = name.trim();
+        String processedFullName = StringHelper.splitName(trimmedName)[2];
         this.name = processedFullName.trim();
-        this.setLastName(StringHelper.splitName(name)[1]);
+        this.setLastName(StringHelper.splitName(trimmedName)[1]);
     }
 
     public void setLastName(String lastName) {

@@ -421,26 +421,19 @@ public final class TimeHelper {
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
-        String oldDateString = date;
         SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        Date d;
         try {
-            d = sdf.parse(oldDateString);
+            Date d = sdf.parse(date);
             sdf.applyPattern(NEW_FORMAT);
-            date = sdf.format(d);
+            int intHour = Integer.parseInt(hour);
+            String amOrPm = intHour >= 12 ? "PM" : "AM";
+            intHour = intHour >= 13 ? intHour - 12 : intHour;
+            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
         } catch (ParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
         
-        int intHour = Integer.parseInt(hour);
-        
-        String amOrPm = intHour >= 12 ? "PM" : "AM";
-        intHour = intHour >= 13 ? intHour - 12 : intHour;
-        
-        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-
-        return formatedStr;
 
     }
 

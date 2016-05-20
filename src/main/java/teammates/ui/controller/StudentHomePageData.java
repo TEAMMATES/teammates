@@ -56,9 +56,10 @@ public class StudentHomePageData extends PageData {
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
-            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
+            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int startingSessionIdx) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
+        int sessionIdx = startingSessionIdx;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;

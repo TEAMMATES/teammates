@@ -66,8 +66,7 @@ public class SearchQuery {
     }
     
     private String prepareOrQueryString(String queryString) {
-        queryString = queryString.replaceAll("\"", " \" ");
-        String[] splitStrings = queryString.trim().split("\\s+");
+        String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
         StringBuilder key = new StringBuilder();
