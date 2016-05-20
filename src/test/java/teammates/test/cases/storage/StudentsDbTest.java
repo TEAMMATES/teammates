@@ -29,7 +29,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
+    public void testDefaultTimestamp() throws InvalidParametersException {        
         
         StudentAttributes s = createNewStudent();
         
@@ -51,8 +51,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException 
-    {        
+    public void testTimestamp() throws InvalidParametersException, EntityDoesNotExistException {        
         ______TS("success : created");
         
         StudentAttributes s = createNewStudent();

@@ -8,7 +8,6 @@ import java.util.Map;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -25,7 +24,7 @@ public class InstructorCourseAddAction extends Action {
     private InstructorCoursesPageData data;
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);

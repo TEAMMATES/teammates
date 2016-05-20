@@ -27,8 +27,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
@@ -182,7 +180,7 @@ public class UploadBackupData extends RemoteApiClient {
             for (AccountAttributes accountData : accounts.values())
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+        } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
     }

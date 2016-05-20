@@ -1685,7 +1685,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testIsFeedbackSessionViewableToStudents() throws EntityDoesNotExistException {
+    public void testIsFeedbackSessionViewableToStudents() {
         ______TS("Session with questions for students to answer");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));

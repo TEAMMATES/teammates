@@ -21,7 +21,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -81,7 +80,7 @@ public class BackDoorLogic extends Logic {
      */
 
     public String persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         if (dataBundle == null) {
             throw new InvalidParametersException(
@@ -301,7 +300,7 @@ public class BackDoorLogic extends Logic {
         return Utils.getTeammatesGson().toJson(student);
     }
     
-    public String getAllStudentsAsJson(String courseId) throws EntityDoesNotExistException {
+    public String getAllStudentsAsJson(String courseId) {
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(courseId);
         return Utils.getTeammatesGson().toJson(studentList);
@@ -350,7 +349,7 @@ public class BackDoorLogic extends Logic {
     }
     
     public void editStudentAsJson(String originalEmail, String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         student.section = (student.section == null) ? "None" : student.section;

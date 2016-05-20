@@ -169,8 +169,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertNull(frcDb.getFeedbackResponseComment(frcaData.courseId, frcaData.createdAt, "nonExistentGiverEmail"));
     }
     
-    public void testGetFeedbackResponseCommentForGiver() 
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetFeedbackResponseCommentForGiver() {
         List<FeedbackResponseCommentAttributes> frcasExpected = frcasData;
         
         ______TS("null parameter");
@@ -207,8 +206,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertTrue(frcas.isEmpty());
     }
     
-    public void testGetFeedbackResponseCommentForResponse() 
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetFeedbackResponseCommentForResponse() {
         String responseId = "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt";
         ArrayList<FeedbackResponseCommentAttributes> frcasExpected =
                 new ArrayList<FeedbackResponseCommentAttributes>();
@@ -418,8 +416,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(expectedFrcs, actualFrcs);
     }
 
-    public void testGetAndDeleteFeedbackResponseCommentsForCourses()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetAndDeleteFeedbackResponseCommentsForCourses() {
         List<String> courseIds = new ArrayList<String>();
         courseIds.add("idOfTypicalCourse1");
         List<FeedbackResponseCommentAttributes> expectedFrcas =

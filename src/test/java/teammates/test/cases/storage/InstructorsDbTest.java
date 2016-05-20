@@ -111,7 +111,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForEmail() throws InvalidParametersException {
+    public void testGetInstructorForEmail() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -136,7 +136,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForGoogleId() throws InvalidParametersException {
+    public void testGetInstructorForGoogleId() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -161,7 +161,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForRegistrationKey() throws InvalidParametersException {
+    public void testGetInstructorForRegistrationKey() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
@@ -403,7 +403,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructor() throws InvalidParametersException {
+    public void testDeleteInstructor() {
         InstructorAttributes i = dataBundle.instructors.get("instructorWithOnlyOneSampleCourse");
         
         ______TS("Success: delete an instructor");

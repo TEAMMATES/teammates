@@ -222,8 +222,7 @@ public class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserType.Role role, String section)
-            throws EntityDoesNotExistException {
+            UserType.Role role, String section) {
 
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -498,8 +497,7 @@ public class FeedbackResponsesLogic {
      * deleting responses that are no longer relevant to him in his new team.
      */
     public void updateFeedbackResponsesForChangingTeam(
-            String courseId, String userEmail, String oldTeam, String newTeam)
-            throws EntityDoesNotExistException {
+            String courseId, String userEmail, String oldTeam, String newTeam) {
 
         FeedbackQuestionAttributes question;
 

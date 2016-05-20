@@ -9,8 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminSessionsPage;
@@ -33,7 +31,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
+    public void testAll() throws Exception {
         testContent();
     }
 

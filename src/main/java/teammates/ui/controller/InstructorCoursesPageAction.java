@@ -23,8 +23,7 @@ public class InstructorCoursesPageAction extends Action {
     protected static final Logger log = Utils.getLogger();
 
     @Override
-    public ActionResult execute() 
-            throws EntityDoesNotExistException {
+    public ActionResult execute() throws EntityDoesNotExistException {
         /* Explanation: First, we extract any parameters from the request object.
          * e.g., idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
          * After that, we may verify parameters.

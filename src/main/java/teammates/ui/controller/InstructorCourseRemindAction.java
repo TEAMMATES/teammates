@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -58,30 +57,26 @@ public class InstructorCourseRemindAction extends Action {
         /* Process sending emails and setup status to be shown to user and admin */
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
         String redirectUrl = "";
-        try {
-            if (isSendingToStudent) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
-                emailsSent.add(emailSent);
-                
-                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail, StatusMessageColor.SUCCESS));
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (isSendingToInstructor) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-                emailsSent.add(emailSent);
-                
-                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail, StatusMessageColor.SUCCESS));
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
-            } else {
-                emailsSent = logic.sendRegistrationInviteForCourse(courseId);
-                
-                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            }
+        if (isSendingToStudent) {
+            MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+            emailsSent.add(emailSent);
             
-            statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
-        } catch (InvalidParametersException e) {
-            Assumption.fail("InvalidParametersException not expected at this point");
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail, StatusMessageColor.SUCCESS));
+            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+        } else if (isSendingToInstructor) {
+            MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            emailsSent.add(emailSent);
+            
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail, StatusMessageColor.SUCCESS));
+            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+        } else {
+            emailsSent = logic.sendRegistrationInviteForCourse(courseId);
+            
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
+            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         }
+        
+        statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
         
         /* Create redirection with URL based on type of sending email */
         RedirectResult response = createRedirectResult(redirectUrl);

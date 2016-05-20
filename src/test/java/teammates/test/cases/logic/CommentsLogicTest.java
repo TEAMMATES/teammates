@@ -448,8 +448,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
         try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {

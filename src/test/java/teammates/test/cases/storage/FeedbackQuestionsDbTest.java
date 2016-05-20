@@ -30,8 +30,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                              EntityDoesNotExistException {
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
         

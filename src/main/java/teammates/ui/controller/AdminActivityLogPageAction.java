@@ -45,7 +45,7 @@ public class AdminActivityLogPageAction extends Action {
     private Long nextEndTimeToSearch;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
@@ -278,11 +278,7 @@ public class AdminActivityLogPageAction extends Action {
         Logic logic = new Logic();
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         if (userGoogleId != null && !userGoogleId.isEmpty()) {
-            try {
-                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
-            } catch (EntityDoesNotExistException e) {
-                localTimeZone = Const.DOUBLE_UNINITIALIZED;
-            }
+            localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
             
             if (localTimeZone != Const.DOUBLE_UNINITIALIZED) {
                 return localTimeZone;

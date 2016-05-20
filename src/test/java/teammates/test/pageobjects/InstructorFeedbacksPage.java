@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -310,7 +309,7 @@ public class InstructorFeedbacksPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) throws ParseException {
+    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 

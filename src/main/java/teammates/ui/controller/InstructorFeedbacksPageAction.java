@@ -72,15 +72,14 @@ public class InstructorFeedbacksPageAction extends Action {
     }
     
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
-            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorList) {
         
         List<FeedbackSessionAttributes> sessions =
                 logic.getFeedbackSessionsListForInstructor(instructorList);
         return sessions;
     }
 
-    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
         
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
         

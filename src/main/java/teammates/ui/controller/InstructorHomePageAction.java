@@ -57,7 +57,7 @@ public class InstructorHomePageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
 
-    private ActionResult loadPage() throws EntityDoesNotExistException {
+    private ActionResult loadPage() {
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);

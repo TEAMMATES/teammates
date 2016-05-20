@@ -123,7 +123,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
-                    throws EntityDoesNotExistException, MessagingException, IOException {
+                    throws MessagingException, IOException {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -227,7 +227,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
-            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException {
+            throws MessagingException, UnsupportedEncodingException {
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
         Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
@@ -283,7 +283,7 @@ public class Emails {
     
     public List<MimeMessage> generateFeedbackSessionPublishedEmails(
             FeedbackSessionAttributes session)
-                    throws MessagingException, IOException, EntityDoesNotExistException {
+                    throws MessagingException, IOException {
         
         StudentsLogic studentsLogic = StudentsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();

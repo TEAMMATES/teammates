@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -36,7 +35,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testStudentConstructor() throws TeammatesException {
+    public void testStudentConstructor() {
         String courseId = "anyCoursId";
         StudentAttributes invalidStudent;
 

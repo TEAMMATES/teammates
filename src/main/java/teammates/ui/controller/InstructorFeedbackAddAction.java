@@ -12,7 +12,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
@@ -30,7 +29,7 @@ import com.google.appengine.api.datastore.Text;
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
