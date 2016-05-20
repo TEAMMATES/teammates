@@ -25,11 +25,15 @@ import com.google.appengine.api.search.StatusCode;
  * Codes reference:
  * https://developers.google.com/appengine/docs/java/search/
  */
-public class SearchManager {
+public final class SearchManager {
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
     private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
+    
+    private SearchManager() {
+        // utility class
+    }
     
     /*
      * Create or update the search document for the given document and index

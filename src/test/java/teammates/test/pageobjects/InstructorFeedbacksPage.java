@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -22,7 +21,6 @@ import teammates.common.util.TimeHelper;
 import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
-    
 
     @FindBy(id = "fstype")
     private WebElement fsType;
@@ -109,7 +107,6 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement sortByIdIcon;
     
     public InstructorCopyFsToModal fsCopyToModal;
-    
 
     public InstructorFeedbacksPage(Browser browser) {
         super(browser);
@@ -182,8 +179,7 @@ public class InstructorFeedbacksPage extends AppPage {
         copySubmitButton.click();
         waitForPageToLoad();
     }
-    
-    
+
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId, sessionName).click();
         waitForPageToLoad();
@@ -214,12 +210,12 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        String timeZoneString = "" + timeZone;
+        String timeZoneString = Double.toString(timeZone);
 
         double fractionalPart = timeZone % 1;
         
         if (fractionalPart == 0.0) {
-            timeZoneString = "" + (int) timeZone;
+            timeZoneString = Integer.toString((int) timeZone);
         }
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
@@ -304,7 +300,7 @@ public class InstructorFeedbacksPage extends AppPage {
             js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
             
             String timeDropdownId = timeDropdown.getAttribute("id");
-            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
             js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
@@ -458,7 +454,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-publish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -468,7 +464,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -493,8 +489,7 @@ public class InstructorFeedbacksPage extends AppPage {
     public boolean isContainingCssClass(By locator, String className) {
         return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
     }
-    
-    
+
     public InstructorFeedbackResultsPage loadViewResultsLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";

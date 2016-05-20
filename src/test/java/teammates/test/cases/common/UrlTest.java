@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -69,6 +67,7 @@ public class UrlTest extends BaseTestCase {
     }
     
     @Test
+    @SuppressWarnings("PMD.UseStringBufferForStringAppends")
     public void testAppendParameters() {
         
         ______TS("static method addParamToUrl");

@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -494,10 +488,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Switch to mobile view
         submitPage.changeToMobileView();
         // Test if changes on desktop view persisted to mobile view
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
 
         // Select the second option for the second question for each student
         submitPage.clickRubricRadioMobile(21, 0, 1, 1);
@@ -514,14 +508,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Switch to desktop view
         submitPage.changeToDesktopView();
         // Test if changes on mobile view persisted to desktop view
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 0, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
 
 
         FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);

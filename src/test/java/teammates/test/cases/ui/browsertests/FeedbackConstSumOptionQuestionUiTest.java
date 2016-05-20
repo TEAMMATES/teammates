@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,7 +28,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
@@ -85,12 +80,12 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+        assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
 
         // TODO: Check that after deleting, the value is cleared
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickRemoveConstSumOptionLink(0, -1);
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
@@ -104,24 +99,24 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("CONST SUM: add option");
 
-        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
+        assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
         feedbackEditPage.clickAddMoreConstSumOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
 
         ______TS("CONST SUM: remove option");
 
         feedbackEditPage.fillConstSumOption(2, "Option 3");
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+        assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
 
         ______TS("CONST SUM: add option after remove");
 
         feedbackEditPage.clickAddMoreConstSumOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
         feedbackEditPage.clickAddMoreConstSumOptionLink();
         feedbackEditPage.fillConstSumOption(4, "Option 5");
-        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
+        assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
     }
 
     public void testAddQuestionAction() throws Exception {
@@ -139,7 +134,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("per recipient:", 1);

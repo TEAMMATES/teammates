@@ -6,11 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
@@ -18,9 +13,9 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
-
+@SuppressWarnings("PMD.UseUtilityClass")
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
-private static DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {

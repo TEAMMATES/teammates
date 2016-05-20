@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -49,6 +45,6 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
                          + "?error=false&user=idOfInstructor1OfCourse1", 
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
     }    
 }

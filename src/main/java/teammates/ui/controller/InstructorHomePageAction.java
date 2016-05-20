@@ -47,7 +47,7 @@ public class InstructorHomePageAction extends Action {
                 logic.getFeedbackResponseCommentsForSendingState(courseToLoad, CommentSendingState.PENDING)
                      .size();
         int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
-        List<String> sectionNames = logic.getSectionNamesForCourse(course.course.id);
+        List<String> sectionNames = logic.getSectionNamesForCourse(course.course.getId());
         
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
         data.init(index, course, instructor, pendingCommentsCount, sectionNames);
@@ -75,8 +75,7 @@ public class InstructorHomePageAction extends Action {
         }
         statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
     }
 
     private String getSortCriteria() {

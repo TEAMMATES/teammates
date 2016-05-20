@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +46,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
         
         emailPage.clickSendButton();
-        assertTrue(hasStatusMessageNoRecipient());
+        emailPage.verifyStatus("Error : No reciver address or file given");
         
         ______TS("send email - recipient email format error");
         
@@ -79,7 +76,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.inputSubject("Email Subject");
         emailPage.inputContent("Email to save");
         emailPage.clickSaveButton();
-        assertTrue(hasStatusMessageSaveSuccess());
+        emailPage.verifyStatus("Email draft has been saved");
     }
 
     private void testSent() {
@@ -106,10 +103,6 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
             && emailPage.isElementPresent(By.id("composeSaveButton"));
     }
     
-    private boolean hasStatusMessageNoRecipient() {
-        return emailPage.getStatus().equals("Error : No reciver address or file given");
-    }
-    
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
         return emailPage.getStatus().contains(
                 String.format(FieldValidator.EMAIL_ERROR_MESSAGE, recipientName, FieldValidator.REASON_INCORRECT_FORMAT));
@@ -122,10 +115,6 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private boolean hasErrorMessage() {
         return emailPage.isElementPresent(By.className("alert-danger"));
-    }
-    
-    private boolean hasStatusMessageSaveSuccess() {
-        return emailPage.getStatus().equals("Email draft has been saved");
     }
     
     /**

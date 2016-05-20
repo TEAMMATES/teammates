@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -82,7 +80,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          + "?error=true"
                          + "&user=idOfInstructor1OfCourse1"; 
         assertEquals(expectedString, pr.getDestinationWithParams());
-        assertEquals(true, pr.isError);
+        assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
         
         
@@ -96,7 +94,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          + "?error=true"
                          + "&user=idOfInstructor1OfCourse1"; 
         assertEquals(expectedString, pr.getDestinationWithParams());
-        assertEquals(true, pr.isError);
+        assertTrue(pr.isError);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"

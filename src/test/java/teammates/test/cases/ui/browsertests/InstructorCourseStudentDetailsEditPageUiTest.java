@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,7 +24,6 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     private static Browser browser;
     private static InstructorCourseStudentDetailsEditPage editPage;
     private static DataBundle testData;
-    
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -35,8 +32,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
-    
-    
+
     @Test
     public void testAll() throws Exception {
         testContent();
@@ -48,7 +44,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     public void testContent() throws Exception {
         
         String instructorId = testData.instructors.get("CCSDEditUiT.instr").googleId;
-        String courseId = testData.courses.get("CCSDEditUiT.CS2104").id;
+        String courseId = testData.courses.get("CCSDEditUiT.CS2104").getId();
         
         ______TS("content: unregistered student");
         
@@ -97,7 +93,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                     invalidStudentName, personNameFieldName, FieldValidator.REASON_TOO_LONG, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String newStudentName = "New guy";
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH + 1);
+        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
                     invalidTeamName, teamNameFieldName, FieldValidator.REASON_TOO_LONG, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
@@ -107,42 +103,41 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
     }
 
-
     public void testEditAction() throws Exception {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
-        
-        
+
         editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
-        editPage.verifyStatus(Const.StatusMessages.STUDENT_EMAIL_CONFLIT + anotherStudent.name + "/" + anotherStudent.email); //??
+        editPage.verifyStatus(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, anotherStudent.name,
+                                            anotherStudent.email));
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data
-        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "CCSDEditUiT.jose.tmms@gmail.tmt");
+        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                                                              "CCSDEditUiT.jose.tmms@gmail.tmt");
         assertEquals("José Gómez</option></td></div>'\"", student.name);
         assertEquals("Team 1</td></div>'\"", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt", student.email);
         assertEquals("This student's name is José Gómez</option></td></div>'\"", student.comments);
-        
-        
+
         ______TS("edit action");
         
         InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
         detailsPage.verifyStatus(Const.StatusMessages.STUDENT_EDITED);
-        detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").id);
+        detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
             
         // Verify data
-        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "newemail@gmail.tmt");
+        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                       "newemail@gmail.tmt");
         assertEquals("New name", student.name);
         assertEquals("New team", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("newemail@gmail.tmt", student.email);
         assertEquals("New comments", student.comments);
     }
-
 
     @AfterClass
     public static void classTearDown() throws Exception {

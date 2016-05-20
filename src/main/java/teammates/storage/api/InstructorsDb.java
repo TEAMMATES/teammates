@@ -37,14 +37,14 @@ import teammates.storage.search.InstructorSearchQuery;
 public class InstructorsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
-    
-    
+
     /* =========================================================================
      * Methods related to Google Search API
      * =========================================================================
      */
     
-    public void putDocument(InstructorAttributes instructor) {
+    public void putDocument(InstructorAttributes instructorParam) {
+        InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
@@ -87,13 +87,11 @@ public class InstructorsDb extends EntitiesDb {
         
         return new InstructorSearchResultBundle().getInstructorsfromResults(results);
     }
-    
-    
+
     /* =========================================================================
      * =========================================================================
      */
-    
-    
+
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
@@ -116,8 +114,7 @@ public class InstructorsDb extends EntitiesDb {
             putDocument(instructor);
         }
     }
-    
-    
+
     public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
@@ -153,14 +150,13 @@ public class InstructorsDb extends EntitiesDb {
         Instructor i = getInstructorEntityForEmail(courseId, email);
     
         if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email );
+            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email);
             return null;
         }
     
         return new InstructorAttributes(i);
     }
 
-    
     /**
      * @return null if no matching objects. 
      */
@@ -186,8 +182,7 @@ public class InstructorsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
-        encryptedKey = encryptedKey.trim();
-        String decryptedKey = StringHelper.decrypt(encryptedKey);
+        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
@@ -281,7 +276,6 @@ public class InstructorsDb extends EntitiesDb {
         }    
         return list;
     }
-    
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
@@ -452,8 +446,7 @@ public class InstructorsDb extends EntitiesDb {
         }        
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
-        
-        
+
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
@@ -522,8 +515,7 @@ public class InstructorsDb extends EntitiesDb {
         Query q = getPM().newQuery(Instructor.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
-        
-        
+
         @SuppressWarnings("unchecked")
         List<Instructor> instructorList = (List<Instructor>) q.execute(googleId);
         
@@ -534,19 +526,18 @@ public class InstructorsDb extends EntitiesDb {
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
-            return getInstructorEntitiesForGoogleId(googleId);
-        } else {
+        if (omitArchived) {
             Query q = getPM().newQuery(Instructor.class);
             q.declareParameters("String googleIdParam, boolean omitArchivedParam");
             // Omit archived == true, get instructors with isArchived != true
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
-            @SuppressWarnings("unchecked")
-            List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-            return instructorList;
+            return (List<Instructor>) q.execute(googleId, omitArchived);
+        } else {
+            return getInstructorEntitiesForGoogleId(googleId);
         }
     }
     
@@ -592,7 +583,6 @@ public class InstructorsDb extends EntitiesDb {
             
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }
-    
 
 }
 

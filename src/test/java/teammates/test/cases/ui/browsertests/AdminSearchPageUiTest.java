@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +63,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         assertTrue(isPageTitleCorrect());
         assertTrue(isSearchPanelPresent());
-        assertTrue(isEmptyKeyErrorMessageShown());
+        searchPage.verifyStatus("Search key cannot be empty");
         
         ______TS("search for student1");
         
@@ -90,7 +88,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
-        assertTrue(isOnlyOneResultVisible());
+        searchPage.verifyStatus("Total results found: 1");
         
         ______TS("search for student name with special characters");
         
@@ -110,25 +108,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     private boolean isPageTitleCorrect() {
-        return searchPage.getPageTitle().equals("Admin Search");
+        return "Admin Search".equals(searchPage.getPageTitle());
     }
     
     private boolean isSearchPanelPresent() {
         return searchPage.isElementPresent(By.id("filterQuery"))
             && searchPage.isElementPresent(By.id("searchButton"));
     }
-    
-    private boolean isEmptyKeyErrorMessageShown() {
-        String statusMessage = searchPage.getStatus();
-        
-        return statusMessage.equals("Search key cannot be empty");
-    }
-    
-    private boolean isOnlyOneResultVisible() {
-        return searchPage.getStatus().equals("Total results found: 1");
-    }
-        
-    
     
     /**
      * This method only checks if the search data tables are displayed correctly
@@ -146,8 +132,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             }
             return true;
         } else {     
-            String statusMessage = searchPage.getStatus();
-            return statusMessage.equals("No result found, please try again");
+            searchPage.verifyStatus("No result found, please try again");
+            return true;
         }
         
     }

@@ -29,6 +29,5 @@ public class FeedbackQuestionCopyTable {
     public String getFsName() {
         return fsName;
     }
- 
-    
+
 }

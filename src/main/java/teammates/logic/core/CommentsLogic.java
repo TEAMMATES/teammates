@@ -576,12 +576,12 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
-            if (studentOfThisEmail != null) {
+            if (studentOfThisEmail == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                          frc.getId().toString(), studentOfThisEmail.team);
+                                                frc.getId().toString(), relatedResponse.recipientEmail);
             } else {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                          frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), studentOfThisEmail.team);
             }
         }
     }
@@ -592,13 +592,13 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
-            if (roster.getStudentForEmail(relatedResponse.recipientEmail) != null) {
-                addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
-                                         frc.getId().toString(), relatedResponse.recipientEmail);
-            } else {
+            if (roster.getStudentForEmail(relatedResponse.recipientEmail) == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
-                                          responseCommentsAddedTable, frc.getId().toString(),
-                                          relatedResponse.recipientEmail);
+                                                responseCommentsAddedTable, frc.getId().toString(),
+                                                relatedResponse.recipientEmail);
+            } else {
+                addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                                frc.getId().toString(), relatedResponse.recipientEmail);
             }
         }
     }

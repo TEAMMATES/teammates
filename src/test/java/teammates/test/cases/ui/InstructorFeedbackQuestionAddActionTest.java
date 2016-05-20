@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
@@ -594,8 +592,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "SubQn-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Choice-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "SubQn-2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "Choice-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),

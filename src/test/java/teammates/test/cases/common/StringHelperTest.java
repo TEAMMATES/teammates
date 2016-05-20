@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.Test;
@@ -24,27 +22,25 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testIsWhiteSpace() {
 
-        assertEquals(true, StringHelper.isWhiteSpace(""));
-        assertEquals(true, StringHelper.isWhiteSpace("       "));
-        assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(""));
+        assertTrue(StringHelper.isWhiteSpace("       "));
+        assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
     
     @Test
     public void testIsMatching() {
-        assertEquals(true, StringHelper.isMatching("\u00E0", "à"));
-        assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
-        assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
+        assertTrue(StringHelper.isMatching("\u00E0", "à"));
+        assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
+        assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
-   
-    
+
     @Test 
     public void testIsAnyMatching() {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
-        
-        
+
         String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
         String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
                                    "student names", "students name", "full name", "full names", "full   names",
@@ -54,9 +50,7 @@ public class StringHelperTest extends BaseTestCase {
         
         stringsToMatch = new String[]{"namess", "nam", "student", "full"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_SECTION;
         stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
                                       "course section", "course sections", "course sec", "courses sec", "Section",
@@ -65,8 +59,7 @@ public class StringHelperTest extends BaseTestCase {
         
         stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_TEAM;
         stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
                                       "Groups", "GROUPS", "student teams", "students teams ", "student team",
@@ -77,8 +70,7 @@ public class StringHelperTest extends BaseTestCase {
         
         stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_EMAIL;
         stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
                                       "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
@@ -128,8 +120,7 @@ public class StringHelperTest extends BaseTestCase {
     
     @Test
     public void testSplitName() {
-        
-            
+
         String fullName = "singleWord";
         String[] splitName = StringHelper.splitName(fullName);
         
@@ -146,8 +137,7 @@ public class StringHelperTest extends BaseTestCase {
         splitName = StringHelper.splitName(fullName);
         
         assertEquals(splitName, null);
-        
-        
+
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
         
@@ -159,8 +149,7 @@ public class StringHelperTest extends BaseTestCase {
         
         assertEquals(splitName[0], "now three");
         assertEquals(splitName[1], "words");
-        
-        
+
         fullName = "what if four words";
         splitName = StringHelper.splitName(fullName);
         

@@ -9,5 +9,8 @@ $(document).ready(function() {
         navbarHeight = navbar.offsetHeight;
     }
     
-    scrollToElement(statusMessage, { type: 'view', offset: (navbarHeight + extraPadding) * -1 });
+    scrollToElement(statusMessage, {
+        type: 'view',
+        offset: (navbarHeight + extraPadding) * -1
+    });
 });

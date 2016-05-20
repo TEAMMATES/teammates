@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailAttributes extends EntityAttributes {
     
-    public String emailId = null;
+    public String emailId;
     public List<String> addressReceiver;
     public List<String> groupReceiver;
     public String subject;
@@ -26,7 +26,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     public Date createDate;
     public Text content;
     public boolean isInTrashBin;
-    
     
     public AdminEmailAttributes(AdminEmail ae) {
         this.emailId = ae.getEmailId();

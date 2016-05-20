@@ -20,7 +20,6 @@ public class BaseComponentUsingTaskQueueTestCase extends BaseComponentTestCase {
         gaeSimulation.setup();
     }
 
-    
     @AfterTest
     public void testTearDown() throws Exception {
         gaeSimulation.tearDown();

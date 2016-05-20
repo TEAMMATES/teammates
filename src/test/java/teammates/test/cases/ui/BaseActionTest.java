@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +27,7 @@ import teammates.ui.controller.ShowPageResult;
 /**
  * Parent class for *ActionTest classes.
  */
-public class BaseActionTest extends BaseComponentTestCase {
+public abstract class BaseActionTest extends BaseComponentTestCase {
     
     private DataBundle data = getTypicalDataBundle();
     
@@ -114,12 +110,13 @@ public class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        List<String> paramList = Arrays.asList(typicalCase); 
-        if (order == 0) return typicalCase;
+        if (order == 0) {
+            return typicalCase;
+        }
         
+        List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
         int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
@@ -152,6 +149,9 @@ public class BaseActionTest extends BaseComponentTestCase {
             case 3:
                 typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
                 typicalCase[indexOfSessionInstructionsValue] = "";
+                break;
+            default:
+                Assumption.fail("Incorrect order");
                 break;
         }
         
@@ -209,14 +209,14 @@ public class BaseActionTest extends BaseComponentTestCase {
         for (int i = 0; i < params.length; i += 2) {
             if (params[i] == key) {
                 if (i + 1 >= params.length) {
-                    Assumption.fail("Cannot find parameter to modify.");
+                    fail("Cannot find parameter to modify.");
                 } else {
                     params[i + 1] = value;
                     return;
                 }
             }
         }
-        Assumption.fail("Cannot find parameter to modify.");
+        fail("Cannot find parameter to modify.");
     }
     
     /**
@@ -234,11 +234,9 @@ public class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'high-level' here means it tests access control of an action for the 
+     * 'high-level' tests here means it tests access control of an action for the 
      * full range of user types.
      */
-    @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks() {};
     
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -293,12 +291,9 @@ public class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'mid-level' here means it tests access control of an action for 
+     * 'mid-level' tests here tests access control of an action for 
      * one user types.
      */
-    @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks() {};
-    
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
@@ -613,12 +608,9 @@ public class BaseActionTest extends BaseComponentTestCase {
     }
     
     /*
-     * 'low-level' here means it tests an action once with the given parameters.
+     * 'low-level' tests here it tests an action once with the given parameters.
      * These methods are not aware of the user type.
      */
-    @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks() {};
-    
     /**
      * Verifies that the {@link Action} matching the {@code params} is 
      * accessible to the logged in user. 

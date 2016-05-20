@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -73,9 +68,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * If that previous test run fails, the entity persists and that will
          * break tests.
          */
-        BackDoor.deleteCourse(validCourse.id); // delete if it exists
+        BackDoor.deleteCourse(validCourse.getId()); // delete if it exists
     }
-
 
     @Test
     public void allTests() throws Exception {
@@ -169,7 +163,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * 'Delete' is not a link, but an action.
          */
     
-        String courseId = testData.courses.get("CS2104").id;
+        String courseId = testData.courses.get("CS2104").getId();
         
         ______TS("view link");
         
@@ -197,7 +191,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
     }
 
-
     public void testInputValidation() {
         
         /* Explanation: If the validation is done through one JS function 
@@ -212,8 +205,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         //one invalid case
         coursesPage.addCourse("", "")
-            .verifyStatus(Const.StatusMessages.COURSE_COURSE_ID_EMPTY + "\n"
-                    + Const.StatusMessages.COURSE_COURSE_NAME_EMPTY);
+            .verifyStatus(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + "\n"
+                    + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
@@ -230,7 +223,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
     }
 
-
     public void testAddAction() throws Exception {
         
         /* Explanation: We test at least one valid case and one invalid case.
@@ -244,13 +236,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
-        coursesPage.addCourse(validCourse.id, validCourse.name);
+        coursesPage.addCourse(validCourse.getId(), validCourse.getName());
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         
-        coursesPage.addCourse(validCourse.id, "different course name");
+        coursesPage.addCourse(validCourse.getId(), "different course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddDupIdFailed.html");
         

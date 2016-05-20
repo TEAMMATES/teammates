@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId = null;
+    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -34,7 +34,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
-    public boolean isVisibilityFollowingFeedbackQuestion = false;
+    public boolean isVisibilityFollowingFeedbackQuestion;
     public Date createdAt;
     public Text commentText;
     public String lastEditorEmail;
@@ -97,20 +97,21 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() != null ? comment.getSendingState() : CommentSendingState.SENT;
+        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
-        this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                comment.getLastEditorEmail() : comment.getGiverEmail();
-        this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
-        if (comment.getIsVisibilityFollowingFeedbackQuestion() != null
-                && !comment.getIsVisibilityFollowingFeedbackQuestion()) {
+        this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
+        this.receiverSection = comment.getReceiverSection() == null ? "None" : comment.getReceiverSection();
+        this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
+                                                                    : comment.getLastEditorEmail();
+        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
+        
+        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null 
+                                        || comment.getIsVisibilityFollowingFeedbackQuestion()) {
+            setDefaultVisibilityOptions();
+        } else {
             this.showCommentTo = comment.getShowCommentTo();
             this.showGiverNameTo = comment.getShowGiverNameTo();
-        } else {
-            setDefaultVisibilityOptions();
         }
     }
 
@@ -144,7 +145,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
@@ -224,13 +225,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     }
     
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
-            return "(last edited "
-                  + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-                  + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
-        } else {
+        if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
             return "";
-        }
+        } 
+        return "(last edited "
+             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
+             + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
     }
 
 }

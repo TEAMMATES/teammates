@@ -35,7 +35,6 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    
     public InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
@@ -81,6 +80,7 @@ public class InstructorHomePage extends AppPage {
             ele.click();
         }
     }
+    
     public void sortTablesByName() {
         clickElements(tablesSortByName);
     }
@@ -127,8 +127,7 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
-    
-    
+
     /**
      * This is for customized feedback session 
      */
@@ -187,9 +186,7 @@ public class InstructorHomePage extends AppPage {
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
     }
-    
-    
-    
+
     public void clickHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();
@@ -212,7 +209,7 @@ public class InstructorHomePage extends AppPage {
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
-        js.executeScript("arguments[0].href=arguments[1]", element, newValue );
+        js.executeScript("arguments[0].href=arguments[1]", element, newValue);
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {
@@ -320,8 +317,9 @@ public class InstructorHomePage extends AppPage {
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1)
+        if (courseRowID == -1) {
             return -2;
+        }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {

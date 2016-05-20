@@ -51,7 +51,16 @@ public class AdminInstructorAccountAddAction extends Action {
         data.statusForAjax = "";
         
         // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
-        if (data.instructorDetailsSingleLine != null) {
+        if (data.instructorDetailsSingleLine == null) {
+            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            Assumption.assertNotNull(data.instructorShortName);
+            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            Assumption.assertNotNull(data.instructorName);
+            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            Assumption.assertNotNull(data.instructorEmail);
+            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+            Assumption.assertNotNull(data.instructorInstitution);
+        } else {
             try {
                 String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
                 
@@ -65,15 +74,6 @@ public class AdminInstructorAccountAddAction extends Action {
                 statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
             }
-        } else {
-            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
-            Assumption.assertNotNull(data.instructorShortName);
-            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-            Assumption.assertNotNull(data.instructorName);
-            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-            Assumption.assertNotNull(data.instructorEmail);
-            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-            Assumption.assertNotNull(data.instructorInstitution);
         }
         
         data.instructorShortName = data.instructorShortName.trim();
@@ -90,7 +90,6 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       BackDoorLogic backDoor = new BackDoorLogic();     
        String courseId = null;    
        
        try {
@@ -102,18 +101,24 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            String errorMessage = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
-            statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
-            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
-            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
-            errorMessage += "<br>" + message;
+            StringBuilder errorMessage = new StringBuilder(100);
+            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            
+            statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
+            
+            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>"
+                             + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
+            
+            errorMessage.append("<br>").append(message);
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
+            
             data.instructorAddingResultForAjax = false;
-            data.statusForAjax = errorMessage;
+            data.statusForAjax = errorMessage.toString();
             return createAjaxResult(data);
         }
         
+        BackDoorLogic backDoor = new BackDoorLogic();
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
         data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;

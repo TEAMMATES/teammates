@@ -61,11 +61,11 @@ public class StudentAttributes extends EntityAttributes {
     public String name;
     public String lastName;
     public String email;
-    public String course = null;
-    public String comments = null;
-    public String team = null;
-    public String section = null;
-    public String key = null;
+    public String course;
+    public String comments;
+    public String team;
+    public String section;
+    public String key;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
@@ -83,7 +83,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public StudentAttributes(String section, String team, String name, String email, String comment,
@@ -124,20 +124,17 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String toEnrollmentString() {
-        String enrollmentString = "";
         String enrollmentStringSeparator = "|";
 
-        enrollmentString = this.section + enrollmentStringSeparator;
-        enrollmentString += this.team + enrollmentStringSeparator;
-        enrollmentString += this.name + enrollmentStringSeparator;
-        enrollmentString += this.email + enrollmentStringSeparator;
-        enrollmentString += this.comments;
-
-        return enrollmentString;
+        return this.section + enrollmentStringSeparator
+             + this.team + enrollmentStringSeparator
+             + this.name + enrollmentStringSeparator
+             + this.email + enrollmentStringSeparator
+             + this.comments;
     }
 
     public boolean isRegistered() {
-        return googleId != null && !googleId.equals("");
+        return googleId != null && !googleId.isEmpty();
     }
 
     public String getRegistrationUrl() {
@@ -225,7 +222,7 @@ public class StudentAttributes extends EntityAttributes {
 
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfoForPersonName(name);
 
         if (!error.isEmpty()) { errors.add(error); }
 

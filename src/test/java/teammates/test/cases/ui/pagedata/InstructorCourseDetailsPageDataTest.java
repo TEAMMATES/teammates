@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +34,14 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
-            if (instructor.courseId.equals("idOfTypicalCourse1")) {
+            if ("idOfTypicalCourse1".equals(instructor.courseId)) {
                 instructors.add(instructor);
             }
         }
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         for (StudentAttributes student : dataBundle.students.values()) {
-            if (student.course.equals("idOfTypicalCourse1")) {
+            if ("idOfTypicalCourse1".equals(student.course)) {
                 students.add(student);
             }
         }

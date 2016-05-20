@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,7 +37,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         
         ______TS("Typical case");
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.feedbackSessionName
         };
         

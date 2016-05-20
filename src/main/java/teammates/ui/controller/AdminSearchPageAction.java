@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +19,8 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-
 public class AdminSearchPageAction extends Action {
-    
-        
-    
+
     private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
     private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
@@ -40,12 +36,12 @@ public class AdminSearchPageAction extends Action {
         
         if (searchKey == null || searchKey.trim().isEmpty()) {
             
-            if (searchButtonHit != null) {             
+            if (searchButtonHit == null) {             
+                statusToAdmin = "AdminSearchPaga Page Load";
+            } else {
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
-            } else {
-                statusToAdmin = "AdminSearchPaga Page Load";
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
@@ -67,8 +63,7 @@ public class AdminSearchPageAction extends Action {
         data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
                                     data.instructorResultBundle.instructorList,
                                     data);
-        
-        
+
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
@@ -95,7 +90,7 @@ public class AdminSearchPageAction extends Action {
             if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
                 CourseAttributes course = logic.getCourse(student.course);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(student.course, course.name);
+                    data.courseIdToCourseNameMap.put(student.course, course.getName());
                 }
             }
         }
@@ -104,7 +99,7 @@ public class AdminSearchPageAction extends Action {
             if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
                 CourseAttributes course = logic.getCourse(instructor.courseId);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
+                    data.courseIdToCourseNameMap.put(instructor.courseId, course.getName());
                 }
             }
         }
@@ -173,9 +168,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
-    
+
     private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         Logic logic = new Logic();
@@ -203,8 +196,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         for (StudentAttributes student : students) {
@@ -245,8 +237,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     /**
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
@@ -290,19 +281,20 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
+        AdminSearchPageData processedData = rawData;
         
         for (StudentAttributes student : students) {    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
             for (FeedbackSessionAttributes fsa : feedbackSessions) {               
-                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);              
             }       
         }       
  
-        return data;
+        return processedData;
            
     }
     
@@ -317,8 +309,18 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if (fsa.isOpened() == false) {
+         if (fsa.isOpened()) {
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
              
+         } else {                 
              if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> submitUrlList = new ArrayList<String>();
                  submitUrlList.add(submitUrl);   
@@ -328,20 +330,8 @@ public class AdminSearchPageAction extends Action {
              }
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
-             
-         } else {                 
-             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                  List<String> submitUrlList = new ArrayList<String>();
-                  submitUrlList.add(submitUrl);   
-                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
-         
-         
+
          String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                     .withCourseId(student.course)
                                     .withSessionName(fsa.feedbackSessionName)
@@ -360,8 +350,7 @@ public class AdminSearchPageAction extends Action {
              
              data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
          }
-        
-           
+
          return data;
     }
     

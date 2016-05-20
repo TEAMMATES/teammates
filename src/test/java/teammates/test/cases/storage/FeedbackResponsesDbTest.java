@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -803,7 +798,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
         
-        String answer[] = {"New answer text!"};
+        String[] answer = {"New answer text!"};
         frd = frd.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);

@@ -29,7 +29,6 @@ public class FileDownloadResult extends ActionResult {
         this.fileContent = fileContent;
     }
 
-    
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         /*

@@ -11,8 +11,12 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
-public class FeedbackSessionTemplates {
+public final class FeedbackSessionTemplates {
     private static final Map<String, String> TEMPLATES = createSessionTemplatesMap();
+    
+    private FeedbackSessionTemplates() {
+        // utility class
+    }
     
     private static Map<String, String> createSessionTemplatesMap() {
         Map<String, String> templates = new HashMap<String, String>();

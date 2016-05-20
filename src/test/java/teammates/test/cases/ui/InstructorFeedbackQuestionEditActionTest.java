@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -1034,6 +1030,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time",
@@ -1078,6 +1076,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
@@ -1092,6 +1092,52 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         };
 
         a = getAction(editDescriptionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
+                     r.getDestinationWithParams());
+        assertFalse(r.isError);
+
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        
+        ______TS("Edit rubric weight");
+
+        // There are already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        String[] editWeightParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(editWeightParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1122,6 +1168,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "0",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
@@ -1174,6 +1222,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes(Edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "0",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",

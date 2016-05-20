@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,11 @@ import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
-public class AssertHelper {
+public final class AssertHelper {
+    
+    private AssertHelper() {
+        // utility class 
+    }
     
     /**
      * Assert date is now +- 1 min

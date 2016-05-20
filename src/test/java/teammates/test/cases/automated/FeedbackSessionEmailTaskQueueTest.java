@@ -1,10 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
@@ -73,7 +68,6 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     public static void classTearDown() throws Exception {
         printTestClassFooter();
     }
-    
 
     private void testFeedbackSessionsPublishEmail() throws Exception {
         
@@ -137,8 +131,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         }
 
         assertEquals(1, FeedbackSessionsEmailTaskQueueCallback.taskCount);
-      
-        
+
         ______TS("Try to send reminder for null feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();

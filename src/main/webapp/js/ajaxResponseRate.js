@@ -21,15 +21,15 @@ function linkAjaxForResponseRate() {
             success: function(data) {
                 setTimeout(function() {
                     var type = data.sessionDetails ? 'sessionDetails' : 'evaluationDetails';
-                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / ' +
-                                                 data[type].stats.expectedTotal);
+                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / '
+                                                 + data[type].stats.expectedTotal);
                 }, 500);
             }
         });
     };
     $('td[class*="session-response-for-test"] > a').click(responseRateClickHandler);
 
-    $(".table").each(function() {
+    $('.table').each(function() {
         // this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
         

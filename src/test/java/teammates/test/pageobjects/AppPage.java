@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
@@ -40,7 +42,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
@@ -72,9 +73,6 @@ public abstract class AppPage {
     protected Browser browser;
     
     /** These are elements common to most pages in our app */
-    @SuppressWarnings("unused")
-    private void ____Common_page_elements___________________________________() {
-    }
     @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
@@ -116,11 +114,7 @@ public abstract class AppPage {
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
-    
-    @SuppressWarnings("unused")
-    private void ____creation_and_navigation_______________________________() {
-    }
-    
+
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -205,7 +199,7 @@ public abstract class AppPage {
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
-                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+                return "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"));
             }
         });
     }
@@ -271,7 +265,7 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) {
+                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -461,10 +455,6 @@ public abstract class AppPage {
     public AppPage logout() {
         logoutButton.click();
         return this;
-    }
-    
-    @SuppressWarnings("unused")
-    private void ____accessing_elements___________________________________() {
     }
     
     /**
@@ -681,10 +671,6 @@ public abstract class AppPage {
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
-    
-    @SuppressWarnings("unused")
-    private void ____verification_methods___________________________________() {
-    }
 
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
@@ -772,7 +758,7 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        Assert.assertNotNull(element.getAttribute("disabled"));
+        assertNotNull(element.getAttribute("disabled"));
     }
 
     /**
@@ -815,12 +801,10 @@ public abstract class AppPage {
         return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath) throws IOException {
+    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
@@ -867,18 +851,18 @@ public abstract class AppPage {
     }
     
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
-        if (content != null && !content.isEmpty()) {
-            TestProperties.inst().verifyReadyForGodMode();
-            try {
-                String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-                saveCurrentPage(filePath, processedPageSource);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        } else {
+        if (content == null || content.isEmpty()) { 
             return false;
         }
+        
+        TestProperties.inst().verifyReadyForGodMode();
+        try {
+            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+            saveCurrentPage(filePath, processedPageSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
     
     /**
@@ -939,6 +923,7 @@ public abstract class AppPage {
             } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
+                ThreadHelper.waitFor(0);
             }
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
@@ -976,7 +961,7 @@ public abstract class AppPage {
         if (downloadedFile.exists()) { 
             downloadedFile.delete();
         }
-        if (downloadedFile.canWrite() == false) { 
+        if (!downloadedFile.canWrite()) { 
             downloadedFile.setWritable(true);
         }
         
@@ -995,7 +980,7 @@ public abstract class AppPage {
         response.getEntity().getContent().close();
  
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
-        assertEquals(true, new File(downloadedFileAbsolutePath).exists());
+        assertTrue(new File(downloadedFileAbsolutePath).exists());
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);
@@ -1019,10 +1004,6 @@ public abstract class AppPage {
         assertFalse(pageSource.contains(searchString));
         return this;
     }
-        
-    @SuppressWarnings("unused")
-    private void ____private_utility_methods________________________________() {
-    }
     
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
@@ -1035,7 +1016,6 @@ public abstract class AppPage {
             throw new RuntimeException(e);
         }
     }
-
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();
@@ -1065,6 +1045,7 @@ public abstract class AppPage {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
         } catch (NoSuchElementException alreadydisappears) {
             // ok to ignore
+            return;
         }
     }
 

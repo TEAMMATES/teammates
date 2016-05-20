@@ -58,7 +58,6 @@ public class InstructorCourseEditPageAction extends Action {
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                         + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
     }
 }

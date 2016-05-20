@@ -22,12 +22,15 @@ public class FeedbackQuestionTableRow {
     public String getCourseId() {
         return courseId;
     }
+    
     public String getFsName() {
         return fsName;
     }
+    
     public String getQnType() {
         return qnType;
     }
+    
     public String getQnText() {
         return qnText;
     }
@@ -35,6 +38,5 @@ public class FeedbackQuestionTableRow {
     public String getQnId() {
         return qnId;
     }
-    
-    
+
 }

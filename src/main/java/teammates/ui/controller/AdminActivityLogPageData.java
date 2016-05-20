@@ -23,21 +23,21 @@ public class AdminActivityLogPageData extends PageData {
     private Long toDateValue;
     private Long fromDateValue;
     private String logLocalTime;
-    private boolean isFromDateSpecifiedInQuery = false;
+    private boolean isFromDateSpecifiedInQuery;
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
      * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowAll = false;
+    private boolean ifShowAll;
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowTestData = false;
+    private boolean ifShowTestData;
     
     private String statusForAjax;
     private QueryParameters q;
@@ -129,17 +129,15 @@ public class AdminActivityLogPageData extends PageData {
         }
         return false;
     }
-    
-    
+
     /**
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase();
         
         try {
-            q = parseQuery(query);
+            q = parseQuery(filterQuery.toLowerCase());
         } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -151,7 +149,7 @@ public class AdminActivityLogPageData extends PageData {
      */   
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if (ifShowAll == true) {        
+        if (ifShowAll) {        
             return false;
         }
         
@@ -183,31 +181,24 @@ public class AdminActivityLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isRequestInQuery) {
-            if (!arrayContains(q.requestValues, logEntry.getServletName())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getServletName())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isResponseInQuery) {
-            if (!arrayContains(q.responseValues, logEntry.getAction())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getAction())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isPersonInQuery) {
-            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isPersonInQuery
+                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
-        if (q.isRoleInQuery) {
-            if (!arrayContains(q.roleValues, logEntry.getRole())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getRole())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
         if (q.isCutoffInQuery) {
             if (logEntry.getTimeTaken() == null) {
@@ -234,11 +225,9 @@ public class AdminActivityLogPageData extends PageData {
             logEntry.highlightKeyStringInMessageInfoHtml();
             return logEntry;
         }
-        if (q.isIdInQuery) {
-            if (!arrayContains(q.idValues, logEntry.getId())) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
+        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getId())) {
+            logEntry.setToShow(false);
+            return logEntry;
         }
         
         if (shouldExcludeLogEntry(logEntry)) {
@@ -258,14 +247,14 @@ public class AdminActivityLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1); 
          
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
@@ -278,7 +267,7 @@ public class AdminActivityLogPageData extends PageData {
             values = StringHelper.trim(values);
             String label = pair[0].trim();
             
-            if (label.equals("version")) {
+            if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
@@ -286,7 +275,7 @@ public class AdminActivityLogPageData extends PageData {
                     versions.add(values[j].replace(".", "-"));
                 }
                 
-            } else if (label.equals("from")) {
+            } else if ("from".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 00:00");                
@@ -294,9 +283,10 @@ public class AdminActivityLogPageData extends PageData {
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
                 isFromDateSpecifiedInQuery = true;
-                                                
-            } else if (label.equals("to")) {
+
+            } else if ("to".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);
@@ -318,38 +308,33 @@ public class AdminActivityLogPageData extends PageData {
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
         return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
     }
-    
-    
+
     private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns) {
         
-        String outputHtml = "<tr>";      
+        StringBuilder outputHtml = new StringBuilder(100);
+        outputHtml.append("<tr>");
         int count = 0;      
         for (int i = 0; i < totalColumns; i++) {
             
-            outputHtml += "<td>";
-            outputHtml += "<ul class=\"list-group\">";
+            outputHtml.append("<td><ul class=\"list-group\">");
             for (int j = 0; j < rowsPerCol; j++) {
                 
                 if (count >= allActionNames.size()) {
                     break;
                 }
                 
-                outputHtml += "<li class=\"list-group-item " 
-                              + getStyleForListGroupItem(allActionNames.get(count))
-                              + "\">" + allActionNames.get(count) + "</li>";
+                outputHtml.append("<li class=\"list-group-item "
+                                  + getStyleForListGroupItem(allActionNames.get(count))
+                                  + "\">" + allActionNames.get(count) + "</li>");
                               
                 count++;
             }
-            outputHtml += "</ul>";
-            outputHtml += "</td>";
+            outputHtml.append("</ul></td>");
         }
         
-       
-        return outputHtml;    
-
+        return outputHtml.toString();
     }
-    
-    
+
     private String getStyleForListGroupItem(String actionName) {
         
         String style = "";
@@ -378,8 +363,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return rowsPerCol;
     }
-    
-     
+
     private List<String> getAllActionNames() {
        
         List<String> actionNameList = new ArrayList<String>();
@@ -392,8 +376,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return actionNameList;            
     }
-    
-    
+
     private String getActionNameStringFromField(Field field) {
         
         String rawActionString = "";
@@ -452,28 +435,36 @@ public class AdminActivityLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception {
-            if (label.equals("request")) {
+            switch (label) {
+            case "request":
                 isRequestInQuery = true;
                 requestValues = values;
-            } else if (label.equals("response")) {
+                break;
+            case "response":
                 isResponseInQuery = true;
                 responseValues = values;
-            } else if (label.equals("person")) {
+                break;
+            case "person":
                 isPersonInQuery = true;
                 personValue = values[0];
-            } else if (label.equals("role")) {
+                break;
+            case "role":
                 isRoleInQuery = true;
                 roleValues = values;
-            } else if (label.equals("time")) {
+                break;
+            case "time":
                 isCutoffInQuery = true;
                 cutoffValue = Long.parseLong(values[0]);
-            } else if (label.equals("info")) {
+                break;
+            case "info":
                 isInfoInQuery = true;
                 infoValues = values;
-            } else if (label.equals("id")) {
+                break;
+            case "id":
                 isIdInQuery = true;
                 idValues = values;
-            } else {
+                break;
+            default:
                 throw new Exception("Invalid label");
             }
         }
@@ -500,17 +491,14 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     public String getPersonSpecified() {
-        if (q != null) {
-            return q.personValue;
-        } else {
+        if (q == null) {
             return null;
         }
+        return q.personValue;
     }
     
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }
-  
 
-    
 }

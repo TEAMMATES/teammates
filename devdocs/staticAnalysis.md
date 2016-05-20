@@ -16,6 +16,26 @@ This document will cover an overview of these tools and how to run them in local
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
+#####Configuring Checkstyle Eclipse plugin  
+
+1. In `Project > Properties`, go to the `Checkstyle` tab.
+2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
+3. In the `Main` tab, uncheck `Use simple configuration`.
+4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
+5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
+
+#####Suppressing Checkstyle warnings
+
+To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
+
+An example for suppressing the `Avoid star imports` rule is as follows:
+```
+//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+import static teammates.common.util.Const.ActionURIs.*;
+//CHECKSTYLE:ON
+```
+
 ### PMD
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
@@ -51,7 +71,7 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 ### ESLint
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
-The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates.eslintrc).
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
 To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
 ```
@@ -92,6 +112,8 @@ Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot; just right-cl
 Remember to configure the tools to use the ruleset provided.
 The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
 
+To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
+
 Alternatively, run the tools via Gradle:
 ```
 ./gradlew -b travis.gradle {toolType}{sourceCodeType}
@@ -103,7 +125,7 @@ To run ESLint analysis on all JavaScript source files, run the following command
 ```
 ./gradlew -b travis.gradle eslint
 ```
-The report can be found in the `build/reports/` directory.
+The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```

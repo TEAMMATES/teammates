@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.lang.reflect.Constructor;
 
 import org.openqa.selenium.support.PageFactory;
@@ -56,8 +52,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminHomePage homePage;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
-    
-    
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();      
@@ -93,8 +88,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         
-        String instructorDetails = instructor.name + " | " + instructor.email + "\n" + 
-                                   instructor.name + " | " + instructor.email + " | " + institute;
+        String instructorDetails = instructor.name + " | " + instructor.email + "\n" 
+                                 + instructor.name + " | " + instructor.email + " | " + institute;
         
         ______TS("action fail & success: add multiple instructors");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
@@ -159,8 +154,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         //check a account has been created for the requester successfully
         assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
-        
-        
+
         //verify sample course is accessible for newly joined instructor as an instructor
         
         ______TS("new instructor can see sample course in homepage");
@@ -226,9 +220,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                              feedbackSession.gracePeriod);
         feedbackEditPage.reloadPage();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
-        
-        
-        
+
         ______TS("new instructor can click submit button of sample feedbackSession");
         instructorHomePage.loadInstructorHomeTab();
         FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo", 
@@ -262,8 +254,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         homePage.createInstructor(shortName, instructor, institute);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT),
                      homePage.getMessageFromResultTable(1));
-      
-        
+
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
         if (!TestProperties.inst().TEAMMATES_URL.contains("local")) {
@@ -312,8 +303,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = getHomePage(browser).clickInstructorLogin()
                                                  .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
                                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-        
-  
+
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
      
@@ -322,8 +312,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
-        
-   
+
     }
 
     @AfterClass

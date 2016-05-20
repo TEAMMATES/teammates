@@ -193,7 +193,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // Early return if any null fields
         if (!errors.isEmpty()) { return errors; }
 
-        error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
@@ -320,7 +320,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date now = TimeHelper.now(timeZone).getTime();
         Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -329,6 +328,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return false;
         }
 
+        Date now = TimeHelper.now(timeZone).getTime();
         return visibleTime.before(now);
     }
 
@@ -448,15 +448,15 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {
-                    if (session1.endTime != null && session2.endTime != null) {
-                        result = session2.endTime.compareTo(session1.endTime);
-                    } else {
+                    if (session1.endTime == null || session2.endTime == null) {
                         if (session1.endTime == null) {
                             --result;
                         }
                         if (session2.endTime == null) {
                             ++result;
                         }
+                    } else {
+                        result = session2.endTime.compareTo(session1.endTime);
                     }
                 }
 

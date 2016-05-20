@@ -17,11 +17,11 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
-    private final boolean isPreview = true;
+    private static final boolean isPreview = true;
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private int numberOfSanitizedEmail = 0;
-    private int numberOfSanitizedGoogleId = 0;
+    private int numberOfSanitizedEmail;
+    private int numberOfSanitizedGoogleId;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
@@ -40,12 +40,12 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         numberOfSanitizedEmail = 0;
         numberOfSanitizedGoogleId = 0;
         for (StudentAttributes student : allStudents) {
-            if (!isPreview) {
-                fixSanitizedDataForStudent(student);
-            } else {
+            if (isPreview) {
                 if (previewSanitizedDataForStudent(student)) {
                     numberOfAffectedStudents++;
                 }
+            } else {
+                fixSanitizedDataForStudent(student);
             }
         }
         if (isPreview) {
@@ -102,7 +102,9 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
 
     private boolean isSanitizedString(String s) {
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
         if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
             || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
             return false;
@@ -121,10 +123,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
     
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
-        return isSanitizedString(student.comments) || isSanitizedString(student.course) || 
-               isSanitizedString(student.email) || isSanitizedString(student.googleId) || 
-               isSanitizedString(student.lastName) || isSanitizedString(student.name) || 
-               isSanitizedString(student.section) || isSanitizedString(student.team);
+        return isSanitizedString(student.comments) || isSanitizedString(student.course)
+               || isSanitizedString(student.email) || isSanitizedString(student.googleId)
+               || isSanitizedString(student.lastName) || isSanitizedString(student.name) 
+               || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
     
     private void fixSanitizationForStudent(StudentAttributes student) {

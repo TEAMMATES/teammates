@@ -22,9 +22,7 @@ public class InstructorCourseEditSaveAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
-        CourseAttributes courseToEdit = new CourseAttributes();
-        courseToEdit.id = courseId;
-        courseToEdit.name = courseName;
+        CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName);
         
         try {
             logic.updateCourse(courseToEdit);

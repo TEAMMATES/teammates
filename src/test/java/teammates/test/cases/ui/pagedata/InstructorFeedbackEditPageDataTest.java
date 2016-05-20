@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,7 +37,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     private static final int NUM_RECIPIENT_OPTIONS = 8;
     
     private static DataBundle dataBundle = getTypicalDataBundle();
-
 
     @Test
     public void allTests() {
@@ -133,7 +127,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
         
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
-        assertEquals(true, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(NUM_RECIPIENT_OPTIONS, feedbackPath.getRecipientParticipantOptions().size());
         assertEquals(NUM_GIVER_OPTIONS, feedbackPath.getGiverParticipantOptions().size());
@@ -308,8 +302,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
-        InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
-        return instructorAttributes;
+        return dataBundle.instructors.get(instructor);
     }
 
     public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {

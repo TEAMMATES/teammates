@@ -15,11 +15,6 @@ import java.util.List;
  *
  */
 public class CourseDetailsBundle {
-
-    public CourseDetailsBundle(CourseAttributes courseData) {
-        this.course = courseData;
-    }
-
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
     
@@ -29,6 +24,9 @@ public class CourseDetailsBundle {
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
+    public CourseDetailsBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
     
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle
@@ -45,7 +43,7 @@ public class CourseDetailsBundle {
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }
@@ -57,7 +55,7 @@ public class CourseDetailsBundle {
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.id.compareTo(obj2.course.id);
+                return obj1.course.getId().compareTo(obj2.course.getId());
             }
         });
     }

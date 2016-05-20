@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -48,7 +47,7 @@ public class AccountAttributesTest extends BaseTestCase {
                 + String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FieldValidator.REASON_TOO_LONG);
-        assertEquals("all valid values", false, account.isValid());
+        assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
     }
@@ -132,8 +131,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
@@ -144,8 +142,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String email = "valid@email.com";
         String institute = "valid institute name";
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute);
     }
     
     private AccountAttributes createAccountAttributesToSanitize() {
@@ -177,6 +174,5 @@ public class AccountAttributesTest extends BaseTestCase {
     public static void tearDown() {
         printTestClassFooter();
     }
-
 
 }

@@ -44,8 +44,7 @@ public abstract class EmailAction {
         req = request;
         emailsToBeSent = null;
     }
-    
-    
+
     public void sendEmails() {
         try {
             emailsToBeSent = prepareMailToBeSent();
@@ -93,8 +92,7 @@ public abstract class EmailAction {
     
     protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
     
-    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
-    }
+    protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     
@@ -117,15 +115,17 @@ public abstract class EmailAction {
                 
         String url = HttpRequestHelper.getRequestedURL(req);
     
-        String message = "<span class=\"color_red\">Servlet Action failure in "    + actionName + "<br>";
-        message += e.getMessage() + "</span>";
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null, message, url);
+        String message = "<span class=\"color_red\">Servlet Action failure in " + actionName + "<br>"
+                       + e.getMessage() + "</span>";
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null,
+                                                                 message, url);
         log.log(Level.INFO, activityLogEntry.generateLogMessage());
         log.severe(e.getMessage());
     }
 
     private String generateLogMessage(List<MimeMessage> emailsSent) throws Exception {
-        String logMessage = "Emails sent to:<br/>";
+        StringBuilder logMessage = new StringBuilder(100);
+        logMessage.append("Emails sent to:<br/>");
         
         Iterator<Entry<String, EmailData>> extractedEmailIterator = 
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -136,14 +136,13 @@ public abstract class EmailAction {
             String userEmail = extractedEmail.getKey();
             EmailData emailData = extractedEmail.getValue();
             
-            logMessage += emailData.userName + "<span class=\"bold\"> (" 
-                                + userEmail + ")</span>.<br/>";
+            logMessage.append(emailData.userName + "<span class=\"bold\"> (" + userEmail + ")</span>.<br/>");
             if (!emailData.regKey.isEmpty()) {
-                logMessage += emailData.regKey + "<br/>";
+                logMessage.append(emailData.regKey).append("<br/>");
             }
         }
         
-        return logMessage;
+        return logMessage.toString();
     }
     
     private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails) throws Exception {

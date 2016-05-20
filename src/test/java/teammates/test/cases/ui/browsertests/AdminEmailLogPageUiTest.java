@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
@@ -33,8 +32,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         testContent();
         testFilterReference();
     }
-    
-    
+
     private void testFilterReference() {
         emailLogPage.clickReferenceButton();
         assertTrue(emailLogPage.isFilterReferenceVisible());

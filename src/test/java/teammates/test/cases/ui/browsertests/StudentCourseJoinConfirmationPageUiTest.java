@@ -2,8 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import java.lang.reflect.Constructor;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -59,8 +57,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         // TODO: remove this test by 21/09/2014
         testJoinConfirmation();
     }
-    
-    
+
     private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
@@ -69,8 +66,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("click join link, skips confirmation and asks for login");
 
-        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
+        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -91,8 +88,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("test student confirmation page content");
         
-        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
-        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
+        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -140,15 +137,13 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         studentHomePage.logout();
     }
 
-
     private void testContent(){
         
         /*covered in testJoinConfirmation() 
          *case: click join link then confirm: success: valid key
          */
     }
-     
-    
+
     private void testJoinConfirmation() throws Exception {
         logout(browser);
         removeAndRestoreTestDataOnServer(testData);
@@ -159,8 +154,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("click join link, skips confirmation and asks for login");
 
-        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
+        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -175,12 +170,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
-        
-        
+
         ______TS("test student confirmation page content");
         
-        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
-        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
+        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))

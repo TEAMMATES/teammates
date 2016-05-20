@@ -118,13 +118,13 @@ public class CoursesDb extends EntitiesDb {
             throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
         }
         
-        Course courseEntityToUpdate = getCourseEntity(courseToUpdate.id);
+        Course courseEntityToUpdate = getCourseEntity(courseToUpdate.getId());
         
         if (courseEntityToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         
-        courseEntityToUpdate.setName(courseToUpdate.name);
+        courseEntityToUpdate.setName(courseToUpdate.getName());
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());
@@ -142,17 +142,15 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseAttributes entityToDelete = new CourseAttributes();
-        entityToDelete.id = courseId;
+        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course");
         
         deleteEntity(entityToDelete);
     }
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {
-        return getCourseEntity(((CourseAttributes) attributes).id);
+        return getCourseEntity(((CourseAttributes) attributes).getId());
     }
-
 
     private Course getCourseEntity(String courseId) {
         Query q = getPM().newQuery(Course.class);

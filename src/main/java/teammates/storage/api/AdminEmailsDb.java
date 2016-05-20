@@ -51,9 +51,10 @@ public class AdminEmailsDb extends EntitiesDb {
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(ae.emailId);
         
         if (adminEmailToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject() +
-                                                  "/" + ae.getSendDate() +
-                                                  ThreadHelper.getCurrentThreadStack());
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject()
+                    + "/" + ae.getSendDate() 
+                    + ThreadHelper.getCurrentThreadStack());
         }
         
         ae.sanitizeForSaving();
@@ -69,8 +70,7 @@ public class AdminEmailsDb extends EntitiesDb {
         closePM();
         
     }
-    
-    
+
     /**
      * deletes files uploaded in admin email compose page
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
@@ -83,8 +83,7 @@ public class AdminEmailsDb extends EntitiesDb {
             log.warning("tried to delete non-existent file");
         }
     }
-    
-    
+
     /**
      * deletes all emails in trash bin, related group receiver text file will be removed from 
      * Google Cloud Storage
@@ -111,8 +110,9 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(emailId);
         if (adminEmailToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId + 
-                                                  ThreadHelper.getCurrentThreadStack());
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId
+                    + ThreadHelper.getCurrentThreadStack());
         }
         
         newAdminEmail.sanitizeForSaving();
@@ -174,8 +174,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         return new AdminEmailAttributes(matched);
     }
-    
-    
+
     /**
      * Get all admin email drafts that have NOT been sent and NOT in trash bin
      * @return empty list if no email found
@@ -205,10 +204,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         return list;
     }
-    
-    
-    
-    
+
     /**
      * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
@@ -295,12 +291,10 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
-        
-        
+
         Query q = getPM().newQuery(AdminEmail.class);
         q.declareParameters("String subjectParam, java.util.Date createDateParam");
-        q.setFilter("subject == subjectParam && " +
-                    "createDate == createDateParam");
+        q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
         
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject, createDate);
@@ -317,12 +311,10 @@ public class AdminEmailsDb extends EntitiesDb {
         
         if (adminEmailToGet.getEmailId() != null) {
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
-        } else {
-            return getAdminEmailEntity(adminEmailToGet.getSubject(),
-                                       adminEmailToGet.getCreateDate());
-        }
+        } 
         
+        return getAdminEmailEntity(adminEmailToGet.getSubject(),
+                                   adminEmailToGet.getCreateDate());
     }
 
-    
 }

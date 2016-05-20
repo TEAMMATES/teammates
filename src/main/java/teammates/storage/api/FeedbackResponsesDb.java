@@ -64,7 +64,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         }
         return new FeedbackResponseAttributes(feedbackResponse);        
     }
-    
 
     /**
      * Preconditions: <br>
@@ -79,8 +78,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 getFeedbackResponseEntity(feedbackResponseId);
         
         if (fr == null) {
-            log.info("Trying to get non-existent response: " +
-                    feedbackResponseId + ".");
+            log.info("Trying to get non-existent response: " + feedbackResponseId + ".");
             return null;
         }
         
@@ -103,9 +101,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
         
         if (fr == null) {
-            log.warning("Trying to get non-existent response: " +
-                    feedbackQuestionId + "/" + "from: " +
-                    giverEmail + " to: " + receiverEmail );
+            log.warning("Trying to get non-existent response: " 
+                    + feedbackQuestionId + "/" + "from: " 
+                    + giverEmail + " to: " + receiverEmail);
             return null;
         }
         return fr;        
@@ -454,7 +452,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestion(feedbackQuestionId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -531,7 +528,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver);
         List<FeedbackResponseAttributes> fraList =
@@ -557,7 +553,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -673,13 +668,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         getPM().flush();
     }
     
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.setFilter(":p.contains(courseId)");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseIds);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseIds);
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
@@ -695,14 +689,13 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return fraList;
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
 
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseId);
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -721,16 +714,15 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses.get(0);
     }
 
-        
     private FeedbackResponse getFeedbackResponseEntity(
             String feedbackQuestionId, String giverEmail, String receiver) {
         
         Query q = getPM().newQuery(FeedbackResponse.class);
-        q.declareParameters("String feedbackQuestionIdParam, " +
-                "String giverEmailParam, String receiverParam");
-        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && " +
-                "giverEmail == giverEmailParam && " +
-                "receiver == receiverParam");
+        q.declareParameters("String feedbackQuestionIdParam, " 
+                            + "String giverEmailParam, String receiverParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && " 
+                    + "giverEmail == giverEmailParam && " 
+                    + "receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
@@ -743,7 +735,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses.get(0);
     }
     
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section) {
         
         List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
@@ -770,7 +762,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(
                 String feedbackQuestionId) {
     
         Query q = getPM().newQuery(FeedbackResponse.class);
@@ -784,7 +776,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(
                 String feedbackQuestionId, long range) {
     
         Query q = getPM().newQuery(FeedbackResponse.class);
@@ -1095,11 +1087,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         if (FeedbackResponseToGet.getId() != null) {
             return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
-        } else { 
-            return getFeedbackResponseEntity(
-                FeedbackResponseToGet.feedbackQuestionId,
-                FeedbackResponseToGet.giverEmail,
-                FeedbackResponseToGet.recipientEmail);
-        }
+        } 
+        
+        return getFeedbackResponseEntity(
+            FeedbackResponseToGet.feedbackQuestionId,
+            FeedbackResponseToGet.giverEmail,
+            FeedbackResponseToGet.recipientEmail);
     }
 }

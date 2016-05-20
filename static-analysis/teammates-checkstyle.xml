@@ -3,6 +3,7 @@
 <module name="Checker">
   <property name="severity" value="error"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="UnusedImports"/>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
@@ -18,6 +19,29 @@
       <property name="tokens" value="CTOR_DEF,ENUM_CONSTANT_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
     </module>
     <module name="GenericWhitespace"/>
+    <module name="OperatorWrap">
+      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,DIV_ASSIGN,BXOR,BXOR_ASSIGN,MINUS,STAR,STAR_ASSIGN,BAND,LAND,BAND_ASSIGN,MOD,MOD_ASSIGN,PLUS,PLUS_ASSIGN,LT,SL,SL_ASSIGN,LE,MINUS_ASSIGN,EQUAL,GT,GE,SR,SR_ASSIGN,BSR,BSR_ASSIGN,BOR,BOR_ASSIGN,LOR,LITERAL_INSTANCEOF"/>
+    </module>
+    <module name="OperatorWrap">
+      <property name="option" value="eol"/>
+      <property name="tokens" value="ASSIGN"/>
+    </module>
+    <module name="ParenPad">
+      <property name="tokens" value="QUESTION,ANNOTATION,ANNOTATION_FIELD_DEF,LITERAL_CATCH,CTOR_CALL,CTOR_DEF,LITERAL_DO,ENUM_CONSTANT_DEF,EXPR,LITERAL_FOR,LITERAL_IF,RESOURCE_SPECIFICATION,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_WHILE"/>
+    </module>
+    <module name="TypecastParenPad">
+      <property name="tokens" value="RPAREN,TYPECAST"/>
+    </module>
+    <module name="NeedBraces">
+      <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
+    </module>
+    <module name="AvoidStarImport"/>
+    <module name="EmptyLineSeparator">
+      <property name="tokens" value="CLASS_DEF,CTOR_DEF,IMPORT,INSTANCE_INIT,INTERFACE_DEF,METHOD_DEF,PACKAGE_DEF,STATIC_INIT"/>
+      <property name="allowMultipleEmptyLines" value="false"/>
+    </module>
+    <module name="ArrayTypeStyle"/>
   </module>
   <module name="FileTabCharacter"/>
+  <module name="SuppressionCommentFilter"/>
 </module>

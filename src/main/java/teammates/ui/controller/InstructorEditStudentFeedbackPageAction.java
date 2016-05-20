@@ -14,21 +14,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
-
-
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.COURSE_ID), 
-                                 courseId);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
-                                 feedbackSessionName);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON),
-                                 moderatedEntityIdentifier);
-
         
         StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedEntityIdentifier); 
         
@@ -51,10 +37,25 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             }
         }
         
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, studentUnderModeration.section, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        
+        String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
+
+
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.COURSE_ID), 
+                                 courseId);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                                 feedbackSessionName);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON),
+                                 moderatedEntityIdentifier);
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
@@ -73,9 +74,9 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             data.setModeratedQuestionId(moderatedQuestionId);
         }
 
-        statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" +
-                "Course ID: " + courseId;
+        statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" 
+                + "Session Name: " + feedbackSessionName + "<br>" 
+                + "Course ID: " + courseId;
         
         data.bundle.hideUnmoderatableQuestions();
         data.init(courseId);
