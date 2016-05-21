@@ -281,19 +281,20 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
+        AdminSearchPageData processedData = rawData;
         
         for (StudentAttributes student : students) {    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
             for (FeedbackSessionAttributes fsa : feedbackSessions) {               
-                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);              
             }       
         }       
  
-        return data;
+        return processedData;
            
     }
     
@@ -308,8 +309,18 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if (fsa.isOpened() == false) {
+         if (fsa.isOpened()) {
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
              
+         } else {                 
              if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> submitUrlList = new ArrayList<String>();
                  submitUrlList.add(submitUrl);   
@@ -319,17 +330,6 @@ public class AdminSearchPageAction extends Action {
              }
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
-             
-         } else {                 
-             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                  List<String> submitUrlList = new ArrayList<String>();
-                  submitUrlList.add(submitUrl);   
-                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
 
          String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)

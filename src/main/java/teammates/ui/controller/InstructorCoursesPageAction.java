@@ -73,7 +73,7 @@ public class InstructorCoursesPageAction extends Action {
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (data.isUsingAjax() && allCourses.size() == 0) {
+        if (data.isUsingAjax() && allCourses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
@@ -83,7 +83,6 @@ public class InstructorCoursesPageAction extends Action {
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }  
 }

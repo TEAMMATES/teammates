@@ -46,10 +46,6 @@ public class BackDoorTest extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
     }
 
-    @SuppressWarnings("unused")
-    private void ____SYSTEM_level_methods_________________________________() {
-    }
-    
     @Priority(-2)
     @Test
     public void testPersistence() {
@@ -127,10 +123,6 @@ public class BackDoorTest extends BaseTestCase {
 
     }
     
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods_________________________________() {
-    }
-    
     @Test
     public void testAccounts() throws Exception {
         
@@ -172,10 +164,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyPresentInDatastore(testAccount);
         BackDoor.deleteAccount(testAccount.googleId);
         verifyAbsentInDatastore(testAccount);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods_________________________________() {
     }
 
     public void testDeleteInstructors() {
@@ -220,10 +208,6 @@ public class BackDoorTest extends BaseTestCase {
         // method not implemented
     }
 
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods_________________________________() {
-    }
-
     @Test
     public void testCreateCourse() throws InvalidParametersException {
         // only minimal testing because this is a wrapper method for
@@ -256,10 +240,6 @@ public class BackDoorTest extends BaseTestCase {
 
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
-    }
-
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods_________________________________() {
     }
 
     @Test
@@ -348,10 +328,6 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
-    }
-
     @Test
     public void testCreateFeedbackResponse() {
 
@@ -384,15 +360,7 @@ public class BackDoorTest extends BaseTestCase {
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
         verifyAbsentInDatastore(fr);
     }
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
-
-    @SuppressWarnings("unused")
-    private void ____helper_methods_________________________________() {
-    }
-
+    
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
     }
