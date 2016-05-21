@@ -156,11 +156,11 @@ public class TableSortTest extends BaseUiTestCase {
                             "10.3"
                           };
 
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < idList.length; i++) {
-            searchString += idList[i] + "{*}";
+            searchString.append(idList[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
 
         page.click(By.id("button_sortname"));
         String[] reversedIdList = {  "10.3",
@@ -180,29 +180,29 @@ public class TableSortTest extends BaseUiTestCase {
                     "15"
                  };
 
-        searchString = "";
+        searchString = new StringBuilder();
         for (int i = 0; i < reversedIdList.length; i++) {
-            searchString += reversedIdList[i] + "{*}";
+            searchString.append(reversedIdList[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
     }
     
     private void verifySortingOrder(By sortIcon, String... values) {
         //check if the rows match the given order of values
         page.click(sortIcon);
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i] + "{*}";
+            searchString.append(values[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
         
         //click the sort icon again and check for the reverse order
         page.click(sortIcon);
-        searchString = "";
+        searchString = new StringBuilder();
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i - 1] + "{*}";
+            searchString.append(values[i - 1]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
     }
 
     @AfterClass

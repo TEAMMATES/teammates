@@ -116,9 +116,8 @@ public class AdminSearchPageData extends PageData {
         String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
-        id = "instructor_" + id;
         
-        return id;
+        return "instructor_" + id;
     }
     
     private String createViewRecentActionsId(InstructorAttributes instructor) {
@@ -179,9 +178,7 @@ public class AdminSearchPageData extends PageData {
     private String createId(StudentAttributes student) {
         String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
         id = id.replace(" ", "").replace("@", "");
-        id = "student_" + id;
-        
-        return id;
+        return "student_" + id;
     }
 
     private String createViewRecentActionsId(StudentAttributes student) {

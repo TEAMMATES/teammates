@@ -54,7 +54,9 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
@@ -163,10 +165,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     }
     
     private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name) {
-        if (!isCommentGiverNameVisibleToInstructor(response, comment)) {
-            name = "Anonymous";
-        }
-        return name;
+        return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     
     private String getFilteredGiverName(FeedbackResponseAttributes response, String name) {
@@ -174,8 +173,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if (!isNameVisibleToInstructor(response, question.showGiverNameTo) 
                 && question.giverType != FeedbackParticipantType.SELF) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.giverType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return "Anonymous " + question.giverType.toSingularFormString() + " " + hash;
         }
         return name;
     }
@@ -186,8 +184,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 && question.recipientType != FeedbackParticipantType.SELF 
                 && question.recipientType != FeedbackParticipantType.NONE) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.recipientType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return "Anonymous " + question.recipientType.toSingularFormString() + " " + hash;
         }
         return name;
     }

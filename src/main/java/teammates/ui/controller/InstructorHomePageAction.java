@@ -75,8 +75,7 @@ public class InstructorHomePageAction extends Action {
         }
         statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
     }
 
     private String getSortCriteria() {

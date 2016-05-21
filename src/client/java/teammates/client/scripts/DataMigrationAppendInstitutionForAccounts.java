@@ -94,6 +94,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
             
             @SuppressWarnings("unchecked")
             List<Account> studentAccounts = (List<Account>) pm.newQuery(query).execute();
+
             if (studentAccounts.isEmpty()) {
                 continue;
             }

@@ -24,6 +24,18 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
 5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
 
+#####Suppressing Checkstyle warnings
+
+To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
+
+An example for suppressing the `Avoid star imports` rule is as follows:
+```
+//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+import static teammates.common.util.Const.ActionURIs.*;
+//CHECKSTYLE:ON
+```
+
 ### PMD
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).

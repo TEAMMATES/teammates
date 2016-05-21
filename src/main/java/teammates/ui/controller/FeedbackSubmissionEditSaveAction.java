@@ -188,12 +188,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             existingResponsesId.add(existingResponse.getId());
         }
         
-        if (!existingResponsesId.contains(response.getId())) {
-            // response id is invalid
-            return false; 
-        }
-        
-        return true;
+        // checks if response id is valid
+        return existingResponsesId.contains(response.getId());
     }
 
     private void saveResponse(FeedbackResponseAttributes response)

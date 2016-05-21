@@ -685,12 +685,12 @@ function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipien
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
-    elem = $(elem);
-    if (elem.val() === 'INSTRUCTORS' || elem.val() === 'TEAMS') {
-        disableRow(elem, 2);
+    var $elem = $(elem);
+    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
+        disableRow($elem, 2);
         return;
     }
-    enableRow(elem, 2);
+    enableRow($elem, 2);
 }
 
 /**

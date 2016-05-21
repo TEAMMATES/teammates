@@ -210,10 +210,8 @@ function bindErrorImages(elements) {
  * class: student-profile-pic-view-link
  */
 function bindStudentPhotoLink(elements) {
-    $(elements).on('click', function(event) {
-        if (!event) {
-            event = window.event;
-        }
+    $(elements).on('click', function(e) {
+        var event = e || window.event;
         
         event.cancelBubble = true;
         

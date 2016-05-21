@@ -124,14 +124,16 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
+                     + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
+                     + delta + "%</span>";
         } else {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
@@ -727,27 +729,28 @@ public class PageData {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
         
-        String msg = "The feedback session has been created";
+        StringBuilder msg = new StringBuilder(50);
+        msg.append("The feedback session has been created");
         
         if (session.isVisible()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
         
         if (session.isOpened()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (session.isClosed()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
         if (session.isPublished()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
         
-        msg += ".";
+        msg.append('.');
         
-        return msg;
+        return msg.toString();
     }
     
     /**
@@ -1020,8 +1023,7 @@ public class PageData {
             }
             i++;
         }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
+        return namesStringBuilder.toString();
     }
     
     @SuppressWarnings("unused")

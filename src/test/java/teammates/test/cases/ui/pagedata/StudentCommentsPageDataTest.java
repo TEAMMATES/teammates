@@ -53,7 +53,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public static void testAll() {
+    public void testAll() {
         
         ______TS("typical success case");
         

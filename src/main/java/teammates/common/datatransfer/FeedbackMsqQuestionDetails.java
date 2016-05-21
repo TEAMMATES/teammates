@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
@@ -106,8 +108,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices 
-            || this.msqChoices.containsAll(newMsqDetails.msqChoices) == false
-            || newMsqDetails.msqChoices.containsAll(this.msqChoices) == false) {
+            || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+            || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
             return true;
         }
         
@@ -115,11 +117,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.otherEnabled != newMsqDetails.otherEnabled) {
-            return true;
-        }
-        
-        return false;
+        return this.otherEnabled != newMsqDetails.otherEnabled;
     }
 
     @Override
@@ -388,11 +386,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if ("student".equals(view) || responses.size() == 0) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : msqChoices) {
@@ -447,18 +446,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        String fragments = "";
+        
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+
         }
         //Use same template as MCQ for now, until they need to be different.
-        String html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments);
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
     }
 
     @Override
@@ -466,10 +465,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
-        
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
@@ -524,19 +523,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
-                      + entry.getValue().toString() + ","
-                      + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL;
-                    
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey()) + ','
+                             + entry.getValue().toString() + ','
+                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
         }
 
-        String csv = "Choice, Response Count, Percentage" + Const.EOL;
         
-        csv += fragments + Const.EOL;
-        
-        return csv;
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments + Const.EOL;
     }
 
     @Override
@@ -589,4 +585,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return answer == null;
     }
 
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
 }
