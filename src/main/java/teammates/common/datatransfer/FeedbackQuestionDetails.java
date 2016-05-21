@@ -35,12 +35,13 @@ public abstract class FeedbackQuestionDetails {
 
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
                                 boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients,
+                                int totalNumRecipients, boolean questionIsCompulsory,
                                 FeedbackResponseDetails existingResponseDetails);
 
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-                                boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients);
+                                    boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+                                    boolean questionIscompulsory,
+                                    int totalNumRecipients);
 
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 

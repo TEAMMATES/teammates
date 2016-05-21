@@ -221,6 +221,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertNotNull(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         
+        newQuestion.questionIsCompulsory = Boolean.valueOf(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ISCOMPULSORY));
+
         // Can be null
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, 
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TEXT);

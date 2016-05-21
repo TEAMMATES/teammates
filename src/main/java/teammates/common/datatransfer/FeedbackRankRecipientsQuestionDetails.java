@@ -41,7 +41,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                        int totalNumRecipients,
+                        int totalNumRecipients, boolean questionIsCompulsory,
                         FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackRankRecipientsResponseDetails existingResponse = (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
@@ -52,6 +52,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
+                        "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                         "${optionIdx}", "0",
                         "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",
@@ -79,7 +80,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean questionIsCompulsory, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -88,6 +89,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
+                        "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                         "${optionIdx}", "0",
                         "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",

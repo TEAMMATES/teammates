@@ -36,6 +36,13 @@ $(document).ready(function() {
 
         reenableFieldsForSubmission();
     });
+    
+    // validates the compulsory questions to be filled before submitting
+    $('#response_submit_button').click(function(e)
+    		{
+    		  if(!$.validate())
+    		  e.preventDefault();
+    		});
 
     formatRecipientLists();
 

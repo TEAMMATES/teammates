@@ -5,6 +5,6 @@
                id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}-${optionIdx}"
                name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
                value="${constSumOptionPoint}" onChange="updateConstSumMessageQn('${qnIdx}')"
-               min="0" step="1">
+               min="0" step="1" ${questionIsCompulsory}>
     </div>
 </div>

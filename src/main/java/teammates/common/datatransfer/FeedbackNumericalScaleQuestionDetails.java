@@ -66,7 +66,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int totalNumRecipients, boolean questionIsCompulsory, FeedbackResponseDetails existingResponseDetails) {
         FeedbackNumericalScaleResponseDetails numscaleResponseDetails = 
                 (FeedbackNumericalScaleResponseDetails) existingResponseDetails;
         
@@ -75,6 +75,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
+                "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
                 "${step}", StringHelper.toDecimalFormatString(step),
@@ -88,12 +89,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean questionIsCompulsory, int totalNumRecipients) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
+                "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
                 "${step}", StringHelper.toDecimalFormatString(step),

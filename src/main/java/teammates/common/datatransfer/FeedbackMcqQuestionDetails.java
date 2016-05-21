@@ -121,7 +121,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, boolean questionIsCompulsory, FeedbackResponseDetails existingResponseDetails) {
         FeedbackMcqResponseDetails existingMcqResponse = (FeedbackMcqResponseDetails) existingResponseDetails;
         List<String> choices = generateOptionList(courseId);
         
@@ -134,6 +134,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
+                            "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${checked}", existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -146,6 +147,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
+                            "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
@@ -164,7 +166,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean questionIsCompulsory, int totalNumRecipients) {
         List<String> choices = generateOptionList(courseId);
         
         StringBuilder optionListHtml = new StringBuilder();
@@ -175,6 +177,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
+                            "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -188,6 +191,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                        FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
+                            "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", "disabled",
                             "${checked}", "",

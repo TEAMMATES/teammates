@@ -40,7 +40,6 @@
     <c:forEach items="${data.qnForms}" var="question">
         <feedbackEdit:questionEditForm fqForm="${question}" numQn="${fn:length(data.qnForms)}"/>
     </c:forEach>
-    
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
     <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
     

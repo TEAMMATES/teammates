@@ -7,7 +7,7 @@
                        ${disabled} ${checked} value="${mcqChoiceValue}" data-text="otherOptionText"> Other
             </label>
             <input type="text" name="otherOptionText-${qnIdx}-${responseIdx}" id="otherOptionText-${qnIdx}-${responseIdx}" 
-                   ${text-disabled} value="${mcqChoiceValue}">
+                   ${text-disabled} value="${mcqChoiceValue}" ${questionIsCompulsory}>
             <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
                    id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
                    value="${mcqOtherOptionAnswer}">

@@ -127,6 +127,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
         qnForm.setQuestionText(questionDetails.questionText);
+        qnForm.setIsCompulsory(question.isQuestionIsCompulsory());
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
