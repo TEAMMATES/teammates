@@ -12,7 +12,11 @@ import java.nio.file.Paths;
  * File-related helper methods used for testing. There is another FileHelper on
  * the server side.
  */
-public class FileHelper {
+public final class FileHelper {
+    
+    private FileHelper() {
+        // utility class
+    }
 
     public static void writeToFile(String fileName, String fileContent) {
         try {

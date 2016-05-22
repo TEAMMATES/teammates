@@ -51,7 +51,16 @@ public class AdminInstructorAccountAddAction extends Action {
         data.statusForAjax = "";
         
         // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
-        if (data.instructorDetailsSingleLine != null) {
+        if (data.instructorDetailsSingleLine == null) {
+            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            Assumption.assertNotNull(data.instructorShortName);
+            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            Assumption.assertNotNull(data.instructorName);
+            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            Assumption.assertNotNull(data.instructorEmail);
+            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+            Assumption.assertNotNull(data.instructorInstitution);
+        } else {
             try {
                 String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
                 
@@ -65,15 +74,6 @@ public class AdminInstructorAccountAddAction extends Action {
                 statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
             }
-        } else {
-            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
-            Assumption.assertNotNull(data.instructorShortName);
-            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-            Assumption.assertNotNull(data.instructorName);
-            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-            Assumption.assertNotNull(data.instructorEmail);
-            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-            Assumption.assertNotNull(data.instructorInstitution);
         }
         
         data.instructorShortName = data.instructorShortName.trim();
@@ -90,7 +90,6 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       BackDoorLogic backDoor = new BackDoorLogic();     
        String courseId = null;    
        
        try {
@@ -102,18 +101,24 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            String errorMessage = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
-            statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
-            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
-            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
-            errorMessage += "<br>" + message;
+            StringBuilder errorMessage = new StringBuilder(100);
+            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            
+            statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
+            
+            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>"
+                             + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
+            
+            errorMessage.append("<br>").append(message);
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
+            
             data.instructorAddingResultForAjax = false;
-            data.statusForAjax = errorMessage;
+            data.statusForAjax = errorMessage.toString();
             return createAjaxResult(data);
         }
         
+        BackDoorLogic backDoor = new BackDoorLogic();
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
         data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;
@@ -189,11 +194,11 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         
-        try{
+        try {
             backdoor.persistDataBundle(data);        
-        } catch (EntityDoesNotExistException | NullPointerException e){
+        } catch (EntityDoesNotExistException e) {
             int elapsedTime = 0;
-            if(PERSISTENCE_WAITING_DURATION > 0){
+            if (PERSISTENCE_WAITING_DURATION > 0) {
                 while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -211,17 +216,17 @@ public class AdminInstructorAccountAddAction extends Action {
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments) {
             backdoor.putDocument(comment);
         }
-        for(FeedbackResponseCommentAttributes comment : frComments){
+        for (FeedbackResponseCommentAttributes comment : frComments) {
             backdoor.putDocument(comment);
         }
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students) {
             backdoor.putDocument(student);
         }
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors) {
             backdoor.putDocument(instructor);
         }
         
@@ -261,7 +266,7 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while(logic.getCourse(proposedCourseId) != null){
+        while (logic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;
@@ -273,7 +278,7 @@ public class AdminInstructorAccountAddAction extends Action {
     * @param instructorEmail is the instructor email.
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
-    private String getDemoCourseIdRoot(String instructorEmail){
+    private String getDemoCourseIdRoot(String instructorEmail) {
         final String[] splitedEmail = instructorEmail.split("@");
         final String head = splitedEmail[0];
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);
@@ -295,24 +300,23 @@ public class AdminInstructorAccountAddAction extends Action {
     *         lebron.gma-demo0 -> lebron.gma-demo1
     *         012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
     */
-    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-        if(isFirstCourseId){
+        if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
-        } else {
-            final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if(isFirstTimeDuplicate){
-                return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
-                                                 maximumIdLength);
-            } else {
-                final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-                final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-                final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-
-                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1),
-                                                 maximumIdLength);
-            }
         }
+        
+        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+        if (isFirstTimeDuplicate) {
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
+                                             maximumIdLength);
+        }
+        
+        final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+
+        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 }

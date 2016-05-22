@@ -9,7 +9,7 @@
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
-        <b>Feedback Path</b> (Who is giving feedback about whom?)
+        <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
     <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
         data-toggle="tooltip" data-placement="top"
@@ -49,9 +49,9 @@
             </select>
         </div>
     </div>
-    <div class="col-sm-12 row numberOfEntitiesElements${fqForm.question.questionNumber}">
-        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.question.questionNumber}" class="control-label col-sm-4 small">
-            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.question.questionNumber}"></span> each respondant should give feedback to:
+    <div class="col-sm-12 row numberOfEntitiesElements${fqForm.questionIndexIfNonZero}">
+        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.questionIndexIfNonZero}" class="control-label col-sm-4 small">
+            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.questionIndexIfNonZero}"></span> each respondant should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
             <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

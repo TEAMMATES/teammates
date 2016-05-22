@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,15 +53,15 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public static void testAll() {
+    public void testAll() {
         
         ______TS("typical success case");
         
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         data = new StudentCommentsPageData(account);
         
-        String courseId = sampleCourse.id;
-        String courseName = sampleCourse.name;
+        String courseId = sampleCourse.getId();
+        String courseName = sampleCourse.getName();
         List<String> coursePaginationList = Arrays.asList(courseId);
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         comments.add(dataBundle.comments.get("comment1FromI1C1toS1C1"));
@@ -105,7 +103,8 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<Comment> commentRows = new ArrayList<Comment>();
         String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
         for (CommentAttributes comment : comments) {
-            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.id, studentEmail, roster);
+            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(),
+                                                             studentEmail, roster);
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             commentRows.add(new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
@@ -234,7 +233,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<Comment> expectedCommentRows = expectedCommentsForStudentsTable.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
         
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
+        for (int i = 0; i < expectedCommentRows.size(); i++) {
             checkCommentRowsEqual(expectedCommentRows.get(i), actualCommentRows.get(i));
         }
     }

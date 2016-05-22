@@ -26,6 +26,7 @@ import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+
 /**
  * Receives requests from the Browser, executes the matching action and sends 
  * the result back to the Browser. The result can be a page to view or instructions
@@ -46,7 +47,7 @@ public class ControllerServlet extends HttpServlet {
     public final void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-        try{
+        try {
             /* We are using the Template Method Design Pattern here.
              * This method contains the high level logic of the the request processing.
              * Concrete details of the processing steps are to be implemented by child
@@ -69,7 +70,7 @@ public class ControllerServlet extends HttpServlet {
             long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
             
-            log.info(c.getLogMessage() + "|||"+ timeTaken);
+            log.info(c.getLogMessage() + "|||" + timeTaken);
             
         } catch (PageNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
@@ -119,7 +120,7 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
+        } catch (Throwable e) { // NOPMD, used as fallback
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
@@ -130,7 +131,7 @@ public class ControllerServlet extends HttpServlet {
         
     }
     
-    private void cleanUpStatusMessageInSession(HttpServletRequest req){
+    private void cleanUpStatusMessageInSession(HttpServletRequest req) {
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
     }
 }

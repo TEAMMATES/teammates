@@ -1,11 +1,9 @@
 package teammates.ui.controller;
 
-
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
-
 
 public class AdminEmailComposePageAction extends Action {
     
@@ -19,14 +17,15 @@ public class AdminEmailComposePageAction extends Action {
         
         boolean isEmailEdit = idOfEmailToEdit != null;
         
-        if(isEmailEdit){
+        if (isEmailEdit) {
             
             data.emailToEdit = logic.getAdminEmailById(idOfEmailToEdit);             
-            statusToAdmin = data.emailToEdit == null? 
-                            "adminEmailComposePage Page Load : " + Const.StatusMessages.EMAIL_NOT_FOUND:
-                            "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() +"]";
+            statusToAdmin = 
+                    data.emailToEdit == null 
+                    ? "adminEmailComposePage Page Load : " + Const.StatusMessages.EMAIL_NOT_FOUND 
+                    : "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() + "]";
             
-            if(data.emailToEdit == null){
+            if (data.emailToEdit == null) {
                 isError = true;
                 statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_NOT_FOUND, StatusMessageColor.WARNING));
             }

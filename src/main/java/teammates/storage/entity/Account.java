@@ -7,8 +7,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.storage.entity.StudentProfile;
-
 /**
  * Represents a unique user in the system. 
  */
@@ -34,8 +32,8 @@ public class Account {
     @Persistent
     private Date createdAt;
     
-    @Persistent(dependent="true", defaultFetchGroup="false")
-    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    @Persistent(dependent = "true", defaultFetchGroup = "false")
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private StudentProfile studentProfile;
 
     /**

@@ -21,7 +21,7 @@ import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageData extends PageData {
-    private FeedbackSessionResultsBundle bundle = null;
+    private FeedbackSessionResultsBundle bundle;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
     
@@ -105,7 +105,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         
         String questionText = questionDetailsBundle.questionText;
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
-        String studentEmail = (student != null) ? student.email : null;
+        String studentEmail = student == null ? null : student.email;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(
                                                                     responsesBundle, question, studentEmail,
                                                                     bundle, "student");
@@ -134,9 +134,24 @@ public class StudentFeedbackResultsPageData extends PageData {
             }           
         }
         
-        for (String recipientEmail : recipients) {
-            List<FeedbackResponseAttributes> responsesBundleForRecipient = filterResponsesByRecipientEmail(recipientEmail, responsesBundle);
-            responseTables.add(createResponseTable(question, responsesBundleForRecipient));
+        for (String recipient : recipients) {
+            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);            
+            
+            boolean isUserRecipient = student.email.equals(recipient);
+            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS 
+                                          && student.team.equals(recipient);
+            String recipientName;
+            if (isUserRecipient) {
+                recipientName = "You";
+            } else if (isUserTeamRecipient) {
+                recipientName = String.format("Your Team (%s)", bundle.getNameForEmail(recipient));
+            } else {
+                recipientName = bundle.getNameForEmail(recipient);
+            }
+            
+            responseTables.add(createResponseTable(question, 
+                                                   responsesForRecipient,
+                                                   recipientName));
         }
         return responseTables;
     }
@@ -148,42 +163,40 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Feedback results responses table for a question and a recipient
      */
     private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
-                                    List<FeedbackResponseAttributes> responsesBundleForRecipient) {
+                                    List<FeedbackResponseAttributes> responsesBundleForRecipient,
+                                    String recipientNameParam) {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
-        String recipientName = responsesBundleForRecipient == null || responsesBundleForRecipient.isEmpty() ?
-                                 "" : bundle.getRecipientNameForResponse(responsesBundleForRecipient.get(0));
      
-        for (FeedbackResponseAttributes singleResponse : responsesBundleForRecipient) {
-            String giverName = bundle.getGiverNameForResponse(singleResponse);
-
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        String recipientName = recipientNameParam;
+        for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
+            String giverName = bundle.getGiverNameForResponse(response);
+            
             /* Change display name to 'You' or 'Your team' if necessary */
-            if (question.giverType == FeedbackParticipantType.TEAMS) {
-                if (student.team.equals(giverName)) {
-                    giverName = "Your Team (" + giverName + ")";
-                }
-            } else if (student.email.equals(singleResponse.giverEmail)) {
+            boolean isUserGiver = student.email.equals(response.giverEmail);
+            boolean isUserPartOfGiverTeam = student.team.equals(giverName);
+            if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
+                giverName = "Your Team (" + giverName + ")"; // NOPMD
+            } else if (isUserGiver) {
                 giverName = "You";
             }
             
-            if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                if (student.team.equals(singleResponse.recipientEmail) && 
-                      !(recipientName.startsWith("Your Team (") && recipientName.endsWith(")"))) { // To avoid duplicate replacement
-                    recipientName = "Your Team (" + recipientName + ")";
-                }
-            } else if (student.email.equals(singleResponse.recipientEmail)
-                       && student.name.equals(recipientName)) {
-                recipientName = "You";
-            }
-
-            /* If the giver is the same user, show the real name of the receiver */
-            if (giverName.equals("You") && (!recipientName.equals("You"))) {
-                recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
+            boolean isUserRecipient = student.email.equals(response.recipientEmail);
+            if (isUserGiver && !isUserRecipient) {
+                // If the giver is the user, show the real name of the recipient
+                // since the giver would know which recipient he/she gave the response to
+                recipientName = bundle.getNameForEmail(response.recipientEmail);
+            } else if (!isUserGiver 
+                       && !bundle.isRecipientVisible(response)) {
+                // Hide anonymous recipient entirely to prevent student from guessing the identity  
+                // based on responses from other response givers 
+                recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
             
-            String answer = singleResponse.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
+            String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
             List<FeedbackResponseComment> comments = createStudentFeedbackResultsResponseComments(
-                                                                                          singleResponse.getId());
+                                                                                          response.getId());
             
             responses.add(new FeedbackResultsResponse(giverName, answer, comments));
         }

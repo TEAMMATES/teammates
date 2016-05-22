@@ -7,15 +7,13 @@ import teammates.logic.api.GateKeeper;
 
 public class StudentCourseDetailsPageAction extends Action {
 
-    private StudentCourseDetailsPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
-        if (!isJoinedCourse(courseId, account.googleId)) {
+        if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
 
@@ -23,7 +21,8 @@ public class StudentCourseDetailsPageAction extends Action {
         new GateKeeper().verifyAccessible(logic.getStudentForGoogleId(courseId, account.googleId),
                                           logic.getCourse(courseId));
 
-        data = new StudentCourseDetailsPageData(account);
+        StudentCourseDetailsPageData data = 
+                                        new StudentCourseDetailsPageData(account);
         
         data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
                       logic.getStudentForGoogleId(courseId, account.googleId), 
@@ -33,9 +32,7 @@ public class StudentCourseDetailsPageAction extends Action {
                         + "Viewing team details for <span class=\"bold\">[" + courseId + "] " 
                         + data.getStudentCourseDetailsPanel().getCourseName() + "</span>";
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
-        return response;
-
+        return createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
     }
 
 }

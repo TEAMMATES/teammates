@@ -9,8 +9,6 @@ import java.util.TreeMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -50,9 +48,9 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         boolean isViewingDraft = false;
         boolean isDisplayArchive = false;
-        String courseId = course1.id;
-        String courseName = course1.name;
-        List<String> coursePaginationList = Arrays.asList(course1.id, course2.id);
+        String courseId = course1.getId();
+        String courseName = course1.getName();
+        List<String> coursePaginationList = Arrays.asList(course1.getId(), course2.getId());
         Map<String, List<CommentAttributes>> comments = new TreeMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> commentModifyPermissions = new TreeMap<String, List<Boolean>>();
         
@@ -72,7 +70,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseName, data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
         assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.getId(), 
                      actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
         assertEquals(courseId, actualCoursePagination.getActiveCourse());
@@ -120,15 +118,15 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
-        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
+        for (int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
             checkCommentsForStudentsTablesEqual(
                      expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
         
         ______TS("instructor is in second course page");
         
-        courseId = course2.id;
-        courseName = course2.name;
+        courseId = course2.getId();
+        courseName = course2.getName();
         
         comments = new TreeMap<String, List<CommentAttributes>>();
         commentModifyPermissions = new TreeMap<String, List<Boolean>>();
@@ -147,7 +145,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.getId(), 
                      actualCoursePagination.getPreviousPageLink());
         assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
@@ -213,7 +211,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<Comment> expectedCommentRows = expected.getRows();
         List<Comment> actualCommentRows = actual.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
+        for (int i = 0; i < expectedCommentRows.size(); i++) {
             Comment expectedCommentRow = expectedCommentRows.get(i);
             Comment actualCommentRow = actualCommentRows.get(i);
             checkCommentRowsEqual(expectedCommentRow, actualCommentRow);
@@ -266,7 +264,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
         commentsForGiverList = getCommentsForGiverInCourse(giverEmail, courseId);
-        for(int i = 0; i < commentsForGiverList.size(); i++) {
+        for (int i = 0; i < commentsForGiverList.size(); i++) {
             canModifyCommentList.add(true);
         }
         String key = giverEmail;

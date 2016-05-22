@@ -11,7 +11,7 @@ QUnit.test('getQuestionIdSuffix(questionNumber)', function(assert) {
     for (var i = 0; i < expected.length; i++) {
         assert.strictEqual(getQuestionIdSuffix(expected[i]), '-' + expected[i]);
     }
-    for (var i = 0; i < unexpected.length; i++) {
-        assert.strictEqual(getQuestionIdSuffix(unexpected[i]), '');
+    for (var j = 0; j < unexpected.length; j++) {
+        assert.strictEqual(getQuestionIdSuffix(unexpected[j]), '');
     }
 });

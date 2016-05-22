@@ -62,11 +62,11 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if(updateAccount){
-            for(EntityAttributes entity : accountsToUpdate){
+        if (updateAccount) {
+            for (EntityAttributes entity : accountsToUpdate) {
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
                     updateAccount(account, true);
@@ -96,8 +96,7 @@ public class AccountsDb extends EntitiesDb {
         }
         closePM();
         
-        AccountAttributes accAttr = new AccountAttributes(a);
-        return accAttr;
+        return new AccountAttributes(a);
     }
     
     public AccountAttributes getAccount(String googleId) {
@@ -157,7 +156,7 @@ public class AccountsDb extends EntitiesDb {
             
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
+            if (!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
@@ -189,17 +188,17 @@ public class AccountsDb extends EntitiesDb {
             return;
         }
         
-        if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
     }
     
-    public void deleteAccounts(Collection<AccountAttributes> accounts){
+    public void deleteAccounts(Collection<AccountAttributes> accounts) {
 
-        for(AccountAttributes accountToDelete : accounts){
-            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        for (AccountAttributes accountToDelete : accounts) {
+            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
         }
@@ -215,18 +214,16 @@ public class AccountsDb extends EntitiesDb {
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
-            } else if (retrieveStudentProfile) {
-                if (account.getStudentProfile() == null) {
-                    // This situation cannot be reproduced and hence not tested
-                    // This only happens when existing data in the store do not have a profile 
-                    account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-                }
+            } else if (retrieveStudentProfile && account.getStudentProfile() == null) {
+                // This situation cannot be reproduced and hence not tested
+                // This only happens when existing data in the store do not have a profile 
+                account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             }
             
             return account;
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -237,7 +234,7 @@ public class AccountsDb extends EntitiesDb {
 
     @Override
     protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
+        return getAccountEntity(((AccountAttributes) entity).googleId);
     }
 }
 

@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -188,12 +183,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent response");
         
-        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt","student3InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt"));
         
         ______TS("null fqId");
         
         try {
-            frDb.getFeedbackResponse(null, "student1InCourse1@gmail.tmt","student1InCourse1@gmail.tmt");
+            frDb.getFeedbackResponse(null, "student1InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -202,7 +197,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("null giverEmail");
         
         try {
-            frDb.getFeedbackResponse(expected.feedbackQuestionId, null,"student1InCourse1@gmail.tmt");
+            frDb.getFeedbackResponse(expected.feedbackQuestionId, null, "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -211,7 +206,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("null receiverEmail");
         
         try {
-            frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt",null);
+            frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -219,7 +214,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("get by id");
         
-        actual = frDb.getFeedbackResponse(actual.getId());//Id from first success case
+        actual = frDb.getFeedbackResponse(actual.getId()); //Id from first success case
         
         assertEquals(expected.toString(), actual.toString());
         
@@ -803,7 +798,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
         
-        String answer[] = {"New answer text!"};
+        String[] answer = {"New answer text!"};
         frd = frd.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
@@ -835,7 +830,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     private FeedbackResponseAttributes getResponseAttributes(String id) {
-        FeedbackResponseAttributes result = fras.get("response3ForQ2S1C1");
+        FeedbackResponseAttributes result = fras.get(id);
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giverEmail, result.giverSection,

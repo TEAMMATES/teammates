@@ -1,11 +1,7 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +41,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
         
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
-                                        new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         assertNotNull(question1);
@@ -57,13 +53,16 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         /* Question 1 with responses */
         responsesForQ1.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));
-        responsesForQ1.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));
         questionsWithResponses.put(question1, responsesForQ1);
         
         /* Question 2 with responses */
         responsesForQ2.add(dataBundle.feedbackResponses.get("response1ForQ2S1C1"));
         responsesForQ2.add(dataBundle.feedbackResponses.get("response2ForQ2S1C1"));
-        questionsWithResponses.put(question2, responsesForQ1);
+        questionsWithResponses.put(question2, responsesForQ2);
+        
+        // need to obtain questionId and responseId as methods in FeedbackSessionResultsBundle require them
+        questionsWithResponses = getActualQuestionsAndResponsesWithId(
+                                        logic, questionsWithResponses);
             
         pageData.setBundle(logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email));
         pageData.init(questionsWithResponses);
@@ -94,19 +93,13 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertNotNull(questionBundle2.getResponseTables());      
         
         assertEquals("You", questionBundle1.getResponseTables().get(0).getRecipientName());
-        assertEquals("student2 In Course1", questionBundle1.getResponseTables().get(1).getRecipientName());
         
         assertNotNull(questionBundle1.getResponseTables().get(0).getResponses());
-        assertNotNull(questionBundle2.getResponseTables().get(1).getResponses());
         
         assertEquals("You", questionBundle1.getResponseTables().get(0).getResponses()
                                         .get(0).getGiverName());
-        assertEquals("student2 In Course1", questionBundle1.getResponseTables().get(1).getResponses()
-                                        .get(0).getGiverName());
         
         assertEquals("Student 1 self feedback.", questionBundle1.getResponseTables().get(0).getResponses()
-                                        .get(0).getAnswer());
-        assertEquals("I&#39;m cool&#39;", questionBundle1.getResponseTables().get(1).getResponses()
                                         .get(0).getAnswer());
         
         ______TS("student in unregistered course");
@@ -115,7 +108,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         pageData = new StudentFeedbackResultsPageData(account, student);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered = 
-                                        new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         pageData.init(questionsWithResponsesUnregistered);
         
@@ -134,5 +127,34 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
                       + "class='link'>to login using a Google account</a> (recommended).", 
                       pageData.getRegisterMessage());       
+    }
+
+    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getActualQuestionsAndResponsesWithId(
+                                    Logic logic,
+                                    Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses = 
+                                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionsWithResponses.entrySet()) {
+            FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
+           
+            FeedbackQuestionAttributes actualQuestion = logic.getFeedbackQuestion(
+                                                                    dataBundleQuestion.feedbackSessionName,
+                                                                    dataBundleQuestion.courseId,
+                                                                    dataBundleQuestion.questionNumber);
+            
+            List<FeedbackResponseAttributes> dataBundleResponses = entry.getValue();
+            
+            List<FeedbackResponseAttributes> actualResponses = new ArrayList<>();
+            for (FeedbackResponseAttributes dataBundleResponse : dataBundleResponses) {
+                FeedbackResponseAttributes actualResponse = logic.getFeedbackResponse(
+                                                                    actualQuestion.getId(), 
+                                                                    dataBundleResponse.giverEmail, 
+                                                                    dataBundleResponse.recipientEmail);
+                actualResponses.add(actualResponse);
+                
+            }
+            actualQuestionsWithResponses.put(actualQuestion, actualResponses);
+        }
+        return actualQuestionsWithResponses;
     }
 }

@@ -173,14 +173,13 @@ public class CourseEditInstructorPanel {
     }
     
     private ElementTag createCheckBox(String content, String privilege) {
-        boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(privilege);
+        boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(privilege);
         ElementTag result = new ElementTag(content, "name", privilege, "type", "checkbox", "value", "true");
         if (isChecked) {
             result.setAttribute("checked", null);
         }
         return result;
     }
-    
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
                                     String onClick) {

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,7 +23,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
     }
     
@@ -59,7 +56,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                     Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                     redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
         
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
@@ -99,8 +96,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
-        assertEquals(true, redirectResult.isError);
-        String expectedErrorMessage = (new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail);
+        assertTrue(redirectResult.isError);
+        String expectedErrorMessage = new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail);
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
         AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());
@@ -131,7 +128,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
         
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);

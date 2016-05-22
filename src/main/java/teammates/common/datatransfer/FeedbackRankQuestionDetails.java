@@ -26,16 +26,14 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
         
-        String areDuplicatesAllowedString 
-            = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                     Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
-        boolean areDuplicatesAllowed = areDuplicatesAllowedString != null 
-                                    && areDuplicatesAllowedString.equals("on");
+        String areDuplicatesAllowedString = 
+                HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
+        boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
         
         this.areDuplicatesAllowed = areDuplicatesAllowed;
         return true;
     }
-
 
     @Override
     public abstract String getQuestionTypeDisplayName();
@@ -49,12 +47,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients);
-    
-
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
-
 
     /**
      * Used to update the mapping of ranks for the option optionReceivingPoints
@@ -81,29 +76,29 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);
-        String pointsReceived = "";
+        StringBuilder pointsReceived = new StringBuilder();
         
         if (ranksReceived.size() > 10) {
             for (int i = 0; i < 5; i++) {
-                pointsReceived += ranksReceived.get(i) + " , ";
+                pointsReceived.append(ranksReceived.get(i)).append(" , ");
             }
             
-            pointsReceived += "...";
+            pointsReceived.append("...");
             
             for (int i = ranksReceived.size() - 5; i < ranksReceived.size(); i++) {
-                pointsReceived += " , " + ranksReceived.get(i);
+                pointsReceived.append(" , ").append(ranksReceived.get(i));
             }
         } else {
             for (int i = 0; i < ranksReceived.size(); i++) {
-                pointsReceived += ranksReceived.get(i);
+                pointsReceived.append(ranksReceived.get(i));
                 
                 if (i != ranksReceived.size() - 1) {
-                    pointsReceived += " , ";
+                    pointsReceived.append(" , ");
                 }
             }
         }
         
-        return pointsReceived;
+        return pointsReceived.toString();
     }
 
     protected double computeAverage(List<Integer> values) {

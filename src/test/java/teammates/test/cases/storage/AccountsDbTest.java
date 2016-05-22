@@ -1,11 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,7 +82,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
             int numOfInstructors) throws Exception {
         AccountAttributes a;
         List<AccountAttributes> result = new ArrayList<AccountAttributes>();
-        for (int i = 0; i < numOfInstructors ; i++) {
+        for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;
             a.isInstructor = true;
@@ -100,7 +94,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     
     private void deleteInstructorAccounts(int numOfInstructors) {
         String googleId;
-        for (int i = 0; i < numOfInstructors ; i++) {
+        for (int i = 0; i < numOfInstructors; i++) {
             googleId = "id." + i;
             accountsDb.deleteAccount(googleId);
         }

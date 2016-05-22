@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -28,7 +26,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testContent();
         testScripts();
         testPanelsCollapseExpand();
@@ -90,8 +88,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void removePreExistComments() {
-        if(commentsPage.getPageSource().contains("added response comment")
-                || commentsPage.getPageSource().contains("edited response comment")){
+        if (commentsPage.getPageSource().contains("added response comment")
+                || commentsPage.getPageSource().contains("edited response comment")) {
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
             commentsPage.clickCommentsPageLinkInHeader();
         }
@@ -104,12 +102,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         

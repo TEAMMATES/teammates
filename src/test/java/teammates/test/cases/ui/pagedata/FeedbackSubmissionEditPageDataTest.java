@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +25,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;
     
-    private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes question;
     private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
     
@@ -38,7 +32,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                                     new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String,String> recipients = new HashMap<String,String>();
+    private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -46,7 +40,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     }
     
     public void createData(StudentAttributes student) {        
-        feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");      
         
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));

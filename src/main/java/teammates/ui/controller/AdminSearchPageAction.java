@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,16 +19,13 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-
 public class AdminSearchPageAction extends Action {
-    
-        
-    
+
     private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
     private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException{
+    protected ActionResult execute() throws EntityDoesNotExistException {
         
         new GateKeeper().verifyAdminPrivileges(account);
            
@@ -38,14 +34,14 @@ public class AdminSearchPageAction extends Action {
         
         AdminSearchPageData data = new AdminSearchPageData(account);
         
-        if(searchKey == null || searchKey.trim().isEmpty()){
+        if (searchKey == null || searchKey.trim().isEmpty()) {
             
-            if(searchButtonHit != null){             
+            if (searchButtonHit == null) {             
+                statusToAdmin = "AdminSearchPaga Page Load";
+            } else {
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
-            } else {
-                statusToAdmin = "AdminSearchPaga Page Load";
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
@@ -67,12 +63,11 @@ public class AdminSearchPageAction extends Action {
         data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
                                     data.instructorResultBundle.instructorList,
                                     data);
-        
-        
+
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
-        if(numOfResults > 0){
+        if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
             statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
@@ -87,24 +82,24 @@ public class AdminSearchPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
-    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data){
+    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data) {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){
-            if(student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
+        for (StudentAttributes student : students) {
+            if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
                 CourseAttributes course = logic.getCourse(student.course);
-                if(course != null){
-                    data.courseIdToCourseNameMap.put(student.course, course.name);
+                if (course != null) {
+                    data.courseIdToCourseNameMap.put(student.course, course.getName());
                 }
             }
         }
         
-        for(InstructorAttributes instructor : instructors){
-            if(instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
                 CourseAttributes course = logic.getCourse(instructor.courseId);
-                if(course != null){
-                    data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
+                if (course != null) {
+                    data.courseIdToCourseNameMap.put(instructor.courseId, course.getName());
                 }
             }
         }
@@ -112,13 +107,13 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
 
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors) {
             
             String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
-            if(!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
+            if (!googleIdOfAlreadyRegisteredInstructor.isEmpty()) {
                 String joinLinkWithoutInsititute = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                                 .toAbsoluteString();
@@ -131,11 +126,11 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
         Logic logic = new Logic();
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors) {
             
-            if(tempCourseIdToInstituteMap.get(instructor.courseId) != null){
+            if (tempCourseIdToInstituteMap.get(instructor.courseId) != null) {
                 data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
                 continue;
             }
@@ -143,7 +138,7 @@ public class AdminSearchPageAction extends Action {
             String googleId = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
             AccountAttributes account = logic.getAccount(googleId);           
-            if(account == null){
+            if (account == null) {
                 continue;
             }
             
@@ -156,11 +151,11 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
         
-        for(InstructorAttributes instructor : instructors){
+        for (InstructorAttributes instructor : instructors) {
             
-            if(instructor.googleId == null){
+            if (instructor.googleId == null) {
                 continue;
             }
             
@@ -173,16 +168,14 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
-    
-    private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+
+    private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students) {
             
-            if(tempCourseIdToInstituteMap.get(student.course) != null){
+            if (tempCourseIdToInstituteMap.get(student.course) != null) {
                 data.studentInstituteMap.put(student.getIdentificationString(), tempCourseIdToInstituteMap.get(student.course));
                 continue;
             }
@@ -190,7 +183,7 @@ public class AdminSearchPageAction extends Action {
             String instructorForCoursegoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
             
             AccountAttributes account = logic.getAccount(instructorForCoursegoogleId);           
-            if(account == null){
+            if (account == null) {
                 continue;
             }
             
@@ -203,13 +196,12 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
-    private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+
+    private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students) {
             
-            if(student.googleId == null){
+            if (student.googleId == null) {
                 continue;
             }
             
@@ -223,11 +215,11 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
-        for(StudentAttributes student : students){
+        for (StudentAttributes student : students) {
             
-            if(student.course == null ||student.email == null){
+            if (student.course == null || student.email == null) {
                 continue;
             }
             
@@ -245,8 +237,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     /**
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
@@ -257,15 +248,15 @@ public class AdminSearchPageAction extends Action {
      * @return the googleId of a suitable instructor if found, otherwise an
      *         empty string
      */
-    private String findAvailableInstructorGoogleIdForCourse(String courseId){
+    private String findAvailableInstructorGoogleIdForCourse(String courseId) {
         
-        if(tempCourseIdToInstructorGoogleIdMap.get(courseId) != null){
+        if (tempCourseIdToInstructorGoogleIdMap.get(courseId) != null) {
             return tempCourseIdToInstructorGoogleIdMap.get(courseId);
         }
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         
-        if(instructorList == null || instructorList.isEmpty()){
+        if (instructorList == null || instructorList.isEmpty()) {
             return "";
         }
 
@@ -290,25 +281,26 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
+        AdminSearchPageData processedData = rawData;
         
-        for(StudentAttributes student : students){    
+        for (StudentAttributes student : students) {    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
-            for(FeedbackSessionAttributes fsa : feedbackSessions){               
-                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+            for (FeedbackSessionAttributes fsa : feedbackSessions) {               
+                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);              
             }       
         }       
  
-        return data;
+        return processedData;
            
     }
     
     private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa, 
                                                                AdminSearchPageData data, 
-                                                               StudentAttributes student){
+                                                               StudentAttributes student) {
          
          String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                 .withCourseId(student.course)
@@ -317,9 +309,19 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toAbsoluteString();
          
-         if(fsa.isOpened() == false){
+         if (fsa.isOpened()) {
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
              
-             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+         } else {                 
+             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> submitUrlList = new ArrayList<String>();
                  submitUrlList.add(submitUrl);   
                  data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
@@ -328,20 +330,8 @@ public class AdminSearchPageAction extends Action {
              }
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
-             
-         } else {                 
-             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-                  List<String> submitUrlList = new ArrayList<String>();
-                  submitUrlList.add(submitUrl);   
-                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
-         
-         
+
          String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                     .withCourseId(student.course)
                                     .withSessionName(fsa.feedbackSessionName)
@@ -349,8 +339,8 @@ public class AdminSearchPageAction extends Action {
                                     .withStudentEmail(student.email)
                                     .toAbsoluteString();
              
-         if(fsa.isPublished()){
-             if(data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+         if (fsa.isPublished()) {
+             if (data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                  List<String> viewResultUrlList = new ArrayList<String>();
                  viewResultUrlList.add(viewResultUrl);
                  data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
@@ -360,8 +350,7 @@ public class AdminSearchPageAction extends Action {
              
              data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
          }
-        
-           
+
          return data;
     }
     

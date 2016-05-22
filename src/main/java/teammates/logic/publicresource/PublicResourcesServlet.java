@@ -40,7 +40,7 @@ public abstract class PublicResourcesServlet extends HttpServlet {
               
         try {
             doGet(req, resp);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.severe("Exception occured while performing " + servletName + e.getMessage());
         }
         

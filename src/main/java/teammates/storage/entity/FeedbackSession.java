@@ -21,9 +21,12 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSession {
 
     // Format is feedbackSessionName%courseId
+    // PMD.UnusedPrivateField and SingularField are suppressed 
+    // as feedbackSessionId is persisted to the database
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent
-    private transient String feedbackSessionId;
+    private transient String feedbackSessionId; 
     
     @Persistent
     private String feedbackSessionName;
@@ -140,8 +143,6 @@ public class FeedbackSession {
         this.respondingStudentList = studentList;
     }
 
-
-        
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
@@ -267,7 +268,7 @@ public class FeedbackSession {
     
     public boolean isOpeningEmailEnabled() {
         // Legacy data might not have this field
-        if(isOpeningEmailEnabled == null) { 
+        if (isOpeningEmailEnabled == null) { 
             isOpeningEmailEnabled = true;
         }
         
@@ -280,7 +281,7 @@ public class FeedbackSession {
     
     public boolean isClosingEmailEnabled() {
         // Legacy data might not have this field
-        if(isClosingEmailEnabled == null) {
+        if (isClosingEmailEnabled == null) {
             isClosingEmailEnabled = true;
         }
         
@@ -293,7 +294,7 @@ public class FeedbackSession {
     
     public boolean isPublishedEmailEnabled() {
         // Legacy data might not have this field
-        if(isPublishedEmailEnabled == null) {
+        if (isPublishedEmailEnabled == null) {
             isPublishedEmailEnabled = true;
         }
         
@@ -304,19 +305,19 @@ public class FeedbackSession {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Set<String> getRespondingInstructorList(){
+    public Set<String> getRespondingInstructorList() {
         return this.respondingInstructorList;
     }
 
-    public void setRespondingInstructorList(Set<String> instructorList){
+    public void setRespondingInstructorList(Set<String> instructorList) {
         this.respondingInstructorList = instructorList;
     }
 
-    public Set<String> getRespondingStudentList(){
+    public Set<String> getRespondingStudentList() {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList){
+    public void setRespodingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 
@@ -334,7 +335,7 @@ public class FeedbackSession {
                 + ", sentPublishedEmail=" + sentPublishedEmail 
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
 }

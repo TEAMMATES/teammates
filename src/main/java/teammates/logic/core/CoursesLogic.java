@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +43,7 @@ public class CoursesLogic {
      */ 
     
     //TODO: There's no need for this class to be a Singleton.
-    private static CoursesLogic instance = null;
+    private static CoursesLogic instance;
     
     private static final Logger log = Utils.getLogger();
     
@@ -65,10 +63,10 @@ public class CoursesLogic {
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
-    
     public static CoursesLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new CoursesLogic();
+        }
         return instance;
     }
 
@@ -111,8 +109,8 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + EOL 
-                                  + instructor.toString() + EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+                                  + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -131,15 +129,14 @@ public class CoursesLogic {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
+            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
     }
 
     public CourseDetailsBundle getCourseDetails(String courseId) throws EntityDoesNotExistException {
-        CourseDetailsBundle courseSummary = getCourseSummary(courseId);
-        return courseSummary;
+        return getCourseSummary(courseId);
     }
 
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId) 
@@ -150,17 +147,19 @@ public class CoursesLogic {
         
         for (CourseAttributes c : courseList) {
 
-            StudentAttributes s = studentsLogic.getStudentForCourseIdAndGoogleId(c.id, googleId);
+            StudentAttributes s = studentsLogic.getStudentForCourseIdAndGoogleId(c.getId(), googleId);
             
             if (s == null) {
                 //TODO Remove excessive logging after the reason why s can be null is found
-                String logMsg = "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)"
-                                + "<br/> Student Google ID: " + googleId + "<br/> Course: " + c.id
-                                + "<br/> All Courses Retrieved using the Google ID:";
+                StringBuilder logMsg = new StringBuilder();
+                logMsg.append(
+                    "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
+                    + googleId + "<br> Course: " + c.getId()
+                    + "<br> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
-                    logMsg += "<br/>" + course.id;
+                    logMsg.append("<br>").append(course.getId());
                 }
-                log.severe(logMsg);
+                log.severe(logMsg.toString());
                 
                 //TODO Failing might not be the best course of action here. 
                 //Maybe throw a custom exception and tell user to wait due to eventual consistency?
@@ -170,7 +169,7 @@ public class CoursesLogic {
             // Skip the course existence check since the course ID is obtained from a
             // valid CourseAttributes resulting from query
             List<FeedbackSessionAttributes> feedbackSessionList = 
-                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.id, s.email);
+                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.getId(), s.email);
 
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
             
@@ -189,7 +188,7 @@ public class CoursesLogic {
 
     public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull("Course is null", course);
-        return getSectionsNameForCourse(course.id, true);
+        return getSectionsNameForCourse(course.getId(), true);
     }
     
     /**
@@ -207,7 +206,7 @@ public class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
-        for(StudentAttributes sd: studentDataList) {
+        for (StudentAttributes sd: studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
@@ -230,7 +229,7 @@ public class CoursesLogic {
         SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
         TeamDetailsBundle team = null;
         sectionDetails.name = section;
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
     
             // first student of first team
@@ -252,7 +251,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 sectionDetails.teams.add(team);
             }
         }
@@ -262,7 +261,7 @@ public class CoursesLogic {
     public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle cdd) {
         Assumption.assertNotNull("Course is null", course);
         
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.id);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.getId());
         StudentAttributes.sortBySectionName(students);
         
         List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
@@ -309,7 +308,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
@@ -334,7 +333,7 @@ public class CoursesLogic {
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
         
-        for(int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
             if (section == null) {   // First student of first section
@@ -362,7 +361,7 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            boolean isLastStudent = (i == (students.size() -1));
+            boolean isLastStudent = i == students.size() - 1;
             if (isLastStudent) {
                 sections.add(section);
             }
@@ -414,7 +413,7 @@ public class CoursesLogic {
             }
     
             // if last iteration
-            if (i == (students.size() - 1)) {
+            if (i == students.size() - 1) {
                 teams.add(team);
             }
         }
@@ -456,7 +455,7 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
@@ -482,8 +481,7 @@ public class CoursesLogic {
     public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null\n", course);
 
-        CourseSummaryBundle cdd = new CourseSummaryBundle(course);
-        return cdd;
+        return new CourseSummaryBundle(course);
     }
     
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
@@ -499,7 +497,7 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
         
-        if (studentDataList.size() == 0) {
+        if (studentDataList.isEmpty()) {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
@@ -525,19 +523,18 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         List<String> courseIdList = new ArrayList<String>();
 
         for (InstructorAttributes instructor : instructorList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
             for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.id);
+                courseIdList.remove(ca.getId());
             }
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
@@ -576,24 +573,23 @@ public class CoursesLogic {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes instructor : instructorAttributesList) {
             courseIdList.add(instructor.courseId);
         }
         
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
             for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.id);
+                courseIdList.remove(ca.getId());
             }
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
         for (CourseAttributes ca : courseList) {
-            courseSummaryList.put(ca.id, getCourseSummary(ca));
+            courseSummaryList.put(ca.getId(), getCourseSummary(ca));
         }
         
         return courseSummaryList;
@@ -633,8 +629,7 @@ public class CoursesLogic {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, 
                                                                                                omitArchived);
-        HashMap<String, CourseSummaryBundle> courseList = getCourseSummaryWithoutStatsForInstructor(instructorList);
-        return courseList;
+        return getCourseSummaryWithoutStatsForInstructor(instructorList);
     }
     
     // TODO: batch retrieve courses?
@@ -665,12 +660,11 @@ public class CoursesLogic {
                                                                                         EntityDoesNotExistException {
         
         CourseAttributes courseToUpdate = getCourse(courseId);
-        if (courseToUpdate != null) {
-            courseToUpdate.isArchived = archiveStatus;
-            coursesDb.updateCourse(courseToUpdate);
-        } else {
+        if (courseToUpdate == null) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
+        courseToUpdate.isArchived = archiveStatus;
+        coursesDb.updateCourse(courseToUpdate);
     }
     
     /**
@@ -710,23 +704,22 @@ public class CoursesLogic {
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
             courseIdList.add(ia.courseId);
         }
-        courseList = coursesDb.getCourses(courseIdList);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
             for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.id);
+                courseIdList.remove(ca.getId());
             }
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
         for (CourseAttributes ca : courseList) {
-            courseSummaryList.put(ca.id, getCourseSummaryWithoutStats(ca));
+            courseSummaryList.put(ca.getId(), getCourseSummaryWithoutStats(ca));
         }
         
         return courseSummaryList;
@@ -738,52 +731,52 @@ public class CoursesLogic {
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
-        String export = "";
-        export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + "Course Name," 
-                  + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + Const.EOL + Const.EOL;
-        if (hasSection) {
-            export += "Section" + ",";
-        }
-        export += "Team,Full Name,Last Name,Status,Email" + Const.EOL;
+        StringBuilder export = new StringBuilder(100);
+        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL 
+                      + "Course Name," + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL
+                      + Const.EOL + Const.EOL;
+        export.append(courseInfo);
+        
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL; 
+        export.append(header);
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
-                for(StudentAttributes student : team.students) {
+                for (StudentAttributes student : team.students) {
                     String studentStatus = null;
-                    if (student.googleId == null || student.googleId.equals("")) {
+                    if (student.googleId == null || student.googleId.isEmpty()) {
                         studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
                     } else {
                         studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
                     }
                     
                     if (hasSection) {
-                        export += Sanitizer.sanitizeForCsv(section.name) + ",";
+                        export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export += Sanitizer.sanitizeForCsv(team.name) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + "," 
-                              + Sanitizer.sanitizeForCsv(studentStatus) + "," 
-                              + Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
+                    export.append(Sanitizer.sanitizeForCsv(team.name) + ',' 
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ',' 
+                            + Sanitizer.sanitizeForCsv(studentStatus) + ',' 
+                            + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
         }
-        return export;
+        return export.toString();
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
         verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        for(StudentAttributes student : studentList) {
+        for (StudentAttributes student : studentList) {
             if (!student.section.equals(Const.DEFAULT_SECTION)) {
                 return true;
             }
         }
         return false;
     }
-    
-    
+
     public boolean isCourseArchived(String courseId, String instructorGoogleId) {
         CourseAttributes course = getCourse(courseId);
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
@@ -791,8 +784,7 @@ public class CoursesLogic {
     }
     
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        boolean isCourseArchived = (instructor.isArchived != null) ? instructor.isArchived : course.isArchived;
-        return isCourseArchived;
+        return instructor.isArchived == null ? course.isArchived : instructor.isArchived;
     }
     
     public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
@@ -800,7 +792,7 @@ public class CoursesLogic {
         Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
         for (CourseAttributes course : courses) {
             List<String> sections = getSectionsNameForCourse(course);
-            courseIdToSectionName.put(course.id, sections);
+            courseIdToSectionName.put(course.getId(), sections);
         }
         
         return courseIdToSectionName;
@@ -812,7 +804,7 @@ public class CoursesLogic {
     public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
         for (CourseDetailsBundle courseBundle : courseBundles) {
-            if (!isCourseArchived(courseBundle.course.id, googleId)) {
+            if (!isCourseArchived(courseBundle.course.getId(), googleId)) {
                 result.add(courseBundle);
             }
         }
@@ -822,7 +814,7 @@ public class CoursesLogic {
     public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
         for (CourseDetailsBundle courseBundle : courseBundles) {
-            if (isCourseArchived(courseBundle.course.id, googleId)) {
+            if (isCourseArchived(courseBundle.course.getId(), googleId)) {
                 result.add(courseBundle);
             }
         }
@@ -832,9 +824,9 @@ public class CoursesLogic {
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
         for (CourseAttributes course : allCourses) {
-            InstructorAttributes instructor = instructorsForCourses.get(course.id);
+            InstructorAttributes instructor = instructorsForCourses.get(course.getId());
             if (isCourseArchived(course, instructor)) {
-                archivedCourseIds.add(course.id);
+                archivedCourseIds.add(course.getId());
             }
         }
         return archivedCourseIds;

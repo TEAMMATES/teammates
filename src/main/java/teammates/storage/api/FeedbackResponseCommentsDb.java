@@ -68,10 +68,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         if (createdEntity == null) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
-        } else {
-            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            return createdComment;
         }
+        return new FeedbackResponseCommentAttributes(createdEntity);
     }
     
     /*
@@ -334,7 +332,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
+        frc.setIsVisibilityFollowingFeedbackQuestion(false);
         frc.setLastEditorEmail(newAttributes.giverEmail);
         frc.setLastEditedAt(newAttributes.createdAt);
         
@@ -345,8 +343,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        return updatedComment;
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /*
@@ -403,7 +400,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
         
-        for(FeedbackResponseComment frComment : frcList) {
+        for (FeedbackResponseComment frComment : frcList) {
             frComment.setSendingState(newState);
         }
         
@@ -443,7 +440,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
-        for(FeedbackResponseComment comment : entities) {
+        for (FeedbackResponseComment comment : entities) {
             if (!JDOHelper.isDeleted(comment)) {
                 list.add(new FeedbackResponseCommentAttributes(comment));
             }
@@ -481,12 +478,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         if (feedbackResponseCommentToGet.getId() != null) {
             return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
-        } else { 
-            return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.courseId,
-                feedbackResponseCommentToGet.createdAt,
-                feedbackResponseCommentToGet.giverEmail);
         }
+        
+        return getFeedbackResponseCommentEntity(
+            feedbackResponseCommentToGet.courseId,
+            feedbackResponseCommentToGet.createdAt,
+            feedbackResponseCommentToGet.giverEmail);
     }
     
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
@@ -495,8 +492,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        for(FeedbackResponseComment frc : frcList) {
-            if(!JDOHelper.isDeleted(frc)
+        for (FeedbackResponseComment frc : frcList) {
+            if (!JDOHelper.isDeleted(frc)
                     && frc.getCourseId().equals(courseId)
                     && frc.getGiverEmail().equals(giverEmail)
                     && frc.getCreatedAt().equals(createdAt)) {
@@ -629,8 +626,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
-        q.setFilter("courseId == courseIdParam && " +
-                "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
+        q.setFilter("courseId == courseIdParam && " 
+                    + "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> firstQueryResponseComments =

@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -26,8 +25,8 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
         
         logic.deleteStudent(courseId, studentEmail);
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 
-                "</span> in Course <span class=\"bold\">[" + courseId + "]</span> deleted.";
+        statusToAdmin = "Student <span class=\"bold\">" + studentEmail 
+                      + "</span> in Course <span class=\"bold\">[" + courseId + "]</span> deleted.";
         
 
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
@@ -35,6 +34,5 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
         return result;
 
     }
-
 
 }

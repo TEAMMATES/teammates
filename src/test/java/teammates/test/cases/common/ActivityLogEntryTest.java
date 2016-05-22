@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
-
 import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 
@@ -10,7 +8,7 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
-public class ActivityLogEntryTest extends BaseTestCase{
+public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test
     public void testActivityLogEntryClass() {
@@ -44,9 +42,14 @@ public class ActivityLogEntryTest extends BaseTestCase{
     }
     
     @Test
-    public void testGetActionName(){
+    public void testGetActionName() {
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse"));
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse?user=x"));
-        assertEquals("error in getActionName for requestUrl : instructorCourse", ActivityLogEntry.getActionName("instructorCourse"));
+        try {
+            ActivityLogEntry.getActionName("instructorCourse");
+            signalFailureToDetectException("getActionName should throw an exception if an action cannot be retrieved");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals("java.lang.ArrayIndexOutOfBoundsException: 2", e.toString());
+        }
     }
 }

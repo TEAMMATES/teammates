@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -141,7 +135,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
-        submitPage.selectRecipient(2,0,"Benny Charles");
+        submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
@@ -319,7 +313,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
-        assertEquals(editedResponse,BackDoor.getFeedbackResponse(fq.getId(),
+        assertEquals(editedResponse, BackDoor.getFeedbackResponse(fq.getId(),
                                                                  "SFSubmitUiT.alice.b@gmail.tmt",
                                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
@@ -345,27 +339,27 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                              "SFSubmitUiT.alice.b@gmail.tmt").getResponseDetails();
         assertEquals("70, 30", frConstSum.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_1 = (FeedbackConstantSumResponseDetails)
+        FeedbackConstantSumResponseDetails frConstSum1 = (FeedbackConstantSumResponseDetails)
                 BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
                                              aliceTeam,
                                              "Team 2").getResponseDetails();
-        assertEquals("90", frConstSum2_1.getAnswerString());
+        assertEquals("90", frConstSum1.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_2 = (FeedbackConstantSumResponseDetails)
+        FeedbackConstantSumResponseDetails frConstSum2 = (FeedbackConstantSumResponseDetails)
                 BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
                                              aliceTeam,
                                              "Team 3").getResponseDetails();
-        assertEquals("110", frConstSum2_2.getAnswerString());
+        assertEquals("110", frConstSum2.getAnswerString());
 
         FeedbackContributionResponseDetails frContrib = (FeedbackContributionResponseDetails)
                 BackDoor.getFeedbackResponse(fqContrib.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                              "SFSubmitUiT.alice.b@gmail.tmt").getResponseDetails();
         assertEquals("100", frContrib.getAnswerString());
 
-        FeedbackContributionResponseDetails frContrib_1 = (FeedbackContributionResponseDetails)
+        FeedbackContributionResponseDetails frContrib1 = (FeedbackContributionResponseDetails)
                 BackDoor.getFeedbackResponse(fqContrib.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                              "SFSubmitUiT.benny.c@gmail.tmt").getResponseDetails();
-        assertEquals("0", frContrib_1.getAnswerString());
+        assertEquals("0", frContrib1.getAnswerString());
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
@@ -376,7 +370,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
-        submitPage.selectRecipient(2,0,"Benny Charles");
+        submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
         submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is number 1.");
@@ -434,7 +428,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                                              "SFSubmitUiT.alice.b@gmail.tmt",
                                                                              "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("1",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("1", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("Test InputValidation Over Max value");
 
@@ -451,7 +445,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("Test InputValidation extreme negative value");
 
@@ -470,7 +464,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
 
         ______TS("write response without specifying recipient");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
@@ -494,10 +488,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Switch to mobile view
         submitPage.changeToMobileView();
         // Test if changes on desktop view persisted to mobile view
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
 
         // Select the second option for the second question for each student
         submitPage.clickRubricRadioMobile(21, 0, 1, 1);
@@ -514,14 +508,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Switch to desktop view
         submitPage.changeToDesktopView();
         // Test if changes on mobile view persisted to desktop view
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
-        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
-        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertFalse(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 0, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
+        assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
 
 
         FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);
@@ -575,8 +569,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // move Benny out of Team >'"< 1 into team 2 and change her email
         // This should cause the team mates question to disappear completely as
         // no one else is in Team >'"< 1, but other responses to Benny should remain.
-        StudentAttributes Benny = testData.students.get("Benny");
-        moveToTeam(Benny, "Team 2");
+        StudentAttributes benny = testData.students.get("Benny");
+        moveToTeam(benny, "Team 2");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");

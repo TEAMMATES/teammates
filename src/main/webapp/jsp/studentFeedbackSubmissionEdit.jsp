@@ -2,6 +2,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <c:set var="jsIncludes">
@@ -39,5 +40,5 @@
     </c:if>
     
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
-    
+    <shared:warningModal/>
 </ts:studentPage>

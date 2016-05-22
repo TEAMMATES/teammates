@@ -41,20 +41,11 @@ public class Version implements Comparable<Version> {
      */
     public Version(String versionInString) {
         originalRepresentation = versionInString;
+        isRcVersion = versionInString.endsWith("rc");
         
-        if (versionInString.contains("rc")) {
-            versionInString = versionInString.replace("rc", "");
-            isRcVersion = true;
-        } else {
-            isRcVersion = false;
-        }
-        
-        String[] list;
-        if (versionInString.contains("-")) {
-            list = versionInString.split("-", 3);   // split into at most 3 parts
-        } else {
-            list = versionInString.split("\\.", 3); // regex escape for dots '.'
-        }
+        String[] list = versionInString.contains("-") // split to at most 3 parts
+                      ? versionInString.replace("rc", "").split("-", 3)
+                      : versionInString.replace("rc", "").split("\\.", 3); // regex escape for dots '.'
         if (list.length > 0) {
             major = list[0];
         }
@@ -109,13 +100,15 @@ public class Version implements Comparable<Version> {
         if (s2 == null) {
             return -1;
         }
-        while(s1.length() < s2.length()) {
-            s1 = "0" + s1;
+        String convertedS1 = s1;
+        String convertedS2 = s2;
+        while (convertedS1.length() < convertedS2.length()) {
+            convertedS1 = "0" + convertedS1; // NOPMD
         }
-        while(s2.length() < s1.length()) {
-            s2 = "0" + s2;
+        while (convertedS2.length() < convertedS1.length()) {
+            convertedS2 = "0" + convertedS2; // NOPMD
         }
-        return -s1.compareTo(s2);
+        return convertedS2.compareTo(convertedS1);
     }
     
     /**

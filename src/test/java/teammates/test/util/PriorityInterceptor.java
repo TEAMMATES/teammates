@@ -25,10 +25,10 @@ import org.testng.ITestContext;
 
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
-    static{
-        try{
+    static {
+        try {
             packageOrder = FileHelper.readFile("src\\test\\testng-travis.xml", Charset.defaultCharset());
-        } catch (Exception e){
+        } catch (Exception e) {
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml", Charset.defaultCharset());
         }
     }
@@ -61,29 +61,31 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 return result;
             }
             
-            private String getPackageName(IMethodInstance mi){
+            private String getPackageName(IMethodInstance mi) {
                 return mi.getMethod().getMethod().getDeclaringClass().getPackage().getName();
             }
             
-            private String getClassName(IMethodInstance mi){
+            private String getClassName(IMethodInstance mi) {
                 return mi.getMethod().getMethod().getDeclaringClass().getName();
             }
             
-            private int packagePriorityOffset(String packageName){
-                int index = packageOrder.indexOf(packageName);
+            private int packagePriorityOffset(String packageName) {
                 //Storage tests go first!
-                if(packageName.contains("storage")){
+                if (packageName.contains("storage")) {
                     return 1000000;
                 }
                 //Action tests go last. (in component tests)
-                if(packageName.contains("teammates.test.cases.ui")){
+                if (packageName.contains("teammates.test.cases.ui")) {
                     return -1000000;
                 }
-                if(index != -1){
-                    return -index;
-                } else {
+
+
+                int index = packageOrder.indexOf(packageName);
+
+                if (index == -1) {
                     return 0;
-                }
+                } 
+                return -index;
             }
 
             public int compare(IMethodInstance m1, IMethodInstance m2) {
@@ -95,25 +97,25 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 val = p1.compareTo(p2);
                 val -= packagePriorityOffset(p1);
                 val += packagePriorityOffset(p2);
-                if(val != 0){
+                if (val != 0) {
                     return val;
                 }
                 
                 //Compare by class priority
                 val = getClassPriority(m1) - getClassPriority(m2);
-                if(val != 0){
+                if (val != 0) {
                     return val;
                 }
                 
                 //Compare by class name
                 val = getClassName(m1).compareTo(getClassName(m2));
-                if(val != 0){
+                if (val != 0) {
                     return val;
                 }
                 
                 //Compare by method priority
                 val = getMethodPriority(m1) - getMethodPriority(m2);
-                if(val != 0){
+                if (val != 0) {
                     return val;
                 }
                 

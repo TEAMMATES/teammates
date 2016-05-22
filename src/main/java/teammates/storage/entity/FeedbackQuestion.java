@@ -23,7 +23,7 @@ public class FeedbackQuestion implements StoreCallback {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private transient String feedbackQuestionId;
         
     @Persistent
@@ -78,7 +78,7 @@ public class FeedbackQuestion implements StoreCallback {
      * the lastUpdate time stamp.
      **/
     @NotPersistent
-    public boolean keepUpdateTimestamp = false;
+    public boolean keepUpdateTimestamp;
 
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,

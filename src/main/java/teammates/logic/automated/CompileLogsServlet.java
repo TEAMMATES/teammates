@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Const;
-import teammates.logic.automated.CompileLogs;
 
 @SuppressWarnings("serial")
 public class CompileLogsServlet extends AutomatedRemindersServlet {

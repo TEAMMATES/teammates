@@ -23,7 +23,7 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackResponseComment {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long feedbackResponseCommentId = null;
+    private transient Long feedbackResponseCommentId;
     
     /** The foreign key to locate the Course object. */
     @Persistent
@@ -103,7 +103,7 @@ public class FeedbackResponseComment {
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
-        this.isVisibilityFollowingFeedbackQuestion = Boolean.valueOf(false);
+        this.isVisibilityFollowingFeedbackQuestion = false;
         this.lastEditorEmail = (lastEditorEmail == null) ? giverEmail : lastEditorEmail;
         this.lastEditedAt = (lastEditedAt == null) ? createdAt : lastEditedAt;
     }

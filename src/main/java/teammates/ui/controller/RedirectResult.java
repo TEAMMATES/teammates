@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +20,9 @@ public class RedirectResult extends ActionResult {
     public RedirectResult(
             String destination, 
             AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest,
             List<StatusMessage> status) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super(destination, account, status);
     }
-
 
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {

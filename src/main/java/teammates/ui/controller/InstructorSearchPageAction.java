@@ -58,7 +58,10 @@ public class InstructorSearchPageAction extends Action {
         StudentSearchResultBundle studentSearchResults = new StudentSearchResultBundle();
         int totalResultsSize = 0;
         
-        if (!searchKey.isEmpty() && numberOfSearchOptions != 0) {
+        if (searchKey.isEmpty() || numberOfSearchOptions == 0) {
+            //display search tips and tutorials
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
+        } else {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             if (isSearchCommentForStudents) {
@@ -72,7 +75,7 @@ public class InstructorSearchPageAction extends Action {
             }
             
             totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
-                               + studentSearchResults.getResultSize();
+                                            + studentSearchResults.getResultSize();
             
             Set<String> instructorEmails = new HashSet<String>();
             
@@ -86,9 +89,6 @@ public class InstructorSearchPageAction extends Action {
             if (totalResultsSize == 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
             }
-        } else {
-            //display search tips and tutorials
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
@@ -104,6 +104,7 @@ public class InstructorSearchPageAction extends Action {
         
         Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr = frCommentSearchResults.responses.entrySet().iterator();
         
+        int filteredResultsSize = totalResultsSize;
         while (iterFr.hasNext()) {
             List<FeedbackResponseAttributes> frs = iterFr.next().getValue();
             Iterator<FeedbackResponseAttributes> fr = frs.iterator();
@@ -124,7 +125,7 @@ public class InstructorSearchPageAction extends Action {
                 }
                 if (!isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
-                    totalResultsSize -= sizeOfCommentList;
+                    filteredResultsSize -= sizeOfCommentList;
                     //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
                     frCommentSearchResults.comments.remove(response.getId());
                     fr.remove();
@@ -154,8 +155,8 @@ public class InstructorSearchPageAction extends Action {
                         }
 
                         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true
-                                                 : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
+                                                 || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
                         if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
                             continue;
@@ -191,7 +192,7 @@ public class InstructorSearchPageAction extends Action {
             }
         }
 
-        return totalResultsSize;
+        return filteredResultsSize;
     }
     
     private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
@@ -212,15 +213,16 @@ public class InstructorSearchPageAction extends Action {
     private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize, 
                                                List<InstructorAttributes> instructors, Set<String> instructorEmails) {        
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
+        int filteredResultsSize = totalResultsSize;
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
             if (!commentList.isEmpty() 
                     && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
                 iter.remove();
-                totalResultsSize -= commentList.size();
+                filteredResultsSize -= commentList.size();
             }
         }
-        return totalResultsSize;
+        return filteredResultsSize;
     }
     
     private InstructorAttributes getInstructorForCourseId(String courseId, List<InstructorAttributes> instructors) {
@@ -240,18 +242,15 @@ public class InstructorSearchPageAction extends Action {
         }
         for (InstructorAttributes instructor : instructors) {
             if (instructor.courseId.equals(commentAttributes.courseId)) {
-                boolean isForSection = true;
-                String section = "None";
-                String recipient = "";
-                
                 if (commentAttributes.recipients.size() == 0) {
                     // prevent error--however, this should never happen unless there is corruption of data
                     return false;
                 }
-                for (String recipientInSet : commentAttributes.recipients) {
-                    recipient = recipientInSet;
-                    break;
-                }
+                
+                boolean isForSection = true;
+                String section = "None";
+                String recipient = commentAttributes.recipients.iterator().next();
+
                 if (commentAttributes.recipientType == CommentParticipantType.PERSON) {
                     StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
                     if (student == null) {
@@ -278,9 +277,8 @@ public class InstructorSearchPageAction extends Action {
                 
                 if (isForSection) {
                     return instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
-                } else {
-                    return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
                 }
+                return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
             }
         }      
         return false;

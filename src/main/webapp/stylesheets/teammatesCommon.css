@@ -566,6 +566,11 @@ Apply to thead to make headers not bold.
     width: 12px;
 }
     
+.feedback-path-title,
+.visibility-title {
+    color: #2aabd2;
+}
+
 .filename-preview {
     border: 0;
     background-color: white;
@@ -688,6 +693,20 @@ Apply to thead to make headers not bold.
 
 .table-column-no-float {
     float: none !important;
+}
+
+/*////////////////////////////////////////////////////////////
+/////////////////////// Modal Dialogs ////////////////////////
+//////////////////////////////////////////////////////////*/
+
+.modal-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal-footer {
+    padding: 14px 15px 15px;
+    margin-top: 0px;
 }
 
 /*////////////////////////////////////////////////////////////

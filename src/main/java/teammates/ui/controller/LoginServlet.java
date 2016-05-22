@@ -24,29 +24,33 @@ public class LoginServlet extends HttpServlet {
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        this.doPost(req,resp);
+        this.doPost(req, resp);
     }
 
     @Override
     public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException{
+            throws IOException, ServletException {
         Logic server = new Logic();
         UserType user = server.getCurrentUser();
-        if(req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
-            if(isMasqueradeMode(user)){
+        boolean isInstructor = req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR) != null;
+        boolean isStudent = req.getParameter(Const.ParamsNames.LOGIN_STUDENT) != null;
+        boolean isAdmin = req.getParameter(Const.ParamsNames.LOGIN_ADMIN) != null;
+        
+        if (isInstructor) {
+            if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else {
                 resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
             }
-        } else if(req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
-            if(isMasqueradeMode(user)){
+        } else if (isStudent) {
+            if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
             } else {
                 resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
             }
         //TODO: do we need this branch?
-        } else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
-            if(isMasqueradeMode(user)){
+        } else if (isAdmin) {
+            if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
                 resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
@@ -57,6 +61,6 @@ public class LoginServlet extends HttpServlet {
     }
 
     private boolean isMasqueradeMode(UserType user) {
-        return user!=null;
+        return user != null;
     }
 }

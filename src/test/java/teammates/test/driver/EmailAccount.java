@@ -16,7 +16,11 @@ import javax.mail.search.FlagTerm;
 
 import teammates.logic.core.Emails;
 
-public class EmailAccount {
+public final class EmailAccount {
+    
+    private EmailAccount() {
+        // utility class
+    }
 
     /**
      * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
@@ -58,9 +62,8 @@ public class EmailAccount {
         String subject = message.getSubject();
 
         if (subject != null) {
-            isRegistrationEmail = subject
-                    .contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-                    && (subject.contains(courseId));
+            isRegistrationEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+                                  && subject.contains(courseId);
         }
 
         return isRegistrationEmail;
@@ -69,7 +72,7 @@ public class EmailAccount {
     private static String getKey(String body) {
         String key = body.substring(
                 body.indexOf("key=") + "key=".length(),
-                body.indexOf("studentemail=") - 1);//*If prompted to log in
+                body.indexOf("studentemail=") - 1); //*If prompted to log in
         return key.trim();
     }
 
@@ -105,8 +108,9 @@ public class EmailAccount {
             System.out.println(message.getSubject());
             Matcher m = pattern.matcher(message.getSubject());
 
-            if (!m.find())
+            if (!m.find()) {
                 continue;
+            }
             count++;
 
         }
@@ -128,7 +132,7 @@ public class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message messages[] = inbox.search(ft);
+        Message[] messages = inbox.search(ft);
                 
         return messages;
     }

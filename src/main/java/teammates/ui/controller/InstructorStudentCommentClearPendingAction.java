@@ -37,7 +37,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             int pendingCommentsSize = getPendingCommentsSize(courseId);
-            while ((pendingCommentsSize != 0) && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (pendingCommentsSize != 0 && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 pendingCommentsSize = getPendingCommentsSize(courseId);
                 //check before incrementing to avoid boundary case problem
@@ -55,12 +55,12 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             }
         }
         
-        if (!isError) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
-        } else {
+        if (isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY, StatusMessageColor.DANGER));
             statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
+        } else {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));
+            statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         
         return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" 

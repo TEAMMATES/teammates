@@ -129,20 +129,19 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
     private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
         if (participants.isEmpty()) {
             return "";
-        } else {
-            String result = "";
-            for (FeedbackParticipantType fpt: participants) {
-                result += fpt + joiner;
-            }
-            return result.substring(0, result.length() - joiner.length());
         }
+        StringBuilder result = new StringBuilder();
+        for (FeedbackParticipantType fpt: participants) {
+            result.append(fpt).append(joiner);
+        }
+        return result.substring(0, result.length() - joiner.length());
     }
     
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
              || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
+             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 }

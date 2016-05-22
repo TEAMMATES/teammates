@@ -19,11 +19,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
 
     public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
     public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<String, InstructorAttributes>();
-    public Cursor cursor = null;
-    private int numberOfResults = 0;
+    public Cursor cursor;
+    private int numberOfResults;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    
-    public StudentSearchResultBundle(){}
     
     /**
      * Produce a StudentSearchResultBundle from the Results<ScoredDocument> collection.
@@ -31,19 +29,19 @@ public class StudentSearchResultBundle extends SearchResultBundle {
      */
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if(results == null){
+        if (results == null) {
             return this;
         }
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for(InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins:instructors) {
             giverEmailList.add(ins.email);
             courseIdInstructorMap.put(ins.courseId, ins);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for(ScoredDocument doc:filteredResults){
+        for (ScoredDocument doc:filteredResults) {
             StudentAttributes student = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                     StudentAttributes.class);
@@ -51,7 +49,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
-            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -64,9 +62,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
-    
+
     /**
      * This method should be used by admin only since the previous searching does not restrict the 
      * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
@@ -75,18 +71,18 @@ public class StudentSearchResultBundle extends SearchResultBundle {
      * @param results
      * @return studentResultBundle containing information related to matched students only.
      */   
-    public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results){
-        if(results == null) {
+    public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results) {
+        if (results == null) {
             return this;
         }
         
         cursor = results.getCursor();
         
-        for(ScoredDocument doc:results){
+        for (ScoredDocument doc:results) {
             StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                                                                              StudentAttributes.class);
             
-            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -99,30 +95,29 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
-    private void sortStudentResultList(){
+
+    private void sortStudentResultList() {
         
-        Collections.sort(studentList, new Comparator<StudentAttributes>(){
+        Collections.sort(studentList, new Comparator<StudentAttributes>() {
             @Override
-            public int compare(StudentAttributes s1, StudentAttributes s2){
+            public int compare(StudentAttributes s1, StudentAttributes s2) {
                 int compareResult = s1.course.compareTo(s2.course);
-                if(compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                 
                 compareResult = s1.section.compareTo(s2.section);
-                if(compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                 
                 compareResult = s1.team.compareTo(s2.team);
-                if(compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                 
                 compareResult = s1.name.compareTo(s2.name);
-                if(compareResult != 0){
+                if (compareResult != 0) {
                     return compareResult;
                 }
                 
@@ -130,8 +125,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             }
         });
     }
-    
-    
+
     @Override
     public int getResultSize() {
         return numberOfResults;
