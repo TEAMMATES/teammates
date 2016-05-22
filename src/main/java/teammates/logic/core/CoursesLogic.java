@@ -237,13 +237,9 @@ public class CoursesLogic {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
-            } 
-            // student in the same team as the previous student
-            else if (s.team.equals(team.name)) {
+            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
                 team.students.add(s);
-            } 
-            // first student of subsequent teams (not the first team)
-            else {
+            } else { // first student of subsequent teams (not the first team)
                 sectionDetails.teams.add(team);
                 team = new TeamDetailsBundle();
                 team.name = s.team;
@@ -399,13 +395,9 @@ public class CoursesLogic {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
-            } 
-            // student in the same team as the previous student
-            else if (s.team.equals(team.name)) {
+            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
                 team.students.add(s);
-            } 
-            // first student of subsequent teams (not the first team)
-            else {
+            } else { // first student of subsequent teams (not the first team)
                 teams.add(team);
                 team = new TeamDetailsBundle();
                 team.name = s.team;

@@ -44,6 +44,9 @@
     <module name="LeftCurly">
       <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
+    <module name="RightCurly">
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_TRY"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
