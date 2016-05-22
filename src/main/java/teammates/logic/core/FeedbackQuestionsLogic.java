@@ -421,9 +421,9 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> students_Member = 
+            List<StudentAttributes> teamMembers = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : students_Member) {
+            for (StudentAttributes student : teamMembers) {
                     //accepts self feedback too
                     recipients.put(student.email, student.name);
             }
