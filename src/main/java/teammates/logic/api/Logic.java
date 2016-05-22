@@ -44,7 +44,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -1860,7 +1859,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(String feedbackSessionName, 
                                                                             String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
@@ -1877,7 +1876,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(String feedbackSessionName, 
                                                                             String courseId, String userEmail, 
                                                                             CourseRoster roster)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1896,7 +1895,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1916,7 +1915,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
             String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1935,7 +1934,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
             String feedbackSessionName, String courseId, String userEmail, String section, long range)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1953,7 +1952,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
             String feedbackSessionName, String courseId, String userEmail, String section, long range)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1972,7 +1971,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
             String feedbackSessionName, String courseId, String userEmail, String questionId)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1993,7 +1992,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                     String feedbackSessionName, String courseId, String userEmail, 
                                     String questionId, String selectedSection)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2012,7 +2011,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2031,7 +2030,7 @@ public class Logic {
                                                                                String courseId, String userEmail, 
                                                                                CourseRoster roster, 
                                                                                Boolean isIncludeResponseStatus)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2051,7 +2050,7 @@ public class Logic {
                                                                                         String courseId, 
                                                                                         String userEmail, 
                                                                                         String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2072,7 +2071,7 @@ public class Logic {
                                                                                           String courseId, 
                                                                                           String userEmail, 
                                                                                           String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2093,7 +2092,7 @@ public class Logic {
                                                                                         String courseId, 
                                                                                         String userEmail, 
                                                                                         String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);

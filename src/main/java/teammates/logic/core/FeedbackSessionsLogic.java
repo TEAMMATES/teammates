@@ -37,7 +37,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
@@ -805,14 +804,14 @@ public class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         
         return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail, String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
