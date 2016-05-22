@@ -285,12 +285,11 @@ public class AccountsLogic {
             if (studentRole.googleId.equals(googleId)) {
                 throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
                         "You (" + googleId + ") have already joined this course");
-            } else {
-                throw new JoinCourseException(
-                        Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                        String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                    StringHelper.obscure(studentRole.googleId)));
             }
+            throw new JoinCourseException(
+                    Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                    String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                  StringHelper.obscure(studentRole.googleId)));
         } 
     
         StudentAttributes existingStudent =

@@ -96,9 +96,8 @@ public final class StringHelper {
         final int inputStringLength = inputString.length();
         if (inputStringLength <= maximumStringLength) {
             return inputString;
-        } else {
-            return inputString.substring(inputStringLength - maximumStringLength);
         }
+        return inputString.substring(inputStringLength - maximumStringLength);
     }
 
     /**
@@ -184,18 +183,18 @@ public final class StringHelper {
 
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
-        if (hourOffsetTimeZone != 0) {
-            if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
-                return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
-            } else {
-                return utcFormatTimeZone + String.format(
-                                            " %+03d:%02d",
-                                            (int) hourOffsetTimeZone,
-                                            (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-            }
+        if (hourOffsetTimeZone == 0) {
+            return utcFormatTimeZone;
         }
 
-        return utcFormatTimeZone;
+        if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
+            return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
+        }
+        
+        return utcFormatTimeZone + String.format(
+                                    " %+03d:%02d",
+                                    (int) hourOffsetTimeZone,
+                                    (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
     
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method

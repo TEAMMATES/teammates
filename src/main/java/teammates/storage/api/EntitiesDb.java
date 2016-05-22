@@ -318,9 +318,8 @@ public abstract class EntitiesDb {
         try {
             if (query.getFilterSize() > 0) {
                 return SearchManager.searchDocuments(indexName, query.toQuery());
-            } else {
-                return null;
             }
+            return null;
         } catch (SearchQueryException e) {
             log.info("Unsupported query for this query string: " + query.toString());
             return null;

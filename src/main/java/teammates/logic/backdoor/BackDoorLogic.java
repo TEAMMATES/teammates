@@ -506,10 +506,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getAccount(a.googleId);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + a.toString());
@@ -523,10 +522,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getCourse(c.getId());
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + c.toString());
@@ -541,11 +539,12 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    if (retryCount % 10 == 0) { log.info("Waiting for delete to persist"); }
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                if (retryCount % 10 == 0) {
+                    log.info("Waiting for delete to persist");
+                }
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + f.toString());
@@ -562,10 +561,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getStudentForEmail(s.course, s.email);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + s.toString());
@@ -579,10 +577,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + i.toString());

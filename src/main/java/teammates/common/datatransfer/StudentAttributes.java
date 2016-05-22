@@ -355,9 +355,8 @@ public class StudentAttributes extends EntityAttributes {
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
     
     public Date getCreatedAt() {

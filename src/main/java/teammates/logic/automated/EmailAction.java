@@ -169,9 +169,8 @@ public abstract class EmailAction {
             int startIndex = emailContent.indexOf("key=") + "key=".length();
             int endIndex = emailContent.indexOf("\">http://");
             return emailContent.substring(startIndex, endIndex);
-        } else {
-            return "";
         }
+        return "";
     }
     
     private class EmailData {

@@ -65,12 +65,12 @@ public class InstructorCourseAddAction extends Action {
         CourseAttributes.sortById(activeCourses);
         CourseAttributes.sortById(archivedCourses);
         
-        String CourseIdToShowParam = "";
-        String CourseNameToShowParam = "";
+        String courseIdToShowParam = "";
+        String courseNameToShowParam = "";
         
         if (isError) { // there is error in adding the course
-            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
-            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
+            courseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
+            courseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
             
             List<String> statusMessageTexts = new ArrayList<String>();
             
@@ -84,7 +84,7 @@ public class InstructorCourseAddAction extends Action {
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
         
-        data.init(activeCourses, archivedCourses, instructorsForCourses, CourseIdToShowParam, CourseNameToShowParam);
+        data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
