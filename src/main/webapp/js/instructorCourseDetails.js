@@ -30,12 +30,12 @@ function submitFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
-                    var table = data.studentListHtmlTableAsString;
-                    content.html('<small>' + table + '</small>');
-                } else {
+                if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                } else {
+                    var table = data.studentListHtmlTableAsString;
+                    content.html('<small>' + table + '</small>');
                 }
 
                 setStatusMessage(data.statusForAjax);
