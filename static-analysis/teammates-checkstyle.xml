@@ -47,6 +47,10 @@
     <module name="RightCurly">
       <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_TRY"/>
     </module>
+    <module name="RightCurly">
+      <property name="option" value="alone"/>
+      <property name="tokens" value="CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_FOR,INSTANCE_INIT,METHOD_DEF,STATIC_INIT,LITERAL_WHILE"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
