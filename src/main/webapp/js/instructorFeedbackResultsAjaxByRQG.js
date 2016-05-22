@@ -37,10 +37,10 @@ $(document).ready(function() {
                 } else {
                     var appendedSection = $(data).find('#sectionBody-0').html();
                     $(data).remove();
-                    if (typeof appendedSection !== 'undefined') {
-                        $(panelBody[0]).html(appendedSection);
-                    } else {
+                    if (typeof appendedSection === 'undefined') {
                         $(panelBody[0]).html('There are no responses for this feedback session yet or you do not have access to the responses collected so far.');
+                    } else {
+                        $(panelBody[0]).html(appendedSection);
                     }
                 }
 

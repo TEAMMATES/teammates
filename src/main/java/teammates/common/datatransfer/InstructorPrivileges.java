@@ -327,18 +327,16 @@ public final class InstructorPrivileges {
     public void addSectionWithDefaultPrivileges(String sectionName) {
         if (this.sectionLevel.containsKey(sectionName)) {
             return;
-        } else {
-            this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
         }
+        this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
     }
     
     public void addSessionWithDefaultPrivileges(String sectionName, String sessionName) {
         verifyExistenceOfsectionName(sectionName);
         if (this.sessionLevel.get(sectionName).containsKey(sessionName)) {
             return;
-        } else {
-            this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
         }
+        this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
     }
     
     /**

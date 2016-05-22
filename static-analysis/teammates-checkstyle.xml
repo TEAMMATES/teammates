@@ -44,6 +44,8 @@
     <module name="Indentation">
       <property name="arrayInitIndent" value="8"/>
     </module>
+    <module name="LocalVariableName"/>
+    <module name="ParameterName"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>

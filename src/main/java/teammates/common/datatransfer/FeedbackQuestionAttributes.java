@@ -518,10 +518,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         // This is due to legacy data in the data store before there are multiple question types
         if (questionType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextQuestionDetails(questionMetaData.getValue());
-        } else {
-            Gson gson = Utils.getTeammatesGson();
-            return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
         }
+        Gson gson = Utils.getTeammatesGson();
+        return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
     }
 
     /** 

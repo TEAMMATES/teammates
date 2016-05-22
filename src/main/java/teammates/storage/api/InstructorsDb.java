@@ -536,9 +536,8 @@ public class InstructorsDb extends EntitiesDb {
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
             return (List<Instructor>) q.execute(googleId, omitArchived);
-        } else {
-            return getInstructorEntitiesForGoogleId(googleId);
         }
+        return getInstructorEntitiesForGoogleId(googleId);
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

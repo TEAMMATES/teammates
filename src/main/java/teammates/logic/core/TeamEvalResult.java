@@ -354,10 +354,9 @@ public class TeamEvalResult {
             values.append(value).append(' ');
             if (value == NA) {
                 continue;
-            } else {
-                sum += value;
-                count++;
             }
+            sum += value;
+            count++;
         }
         // omit calculation if no data points
         double average = count == 0 ? NA : (double) (sum / count);

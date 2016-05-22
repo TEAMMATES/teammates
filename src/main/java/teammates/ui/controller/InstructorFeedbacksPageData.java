@@ -163,9 +163,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
             return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
-        } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
 
     }
 

@@ -135,9 +135,8 @@ public abstract class Action {
                 log.severe("TEAMMATES accessed using old join link");
             }
             return legacyRegkey;
-        } else {
-            return regkey;
         }
+        return regkey;
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
@@ -235,11 +234,10 @@ public abstract class Action {
                     account.googleId = paramRequestedUserId;
                 }
                 return account;
-            } else {
-                throw new UnauthorizedAccessException("User " + loggedInUserType.id 
-                                                    + " is trying to masquerade as " + paramRequestedUserId 
-                                                    + " without admin permission.");
             }
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                                                + " is trying to masquerade as " + paramRequestedUserId 
+                                                + " without admin permission.");
         }
         
         account = loggedInUser;

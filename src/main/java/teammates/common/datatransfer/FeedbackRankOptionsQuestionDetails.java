@@ -387,23 +387,22 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         if (areDuplicatesAllowed) {
             return new ArrayList<String>();
-        } else {
-            List<String> errors = new ArrayList<>();
-            
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-                Set<Integer> responseRank = new HashSet<>();
-                
-                for (int answer : frd.getFilteredSortedAnswerList()) {
-                    if (responseRank.contains(answer)) {
-                        errors.add("Duplicate rank " + answer);
-                    }
-                    responseRank.add(answer);
-                }
-            }
-        
-            return errors;
         }
+        List<String> errors = new ArrayList<>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+            Set<Integer> responseRank = new HashSet<>();
+            
+            for (int answer : frd.getFilteredSortedAnswerList()) {
+                if (responseRank.contains(answer)) {
+                    errors.add("Duplicate rank " + answer);
+                }
+                responseRank.add(answer);
+            }
+        }
+    
+        return errors;
     }
 
     @Override

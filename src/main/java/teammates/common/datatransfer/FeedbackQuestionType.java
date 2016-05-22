@@ -181,8 +181,7 @@ public enum FeedbackQuestionType {
     public static String standardizeIfConstSum(String questionType) {
         if ("CONSTSUM_OPTION".equals(questionType) || "CONSTSUM_RECIPIENT".equals(questionType)) {
             return "CONSTSUM";
-        } else {
-            return questionType;
         }
+        return questionType;
     }
 }
