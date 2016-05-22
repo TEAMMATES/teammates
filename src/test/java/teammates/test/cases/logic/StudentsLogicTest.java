@@ -604,7 +604,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";      
-        String EOL = Const.EOL;
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
                 new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
@@ -628,9 +627,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String line2 = "t3  |n3|  e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
         String line4 = "t5|  n5|e5@g  |c5";
-        String lines = headerLine + EOL + line0 + EOL + line1 + EOL + line2 + EOL
-                    + "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
-                    + EOL + "    " + EOL + EOL;
+        String lines = headerLine + Const.EOL + line0 + Const.EOL + line1 + Const.EOL + line2 + Const.EOL
+                    + "  \t \t \t \t           " + Const.EOL + line3 + Const.EOL + Const.EOL + line4
+                    + Const.EOL + "    " + Const.EOL + Const.EOL;
         List<StudentAttributes> enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
@@ -651,15 +650,15 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("includes a mix of unmodified, modified, and new");
         
-        String line0_1 = "t3|modified name|e3@g|c3";
+        String modifiedLine2 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
-        lines = headerLine + EOL + line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
+        lines = headerLine + Const.EOL + line0 + Const.EOL + modifiedLine2 + Const.EOL + line1 + Const.EOL + line5;
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
         verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
                 enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
-        verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(modifiedLine2, courseIdForEnrollTest),
                 enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
         verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
                 enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
@@ -674,7 +673,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = headerLine + EOL + "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
+        lines = headerLine + Const.EOL + "t7|n7|e7@g|c7" + Const.EOL + incorrectLine + Const.EOL + line2 + Const.EOL
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
@@ -703,19 +702,19 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
-        String line = headerLine + EOL + "t8|n8|e8@g|c1";
+        String line = headerLine + Const.EOL + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.NEW,
                 enrollResults.get(0).updateStatus);
             
-        line = headerLine + EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
                 enrollResults.get(0).updateStatus);
             
-        line = headerLine + EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
@@ -723,20 +722,20 @@ public class StudentsLogicTest extends BaseComponentTestCase {
 
         ______TS("duplicated emails");
             
-        String line_t9 = "t9|n9|e9@g|c9";
-        String line_t10 = "t10|n10|e9@g|c10";
-        lines = headerLine + EOL + line_t9 + EOL + line_t10;
+        String lineT9 = "t9|n9|e9@g|c9";
+        String lineT10 = "t10|n10|e9@g|c10";
+        lines = headerLine + Const.EOL + lineT9 + Const.EOL + lineT10;
         try {
             studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
-            assertTrue(e.getMessage().contains(line_t10));
-            AssertHelper.assertContains("Same email address as the student in line \"" + line_t9 + "\"", e.getMessage());    
+            assertTrue(e.getMessage().contains(lineT10));
+            AssertHelper.assertContains("Same email address as the student in line \"" + lineT9 + "\"", e.getMessage());    
         }
         
         
         ______TS("invalid course id");
         
-        String enrollLines = headerLine + EOL;
+        String enrollLines = headerLine + Const.EOL;
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);
@@ -758,7 +757,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("invalidity info in enroll line");
         
-        enrollLines = headerLine + EOL + "invalidline0\ninvalidline1\n";
+        enrollLines = headerLine + Const.EOL + "invalidline0\ninvalidline1\n";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
