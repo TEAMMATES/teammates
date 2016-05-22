@@ -171,9 +171,8 @@ public class StudentsDb extends EntitiesDb {
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
-        } else {
-            return new StudentAttributes(studentList.get(0));
         }
+        return new StudentAttributes(studentList.get(0));
     }
     
     /**

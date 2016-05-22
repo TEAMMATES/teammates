@@ -167,11 +167,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         int day = Integer.parseInt(split[0]);
         int month = Integer.parseInt(split[1]);
         int year = Integer.parseInt(split[2]);
-        if (isValidDate(day, month, year)) {
-            return getDate(day, month, year);
-        } else {
+        if (!isValidDate(day, month, year)) {
             throw new InvalidParametersException("Date format error");
         }
+        return getDate(day, month, year);
         
     }
     

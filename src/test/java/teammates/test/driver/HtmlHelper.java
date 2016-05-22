@@ -79,14 +79,14 @@ public final class HtmlHelper {
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
-        } else {
-            // if it still fails, then it is a failure after all
-            if (isDifferenceToBeShown) {
-                assertEquals("<expected>\n" + processedExpected + "</expected>",
-                             "<actual>\n" + processedActual + "</actual>");
-            }
-            return false;
         }
+        
+        // if it still fails, then it is a failure after all
+        if (isDifferenceToBeShown) {
+            assertEquals("<expected>\n" + processedExpected + "</expected>",
+                         "<actual>\n" + processedActual + "</actual>");
+        }
+        return false;
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
@@ -254,9 +254,8 @@ public final class HtmlHelper {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
                                             : attribute.getNodeValue().equals(attrValue);
-        } else {
-            return false;
         }
+        return false;
     }
     
     private static boolean isClassContainingValue(String expected, String actual) {

@@ -468,9 +468,8 @@ public class StudentsLogic {
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
-        } else {
-            return students.get(0).section;
         }
+        return students.get(0).section;
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
