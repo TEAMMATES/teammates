@@ -25,7 +25,7 @@ import teammates.test.driver.AssertHelper;
 
 public class CommentsLogicTest extends BaseComponentTestCase {
 
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass

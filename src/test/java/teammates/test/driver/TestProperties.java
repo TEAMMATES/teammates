@@ -15,6 +15,11 @@ import teammates.common.util.Url;
  */
 public final class TestProperties {
     
+    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
+    
+    private static TestProperties instance;
+    
     public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
     public int TEAMMATES_REMOTEAPI_APP_PORT;
     
@@ -42,13 +47,6 @@ public final class TestProperties {
     public String FIREFOX_PATH;
     
     public int TEST_TIMEOUT;
-    
-    private static TestProperties instance;
-    
-    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
-    /// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
-    // functions to that sub class. It should be in util package.
-    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
     
     private TestProperties() {
         Properties prop = new Properties();

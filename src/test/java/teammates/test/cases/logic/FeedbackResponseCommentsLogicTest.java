@@ -23,9 +23,9 @@ import teammates.test.driver.AssertHelper;
 
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
-    private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
     

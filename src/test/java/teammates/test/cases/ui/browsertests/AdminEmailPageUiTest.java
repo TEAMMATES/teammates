@@ -17,11 +17,12 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static AdminEmailPage emailPage;
     
     public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
+    private static Browser browser;
+    private static AdminEmailPage emailPage;
+    
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();
