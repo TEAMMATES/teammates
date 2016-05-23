@@ -16,20 +16,6 @@ public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
         return getPageSource().contains("<h1>Submit Feedback Question</h1>");
     }
     
-    public void fillResponseTextBox(int questionNumber, int responseNumber, String text) {
-        WebElement element = browser.driver.findElement(
-                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionNumber + "-" + responseNumber));
-        fillTextBox(element, text);
-    }
-    
-    public void clickSubmitButton() {
-        getSubmitButton().click();
-    }
-    
-    public WebElement getSubmitButton() {
-        return browser.driver.findElement(By.id("response_submit_button"));
-    }
-    
     public WebElement getTextArea(int questionNum, int responseNum) {
         String textAreaName = "responsetext-" + questionNum + "-" + responseNum; 
         return browser.driver.findElement(By.name(textAreaName));

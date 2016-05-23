@@ -42,12 +42,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-        element.click();
         fillTextBox(element, text);
-        // Fire the change event using javascript since firefox with selenium
-        // might be buggy and fail to trigger.
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -138,10 +133,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        getSubmitButton().click();
     }
 
+    public WebElement getSubmitButton() {
+        return browser.driver.findElement(By.id("response_submit_button"));
+    }
+    
     public void linkOnHomeLink() {
         studentHomeTab.click();
         AppPage.getNewPageInstance(browser, StudentHomePage.class);
