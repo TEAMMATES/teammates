@@ -69,7 +69,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         assertTrue(doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
-        assertEquals("", r.getStatusMessage());
+        assertEquals("aaaaaaa", r.getStatusMessage());
     }
     
     private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
