@@ -185,6 +185,7 @@ public class StudentAttributes extends EntityAttributes {
                && otherStudent.section.equals(this.section);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertTrue(team != null);
@@ -231,6 +232,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortBySectionName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String sect1 = student1.section;
                 String sect2 = student2.section;
@@ -251,6 +253,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String team1 = student1.team;
                 String team2 = student2.team;
@@ -267,6 +270,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
 
@@ -305,10 +309,12 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
+    @Override
     public Student toEntity() {
         return new Student(email, name, googleId, comments, course, team, section);
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }

@@ -20,6 +20,7 @@ public final class DatastoreFilter implements javax.servlet.Filter {
         Datastore.initialize();
     }
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         //There was a Datastore.finishRequest() here inside a finally clause.

@@ -184,6 +184,7 @@ public class InstructorAttributes extends EntityAttributes {
         return googleId != null;
     }
 
+    @Override
     public Instructor toEntity() {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
@@ -193,6 +194,7 @@ public class InstructorAttributes extends EntityAttributes {
                               isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
@@ -218,6 +220,7 @@ public class InstructorAttributes extends EntityAttributes {
         return errors;
     }
     
+    @Override
     public String toString() {
         return gson.toJson(this, InstructorAttributes.class);
     }

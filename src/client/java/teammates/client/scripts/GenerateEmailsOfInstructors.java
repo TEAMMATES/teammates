@@ -24,6 +24,7 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         String q = "SELECT FROM " + Account.class.getName() + " WHERE isInstructor == true";

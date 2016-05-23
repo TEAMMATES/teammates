@@ -44,6 +44,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
@@ -279,6 +280,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
         Collections.sort(list, new Comparator<InstituteStats>() {
+            @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
                 return new Integer(inst2.studentTotal).compareTo(new Integer(inst1.studentTotal));

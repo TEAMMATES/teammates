@@ -47,6 +47,7 @@ public class OfflineBackup extends RemoteApiClient {
         offlineBackup.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         List<String> logs = getModifiedLogs();

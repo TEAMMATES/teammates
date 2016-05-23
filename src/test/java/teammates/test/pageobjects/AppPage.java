@@ -196,6 +196,7 @@ public abstract class AppPage {
     public void waitForPageToLoad() {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
@@ -210,6 +211,7 @@ public abstract class AppPage {
     public void waitForElementNotCovered(final WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 return !isElementCovered(element);
             }

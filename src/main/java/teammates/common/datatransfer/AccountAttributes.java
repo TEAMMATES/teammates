@@ -89,6 +89,7 @@ public class AccountAttributes extends EntityAttributes {
         return institute;
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
@@ -116,11 +117,13 @@ public class AccountAttributes extends EntityAttributes {
         return errors;
     }
 
+    @Override
     public Account toEntity() {
         Assumption.assertNotNull(this.studentProfile);
         return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     
+    @Override
     public String toString() {
         return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
     }
