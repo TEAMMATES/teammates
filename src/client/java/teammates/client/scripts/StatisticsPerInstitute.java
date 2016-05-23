@@ -31,11 +31,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
-    private int iterationCounter;
-    
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
     private static final String UNKNOWN_INSTITUTE = "Unknown Institute";
+    
+    private int iterationCounter;
     
     private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
     
