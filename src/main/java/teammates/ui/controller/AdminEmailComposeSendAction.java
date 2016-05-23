@@ -117,17 +117,17 @@ public class AdminEmailComposeSendAction extends Action {
     }
     
     private void checkAddressReceiverString(String addressReceiverString) throws InvalidParametersException {
-       FieldValidator validator = new FieldValidator();
+        FieldValidator validator = new FieldValidator();
        
-       String[] emails = addressReceiverString.split(",");
-       for (String email : emails) {
-           String error = validator.getInvalidityInfoForEmail(email);
-           if (error != null && !error.isEmpty()) {
-               isError = true;
-               statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
-               throw new InvalidParametersException("<strong>Email Format Error</strong>");
-           }
-       }
+        String[] emails = addressReceiverString.split(",");
+        for (String email : emails) {
+            String error = validator.getInvalidityInfoForEmail(email);
+            if (error != null && !error.isEmpty()) {
+                isError = true;
+                statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
+                throw new InvalidParametersException("<strong>Email Format Error</strong>");
+            }
+        }
        
     }
     
@@ -205,9 +205,9 @@ public class AdminEmailComposeSendAction extends Action {
                 String firstStringOfNewList = newList.get(0);
                 
                 if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
-                   //no broken email from last reading found, simply add the list
-                   //from current reading into the upper list.
-                   listOfList.add(newList);
+                    //no broken email from last reading found, simply add the list
+                    //from current reading into the upper list.
+                    listOfList.add(newList);
                 } else {      
                     //either the left part or the right part of the broken email string 
                     //does not contains a "@".

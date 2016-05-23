@@ -85,20 +85,20 @@ public enum FeedbackParticipantType {
      */
     public String toSingularFormString() {
         switch (this) {
-            case INSTRUCTORS:
-                return "instructor";
-            case STUDENTS:
-                // Fallthrough
-            case OWN_TEAM_MEMBERS:
-                // Fallthrough
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                return "student";
-            case TEAMS:
-                return "team";
-            case OWN_TEAM:
-                return "team";
-            default:
-                return super.toString();
+        case INSTRUCTORS:
+            return "instructor";
+        case STUDENTS:
+            // Fallthrough
+        case OWN_TEAM_MEMBERS:
+            // Fallthrough
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            return "student";
+        case TEAMS:
+            return "team";
+        case OWN_TEAM:
+            return "team";
+        default:
+            return super.toString();
         }
     }
 }
