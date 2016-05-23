@@ -15,7 +15,7 @@ import teammates.storage.entity.Account;
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
     
   //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
+    protected final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
