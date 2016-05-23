@@ -267,11 +267,11 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_PersonName() {
-        invalidityInfoFor_validName_shouldReturnEmptyString();
-        invalidityInfoFor_emptyName_shouldReturnErrorString();
+        invalidityInfoFor_validName_returnEmptyString();
+        invalidityInfoFor_emptyName_returnErrorString();
     }
 
-    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
+    private void invalidityInfoFor_emptyName_returnErrorString() {
         String emptyPersonName = "";
         String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
         assertEquals("Empty person name should return appropriate error message",
@@ -280,24 +280,24 @@ public class FieldValidatorTest extends BaseTestCase {
                      actual);
     }
 
-    private void invalidityInfoFor_validName_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validName_returnEmptyString() {
         String validPersonName = "Mr Valid Name";
         String actual = validator.getInvalidityInfoForPersonName(validPersonName);
         assertEquals("Valid person name should return empty string", "", actual);
     }
 
     private void testGetInvalidityInfo_InstituteName() {
-        invalidityInfoFor_validInstituteName_shouldReturnEmptyString();
-        invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
+        invalidityInfoFor_validInstituteName_returnEmptyString();
+        invalidityInfoFor_tooLongInstituteName_returnErrorString();
     }
 
-    private void invalidityInfoFor_validInstituteName_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validInstituteName_returnEmptyString() {
         String validInstituteName = "Institute of Valid Name";
         String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
         assertEquals("Valid institute name should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString() {
+    private void invalidityInfoFor_tooLongInstituteName_returnErrorString() {
         String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
         assertEquals("Too long institute name should return appropriate error message",
@@ -307,17 +307,17 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_Nationality() {
-        invalidityInfoFor_validNationality_shouldReturnEmptyString();
-        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
+        invalidityInfoFor_validNationality_returnEmptyString();
+        invalidityInfoFor_invalidCharNationality_returnErrorString();
     }
 
-    private void invalidityInfoFor_validNationality_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validNationality_returnEmptyString() {
         String validNationality = "Martian";
         String actual = validator.getInvalidityInfoForNationality(validNationality);
         assertEquals("Valid nationality should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
+    private void invalidityInfoFor_invalidCharNationality_returnErrorString() {
         String invalidCharNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
         assertEquals("Nationality with invalid characters should return appropriate error string",
@@ -330,17 +330,17 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_CourseName() {
-        invalidityInfoFor_validCourseName_shouldbeEmptyString();
-        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
+        invalidityInfoFor_validCourseName_returnEmptyString();
+        invalidityInfoFor_invalidCharCourseName_returnErrorString();
     }
 
-    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
+    private void invalidityInfoFor_validCourseName_returnEmptyString() {
         String validCourseName = "Introduction to Valid Course";
         String actual = validator.getInvalidityInfoForCourseName(validCourseName);
         assertEquals("Valid course name should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
+    private void invalidityInfoFor_invalidCharCourseName_returnErrorString() {
         String invalidCharCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
         assertEquals("Course name with invalid character should return appropriate error string",
@@ -353,17 +353,17 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_FeedbackSessionName() {
-        invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString();
-        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
+        invalidityInfoFor_validFeedbackSessionName_returnEmptyString();
+        invalidityInfoFor_tooLongFeedbackSessionName_returnErrorString();
     }
 
-    private void invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validFeedbackSessionName_returnEmptyString() {
         String validFeedbackSessionName = "Valid feedback session name";
         String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
         assertEquals("Valid feedback session name should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
+    private void invalidityInfoFor_tooLongFeedbackSessionName_returnErrorString() {
         String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
         assertEquals("Feedback session with too long name should return appropriate error message",
@@ -374,17 +374,17 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfo_Gender() {
-        invalidityInfoFor_validGender_shouldReturnEmptyString();
-        invalidityInfoFor_invalidGender_shouldReturnErrorString();
+        invalidityInfoFor_validGender_returnEmptyString();
+        invalidityInfoFor_invalidGender_returnErrorString();
     }
 
-    private void invalidityInfoFor_validGender_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validGender_returnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
+    private void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Invalid gender should return appropriate error stirng",
@@ -394,13 +394,13 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoFor_GoogleId() {
-        invalidityInfoFor_nullGoogleId_shouldThrowException();
-        invalidityInfoFor_googleIdWithGmailDomain_shouldThrowException();
-        invalidityInfoFor_validGoogleId_shouldReturnEmptyString();
-        invalidityInfoFor_invalidGoogleId_shouldReturnErrorString();
+        invalidityInfoFor_nullGoogleId_throwException();
+        invalidityInfoFor_googleIdWithGmailDomain_throwException();
+        invalidityInfoFor_validGoogleId_returnEmptyString();
+        invalidityInfoFor_invalidGoogleId_returnErrorString();
     }
 
-    private void invalidityInfoFor_nullGoogleId_shouldThrowException() {
+    private void invalidityInfoFor_nullGoogleId_throwException() {
         String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
         try {
             validator.getInvalidityInfoForGoogleId(null);
@@ -410,7 +410,7 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_googleIdWithGmailDomain_shouldThrowException() {
+    private void invalidityInfoFor_googleIdWithGmailDomain_throwException() {
         String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
                                                      + "with untrimmed GMail domain (i.e., @gmail.com)";
         try {
@@ -421,7 +421,7 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_validGoogleId_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validGoogleId_returnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
         assertEquals("Valid Google ID (typical) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(typicalId));
@@ -443,7 +443,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getInvalidityInfoForGoogleId(maxLengthId));
     }
 
-    private void invalidityInfoFor_invalidGoogleId_shouldReturnErrorString() {
+    private void invalidityInfoFor_invalidGoogleId_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(emptyId),
@@ -495,12 +495,12 @@ public class FieldValidatorTest extends BaseTestCase {
     
     @Test
     public void testGetValidityInfoEmail() {
-        invalidityInfoFor_nullEmail_shouldThrowException();
-        invalidityInfoFor_validEmail_shouldReturnEmptyString();
-        invalidityInfoFor_invalidEmail_shouldReturnErrorString();
+        invalidityInfoFor_nullEmail_throwException();
+        invalidityInfoFor_validEmail_returnEmptyString();
+        invalidityInfoFor_invalidEmail_returnErrorString();
     }
 
-    private void invalidityInfoFor_nullEmail_shouldThrowException() {
+    private void invalidityInfoFor_nullEmail_throwException() {
         String errorMessage = "Did not throw the expected AssertionError for null email";
         try {
             validator.getInvalidityInfoForEmail(null);
@@ -510,7 +510,7 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_validEmail_shouldReturnEmptyString() {
+    private void invalidityInfoFor_validEmail_returnEmptyString() {
         String typicalEmail = "someone@yahoo.com";
         assertEquals("Valid email (typical) should return empty string", "",
                      validator.getInvalidityInfoForEmail(typicalEmail));
@@ -524,7 +524,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getInvalidityInfoForEmail(maxLengthEmail));
     }
 
-    private void invalidityInfoFor_invalidEmail_shouldReturnErrorString() {
+    private void invalidityInfoFor_invalidEmail_returnErrorString() {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
                      String.format(EMAIL_ERROR_MESSAGE, emptyEmail, REASON_EMPTY),
