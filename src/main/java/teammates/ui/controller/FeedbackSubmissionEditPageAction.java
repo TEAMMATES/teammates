@@ -20,11 +20,11 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        if (!isSpecificUserJoinedCourse()) {
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        
+        if (!isSpecificUserJoinedCourse()){
             return createPleaseJoinCourseResponse(courseId);
         }
-        
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         
         if (feedbackSession == null) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS, StatusMessageColor.WARNING));
