@@ -19,6 +19,7 @@ public abstract class AdminEmailPageData extends PageData {
     private AdminSentEmailTable sentEmailTable;
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
+    protected AdminEmailPageState state;
 
     protected AdminEmailPageData(AccountAttributes account) {
         super(account);
@@ -29,8 +30,6 @@ public abstract class AdminEmailPageData extends PageData {
         draftEmailTable = createAdminDraftEmailTable();
         trashEmailTable = createAdminTrashEmailTable();
     }
-    
-    protected AdminEmailPageState state;
     
     public AdminSentEmailTable getSentEmailTable() {
         return sentEmailTable;
@@ -44,7 +43,7 @@ public abstract class AdminEmailPageData extends PageData {
         return trashEmailTable;
     }
     
-    public AdminEmailPageState getPageState(){
+    public AdminEmailPageState getPageState() {
         return this.state;
     }
     

@@ -30,9 +30,8 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        } else {
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         }
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     /**
@@ -40,7 +39,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         
         return isHomePageUrl;
     }

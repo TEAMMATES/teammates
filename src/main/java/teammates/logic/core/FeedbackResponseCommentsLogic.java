@@ -58,9 +58,9 @@ public class FeedbackResponseCommentsLogic {
             return frcDb.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try {
-                FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
                 
-                existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
+                FeedbackResponseCommentAttributes existingComment =
+                                  frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
                                                                    frComment.createdAt);
                 if (existingComment == null) {
                     existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
@@ -98,9 +98,8 @@ public class FeedbackResponseCommentsLogic {
                                                            String feedbackSessionName, String section) {
         if (section == null) {
             return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
-        } else {
-            return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
         }
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(
@@ -243,14 +242,14 @@ public class FeedbackResponseCommentsLogic {
                 return true;
             } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
+            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
                 return true;
-            } else if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
+            } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
+            } else if (type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
                     && responseRecipientTeam.equals(currentUserTeam)) {
                 return true;
-            } else if(type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
+            } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
                 return true;
             }
         }   
@@ -270,8 +269,8 @@ public class FeedbackResponseCommentsLogic {
         }
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? 
-                true : relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
+                                 || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
         
@@ -294,10 +293,10 @@ public class FeedbackResponseCommentsLogic {
         
         boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
                 userIsStudent 
-                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                    && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                  FeedbackParticipantType.RECEIVER))
-                && response.recipientEmail.equals(student.team));
+                && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.RECEIVER)
+                && response.recipientEmail.equals(student.team);
         boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
@@ -326,8 +325,9 @@ public class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion ?
-                relatedQuestion.isResponseVisibleTo(viewerType) : relatedComment.isVisibleTo(viewerType);
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion 
+                            ? relatedQuestion.isResponseVisibleTo(viewerType) 
+                            : relatedComment.isVisibleTo(viewerType);
         return isVisibleTo;
     }
     
@@ -351,7 +351,7 @@ public class FeedbackResponseCommentsLogic {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
-                                                + " is not a session for course "+ courseId + ".");
+                                                + " is not a session for course " + courseId + ".");
         }
     }
 

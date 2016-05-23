@@ -8,8 +8,12 @@ import teammates.common.util.Const.SystemParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Utils {
+public final class Utils {
 
+    private Utils() {
+        // utility class
+    }
+    
     /** 
      * This method should be used when instantiating loggers within the system.
      * @return A {@link Logger} class configured with the name of the calling class.

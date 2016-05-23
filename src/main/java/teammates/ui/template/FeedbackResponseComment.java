@@ -42,7 +42,7 @@ public class FeedbackResponseComment {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
 
@@ -57,7 +57,7 @@ public class FeedbackResponseComment {
     
     // for adding comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,String showCommentToString,
+            String giverName, String recipientName, String showCommentToString,
             String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);

@@ -27,21 +27,27 @@ public class AdminFilter {
     public String getRangeStart() {
         return rangeStart;
     }
+    
     public List<String> getRangeStartHourOptions() {
         return rangeStartHourOptions;
     }
+    
     public List<String> getRangeStartMinuteOptions() {
         return rangeStartMinuteOptions;
     }
+    
     public String getRangeEnd() {
         return rangeEnd;
     }
+    
     public List<String> getRangeEndHourOptions() {
         return rangeEndHourOptions;
     }
+    
     public List<String> getRangeEndMinuteOptions() {
         return rangeEndMinuteOptions;
     }
+    
     public List<String> getTimeZoneOptions() {
         return timeZoneOptions;
     }

@@ -1,6 +1,7 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,19 +36,17 @@ import com.meterware.servletunit.ServletUnitClient;
  * test up to Servlets level.
  */
 public class GaeSimulation {
-    
-
-    public static GaeSimulation inst() {
-        return instance;
-    }
 
     private static final GaeSimulation instance = new GaeSimulation();
-    
-    
+
     /** This is used only to generate an HttpServletRequest for given parameters */
     protected  ServletUnitClient sc;
     
     protected  LocalServiceTestHelper helper;
+
+    public static GaeSimulation inst() {
+        return instance;
+    }
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");
@@ -89,8 +88,7 @@ public class GaeSimulation {
         
         sc = new ServletRunner().newClient();
     }
-    
-    
+
     /**Logs in the user to the GAE simulation environment without admin rights.
      */
     public void loginUser(String userId) {
@@ -120,8 +118,8 @@ public class GaeSimulation {
     public void loginAsInstructor(String userId) {
         loginUser(userId);
         Logic logic = new Logic();
-        assertEquals(true, logic.getCurrentUser().isInstructor);
-        assertEquals(false, logic.getCurrentUser().isAdmin);
+        assertTrue(logic.getCurrentUser().isInstructor);
+        assertFalse(logic.getCurrentUser().isAdmin);
     }
 
     /**Logs in the user to the GAE simulation environment as a student 
@@ -130,9 +128,9 @@ public class GaeSimulation {
     public void loginAsStudent(String userId) {
         loginUser(userId);
         Logic logic = new Logic();
-        assertEquals(true, logic.getCurrentUser().isStudent);
-        assertEquals(false, logic.getCurrentUser().isInstructor);
-        assertEquals(false, logic.getCurrentUser().isAdmin);
+        assertTrue(logic.getCurrentUser().isStudent);
+        assertFalse(logic.getCurrentUser().isInstructor);
+        assertFalse(logic.getCurrentUser().isAdmin);
     }
     
     /** 
@@ -147,7 +145,7 @@ public class GaeSimulation {
 
     /** Refreshes the datastore by recreating it from scratch. */
     public void resetDatastore() {
-        if(helper!=null){
+        if (helper != null) {
             helper.tearDown();
         }
         helper.setUp();
@@ -155,7 +153,7 @@ public class GaeSimulation {
 
     public void tearDown() {
         try {
-            if(helper != null ) {
+            if (helper != null) {
                 helper.tearDown();
             }
         } catch (Exception e) {
@@ -164,8 +162,7 @@ public class GaeSimulation {
         }
     }
 
-
-    private HttpServletRequest createWebRequest(String uri, String... parameters){
+    private HttpServletRequest createWebRequest(String uri, String... parameters) {
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
         
@@ -185,12 +182,10 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 
     }
-
 
 }

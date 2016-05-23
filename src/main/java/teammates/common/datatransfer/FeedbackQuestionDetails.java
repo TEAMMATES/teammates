@@ -65,7 +65,7 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," +"Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + "," 
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
                + this.getCsvHeader() + Const.EOL;
@@ -77,13 +77,13 @@ public abstract class FeedbackQuestionDetails {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details
         String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
         String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
@@ -146,10 +146,7 @@ public abstract class FeedbackQuestionDetails {
      * @param recipientType
      * @return error message detailing the error, or an empty string if valid.
      */
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        // All giver/recipient types and visibility options are valid by default, so return ""
-        return "";
-    }
+    public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
     /**
      * Extract question details and sets details accordingly
@@ -188,12 +185,8 @@ public abstract class FeedbackQuestionDetails {
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
                                             FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        if (question.recipientType == FeedbackParticipantType.STUDENTS
-            || question.recipientType == FeedbackParticipantType.TEAMS) {
-            return false;
-        }
-
-        return true;
+        return question.recipientType != FeedbackParticipantType.STUDENTS 
+            && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
@@ -238,7 +231,5 @@ public abstract class FeedbackQuestionDetails {
         return getResponseRowsSortOrder() != null;
     }
 
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
-    }
+    public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
 }

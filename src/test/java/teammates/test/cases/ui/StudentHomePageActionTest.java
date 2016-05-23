@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -28,12 +25,12 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_HOME_PAGE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
@@ -48,7 +45,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                         r.getStatusMessage());
         
@@ -58,7 +55,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" 
                                     + "|||true|||Unregistered|||null|||unreg.user|||null" 
                                     + "|||Servlet Action Failure :Student with Google ID "
-                                    + "unreg.user does not exist|||/page/studentHomePage" ;
+                                    + "unreg.user does not exist|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("registered student with no courses");
@@ -86,7 +83,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="
                                           + studentWithoutCourses.googleId, 
                                           r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                           r.getStatusMessage());
         
@@ -97,7 +94,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||Unregistered|||Student Without Courses|||googleId.without.courses"
                              + "|||googleId.without.courses@email.tmt|||Servlet Action Failure "
                              + ":Student with Google ID googleId.without.courses does not exist"
-                             + "|||/page/studentHomePage" ;
+                             + "|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -112,7 +109,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/studentHome.jsp?error=false&user=" + studentId, 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
@@ -123,7 +120,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||Student(M)|||Student in two courses|||student2InCourse1"
                              + "|||student2InCourse1@gmail.tmt"
                              + "|||studentHome Page Load<br>Total courses: 2"
-                             + "|||/page/studentHomePage" ;
+                             + "|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -134,7 +131,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(1, data.getCourseTables().size());
         assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
         
@@ -168,7 +165,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }
 
-    private StudentHomePageAction getAction(String... params) throws Exception{
+    private StudentHomePageAction getAction(String... params) throws Exception {
             return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

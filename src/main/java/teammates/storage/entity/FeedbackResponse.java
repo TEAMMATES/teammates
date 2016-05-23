@@ -64,7 +64,7 @@ public class FeedbackResponse implements StoreCallback {
      **/
 
     @NotPersistent
-    public boolean keepUpdateTimestamp = false;
+    public boolean keepUpdateTimestamp;
     
     public String getId() {
         return feedbackResponseId;

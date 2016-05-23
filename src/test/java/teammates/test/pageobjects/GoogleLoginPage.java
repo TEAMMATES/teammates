@@ -15,13 +15,11 @@ public class GoogleLoginPage extends LoginPage {
     
     @FindBy(id = "signIn")
     private WebElement loginButton;
-    
-    
+
     @FindBy(id = "PersistentCookie")
     private WebElement staySignedCheckbox;
 
-
-    public GoogleLoginPage(Browser browser){
+    public GoogleLoginPage(Browser browser) {
         super(browser);
     }
 
@@ -30,7 +28,7 @@ public class GoogleLoginPage extends LoginPage {
         return containsExpectedPageContents(getPageSource());
     }
     
-    public static boolean containsExpectedPageContents(String pageSource){
+    public static boolean containsExpectedPageContents(String pageSource) {
         return pageSource.contains("Sign in with your Google Account");
     }
 
@@ -42,7 +40,6 @@ public class GoogleLoginPage extends LoginPage {
         return homePage;
     }
 
-    
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
         completeGoogleLoginSteps(userName, password);

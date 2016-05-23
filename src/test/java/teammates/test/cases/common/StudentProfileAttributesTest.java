@@ -1,11 +1,4 @@
-/**
- * 
- */
 package teammates.test.cases.common;
-
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-public class FeedbackQuestionFormTemplates {
+public final class FeedbackQuestionFormTemplates {
     public static String FEEDBACK_QUESTION_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionAdditionalInfoTemplate.html");
 
     public static String TEXT_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionTextSubmissionFormTemplate.html");
@@ -57,6 +57,7 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_SUBMISSION_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");
     public static String RUBRIC_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionRubricEditFormTemplate.html");
     public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
+    public static String RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormWeightFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
     public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
@@ -75,6 +76,9 @@ public class FeedbackQuestionFormTemplates {
     public static String RANK_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
     public static String RANK_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientFragment.html");
     
+    private FeedbackQuestionFormTemplates() {
+        // utility class
+    }
     
     /** Populates the feedback question form html templates by replacing 
      * variables in the template string with the given value string.
@@ -85,8 +89,8 @@ public class FeedbackQuestionFormTemplates {
      */
     public static String populateTemplate(String template, String... values) {
         String populatedTemplate = template;
-        for(int i=0; i < values.length; i += 2) {
-            populatedTemplate = populatedTemplate.replace(values[i], values[i+1]);
+        for (int i = 0; i < values.length; i += 2) {
+            populatedTemplate = populatedTemplate.replace(values[i], values[i + 1]);
         }
         
         return populatedTemplate;    

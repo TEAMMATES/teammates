@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -91,7 +89,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            // similar to the previous case, so not tested again
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
         }
 
         // remaining cases have been implicitly tested in testMakeStudent()
@@ -238,8 +236,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        int retVal = (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return retVal;
+        return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     private String[] invokeSplitLineIntoColumns(String line) throws Exception {
@@ -247,8 +244,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        String[] strs = (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return strs;
+        return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     @AfterClass

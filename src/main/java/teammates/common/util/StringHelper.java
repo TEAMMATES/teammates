@@ -14,14 +14,18 @@ import javax.crypto.spec.SecretKeySpec;
 
 /** Holds String-related helper functions
  */
-public class StringHelper {
+public final class StringHelper {
+    
+    private StringHelper() {
+        // utility class
+    }
 
     public static String generateStringOfLength(int length) {
         return StringHelper.generateStringOfLength(length, 'a');
     }
 
     public static String generateStringOfLength(int length, char character) {
-        assert (length >= 0);
+        Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(character);
@@ -71,7 +75,7 @@ public class StringHelper {
      * E.g., "12345678" truncated to length 6 returns "123..."
      */
     public static String truncate(String inputString, int truncateLength) {
-        if (!(inputString.length() > truncateLength)) {
+        if (inputString.length() <= truncateLength) {
             return inputString;
         }
         String result = inputString;
@@ -92,9 +96,8 @@ public class StringHelper {
         final int inputStringLength = inputString.length();
         if (inputStringLength <= maximumStringLength) {
             return inputString;
-        } else {
-            return inputString.substring(inputStringLength - maximumStringLength);
         }
+        return inputString.substring(inputStringLength - maximumStringLength);
     }
 
     /**
@@ -158,20 +161,19 @@ public class StringHelper {
      * @return Concatenated string.
      */
     public static String toString(List<String> strings, String delimiter) {
-        String returnValue = "";
-        
-        if (strings.size() == 0) {
-            return returnValue;
+        if (strings.isEmpty()) {
+            return "";
         }
         
+        StringBuilder returnValue = new StringBuilder();
         for (int i = 0; i < strings.size() - 1; i++) {
             String s = strings.get(i);
-            returnValue += s + delimiter;
+            returnValue.append(s).append(delimiter);
         }
         //append the last item
-        returnValue += strings.get(strings.size() - 1);
+        returnValue.append(strings.get(strings.size() - 1));
         
-        return returnValue;        
+        return returnValue.toString();
     }
     
     public static String toDecimalFormatString(double doubleVal) {
@@ -181,18 +183,18 @@ public class StringHelper {
 
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
-        if (hourOffsetTimeZone != 0) {
-            if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
-                utcFormatTimeZone += String.format(" %+03d:00", (int) hourOffsetTimeZone);
-            } else {
-                utcFormatTimeZone += String.format(
-                                            " %+03d:%02d",
-                                            (int) hourOffsetTimeZone,
-                                            (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-            }
+        if (hourOffsetTimeZone == 0) {
+            return utcFormatTimeZone;
         }
 
-        return utcFormatTimeZone;
+        if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
+            return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
+        }
+        
+        return utcFormatTimeZone + String.format(
+                                    " %+03d:%02d",
+                                    (int) hourOffsetTimeZone,
+                                    (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
     
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
@@ -259,8 +261,8 @@ public class StringHelper {
         String firstName;
         
         if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf("{");
-            int endIndex = fullName.indexOf("}");
+            int startIndex = fullName.indexOf('{');
+            int endIndex = fullName.indexOf('}');
             lastName = fullName.substring(startIndex + 1, endIndex);
             firstName = fullName.replace("{", "")
                                 .replace("}", "")
@@ -268,15 +270,14 @@ public class StringHelper {
                                 .trim();           
             
         } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
+            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
         
-        String[] splitNames = {firstName, lastName, processedfullName};       
-        return splitNames;
+        return new String[] {firstName, lastName, processedfullName}; 
     }
     
     
@@ -370,8 +371,7 @@ public class StringHelper {
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        str = handleNewLine(str);
-        String[] lines = str.split(Const.EOL);
+        String[] lines = handleNewLine(str).split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
 
@@ -425,7 +425,7 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                if (i + 1 < chars.length && chars[i + 1] == '"') {
                     i++;
                 } else {
                     inquote = !inquote;
@@ -476,15 +476,16 @@ public class StringHelper {
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
-        String result = "";
-        while (n > 0) {
-            n--; // 1 => a, not 0 => a
-            int remainder = n % 26;
+        StringBuilder result = new StringBuilder();
+        int n0 = n;
+        while (n0 > 0) {
+            n0--; // 1 => a, not 0 => a
+            int remainder = n0 % 26;
             char digit = (char) (remainder + 97);
-            result = digit + result;
-            n = (n - remainder) / 26;
+            result.append(digit);
+            n0 = (n0 - remainder) / 26;
         }
-        return result;
+        return result.reverse().toString();
     }
     
     /**
@@ -545,7 +546,7 @@ public class StringHelper {
         
         return str.substring(1, str.length() - 1);
     }
-	
+    
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

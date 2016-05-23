@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -22,7 +21,6 @@ import teammates.common.util.TimeHelper;
 import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
-    
 
     @FindBy(id = "fstype")
     private WebElement fsType;
@@ -109,7 +107,6 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement sortByIdIcon;
     
     public InstructorCopyFsToModal fsCopyToModal;
-    
 
     public InstructorFeedbacksPage(Browser browser) {
         super(browser);
@@ -121,7 +118,7 @@ public class InstructorFeedbacksPage extends AppPage {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
     }
     
-    public void selectSessionType(String visibleText){
+    public void selectSessionType(String visibleText) {
         selectDropdownByVisibleValue(fsType, visibleText);
     }
 
@@ -137,55 +134,54 @@ public class InstructorFeedbacksPage extends AppPage {
         return this;
     }
 
-    public void clickSubmitButton(){
+    public void clickSubmitButton() {
         submitButton.click();
         waitForPageToLoad();
     }
     
-    public void clickEditUncommonSettingsButton(){
+    public void clickEditUncommonSettingsButton() {
         uncommonSettingsButton.click();
     }
     
-    public void clickCustomVisibleTimeButton(){
+    public void clickCustomVisibleTimeButton() {
         customSessionVisibleTimeButton.click();
     }
 
-    public void clickCustomPublishTimeButton(){
+    public void clickCustomPublishTimeButton() {
         customResultsVisibleTimeButton.click();
     }
     
-    public void clickNeverVisibleTimeButton(){
+    public void clickNeverVisibleTimeButton() {
         neverSessionVisibleTimeButton.click();
     }
     
-    public void clickNeverPublishTimeButton(){
+    public void clickNeverPublishTimeButton() {
         neverResultsVisibleTimeButton.click();
     }
     
-    public void clickManualPublishTimeButton(){
+    public void clickManualPublishTimeButton() {
         manualResultsVisibleTimeButton.click();
     }
     
-    public void clickDefaultVisibleTimeButton(){
+    public void clickDefaultVisibleTimeButton() {
         defaultSessionVisibleTimeButton.click();
     }
     
-    public void clickDefaultPublishTimeButton(){
+    public void clickDefaultPublishTimeButton() {
         defaultResultsVisibleTimeButton.click();
     }
     
-    public void clickCopyButton(){
+    public void clickCopyButton() {
         copyButton.click();
     }
     
-    public void clickCopySubmitButton(){
+    public void clickCopySubmitButton() {
         copySubmitButton.click();
         waitForPageToLoad();
     }
-    
-    
+
     public void clickViewResponseLink(String courseId, String sessionName) {
-        getViewResponseLink(courseId,sessionName).click();
+        getViewResponseLink(courseId, sessionName).click();
         waitForPageToLoad();
     }
     
@@ -214,12 +210,12 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        String timeZoneString = "" + timeZone;
+        String timeZoneString = Double.toString(timeZone);
 
         double fractionalPart = timeZone % 1;
         
-        if (fractionalPart == 0.0){
-            timeZoneString = "" + (int) timeZone;
+        if (fractionalPart == 0.0) {
+            timeZoneString = Integer.toString((int) timeZone);
         }
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
@@ -239,13 +235,16 @@ public class InstructorFeedbacksPage extends AppPage {
     
         // Select grace period
         if (gracePeriod != -1) {
-            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
+            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
         }
     
         clickSubmitButton();
     }
     
-    public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
+        String copyButtonId = "button_copy";
+        this.waitForTextContainedInElementPresence(
+                By.id(copyButtonId), "Copy from previous feedback sessions");     
         clickCopyButton();        
         this.waitForElementVisibility(copiedFsNameTextBox);        
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
@@ -276,22 +275,22 @@ public class InstructorFeedbacksPage extends AppPage {
         button.click();
     }
     
-    public void fillStartTime (Date startTime) {
+    public void fillStartTime(Date startTime) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
     }
     
-    public void fillEndTime (Date endTime) {
+    public void fillEndTime(Date endTime) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
     }
     
-    public void fillVisibleTime (Date visibleTime) {
+    public void fillVisibleTime(Date visibleTime) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
     }
     
-    public void fillPublishTime (Date publishTime) {
+    public void fillPublishTime(Date publishTime) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
     }
@@ -301,7 +300,7 @@ public class InstructorFeedbacksPage extends AppPage {
             js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
             
             String timeDropdownId = timeDropdown.getAttribute("id");
-            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
             js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
@@ -311,7 +310,7 @@ public class InstructorFeedbacksPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest (String timeId, Calendar newValue) throws ParseException {
+    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) throws ParseException {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 
@@ -324,21 +323,21 @@ public class InstructorFeedbacksPage extends AppPage {
         js.executeScript("$('.ui-datepicker-current-day').click();");
     }
     
-    public String getValueOfDate (String timeId) {
+    public String getValueOfDate(String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         return (String) js.executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
                                          + "null : "
                                          + "$('#" + timeId + "').datepicker('getDate').toDateString();");
     }
     
-    public String getMinDateOf (String timeId) {
+    public String getMinDateOf(String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
                                          + "null : "
                                          + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
     }
     
-    public String getMaxDateOf (String timeId) {
+    public String getMaxDateOf(String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
                                          + "null : "
@@ -407,7 +406,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
-    public void verifyResponseValue(String responseRate, String courseId, String sessionName){
+    public void verifyResponseValue(String responseRate, String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         try {
@@ -416,7 +415,7 @@ public class InstructorFeedbacksPage extends AppPage {
                             By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
                             + "]/td[contains(@class,'session-response-for-test')]")),
                             responseRate));
-        } catch (TimeoutException e){
+        } catch (TimeoutException e) {
             fail("Not expected message");
         }
     }
@@ -455,7 +454,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-publish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -465,34 +464,33 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
     }
     
-    public boolean verifyHidden (By locator) {
+    public boolean verifyHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }
     
-    public boolean verifyEnabled (By locator) {
+    public boolean verifyEnabled(By locator) {
         return browser.driver.findElement(locator).isEnabled();
     }
     
-    public boolean verifyDisabled (By locator) {
+    public boolean verifyDisabled(By locator) {
         return !browser.driver.findElement(locator).isEnabled();
     }
     
-    public boolean verifyVisible (By locator) {
+    public boolean verifyVisible(By locator) {
         return browser.driver.findElement(locator).isDisplayed();
     }
     
     public boolean isContainingCssClass(By locator, String className) {
         return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
     }
-    
-    
-    public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
+
+    public InstructorFeedbackResultsPage loadViewResultsLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
         return goToLinkInRow(
@@ -501,7 +499,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 InstructorFeedbackResultsPage.class);
     }
     
-    public FeedbackSubmitPage loadSubmitLink (String courseId, String fsName) {
+    public FeedbackSubmitPage loadSubmitLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-submit-for-test";
         return goToLinkInRow(
@@ -510,7 +508,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 FeedbackSubmitPage.class);
     }
     
-    public InstructorFeedbackEditPage loadEditLink (String courseId, String fsName) {
+    public InstructorFeedbackEditPage loadEditLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-edit-for-test";
         return goToLinkInRow(
@@ -526,7 +524,7 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
         return browser.driver.findElement(
                 By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
-                + (int) (rowIndex + 1)+ "]//a[contains(@class,'" + className + "')]"));
+                + (int) (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
@@ -559,7 +557,7 @@ public class InstructorFeedbacksPage extends AppPage {
                              .getText();
     }
 
-    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
+    private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
         browser.driver.findElement(locator).click();
         waitForPageToLoad();
         return changePageType(destinationPageType);

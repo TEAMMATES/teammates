@@ -37,7 +37,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
     }
 
     public PendingCommentClearedMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         courseId = paramMap.get(ParamsNames.EMAIL_COURSE);
@@ -59,21 +59,15 @@ public class PendingCommentClearedMailAction extends EmailAction {
     @Override
     protected List<MimeMessage> prepareMailToBeSent()
             throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
-        List<MimeMessage> preparedEmails = null;
-        
         log.info("Fetching recipient emails for pending comments in course : "
                 + courseId);
         Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
         
-        if(recipients != null) {
-            preparedEmails = emailManager
-                            .generatePendingCommentsClearedEmails(courseId, recipients);
-        } else {
-            log.severe("Recipient emails for pending comments in course : " + courseId +
-                       " could not be fetched");
+        if (recipients == null) {
+            log.severe("Recipient emails for pending comments in course : " + courseId 
+                       + " could not be fetched");
         }
-        return preparedEmails;
+        return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);
     }
 
     private void initializeNameAndDescription() {

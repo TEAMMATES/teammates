@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.Arrays;
 
 import org.testng.annotations.BeforeClass;
@@ -28,8 +23,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private boolean isAbleToAddComment;
     private boolean hasSection;
     private String commentRecipient;
-    
-    
+
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();
@@ -114,7 +108,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String email = "john@doe.com";
         
         createStudent(name, email);
-        createStudentProfile(name, email, pictureKey);
+        createStudentProfile(email, pictureKey);
     }
     
     protected void createStudent(String name, String email) {
@@ -126,7 +120,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
     }
     
-    private void createStudentProfile(String name, String email, String pictureKey) {
+    private void createStudentProfile(String email, String pictureKey) {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "NationForJohnDoe";

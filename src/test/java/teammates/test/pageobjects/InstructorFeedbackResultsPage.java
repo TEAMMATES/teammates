@@ -27,12 +27,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "button_sortFromName")
     public WebElement sortTableGiverButton;
 
-    @FindBy(id = "button_sortToName")
-    private WebElement sortTableRecipientButton;
-
-    @FindBy(id = "button_sortFeedback")
-    private WebElement sortTableAnswerButton;
-
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
     
@@ -177,7 +171,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        if (commentText.equals("")) {
+        if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         } else {
@@ -263,7 +257,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public boolean verifyAllStatsVisibility() {
         for (WebElement e : browser.driver.findElements(By.className("resultStatistics"))) {
-            if (e.getCssValue("display").equals("none")) {
+            if ("none".equals(e.getCssValue("display"))) {
                 return false;
             }
         }
@@ -313,6 +307,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
             // row expected to be missing
+            return;
         }
     }
 
@@ -371,7 +366,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoLink = browser.driver.findElements(By.cssSelector('#'+idOfPanelBody + "> .panel-body > .row"))
+        WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
                                              .findElements(By.className("profile-pic-icon-hover"))
                                              .get(0);
@@ -397,15 +392,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * regarding unix systems and current testing version of Selenium and Firefox
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
-                                           ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
-                                           ".querySelectorAll('td')['" + tableCol + "']" +
-                                           ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        jsExecutor.executeScript(
+                "$(document.getElementById('" +  idOfQuestionBody + "')" 
+                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" 
+                + ".querySelectorAll('td')['" + tableCol + "']" 
+                + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
-        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
-                                           ".getElementsByTagName('a')[0].click();");
+        jsExecutor.executeScript(
+                "document.getElementsByClassName('popover-content')[0]" 
+                + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 

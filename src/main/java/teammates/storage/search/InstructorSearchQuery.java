@@ -27,7 +27,4 @@ public class InstructorSearchQuery extends SearchQuery {
         visibilityQueryString = "";
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
-    
-    
-    
 }

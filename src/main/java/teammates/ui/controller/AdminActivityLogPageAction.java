@@ -45,7 +45,7 @@ public class AdminActivityLogPageAction extends Action {
     private Long nextEndTimeToSearch;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException{
+    protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
@@ -54,16 +54,14 @@ public class AdminActivityLogPageAction extends Action {
         if (searchTimeOffset == null) {
             searchTimeOffset = "";
         }
-        String filterQuery = getRequestParamValue("filterQuery");
-        String courseIdFromSearchPage = getRequestParamValue("courseId");
         
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
         String logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
         
-        boolean isLoadingLocalTimeAjax = (logRoleFromAjax != null)
-                                         && (logGoogleIdFromAjax != null)
-                                         && (logTimeInAdminTimeZoneFromAjax != null);
+        boolean isLoadingLocalTimeAjax = logRoleFromAjax != null
+                                         && logGoogleIdFromAjax != null
+                                         && logTimeInAdminTimeZoneFromAjax != null;
         
         if (isLoadingLocalTimeAjax) {
             data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax, 
@@ -84,13 +82,14 @@ public class AdminActivityLogPageAction extends Action {
 //      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.       
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
+        String filterQuery = getRequestParamValue("filterQuery");
         if (filterQuery == null) {
             filterQuery = "";
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
-        boolean isContinueFromPreviousSearch = (!data.isFromDateSpecifiedInQuery()) && (!searchTimeOffset.isEmpty());
+        boolean isContinueFromPreviousSearch = !data.isFromDateSpecifiedInQuery() && !searchTimeOffset.isEmpty();
         if (isContinueFromPreviousSearch) {
             data.setToDate(Long.parseLong(searchTimeOffset));
         }
@@ -105,7 +104,8 @@ public class AdminActivityLogPageAction extends Action {
             logs = searchLogsWithTimeIncrement(query, data);
         }
         
-        generateStatusMessage(versionToQuery, query, data, logs, courseIdFromSearchPage);
+        String courseIdFromSearchPage = getRequestParamValue("courseId");
+        generateStatusMessage(versionToQuery, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
         if (searchTimeOffset.isEmpty()) {
@@ -120,7 +120,7 @@ public class AdminActivityLogPageAction extends Action {
      * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {
-        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        boolean isVersionSpecifiedInRequest = versions != null && !versions.isEmpty();
         if (isVersionSpecifiedInRequest) {
             return versions;
         }
@@ -128,11 +128,13 @@ public class AdminActivityLogPageAction extends Action {
         return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
     }
     
-    private void generateStatusMessage(List<String> versionToQuery, AdminLogQuery query, 
+    private void generateStatusMessage(List<String> versionToQuery, 
                                        AdminActivityLogPageData data, 
                                        List<ActivityLogEntry> logs, String courseId) {
-        String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
-        status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
+        StringBuilder status = new StringBuilder(500); 
+        status.append("Total Logs gone through in last search: " + totalLogsSearched
+                    + "<br>Total Relevant Logs found in last search: "
+                    + String.format("%s<br>", logs.size()));
         
         long earliestSearchTime = data.getFromDate();
         ActivityLogEntry earliestLogChecked = null;
@@ -140,7 +142,7 @@ public class AdminActivityLogPageAction extends Action {
             earliestLogChecked = logs.get(logs.size() - 1);
         }
         //  if the search space is limited to a certain log
-        if ((logs.size() >= RELEVANT_LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+        if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
             earliestSearchTime = earliestLogChecked.getTime();
         }
         
@@ -149,11 +151,9 @@ public class AdminActivityLogPageAction extends Action {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
 
-            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED && courseId != null && !courseId.isEmpty()) {
                 // if the user is unregistered, try finding the timezone by course id passed from Search page
-                if ((courseId != null) && (!courseId.isEmpty())) {
-                    targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
-                }
+                targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
             }
         } else {
             targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
@@ -162,44 +162,48 @@ public class AdminActivityLogPageAction extends Action {
         double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
         String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
-        status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
-                  + adminTimeZone + ") and ";
-        if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
-            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
+
+        status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                      + adminTimeZone + ") and ");
+        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            status.append(timeInUserTimeZone).append(".<br>");
         } else {
-            status += timeInUserTimeZone + ".<br>";
+            status.append("on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>");
         }
         
-        status += "Logs are from following version(s): ";
+        status.append("Logs are from following version(s): ");
         for (int i = 0; i < versionToQuery.size(); i++) {
             String version = versionToQuery.get(i).replace('-', '.');
             if (i < versionToQuery.size() - 1) {
-                status += version + ", ";
+                status.append(version).append(", ");
             } else {
-                status += version + "<br>";
+                status.append(version).append("<br>");
             }
         }
         
-        status += "All available version(s): ";
+        status.append("All available version(s): ");
         GaeVersionApi versionApi = new GaeVersionApi();
         List<Version> versionList = versionApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
-                status += version + ", ";
+                status.append(version).append(", ");
             } else {
-                status += version + "<br>";
+                status.append(version).append("<br>");
             }
         }
         
         // the "Search More" button to continue searching from the previous fromDate 
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + nextEndTimeToSearch + ");\">Search More</button>";
+        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
+                      + nextEndTimeToSearch
+                      + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
+                      + data.getIfShowAll()
+                      + "\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\""
+                      + data.getIfShowTestData() + "\"/>");
         
-        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
-        status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
-        
-        data.setStatusForAjax(status);
-        statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
+        String statusString = status.toString();
+        data.setStatusForAjax(statusString);
+        statusToUser.add(new StatusMessage(statusString, StatusMessageColor.INFO));
     }
 
     /**
@@ -214,7 +218,7 @@ public class AdminActivityLogPageAction extends Action {
         long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
         query.setTimePeriod(startTime, query.getEndTime());
         
-        for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
+        for (int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
@@ -249,7 +253,7 @@ public class AdminActivityLogPageAction extends Action {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
-            boolean isNotTeammatesLog = (!logMsg.contains("TEAMMATESLOG"));
+            boolean isNotTeammatesLog = !logMsg.contains("TEAMMATESLOG");
             boolean isLogFromAdminActivityLogPage = logMsg.contains("adminActivityLogPage");
             if (isNotTeammatesLog || isLogFromAdminActivityLogPage) {
                 continue;
@@ -258,7 +262,7 @@ public class AdminActivityLogPageAction extends Action {
             ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
             activityLogEntry = data.filterLogs(activityLogEntry);
             
-            boolean isToShow = activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData());
+            boolean isToShow = activityLogEntry.toShow() && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
             if (!isToShow) {
                 continue;
             }
@@ -272,13 +276,13 @@ public class AdminActivityLogPageAction extends Action {
     }
 
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
-        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
-        if ((userRole != null) && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
+        if (userRole != null && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
             return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
         
         Logic logic = new Logic();
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         if (userGoogleId != null && !userGoogleId.isEmpty()) {
             try {
                 localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
@@ -314,7 +318,7 @@ public class AdminActivityLogPageAction extends Action {
         Logic logic = new Logic();
         
         for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.id); 
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId()); 
             if (fsl != null && !fsl.isEmpty()) {
                 return fsl.get(0).timeZone;
             }
@@ -343,21 +347,21 @@ public class AdminActivityLogPageAction extends Action {
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
-        } else if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
+        } 
+        if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
             String coureseId = logRole.split(":")[1];
             return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
-        } else {
-            return Const.DOUBLE_UNINITIALIZED;
-        }
+        } 
+        
+        return Const.DOUBLE_UNINITIALIZED;    
     }
     
     private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
-        if (timeZone != Const.DOUBLE_UNINITIALIZED) {
-            return computeLocalTime(timeZone, logTimeInAdminTimeZone);
-        } else {
+        if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
-        }
+        } 
+        return computeLocalTime(timeZone, logTimeInAdminTimeZone);
     }
     
     private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {

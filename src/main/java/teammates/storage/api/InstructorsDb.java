@@ -34,32 +34,32 @@ import teammates.storage.search.InstructorSearchQuery;
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  * 
  */
-public class InstructorsDb extends EntitiesDb{
+public class InstructorsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
-    
-    
+
     /* =========================================================================
      * Methods related to Google Search API
      * =========================================================================
      */
     
-    public void putDocument(InstructorAttributes instructor){
-        if(instructor.key == null){
+    public void putDocument(InstructorAttributes instructorParam) {
+        InstructorAttributes instructor = instructorParam;
+        if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
         // defensive coding for legacy data
-        if(instructor.key != null) {
+        if (instructor.key != null) {
             putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
         }
     }
     
-    public void deleteDocument(InstructorAttributes instructorToDelete){
-        if(instructorToDelete.key == null){
+    public void deleteDocument(InstructorAttributes instructorToDelete) {
+        if (instructorToDelete.key == null) {
             InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
             
             // handle legacy data which do not have key attribute (key == null)
-            if(instructor.key != null) {
+            if (instructor.key != null) {
                 deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
             }
         } else {
@@ -76,9 +76,9 @@ public class InstructorsDb extends EntitiesDb{
      * @return null if no result found
      */ 
     
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
         
-        if(queryString.trim().isEmpty()){
+        if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();
         }
         
@@ -87,24 +87,22 @@ public class InstructorsDb extends EntitiesDb{
         
         return new InstructorSearchResultBundle().getInstructorsfromResults(results);
     }
-    
-    
+
     /* =========================================================================
      * =========================================================================
      */
-    
-    
-    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
+
+    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
-        for(InstructorAttributes instructor: instructorsToAdd){
-            if(!instructorsToUpdate.contains(instructor)){
+        for (InstructorAttributes instructor: instructorsToAdd) {
+            if (!instructorsToUpdate.contains(instructor)) {
                 putDocument(instructor);
             }
         }
         
-        for(EntityAttributes entity : instructorsToUpdate){
+        for (EntityAttributes entity : instructorsToUpdate) {
             InstructorAttributes instructor = (InstructorAttributes) entity;
             try {
                 updateInstructorByEmail(instructor);
@@ -116,9 +114,8 @@ public class InstructorsDb extends EntitiesDb{
             putDocument(instructor);
         }
     }
-    
-    
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
+
+    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
 
@@ -132,8 +129,8 @@ public class InstructorsDb extends EntitiesDb{
         }
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{  
-        Instructor instructor = (Instructor)createEntity(instructorToAdd);
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException {  
+        Instructor instructor = (Instructor) createEntity(instructorToAdd);
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
         }
@@ -153,14 +150,13 @@ public class InstructorsDb extends EntitiesDb{
         Instructor i = getInstructorEntityForEmail(courseId, email);
     
         if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + courseId +"/"+ email );
+            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email);
             return null;
         }
     
         return new InstructorAttributes(i);
     }
 
-    
     /**
      * @return null if no matching objects. 
      */
@@ -182,12 +178,11 @@ public class InstructorsDb extends EntitiesDb{
     /**
      * @return null if no matching instructor.
      */
-    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey){
+    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
-        encryptedKey = encryptedKey.trim();
-        String decryptedKey = StringHelper.decrypt(encryptedKey);
+        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
@@ -210,7 +205,7 @@ public class InstructorsDb extends EntitiesDb{
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -232,7 +227,7 @@ public class InstructorsDb extends EntitiesDb{
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -253,7 +248,7 @@ public class InstructorsDb extends EntitiesDb{
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
-            if(!JDOHelper.isDeleted(i)){
+            if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(new InstructorAttributes(i));
             }
         }
@@ -272,7 +267,7 @@ public class InstructorsDb extends EntitiesDb{
         List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Instructor instructor = it.next();
             
             if (!JDOHelper.isDeleted(instructor)) {
@@ -281,7 +276,6 @@ public class InstructorsDb extends EntitiesDb{
         }    
         return list;
     }
-    
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
@@ -301,7 +295,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.googleId);
         
-        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
+        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
                         + ThreadHelper.getCurrentThreadStack());
         }
@@ -340,7 +334,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.email);
         
-        if (instructorToUpdate == null){
+        if (instructorToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
                         + ThreadHelper.getCurrentThreadStack());
         }
@@ -380,11 +374,11 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
   
         // Check delete operation persisted
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-            while ((instructorCheck != null)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while (instructorCheck != null
+                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 instructorCheck = getInstructorEntityForEmail(courseId, email);
                 elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -397,20 +391,20 @@ public class InstructorsDb extends EntitiesDb{
         }
         
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-        if(instructorCheck != null){
+        if (instructorCheck != null) {
             putDocument(new InstructorAttributes(instructorCheck));
         }
 
         //TODO: reuse the method in the parent class instead
     }
     
-    public void deleteInstructorsForCourses(List<String> courseIds){
+    public void deleteInstructorsForCourses(List<String> courseIds) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
         
-        for(Instructor instructor : instructorsToDelete){        
+        for (Instructor instructor : instructorsToDelete) {        
             deleteDocument(new InstructorAttributes(instructor)); 
         }
         
@@ -428,7 +422,7 @@ public class InstructorsDb extends EntitiesDb{
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
         
-        for(Instructor instructor : instructorList){        
+        for (Instructor instructor : instructorList) {        
             deleteDocument(new InstructorAttributes(instructor)); 
         } 
         
@@ -447,13 +441,12 @@ public class InstructorsDb extends EntitiesDb{
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
         
-        for(Instructor instructor : instructorList){        
+        for (Instructor instructor : instructorList) {        
             deleteDocument(new InstructorAttributes(instructor)); 
         }        
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
-        
-        
+
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
@@ -490,7 +483,7 @@ public class InstructorsDb extends EntitiesDb{
         return instructorList.get(0);
     }
     
-    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds){
+    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(Instructor.class);
         q.setFilter(":p.contains(courseId)");
         
@@ -522,8 +515,7 @@ public class InstructorsDb extends EntitiesDb{
         Query q = getPM().newQuery(Instructor.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
-        
-        
+
         @SuppressWarnings("unchecked")
         List<Instructor> instructorList = (List<Instructor>) q.execute(googleId);
         
@@ -534,20 +526,18 @@ public class InstructorsDb extends EntitiesDb{
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
-            return getInstructorEntitiesForGoogleId(googleId);
-        } else {
+        if (omitArchived) {
             Query q = getPM().newQuery(Instructor.class);
             q.declareParameters("String googleIdParam, boolean omitArchivedParam");
             // Omit archived == true, get instructors with isArchived != true
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
-            @SuppressWarnings("unchecked")
-            List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-            return instructorList;
+            return (List<Instructor>) q.execute(googleId, omitArchived);
         }
+        return getInstructorEntitiesForGoogleId(googleId);
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {
@@ -592,7 +582,6 @@ public class InstructorsDb extends EntitiesDb{
             
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }
-    
 
 }
 

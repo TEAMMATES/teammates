@@ -70,10 +70,8 @@ public class CommentsDb extends EntitiesDb {
         if (createdEntity == null) {
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
-        } else {
-            CommentAttributes createdComment = new CommentAttributes(createdEntity);
-            return createdComment;
         }
+        return new CommentAttributes(createdEntity);
     }
     
     /**
@@ -99,9 +97,8 @@ public class CommentsDb extends EntitiesDb {
         if (comment == null) {
             log.info("Trying to get non-existent Comment: " + commentId);
             return null;
-        } else {
-            return new CommentAttributes(comment);
         }
+        return new CommentAttributes(comment);
     }
     
     /*
@@ -120,9 +117,8 @@ public class CommentsDb extends EntitiesDb {
         if (comment == null || JDOHelper.isDeleted(comment)) {
             log.info("Trying to get non-existent Comment: " + commentToGet);
             return null;
-        } else {
-            return new CommentAttributes(comment);
         }
+        return new CommentAttributes(comment);
     }
     
     /*
@@ -192,7 +188,7 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> comments = getCommentEntitiesForRecipients(courseId, recipientType, receiverEmail);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
-        for(Comment comment : comments) {
+        for (Comment comment : comments) {
             if (!JDOHelper.isDeleted(comment)) {
                 commentAttributesList.add(new CommentAttributes(comment));
             }
@@ -514,7 +510,7 @@ public class CommentsDb extends EntitiesDb {
         
         List<CommentAttributes> list = new ArrayList<CommentAttributes>();
         List<Comment> entities = getAllCommentEntities();
-        for(Comment comment : entities) {
+        for (Comment comment : entities) {
             list.add(new CommentAttributes(comment));
         }
         return list;
@@ -637,10 +633,10 @@ public class CommentsDb extends EntitiesDb {
         CommentAttributes commentToGet = (CommentAttributes) attributes;
         if (commentToGet.getCommentId() != null) {
             return getCommentEntity(commentToGet.getCommentId());
-        } else {
-            return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                                    commentToGet.recipients, commentToGet.createdAt);
-        }
+        } 
+        
+        return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
+                                commentToGet.recipients, commentToGet.createdAt);
     }
     
     // Gets a comment entity if the ID is known

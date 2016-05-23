@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import java.util.Calendar;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -37,8 +33,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         testViewActionsLink();
         testInputValidation();
     }
-    
-    
+
     private void testUserTimezone() {
         logPage.clickUserTimezoneAtFirstRow();
         logPage.waitForAjaxLoaderGifToDisappear();
@@ -86,9 +81,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertTrue(logPage.getStatus().contains("in Local Time Zone") 
                    || logPage.getStatus().contains("Local Time Unavailable"));
     }
-    
-    
-    public void testViewActionsLink(){
+
+    public void testViewActionsLink() {
         
         ______TS("Link: recent actions link");
         
@@ -102,16 +96,18 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
              * This can happen if this test is run right after the server is started.
              * In this case, no view actions can be done.
              */
+            ignorePossibleException();
         } catch (IndexOutOfBoundsException exceptionFromInvisibleTmtLogs) {
             /*
              * This can happen if all the log entries are from test accounts
              * (i.e emails ending with .tmt) because they are invisible.
              * In this case, no view actions can be done.
              */
+            ignorePossibleException();
         }
     }
     
-    public void testInputValidation(){
+    public void testInputValidation() {
         
         ______TS("invalid query format");
         
@@ -128,8 +124,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
         
     }
-    
-    
+
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);

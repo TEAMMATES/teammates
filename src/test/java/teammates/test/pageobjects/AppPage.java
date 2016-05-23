@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
@@ -28,7 +30,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -41,9 +42,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
-import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -68,15 +67,12 @@ public abstract class AppPage {
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     
-    static final long ONE_MINUTE_IN_MILLIS=60000;
+    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
     
     /** These are elements common to most pages in our app */
-    @SuppressWarnings("unused")
-    private void ____Common_page_elements___________________________________() {
-    }
     @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
@@ -118,11 +114,7 @@ public abstract class AppPage {
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
-    
-    @SuppressWarnings("unused")
-    private void ____creation_and_navigation_______________________________() {
-    }
-    
+
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -154,7 +146,7 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage){
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
         return createNewPage(currentBrowser, typeOfPage);
     }
@@ -163,14 +155,14 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage){
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
         return createNewPage(currentBrowser, typeOfPage);
     }
     
     /**
      * Gives an AppPage instance based on the given Browser.
      */
-    public static AppPage getNewPageInstance(Browser currentBrowser){
+    public static AppPage getNewPageInstance(Browser currentBrowser) {
         return getNewPageInstance(currentBrowser, GenericAppPage.class);
     }
 
@@ -178,14 +170,14 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfDestinationPage}.
      */
-    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage){
+    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage) {
         return getNewPageInstance(browser, url, typeOfDestinationPage);
     }
     
     /**
      * Simply loads the given URL. 
      */
-    public AppPage navigateTo(Url url){
+    public AppPage navigateTo(Url url) {
         browser.driver.get(url.toAbsoluteString());
         return this;
     }
@@ -207,7 +199,7 @@ public abstract class AppPage {
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
-                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+                return "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"));
             }
         });
     }
@@ -215,7 +207,7 @@ public abstract class AppPage {
     /**
      * Waits until the element is not covered by any other element.
      */
-    public void waitForElementNotCovered(final WebElement element){
+    public void waitForElementNotCovered(final WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
@@ -224,7 +216,7 @@ public abstract class AppPage {
         });
     }
     
-    public void waitForElementVisibility(WebElement element){
+    public void waitForElementVisibility(WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -242,7 +234,7 @@ public abstract class AppPage {
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
-    public void waitForElementToDisappear(By by){
+    public void waitForElementToDisappear(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
@@ -273,7 +265,7 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) {
+                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -297,7 +289,7 @@ public abstract class AppPage {
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By by){
+    public void waitForElementPresence(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
@@ -319,6 +311,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementPresence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+    }
+    
+    /**
+     * Waits for text contained in the element to disappear from the page, or timeout
+     */
+    public void waitForTextContainedInElementAbsence(By by, String text) {
+        WebDriverWait wait =  new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
     /**
@@ -444,21 +444,16 @@ public abstract class AppPage {
         waitForPageToLoad();
         if (TestProperties.inst().isDevServer()) {
             return changePageType(DevServerLoginPage.class);
-        } else {
-            return changePageType(GoogleLoginPage.class);
         }
+        return changePageType(GoogleLoginPage.class);
     }
 
     /**
      * Click the 'logout' link in the top menu of the page.
      */
-    public AppPage logout(){
+    public AppPage logout() {
         logoutButton.click();
         return this;
-    }
-    
-    @SuppressWarnings("unused")
-    private void ____accessing_elements___________________________________() {
     }
     
     /**
@@ -481,14 +476,9 @@ public abstract class AppPage {
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws Exception {
-        
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     public void click(By by) {
@@ -525,7 +515,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
-        if(!checkBox.isSelected()){
+        if (!checkBox.isSelected()) {
             checkBox.click();
         }
     }
@@ -534,7 +524,7 @@ public abstract class AppPage {
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if(checkBox.isSelected()){
+        if (checkBox.isSelected()) {
             checkBox.click();
         }
     }
@@ -578,7 +568,7 @@ public abstract class AppPage {
      * status message in the page.
      */
     public String getStatus() {
-        return statusMessage == null? "" : statusMessage.getText();
+        return statusMessage == null ? "" : statusMessage.getText();
     }
 
     /** 
@@ -666,7 +656,7 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public void clickAndCancel(WebElement elementToClick){
+    public void clickAndCancel(WebElement elementToClick) {
         respondToAlertWithRetry(elementToClick, false);
         waitForPageToLoad();
     }
@@ -676,19 +666,15 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public void clickHiddenElementAndCancel(String elementId){
+    public void clickHiddenElementAndCancel(String elementId) {
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
-    }
-    
-    @SuppressWarnings("unused")
-    private void ____verification_methods___________________________________() {
     }
 
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
      */
-    protected abstract boolean containsExpectedPageContents() ;
+    protected abstract boolean containsExpectedPageContents();
 
     /**
      * @return True if there is a corresponding element for the given locator.
@@ -701,7 +687,7 @@ public abstract class AppPage {
      * @return True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
-        try{
+        try {
             browser.driver.findElement(By.id(elementId));
             return true;
         } catch (NoSuchElementException e) {
@@ -710,7 +696,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementVisible(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -718,7 +704,7 @@ public abstract class AppPage {
     }
 
     public boolean isElementVisible(By by) {
-        try{
+        try {
             return browser.driver.findElement(by).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -726,7 +712,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementVisible(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -734,7 +720,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementEnabled(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -742,7 +728,7 @@ public abstract class AppPage {
     }
     
     public boolean isNamedElementEnabled(String elementName) {
-        try{
+        try {
             return browser.driver.findElement(By.name(elementName)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
@@ -750,7 +736,7 @@ public abstract class AppPage {
     }
     
     public boolean isElementSelected(String elementId) {
-        try{
+        try {
             return browser.driver.findElement(By.id(elementId)).isSelected();
         } catch (NoSuchElementException e) {
             return false;
@@ -771,7 +757,7 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        Assert.assertNotNull(element.getAttribute("disabled"));
+        assertNotNull(element.getAttribute("disabled"));
     }
 
     /**
@@ -781,7 +767,7 @@ public abstract class AppPage {
      * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
-    public void verifyTablePattern(int column, String patternString){
+    public void verifyTablePattern(int column, String patternString) {
         verifyTablePattern(0, column, patternString);
     }
     
@@ -792,11 +778,11 @@ public abstract class AppPage {
      * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
-    public void verifyTablePattern(int tableNum, int column, String patternString){
+    public void verifyTablePattern(int tableNum, int column, String patternString) {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for(int row=1;row < splitString.length;row++){
+        for (int row = 1; row < splitString.length; row++) {
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
@@ -814,12 +800,10 @@ public abstract class AppPage {
         return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath) throws IOException {
+    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
@@ -842,7 +826,7 @@ public abstract class AppPage {
                 actual = getPageSource(by);
             }
             
-        } catch (IOException|AssertionError e) {
+        } catch (IOException | AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
@@ -866,18 +850,18 @@ public abstract class AppPage {
     }
     
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
-        if (content != null && !content.isEmpty()) {
-            TestProperties.inst().verifyReadyForGodMode();
-            try {
-                String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-                saveCurrentPage(filePath, processedPageSource);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        } else {
+        if (content == null || content.isEmpty()) { 
             return false;
         }
+        
+        TestProperties.inst().verifyReadyForGodMode();
+        try {
+            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+            saveCurrentPage(filePath, processedPageSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
     
     /**
@@ -918,7 +902,7 @@ public abstract class AppPage {
      * Verifies the status message in the page is same as the one specified.
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyStatus(String expectedStatus){
+    public AppPage verifyStatus(String expectedStatus) {
         
         // The check is done multiple times with waiting times in between to account for
         // timing issues due to page load, inconsistencies in Selenium API, etc.
@@ -935,9 +919,10 @@ public abstract class AppPage {
                 if (expectedStatus.equals(getStatus())) {
                     break;
                 }
-            } catch (StaleElementReferenceException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
+                ThreadHelper.waitFor(0);
             }
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
@@ -972,10 +957,10 @@ public abstract class AppPage {
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
         
-        if (downloadedFile.exists()){ 
+        if (downloadedFile.exists()) { 
             downloadedFile.delete();
         }
-        if (downloadedFile.canWrite() == false){ 
+        if (!downloadedFile.canWrite()) { 
             downloadedFile.setWritable(true);
         }
         
@@ -994,7 +979,7 @@ public abstract class AppPage {
         response.getEntity().getContent().close();
  
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
-        assertEquals(true, new File(downloadedFileAbsolutePath).exists());
+        assertTrue(new File(downloadedFileAbsolutePath).exists());
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);
@@ -1002,7 +987,7 @@ public abstract class AppPage {
         client.close();
     }
     
-    public void verifyFieldValue (String fieldId, String expectedValue) {
+    public void verifyFieldValue(String fieldId, String expectedValue) {
         assertEquals(expectedValue,
                 browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
     }
@@ -1018,10 +1003,6 @@ public abstract class AppPage {
         assertFalse(pageSource.contains(searchString));
         return this;
     }
-        
-    @SuppressWarnings("unused")
-    private void ____private_utility_methods________________________________() {
-    }
     
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
@@ -1035,26 +1016,25 @@ public abstract class AppPage {
         }
     }
 
-
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm) {
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
     
     private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
+        jsExecutor.executeScript("document.getElementById('" + hiddenElementIdToClick + "').click();");
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
-        if(isConfirm){
+        if (isConfirm) {
             alert.accept();
-        }else {
+        } else {
             alert.dismiss();
         }
     }
@@ -1064,11 +1044,12 @@ public abstract class AppPage {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
         } catch (NoSuchElementException alreadydisappears) {
             // ok to ignore
+            return;
         }
     }
 
     public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360,640));
+        browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
 
     public void changeToDesktopView() {

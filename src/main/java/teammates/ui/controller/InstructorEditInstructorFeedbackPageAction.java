@@ -1,12 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -24,6 +17,21 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String instructorUnderModerationEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        
+        new GateKeeper().verifyAccessible(
+                                        logic.getInstructorForGoogleId(courseId, account.googleId), 
+                                        logic.getFeedbackSession(feedbackSessionName, courseId),
+                                        false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                
+        InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
+
+        // If the instructor doesn't exist
+        if (instructorUnderModeration == null) {
+            throw new EntityDoesNotExistException("Instructor Email "
+                    + instructorUnderModerationEmail + " does not exist in " + courseId
+                    + ".");
+        }
+                                
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
@@ -35,20 +43,6 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON), 
                                  instructorUnderModerationEmail);
-
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
-        InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
-
-        // If the instructor doesn't exist
-        if (instructorUnderModeration == null) {
-            throw new EntityDoesNotExistException("Instructor Email "
-                    + instructorUnderModerationEmail + " does not exist in " + courseId
-                    + ".");
-        }
 
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
 
@@ -69,9 +63,9 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
             data.setModeratedQuestionId(moderatedQuestionId);
         }
 
-        statusToAdmin = "Moderating feedback session for instructor (" + instructorUnderModeration.email + ")<br>" +
-                        "Session Name: " + feedbackSessionName + "<br>" +
-                        "Course ID: " + courseId;
+        statusToAdmin = "Moderating feedback session for instructor (" + instructorUnderModeration.email + ")<br>" 
+                      + "Session Name: " + feedbackSessionName + "<br>" 
+                      + "Course ID: " + courseId;
         
         data.bundle.hideUnmoderatableQuestions();
         data.init(courseId);

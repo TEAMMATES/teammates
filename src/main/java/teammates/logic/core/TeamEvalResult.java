@@ -37,8 +37,7 @@ public class TeamEvalResult {
     // List of student email's.
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
-    public List<String> studentEmails = null;
-    
+    public List<String> studentEmails;
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the 
@@ -92,7 +91,6 @@ public class TeamEvalResult {
 
         log.fine("==================");
     }
-    
 
     /**
      * Replaces all missing points (for various reasons such as 'not sure' or
@@ -104,8 +102,8 @@ public class TeamEvalResult {
         for (int i = 0; i < teamSize; i++) {
             for (int j = 0; j < teamSize; j++) {
                 int points = input[i][j];
-                boolean pointsNotGiven = (points == Const.POINTS_NOT_SUBMITTED)
-                        || (points == Const.POINTS_NOT_SURE);
+                boolean pointsNotGiven = points == Const.POINTS_NOT_SUBMITTED
+                                         || points == Const.POINTS_NOT_SURE;
                 output[i][j] = pointsNotGiven ? NA : points;
             }
         }
@@ -181,17 +179,11 @@ public class TeamEvalResult {
     }
 
     private static boolean isSanitized(int i) {
-        if (i == NSU) {
-            return false;
-        }
-        if (i == NSB) {
-            return false;
-        }
-        return true;
+        return i != NSB && i != NSU;
     }
 
     private static boolean isSpecialValue(int value) {
-        return (value == NA) || (value == NSU) || (value == NSB);
+        return value == NA || value == NSU || value == NSB;
     }
 
     private static double[][] multiplyByFactor(double factor, double[][] input) {
@@ -208,10 +200,10 @@ public class TeamEvalResult {
         double[] output = new double[teamSize];
         for (int j = 0; j < teamSize; j++) {
             double value = input[j];
-            if (!isSpecialValue((int) value)) {
-                output[j] = (factor == 0 ? value : value * factor);
-            } else {
+            if (isSpecialValue((int) value)) {
                 output[j] = value;
+            } else {
+                output[j] = (factor == 0 ? value : value * factor);
             }
         }
         return output;
@@ -230,7 +222,6 @@ public class TeamEvalResult {
     }
 
     public static double sum(double[] input) {
-        double sum = NA;
         if (input.length == 0) {
             return 0;
         }
@@ -238,6 +229,7 @@ public class TeamEvalResult {
         verify("Unsanitized value in " + Arrays.toString(input),
                 isSanitized(doubleToInt(input)));
 
+        double sum = NA;
         for (int i = 0; i < input.length; i++) {
 
             double value = input[i];
@@ -304,10 +296,12 @@ public class TeamEvalResult {
         return factor;
     }
 
+    // Suppress PMD.AvoidArrayLoops since the arrays are of different types
+    @SuppressWarnings("PMD.AvoidArrayLoops")
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];
+            converted[i] = input[i];  
         }
         return converted;
     }
@@ -353,22 +347,21 @@ public class TeamEvalResult {
     private static double averageColumn(double[][] array, int columnIndex) {
         double sum = 0;
         int count = 0;
-        String values = "";
+        StringBuilder values = new StringBuilder();
         for (int j = 0; j < array.length; j++) {
             double value = array[j][columnIndex];
 
-            values = values + value + " ";
+            values.append(value).append(' ');
             if (value == NA) {
                 continue;
-            } else {
-                sum += value;
-                count++;
             }
+            sum += value;
+            count++;
         }
         // omit calculation if no data points
         double average = count == 0 ? NA : (double) (sum / count);
 
-        String logMessage = "Average(" + values.trim() + ") = " + average;
+        String logMessage = "Average(" + values.toString().trim() + ") = " + average;
         log.fine(replaceMagicNumbers(logMessage));
 
         return average;
@@ -383,35 +376,33 @@ public class TeamEvalResult {
     }
 
     public static String pointsToString(double[][] array) {
-        String returnValue = "";
-        boolean isSquareArray = (array.length == array[0].length);
+        StringBuilder returnValue = new StringBuilder();
+        boolean isSquareArray = array.length == array[0].length;
         int teamSize = (array.length - 1) / 3;
         int firstDividerLocation = teamSize - 1;
         int secondDividerLocation = teamSize * 2 - 1;
         int thirdDividerLocation = secondDividerLocation + 1;
         for (int i = 0; i < array.length; i++) {
-            returnValue = returnValue + Arrays.toString(array[i]) + Const.EOL;
+            returnValue.append(Arrays.toString(array[i])).append(Const.EOL);
             if (isSquareArray) {
                 continue;
             }
-            if ((i == firstDividerLocation) || (i == secondDividerLocation)
-                    || (i == thirdDividerLocation)) {
-                returnValue = returnValue + "======================="
-                        + Const.EOL;
+            if (i == firstDividerLocation || i == secondDividerLocation
+                || i == thirdDividerLocation) {
+                returnValue.append("=======================")
+                           .append(Const.EOL);
             }
         }
-        returnValue = replaceMagicNumbers(returnValue);
-        return returnValue;
+        return replaceMagicNumbers(returnValue.toString());
     }
 
     /** replaces 999 etc. with NA, NSB, NSU etc.
      */
     public static String replaceMagicNumbers(String returnValue) {
-        returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(NA + "", " NA");
-        returnValue = returnValue.replace(NSB + ".0", "NSB");
-        returnValue = returnValue.replace(NSU + ".0", "NSU");
-        return returnValue;
+        return returnValue.replace(NA + ".0", " NA")
+                          .replace(Integer.toString(NA), " NA")
+                          .replace(NSB + ".0", "NSB")
+                          .replace(NSU + ".0", "NSU");
     }
 
     public String toString() {
@@ -421,34 +412,34 @@ public class TeamEvalResult {
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         String divider = "======================" + Const.EOL;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
-        sb.append(indentString
-                + pointsToString((claimed)).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("              normalizedClaimed:");
-        sb.append(indentString
-                + pointsToString((normalizedClaimed)).replace(Const.EOL,
-                        Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("normalizedPeerContributionRatio:");
-        sb.append(indentString
-                + pointsToString(normalizedPeerContributionRatio).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
-        sb.append("     normalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString(normalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+        sb.append(indentString)
+          .append(pointsToString(claimed).replace(Const.EOL,
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("              normalizedClaimed:")
+          .append(indentString)
+          .append(pointsToString(normalizedClaimed).replace(Const.EOL,
+                        Const.EOL + indentString + filler))
+          .append(divider)
+          .append("normalizedPeerContributionRatio:")
+          .append(indentString)
+          .append(pointsToString(normalizedPeerContributionRatio).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
+          .append("     normalizedAveragePerceived:")
+          .append(indentString)
+          .append(pointsToString(normalizedAveragePerceived).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider)
 
-        sb.append("   denormalizedAveragePerceived:");
-        sb.append(indentString
-                + pointsToString((denormalizedAveragePerceived)).replace(
-                        Const.EOL, Const.EOL + indentString + filler));
-        sb.append(divider);
+          .append("   denormalizedAveragePerceived:")
+          .append(indentString)
+          .append(pointsToString(denormalizedAveragePerceived).replace(
+                        Const.EOL, Const.EOL + indentString + filler))
+          .append(divider);
         return sb.toString();
     }
 

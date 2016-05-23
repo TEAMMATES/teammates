@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class DevServerLoginPage extends LoginPage {
     
     @FindBy(id = "email")
@@ -15,7 +14,7 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPage(Browser browser){
+    public DevServerLoginPage(Browser browser) {
         super(browser);
     }
 
@@ -96,6 +95,5 @@ public class DevServerLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
     }
-    
-    
+
 }

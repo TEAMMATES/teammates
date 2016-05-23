@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,7 +17,11 @@ import com.google.appengine.api.datastore.Text;
  * parameters so that they conform to our data format
  * and possible threats can be removed first.
  */
-public class Sanitizer {
+public final class Sanitizer {
+    
+    private Sanitizer() {
+        // utility class
+    }
     
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace
@@ -143,7 +146,7 @@ public class Sanitizer {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list){ 
+    public static List<String> sanitizeForHtml(List<String> list) { 
         List<String> sanitizedList = new ArrayList<String>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
@@ -154,7 +157,7 @@ public class Sanitizer {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set){ 
+    public static Set<String> sanitizeForHtml(Set<String> set) { 
         Set<String> sanitizedSet = new TreeSet<String>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
@@ -279,27 +282,27 @@ public class Sanitizer {
      * @return safer version of the text for XPath
      */
     public static String convertStringForXPath(String text) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int startPos = 0, i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "'" + text.substring(startPos, i) + "',";
+                result.append('\'').append(text.substring(startPos, i)).append("',");
                 startPos = i;
             }
             while (i < text.length() && text.charAt(i) == '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "\"" + text.substring(startPos, i) + "\",";
+                result.append('\"').append(text.substring(startPos, i)).append("\",");
                 startPos = i;
             }
         }
-        if (result.equals("")) {
+        if (result.length() == 0) {
             return "''";
         }
-        return "concat(" + result + "'')";
+        return "concat(" + result.toString() + "'')";
     }
 }

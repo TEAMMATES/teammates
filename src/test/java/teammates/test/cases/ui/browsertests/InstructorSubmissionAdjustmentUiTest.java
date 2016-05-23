@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +33,6 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private AppUrl enrollUrl;
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -59,7 +55,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAdjustmentOfSubsmission() throws Exception{
+    public void testAdjustmentOfSubsmission() throws Exception {
         
         //load the enrollPage
         loadEnrollmentPage();
@@ -89,9 +85,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        int oldNumberOfResponsesForSession = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
-        assertTrue(oldNumberOfResponsesForSession != 0);
+        List<FeedbackResponseAttributes> oldResponsesForSession = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+        assertFalse(oldResponsesForSession.isEmpty());
         
         String newTeam = "Team 1.2";
         student.team = newTeam;
@@ -101,16 +97,16 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollPage.enroll(enrollString);
         
         
-        int numberOfNewResponses = getAllResponsesForStudentForSession
-                (student, session.feedbackSessionName).size();
+        int numberOfNewResponses = 
+                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);
         
     }
     
     private void loadEnrollmentPage() {
-        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
-                .withCourseId(testData.courses.get("typicalCourse1").id);
+        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                            .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                            .withCourseId(testData.courses.get("typicalCourse1").getId());
                 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
     }
@@ -135,8 +131,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         for (FeedbackResponseAttributes response : studentGiverResponses) {
             FeedbackQuestionAttributes question = BackDoor
                     .getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS || 
-                question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }

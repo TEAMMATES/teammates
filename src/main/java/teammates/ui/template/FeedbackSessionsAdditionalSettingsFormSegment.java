@@ -26,11 +26,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     private boolean isSendClosingEmailChecked;
     private boolean isSendOpeningEmailChecked;
     private boolean isSendPublishedEmailChecked;
-    
-    
-    public FeedbackSessionsAdditionalSettingsFormSegment() {
-    }
-
 
     public boolean isSessionVisibleDateButtonChecked() {
         return isSessionVisibleDateButtonChecked;
@@ -100,7 +95,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         this.isSendPublishedEmailChecked = isSendPublishedEmailChecked;
     }
     
-    public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment(PageData data) {
+    public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment() {
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment(); 
         
         additionalSettings.isSessionVisibleAtOpenChecked = true;
@@ -126,12 +121,11 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     }
     
     public static FeedbackSessionsAdditionalSettingsFormSegment getFormSegmentWithExistingValues(
-                                                                    PageData data, 
                                                                     FeedbackSessionAttributes feedbackSession) {
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment();
         
-        setSessionVisibleSettings(data, feedbackSession, additionalSettings);
-        setResponseVisibleSettings(data, feedbackSession, additionalSettings);
+        setSessionVisibleSettings(feedbackSession, additionalSettings);
+        setResponseVisibleSettings(feedbackSession, additionalSettings);
         setEmailSettings(feedbackSession, additionalSettings);
         
         return additionalSettings;
@@ -145,8 +139,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isSendPublishedEmailChecked = feedbackSession.isPublishedEmailEnabled;
     }
 
-    private static void setResponseVisibleSettings(PageData data,
-                                                   FeedbackSessionAttributes feedbackSession,
+    private static void setResponseVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.resultsVisibleFromTime);
         
@@ -174,8 +167,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
                                                                    feedbackSession.resultsVisibleFromTime);
     }
 
-    private static void setSessionVisibleSettings(PageData data,
-                                                  FeedbackSessionAttributes feedbackSession,
+    private static void setSessionVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.sessionVisibleFromTime);
         
