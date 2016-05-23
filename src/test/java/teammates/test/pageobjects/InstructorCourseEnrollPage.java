@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -30,10 +29,6 @@ public class InstructorCourseEnrollPage extends AppPage {
         return this;
     }
 
-    public String getCourseId() {
-        return browser.driver.findElement(By.id("courseid")).getText();
-    }
-    
     public String getEnrollText() {
         return getTextBoxValue(enrollTextBox);
     }
