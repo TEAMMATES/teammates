@@ -122,14 +122,14 @@ public enum FeedbackQuestionType {
         try {
             switch (this) {
             case MCQ:
-                ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
-                                                                           this, questionDetails, answer, requestParameters,
-                                                                               questionIndx, responseIndx);
+                ((FeedbackMcqResponseDetails) feedbackResponseDetails)
+                        .extractResponseDetails(this, questionDetails, answer, requestParameters,
+                                                questionIndx, responseIndx);
                 break;
             case MSQ:
-                ((FeedbackMsqResponseDetails) feedbackResponseDetails).extractResponseDetails(
-                                                                           this, questionDetails, answer, requestParameters,
-                                                                               questionIndx, responseIndx);
+                ((FeedbackMsqResponseDetails) feedbackResponseDetails)
+                        .extractResponseDetails(this, questionDetails, answer, requestParameters,
+                                                questionIndx, responseIndx);
                 break;
             default:
                 feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);

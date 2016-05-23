@@ -208,13 +208,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor) {
+        switch (generateOptionsFor) {
         case NONE:
             optionList = mcqChoices;
             break;
         case STUDENTS:
-            List<StudentAttributes> studentList = 
-                    StudentsLogic.inst().getStudentsForCourse(courseId);
+            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
 
             for (StudentAttributes student : studentList) {
                 optionList.add(student.name + " (" + student.team + ")");
@@ -224,8 +223,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case TEAMS:
             try {
-                List<TeamDetailsBundle> teamList = 
-                        CoursesLogic.inst().getTeamsForCourse(courseId);
+                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
                 
                 for (TeamDetailsBundle team : teamList) {
                     optionList.add(team.name);
@@ -238,8 +236,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case INSTRUCTORS:
             List<InstructorAttributes> instructorList =
-                    InstructorsLogic.inst().getInstructorsForCourse(
-                            courseId);
+                    InstructorsLogic.inst().getInstructorsForCourse(courseId);
 
             for (InstructorAttributes instructor : instructorList) {
                 optionList.add(instructor.name);
@@ -248,8 +245,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Collections.sort(optionList);
             break;
         default:
-            Assumption
-                    .fail("Trying to generate options for neither students, teams nor instructors");
+            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
             break;
         }
 
