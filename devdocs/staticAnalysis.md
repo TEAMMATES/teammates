@@ -114,6 +114,8 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `travis.gradle` is using. 
+
 Alternatively, run the tools via Gradle:
 ```
 ./gradlew -b travis.gradle {toolType}{sourceCodeType}
