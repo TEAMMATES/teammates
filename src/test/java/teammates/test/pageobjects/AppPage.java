@@ -890,6 +890,16 @@ public abstract class AppPage {
     }
     
     /**
+     * Verifies that the title of the loaded page is the same as {@code expectedTitle}
+     * @param expectedTitle
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyTitle(String expectedTitle) {
+        assertEquals(expectedTitle, browser.driver.getTitle());
+        return this;
+    }
+
+    /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
      */

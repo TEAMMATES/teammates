@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.net.MalformedURLException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -63,23 +61,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private void testSampleLink() throws Exception {
         
         ______TS("link for the sample spreadsheet");
-        String expectedShaHexForWindows = "98df8d0e8285a8192ed88183380947ca1c36ca68";
-        String expectedShaHexForUnix = "e02099ef19b16a5d30e8d09e6d22f179fa123272";
-        String spreadsheetLinkString = enrollPage.getSpreadsheetLink();
-        AppUrl spreadsheetLink;
-        try {
-            // the link returned here might be absolute; make it relative first
-            spreadsheetLink = createUrl(AppUrl.getRelativePath(spreadsheetLinkString));
-        } catch (MalformedURLException e) {
-            // the link is already relative
-            spreadsheetLink = createUrl(spreadsheetLinkString);
-        }
-
-        try {
-            enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForWindows);
-        } catch (AssertionError e) {
-            enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForUnix);
-        }
+        enrollPage.clickSpreadsheetLink();
+        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
+        enrollPage.verifyTitle(expectedTitle);
     }
 
     private void testEnrollAction() throws Exception {
