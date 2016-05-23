@@ -59,6 +59,7 @@
     <module name="LocalVariableName"/>
     <module name="ParameterName"/>
     <module name="EmptyStatement"/>
+    <module name="DefaultComesLast"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
