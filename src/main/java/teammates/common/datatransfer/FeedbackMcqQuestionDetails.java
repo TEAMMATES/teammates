@@ -24,7 +24,7 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private int numOfMcqChoices;
     private List<String> mcqChoices;
-    private boolean isOtherEnabled;
+    private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
 
     public int getNumOfMcqChoices() {
@@ -44,7 +44,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<String>();
-        this.isOtherEnabled = false;
+        this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -90,14 +90,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             boolean otherEnabled) {
         this.numOfMcqChoices = numOfMcqChoices;
         this.mcqChoices = mcqChoices;
-        this.isOtherEnabled = otherEnabled;
+        this.otherEnabled = otherEnabled;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
     
     private void setMcqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
         this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<String>();
-        this.isOtherEnabled = false;
+        this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS 
@@ -111,7 +111,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
     
     public boolean getOtherEnabled() {
-        return isOtherEnabled;
+        return otherEnabled;
     }
     
     @Override
@@ -128,7 +128,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        return this.isOtherEnabled != newMcqDetails.isOtherEnabled;
+        return this.otherEnabled != newMcqDetails.otherEnabled;
     }
 
     @Override
@@ -152,7 +152,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
-        if (isOtherEnabled) {
+        if (otherEnabled) {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
@@ -194,7 +194,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        if (isOtherEnabled) {
+        if (otherEnabled) {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment = 
                        FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
@@ -289,7 +289,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
-                "${checkedOtherOptionEnabled}", (isOtherEnabled ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 
@@ -339,7 +339,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 optionListHtml.append(optionFragment);
             }        
         }
-        if (isOtherEnabled) {
+        if (otherEnabled) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate, "${mcqChoiceValue}", "Others");
             optionListHtml.append(optionFragment);
@@ -380,7 +380,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
-        if (isOtherEnabled) {
+        if (otherEnabled) {
             answerFrequency.put("Other", 0);
         }
         
@@ -430,7 +430,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
-        if (isOtherEnabled) {
+        if (otherEnabled) {
             answerFrequency.put("Other", 0);
         }
         
@@ -494,7 +494,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
             
-            if (!isOtherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
+            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
                     && !mcqChoices.contains(frd.getAnswerString())) {
                 errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
             }
