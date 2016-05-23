@@ -27,7 +27,6 @@ public class InstructorCourseEnrollPageAction extends Action {
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
     }
 }

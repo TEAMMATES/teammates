@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,6 @@ public class AccountAttributes extends EntityAttributes {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
     
-    
     public AccountAttributes(Account a) {
         googleId = a.getGoogleId();
         name = a.getName();
@@ -41,6 +39,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public AccountAttributes() {
+        // attributes to be set after construction
     }
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,
@@ -96,16 +95,24 @@ public class AccountAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForInstituteName(institute);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
         // only check profile if the account is proper

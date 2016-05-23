@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class HttpRequestHelper {
+public final class HttpRequestHelper {
+    
+    private HttpRequestHelper() {
+        // utility class
+    }
 
     /**
      * 
@@ -82,21 +86,22 @@ public class HttpRequestHelper {
 
     //TODO: rename to a better name
     public static String printRequestParameters(HttpServletRequest request) {
-        String requestParameters = "{";
+        StringBuilder requestParameters = new StringBuilder(); 
+        requestParameters.append('{');
         for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
-            String paramet = new String(f.nextElement().toString());
-            requestParameters += paramet + "::";
-            String[] parameterValues = request.getParameterValues(paramet);
+            String param = new String(f.nextElement().toString());
+            requestParameters.append(param).append("::");
+            String[] parameterValues = request.getParameterValues(param);
             for (int j = 0; j < parameterValues.length; j++) {
-                requestParameters += parameterValues[j] + "//";
+                requestParameters.append(parameterValues[j]).append("//");
             }
-            requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
+            requestParameters.setLength(requestParameters.length() - 2);
+            requestParameters.append(", ");
         }
-        if (!requestParameters.equals("{")) {
-            requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+        if (!"{".equals(requestParameters.toString())) {
+            requestParameters.setLength(requestParameters.length() - 2);
         }
-        requestParameters += "}";
-        return requestParameters;
+        return requestParameters.append("}").toString();
     }
 
     /**
@@ -106,8 +111,9 @@ public class HttpRequestHelper {
     public static String getRequestedURL(HttpServletRequest req) {
         String link = req.getRequestURI();
         String query = req.getQueryString();
+
         if (query != null && !query.trim().isEmpty()) {
-            link += "?" + query;
+            return link + "?" + query;
         }
         return link;
     }

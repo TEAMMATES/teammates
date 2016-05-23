@@ -153,7 +153,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-
+        // deprecated
     }
     
     public String getTextFromInstructorPrivileges() {
@@ -188,10 +188,9 @@ public class InstructorAttributes extends EntityAttributes {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        } else {
-            return new Instructor(googleId, courseId, isArchived, name, email, role,
-                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        }
+        } 
+        return new Instructor(googleId, courseId, isArchived, name, email, role,
+                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }
 
     public List<String> getInvalidityInfo() {
@@ -201,20 +200,30 @@ public class InstructorAttributes extends EntityAttributes {
         
         if (googleId != null) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if (!error.isEmpty()) { errors.add(error); }
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(displayedName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }

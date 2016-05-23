@@ -51,11 +51,10 @@ public class BaseTestCase {
         return loadDataBundle("/typicalDataBundle.json");
     }
     
-    protected static DataBundle loadDataBundle(String pathToJsonFile) {
-        if (pathToJsonFile.startsWith("/")) {
-            pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
-        }
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                                  + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
         } catch (FileNotFoundException e) {
@@ -106,6 +105,10 @@ public class BaseTestCase {
     }
 
     protected void ignoreExpectedException() {
+        assertTrue(true);
+    }
+    
+    protected static void ignorePossibleException() {
         assertTrue(true);
     }
     

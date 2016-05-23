@@ -232,7 +232,7 @@ rules:
     # no-octal-escape: "off"
 
     # disallow reassigning function parameters
-    no-param-reassign: "off" # recommended by Airbnb
+    no-param-reassign: "error"
 
     # disallow usage of __proto__ property
     # no-proto: "off"
@@ -454,10 +454,10 @@ rules:
     no-mixed-spaces-and-tabs: "error"
 
     # disallow multiple empty lines
-    # no-multiple-empty-lines: "off"
+    no-multiple-empty-lines: "error"
 
     # disallow negated conditions
-    no-negated-condition: "off" # recommended by Google
+    no-negated-condition: "error"
 
     # disallow nested ternary expressions
     no-nested-ternary: "error"

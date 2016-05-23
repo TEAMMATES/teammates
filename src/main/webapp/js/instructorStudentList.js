@@ -7,9 +7,8 @@ $(document).ready(function() {
     });
 
     var panels = $('div.panel');
-    var numPanels = -1;
 
-    bindCollapseEvents(panels, numPanels);
+    bindCollapseEvents(panels);
 
     // Binding for "Display Archived Courses" check box.
     $('#displayArchivedCourses_check').on('change', function() {
@@ -346,7 +345,8 @@ function toggleDeleteStudentConfirmation(courseId, studentName) {
     return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
 }
  
-function bindCollapseEvents(panels, numPanels) {
+function bindCollapseEvents(panels) {
+    var numPanels = -1;
     for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
@@ -358,5 +358,4 @@ function bindCollapseEvents(panels, numPanels) {
             $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + numPanels);
         }
     }
-    return numPanels;
 }

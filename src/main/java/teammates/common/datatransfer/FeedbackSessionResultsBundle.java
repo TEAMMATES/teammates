@@ -222,9 +222,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     private String getAnonName(FeedbackParticipantType type, String name) {
         String hash = getHashOfName(name);
-        String anonName = type.toSingularFormString();
-        anonName = "Anonymous " + anonName + " " + hash;
-        return anonName;
+        String typeSingularForm = type.toSingularFormString();
+        return "Anonymous " + typeSingularForm + " " + hash;
     }
 
     private String getHashOfName(String name) {
@@ -241,15 +240,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
             if (isFullName) {
                 return student.name;
-            } else {
-                return student.lastName;
             }
+            return student.lastName;
         }
 
         // return person name if participant is an instructor
         if (isParticipantIdentifierInstructor(participantIdentifier)) {
-            InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-            return instructor.name;
+            return roster.getInstructorForEmail(participantIdentifier)
+                         .name;
         }
 
         // return team name if participantIdentifier is a team name
@@ -324,9 +322,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
         if (isEmailOfPersonFromRoster(participantIdentifier)) {
             return participantIdentifier;
-        } else {
-            return Const.USER_NOBODY_TEXT;
         }
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
@@ -365,8 +362,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
 
         if (isStudent) {
-            StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-            return student.section;
+            return roster.getStudentForEmail(participantIdentifier)
+                         .section;
         } else if (isInstructor || participantIsGeneral) {
             return Const.USER_NOT_IN_A_SECTION;
         } else {
@@ -381,12 +378,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @return a set of emails of the students in the team
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
-        if (rosterTeamNameMembersTable.get(teamName) != null) {
-            Set<String> teamMembers = new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
-            return teamMembers;
-        } else {
+        if (!rosterTeamNameMembersTable.containsKey(teamName)) {
             return new HashSet<String>();
         }
+        
+        return new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
     }
 
     /**
@@ -398,11 +394,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
-            Set<String> teams = new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
-            return teams;
-        } else {
-            return new HashSet<String>();
+            return new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
         }
+        return new HashSet<String>();
     }
 
     public boolean isParticipantIdentifierStudent(String participantIdentifier) {
@@ -931,9 +925,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String teamName = emailTeamNameTable.get(email);
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
-        } else {
-            return teamName;
         }
+        return teamName;
     }
 
     /**
@@ -951,9 +944,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         if (isEmailOfPerson(participantIdentifier) && isFeedbackParticipantVisible(isGiver, response)) {
             return participantIdentifier;
-        } else {
-            return Const.USER_NOBODY_TEXT;
         }
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
@@ -988,14 +980,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
          * we check against the name & team name associated by the participant identifier
          */
         String name = emailNameTable.get(participantIdentifier);
-        boolean isIdentifierName = (name == null) ? false
-                                                  : name.equals(participantIdentifier);
-        boolean isIdentifierTeam = (name == null) ? false
-                                                  : name.equals(Const.USER_IS_TEAM);
+        boolean isIdentifierName = name != null && name.equals(participantIdentifier);
+        boolean isIdentifierTeam = name != null && name.equals(Const.USER_IS_TEAM);
 
         String teamName = emailTeamNameTable.get(participantIdentifier);
-        boolean isIdentifierTeamName = (teamName == null) ? false
-                                                          : teamName.equals(participantIdentifier);
+        boolean isIdentifierTeamName = teamName != null && teamName.equals(participantIdentifier);
         return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     
@@ -1309,8 +1298,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         
         for (FeedbackResponseAttributes response : responses) {
-            // New recipient, add response package to map.
-            if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            
+            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
+            boolean isNewGiver = !response.giverEmail.equals(prevGiver) && prevGiver != null;
+            
+            if (isNewRecipient) {
                 // Put previous giver responses into inner map.
                 responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous recipient into outer map.
@@ -1318,7 +1310,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            } else if (isNewGiver) {
                 // New giver, add giver responses to response package for one recipient
                 responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1379,7 +1371,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            if (isNewRecipient) {
                 // Put previous giver responses into inner map.
                 responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous recipient into outer map.
@@ -1387,7 +1381,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            } else if (isNewGiver) {
                 // New giver, add giver responses to response package for one recipient
                 responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1510,7 +1504,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
+            if (isNewGiver) {
                 // Put previous recipient responses into inner map.
                 responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous giver into outer map.
@@ -1518,7 +1514,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            } else if (isNewRecipient) {
                 // New recipient, add recipient responses to response package for one giver
                 responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1575,7 +1571,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
-            if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
+            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
+            if (isNewGiver) {
                 // Put previous recipient responses into inner map.
                 responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous giver into outer map.
@@ -1583,7 +1581,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear responses
                 responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+            } else if (isNewRecipient) {
                 // New recipient, add recipient responses to response package for one giver
                 responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
                 // Clear response list
@@ -1672,10 +1670,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sectionToTeam;
     }
 
-    @SuppressWarnings("unused")
-    // TODO unused. Can remove?
-    private void ________________COMPARATORS_____________() {
-    }
 
     // Sorts by giverName > recipientName
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipient =
@@ -2210,9 +2204,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         FeedbackQuestionAttributes q2 = questions.get(r2.feedbackQuestionId);
         if (q1 == null || q2 == null) {
             return 0;
-        } else {
-            return q1.compareTo(q2);
         }
+        return q1.compareTo(q2);
     }
 
     private int compareByNames(String n1, String n2) {
@@ -2290,6 +2283,5 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
-
 
 }

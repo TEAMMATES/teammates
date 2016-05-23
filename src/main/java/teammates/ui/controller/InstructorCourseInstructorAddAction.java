@@ -65,7 +65,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = displayedName == null || displayedName.isEmpty() 
+        displayedName = displayedName == null || displayedName.isEmpty() //NOPMD
                       ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
                       : displayedName;
         instructorRole = Sanitizer.sanitizeName(instructorRole);
@@ -152,7 +152,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
             updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToAdd);
             String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
-            boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
+            boolean isSessionsSpecial = "true".equals(setSessionsStr);
             if (isSessionsSpecial) {
                 updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), feedbackNames, instructorToAdd);
             } else {
@@ -178,7 +178,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         if (instructorToAdd.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             for (int i = 0; i < sectionNames.size(); i++) {
                 String setSectionGroupStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
-                boolean isSectionGroupSpecial = setSectionGroupStr != null && setSectionGroupStr.equals("true");
+                boolean isSectionGroupSpecial = "true".equals(setSectionGroupStr);
                 for (int j = 0; j < sectionNames.size(); j++) {
                     String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + Const.ParamsNames.INSTRUCTOR_SECTION + j);
                     if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {

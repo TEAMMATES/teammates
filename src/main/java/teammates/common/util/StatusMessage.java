@@ -25,9 +25,9 @@ public class StatusMessage implements Serializable {
             case DANGER:
                 this.color = "danger";
                 break;
-            case INFO:
             default:
                 this.color = "info";
+                break;
         }
     }
     

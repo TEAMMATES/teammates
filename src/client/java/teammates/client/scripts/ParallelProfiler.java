@@ -14,12 +14,16 @@ import teammates.test.driver.TestProperties;
  * - The number of threads cannot be more than capacity in the BrowserInstancePool 
  *    modify that constant if needed
  */
-public class ParallelProfiler {
+public final class ParallelProfiler {
 
     private static final int NUM_OF_THREADS = 4;
-    public static void main(String args[]) {
-        for (int i = 0; i < NUM_OF_THREADS; i++)
-        {
+    
+    private ParallelProfiler() {
+        // script, not meant to be instantiated
+    }
+    
+    public static void main(String[] args) {
+        for (int i = 0; i < NUM_OF_THREADS; i++) {
             (new PerformanceProfiler(TestProperties.TEST_DATA_FOLDER + "/thread" + i + ".txt")).start();
         }
     }

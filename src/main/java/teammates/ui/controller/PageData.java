@@ -124,14 +124,16 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
+                     + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
+                     + delta + "%</span>";
         } else {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
@@ -202,9 +204,8 @@ public class PageData {
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", null);
-        } else {
-            return new ElementTag(text, "value", value);
         }
+        return new ElementTag(text, "value", value);
     }
     
     /**
@@ -261,8 +262,7 @@ public class PageData {
         }
         return result;
     }
-    
-    
+
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_student_links() {
     //========================================================================    
@@ -396,16 +396,14 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollSaveLink(String courseId) {
         //TODO: instead of using this method, the form should include these data as hidden fields?
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
@@ -420,8 +418,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEditLink(String courseID) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID); 
@@ -604,8 +601,7 @@ public class PageData {
         
         return link;
     }
-    
-    
+
     public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
@@ -732,27 +728,28 @@ public class PageData {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
         
-        String msg = "The feedback session has been created";
+        StringBuilder msg = new StringBuilder(50);
+        msg.append("The feedback session has been created");
         
         if (session.isVisible()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
         
         if (session.isOpened()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (session.isClosed()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
         if (session.isPublished()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
         
-        msg += ".";
+        msg.append('.');
         
-        return msg;
+        return msg.toString();
     }
     
     /**
@@ -873,7 +870,6 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
@@ -897,21 +893,19 @@ public class PageData {
     }
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
-        int defaultGracePeriod = 15;
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
-        } else {
-            return gracePeriodOptionValue == defaultGracePeriod;
         }
+        int defaultGracePeriod = 15;
+        return gracePeriodOptionValue == defaultGracePeriod;
     }
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
             return Integer.toString((int) num);
-        } else {
-            return Double.toString(num);
         }
+        return Double.toString(num);
     }
     
     public boolean isCourseArchived(String courseId, String googleId) {
@@ -927,9 +921,8 @@ public class PageData {
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
             return true;
-        } else {
-            return qn.isResponseVisibleTo(viewerType);
         }
+        return qn.isResponseVisibleTo(viewerType);
     }
     
     public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
@@ -954,9 +947,8 @@ public class PageData {
                                                        FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return true;
-        } else {
-            return frComment.showGiverNameTo.contains(viewerType);
         }
+        return frComment.showGiverNameTo.contains(viewerType);
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
@@ -967,9 +959,8 @@ public class PageData {
                                                      FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
     }
     
     public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn) {
@@ -980,19 +971,17 @@ public class PageData {
                                                               FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
     }
     
     public String getPictureUrl(String pictureKey) {
         if (pictureKey == null || pictureKey.isEmpty()) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-        } else {
-            return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                   + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                   + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+               + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+               + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
     
     @SuppressWarnings("unused")
@@ -1015,19 +1004,18 @@ public class PageData {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");
-            } else if (student != null) {
+            } else if (student == null) {
+                namesStringBuilder.append(recipient);
+            } else {
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
                     namesStringBuilder.append(student.name);
                 }
-            } else {
-                namesStringBuilder.append(recipient);
             }
             i++;
         }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
+        return namesStringBuilder.toString();
     }
     
     @SuppressWarnings("unused")

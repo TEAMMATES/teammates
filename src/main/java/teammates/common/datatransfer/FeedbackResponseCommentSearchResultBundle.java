@@ -54,19 +54,21 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
         instructorCourseIdList = new HashSet<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
         
         cursor = results.getCursor();
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults) {
+        for (ScoredDocument doc : filteredResults) {
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
@@ -163,10 +165,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     }
     
     private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name) {
-        if (!isCommentGiverNameVisibleToInstructor(response, comment)) {
-            name = "Anonymous";
-        }
-        return name;
+        return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     
     private String getFilteredGiverName(FeedbackResponseAttributes response, String name) {
@@ -174,8 +173,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if (!isNameVisibleToInstructor(response, question.showGiverNameTo) 
                 && question.giverType != FeedbackParticipantType.SELF) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.giverType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return "Anonymous " + question.giverType.toSingularFormString() + " " + hash;
         }
         return name;
     }
@@ -186,8 +184,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 && question.recipientType != FeedbackParticipantType.SELF 
                 && question.recipientType != FeedbackParticipantType.NONE) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.recipientType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return "Anonymous " + question.recipientType.toSingularFormString() + " " + hash;
         }
         return name;
     }
@@ -195,7 +192,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackQuestionAttributes getFeedbackQuestion(
             FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = null;
-        for (FeedbackQuestionAttributes qn:questions.get(response.feedbackSessionName)) {
+        for (FeedbackQuestionAttributes qn : questions.get(response.feedbackSessionName)) {
             if (qn.getId().equals(response.feedbackQuestionId)) {
                 question = qn;
                 break;
@@ -216,7 +213,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             return true;
         }
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
-        for (FeedbackParticipantType type:showNameTo) {
+        for (FeedbackParticipantType type : showNameTo) {
             if (type == FeedbackParticipantType.GIVER
                     && instructorEmails.contains(response.giverEmail)) {
                 return true;
@@ -236,7 +233,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if (instructorEmails.contains(response.giverEmail)) {
             return true;
         }
-        for (FeedbackParticipantType type:showNameTo) {
+        for (FeedbackParticipantType type : showNameTo) {
             if (type == FeedbackParticipantType.INSTRUCTORS
                     && instructorCourseIdList.contains(response.courseId)) {
                 return true;

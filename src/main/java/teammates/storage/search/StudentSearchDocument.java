@@ -18,8 +18,9 @@ public class StudentSearchDocument extends SearchDocument {
     
     @Override
     protected void prepareData() {
-        if (student == null) 
+        if (student == null) {
             return;
+        }
         
         course = logic.getCourse(student.course);
     }
@@ -35,7 +36,7 @@ public class StudentSearchDocument extends SearchDocument {
         //studentTeam and studentSection
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(student.course).append(delim)
-                             .append(course != null ? course.getName() : "").append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
                              .append(student.email).append(delim)
                              .append(student.name).append(delim)
                              .append(student.team).append(delim)

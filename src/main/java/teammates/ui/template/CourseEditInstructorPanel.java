@@ -197,7 +197,6 @@ public class CourseEditInstructorPanel {
         }
         return result;
     }
-    
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
                                     String onClick) {
