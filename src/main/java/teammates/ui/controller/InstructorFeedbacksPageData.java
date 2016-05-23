@@ -81,7 +81,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,

@@ -36,7 +36,7 @@ public class AdminAccountManagementPageData extends PageData {
             AccountAttributes acc = entry.getValue();
             
             if (isTestingAccount(acc) && !isToShowAll) {
-                 continue;
+                continue;
             }
             
             ArrayList<InstructorAttributes> coursesList = instructorCoursesTable.get(key);

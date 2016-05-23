@@ -107,7 +107,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //Verify no tasks sent to the task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
-           assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
+            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
         ______TS("try to enroll with empty input enroll lines");
