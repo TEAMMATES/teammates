@@ -336,7 +336,7 @@ jacocoTestReport {
     }
 }
 
-defaultTasks "staticAnalysis", "appengineRun", "travisTests", "appengineStop", "jacocoTestReport"
+defaultTasks "appengineRun", "travisTests", "appengineStop", "jacocoTestReport"
 
 // LOCAL TEST TASKS (NOT USED CURRENTLY)
 
