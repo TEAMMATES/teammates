@@ -33,6 +33,7 @@ before_script:
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
   - ./gradlew -b travis.gradle testClasses
   - npm install eslint
+  - ./gradlew -b travis.gradle downloadStaticAnalysisTools
   - ./gradlew -b travis.gradle staticAnalysis
   - gem install gist
 

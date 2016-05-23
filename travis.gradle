@@ -90,6 +90,12 @@ dependencies {
 }
 
 sourceSets {
+    empty {
+        // Placeholder empty source for downloading all static analysis tools without running anything
+        java {
+            srcDir "static-analysis"
+        }
+    }
     main {
         java {
             srcDir "src/main/java"
@@ -219,6 +225,11 @@ tasks.withType(FindBugs) {
         xml.enabled = false
         html.enabled = true
     }
+}
+
+task downloadStaticAnalysisTools {
+    // This will simply download all the jars needed by the static analysis tools
+    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty
 }
 
 task staticAnalysisMain {
