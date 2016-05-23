@@ -105,7 +105,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         
         String questionText = questionDetailsBundle.questionText;
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
-        String studentEmail = (student != null) ? student.email : null;
+        String studentEmail = student == null ? null : student.email;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(
                                                                     responsesBundle, question, studentEmail,
                                                                     bundle, "student");
@@ -164,20 +164,20 @@ public class StudentFeedbackResultsPageData extends PageData {
      */
     private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
                                     List<FeedbackResponseAttributes> responsesBundleForRecipient,
-                                    String recipientName) {
+                                    String recipientNameParam) {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
      
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        String recipientName = recipientNameParam;
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(response);
             
             /* Change display name to 'You' or 'Your team' if necessary */
             boolean isUserGiver = student.email.equals(response.giverEmail);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
-            if (question.giverType == FeedbackParticipantType.TEAMS
-                && isUserPartOfGiverTeam) {
-                giverName = "Your Team (" + giverName + ")";
+            if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
+                giverName = "Your Team (" + giverName + ")"; // NOPMD
             } else if (isUserGiver) {
                 giverName = "You";
             }

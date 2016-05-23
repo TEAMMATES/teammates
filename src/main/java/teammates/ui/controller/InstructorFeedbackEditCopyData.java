@@ -15,11 +15,11 @@ public class InstructorFeedbackEditCopyData extends PageData {
     public InstructorFeedbackEditCopyData(AccountAttributes account, 
                                           Url redirectUrl, String errorMessage) {
         super(account);
-        String redirectUrlAsString = redirectUrl != null ? redirectUrl.toString() 
-                                                         : "";
+        String redirectUrlAsString = redirectUrl == null ? "" 
+                                                         : redirectUrl.toString();
         this.redirectUrl = redirectUrlAsString;
-        this.errorMessage = errorMessage != null ? errorMessage
-                                                 : "";
+        this.errorMessage = errorMessage == null ? ""
+                                                 : errorMessage;
     }
     
     /**

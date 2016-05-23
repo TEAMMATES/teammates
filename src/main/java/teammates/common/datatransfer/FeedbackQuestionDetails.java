@@ -146,10 +146,7 @@ public abstract class FeedbackQuestionDetails {
      * @param recipientType
      * @return error message detailing the error, or an empty string if valid.
      */
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        // All giver/recipient types and visibility options are valid by default, so return ""
-        return "";
-    }
+    public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
     /**
      * Extract question details and sets details accordingly
@@ -188,12 +185,8 @@ public abstract class FeedbackQuestionDetails {
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
                                             FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        if (question.recipientType == FeedbackParticipantType.STUDENTS
-            || question.recipientType == FeedbackParticipantType.TEAMS) {
-            return false;
-        }
-
-        return true;
+        return question.recipientType != FeedbackParticipantType.STUDENTS 
+            && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
@@ -220,7 +213,9 @@ public abstract class FeedbackQuestionDetails {
 
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) { return true; }
+        if (answer == null) {
+            return true;
+        }
 
         boolean allAnswersEmpty = true;
 
@@ -238,7 +233,5 @@ public abstract class FeedbackQuestionDetails {
         return getResponseRowsSortOrder() != null;
     }
 
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
-    }
+    public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
 }

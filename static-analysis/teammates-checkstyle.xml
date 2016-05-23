@@ -3,6 +3,7 @@
 <module name="Checker">
   <property name="severity" value="error"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="UnusedImports"/>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
@@ -10,9 +11,10 @@
     </module>
     <module name="NoWhitespaceBefore"/>
     <module name="WhitespaceAround">
-      <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,DO_WHILE,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
+      <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,DIV_ASSIGN,BXOR,BXOR_ASSIGN,MINUS,LCURLY,RCURLY,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND,BAND,LAND,BAND_ASSIGN,MOD,MOD_ASSIGN,PLUS,PLUS_ASSIGN,LT,SL,SL_ASSIGN,LE,ASSIGN,MINUS_ASSIGN,EQUAL,GT,GE,SR,SR_ASSIGN,BSR,BSR_ASSIGN,BOR,BOR_ASSIGN,LOR,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,DO_WHILE,LITERAL_RETURN,SLIST,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
+      <property name="ignoreEnhancedForColon" value="false"/>
     </module>
     <module name="MethodParamPad">
       <property name="tokens" value="CTOR_DEF,ENUM_CONSTANT_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
@@ -31,6 +33,32 @@
     <module name="TypecastParenPad">
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
+    <module name="ModifierOrder"/>
+    <module name="RedundantModifier">
+      <property name="tokens" value="ANNOTATION_FIELD_DEF,INTERFACE_DEF,METHOD_DEF,VARIABLE_DEF"/>
+    </module>
+    <module name="NeedBraces">
+      <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
+    </module>
+    <module name="AvoidStarImport"/>
+    <module name="EmptyLineSeparator">
+      <property name="tokens" value="CLASS_DEF,CTOR_DEF,IMPORT,INSTANCE_INIT,INTERFACE_DEF,METHOD_DEF,PACKAGE_DEF,STATIC_INIT"/>
+      <property name="allowMultipleEmptyLines" value="false"/>
+    </module>
+    <module name="ArrayTypeStyle"/>
+    <module name="LeftCurly">
+      <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="RightCurly">
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_IF,LITERAL_TRY"/>
+    </module>
+    <module name="RightCurly">
+      <property name="option" value="alone"/>
+      <property name="tokens" value="CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_FINALLY,LITERAL_FOR,INSTANCE_INIT,METHOD_DEF,STATIC_INIT,LITERAL_WHILE"/>
+    </module>
+    <module name="LocalVariableName"/>
+    <module name="ParameterName"/>
   </module>
   <module name="FileTabCharacter"/>
+  <module name="SuppressionCommentFilter"/>
 </module>

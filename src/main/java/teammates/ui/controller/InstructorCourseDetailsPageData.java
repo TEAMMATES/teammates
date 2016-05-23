@@ -55,7 +55,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
-        for (SectionDetailsBundle section: courseDetails.sections) {
+        for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
@@ -77,7 +77,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);
-            this.hasSection = !section.getSectionName().equals("None");
+            this.hasSection = !"None".equals(section.getSectionName());
         } else {
             this.hasSection = true;
         }

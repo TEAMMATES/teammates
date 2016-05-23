@@ -64,7 +64,9 @@ function submitFormAjax(offset) {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    setFormErrorMessage(button, data.errorMessage);
+                } else {
                     // Inject new log row
                     var logs = data.logs;
                     $.each(logs, function(i, value) {
@@ -73,9 +75,6 @@ function submitFormAjax(offset) {
                         bindClickAction();
                         clickOlderButtonIfNeeded();
                     });
-                    
-                } else {
-                    setFormErrorMessage(button, data.errorMessage);
                 }
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);

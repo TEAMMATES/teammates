@@ -75,9 +75,7 @@ public class OfflineBackup extends RemoteApiClient {
                 modifiedLogs.add(logMessage);
             }
             in.close();
-        } 
-        
-        catch (IOException e) { 
+        } catch (IOException e) { 
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         } 
         
@@ -189,7 +187,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for (CommentAttributes comment: comments) {
+        for (CommentAttributes comment : comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
@@ -349,18 +347,17 @@ public class OfflineBackup extends RemoteApiClient {
      *  Perform formatting of the string to ensure that it conforms to json formatting
      */
     protected String formatJsonString(String entityJsonString, String name) {
-        String formattedString = "";
+        StringBuilder formattedString = new StringBuilder();
         
         if (hasPreviousEntity) {
-            formattedString += ",\n";
+            formattedString.append(",\n");
         } else {
             hasPreviousEntity = true;
         }
         
-        entityJsonString = entityJsonString.replace("\n", "\n\t\t");
-        formattedString += "\t\t\"" + name + "\":" + entityJsonString;
+        formattedString.append("\t\t\"" + name + "\":" + entityJsonString.replace("\n", "\n\t\t"));
         
-        return formattedString;
+        return formattedString.toString();
     }
     
     /** 

@@ -20,9 +20,6 @@ public class UserType {
     public boolean isInstructor;
     public boolean isStudent;
     
-    public UserType() {
-    }
-    
     public UserType(String googleId) {
         this.id = googleId;
     }

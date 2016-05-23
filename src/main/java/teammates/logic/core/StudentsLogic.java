@@ -62,8 +62,9 @@ public class StudentsLogic {
     private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new StudentsLogic();
+        }
         return instance;
     }
 
@@ -414,9 +415,7 @@ public class StudentsLogic {
             return;
         }
 
-        String errorMessage = "";
-        errorMessage += getSectionInvalidityInfo(mergedList);
-        errorMessage += getTeamInvalidityInfo(mergedList);
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
 
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
@@ -438,11 +437,10 @@ public class StudentsLogic {
         if (mergedList.size() < 2) { // no conflicts
             return;
         }
+        
+        String errorMessage = getTeamInvalidityInfo(mergedList);
 
-        String errorMessage = "";
-        errorMessage += getTeamInvalidityInfo(mergedList);
-
-        if (!errorMessage.isEmpty()) {
+        if (errorMessage.length() > 0) {
             throw new EnrollException(errorMessage);
         }
 
@@ -470,9 +468,8 @@ public class StudentsLogic {
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
-        } else {
-            return students.get(0).section;
         }
+        return students.get(0).section;
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -498,12 +495,12 @@ public class StudentsLogic {
             }
         }
 
-        String errorMessage = "";
-        for (String section: invalidSectionList) {
-            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+        StringBuilder errorMessage = new StringBuilder();
+        for (String section : invalidSectionList) {
+            errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 
-        return errorMessage;
+        return errorMessage.toString();
     }
 
     private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -514,22 +511,23 @@ public class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)) {
-                if (!invalidTeamList.contains(currentStudent.team)) {
-                    invalidTeamList.add(currentStudent.team);    
-                }
+            if (currentStudent.team.equals(previousStudent.team)
+                    && !currentStudent.section.equals(previousStudent.section)
+                    && !invalidTeamList.contains(currentStudent.team)) {
+                invalidTeamList.add(currentStudent.team);
             }
         }
 
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
-        }
-        if (!errorMessage.isEmpty()) {
-            errorMessage += "Please use the enroll page to edit multiple students";
+            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
         }
 
-        return errorMessage;
+        if (errorMessage.length() != 0) {
+            errorMessage.append("Please use the enroll page to edit multiple students");
+        }
+
+        return errorMessage.toString();
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -702,9 +700,10 @@ public class StudentsLogic {
         enrollmentDetails.newTeam = validStudentAttributes.team;
         enrollmentDetails.newSection = validStudentAttributes.section;
 
+        boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
-        } else if (originalStudentAttributes != null) {
+        } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
@@ -772,8 +771,7 @@ public class StudentsLogic {
     
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList) {
-        boolean isEmailDuplicated = studentEmailList.contains(email);
-        return isEmailDuplicated;
+        return studentEmailList.contains(email);
     }
     
     private boolean isInEnrollList(StudentAttributes student,

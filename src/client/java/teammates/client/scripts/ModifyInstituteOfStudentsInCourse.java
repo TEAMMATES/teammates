@@ -11,8 +11,7 @@ import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 
 public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
-    
-    
+
     public static void main(String[] args) throws IOException {
         ModifyInstituteOfStudentsInCourse modifyInstituteOfStudentsInCourse = new ModifyInstituteOfStudentsInCourse();
         modifyInstituteOfStudentsInCourse.doOperationRemotely();

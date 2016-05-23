@@ -30,8 +30,8 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
     private Logic logic = new Logic();
     private CoursesDb coursesDb = new CoursesDb();
-    private final boolean isPreview = true;
-    private final boolean isModifyingOnlyArchivedCourses = true;
+    private static final boolean isPreview = true;
+    private static final boolean isModifyingOnlyArchivedCourses = true;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForIsArchivedAttribute migrator = new DataMigrationForIsArchivedAttribute();
@@ -54,14 +54,13 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         }
     }
 
-    
     private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
                                     EntityDoesNotExistException {
         if (course.isArchived) {
-            if (!isPreview) {
-                setInstructorsIsArchivedInCourse(course);
-            } else {
+            if (isPreview) {
                 previewInstructorsIsArchivedInCourse(course);
+            } else {
+                setInstructorsIsArchivedInCourse(course);
             }
         }
     }
@@ -99,7 +98,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         System.out.println("Updating instructors of old archived course: " + course.getId());
         
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
-        for (InstructorAttributes instructor: instructorsOfCourse) {
+        for (InstructorAttributes instructor : instructorsOfCourse) {
             
             // only update if migration had not been done for the instructor
             if (instructor.isArchived == null) {
@@ -127,7 +126,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         System.out.println("Previewing instructors of old archived course: " + course.getId());
         
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
-        for (InstructorAttributes instructor: instructorsOfCourse) {
+        for (InstructorAttributes instructor : instructorsOfCourse) {
             System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
             
             if (instructor.isArchived == null) {

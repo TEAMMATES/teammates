@@ -36,7 +36,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         
-        for (ScoredDocument doc:results) {
+        for (ScoredDocument doc : results) {
             InstructorAttributes instructor = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(), 
                                                                   InstructorAttributes.class);
             
@@ -53,8 +53,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
+
     private void sortInstructorResultList() {
         
         Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
@@ -79,8 +78,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
             }
         });
     }
-    
-    
+
     @Override
     public int getResultSize() {
         return numberOfResults;

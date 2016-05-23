@@ -71,7 +71,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(validCourse.getId()); // delete if it exists
     }
 
-
     @Test
     public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
@@ -192,7 +191,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
     }
 
-
     public void testInputValidation() {
         
         /* Explanation: If the validation is done through one JS function 
@@ -224,7 +222,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
         
     }
-
 
     public void testAddAction() throws Exception {
         

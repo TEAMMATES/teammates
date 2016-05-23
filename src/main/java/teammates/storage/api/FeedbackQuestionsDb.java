@@ -53,8 +53,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         return new FeedbackQuestionAttributes(fq);        
     }
-    
-    
+
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
             EntityAttributes entityToAdd) throws InvalidParametersException {
         Object obj = this.createEntityWithoutExistenceCheck(entityToAdd);
@@ -330,11 +329,11 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         if (feedbackQuestionToGet.getId() != null) {
             return getFeedbackQuestionEntity(feedbackQuestionToGet.getId());
-        } else {
-            return getFeedbackQuestionEntity(
-                    feedbackQuestionToGet.feedbackSessionName,
-                    feedbackQuestionToGet.courseId,
-                    feedbackQuestionToGet.questionNumber);
-        }
+        } 
+        
+        return getFeedbackQuestionEntity(
+                feedbackQuestionToGet.feedbackSessionName,
+                feedbackQuestionToGet.courseId,
+                feedbackQuestionToGet.questionNumber);
     }
 }

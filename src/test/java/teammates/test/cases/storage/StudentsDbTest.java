@@ -51,8 +51,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException 
-    {        
+    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
         ______TS("success : created");
         
         StudentAttributes s = createNewStudent();
@@ -317,6 +316,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
             // Okay if it's already inside
+            ignorePossibleException();
         }
         
         return s;
@@ -335,6 +335,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
             // Okay if it's already inside
+            ignorePossibleException();
         }
         
         return s;

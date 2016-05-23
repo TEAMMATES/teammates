@@ -19,7 +19,7 @@ public class InstructorFeedbackDeleteAction extends Action {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; // NOPMD
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),

@@ -104,7 +104,7 @@ public class StudentProfilePictureEditAction extends Action {
                           + re.getMessage();
         }
 
-        return null;
+        return new byte[0];
     }
 
     private Image getTransformedImage() {

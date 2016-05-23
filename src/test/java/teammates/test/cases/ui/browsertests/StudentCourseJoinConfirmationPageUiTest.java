@@ -57,8 +57,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         // TODO: remove this test by 21/09/2014
         testJoinConfirmation();
     }
-    
-    
+
     private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
@@ -138,15 +137,13 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         studentHomePage.logout();
     }
 
-
     private void testContent(){
         
         /*covered in testJoinConfirmation() 
          *case: click join link then confirm: success: valid key
          */
     }
-     
-    
+
     private void testJoinConfirmation() throws Exception {
         logout(browser);
         removeAndRestoreTestDataOnServer(testData);
@@ -173,8 +170,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
-        
-        
+
         ______TS("test student confirmation page content");
         
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
@@ -252,11 +248,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     // continuously ask BackDoor to get the key until a legit key is returned
     private String getKeyFromBackDoor(String courseId, String studentEmail) {
-        int NUMBER_OF_REMAINING_RETRIES = 10;
+        int numberOfRemainingRetries = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
             key = BackDoor.getKeyForStudent(courseId, studentEmail);
-            NUMBER_OF_REMAINING_RETRIES--;
+            numberOfRemainingRetries--;
             ThreadHelper.waitFor(100);
         }
         return key;

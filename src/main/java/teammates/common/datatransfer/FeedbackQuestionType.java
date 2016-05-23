@@ -16,6 +16,9 @@ public enum FeedbackQuestionType {
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
+    
+    private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
+    private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
@@ -130,6 +133,7 @@ public enum FeedbackQuestionType {
                     break;
             default:
                 feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+                break;
             }
         } catch (Exception e) {
             Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());
@@ -138,9 +142,6 @@ public enum FeedbackQuestionType {
 
         return feedbackResponseDetails;
     }
-
-    private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
-    private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
      * Constructor for FeedbackQuestionType.
@@ -178,10 +179,9 @@ public enum FeedbackQuestionType {
      * Any other string is returned as is.
      */
     public static String standardizeIfConstSum(String questionType) {
-        if (questionType.equals("CONSTSUM_OPTION") || questionType.equals("CONSTSUM_RECIPIENT")) {
+        if ("CONSTSUM_OPTION".equals(questionType) || "CONSTSUM_RECIPIENT".equals(questionType)) {
             return "CONSTSUM";
-        } else {
-            return questionType;
         }
+        return questionType;
     }
 }

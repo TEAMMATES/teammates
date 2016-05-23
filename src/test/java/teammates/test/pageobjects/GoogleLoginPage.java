@@ -15,11 +15,9 @@ public class GoogleLoginPage extends LoginPage {
     
     @FindBy(id = "signIn")
     private WebElement loginButton;
-    
-    
+
     @FindBy(id = "PersistentCookie")
     private WebElement staySignedCheckbox;
-
 
     public GoogleLoginPage(Browser browser) {
         super(browser);
@@ -42,7 +40,6 @@ public class GoogleLoginPage extends LoginPage {
         return homePage;
     }
 
-    
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
         completeGoogleLoginSteps(userName, password);

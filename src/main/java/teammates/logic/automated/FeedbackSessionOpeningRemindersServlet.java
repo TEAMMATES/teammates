@@ -21,5 +21,4 @@ public class FeedbackSessionOpeningRemindersServlet extends AutomatedRemindersSe
         feedbackSessionsLogic.scheduleFeedbackSessionOpeningEmails();
     }
 
-    
 }

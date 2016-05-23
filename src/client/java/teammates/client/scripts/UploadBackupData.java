@@ -45,7 +45,6 @@ import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 
-
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
@@ -59,8 +58,7 @@ import teammates.storage.datastore.Datastore;
 public class UploadBackupData extends RemoteApiClient {
 
     private static String BACKUP_FOLDER = "BackupFiles/Backup";
- 
-    
+
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
@@ -81,7 +79,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final FeedbackQuestionsLogic feedbackQuestionsLogic = new FeedbackQuestionsLogic();
     
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
         uploadBackupData.doOperationRemotely();
     }
@@ -110,8 +108,7 @@ public class UploadBackupData extends RemoteApiClient {
                     Date secondDate = dateFormat.parse(o2);
                     
                     return secondDate.compareTo(firstDate);
-                }
-                catch (ParseException e) {
+                } catch (ParseException e) {
                     return 0;
                 }
             }
@@ -181,9 +178,10 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
-            for (AccountAttributes accountData : accounts.values())
+            for (AccountAttributes accountData : accounts.values()) {
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
+            }
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
@@ -227,7 +225,7 @@ public class UploadBackupData extends RemoteApiClient {
         try {
             fqDb.createFeedbackQuestions(questions.values());
             
-            for (FeedbackQuestionAttributes question: questions.values()) {
+            for (FeedbackQuestionAttributes question : questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
             
@@ -272,8 +270,7 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading comments: " + e.getMessage());
         }
     }
-    
-    
+
     private static void persistProfiles(HashMap<String, StudentProfileAttributes> studentProfiles) {
         HashMap<String, StudentProfileAttributes> profiles = studentProfiles;
         try {
