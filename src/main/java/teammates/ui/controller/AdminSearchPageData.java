@@ -89,7 +89,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable createInstructorTable() {
         List<AdminSearchInstructorRow> rows = new ArrayList<AdminSearchInstructorRow>();
         
-        for (InstructorAttributes instructor: instructorResultBundle.instructorList) {
+        for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
             rows.add(createInstructorRow(instructor));
         }
         

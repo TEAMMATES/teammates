@@ -67,7 +67,7 @@ public class CourseRoster {
             return;
         }
         
-        for (StudentAttributes s: students) {
+        for (StudentAttributes s : students) {
             studentListByEmail.put(s.email, s);
         }
     }
@@ -78,7 +78,7 @@ public class CourseRoster {
             return;
         }
         
-        for (InstructorAttributes i: instructors) {
+        for (InstructorAttributes i : instructors) {
             instructorListByEmail.put(i.email, i);
         }
     }
