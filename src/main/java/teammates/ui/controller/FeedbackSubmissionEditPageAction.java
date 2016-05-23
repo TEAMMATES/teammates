@@ -20,8 +20,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        
         if (!isSpecificUserJoinedCourse()){
             return createPleaseJoinCourseResponse(courseId);
         }
