@@ -182,7 +182,7 @@ public class InstructorCourseEditPage extends AppPage {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            throw new RuntimeException("Unexpected interrupt while waiting for modal to close.");
+            throw new RuntimeException(e);
         }
     }
     
