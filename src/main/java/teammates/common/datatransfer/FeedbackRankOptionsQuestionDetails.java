@@ -20,8 +20,8 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    public transient static final int MIN_NUM_OF_OPTIONS = 2;
-    public transient static final String ERROR_NOT_ENOUGH_OPTIONS =
+    public static final transient int MIN_NUM_OF_OPTIONS = 2;
+    public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
             + ". Minimum number of options is: ";
     

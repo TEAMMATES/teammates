@@ -33,6 +33,10 @@
     <module name="TypecastParenPad">
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
+    <module name="ModifierOrder"/>
+    <module name="RedundantModifier">
+      <property name="tokens" value="ANNOTATION_FIELD_DEF,INTERFACE_DEF,METHOD_DEF,VARIABLE_DEF"/>
+    </module>
     <module name="NeedBraces">
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
     </module>
