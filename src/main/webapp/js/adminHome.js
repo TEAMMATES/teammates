@@ -11,7 +11,7 @@
  * @param {String} status
  * @returns {String} a HTML row of action result table
  */
-function createRowForResultTable(shortName, name, email, institution, isSuccess, status){
+function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
     var result = '<td>' + shortName + '</td>';
     result += '<td>' + name + '</td>';
     result += '<td>' + email + '</td>';
