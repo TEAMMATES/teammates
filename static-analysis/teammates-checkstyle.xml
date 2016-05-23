@@ -64,6 +64,7 @@
     <module name="InnerAssignment">
       <property name="tokens" value="DIV_ASSIGN,BXOR_ASSIGN,STAR_ASSIGN,BAND_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,ASSIGN,MINUS_ASSIGN,SR_ASSIGN,BSR_ASSIGN,BOR_ASSIGN"/>
     </module>
+    <module name="PackageDeclaration"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
