@@ -376,8 +376,8 @@ public class Sendgrid {
 
         JSONObject headers = this.getHeaders();
         params.put("to", this.getFrom());
-        JSONArray tos_json = new JSONArray(this.getTos());
-        headers.put("to", tos_json);
+        JSONArray tosJson = new JSONArray(this.getTos());
+        headers.put("to", tosJson);
         this.setHeaders(headers);
         params.put("x-smtpapi", _escapeUnicode(this.getHeaders().toString()));
         

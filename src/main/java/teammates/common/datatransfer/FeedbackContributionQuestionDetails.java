@@ -769,9 +769,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
             return perceivedContributionHtml;
-        } else {
-            return "";
         }
+        return "";
     }
     
     private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {

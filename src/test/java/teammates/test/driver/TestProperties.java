@@ -144,11 +144,10 @@ public final class TestProperties {
         String uniqueId = inst().TEST_STUDENT1_ACCOUNT.substring("alice.tmms.".length());
         if (uniqueId.isEmpty()) {
             return false;
-        } else {
-            return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
-                && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
-                && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
         }
+        return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
+            && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
+            && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
     }
 
     private boolean isStudentMotdUrlEmpty() {

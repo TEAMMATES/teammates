@@ -124,7 +124,9 @@ public abstract class AppPage {
         this.browser = browser;
         boolean isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         // To minimize test failures due to eventual consistency, we try to
         //  reload the page and compare once more.
@@ -135,7 +137,9 @@ public abstract class AppPage {
         this.reloadPage();
         isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         System.out.println("######### Not in the correct page! ##########");
         throw new IllegalStateException("Not in the correct page!");
@@ -444,9 +448,8 @@ public abstract class AppPage {
         waitForPageToLoad();
         if (TestProperties.inst().isDevServer()) {
             return changePageType(DevServerLoginPage.class);
-        } else {
-            return changePageType(GoogleLoginPage.class);
         }
+        return changePageType(GoogleLoginPage.class);
     }
 
     /**

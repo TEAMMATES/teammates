@@ -171,9 +171,8 @@ public class StudentsDb extends EntitiesDb {
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
-        } else {
-            return new StudentAttributes(studentList.get(0));
         }
+        return new StudentAttributes(studentList.get(0));
     }
     
     /**
@@ -287,7 +286,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s: studentList) {
+        for (Student s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -307,7 +306,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for (StudentAttributes s: allStudents) {
+        for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
                 unregistered.add(s);
             }

@@ -160,9 +160,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         if ("student".equals(view)) {
             return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
-        } else {
-            return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
+        return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(
@@ -637,7 +636,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean isAtLeastTwoResponsesOtherThanCurrentUser = false;
         
         // At least 2 responses are given to any recipient other than current user
-        for (String recipient: numResponses.keySet()) {
+        for (String recipient : numResponses.keySet()) {
             if (hiddenRecipients.contains(recipient)) {
                 continue;
             }

@@ -245,7 +245,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
         List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
         
-        if (params.isEmpty()) { return list; }    
+        if (params.isEmpty()) {
+            return list;
+        }
         
         String[] splitString = params.split(",");
         

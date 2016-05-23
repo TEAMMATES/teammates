@@ -139,9 +139,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getQuestionTypeDisplayName() {
         if (distributeToRecipients) {
             return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;    
-        } else {
-            return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
         }
+        return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
     }
 
     @Override
@@ -394,11 +393,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     "${optionRecipientDisplayName}", "Recipient",
                     "${fragments}", fragments.toString());
-        } else {
-            return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
-                    "${optionRecipientDisplayName}", "Option",
-                    "${fragments}", fragments.toString());
         }
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+                "${optionRecipientDisplayName}", "Option",
+                "${fragments}", fragments.toString());
     }
 
     @Override
@@ -545,10 +543,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getCsvHeader() {
         if (distributeToRecipients) {
             return "Feedback";
-        } else {
-            List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
-            return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
         }
+        List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
+        return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
     }
 
     @Override

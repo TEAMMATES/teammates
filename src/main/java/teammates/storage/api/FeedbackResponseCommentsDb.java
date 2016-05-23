@@ -68,9 +68,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         if (createdEntity == null) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
-        } else {
-            return new FeedbackResponseCommentAttributes(createdEntity);
         }
+        return new FeedbackResponseCommentAttributes(createdEntity);
     }
     
     /*

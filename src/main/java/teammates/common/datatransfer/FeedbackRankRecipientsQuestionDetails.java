@@ -326,23 +326,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         if (areDuplicatesAllowed) {
             return new ArrayList<String>();
-        } else {
-            List<String> errors = new ArrayList<>();
-            
-            Set<Integer> responseRank = new HashSet<>();
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
-                
-                if (responseRank.contains(frd.answer)) {
-                    errors.add("Duplicate rank " + frd.answer + " in question");
-                } else if (frd.answer > numRecipients) {
-                    errors.add("Invalid rank " + frd.answer + " in question");
-                }
-                responseRank.add(frd.answer);
-            }
-        
-            return errors;
         }
+        List<String> errors = new ArrayList<>();
+        
+        Set<Integer> responseRank = new HashSet<>();
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
+            
+            if (responseRank.contains(frd.answer)) {
+                errors.add("Duplicate rank " + frd.answer + " in question");
+            } else if (frd.answer > numRecipients) {
+                errors.add("Invalid rank " + frd.answer + " in question");
+            }
+            responseRank.add(frd.answer);
+        }
+    
+        return errors;
     }
     
     @Override

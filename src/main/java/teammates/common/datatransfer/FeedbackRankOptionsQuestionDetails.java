@@ -20,8 +20,8 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    public transient static final int MIN_NUM_OF_OPTIONS = 2;
-    public transient static final String ERROR_NOT_ENOUGH_OPTIONS =
+    public static final transient int MIN_NUM_OF_OPTIONS = 2;
+    public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
             + ". Minimum number of options is: ";
     
@@ -387,23 +387,22 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         if (areDuplicatesAllowed) {
             return new ArrayList<String>();
-        } else {
-            List<String> errors = new ArrayList<>();
-            
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-                Set<Integer> responseRank = new HashSet<>();
-                
-                for (int answer : frd.getFilteredSortedAnswerList()) {
-                    if (responseRank.contains(answer)) {
-                        errors.add("Duplicate rank " + answer);
-                    }
-                    responseRank.add(answer);
-                }
-            }
-        
-            return errors;
         }
+        List<String> errors = new ArrayList<>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+            Set<Integer> responseRank = new HashSet<>();
+            
+            for (int answer : frd.getFilteredSortedAnswerList()) {
+                if (responseRank.contains(answer)) {
+                    errors.add("Duplicate rank " + answer);
+                }
+                responseRank.add(answer);
+            }
+        }
+    
+        return errors;
     }
 
     @Override

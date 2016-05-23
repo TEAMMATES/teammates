@@ -108,8 +108,7 @@ public class UploadBackupData extends RemoteApiClient {
                     Date secondDate = dateFormat.parse(o2);
                     
                     return secondDate.compareTo(firstDate);
-                }
-                catch (ParseException e) {
+                } catch (ParseException e) {
                     return 0;
                 }
             }
@@ -226,7 +225,7 @@ public class UploadBackupData extends RemoteApiClient {
         try {
             fqDb.createFeedbackQuestions(questions.values());
             
-            for (FeedbackQuestionAttributes question: questions.values()) {
+            for (FeedbackQuestionAttributes question : questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
             
