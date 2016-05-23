@@ -17,6 +17,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import sun.rmi.runtime.Log;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -631,7 +632,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void selectNewQuestionType(String questionType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
+        browser.driver.findElement(By.id(questionType)).click();
     }
     
     public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber) {
@@ -730,7 +731,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     public InstructorFeedbacksPage clickDoneEditingLink() {
         WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
                                                    .findElements(By.tagName("a"))
-                                                   .get(3);
+                                                   .get(12);
+        System.out.println("mmmmmmm\n"+doneEditingLink.getText());
+        
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

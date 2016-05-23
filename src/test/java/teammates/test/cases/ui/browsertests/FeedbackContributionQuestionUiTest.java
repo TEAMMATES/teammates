@@ -55,8 +55,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
     
@@ -131,14 +131,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private void testAddContributionQuestionAsSecondQuestion() {
         ______TS("CONTRIB: add as second question");
 
-        feedbackEditPage.selectNewQuestionType("Essay question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillQuestionBox("q1, essay qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-           
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
-        feedbackEditPage.clickNewQuestionButton();
+
+        feedbackEditPage.clickNewQuestionButton();  
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillQuestionBox("q2, contribution qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());

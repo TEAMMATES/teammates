@@ -20,6 +20,7 @@
 
                     <button
                         name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
+                        id = "button_openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
                         type="button" data-toggle="dropdown">
                         Add New Question <span class="caret"></span>

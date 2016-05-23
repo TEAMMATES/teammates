@@ -54,8 +54,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testNewQuestionFrame() {
         ______TS("CONSTSUM-option: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
@@ -74,8 +74,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionBox("Test const sum question");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
@@ -91,8 +91,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     }
 
     public void testCustomizeOptions() {
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         
         feedbackEditPage.fillConstSumOption(0, "Option 1");
         feedbackEditPage.fillConstSumOption(1, "Option 2");
