@@ -559,7 +559,7 @@ public class CoursesLogic {
     
     /**
      * Returns the {@link CourseSummaryBundle course summary} using the courseId.
-     * @param courseAttributes
+     * @param courseId
      * @return {@link CourseSummaryBundle}
      * @throws EntityDoesNotExistException
      */
