@@ -34,37 +34,37 @@ public enum FeedbackQuestionType {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
 
         switch (this) {
-            case TEXT:
-                feedbackQuestionDetails = new FeedbackTextQuestionDetails();
-                break;
-            case MCQ:
-                feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
-                break;
-            case MSQ:
-                feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
-                break;
-            case NUMSCALE:
-                feedbackQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
-                break;
-            case CONSTSUM:
-                feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-                break;
-            case CONTRIB:
-                feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-                break;
-            case RUBRIC:
-                feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
-                break;
-            case RANK_OPTIONS:
-                feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-                break;
-            case RANK_RECIPIENTS:
-                feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
-                break;
-            default:
-                Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
-                                + this.toString() + " question type.");
-                return null;
+        case TEXT:
+            feedbackQuestionDetails = new FeedbackTextQuestionDetails();
+            break;
+        case MCQ:
+            feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
+            break;
+        case MSQ:
+            feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
+            break;
+        case NUMSCALE:
+            feedbackQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
+            break;
+        case CONSTSUM:
+            feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+            break;
+        case CONTRIB:
+            feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
+            break;
+        case RUBRIC:
+            feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
+            break;
+        case RANK_OPTIONS:
+            feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+            break;
+        case RANK_RECIPIENTS:
+            feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
+            break;
+        default:
+            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
+                            + this.toString() + " question type.");
+            return null;
         }
 
         if (questionText != null && requestParameters != null) {
@@ -86,54 +86,54 @@ public enum FeedbackQuestionType {
         FeedbackResponseDetails feedbackResponseDetails = null;
 
         switch (this) {
-            case TEXT:
-                feedbackResponseDetails = new FeedbackTextResponseDetails();
-                break;
-            case MCQ:
-                feedbackResponseDetails = new FeedbackMcqResponseDetails();
-                break;
-            case MSQ:
-                feedbackResponseDetails = new FeedbackMsqResponseDetails();
-                break;
-            case NUMSCALE:
-                feedbackResponseDetails = new FeedbackNumericalScaleResponseDetails();
-                break;
-            case CONSTSUM:
-                feedbackResponseDetails = new FeedbackConstantSumResponseDetails();
-                break;
-            case CONTRIB:
-                feedbackResponseDetails = new FeedbackContributionResponseDetails();
-                break;
-            case RUBRIC:
-                feedbackResponseDetails = new FeedbackRubricResponseDetails();
-                break;
-            case RANK_OPTIONS:
-                feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
-                break;
-            case RANK_RECIPIENTS:
-                feedbackResponseDetails = new FeedbackRankRecipientsResponseDetails();
-                break;
-            default:
-                Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
-                                + this.toString() + " question type.");
-                return null;
+        case TEXT:
+            feedbackResponseDetails = new FeedbackTextResponseDetails();
+            break;
+        case MCQ:
+            feedbackResponseDetails = new FeedbackMcqResponseDetails();
+            break;
+        case MSQ:
+            feedbackResponseDetails = new FeedbackMsqResponseDetails();
+            break;
+        case NUMSCALE:
+            feedbackResponseDetails = new FeedbackNumericalScaleResponseDetails();
+            break;
+        case CONSTSUM:
+            feedbackResponseDetails = new FeedbackConstantSumResponseDetails();
+            break;
+        case CONTRIB:
+            feedbackResponseDetails = new FeedbackContributionResponseDetails();
+            break;
+        case RUBRIC:
+            feedbackResponseDetails = new FeedbackRubricResponseDetails();
+            break;
+        case RANK_OPTIONS:
+            feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
+            break;
+        case RANK_RECIPIENTS:
+            feedbackResponseDetails = new FeedbackRankRecipientsResponseDetails();
+            break;
+        default:
+            Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
+                            + this.toString() + " question type.");
+            return null;
         }
 
         try {
             switch (this) {
-                case MCQ:
-                    ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
-                                                                               this, questionDetails, answer, requestParameters,
-                                                                                   questionIndx, responseIndx);
-                    break;
-                case MSQ:
-                    ((FeedbackMsqResponseDetails) feedbackResponseDetails).extractResponseDetails(
-                                                                               this, questionDetails, answer, requestParameters,
-                                                                                   questionIndx, responseIndx);
-                    break;
-                default:
-                    feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
-                    break;
+            case MCQ:
+                ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
+                                                                           this, questionDetails, answer, requestParameters,
+                                                                               questionIndx, responseIndx);
+                break;
+            case MSQ:
+                ((FeedbackMsqResponseDetails) feedbackResponseDetails).extractResponseDetails(
+                                                                           this, questionDetails, answer, requestParameters,
+                                                                               questionIndx, responseIndx);
+                break;
+            default:
+                feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+                break;
             }
         } catch (Exception e) {
             Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());

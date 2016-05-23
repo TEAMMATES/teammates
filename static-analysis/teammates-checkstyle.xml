@@ -42,6 +42,7 @@
     </module>
     <module name="ArrayTypeStyle"/>
     <module name="Indentation">
+      <property name="caseIndent" value="0"/>
       <property name="arrayInitIndent" value="8"/>
     </module>
     <module name="LocalVariableName"/>

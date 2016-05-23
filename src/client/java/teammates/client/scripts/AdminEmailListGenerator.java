@@ -84,18 +84,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.student) {
             System.out.print("Student Status: ");
             switch (emailListConfig.studentStatus) {
-                case REG:
-                    System.out.print("REG\n");
-                    break;
-                case UNREG:
-                    System.out.print("UNREG\n");
-                    break;
-                case ALL:
-                    System.out.print("ALL\n");
-                    break;
-                default :
-                    System.out.print("ALL\n");
-                    break;
+            case REG:
+                System.out.print("REG\n");
+                break;
+            case UNREG:
+                System.out.print("UNREG\n");
+                break;
+            case ALL:
+                System.out.print("ALL\n");
+                break;
+            default:
+                System.out.print("ALL\n");
+                break;
             }
         }
         
@@ -112,18 +112,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.instructor) {
             System.out.print("Instructor Status: ");
             switch (emailListConfig.studentStatus) {
-                case REG:
-                    System.out.print("REG\n");
-                    break;
-                case UNREG:
-                    System.out.print("UNREG\n");
-                    break;
-                case ALL:
-                    System.out.print("ALL\n");
-                    break;
-                default :
-                    System.out.print("ALL\n");
-                    break;
+            case REG:
+                System.out.print("REG\n");
+                break;
+            case UNREG:
+                System.out.print("UNREG\n");
+                break;
+            case ALL:
+                System.out.print("ALL\n");
+                break;
+            default:
+                System.out.print("ALL\n");
+                break;
             }
         }
         

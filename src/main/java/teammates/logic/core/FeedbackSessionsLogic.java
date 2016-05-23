@@ -1665,55 +1665,45 @@ public class FeedbackSessionsLogic {
         details.stats.submittedTotal = 0;
         
         switch (fsa.feedbackSessionType) {
-            case STANDARD:
-                List<StudentAttributes> students = studentsLogic
-                        .getStudentsForCourse(fsa.courseId);
-                List<InstructorAttributes> instructors = instructorsLogic
-                        .getInstructorsForCourse(fsa.courseId);
-                List<FeedbackQuestionAttributes> questions = fqLogic
-                        .getFeedbackQuestionsForSession(fsa.feedbackSessionName,
-                                fsa.courseId);
-                List<FeedbackQuestionAttributes> studentQns = fqLogic
-                        .getFeedbackQuestionsForStudents(questions);
-    
-                if (!studentQns.isEmpty()) {
-                    details.stats.expectedTotal += students.size();
+        case STANDARD:
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.courseId);
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+            List<FeedbackQuestionAttributes> questions =
+                    fqLogic.getFeedbackQuestionsForSession(fsa.feedbackSessionName, fsa.courseId);
+            List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
+
+            if (!studentQns.isEmpty()) {
+                details.stats.expectedTotal += students.size();
+            }
+        
+            for (InstructorAttributes instructor : instructors) {
+                List<FeedbackQuestionAttributes> instructorQns =
+                        fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+                if (!instructorQns.isEmpty()) {
+                    details.stats.expectedTotal += 1;
                 }
+            }
             
-                for (InstructorAttributes instructor : instructors) {
-                    List<FeedbackQuestionAttributes> instructorQns = fqLogic
-                            .getFeedbackQuestionsForInstructor(questions,
-                                    fsa.isCreator(instructor.email));
-                    if (!instructorQns.isEmpty()) {
-                        details.stats.expectedTotal += 1;
-                    }
-                }
-                
-                details.stats.submittedTotal += fsa.respondingStudentList.size() + fsa.respondingInstructorList.size();
-    
+            details.stats.submittedTotal += fsa.respondingStudentList.size() + fsa.respondingInstructorList.size();
+
+            break;
+
+        case PRIVATE:
+            List<FeedbackQuestionAttributes> instuctorQuestions =
+                    fqLogic.getFeedbackQuestionsForInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail);
+            List<FeedbackQuestionAttributes> validQuestions =
+                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.creatorEmail);
+            if (validQuestions.isEmpty()) {
                 break;
-    
-            case PRIVATE:
-                List<FeedbackQuestionAttributes> instuctorQuestions =
-                        fqLogic.getFeedbackQuestionsForInstructor(
-                                fsa.feedbackSessionName,
-                                fsa.courseId,
-                                fsa.creatorEmail);
-                List<FeedbackQuestionAttributes> validQuestions = fqLogic
-                        .getQuestionsWithRecipients(instuctorQuestions,
-                                fsa.creatorEmail);
-                if (validQuestions.isEmpty()) {
-                    break;
-                }
-                details.stats.expectedTotal = 1;
-                if (this.isFeedbackSessionFullyCompletedByInstructor(
-                        fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
-                    details.stats.submittedTotal = 1;
-                }
-                break;
-    
-            default:
-                break;
+            }
+            details.stats.expectedTotal = 1;
+            if (this.isFeedbackSessionFullyCompletedByInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
+                details.stats.submittedTotal = 1;
+            }
+            break;
+
+        default:
+            break;
         }
         
         return details;

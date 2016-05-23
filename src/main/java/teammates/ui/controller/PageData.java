@@ -783,35 +783,35 @@ public class PageData {
             }
             
             switch (commentViewer) {
-                case PERSON :
-                    peopleCanView.append("recipient, ");
-                    break;
-                case TEAM :
-                    if (comment.recipientType == CommentParticipantType.TEAM) {
-                        peopleCanView.append("recipient team, ");
-                    } else {
-                        peopleCanView.append("recipient's team, ");
-                    }
-                    break;
-                case SECTION :
-                    if (comment.recipientType == CommentParticipantType.SECTION) {
-                        peopleCanView.append("recipient section, ");
-                    } else {
-                        peopleCanView.append("recipient's section, ");
-                    }
-                    break;
-                case COURSE :
-                    if (comment.recipientType == CommentParticipantType.COURSE) {
-                        peopleCanView.append("the whole class, ");
-                    } else {
-                        peopleCanView.append("other students in this course, ");
-                    }
-                    break;
-                case INSTRUCTOR :
-                    peopleCanView.append("instructors, ");
-                    break;
-                default :
-                    break;
+            case PERSON:
+                peopleCanView.append("recipient, ");
+                break;
+            case TEAM:
+                if (comment.recipientType == CommentParticipantType.TEAM) {
+                    peopleCanView.append("recipient team, ");
+                } else {
+                    peopleCanView.append("recipient's team, ");
+                }
+                break;
+            case SECTION:
+                if (comment.recipientType == CommentParticipantType.SECTION) {
+                    peopleCanView.append("recipient section, ");
+                } else {
+                    peopleCanView.append("recipient's section, ");
+                }
+                break;
+            case COURSE:
+                if (comment.recipientType == CommentParticipantType.COURSE) {
+                    peopleCanView.append("the whole class, ");
+                } else {
+                    peopleCanView.append("other students in this course, ");
+                }
+                break;
+            case INSTRUCTOR:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
             }
         }
         String peopleCanViewString = peopleCanView.toString();
@@ -840,26 +840,26 @@ public class PageData {
             }
             
             switch (commentViewer) {
-                case GIVER :
-                    peopleCanView.append("response giver, ");
-                    break;
-                case RECEIVER :
-                    peopleCanView.append("response recipient, ");
-                    break;
-                case OWN_TEAM :
-                    peopleCanView.append("response giver's team, ");
-                    break;
-                case RECEIVER_TEAM_MEMBERS :
-                    peopleCanView.append("response recipient's team, ");
-                    break;
-                case STUDENTS :
-                    peopleCanView.append("other students in this course, ");
-                    break;
-                case INSTRUCTORS :
-                    peopleCanView.append("instructors, ");
-                    break;
-                default :
-                    break;
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
             }
         }
         String peopleCanViewString = peopleCanView.toString();

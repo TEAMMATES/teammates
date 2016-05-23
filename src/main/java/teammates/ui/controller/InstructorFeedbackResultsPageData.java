@@ -99,15 +99,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         public String additionalInfoId() {
             switch (this) {
-                case GIVER_QUESTION_RECIPIENT:
-                    return "giver-%s-question-%s";                    
-                case RECIPIENT_QUESTION_GIVER:
-                    return "recipient-%s-question-%s";
-                case GIVER_RECIPIENT_QUESTION:
-                case RECIPIENT_GIVER_QUESTION:
-                    return "giver-%s-recipient-%s";
-                default:
-                    return "";
+            case GIVER_QUESTION_RECIPIENT:
+                return "giver-%s-question-%s";
+            case RECIPIENT_QUESTION_GIVER:
+                return "recipient-%s-question-%s";
+            case GIVER_RECIPIENT_QUESTION:
+            case RECIPIENT_GIVER_QUESTION:
+                return "giver-%s-recipient-%s";
+            default:
+                return "";
             }
         }
     }
@@ -221,32 +221,32 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         switch (viewType) {
-            case RECIPIENT_GIVER_QUESTION:
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ = 
-                        bundle.getResponsesSortedByRecipientGiverQuestion();
-    
-                buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForRGQ, viewType.additionalInfoId());
-                break;
-            case RECIPIENT_QUESTION_GIVER:
-                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRQG = 
-                        bundle.getResponsesSortedByRecipientQuestionGiver(true);
-  
-                buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForRQG, viewType.additionalInfoId());
-                break;
-            case GIVER_QUESTION_RECIPIENT:
-                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGQR = 
-                        bundle.getResponsesSortedByGiverQuestionRecipient(true);
-   
-                buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForGQR, viewType.additionalInfoId());
-                break;
-            case GIVER_RECIPIENT_QUESTION:
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ = 
-                        bundle.getResponsesSortedByGiverRecipientQuestion();
-                buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForGRQ, viewType.additionalInfoId());
-                break;
-            default:
-                Assumption.fail();
-                break;
+        case RECIPIENT_GIVER_QUESTION:
+            Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ = 
+                    bundle.getResponsesSortedByRecipientGiverQuestion();
+
+            buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForRGQ, viewType.additionalInfoId());
+            break;
+        case RECIPIENT_QUESTION_GIVER:
+            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRQG = 
+                    bundle.getResponsesSortedByRecipientQuestionGiver(true);
+
+            buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForRQG, viewType.additionalInfoId());
+            break;
+        case GIVER_QUESTION_RECIPIENT:
+            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGQR = 
+                    bundle.getResponsesSortedByGiverQuestionRecipient(true);
+
+            buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForGQR, viewType.additionalInfoId());
+            break;
+        case GIVER_RECIPIENT_QUESTION:
+            Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ = 
+                    bundle.getResponsesSortedByGiverRecipientQuestion();
+            buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForGRQ, viewType.additionalInfoId());
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
         
     }
@@ -652,37 +652,37 @@ public class InstructorFeedbackResultsPageData extends PageData {
                  LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
                  Set<String> teamsWithResponses) {
         switch (viewType) {
-            case GIVER_QUESTION_RECIPIENT:
-            case RECIPIENT_QUESTION_GIVER:
-                prepareHeadersForTeamPanelsInSectionPanel(sectionPanel);
-                if (!responsesGroupedByTeam.isEmpty()) {
-                    buildTeamsStatisticsTableForSectionPanel(sectionPanel, responsesGroupedByTeam, 
-                                                             teamsWithResponses);
-                }
-                
-                Map<String, Boolean> isTeamDisplayingStatistics = new HashMap<>();
-                for (String team : teamsWithResponses) {
-                    // teamsWithResponses can include teams of anonymous student ("Anonymous student #'s Team")
-                    // and "-"
-                    isTeamDisplayingStatistics.put(team, isTeamVisible(team));
-                }
-                sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
-                sectionPanel.setSectionName(sectionName);
-                sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
-                                                    : sectionName);
-                break;
-            case RECIPIENT_GIVER_QUESTION:
-            case GIVER_RECIPIENT_QUESTION:
-                
-                sectionPanel.setSectionName(sectionName);
-                sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION
-                                                    : sectionName);
-                break;
-            default:
-                Assumption.fail();
-                break;
+        case GIVER_QUESTION_RECIPIENT:
+        case RECIPIENT_QUESTION_GIVER:
+            prepareHeadersForTeamPanelsInSectionPanel(sectionPanel);
+            if (!responsesGroupedByTeam.isEmpty()) {
+                buildTeamsStatisticsTableForSectionPanel(sectionPanel, responsesGroupedByTeam, 
+                                                         teamsWithResponses);
+            }
+            
+            Map<String, Boolean> isTeamDisplayingStatistics = new HashMap<>();
+            for (String team : teamsWithResponses) {
+                // teamsWithResponses can include teams of anonymous student ("Anonymous student #'s Team")
+                // and "-"
+                isTeamDisplayingStatistics.put(team, isTeamVisible(team));
+            }
+            sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
+            sectionPanel.setSectionName(sectionName);
+            sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
+                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
+                                                : sectionName);
+            break;
+        case RECIPIENT_GIVER_QUESTION:
+        case GIVER_RECIPIENT_QUESTION:
+            
+            sectionPanel.setSectionName(sectionName);
+            sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
+                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                : sectionName);
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
     }
 
@@ -959,17 +959,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void prepareHeadersForTeamPanelsInSectionPanel(
                                     InstructorFeedbackResultsSectionPanel sectionPanel) {
         switch (viewType) {
-            case GIVER_QUESTION_RECIPIENT:
-                sectionPanel.setStatisticsHeaderText("Statistics for Given Responses");
-                sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
-                break;
-            case RECIPIENT_QUESTION_GIVER:
-                sectionPanel.setStatisticsHeaderText("Received Responses Statistics");
-                sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
-                break;
-            default:
-                Assumption.fail("There should be no headers for the view type");
-                break;
+        case GIVER_QUESTION_RECIPIENT:
+            sectionPanel.setStatisticsHeaderText("Statistics for Given Responses");
+            sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
+            break;
+        case RECIPIENT_QUESTION_GIVER:
+            sectionPanel.setStatisticsHeaderText("Received Responses Statistics");
+            sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
+            break;
+        default:
+            Assumption.fail("There should be no headers for the view type");
+            break;
         }
     }
 
@@ -1019,25 +1019,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         if (isShowingResponseRows) {
             switch (viewType) {
-                case QUESTION:
-                    buildTableColumnHeaderForQuestionView(columnTags, isSortable);
-                    responseRows = buildResponseRowsForQuestion(question, responses);
-                    break;
-                case GIVER_QUESTION_RECIPIENT:
-                    buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
-                    responseRows = buildResponseRowsForQuestionForSingleGiver(question, responses, 
-                                                                              participantIdentifier);
-                    isCollapsible = false;
-                    break;
-                case RECIPIENT_QUESTION_GIVER:
-                    buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable);
-                    responseRows = buildResponseRowsForQuestionForSingleRecipient(question, responses, 
-                                                                                  participantIdentifier);
-                    isCollapsible = false;
-                    break;
-                default:
-                    Assumption.fail("View type should not involve question tables");
-                    break;
+            case QUESTION:
+                buildTableColumnHeaderForQuestionView(columnTags, isSortable);
+                responseRows = buildResponseRowsForQuestion(question, responses);
+                break;
+            case GIVER_QUESTION_RECIPIENT:
+                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
+                responseRows = buildResponseRowsForQuestionForSingleGiver(question, responses, participantIdentifier);
+                isCollapsible = false;
+                break;
+            case RECIPIENT_QUESTION_GIVER:
+                buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable);
+                responseRows = buildResponseRowsForQuestionForSingleRecipient(question, responses, participantIdentifier);
+                isCollapsible = false;
+                break;
+            default:
+                Assumption.fail("View type should not involve question tables");
+                break;
             }
             
             if (questionDetails.isQuestionSpecificSortingRequired()) {
@@ -1285,30 +1283,30 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void configureResponseRow(String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
         switch (viewType) {
-            case QUESTION:
-                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
-                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
-                
-                responseRow.setActionsDisplayed(true);
-                break;
-            case GIVER_QUESTION_RECIPIENT:
-                responseRow.setGiverDisplayed(false);
-                responseRow.setGiverProfilePictureLink(null);
-                responseRow.setRecipientProfilePictureAColumn(true);
-                
-                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
-                responseRow.setActionsDisplayed(false);
-                break;
-            case RECIPIENT_QUESTION_GIVER:
-                responseRow.setRecipientDisplayed(false);
-                responseRow.setGiverProfilePictureAColumn(true);
-                
-                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
-                responseRow.setActionsDisplayed(true);
-                break;
-            default:
-                Assumption.fail();            
-                break;
+        case QUESTION:
+            responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
+            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
+
+            responseRow.setActionsDisplayed(true);
+            break;
+        case GIVER_QUESTION_RECIPIENT:
+            responseRow.setGiverDisplayed(false);
+            responseRow.setGiverProfilePictureLink(null);
+            responseRow.setRecipientProfilePictureAColumn(true);
+
+            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
+            responseRow.setActionsDisplayed(false);
+            break;
+        case RECIPIENT_QUESTION_GIVER:
+            responseRow.setRecipientDisplayed(false);
+            responseRow.setGiverProfilePictureAColumn(true);
+
+            responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
+            responseRow.setActionsDisplayed(true);
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
     }
 
@@ -1620,28 +1618,28 @@ public class InstructorFeedbackResultsPageData extends PageData {
     //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
     private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
-            case GIVER:
-                return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
-            case INSTRUCTORS:
-                return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-            case OWN_TEAM_MEMBERS:
-                return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                       && question.giverType != FeedbackParticipantType.SELF
-                       && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            case RECEIVER:
-                return question.recipientType != FeedbackParticipantType.SELF
-                       && question.recipientType != FeedbackParticipantType.NONE
-                       && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-            case RECEIVER_TEAM_MEMBERS:
-                return question.recipientType != FeedbackParticipantType.INSTRUCTORS
-                        && question.recipientType != FeedbackParticipantType.SELF
-                        && question.recipientType != FeedbackParticipantType.NONE
-                        && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            case STUDENTS:
-                return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-            default:
-                Assumption.fail("Invalid participant type");
-                return false;
+        case GIVER:
+            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        case INSTRUCTORS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        case OWN_TEAM_MEMBERS:
+            return question.giverType != FeedbackParticipantType.INSTRUCTORS
+                   && question.giverType != FeedbackParticipantType.SELF
+                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        case RECEIVER:
+            return question.recipientType != FeedbackParticipantType.SELF
+                   && question.recipientType != FeedbackParticipantType.NONE
+                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        case RECEIVER_TEAM_MEMBERS:
+            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                    && question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        case STUDENTS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        default:
+            Assumption.fail("Invalid participant type");
+            return false;
         }
     }
     

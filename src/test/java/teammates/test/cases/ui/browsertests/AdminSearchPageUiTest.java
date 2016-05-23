@@ -144,44 +144,44 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         int numColumns = searchPage.getNumberOfColumnsFromDataTable(tableNum);
         
         switch (searchPage.getDataTableId(tableNum)) {
-            // Instructor table
-            case "search_table_instructor":
-                if (numColumns != ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
-                    return false;
-                }
-                expectedSearchTableHeaders = Arrays.asList("Course",
-                                                           "Name",
-                                                           "Google ID",
-                                                           "Institute",
-                                                           "Options");
-                actualSessionTableHeaders = new ArrayList<String>();
-                
-                for (int i = 0; i < numColumns; i++) {
-                    actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
-                }
-                
-                break;
-                
-            // Student table
-            case "search_table":
-                if (numColumns != ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
-                    return false;
-                }
-                expectedSearchTableHeaders = Arrays.asList("Institute",
-                                                           "Course[Section](Team)",
-                                                           "Name",
-                                                           "Google ID[Details]",
-                                                           "Comments",
-                                                           "Options");
-                actualSessionTableHeaders = new ArrayList<String>();
-                for (int i = 0; i < numColumns; i++) {
-                    actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
-                }
-                
-                break;
-                
-            default:
+        // Instructor table
+        case "search_table_instructor":
+            if (numColumns != ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
                 return false;
+            }
+            expectedSearchTableHeaders = Arrays.asList("Course",
+                                                       "Name",
+                                                       "Google ID",
+                                                       "Institute",
+                                                       "Options");
+            actualSessionTableHeaders = new ArrayList<String>();
+            
+            for (int i = 0; i < numColumns; i++) {
+                actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
+            }
+            
+            break;
+            
+        // Student table
+        case "search_table":
+            if (numColumns != ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
+                return false;
+            }
+            expectedSearchTableHeaders = Arrays.asList("Institute",
+                                                       "Course[Section](Team)",
+                                                       "Name",
+                                                       "Google ID[Details]",
+                                                       "Comments",
+                                                       "Options");
+            actualSessionTableHeaders = new ArrayList<String>();
+            for (int i = 0; i < numColumns; i++) {
+                actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
+            }
+            
+            break;
+            
+        default:
+            return false;
         }
         
         return actualSessionTableHeaders.equals(expectedSearchTableHeaders);

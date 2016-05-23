@@ -432,19 +432,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return getPossibleGiversForInstructor(fqa);
         } else if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch (fqa.giverType) {
-                case STUDENTS:
-                    return getSortedListOfStudentEmails();
-                case TEAMS:
-                    return getSortedListOfTeams();
-                case INSTRUCTORS:
-                    return getSortedListOfInstructorEmails();
-                case SELF:
-                    List<String> creatorEmail = new ArrayList<String>();
-                    creatorEmail.add(fqa.creatorEmail);
-                    return creatorEmail;
-                default:
-                    log.severe("Invalid giver type specified");
-                    return new ArrayList<String>();
+            case STUDENTS:
+                return getSortedListOfStudentEmails();
+            case TEAMS:
+                return getSortedListOfTeams();
+            case INSTRUCTORS:
+                return getSortedListOfInstructorEmails();
+            case SELF:
+                List<String> creatorEmail = new ArrayList<String>();
+                creatorEmail.add(fqa.creatorEmail);
+                return creatorEmail;
+            default:
+                log.severe("Invalid giver type specified");
+                return new ArrayList<String>();
             }
         } else {
             return getPossibleGiversForTeam(fqa, recipientParticipantIdentifier);
@@ -466,21 +466,21 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         if (recipientType == FeedbackParticipantType.TEAMS) {
             switch (giverType) {
-                case TEAMS:
-                    possibleGivers = getSortedListOfTeams();
-                    break;
-                case STUDENTS:
-                    possibleGivers = getSortedListOfStudentEmails();
-                    break;
-                case INSTRUCTORS:
-                    possibleGivers = getSortedListOfInstructorEmails();
-                    break;
-                case SELF:
-                    possibleGivers.add(fqa.creatorEmail);
-                    break;
-                default:
-                    log.severe("Invalid giver type specified");
-                    break;
+            case TEAMS:
+                possibleGivers = getSortedListOfTeams();
+                break;
+            case STUDENTS:
+                possibleGivers = getSortedListOfStudentEmails();
+                break;
+            case INSTRUCTORS:
+                possibleGivers = getSortedListOfInstructorEmails();
+                break;
+            case SELF:
+                possibleGivers.add(fqa.creatorEmail);
+                break;
+            default:
+                log.severe("Invalid giver type specified");
+                break;
             }
         } else if (recipientType == FeedbackParticipantType.OWN_TEAM) {
             if (giverType == FeedbackParticipantType.TEAMS) {
@@ -507,39 +507,39 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleGivers = new ArrayList<String>();
 
         switch (giverType) {
-            case STUDENTS:
-                possibleGivers = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleGivers = getSortedListOfInstructorEmails();
-                break;
-            case TEAMS:
-                possibleGivers = getSortedListOfTeams();
-                break;
-            case SELF:
-                possibleGivers.add(fqa.creatorEmail);
-                break;
-            default:
-                log.severe("Invalid giver type specified");
-                break;
+        case STUDENTS:
+            possibleGivers = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleGivers = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+            possibleGivers = getSortedListOfTeams();
+            break;
+        case SELF:
+            possibleGivers.add(fqa.creatorEmail);
+            break;
+        default:
+            log.severe("Invalid giver type specified");
+            break;
         }
 
         switch (recipientType) {
-            case STUDENTS:
-            case TEAMS:
-                break;
-            case SELF:
-                possibleGivers = new ArrayList<String>();
-                possibleGivers.add(studentRecipient.email);
-                break;
-            case OWN_TEAM_MEMBERS:
-                possibleGivers.retainAll(getSortedListOfTeamMembersEmailsExcludingSelf(studentRecipient));
-                break;
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                possibleGivers.retainAll(getSortedListOfTeamMembersEmails(studentRecipient));
-                break;
-            default:
-                break;
+        case STUDENTS:
+        case TEAMS:
+            break;
+        case SELF:
+            possibleGivers = new ArrayList<String>();
+            possibleGivers.add(studentRecipient.email);
+            break;
+        case OWN_TEAM_MEMBERS:
+            possibleGivers.retainAll(getSortedListOfTeamMembersEmailsExcludingSelf(studentRecipient));
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            possibleGivers.retainAll(getSortedListOfTeamMembersEmails(studentRecipient));
+            break;
+        default:
+            break;
         }
 
         return possibleGivers;
@@ -556,21 +556,21 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleGivers = new ArrayList<String>();
 
         switch (giverType) {
-            case STUDENTS:
-                possibleGivers = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleGivers = getSortedListOfInstructorEmails();
-                break;
-            case TEAMS:
-                possibleGivers = getSortedListOfTeams();
-                break;
-            case SELF:
-                possibleGivers.add(fqa.creatorEmail);
-                break;
-            default:
-                log.severe("Invalid giver type specified");
-                break;
+        case STUDENTS:
+            possibleGivers = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleGivers = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+            possibleGivers = getSortedListOfTeams();
+            break;
+        case SELF:
+            possibleGivers.add(fqa.creatorEmail);
+            break;
+        default:
+            log.severe("Invalid giver type specified");
+            break;
         }
 
         return possibleGivers;
@@ -581,22 +581,22 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleGivers = new ArrayList<String>();
 
         switch (giverType) {
-            case STUDENTS:
-                possibleGivers = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleGivers = getSortedListOfInstructorEmails();
-                break;
-            case TEAMS:
-                possibleGivers = getSortedListOfTeams();
-                break;
-            case SELF:
-                possibleGivers = new ArrayList<String>();
-                possibleGivers.add(fqa.creatorEmail);
-                break;
-            default:
-                log.severe("Invalid giver type specified");
-                break;
+        case STUDENTS:
+            possibleGivers = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleGivers = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+            possibleGivers = getSortedListOfTeams();
+            break;
+        case SELF:
+            possibleGivers = new ArrayList<String>();
+            possibleGivers.add(fqa.creatorEmail);
+            break;
+        default:
+            log.severe("Invalid giver type specified");
+            break;
         }
 
         return possibleGivers;
@@ -612,25 +612,25 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         switch (recipientType) {
-            case STUDENTS:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                possibleRecipients = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleRecipients = getSortedListOfInstructorEmails();
-                break;
-            case TEAMS:
-            case OWN_TEAM:
-                possibleRecipients = getSortedListOfTeams();
-                break;
-            case NONE:
-                possibleRecipients = new ArrayList<String>(); 
-                possibleRecipients.add(Const.USER_NOBODY_TEXT);
-                break;
-            default:
-                log.severe("Invalid recipient type specified");
-                break;
+        case STUDENTS:
+        case OWN_TEAM_MEMBERS:
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            possibleRecipients = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleRecipients = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+        case OWN_TEAM:
+            possibleRecipients = getSortedListOfTeams();
+            break;
+        case NONE:
+            possibleRecipients = new ArrayList<String>();
+            possibleRecipients.add(Const.USER_NOBODY_TEXT);
+            break;
+        default:
+            log.severe("Invalid recipient type specified");
+            break;
         }
 
         return possibleRecipients;
@@ -676,28 +676,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleRecipients = new ArrayList<String>();
 
         switch (recipientType) {
-            case STUDENTS:
-                possibleRecipients = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleRecipients = getSortedListOfInstructorEmails();
-                possibleRecipients.remove(instructorGiver.email);
-                break;
-            case TEAMS:
-                possibleRecipients = getSortedListOfTeams();
-                break;
-            case SELF:
-                possibleRecipients.add(instructorGiver.email);
-                break;
-            case OWN_TEAM:
-                possibleRecipients.add(Const.USER_TEAM_FOR_INSTRUCTOR);
-                break;
-            case NONE:
-                possibleRecipients.add(Const.GENERAL_QUESTION);
-                break;
-            default:
-                log.severe("Invalid recipient type specified");
-                break;
+        case STUDENTS:
+            possibleRecipients = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleRecipients = getSortedListOfInstructorEmails();
+            possibleRecipients.remove(instructorGiver.email);
+            break;
+        case TEAMS:
+            possibleRecipients = getSortedListOfTeams();
+            break;
+        case SELF:
+            possibleRecipients.add(instructorGiver.email);
+            break;
+        case OWN_TEAM:
+            possibleRecipients.add(Const.USER_TEAM_FOR_INSTRUCTOR);
+            break;
+        case NONE:
+            possibleRecipients.add(Const.GENERAL_QUESTION);
+            break;
+        default:
+            log.severe("Invalid recipient type specified");
+            break;
         }
 
         return possibleRecipients;
@@ -716,34 +716,34 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleRecipients = new ArrayList<String>();
 
         switch (recipientType) {
-            case STUDENTS:
-                possibleRecipients = getSortedListOfStudentEmails();
-                possibleRecipients.remove(studentGiver.email);
-                break;
-            case OWN_TEAM_MEMBERS:
-                possibleRecipients = getSortedListOfTeamMembersEmailsExcludingSelf(studentGiver);
-                break;
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                possibleRecipients = getSortedListOfTeamMembersEmails(studentGiver);
-                break;
-            case INSTRUCTORS:
-                possibleRecipients = getSortedListOfInstructorEmails();
-                break;
-            case TEAMS:
-                possibleRecipients = getSortedListOfTeamsExcludingOwnTeam(studentGiver);
-                break;
-            case OWN_TEAM:
-                possibleRecipients.add(studentGiver.team);
-                break;
-            case SELF:
-                possibleRecipients.add(studentGiver.email);
-                break;
-            case NONE:
-                possibleRecipients.add(Const.GENERAL_QUESTION);
-                break;
-            default:
-                log.severe("Invalid recipient type specified");
-                break;
+        case STUDENTS:
+            possibleRecipients = getSortedListOfStudentEmails();
+            possibleRecipients.remove(studentGiver.email);
+            break;
+        case OWN_TEAM_MEMBERS:
+            possibleRecipients = getSortedListOfTeamMembersEmailsExcludingSelf(studentGiver);
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            possibleRecipients = getSortedListOfTeamMembersEmails(studentGiver);
+            break;
+        case INSTRUCTORS:
+            possibleRecipients = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+            possibleRecipients = getSortedListOfTeamsExcludingOwnTeam(studentGiver);
+            break;
+        case OWN_TEAM:
+            possibleRecipients.add(studentGiver.team);
+            break;
+        case SELF:
+            possibleRecipients.add(studentGiver.email);
+            break;
+        case NONE:
+            possibleRecipients.add(Const.GENERAL_QUESTION);
+            break;
+        default:
+            log.severe("Invalid recipient type specified");
+            break;
         }
 
         return possibleRecipients;
@@ -762,33 +762,33 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         List<String> possibleRecipients = new ArrayList<String>();
 
         switch (recipientType) {
-            case TEAMS:
-                possibleRecipients = getSortedListOfTeams();
-                possibleRecipients.remove(givingTeam);
-                break;
-            case SELF: 
-            case OWN_TEAM:
-                possibleRecipients.add(givingTeam);
-                break;
-            case INSTRUCTORS:
-                possibleRecipients = getSortedListOfInstructorEmails();
-                break;
-            case STUDENTS:
-                possibleRecipients = getSortedListOfStudentEmails();
-                break;
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
-                    Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
-                    possibleRecipients = new ArrayList<String>(studentEmailsToNames);
-                    Collections.sort(possibleRecipients);
-                }
-                break;
-            case NONE:
-                possibleRecipients.add(Const.GENERAL_QUESTION);
-                break;
-            default:
-                log.severe("Invalid recipient type specified");
-                break;
+        case TEAMS:
+            possibleRecipients = getSortedListOfTeams();
+            possibleRecipients.remove(givingTeam);
+            break;
+        case SELF: 
+        case OWN_TEAM:
+            possibleRecipients.add(givingTeam);
+            break;
+        case INSTRUCTORS:
+            possibleRecipients = getSortedListOfInstructorEmails();
+            break;
+        case STUDENTS:
+            possibleRecipients = getSortedListOfStudentEmails();
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
+                Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
+                possibleRecipients = new ArrayList<String>(studentEmailsToNames);
+                Collections.sort(possibleRecipients);
+            }
+            break;
+        case NONE:
+            possibleRecipients.add(Const.GENERAL_QUESTION);
+            break;
+        default:
+            log.severe("Invalid recipient type specified");
+            break;
         }
 
         return possibleRecipients;
