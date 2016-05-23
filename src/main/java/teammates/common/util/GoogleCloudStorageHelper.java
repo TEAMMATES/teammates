@@ -38,10 +38,9 @@ public final class GoogleCloudStorageHelper {
             } catch (FileNotFoundException fne) {
                 return false;
             }
-        } else {
-            BlobKey key = new BlobKey(logic.getStudentProfile(googleId).pictureKey);
-            return doesFileExistInGcs(key);
         }
+        BlobKey key = new BlobKey(logic.getStudentProfile(googleId).pictureKey);
+        return doesFileExistInGcs(key);
     }
     
     public static boolean doesFileExistInGcs(BlobKey fileKey) {

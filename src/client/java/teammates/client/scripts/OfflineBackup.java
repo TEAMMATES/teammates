@@ -187,7 +187,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for (CommentAttributes comment: comments) {
+        for (CommentAttributes comment : comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;

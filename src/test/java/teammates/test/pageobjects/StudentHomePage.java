@@ -44,21 +44,21 @@ public class StudentHomePage extends AppPage {
         viewTeamLinks.get(0).click();
     }
     
-    public WebElement getViewFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getViewFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
+        int rowId = getEvalRowId(feedbackName);       
         return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
     }
 
-    public WebElement getEditFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getEditFeedbackButton(String feedbackName) {
     
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
+        int rowId = getEvalRowId(feedbackName);       
         return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
-    public WebElement getSubmitFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getSubmitFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
+        int rowId = getEvalRowId(feedbackName);       
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
 

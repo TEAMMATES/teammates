@@ -360,7 +360,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                                  existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+        for (FeedbackResponseCommentAttributes c : existingFrComments) {
             if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;
