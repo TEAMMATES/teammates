@@ -60,6 +60,7 @@
     <module name="ParameterName"/>
     <module name="EmptyStatement"/>
     <module name="DefaultComesLast"/>
+    <module name="ExplicitInitialization"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
