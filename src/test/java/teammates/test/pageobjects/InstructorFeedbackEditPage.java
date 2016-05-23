@@ -17,7 +17,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import sun.rmi.runtime.Log;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -730,8 +729,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
                                                    .findElements(By.tagName("a"))
                                                    .get(12);
-        System.out.println("mmmmmmm\n"+doneEditingLink.getText());
-        
+       
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

@@ -4,12 +4,10 @@ $(document).ready(function() {
     updateUncommonSettingsInfo();
     hideUncommonPanels();
 
-    $(".dropdown-menu li a").click(function(){
-    	$('#questiontype').val(this.id)
-    	showNewQuestionFrame(this.id)
-     });
-
-
+    $('.dropdown-menu li a').click(function() {
+        $('#questiontype').val(this.id);
+        showNewQuestionFrame(this.id);
+    });
 });
 
 /**
