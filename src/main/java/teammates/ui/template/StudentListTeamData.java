@@ -16,7 +16,7 @@ public class StudentListTeamData {
         this.teamName = team.name;
         List<StudentListStudentData> studentsDetails =
                                         new ArrayList<StudentListStudentData>();
-        for (StudentAttributes student: team.students) {
+        for (StudentAttributes student : team.students) {
             studentsDetails.add(new StudentListStudentData(googleId, student.name, student.email, student.course,
                                                            student.getStudentStatus(),
                                                            emailPhotoUrlMapping.get(student.email)));

@@ -275,7 +275,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isOpened()) {
                 numOfTotal += 1;
             }
@@ -287,7 +287,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isClosed()) {
                 numOfTotal += 1;
             }
@@ -299,7 +299,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isWaitingToOpen()) {
                 numOfTotal += 1;
             }

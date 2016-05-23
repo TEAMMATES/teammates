@@ -636,7 +636,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean isAtLeastTwoResponsesOtherThanCurrentUser = false;
         
         // At least 2 responses are given to any recipient other than current user
-        for (String recipient: numResponses.keySet()) {
+        for (String recipient : numResponses.keySet()) {
             if (hiddenRecipients.contains(recipient)) {
                 continue;
             }

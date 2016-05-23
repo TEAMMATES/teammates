@@ -787,7 +787,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Collections.sort(sectionsWithoutResponsesList);
         
         InstructorFeedbackResultsSectionPanel sectionPanel;
-        for (String sectionWithoutResponses: sectionsWithoutResponsesList) {
+        for (String sectionWithoutResponses : sectionsWithoutResponsesList) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel();
             finalizeBuildingSectionPanelWithoutTeamStats(sectionPanel, sectionWithoutResponses);
             sectionPanels.put(sectionWithoutResponses, sectionPanel);
