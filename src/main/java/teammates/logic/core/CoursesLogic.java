@@ -117,7 +117,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Get {@link CourseAttributes course} using the courseId.
+     * Returns a {@link CourseAttributes course} using the courseId.
      * @param courseId
      * @return {@link CourseAttributes}
      */
@@ -160,7 +160,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseDetailsBundle courseDetails} for all courses a given student is enrolled in. 
+     * Returns a list of {@link CourseDetailsBundle course details} for all courses a given student is enrolled in. 
      * @param googleId The Google ID of the student
      * @return a list of {@link CourseDetailsBundle}
      * @throws EntityDoesNotExistException
@@ -209,7 +209,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Gets a list of section names for a course using the courseId.
+     * Returns a list of section names for a course using the courseId.
      * @param courseId
      * @return a list of section names
      * @throws EntityDoesNotExistException
@@ -219,7 +219,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Gets a list of section names for a course using the {@link CourseAttributes}.
+     * Returns a list of section names for a course using the {@link CourseAttributes}.
      * @param course
      * @return a list of section names
      * @throws EntityDoesNotExistException
@@ -230,7 +230,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Get list of section names for a course with or without a need to check if the course is existent
+     * Returns a list of section names for a course with or without a need to check if the course is existent
      * @param courseId Course ID of the course
      * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
      * @return list of sections names from the specified course
@@ -297,7 +297,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets a list of {@link SectionDetailsBundle sectionDetails} for a given course using course attributes and course details bundle.
+     * Returns a list of {@link SectionDetailsBundle section details} for a given course using course attributes and course details bundle.
      * @param course {@link CourseAttributes}
      * @param courseDetails {@link CourseDetailsBundle}
      * @return a list of {@link SectionDetailsBundle}
@@ -365,7 +365,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets a list of {@link SectionDetailsBundle sectionDetails} for a given course using courseId.
+     * Returns a list of {@link SectionDetailsBundle section details} for a given course using courseId.
      * @param courseId
      * @return a list of {@link SectionDetailsBundle}
      * @throws EntityDoesNotExistException
@@ -502,7 +502,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Gets the {@link CourseDetailsBundle courseDetails} for a course using {@link CourseAttributes}.
+     * Returns the {@link CourseDetailsBundle course details} for a course using {@link CourseAttributes}.
      * @param courseAttributes
      * @return {@link CourseDetailsBundle}
      * @throws EntityDoesNotExistException
@@ -518,7 +518,7 @@ public class CoursesLogic {
     
     // TODO: reduce calls to this function, use above function instead.
     /**
-     * Gets the {@link CourseDetailsBundle courseDetails} for a course using courseId.
+     * Returns the {@link CourseDetailsBundle course details} for a course using courseId.
      * @param courseId
      * @return {@link CourseDetailsBundle}
      * @throws EntityDoesNotExistException
@@ -534,7 +534,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Get the mapped course data, including its feedback sessions using the given {@link InstructorAttributes}.
+     * Returns the {@link CourseSummaryBundle course summary}, including its feedback sessions using the given {@link InstructorAttributes}.
      * @param instructor
      * @return {@link CourseSummaryBundle}
      * @throws EntityDoesNotExistException
@@ -547,7 +547,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Get the {@link CourseSummaryBundle courseSummary} using the {@link CourseAttributes}.
+     * Returns the {@link CourseSummaryBundle course summary} using the {@link CourseAttributes}.
      * @param courseAttributes
      * @return {@link CourseSummaryBundle}
      * @throws EntityDoesNotExistException
@@ -558,7 +558,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Get the {@link CourseSummaryBundle courseSummary} using the courseId.
+     * Returns the {@link CourseSummaryBundle course summary} using the courseId.
      * @param courseAttributes
      * @return {@link CourseSummaryBundle}
      * @throws EntityDoesNotExistException
@@ -574,7 +574,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a list of {@link CourseAttributes courseAttributes} for all courses a given student is enrolled in. 
+     * Returns a list of {@link CourseAttributes} for all courses a given student is enrolled in. 
      * @param googleId The Google ID of the student
      * @return a list of {@link CourseAttributes}
      * @throws EntityDoesNotExistException
@@ -596,7 +596,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes courseAttributes} for all courses a given instructor is mapped to. 
+     * Returns a list of {@link CourseAttributes} for all courses a given instructor belongs to. 
      * @param googleId The Google ID of the instructor
      * @return a list of {@link CourseAttributes}
      * @throws EntityDoesNotExistException
@@ -606,9 +606,9 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a list of {@link CourseAttributes courseAttributes} for courses a given instructor is mapped to.
+     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to.
      * @param googleId The Google ID of the instructor
-     * @param omitArchived if {@code true} omits all the archived courses from the return
+     * @param omitArchived if {@code true},, omits all the archived courses from the return
      * @return a list of {@link CourseAttributes}
      * @throws EntityDoesNotExistException
      */
@@ -619,7 +619,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets a list of {@link CourseAttributes courseAttributes} for all courses for a given list of instructors. 
+     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors. 
      * @param instructorList
      * @return a list of {@link CourseAttributes}
      * @throws EntityDoesNotExistException
@@ -647,7 +647,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets course summaries for instructor.<br>
+     * Returns course summaries for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
      * 
      * @param googleId The Google ID of the instructor
@@ -666,7 +666,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets course summaries for instructors.<br>
+     * Returns course summaries for instructors.<br>
      * 
      * @param instructorAttributesList
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
@@ -700,7 +700,7 @@ public class CoursesLogic {
     }
  
     /**
-     * Gets course details list for instructor.<br>
+     * Returns course details list for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
      * 
      * @param instructorId - Google Id of instructor
@@ -729,9 +729,9 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets a Map<CourseId, {@link CourseSummaryBundle courseSummaryExcludingStatistics}> for all courses mapped to a given instructor.
+     * Returns a Map (CourseId, {@link CourseSummaryBundle course summary excluding statistics}) for all courses mapped to a given instructor.
      * @param instructorId
-     * @param omitArchived if {@code true} omits all the archived courses from the return
+     * @param omitArchived if {@code true}, omits all the archived courses from the return
      * @return a Map<CourseId, {@link CourseSummaryBundle}
      * @throws EntityDoesNotExistException
      */
@@ -745,7 +745,7 @@ public class CoursesLogic {
     
     // TODO: batch retrieve courses?
     /**
-     * Gets a list of {@link CourseAttributes courseAttributes} for all archived courses mapped to an instructor.
+     * Returns a list of {@link CourseAttributes} for all archived courses mapped to an instructor.
      * @param googleId The Google ID of the instructor
      * @return a list of {@link CourseAttributes}
      * @throws EntityDoesNotExistException
@@ -776,7 +776,7 @@ public class CoursesLogic {
     /**
      * Updates the 'archived' status of a course using the courseId.
      * @param courseId
-     * @param archiveStatus if {@code true} course is set to "archived".
+     * @param archiveStatus if {@code true}, course is set to "archived".
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
@@ -939,7 +939,7 @@ public class CoursesLogic {
     // isCourseArchived(), which retrieves information from the database
     
     /**
-     * Returns a list of {@link CourseDetailsBundle courseDetails} for all active courses mapped to a particular instructor.  
+     * Returns a list of {@link CourseDetailsBundle course details} for all active courses mapped to a particular instructor.  
      * @param courseBundles all courses
      * @param googleId The Google ID of the instructor
      * @return a list of {@link CourseDetailsBundle}
@@ -955,7 +955,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a list of {@link CourseDetailsBundle courseDetails} for all archived courses mapped to a particular instructor.  
+     * Returns a list of {@link CourseDetailsBundle course details} for all archived courses mapped to a particular instructor.  
      * @param courseBundles all courses
      * @param googleId The Google ID of the instructor
      * @return a list of {@link CourseDetailsBundle}
