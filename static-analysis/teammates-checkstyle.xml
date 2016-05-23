@@ -63,6 +63,7 @@
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INSTANCE_INIT,STATIC_INIT,LITERAL_SWITCH,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
+    <module name="EmptyCatchBlock"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
