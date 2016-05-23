@@ -304,7 +304,7 @@ task travisTests {
         if (!isLastRetry) {
             afterTest afterTestClosure
         }
-        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
+        finalizedBy "killFirefox${id+1}"
         dependsOn test, enhancerRun
         onlyIf {
             file("build/reports/test-try-${id}/testng-failed.xml").exists()
@@ -351,7 +351,7 @@ jacocoTestReport {
     }
 }
 
-defaultTasks "appengineRun", "travisTests", "appengineStop", "jacocoTestReport"
+defaultTasks "appengineRun", "travisTests"
 
 // LOCAL TEST TASKS (NOT USED CURRENTLY)
 

@@ -35,8 +35,17 @@ before_script:
   - npm install eslint
   - ./gradlew -b travis.gradle downloadStaticAnalysisTools
   - ./gradlew -b travis.gradle staticAnalysis --continue
-  - gem install gist
 
 install: true
 script:
   - ./gradlew -b travis.gradle
+
+after_failure:
+  - gem install gist
+  - ./gradlew -b travis.gradle generateFailedCmd
+
+after_success:
+  - ./gradlew -b travis.gradle jacocoTestReport
+
+after_script:
+  - ./gradlew -b travis.gradle appengineStop
