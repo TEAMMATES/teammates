@@ -701,15 +701,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         // create for every remaining team in the section, participantResultsPanels for every team member
         for (String teamWithoutResponses : teamsWithoutResponses) {
-            List<String> teamMembersOfTeam = new ArrayList<String>(
+            List<String> teamMembers = new ArrayList<String>(
                                                      bundle.getTeamMembersFromRoster(teamWithoutResponses));
-            Collections.sort(teamMembersOfTeam);
+            Collections.sort(teamMembers);
             if (viewType.isPrimaryGroupingOfGiverType()) {
                 addMissingParticipantsPanelsWithModerationButtonForTeam(
-                                                sectionPanel, teamWithoutResponses, teamMembersOfTeam);
+                                                sectionPanel, teamWithoutResponses, teamMembers);
             } else {
                 addMissingParticipantsPanelsWithoutModerationButtonForTeam(
-                                                sectionPanel, teamWithoutResponses, teamMembersOfTeam);
+                                                sectionPanel, teamWithoutResponses, teamMembers);
             }
         }
         
