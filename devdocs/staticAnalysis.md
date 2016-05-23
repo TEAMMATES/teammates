@@ -120,7 +120,7 @@ The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
-./gradlew -b travis.gradle staticAnalysis
+./gradlew -b travis.gradle staticAnalysis --continue
 ```
 
 ## Running code coverage session

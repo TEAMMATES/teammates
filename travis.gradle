@@ -135,7 +135,6 @@ appengineRun {
         daemon = true
     }
 }
-project.tasks.getByName("war").dependsOn "enhancerRun"
 
 task enhancerRun << {
     def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
@@ -152,6 +151,8 @@ task enhancerRun << {
     }
 }
 enhancerRun.dependsOn project.classes
+enhancerRun.shouldRunAfter project.testClasses
+war.dependsOn enhancerRun
 
 (1..numOfTestRetries + 1).each { id ->
     task "killFirefox${id}"(type: Exec) {
@@ -212,6 +213,9 @@ pmd {
     ruleSetFiles = files("static-analysis/teammates-pmd.xml")
     ruleSets = []
 }
+
+pmdMain.dependsOn compileJava
+pmdTest.dependsOn compileTestJava
 
 findbugs {
     toolVersion = "3.0.1"

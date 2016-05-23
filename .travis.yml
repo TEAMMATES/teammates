@@ -34,7 +34,7 @@ before_script:
   - ./gradlew -b travis.gradle testClasses
   - npm install eslint
   - ./gradlew -b travis.gradle downloadStaticAnalysisTools
-  - ./gradlew -b travis.gradle staticAnalysis
+  - ./gradlew -b travis.gradle staticAnalysis --continue
   - gem install gist
 
 install: true
