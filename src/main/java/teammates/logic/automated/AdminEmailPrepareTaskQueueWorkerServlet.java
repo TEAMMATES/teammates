@@ -99,8 +99,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
     /**
@@ -112,7 +111,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
      * @param size
      * @throws IOException
      */
-    private List<List<String>> getReceiverList(String listFileKey, int size) 
+    private List<List<String>> getReceiverList(String listFileKey, int sizeParam) 
             throws IOException {
         
         Assumption.assertNotNull(listFileKey);   
@@ -146,6 +145,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
+        int size = sizeParam;
         //file size is needed to track the number of unread bytes 
         while (size > 0) {
             //makes sure not to over-read

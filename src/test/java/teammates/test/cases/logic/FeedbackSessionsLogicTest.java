@@ -373,13 +373,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("private.session").toString());
         
-        String actualSessions = "";
+        StringBuilder actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%"
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
         
+        String actualSessions = actualSessionsBuilder.toString();
         ______TS("standard session");
         
         assertEquals(4, detailsList.size());
@@ -452,12 +454,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor2OfCourse1").googleId);
         
         detailsMap.clear();
-        actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
+        actualSessions = actualSessionsBuilder.toString();
         
         AssertHelper.assertContains(expectedSessions, actualSessions);   
         
@@ -485,12 +489,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         detailsMap.clear();
         actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                           + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
-        
+        actualSessions = actualSessionsBuilder.toString();
         AssertHelper.assertContains(expectedSessions, actualSessions);  
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
                 + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
@@ -839,24 +845,24 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         actualStrings.clear();
         
         // case: Unknown User
-        String UnknownUserName = Const.USER_UNKNOWN_TEXT;
+        String unknownUserName = Const.USER_UNKNOWN_TEXT;
         String someTeamName = "Some Team Name";
-        UnknownUserName = results.appendTeamNameToName(UnknownUserName, someTeamName);
-        actualStrings.add(UnknownUserName);
+        unknownUserName = results.appendTeamNameToName(unknownUserName, someTeamName);
+        actualStrings.add(unknownUserName);
         
         // case: Nobody
-        String NobodyUserName = Const.USER_NOBODY_TEXT;
-        NobodyUserName = results.appendTeamNameToName(NobodyUserName, someTeamName);
-        actualStrings.add(NobodyUserName);
+        String nobodyUserName = Const.USER_NOBODY_TEXT;
+        nobodyUserName = results.appendTeamNameToName(nobodyUserName, someTeamName);
+        actualStrings.add(nobodyUserName);
         
         // case: Anonymous User
-        String AnonymousUserName = "Anonymous " + System.currentTimeMillis();
-        AnonymousUserName = results.appendTeamNameToName(AnonymousUserName, someTeamName);
-        actualStrings.add(AnonymousUserName);
+        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
+        actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
                 Const.USER_UNKNOWN_TEXT,
                 Const.USER_NOBODY_TEXT,
-                AnonymousUserName);
+                anonymousUserName);
         assertEquals(expectedStrings.toString(), actualStrings.toString());
         
         // Test the generated response visibilityTable for userNames.        
@@ -2125,16 +2131,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
-        String tableString = "";
+        StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableString += "{";
-            tableString += entry.getKey().toString();
-            tableString += "={";
-            tableString += String.valueOf(entry.getValue()[0]);
-            tableString += ",";
-            tableString += String.valueOf(entry.getValue()[1]);
-            tableString += "}},";
+            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+                                      + entry.getValue()[0] + ','
+                                      + entry.getValue()[1] + "}},");
         }
+        String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {
             tableString = tableString.substring(0, tableString.length() - 1);
         }

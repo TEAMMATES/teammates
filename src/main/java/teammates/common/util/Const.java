@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * category of constants.
  */
 @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
-public class Const {
+public final class Const {
     
     public static class SystemParams {
 
@@ -104,6 +104,10 @@ public class Const {
         );
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+        
+        private SystemParams() {
+            // utility class
+        }
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -1139,9 +1143,6 @@ public class Const {
     /* This section holds constants that are defined as constants primarily 
      * because they are repeated in many places.
      */
-    @SuppressWarnings("unused")
-    private void _______repeated_phrases___________________________________(){}
-    
     public static final String EOL = System.getProperty("line.separator");
     public static final String HTML_BR_TAG = "<br>";
     
@@ -1186,12 +1187,10 @@ public class Const {
     public static final String DEFAULT_SECTION = "None";
     
     public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
+    
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
      */
-    @SuppressWarnings("unused")
-    private void _______values_with_special_meanings________________________(){}
-    
     public static final int INT_UNINITIALIZED = -9999;
     public static final double DOUBLE_UNINITIALIZED = -9999.0;
     
@@ -1227,12 +1226,12 @@ public class Const {
     
     /* Other Constants
      */
-    @SuppressWarnings("unused")
-    private void _______other_constants________________________(){}
-    
     public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
     public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-    
+
+    private Const() {
+        // Utility class containing constants
+    }
 }

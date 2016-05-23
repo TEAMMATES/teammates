@@ -135,16 +135,16 @@ public abstract class Action {
                 log.severe("TEAMMATES accessed using old join link");
             }
             return legacyRegkey;
-        } else {
-            return regkey;
         }
+        return regkey;
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            loggedInUser = new AccountAttributes();
-            loggedInUser.googleId = currentUser.id;
+            AccountAttributes newLoggedInUser = new AccountAttributes();
+            newLoggedInUser.googleId = currentUser.id;
+            return newLoggedInUser;
         }
         return loggedInUser;
     }
@@ -234,11 +234,10 @@ public abstract class Action {
                     account.googleId = paramRequestedUserId;
                 }
                 return account;
-            } else {
-                throw new UnauthorizedAccessException("User " + loggedInUserType.id 
-                                                    + " is trying to masquerade as " + paramRequestedUserId 
-                                                    + " without admin permission.");
             }
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                                                + " is trying to masquerade as " + paramRequestedUserId 
+                                                + " without admin permission.");
         }
         
         account = loggedInUser;

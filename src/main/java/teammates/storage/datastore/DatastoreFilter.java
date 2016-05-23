@@ -31,5 +31,6 @@ public final class DatastoreFilter implements javax.servlet.Filter {
 
     @Override
     public void destroy() {
+        // unused class
     }
 }

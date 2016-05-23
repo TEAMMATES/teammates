@@ -59,7 +59,6 @@ public class InstructorCourseDetailsPageAction extends Action {
         statusToAdmin = "instructorCourseDetails Page Load<br>" 
                         + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);   
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
     }
 }

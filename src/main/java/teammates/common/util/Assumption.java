@@ -13,9 +13,11 @@ import teammates.common.exception.NullPostParameterException;
  * 
  * @see Assert
  */
-public class Assumption {
+public final class Assumption {
 
-    protected Assumption() {
+    private Assumption() {
+        // utility class
+        // Intentional private constructor to prevent instantiation.
     }
 
     /**

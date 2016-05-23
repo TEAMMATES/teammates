@@ -20,7 +20,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
-public class HtmlHelper {
+public final class HtmlHelper {
     
     private static final String INDENTATION_STEP = "  ";
     
@@ -35,6 +35,10 @@ public class HtmlHelper {
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     
     private static final TestProperties TP = TestProperties.inst();
+    
+    private HtmlHelper() {
+        // utility class
+    }
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
@@ -75,14 +79,14 @@ public class HtmlHelper {
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
-        } else {
-            // if it still fails, then it is a failure after all
-            if (isDifferenceToBeShown) {
-                assertEquals("<expected>\n" + processedExpected + "</expected>",
-                             "<actual>\n" + processedActual + "</actual>");
-            }
-            return false;
         }
+        
+        // if it still fails, then it is a failure after all
+        if (isDifferenceToBeShown) {
+            assertEquals("<expected>\n" + processedExpected + "</expected>",
+                         "<actual>\n" + processedActual + "</actual>");
+        }
+        return false;
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
@@ -250,9 +254,8 @@ public class HtmlHelper {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
                                             : attribute.getNodeValue().equals(attrValue);
-        } else {
-            return false;
         }
+        return false;
     }
     
     private static boolean isClassContainingValue(String expected, String actual) {

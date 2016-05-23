@@ -43,7 +43,8 @@ public class InstructorsDb extends EntitiesDb {
      * =========================================================================
      */
     
-    public void putDocument(InstructorAttributes instructor) {
+    public void putDocument(InstructorAttributes instructorParam) {
+        InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
@@ -181,8 +182,7 @@ public class InstructorsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
-        encryptedKey = encryptedKey.trim();
-        String decryptedKey = StringHelper.decrypt(encryptedKey);
+        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
@@ -526,20 +526,18 @@ public class InstructorsDb extends EntitiesDb {
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
-            return getInstructorEntitiesForGoogleId(googleId);
-        } 
-        
-        Query q = getPM().newQuery(Instructor.class);
-        q.declareParameters("String googleIdParam, boolean omitArchivedParam");
-        // Omit archived == true, get instructors with isArchived != true
-        q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
-        
-        @SuppressWarnings("unchecked")
-        List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-        return instructorList;
+        if (omitArchived) {
+            Query q = getPM().newQuery(Instructor.class);
+            q.declareParameters("String googleIdParam, boolean omitArchivedParam");
+            // Omit archived == true, get instructors with isArchived != true
+            q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
+            
+            return (List<Instructor>) q.execute(googleId, omitArchived);
+        }
+        return getInstructorEntitiesForGoogleId(googleId);
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

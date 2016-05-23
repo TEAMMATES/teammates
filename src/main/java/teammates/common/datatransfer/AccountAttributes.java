@@ -39,6 +39,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public AccountAttributes() {
+        // attributes to be set after construction
     }
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,

@@ -187,8 +187,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
@@ -598,9 +597,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
                 if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    previousButton.click();
                 }
+                previousButton.click();
             }
 
         } else {
@@ -610,9 +608,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
                 if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    nextButton.click();
                 }
+                nextButton.click();
             }
         }
 

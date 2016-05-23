@@ -380,9 +380,8 @@ public class FieldValidator {
         
         if (fieldName.isEmpty() || returnValue.isEmpty()) {
             return returnValue;
-        } else {
-            return "Invalid " + fieldName + ": " + returnValue;
         }
+        return "Invalid " + fieldName + ": " + returnValue;
     }
 
     /**

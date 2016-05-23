@@ -94,13 +94,12 @@ function createGroupReceiverListUploadUrl() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    setErrorMessage(data.ajaxStatus);
+                } else {
                     $('#adminEmailReceiverListForm').attr('action', data.nextUploadUrl);
                     setStatusMessage(data.ajaxStatus);
                     submitGroupReceiverListUploadFormAjax();
-                    
-                } else {
-                    setErrorMessage(data.ajaxStatus);
                 }
             }, 500);
         }
@@ -129,16 +128,13 @@ function submitGroupReceiverListUploadFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
-                    if (data.isFileUploaded) {
-                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
-                        $('#groupReceiverListFileKey').val(data.groupReceiverListFileKey);
-                        $('#groupReceiverListFileKey').show();
-                        $('#groupReceiverListFileSize').val(data.groupReceiverListFileSize);
-                    } else {
-                        setErrorMessage(data.ajaxStatus);
-                    }
-                   
+                if (data.isError) {
+                    setErrorMessage(data.ajaxStatus);
+                } else if (data.isFileUploaded) {
+                    setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
+                    $('#groupReceiverListFileKey').val(data.groupReceiverListFileKey);
+                    $('#groupReceiverListFileKey').show();
+                    $('#groupReceiverListFileSize').val(data.groupReceiverListFileSize);
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }
@@ -162,13 +158,12 @@ function createImageUploadUrl() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    setErrorMessage(data.ajaxStatus);
+                } else {
                     $('#adminEmailFileForm').attr('action', data.nextUploadUrl);
                     setStatusMessage(data.ajaxStatus);
                     submitImageUploadFormAjax();
-                    
-                } else {
-                    setErrorMessage(data.ajaxStatus);
                 }
             }, 500);
 
@@ -199,15 +194,12 @@ function submitImageUploadFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
-                    if (data.isFileUploaded) {
-                        url = data.fileSrcUrl;
-                        callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
-                        setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
-                    } else {
-                        setErrorMessage(data.ajaxStatus);
-                    }
-                   
+                if (data.isError) {
+                    setErrorMessage(data.ajaxStatus);
+                } else if (data.isFileUploaded) {
+                    url = data.fileSrcUrl;
+                    callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
+                    setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }

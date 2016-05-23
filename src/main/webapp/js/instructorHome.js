@@ -92,10 +92,10 @@ function toggleArchiveCourseConfirmation(courseId) {
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function instructorHomeDateComparator(x, y) {
-    x = Date.parse(x + ' ' + CURRENT_YEAR);
-    y = Date.parse(y + ' ' + CURRENT_YEAR);
-    if (x > y) {
+    var x0 = Date.parse(x + ' ' + CURRENT_YEAR);
+    var y0 = Date.parse(y + ' ' + CURRENT_YEAR);
+    if (x0 > y0) {
         return 1;
     }
-    return x < y ? -1 : 0;
+    return x0 < y0 ? -1 : 0;
 }

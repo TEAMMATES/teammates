@@ -668,13 +668,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         getPM().flush();
     }
     
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.setFilter(":p.contains(courseId)");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseIds);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseIds);
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
@@ -690,14 +689,13 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return fraList;
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
 
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseId);
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -1084,16 +1082,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         
-        FeedbackResponseAttributes FeedbackResponseToGet =
+        FeedbackResponseAttributes feedbackResponseToGet =
                 (FeedbackResponseAttributes) attributes;
         
-        if (FeedbackResponseToGet.getId() != null) {
-            return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
+        if (feedbackResponseToGet.getId() != null) {
+            return getFeedbackResponseEntity(feedbackResponseToGet.getId());
         } 
         
         return getFeedbackResponseEntity(
-            FeedbackResponseToGet.feedbackQuestionId,
-            FeedbackResponseToGet.giverEmail,
-            FeedbackResponseToGet.recipientEmail);
+            feedbackResponseToGet.feedbackQuestionId,
+            feedbackResponseToGet.giverEmail,
+            feedbackResponseToGet.recipientEmail);
     }
 }

@@ -68,13 +68,12 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
                        + " for course : " + courseId + " could not be fetched");
             return null;
-        } else {
-            /*
-             * Check if feedback session was deleted between scheduling
-             * and the actual sending of emails
-             */
-            return new Emails().generateFeedbackSessionOpeningEmails(feedbackObject);
         }
+        /*
+         * Check if feedback session was deleted between scheduling
+         * and the actual sending of emails
+         */
+        return new Emails().generateFeedbackSessionOpeningEmails(feedbackObject);
         
     }
     
@@ -85,5 +84,6 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
 
     @Override
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+        // TODO implement this
     }
 }

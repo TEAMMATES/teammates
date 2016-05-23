@@ -118,10 +118,10 @@ function setAddSectionLevelLink(instrNum) {
             break;
         }
     }
-    if (!foundNewLink) {
-        $('#addSectionLevelForInstructor' + instrNum).hide();
-    } else {
+    if (foundNewLink) {
         $('#addSectionLevelForInstructor' + instrNum).show();
+    } else {
+        $('#addSectionLevelForInstructor' + instrNum).hide();
     }
 }
 

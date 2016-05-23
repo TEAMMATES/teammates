@@ -25,6 +25,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public boolean isArchived;
     
     public CourseAttributes() {
+        // attributes to be set after construction
     }
 
     public CourseAttributes(String courseId, String name) {
