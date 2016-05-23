@@ -96,7 +96,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
-        for (InstructorAttributes instructor: instructorsToAdd) {
+        for (InstructorAttributes instructor : instructorsToAdd) {
             if (!instructorsToUpdate.contains(instructor)) {
                 putDocument(instructor);
             }
