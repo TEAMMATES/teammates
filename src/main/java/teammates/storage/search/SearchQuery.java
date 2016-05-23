@@ -15,7 +15,7 @@ import teammates.common.util.Utils;
 /**
  * The SearchQuery object that defines how we query {@link Document}
  */
-public abstract class SearchQuery {
+public class SearchQuery {
 
     protected static Logger log = Utils.getLogger();
     protected static final String AND = " AND ";
@@ -28,6 +28,11 @@ public abstract class SearchQuery {
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
+    
+    protected SearchQuery() {
+        // Prevents instantiation of the base SearchQuery. 
+        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead 
+    }
     
     protected void setOptions(QueryOptions options) {
         this.options = options;
@@ -61,37 +66,40 @@ public abstract class SearchQuery {
     }
     
     private String prepareOrQueryString(String queryString) {
-        queryString = queryString.replaceAll("\"", " \" ");
-        String[] splitStrings = queryString.trim().split("\\s+");
+        String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
         List<String> keywords = new ArrayList<String>();
-        String key = "";
+        StringBuilder key = new StringBuilder();
         boolean isStartQuote = false;
         for (int i = 0; i < splitStrings.length; i++) {
-            if (!splitStrings[i].equals("\"")) {
+            if (splitStrings[i].equals("\"")) {
                 if (isStartQuote) {
-                    key += " " + splitStrings[i];
+                    String trimmedKey = key.toString().trim();
+                    isStartQuote = false;
+                    if (!trimmedKey.isEmpty()) {
+                        keywords.add(trimmedKey);
+                    }
+                    key.setLength(0);
                 } else {
-                    keywords.add(splitStrings[i]);
+                    isStartQuote = true;
                 }
             } else {
                 if (isStartQuote) {
-                    isStartQuote = false;
-                    if (!key.trim().isEmpty()) {
-                        keywords.add(key.trim());
-                    }
-                    key = "";
+                    key.append(' ').append(splitStrings[i]);
                 } else {
-                    isStartQuote = true;
+                    keywords.add(splitStrings[i]);
                 }
             }
         }
         
-        if (isStartQuote && !key.trim().isEmpty()) {
-            keywords.add(key.trim());
+        String trimmedKey = key.toString().trim();
+        if (isStartQuote && !trimmedKey.isEmpty()) {
+            keywords.add(trimmedKey);
         }
 
-        if (keywords.size() < 1) return "";
+        if (keywords.isEmpty()) {
+            return "";
+        }
         
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
         

@@ -21,7 +21,6 @@ import teammates.ui.template.FeedbackSessionsForm;
 public class InstructorFeedbacksPageData extends PageData {
 
     private static final int MAX_CLOSED_SESSION_STATS = 5;
-    
 
     // Flag for deciding if loading the sessions table, or the new sessions form.
     // if true -> loads the sessions table, else load the form
@@ -38,7 +37,6 @@ public class InstructorFeedbacksPageData extends PageData {
     public boolean isUsingAjax() {
         return isUsingAjax;
     }
-
 
     /**
      * Initializes the PageData
@@ -62,12 +60,10 @@ public class InstructorFeedbacksPageData extends PageData {
         buildNewForm(courses, courseIdForNewSession, 
                      instructors, defaultFormValues, 
                      feedbackSessionType);
-        
-        
+
         buildFsList(courseIdForNewSession, existingFeedbackSessions, 
                     instructors, highlightedFeedbackSession);
-        
-        
+
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
                            defaultFormValues, highlightedFeedbackSession);
     }
@@ -87,9 +83,6 @@ public class InstructorFeedbacksPageData extends PageData {
 
          init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
-    
-    
-    
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -104,14 +97,13 @@ public class InstructorFeedbacksPageData extends PageData {
                 filteredFeedbackSessions.add(existingFeedbackSession);
             }
         }
-            
 
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                         filteredFeedbackSessions,
                                                                         instructors, feedbackSessionNameForSessionList,
                                                                         courseIdForNewSession);
         
-        String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
@@ -171,19 +163,16 @@ public class InstructorFeedbacksPageData extends PageData {
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
             return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
-        } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
 
     }
-    
-    
+
     private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
                                                  List<FeedbackSessionAttributes> sessions, 
                                                  Map<String, InstructorAttributes> instructors, 
                                          String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
-        
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
         int displayedStatsCount = 0;
         
@@ -241,9 +230,9 @@ public class InstructorFeedbacksPageData extends PageData {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
         ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD", 
-                                                          defaultSessionType != null && defaultSessionType.equals("STANDARD"));
+                                                          "STANDARD".equals(defaultSessionType));
         ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION", 
-                                                            defaultSessionType == null || defaultSessionType.equals("TEAMEVALUATION")); 
+                                                            defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
         
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);
@@ -267,7 +256,6 @@ public class InstructorFeedbacksPageData extends PageData {
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse =
                                             course.getId().equals(courseIdForNewSession);
-            
 
             if (instructors.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
@@ -325,6 +313,5 @@ public class InstructorFeedbacksPageData extends PageData {
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }
-
 
 }

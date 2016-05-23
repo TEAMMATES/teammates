@@ -35,8 +35,7 @@ public class InstructorCourseEnrollPageAction extends Action {
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
         addDataLossWarningToStatusToUser(courseId);
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
     }
 
     private void addDataLossWarningToStatusToUser(String courseId) throws EntityDoesNotExistException {

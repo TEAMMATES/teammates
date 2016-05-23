@@ -14,7 +14,6 @@ import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageData;
 import teammates.ui.controller.ShowPageResult;
 
-
 public class InstructorFeedbackEditCopyPageActionTest extends
         BaseActionTest {
     private static DataBundle dataBundle;

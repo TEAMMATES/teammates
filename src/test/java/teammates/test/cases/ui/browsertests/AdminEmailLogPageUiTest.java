@@ -32,8 +32,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         testContent();
         testFilterReference();
     }
-    
-    
+
     private void testFilterReference() {
         emailLogPage.clickReferenceButton();
         assertTrue(emailLogPage.isFilterReferenceVisible());
@@ -60,11 +59,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailLogDataDisplayCorrect() {
-        if (emailLogPage.isElementPresent(By.className("table"))) {
-            return isEmailLogTableHeaderCorrect();
-        } else {     
-            return false;
-        }
+        return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();
     }
 
     private boolean isEmailLogTableHeaderCorrect() {

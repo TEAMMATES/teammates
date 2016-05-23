@@ -25,7 +25,7 @@ import teammates.test.driver.TestProperties;
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
  * 
  */
-public class ImportData {
+public final class ImportData {
     //  
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
@@ -38,7 +38,11 @@ public class ImportData {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    public static void main(String args[]) throws Exception {
+    private ImportData() {
+        // script, not meant to be instantiated
+    }
+
+    public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
@@ -46,14 +50,18 @@ public class ImportData {
         do
         {
             long start = System.currentTimeMillis();
+            boolean hasAccounts = !data.accounts.isEmpty();
+            boolean hasInstructors = !data.instructors.isEmpty();
+            boolean hasCourses = !data.courses.isEmpty();
+            boolean hasStudents = !data.students.isEmpty();
             
-            if (!data.accounts.isEmpty()) {
+            if (hasAccounts) {
                 status = persist(data.accounts); // Accounts
-            } else if (!data.instructors.isEmpty()) {            //Instructors
+            } else if (hasInstructors) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()) {    //Courses
+            } else if (hasCourses) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()) {    //Students
+            } else if (hasStudents) {    //Students
                 status = persist(data.students);
             } else {    
                 // No more data, break the loop
@@ -116,10 +124,10 @@ public class ImportData {
             count++;
             itr.remove();
             System.out.print(key + "\n");
-            if (type.equals("EvaluationData") && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
+            if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST
+                || count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {
                 break;
-            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
-                break;
+            }
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         

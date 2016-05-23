@@ -98,9 +98,8 @@ public class FeedbackResponseCommentsLogic {
                                                            String feedbackSessionName, String section) {
         if (section == null) {
             return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
-        } else {
-            return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
         }
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(

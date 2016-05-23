@@ -72,7 +72,6 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                      getPreviewAsInstructorOptions(instructorList));
     }
 
-
     private void buildFsForm(FeedbackSessionAttributes feedbackSession) {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
@@ -89,7 +88,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession); 
     }   
 
-
     private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
                                     List<FeedbackQuestionAttributes> copiableQuestions,
                                     InstructorAttributes instructor) {
@@ -98,7 +96,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
                                                    copyQuestionRows);
     }
-
 
     private List<FeedbackQuestionTableRow> buildCopyQuestionsModalRows(List<FeedbackQuestionAttributes> copiableQuestions,
                                                                        InstructorAttributes instructor) {
@@ -148,8 +145,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                                    ?  question.numberOfEntitiesToGiveFeedbackTo
                                                                    :  1);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
-        
-        
+
         // maps for setting visibility
         Map<String, Boolean> isGiverNameVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
@@ -179,7 +175,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForms.add(qnForm);
     }
-
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
       
@@ -226,7 +221,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return result;
     }
 
-    
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {
         List<ElementTag> options = new ArrayList<ElementTag>();
         
@@ -256,12 +250,12 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return
      */
     public String getNewQuestionSpecificEditFormHtml() {
-        String newQuestionSpecificEditForms = "";
+        StringBuilder newQuestionSpecificEditForms = new StringBuilder();
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms 
-                    += type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms.append(
+                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml());
         }
-        return newQuestionSpecificEditForms;
+        return newQuestionSpecificEditForms.toString();
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {
@@ -285,7 +279,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         return results;
     }
-
 
     public FeedbackSessionsForm getFsForm() {
         return fsForm;

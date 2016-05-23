@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
@@ -135,9 +137,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
-        String additionalInfo = getQuestionTypeDisplayName() + ":<br/>";
-        additionalInfo += "Minimum value: " + minScale 
-                                + ". Increment: " + step + ". Maximum value: " + maxScale + ".";
+        String additionalInfo = getQuestionTypeDisplayName()
+                              + ":<br/>Minimum value: " + minScale 
+                              + ". Increment: " + step + ". Maximum value: "
+                              + maxScale + '.';
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
@@ -155,11 +158,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
+        if ("student".equals(view)) {
             return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
-        } else {
-            return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
+        return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(
@@ -177,7 +179,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
-        
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total, 
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
         
@@ -232,7 +233,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return html;
     }
 
-
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
@@ -249,7 +249,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
-        
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total, 
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
@@ -263,7 +262,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS 
                                       || question.recipientType == FeedbackParticipantType.OWN_TEAM;
@@ -360,12 +358,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf 
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
-                        templateToUse,
-                        "${summaryTitle}", statsTitle,
-                        "${statsFragments}", fragmentHtml.toString());
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(
+                                                templateToUse,
+                                                "${summaryTitle}", statsTitle,
+                                                "${statsFragments}", fragmentHtml.toString());
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
@@ -425,15 +421,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return false;
         }
         Integer numOfResponses = numResponses.get(recipient);
-        return numOfResponses == null ? false : numOfResponses >= 2;
+        return numOfResponses != null && numOfResponses >= 2;
     }
 
-    private String getAverageExcludingSelfText(boolean showAvgExcludingSelf, DecimalFormat df, Double averageExcludingSelf) {
-        // Display a dash if the user has only self response
-        String averageExcludingSelfText = averageExcludingSelf == null ? "-" : df.format(averageExcludingSelf);
-        
-        averageExcludingSelfText = showAvgExcludingSelf ? averageExcludingSelfText : "";
-        return averageExcludingSelfText;
+    private String getAverageExcludingSelfText(boolean showAvgExcludingSelf, DecimalFormat df, Double averageExcludingSelf) {        
+        if (showAvgExcludingSelf) {
+            // Display a dash if the user has only self response
+            return averageExcludingSelf == null ? "-" : df.format(averageExcludingSelf);
+        }
+        return "";
     }
     
     @Override
@@ -441,7 +437,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
@@ -467,12 +463,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
   
-        String csvHeader = "";
-        csvHeader += "Team, Recipient, Average, Minimum, Maximum";
-        csvHeader += showAvgExcludingSelf ? ", Average excluding self response" : "";
-        csvHeader += Const.EOL;
+        String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
+                         + (showAvgExcludingSelf ? ", Average excluding self response" : "")
+                         + Const.EOL;
         
-        String csvBody = "";
+        StringBuilder csvBody = new StringBuilder();
         for (String recipient : numResponses.keySet()) {
             // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
             if (hiddenRecipients.contains(recipient)) {
@@ -485,17 +480,19 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
-            csvBody += Sanitizer.sanitizeForCsv(recipientTeam);
-            csvBody += "," + Sanitizer.sanitizeForCsv(isRecipientGeneral ? "General" : bundle.getNameForEmail(recipient));
-            csvBody += "," + df.format(average.get(recipient));
-            csvBody += "," + df.format(min.get(recipient));
-            csvBody += "," + df.format(max.get(recipient));
-            csvBody += showAvgExcludingSelf ? "," + averageScoreExcludingSelfText : "";
-            csvBody += Const.EOL;
+            csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam) + ','
+                           + Sanitizer.sanitizeForCsv(isRecipientGeneral 
+                                                      ? "General" 
+                                                      : bundle.getNameForEmail(recipient)) 
+                           + ','
+                           + df.format(average.get(recipient)) + ','
+                           + df.format(min.get(recipient)) + ','
+                           + df.format(max.get(recipient))
+                           + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
+                           + Const.EOL);
         }
-        
-        String csv = csvHeader + csvBody;
-        return csv;
+
+        return csvHeader + csvBody.toString();
     }
     
     private boolean showAverageExcludingSelf(
@@ -536,8 +533,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }            
             int numOfResponses = numResponses.get(recipientEmail) + 1;
             numResponses.put(recipientEmail, numOfResponses);
-            
-            
+
             // Compute number of responses excluding user's self response
             if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
                 numResponsesExcludingSelf.put(recipientEmail, 0);
@@ -547,32 +543,28 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
                 numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
             }
-            
-            
+
             // Compute minimum score received
             if (!min.containsKey(recipientEmail)) {
                 min.put(recipientEmail, answer);
             }            
             double minScoreReceived = Math.min(answer, min.get(recipientEmail));
             min.put(recipientEmail, minScoreReceived);
-            
-            
+
             // Compute maximum score received
             if (!max.containsKey(recipientEmail)) {
                 max.put(recipientEmail, answer);
             }
             double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
             max.put(recipientEmail, maxScoreReceived);
-            
-            
+
             // Compute total score received
             if (!total.containsKey(recipientEmail)) {
                 total.put(recipientEmail, 0.0);
             }
             double totalScore = total.get(recipientEmail) + answer;
             total.put(recipientEmail, totalScore);
-            
-            
+
             // Compute total score received excluding self
             if (!totalExcludingSelf.containsKey(recipientEmail)) {
                 totalExcludingSelf.put(recipientEmail, null);
@@ -583,16 +575,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 // totalScoreExcludingSelf == null when the user has only self response
                 totalExcludingSelf.put(recipientEmail, totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);                
             }
-            
-            
+
             // Compute average score received
             if (!average.containsKey(recipientEmail)) {
                 average.put(recipientEmail, 0.0);
             }
             double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
             average.put(recipientEmail, averageReceived);
-            
-            
+
             // Compute average score received excluding self
             if (!averageExcludingSelf.containsKey(recipientEmail)) {
                 averageExcludingSelf.put(recipientEmail, null);
@@ -611,7 +601,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false
+            if (!bundle.visibilityTable.get(response.getId())[1]
                 && type != FeedbackParticipantType.SELF
                 && type != FeedbackParticipantType.NONE) {
                 
@@ -621,7 +611,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return hiddenRecipients;
     }
 
-    
     private String getStatsTitle(boolean isDirectedAtGeneral,
             boolean isDirectedAtTeams, boolean isAbleToSeeAllResponses) {
         String statsTitle;
@@ -661,20 +650,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         return isAtLeastTwoResponsesOtherThanCurrentUser;
     }
-    
-    
+
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackQuestionDetails newDetails) {
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
         
-        if (this.minScale != newNumScaleDetails.minScale 
-                || this.maxScale != newNumScaleDetails.maxScale
-                || this.step != newNumScaleDetails.step) {
-            return true;
-        }
-        return false;
+        return this.minScale != newNumScaleDetails.minScale 
+               || this.maxScale != newNumScaleDetails.maxScale
+               || this.step != newNumScaleDetails.step;
     }
 
     @Override
@@ -703,25 +688,24 @@ public class FeedbackNumericalScaleQuestionDetails extends
             possibleValuesCount++;
         }
         
-        String possibleValuesString;
+        StringBuilder possibleValuesString = new StringBuilder();
         if (possibleValuesCount > 6) {
-            possibleValuesString = StringHelper.toDecimalFormatString(minScale) + ", "
-                    + StringHelper.toDecimalFormatString(minScale + step) + ", "
-                    + StringHelper.toDecimalFormatString(minScale + 2 * step) + ", ..., "
-                    + StringHelper.toDecimalFormatString(maxScale - 2 * step) + ", "
-                    + StringHelper.toDecimalFormatString(maxScale - step) + ", "
-                    + StringHelper.toDecimalFormatString(maxScale);
+            possibleValuesString
+                .append(StringHelper.toDecimalFormatString(minScale)).append(", ")
+                .append(StringHelper.toDecimalFormatString(minScale + step)).append(", ")
+                .append(StringHelper.toDecimalFormatString(minScale + 2 * step)).append(", ..., ")
+                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step)).append(", ")
+                .append(StringHelper.toDecimalFormatString(maxScale - step)).append(", ")
+                .append(StringHelper.toDecimalFormatString(maxScale));
         } else {
-            possibleValuesString = Integer.toString(minScale);
+            possibleValuesString.append(Integer.toString(minScale));
             cur = minScale + step;
             while ((maxScale - cur) >= -1e-9) {
-                possibleValuesString += ", " + StringHelper.toDecimalFormatString(cur);
+                possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur));
                 cur += step;
             }
         }
-        possibleValuesString += "]";
-        
-        return possibleValuesString;
+        return possibleValuesString.toString() + "]";
     }
     
     @Override
@@ -749,5 +733,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             //TODO: strengthen check for step
         }
         return errors;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 }

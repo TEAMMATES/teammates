@@ -21,7 +21,6 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataInDatastore();
     }
 
-    
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         
@@ -48,11 +47,9 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         assertEquals(instructor1OfCourse1.googleId, data.getAccountInformation().googleId);
                 
     }
-    
 
     private AdminAccountDetailsPageAction getAction(String... params) throws Exception {
         return (AdminAccountDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

@@ -71,20 +71,18 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
-        } else {
-            if (this.shortName.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
-            } else if (this.email.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
-            } else if (this.pictureKey.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
-            } else if (this.moreInfo.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
-            } else if (this.nationality.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
-            }
-            return "";
+        } else if (this.shortName.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
+        } else if (this.email.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
+        } else if (this.pictureKey.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
+        } else if (this.moreInfo.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
+        } else if (this.nationality.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
         }
+        return "";
     }
 
     private boolean isMultipleFieldsEmpty() {

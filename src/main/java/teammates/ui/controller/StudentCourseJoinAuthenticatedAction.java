@@ -7,6 +7,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -46,7 +47,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         
         try {
             logic.joinCourseForStudent(regkey, account.googleId);
-        } catch (JoinCourseException e) {
+        } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
             if (e.errorCode == Const.StatusCodes.INVALID_KEY) {
                 setStatusForException(e, String.format(e.getMessage(), requestUrl));
@@ -66,10 +67,10 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
         
-        if (statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
-            statusToAdmin += "<br/><br/>" + studentInfo;
-        } else {
+        if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
             statusToAdmin = studentInfo;
+        } else {
+            statusToAdmin += "<br/><br/>" + studentInfo;
         }
         
         addStatusMessageToUser();

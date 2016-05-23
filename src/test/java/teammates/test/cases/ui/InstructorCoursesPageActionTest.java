@@ -122,8 +122,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 + "|||/page/instructorCoursesPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
-    
-    
+
     private InstructorCoursesPageAction getAction(String... params) throws Exception {
             return (InstructorCoursesPageAction) (gaeSimulation.getActionObject(uri, params));
     }

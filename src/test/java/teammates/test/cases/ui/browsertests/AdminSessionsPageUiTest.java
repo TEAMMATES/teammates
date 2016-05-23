@@ -81,10 +81,9 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                 }
             }
             return true;
-        } else {     
-            String statusMessage = sessionsPage.getStatus();
-            return statusMessage.equals("Currently No Ongoing Sessions");
         }
+        sessionsPage.verifyStatus("Currently No Ongoing Sessions");
+        return true;
         
     }
     

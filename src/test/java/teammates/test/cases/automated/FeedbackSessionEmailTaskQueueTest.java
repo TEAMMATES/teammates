@@ -68,7 +68,6 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     public static void classTearDown() throws Exception {
         printTestClassFooter();
     }
-    
 
     private void testFeedbackSessionsPublishEmail() throws Exception {
         
@@ -132,8 +131,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         }
 
         assertEquals(1, FeedbackSessionsEmailTaskQueueCallback.taskCount);
-      
-        
+
         ______TS("Try to send reminder for null feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
