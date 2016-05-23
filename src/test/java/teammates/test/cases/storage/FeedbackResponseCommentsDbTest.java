@@ -433,7 +433,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frcDb.getFeedbackResponseCommentEntitiesForCourses(courseIds);
         List<FeedbackResponseCommentAttributes> actualFrcas =
                 new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc: actualFrcs) {
+        for (FeedbackResponseComment frc : actualFrcs) {
             actualFrcas.add(new FeedbackResponseCommentAttributes(frc));
         }
         

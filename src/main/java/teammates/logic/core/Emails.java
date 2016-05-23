@@ -487,8 +487,7 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
-    {
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
         message.setSubject(subject);

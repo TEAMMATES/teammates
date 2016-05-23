@@ -27,7 +27,7 @@ public abstract class SearchResultBundle {
     protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                      List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             courseIdSet.add(ins.courseId);
         }
         

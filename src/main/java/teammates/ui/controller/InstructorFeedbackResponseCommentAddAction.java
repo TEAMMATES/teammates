@@ -131,7 +131,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             return "";
         }
         StringBuilder result = new StringBuilder();
-        for (FeedbackParticipantType fpt: participants) {
+        for (FeedbackParticipantType fpt : participants) {
             result.append(fpt).append(joiner);
         }
         return result.substring(0, result.length() - joiner.length());

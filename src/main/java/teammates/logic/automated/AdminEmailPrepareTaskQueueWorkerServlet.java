@@ -292,8 +292,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                     }
                 }               
                 
-                if (isNearDeadline())
-                {
+                if (isNearDeadline()) {
                     pauseAndCreateAnNewTask(i, j);
                     log.info("Adding group mail tasks for mail with id " + emailId + "have been paused with list index: " + i + " email index: " + j);
                     return;

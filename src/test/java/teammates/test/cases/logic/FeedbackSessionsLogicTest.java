@@ -817,7 +817,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
         List<String> actualStrings = new ArrayList<String>();
-        for (FeedbackResponseAttributes response: results.responses) {
+        for (FeedbackResponseAttributes response : results.responses) {
             String giverName = results.getNameForEmail(response.giverEmail);
             String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
             giverName = results.appendTeamNameToName(giverName, giverTeamName);

@@ -38,12 +38,12 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults) {
+        for (ScoredDocument doc : filteredResults) {
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);

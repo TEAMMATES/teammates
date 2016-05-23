@@ -213,7 +213,9 @@ public abstract class FeedbackQuestionDetails {
 
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) { return true; }
+        if (answer == null) {
+            return true;
+        }
 
         boolean allAnswersEmpty = true;
 

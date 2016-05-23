@@ -51,7 +51,7 @@ public class InstructorStudentListPageAction extends Action {
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
         
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
-        for (CourseAttributes course: courses) {
+        for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
