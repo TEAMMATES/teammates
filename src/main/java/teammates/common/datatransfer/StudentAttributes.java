@@ -204,27 +204,39 @@ public class StudentAttributes extends EntityAttributes {
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForEmail(email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForTeamName(team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForSectionName(section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }

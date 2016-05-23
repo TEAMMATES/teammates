@@ -75,9 +75,7 @@ public class OfflineBackup extends RemoteApiClient {
                 modifiedLogs.add(logMessage);
             }
             in.close();
-        } 
-        
-        catch (IOException e) { 
+        } catch (IOException e) { 
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         } 
         
