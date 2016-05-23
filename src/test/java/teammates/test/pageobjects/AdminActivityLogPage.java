@@ -83,9 +83,8 @@ public class AdminActivityLogPage extends AppPage {
         if (isLogsTableVisible()) {
             List<WebElement> headerList = browser.driver.findElements(By.cssSelector("#logsTable > thead > tr > th"));
             return headerList.size();
-        } else {
-            return 0;
         }
+        return 0;
     }
     
     public String getQueryMessage() {

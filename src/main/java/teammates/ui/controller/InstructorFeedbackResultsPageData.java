@@ -490,12 +490,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                : secondaryParticipantToResponsesMap.entrySet()) {
             secondaryParticipantIndex += 1;
             String secondaryParticipantIdentifier = secondaryParticipantResponses.getKey();
-            String secondaryParticipantDisplayableName = bundle.getNameForEmail(secondaryParticipantIdentifier); 
             
             boolean isEmail = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, secondaryParticipantIdentifier).isEmpty();
+            String secondaryParticipantDisplayableName; 
             if (isEmail && !bundle.getTeamNameForEmail(secondaryParticipantIdentifier).isEmpty()) {
-                secondaryParticipantDisplayableName += " (" + bundle.getTeamNameForEmail(secondaryParticipantIdentifier)
-                                                     + ")";
+                secondaryParticipantDisplayableName = bundle.getNameForEmail(secondaryParticipantIdentifier) 
+                                                    + " (" + bundle.getTeamNameForEmail(secondaryParticipantIdentifier) + ")";
+            } else {
+                secondaryParticipantDisplayableName = bundle.getNameForEmail(secondaryParticipantIdentifier);
             }
             List<InstructorFeedbackResultsResponsePanel> responsePanels = 
                     buildResponsePanels(additionalInfoId, primaryParticipantIndex, 
@@ -1449,9 +1451,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (isGiverStudentOrTeam || isGiverInstructor) {
             return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
-        } else {
-            return null;
         }
+        return null;
     }
     
     /**

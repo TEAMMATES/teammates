@@ -108,8 +108,9 @@ public final class EmailAccount {
             System.out.println(message.getSubject());
             Matcher m = pattern.matcher(message.getSubject());
 
-            if (!m.find())
+            if (!m.find()) {
                 continue;
+            }
             count++;
 
         }

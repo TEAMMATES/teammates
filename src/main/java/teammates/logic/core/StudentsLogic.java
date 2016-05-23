@@ -62,8 +62,9 @@ public class StudentsLogic {
     private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new StudentsLogic();
+        }
         return instance;
     }
 
@@ -414,9 +415,7 @@ public class StudentsLogic {
             return;
         }
 
-        String errorMessage = "";
-        errorMessage += getSectionInvalidityInfo(mergedList);
-        errorMessage += getTeamInvalidityInfo(mergedList);
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
 
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
@@ -438,11 +437,10 @@ public class StudentsLogic {
         if (mergedList.size() < 2) { // no conflicts
             return;
         }
+        
+        String errorMessage = getTeamInvalidityInfo(mergedList);
 
-        String errorMessage = "";
-        errorMessage += getTeamInvalidityInfo(mergedList);
-
-        if (!errorMessage.isEmpty()) {
+        if (errorMessage.length() > 0) {
             throw new EnrollException(errorMessage);
         }
 
@@ -470,9 +468,8 @@ public class StudentsLogic {
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
-        } else {
-            return students.get(0).section;
         }
+        return students.get(0).section;
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -498,12 +495,12 @@ public class StudentsLogic {
             }
         }
 
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder();
         for (String section: invalidSectionList) {
-            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+            errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 
-        return errorMessage;
+        return errorMessage.toString();
     }
 
     private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -521,15 +518,16 @@ public class StudentsLogic {
             }
         }
 
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
-        }
-        if (!errorMessage.isEmpty()) {
-            errorMessage += "Please use the enroll page to edit multiple students";
+            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
         }
 
-        return errorMessage;
+        if (errorMessage.length() != 0) {
+            errorMessage.append("Please use the enroll page to edit multiple students");
+        }
+
+        return errorMessage.toString();
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(

@@ -222,9 +222,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     private String getAnonName(FeedbackParticipantType type, String name) {
         String hash = getHashOfName(name);
-        String anonName = type.toSingularFormString();
-        anonName = "Anonymous " + anonName + " " + hash;
-        return anonName;
+        String typeSingularForm = type.toSingularFormString();
+        return "Anonymous " + typeSingularForm + " " + hash;
     }
 
     private String getHashOfName(String name) {
@@ -241,9 +240,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
             if (isFullName) {
                 return student.name;
-            } else {
-                return student.lastName;
             }
+            return student.lastName;
         }
 
         // return person name if participant is an instructor
@@ -324,9 +322,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
         if (isEmailOfPersonFromRoster(participantIdentifier)) {
             return participantIdentifier;
-        } else {
-            return Const.USER_NOBODY_TEXT;
         }
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
@@ -398,9 +395,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
             return new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
-        } else {
-            return new HashSet<String>();
         }
+        return new HashSet<String>();
     }
 
     public boolean isParticipantIdentifierStudent(String participantIdentifier) {
@@ -929,9 +925,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String teamName = emailTeamNameTable.get(email);
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
-        } else {
-            return teamName;
         }
+        return teamName;
     }
 
     /**
@@ -949,9 +944,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         if (isEmailOfPerson(participantIdentifier) && isFeedbackParticipantVisible(isGiver, response)) {
             return participantIdentifier;
-        } else {
-            return Const.USER_NOBODY_TEXT;
         }
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
@@ -2210,9 +2204,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         FeedbackQuestionAttributes q2 = questions.get(r2.feedbackQuestionId);
         if (q1 == null || q2 == null) {
             return 0;
-        } else {
-            return q1.compareTo(q2);
         }
+        return q1.compareTo(q2);
     }
 
     private int compareByNames(String n1, String n2) {

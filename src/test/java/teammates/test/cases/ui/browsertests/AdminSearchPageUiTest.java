@@ -131,10 +131,9 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                 }
             }
             return true;
-        } else {     
-            searchPage.verifyStatus("No result found, please try again");
-            return true;
         }
+        searchPage.verifyStatus("No result found, please try again");
+        return true;
         
     }
     
@@ -275,9 +274,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             return actualNameLink.equals(expectedNameLink) 
                    && actualGoogleIdLink.equals(expectedGoogleIdLink);
 
-        } else {
-            return actualNameLink.equals(expectedNameLink);
         }
+        return actualNameLink.equals(expectedNameLink);
     }
 
     @AfterClass

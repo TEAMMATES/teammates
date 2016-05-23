@@ -212,9 +212,8 @@ public class Instructor {
     public String getInstructorPrivilegesAsText() {
         if (instructorPrivilegesAsText == null) {
             return null;
-        } else {
-            return instructorPrivilegesAsText.getValue();
         }
+        return instructorPrivilegesAsText.getValue();
     }
 
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {

@@ -96,9 +96,8 @@ public final class StringHelper {
         final int inputStringLength = inputString.length();
         if (inputStringLength <= maximumStringLength) {
             return inputString;
-        } else {
-            return inputString.substring(inputStringLength - maximumStringLength);
         }
+        return inputString.substring(inputStringLength - maximumStringLength);
     }
 
     /**
@@ -162,20 +161,19 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static String toString(List<String> strings, String delimiter) {
-        String returnValue = "";
-        
         if (strings.isEmpty()) {
-            return returnValue;
+            return "";
         }
         
+        StringBuilder returnValue = new StringBuilder();
         for (int i = 0; i < strings.size() - 1; i++) {
             String s = strings.get(i);
-            returnValue += s + delimiter;
+            returnValue.append(s).append(delimiter);
         }
         //append the last item
-        returnValue += strings.get(strings.size() - 1);
+        returnValue.append(strings.get(strings.size() - 1));
         
-        return returnValue;        
+        return returnValue.toString();
     }
     
     public static String toDecimalFormatString(double doubleVal) {
@@ -185,18 +183,18 @@ public final class StringHelper {
 
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
-        if (hourOffsetTimeZone != 0) {
-            if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
-                utcFormatTimeZone += String.format(" %+03d:00", (int) hourOffsetTimeZone);
-            } else {
-                utcFormatTimeZone += String.format(
-                                            " %+03d:%02d",
-                                            (int) hourOffsetTimeZone,
-                                            (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-            }
+        if (hourOffsetTimeZone == 0) {
+            return utcFormatTimeZone;
         }
 
-        return utcFormatTimeZone;
+        if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
+            return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
+        }
+        
+        return utcFormatTimeZone + String.format(
+                                    " %+03d:%02d",
+                                    (int) hourOffsetTimeZone,
+                                    (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
     
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
@@ -478,16 +476,16 @@ public final class StringHelper {
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int n0 = n;
         while (n0 > 0) {
             n0--; // 1 => a, not 0 => a
             int remainder = n0 % 26;
             char digit = (char) (remainder + 97);
-            result = digit + result;
+            result.append(digit);
             n0 = (n0 - remainder) / 26;
         }
-        return result;
+        return result.reverse().toString();
     }
     
     /**
