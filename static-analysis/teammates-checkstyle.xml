@@ -46,9 +46,41 @@
       <property name="allowMultipleEmptyLines" value="false"/>
     </module>
     <module name="ArrayTypeStyle"/>
+    <module name="Indentation">
+      <property name="caseIndent" value="0"/>
+      <property name="arrayInitIndent" value="8"/>
+    </module>
+    <module name="LeftCurly">
+      <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="RightCurly">
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_IF,LITERAL_TRY"/>
+    </module>
+    <module name="RightCurly">
+      <property name="option" value="alone"/>
+      <property name="tokens" value="CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_FINALLY,LITERAL_FOR,INSTANCE_INIT,METHOD_DEF,STATIC_INIT,LITERAL_WHILE"/>
+    </module>
     <module name="LocalVariableName"/>
     <module name="ParameterName"/>
+    <module name="AvoidNestedBlocks"/>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INSTANCE_INIT,STATIC_INIT,LITERAL_SWITCH,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="EmptyCatchBlock"/>
+    <module name="EmptyStatement"/>
+    <module name="DefaultComesLast"/>
+    <module name="ExplicitInitialization"/>
+    <module name="InnerAssignment">
+      <property name="tokens" value="DIV_ASSIGN,BXOR_ASSIGN,STAR_ASSIGN,BAND_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,ASSIGN,MINUS_ASSIGN,SR_ASSIGN,BSR_ASSIGN,BOR_ASSIGN"/>
+    </module>
+    <module name="PackageDeclaration"/>
+    <module name="ParameterAssignment"/>
+    <module name="OneStatementPerLine"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf_cr_crlf"/>
+  </module>
 </module>

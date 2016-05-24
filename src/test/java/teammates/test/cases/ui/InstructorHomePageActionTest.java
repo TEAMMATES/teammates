@@ -178,7 +178,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     }
     
     private InstructorHomePageAction getAction(String... params) throws Exception {
-            return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
 }

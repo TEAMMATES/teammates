@@ -193,7 +193,7 @@ function bindCopyEvents() {
         $('#modalSessionName').val(feedbackSessionName);
 
         var $previouslySelectedRadio = $currentlySelectedRow.parent().find('input:checked');
-        var $previouslySelectedRow = $previouslySelectedRadio.parent().parent();
+        var $previouslySelectedRow = $previouslySelectedRadio.closest('tr');
 
         $previouslySelectedRadio.prop('checked', false);
         $previouslySelectedRow.removeClass('row-selected');

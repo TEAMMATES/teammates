@@ -42,6 +42,15 @@ import static teammates.common.util.Const.ActionURIs.*;
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
+#####Configuring PMD Eclipse plugin
+
+1. In `Project > Properties`, go to the `PMD` tab.
+2. Check `Enable PMD`.
+3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,  
+   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK. 
+   You have successfully setup the PMD Eclipse plugin.
+
+
 #####Suppressing PMD warnings
 To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
 the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
@@ -104,6 +113,8 @@ Remember to configure the tools to use the ruleset provided.
 The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
+
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `travis.gradle` is using. 
 
 Alternatively, run the tools via Gradle:
 ```

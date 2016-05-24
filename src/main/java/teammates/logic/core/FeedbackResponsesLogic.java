@@ -232,24 +232,18 @@ public class FeedbackResponsesLogic {
 
         switch (role) {
         case STUDENT:
-            addNewResponses(
-                    viewableResponses,
-                    // many queries
-                    getViewableFeedbackResponsesForStudentForQuestion(question,
-                            userEmail));
+            // many queries
+            addNewResponses(viewableResponses,
+                            getViewableFeedbackResponsesForStudentForQuestion(question, userEmail));
             break;
         case INSTRUCTOR:
-            if (question
-                    .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
-                addNewResponses(
-                        viewableResponses,
-                        getFeedbackResponsesForQuestionInSection(
-                                question.getId(), section));
+            if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
+                addNewResponses(viewableResponses,
+                                getFeedbackResponsesForQuestionInSection(question.getId(), section));
             }
             break;
         default:
-            Assumption
-                    .fail("The role of the requesting use has to be Student or Instructor");
+            Assumption.fail("The role of the requesting use has to be Student or Instructor");
             break;
         }
 
@@ -298,8 +292,8 @@ public class FeedbackResponsesLogic {
             case RECEIVER:
                 // Response to team
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, /* this is a team name */
-                            response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                        // this is a team name
                         return true;
                     }
                     break;
@@ -312,14 +306,13 @@ public class FeedbackResponsesLogic {
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, /* this is a team name */
-                            response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                        // this is a team name
                         return true;
                     }
                     break;
+                } else if (roster.isStudentsInSameTeam(response.recipientEmail, userEmail)) {
                     // Response to individual
-                } else if (roster.isStudentsInSameTeam(response.recipientEmail,
-                        userEmail)) {
                     return true;
                 }
                 break;
@@ -570,7 +563,7 @@ public class FeedbackResponsesLogic {
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
         return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-           || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+               || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
     
     public void updateFeedbackResponseForChangingSection(
