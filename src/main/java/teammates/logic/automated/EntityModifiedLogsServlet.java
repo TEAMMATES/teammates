@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.exception.TeammatesException;
+
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
@@ -57,7 +59,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                 }
             }
         } catch (IOException e) {  
-            e.printStackTrace();
+            log.severe(TeammatesException.toStringWithStackTrace(e));
         }
     }
 }

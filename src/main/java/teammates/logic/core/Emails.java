@@ -763,7 +763,6 @@ public class Emails {
             log.log(Level.INFO, emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     
@@ -774,7 +773,6 @@ public class Emails {
             log.log(Level.INFO, emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     
