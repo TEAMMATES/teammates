@@ -109,6 +109,6 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     }
     
     private Action getAction(String... params) throws Exception {
-            return gaeSimulation.getActionObject(uri, params);
+        return gaeSimulation.getActionObject(uri, params);
     }
 }

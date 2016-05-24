@@ -391,6 +391,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : msqChoices) {
@@ -445,18 +446,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        String fragments = "";
+        
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+
         }
         //Use same template as MCQ for now, until they need to be different.
-        String html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments);
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
     }
 
     @Override
@@ -467,7 +468,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
-        
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
@@ -522,19 +523,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
-                      + entry.getValue().toString() + ","
-                      + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL;
-                    
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey()) + ','
+                             + entry.getValue().toString() + ','
+                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
         }
 
-        String csv = "Choice, Response Count, Percentage" + Const.EOL;
         
-        csv += fragments + Const.EOL;
-        
-        return csv;
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments + Const.EOL;
     }
 
     @Override

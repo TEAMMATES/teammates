@@ -21,10 +21,9 @@ public class EmailLogEntry {
     public String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws Exception {
-        
-            this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
-            this.subject = msg.getSubject();
-            this.content = (String) msg.getContent(); 
+        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+        this.subject = msg.getSubject();
+        this.content = (String) msg.getContent();
     }
     
     public EmailLogEntry(Sendgrid msg) throws Exception {
@@ -126,17 +125,17 @@ public class EmailLogEntry {
         if (text == null) {
             return text;
         }
-        
+        String highlightedText = text;
         for (String stringToHighlight : keyStringsToHighlight) {
-            if (text.toLowerCase().contains(stringToHighlight.toLowerCase())) {
+            if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
-                int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
+                int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();                         
-                String realStringToHighlight = text.substring(startIndex, endIndex);               
-                text = text.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
+                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);               
+                highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
             }
         }
         
-        return text;
+        return highlightedText;
     }
 }

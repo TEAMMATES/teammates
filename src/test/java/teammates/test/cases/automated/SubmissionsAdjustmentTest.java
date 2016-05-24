@@ -107,7 +107,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //Verify no tasks sent to the task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
-           assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
+            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
         ______TS("try to enroll with empty input enroll lines");
@@ -131,8 +131,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         ______TS("enroll new students to existing course(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollLines += newStudentLine + Const.EOL + "\t";
+        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL
+                    + newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
         while (counter != 10) {
@@ -184,8 +184,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
-        enrollLines = "Section | Team | Name | Email | Comment";
-        enrollLines += studentInTeam1.toEnrollmentString();
+        enrollLines = "Section | Team | Name | Email | Comment" + studentInTeam1.toEnrollmentString();
         
         counter = 0;
         while (counter != 10) {
@@ -209,9 +208,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Reset task count in TaskQueue callback
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
-        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL;
         String invalidStudentId = "t1|n6|e6@g@";
-        invalidEnrollLine += invalidStudentId + Const.EOL;
+        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL
+                                 + invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());

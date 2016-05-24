@@ -64,8 +64,9 @@ public class CoursesLogic {
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static CoursesLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new CoursesLogic();
+        }
         return instance;
     }
 
@@ -150,13 +151,15 @@ public class CoursesLogic {
             
             if (s == null) {
                 //TODO Remove excessive logging after the reason why s can be null is found
-                String logMsg = "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)"
-                                + "<br/> Student Google ID: " + googleId + "<br/> Course: " + c.getId()
-                                + "<br/> All Courses Retrieved using the Google ID:";
+                StringBuilder logMsg = new StringBuilder();
+                logMsg.append(
+                    "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
+                    + googleId + "<br> Course: " + c.getId()
+                    + "<br> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
-                    logMsg += "<br/>" + course.getId();
+                    logMsg.append("<br>").append(course.getId());
                 }
-                log.severe(logMsg);
+                log.severe(logMsg.toString());
                 
                 //TODO Failing might not be the best course of action here. 
                 //Maybe throw a custom exception and tell user to wait due to eventual consistency?
@@ -203,7 +206,7 @@ public class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
-        for (StudentAttributes sd: studentDataList) {
+        for (StudentAttributes sd : studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
@@ -234,13 +237,9 @@ public class CoursesLogic {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
-            } 
-            // student in the same team as the previous student
-            else if (s.team.equals(team.name)) {
+            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
                 team.students.add(s);
-            } 
-            // first student of subsequent teams (not the first team)
-            else {
+            } else { // first student of subsequent teams (not the first team)
                 sectionDetails.teams.add(team);
                 team = new TeamDetailsBundle();
                 team.name = s.team;
@@ -396,13 +395,9 @@ public class CoursesLogic {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
-            } 
-            // student in the same team as the previous student
-            else if (s.team.equals(team.name)) {
+            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
                 team.students.add(s);
-            } 
-            // first student of subsequent teams (not the first team)
-            else {
+            } else { // first student of subsequent teams (not the first team)
                 teams.add(team);
                 team = new TeamDetailsBundle();
                 team.name = s.team;
@@ -728,13 +723,14 @@ public class CoursesLogic {
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
-        String export = "";
-        export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + "Course Name," 
-                  + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL + Const.EOL + Const.EOL;
-        if (hasSection) {
-            export += "Section" + ",";
-        }
-        export += "Team,Full Name,Last Name,Status,Email" + Const.EOL;
+        StringBuilder export = new StringBuilder(100);
+        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL 
+                      + "Course Name," + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL
+                      + Const.EOL + Const.EOL;
+        export.append(courseInfo);
+        
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL; 
+        export.append(header);
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team : section.teams) {
@@ -747,18 +743,18 @@ public class CoursesLogic {
                     }
                     
                     if (hasSection) {
-                        export += Sanitizer.sanitizeForCsv(section.name) + ",";
+                        export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export += Sanitizer.sanitizeForCsv(team.name) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + "," 
-                              + Sanitizer.sanitizeForCsv(studentStatus) + "," 
-                              + Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
+                    export.append(Sanitizer.sanitizeForCsv(team.name) + ',' 
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ',' 
+                            + Sanitizer.sanitizeForCsv(studentStatus) + ',' 
+                            + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
         }
-        return export;
+        return export.toString();
     }
 
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {

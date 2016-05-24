@@ -124,7 +124,9 @@ public abstract class AppPage {
         this.browser = browser;
         boolean isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         // To minimize test failures due to eventual consistency, we try to
         //  reload the page and compare once more.
@@ -135,7 +137,9 @@ public abstract class AppPage {
         this.reloadPage();
         isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         System.out.println("######### Not in the correct page! ##########");
         throw new IllegalStateException("Not in the correct page!");
@@ -444,9 +448,8 @@ public abstract class AppPage {
         waitForPageToLoad();
         if (TestProperties.inst().isDevServer()) {
             return changePageType(DevServerLoginPage.class);
-        } else {
-            return changePageType(GoogleLoginPage.class);
         }
+        return changePageType(GoogleLoginPage.class);
     }
 
     /**
@@ -608,7 +611,7 @@ public abstract class AppPage {
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-       return tableElement.findElements(By.tagName("tr")).size();
+        return tableElement.findElements(By.tagName("tr")).size();
     }
     
     /** 
@@ -801,12 +804,10 @@ public abstract class AppPage {
         return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath) throws IOException {
+    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {

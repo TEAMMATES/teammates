@@ -40,8 +40,9 @@ public class FeedbackQuestionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     public static FeedbackQuestionsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackQuestionsLogic();
+        }
         return instance;
     }
     
@@ -420,11 +421,11 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> students_Member = 
+            List<StudentAttributes> teamMembers = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : students_Member) {
-                    //accepts self feedback too
-                    recipients.put(student.email, student.name);
+            for (StudentAttributes student : teamMembers) {
+                // accepts self feedback too
+                recipients.put(student.email, student.name);
             }
             break;
         case NONE:
@@ -696,10 +697,9 @@ public class FeedbackQuestionsLogic {
         
         if (questionToDelete == null) {
             return; // Silently fail if question does not exist.
-        } else {
-            // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
-        }
+        } 
+        // Cascade delete responses for question.
+        frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
         try {

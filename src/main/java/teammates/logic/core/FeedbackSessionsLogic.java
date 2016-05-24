@@ -69,8 +69,9 @@ public class FeedbackSessionsLogic {
     private static final int EMAIL_TEAMNAME_PAIR = 2;
 
     public static FeedbackSessionsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackSessionsLogic();
+        }
         return instance;
     }
 
@@ -278,8 +279,8 @@ public class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
         
-      InstructorAttributes instructorGiver = instructor;
-      StudentAttributes studentGiver = null;
+        InstructorAttributes instructorGiver = instructor;
+        StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
@@ -615,7 +616,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
             throws EntityDoesNotExistException {
         
-       return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null, range, viewType);
+        return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null, range, viewType);
     }
 
     /**
@@ -696,7 +697,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
         
-       return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null);
+        return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null);
     }
 
     /**
@@ -974,10 +975,11 @@ public class FeedbackSessionsLogic {
         removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver, results);
 
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
-            possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
+            List<String> possibleRecipientsForRemainingGiver =
+                    results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
             
             exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
-                    question, questionDetails, possibleRecipientsForGiver,
+                    question, questionDetails, possibleRecipientsForRemainingGiver,
                     possibleGiverWithNoResponses));
         }
         
@@ -1215,9 +1217,9 @@ public class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : responses) {
             List<String> instructorQuestions = instructorQuestionsMap.get(response.giverEmail);
             if (instructorQuestions != null && instructorQuestions.contains(response.feedbackQuestionId)) {
-                    respondingInstructorList.add(response.giverEmail);
+                respondingInstructorList.add(response.giverEmail);
             } else {
-                    respondingStudentList.add(response.giverEmail);
+                respondingStudentList.add(response.giverEmail);
             }
         }
         
@@ -1664,24 +1666,19 @@ public class FeedbackSessionsLogic {
         
         switch (fsa.feedbackSessionType) {
         case STANDARD:
-            List<StudentAttributes> students = studentsLogic
-                    .getStudentsForCourse(fsa.courseId);
-            List<InstructorAttributes> instructors = instructorsLogic
-                    .getInstructorsForCourse(fsa.courseId);
-            List<FeedbackQuestionAttributes> questions = fqLogic
-                    .getFeedbackQuestionsForSession(fsa.feedbackSessionName,
-                            fsa.courseId);
-            List<FeedbackQuestionAttributes> studentQns = fqLogic
-                    .getFeedbackQuestionsForStudents(questions);
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.courseId);
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+            List<FeedbackQuestionAttributes> questions =
+                    fqLogic.getFeedbackQuestionsForSession(fsa.feedbackSessionName, fsa.courseId);
+            List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
 
             if (!studentQns.isEmpty()) {
                 details.stats.expectedTotal += students.size();
             }
         
             for (InstructorAttributes instructor : instructors) {
-                List<FeedbackQuestionAttributes> instructorQns = fqLogic
-                        .getFeedbackQuestionsForInstructor(questions,
-                                fsa.isCreator(instructor.email));
+                List<FeedbackQuestionAttributes> instructorQns =
+                        fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
                 if (!instructorQns.isEmpty()) {
                     details.stats.expectedTotal += 1;
                 }
@@ -1693,19 +1690,14 @@ public class FeedbackSessionsLogic {
 
         case PRIVATE:
             List<FeedbackQuestionAttributes> instuctorQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor(
-                            fsa.feedbackSessionName,
-                            fsa.courseId,
-                            fsa.creatorEmail);
-            List<FeedbackQuestionAttributes> validQuestions = fqLogic
-                    .getQuestionsWithRecipients(instuctorQuestions,
-                            fsa.creatorEmail);
+                    fqLogic.getFeedbackQuestionsForInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail);
+            List<FeedbackQuestionAttributes> validQuestions =
+                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.creatorEmail);
             if (validQuestions.isEmpty()) {
                 break;
             }
             details.stats.expectedTotal = 1;
-            if (this.isFeedbackSessionFullyCompletedByInstructor(
-                    fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
+            if (this.isFeedbackSessionFullyCompletedByInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
                 details.stats.submittedTotal = 1;
             }
             break;
@@ -2339,8 +2331,9 @@ public class FeedbackSessionsLogic {
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail))
+            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail)) {
                 fsDetailsWithoutPrivate.add(getFeedbackSessionDetails(fsa));
+            }
         }
 
         return fsDetailsWithoutPrivate;

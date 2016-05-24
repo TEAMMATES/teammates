@@ -112,7 +112,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        if (order == 0) return typicalCase;
+        if (order == 0) {
+            return typicalCase;
+        }
         
         List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -126,31 +128,31 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
         switch(order) {
-            case 1:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-                typicalCase[indexOfSessionPublishDate] = "08/05/2014";
-                typicalCase[indexOfSessionPublishTime] = "2";
-                break;
-            case 2:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-                
-                typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
-                break;
-            case 3:
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-                typicalCase[indexOfSessionInstructionsValue] = "";
-                break;
-            default:
-                Assumption.fail("Incorrect order");
-                break;
+        case 1:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
+            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishTime] = "2";
+            break;
+        case 2:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+            
+            typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
+            break;
+        case 3:
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
+            typicalCase[indexOfSessionInstructionsValue] = "";
+            break;
+        default:
+            Assumption.fail("Incorrect order");
+            break;
         }
         
         return typicalCase;

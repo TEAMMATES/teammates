@@ -86,11 +86,11 @@ $(document).ready(function() {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if (!$('#panel_all').prop('checked')) {
-                $('#giver_all').closest('.filter-options').hide();
-                $('#status_all').closest('.filter-options').hide();
-            } else {
                 $('#giver_all').closest('.filter-options').show();
                 $('#status_all').closest('.filter-options').show();
+            } else {
+                $('#giver_all').closest('.filter-options').hide();
+                $('#status_all').closest('.filter-options').hide();
             }
         } else {
             $('#no-comment-panel').hide();

@@ -124,14 +124,16 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if (inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + "
+                     + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if (inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
-                        + delta + "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>"
+                   : "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - "
+                     + delta + "%</span>";
         } else {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
@@ -161,18 +163,18 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-       List<Double> options = TimeHelper.getTimeZoneValues();
-       ArrayList<String> result = new ArrayList<String>();
-       if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-       }
-       for (Double timeZoneOption : options) {
-           String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
-           result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
-                      + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
-                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-       }
-       return result;
+        List<Double> options = TimeHelper.getTimeZoneValues();
+        ArrayList<String> result = new ArrayList<String>();
+        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
+        }
+        for (Double timeZoneOption : options) {
+            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
+            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
+                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
+                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
+        }
+        return result;
     }
     
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
@@ -202,9 +204,8 @@ public class PageData {
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", null);
-        } else {
-            return new ElementTag(text, "value", value);
         }
+        return new ElementTag(text, "value", value);
     }
     
     /**
@@ -709,7 +710,7 @@ public class PageData {
 
     public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
-             return "Private";
+            return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
@@ -727,27 +728,28 @@ public class PageData {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
         
-        String msg = "The feedback session has been created";
+        StringBuilder msg = new StringBuilder(50);
+        msg.append("The feedback session has been created");
         
         if (session.isVisible()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
         
         if (session.isOpened()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (session.isClosed()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
         if (session.isPublished()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
         
-        msg += ".";
+        msg.append('.');
         
-        return msg;
+        return msg.toString();
     }
     
     /**
@@ -781,34 +783,34 @@ public class PageData {
             }
             
             switch (commentViewer) {
-            case PERSON :
+            case PERSON:
                 peopleCanView.append("recipient, ");
                 break;
-            case TEAM :
+            case TEAM:
                 if (comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
-            case SECTION :
+            case SECTION:
                 if (comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
-            case COURSE :
+            case COURSE:
                 if (comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
                 }
                 break;
-            case INSTRUCTOR :
+            case INSTRUCTOR:
                 peopleCanView.append("instructors, ");
                 break;
-            default :
+            default:
                 break;
             }
         }
@@ -838,25 +840,25 @@ public class PageData {
             }
             
             switch (commentViewer) {
-            case GIVER :
+            case GIVER:
                 peopleCanView.append("response giver, ");
                 break;
-            case RECEIVER :
+            case RECEIVER:
                 peopleCanView.append("response recipient, ");
                 break;
-            case OWN_TEAM :
+            case OWN_TEAM:
                 peopleCanView.append("response giver's team, ");
                 break;
-            case RECEIVER_TEAM_MEMBERS :
+            case RECEIVER_TEAM_MEMBERS:
                 peopleCanView.append("response recipient's team, ");
                 break;
-            case STUDENTS :
+            case STUDENTS:
                 peopleCanView.append("other students in this course, ");
                 break;
-            case INSTRUCTORS :
+            case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
                 break;
-            default :
+            default:
                 break;
             }
         }
@@ -891,21 +893,19 @@ public class PageData {
     }
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
-        int defaultGracePeriod = 15;
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
-        } else {
-            return gracePeriodOptionValue == defaultGracePeriod;
         }
+        int defaultGracePeriod = 15;
+        return gracePeriodOptionValue == defaultGracePeriod;
     }
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
             return Integer.toString((int) num);
-        } else {
-            return Double.toString(num);
         }
+        return Double.toString(num);
     }
     
     public boolean isCourseArchived(String courseId, String googleId) {
@@ -921,9 +921,8 @@ public class PageData {
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
             return true;
-        } else {
-            return qn.isResponseVisibleTo(viewerType);
         }
+        return qn.isResponseVisibleTo(viewerType);
     }
     
     public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
@@ -948,9 +947,8 @@ public class PageData {
                                                        FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return true;
-        } else {
-            return frComment.showGiverNameTo.contains(viewerType);
         }
+        return frComment.showGiverNameTo.contains(viewerType);
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
@@ -961,9 +959,8 @@ public class PageData {
                                                      FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
     }
     
     public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn) {
@@ -974,19 +971,17 @@ public class PageData {
                                                               FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
     }
     
     public String getPictureUrl(String pictureKey) {
         if (pictureKey == null || pictureKey.isEmpty()) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-        } else {
-            return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                   + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                   + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+               + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+               + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
     
     @SuppressWarnings("unused")

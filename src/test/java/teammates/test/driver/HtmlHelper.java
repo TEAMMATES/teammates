@@ -79,14 +79,14 @@ public final class HtmlHelper {
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
-        } else {
-            // if it still fails, then it is a failure after all
-            if (isDifferenceToBeShown) {
-                assertEquals("<expected>\n" + processedExpected + "</expected>",
-                             "<actual>\n" + processedActual + "</actual>");
-            }
-            return false;
         }
+        
+        // if it still fails, then it is a failure after all
+        if (isDifferenceToBeShown) {
+            assertEquals("<expected>\n" + processedExpected + "</expected>",
+                         "<actual>\n" + processedActual + "</actual>");
+        }
+        return false;
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
@@ -130,14 +130,14 @@ public final class HtmlHelper {
     private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
                                                            boolean isPart) {
         switch (currentNode.getNodeType()) {
-            case Node.TEXT_NODE:
-                return generateNodeTextContent(currentNode, indentation);
-            case Node.DOCUMENT_TYPE_NODE:
-            case Node.COMMENT_NODE:
-                // ignore the doctype definition and all HTML comments
-                return ignoreNode();
-            default: // in HTML this can only be Node.ELEMENT_NODE
-                return convertElementNode(currentNode, indentation, isPart);
+        case Node.TEXT_NODE:
+            return generateNodeTextContent(currentNode, indentation);
+        case Node.DOCUMENT_TYPE_NODE:
+        case Node.COMMENT_NODE:
+            // ignore the doctype definition and all HTML comments
+            return ignoreNode();
+        default: // in HTML this can only be Node.ELEMENT_NODE
+            return convertElementNode(currentNode, indentation, isPart);
         }
     }
     
@@ -254,9 +254,8 @@ public final class HtmlHelper {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
                                             : attribute.getNodeValue().equals(attrValue);
-        } else {
-            return false;
         }
+        return false;
     }
     
     private static boolean isClassContainingValue(String expected, String actual) {

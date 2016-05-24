@@ -32,32 +32,30 @@ var addCommentHandler = function(e) {
             submitButton.text('Add');
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    // Inject new comment row
-                    addFormRow.parent().attr('class', 'list-group');
-                    addFormRow.before(data);
-                    removeUnwantedVisibilityOptions(commentId);
-
-                    // Reset add comment form
-                    formObject.find('textarea').prop('disabled', false);
-                    formObject.find('textarea').val('');
-                    submitButton.text('Add');
-                    submitButton.prop('disabled', false);
-                    cancelButton.prop('disabled', false);
-                    removeFormErrorMessage(submitButton);
-                    addFormRow.prev().find('div[id^=plainCommentText]').css('margin-left', '15px');
-                    addFormRow.prev().show();
-                    addFormRow.hide();
-                }
-            } else {
+            if (data.isError) {
                 formObject.find('textarea').prop('disabled', false);
                 setFormErrorMessage(submitButton, data.errorMessage);
                 submitButton.text('Add');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                // Inject new comment row
+                addFormRow.parent().attr('class', 'list-group');
+                addFormRow.before(data);
+                removeUnwantedVisibilityOptions(commentId);
+
+                // Reset add comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val('');
+                submitButton.text('Add');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                addFormRow.prev().find('div[id^=plainCommentText]').css('margin-left', '15px');
+                addFormRow.prev().show();
+                addFormRow.hide();
             }
         }
     });
@@ -91,31 +89,29 @@ var editCommentHandler = function(e) {
             cancelButton.prop('disabled', false);
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    // Update editted comment
-                    displayedText.html(data.comment.commentText.value);
-                    updateVisibilityOptionsForResponseComment(formObject, data);
-                    commentBar.show();
-                    
-                    // Reset edit comment form
-                    formObject.find('textarea').prop('disabled', false);
-                    formObject.find('textarea').val(data.comment.commentText.value);
-                    submitButton.text('Save');
-                    submitButton.prop('disabled', false);
-                    cancelButton.prop('disabled', false);
-                    removeFormErrorMessage(submitButton);
-                    formObject.hide();
-                    displayedText.show();
-                }
-            } else {
+            if (data.isError) {
                 formObject.find('textarea').prop('disabled', false);
                 setFormErrorMessage(submitButton, data.errorMessage);
                 submitButton.text('Save');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                // Update editted comment
+                displayedText.html(data.comment.commentText.value);
+                updateVisibilityOptionsForResponseComment(formObject, data);
+                commentBar.show();
+                
+                // Reset edit comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val(data.comment.commentText.value);
+                submitButton.text('Save');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                formObject.hide();
+                displayedText.show();
             }
         }
     });
@@ -147,27 +143,25 @@ var deleteCommentHandler = function(e) {
             submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-                    if (numberOfItemInFrCommentList.length <= 2) {
-                        deletedCommentRow.parent().hide();
-                    }
-                    if (frCommentList.find('li').length <= 1) {
-                        frCommentList.hide();
-                    }
-                    deletedCommentRow.remove();
-                    frCommentList.parent().find('div.delete_error_msg').remove();
-                }
-            } else {
+            if (data.isError) {
                 if (editForm.is(':visible')) {
                     setFormErrorMessage(editForm.find('div > a'), data.errorMessage);
                 } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
                     frCommentList.after('<div class="delete_error_msg alert alert-danger">' + data.errorMessage + '</div>');
                 }
                 submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                if (numberOfItemInFrCommentList.length <= 2) {
+                    deletedCommentRow.parent().hide();
+                }
+                if (frCommentList.find('li').length <= 1) {
+                    frCommentList.hide();
+                }
+                deletedCommentRow.remove();
+                frCommentList.parent().find('div.delete_error_msg').remove();
             }
         }
     });
@@ -397,13 +391,13 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     
     panelBody.load(url, function(response, status) {
-        if (status !== 'success') {
-            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
-        } else {
+        if (status === 'success') {
             updateBadgeForPendingComments(parseInt(panelBody.children(':first').text()));
             panelBody.children(':first').remove();
 
             $clickedElement.addClass('loaded');
+        } else {
+            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         }
 
         if (isClicked) {

@@ -31,7 +31,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; //NOPMD
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
@@ -123,7 +123,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
         
-        for (String courseIdToCopy: coursesIdToCopyTo) {
+        for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
             boolean fsAlreadyExists = existingFs != null;
