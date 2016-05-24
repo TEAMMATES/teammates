@@ -1173,7 +1173,7 @@ public class FeedbackSessionsLogic {
     public void updateSessionResponseRateForDeletedStudentResponse(String email, String sessionName,
             String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         if (noRemainingResponsesFromStudent(email, sessionName, courseId)) {
-            deleteStudentFromRespondantList(email, sessionName, courseId);
+            deleteStudentFromRespondentList(email, sessionName, courseId);
         }
     }
 
@@ -1270,7 +1270,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteStudentFromRespondantList(student.email, session.feedbackSessionName, session.courseId);
+                deleteStudentFromRespondentList(student.email, session.feedbackSessionName, session.courseId);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
             }
@@ -1380,7 +1380,7 @@ public class FeedbackSessionsLogic {
         fsDb.deleteInstructorRespondant(email, sessionToUpdate);
     }
 
-    public void deleteStudentFromRespondantList(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+    public void deleteStudentFromRespondentList(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
@@ -1392,7 +1392,7 @@ public class FeedbackSessionsLogic {
                     "Trying to update a feedback session that does not exist.");
         }
 
-        fsDb.deleteStudentRespondant(email, sessionToUpdate);
+        fsDb.deleteStudentRespondent(email, sessionToUpdate);
     }
 
     /**
