@@ -78,7 +78,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         return this;
     }
     
-    public void clickAllCheckboxes(int id){
+    public void clickAllCheckboxes(int id) {
         List<WebElement> answerCheckboxes = browser.driver
                                             .findElement(By.id("visibility-options" + id))
                                             .findElements(By.className("answerCheckbox"));
