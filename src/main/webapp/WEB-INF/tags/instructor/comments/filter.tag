@@ -32,7 +32,7 @@
         <div id="more-options" class="well well-plain">
             <form class="form-horizontal" role="form">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 filter-options">
                         <div class="text-color-primary">
                             <strong>Show comments for: </strong>
                         </div>
@@ -69,7 +69,7 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 filter-options">
                         <div class="text-color-primary">
                             <strong>Show comments from: </strong>
                         </div>
@@ -100,7 +100,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 filter-options">
                         <div class="text-color-primary">
                             <strong>Show comments with status: </strong>
                         </div>
