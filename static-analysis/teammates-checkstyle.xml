@@ -46,6 +46,10 @@
       <property name="allowMultipleEmptyLines" value="false"/>
     </module>
     <module name="ArrayTypeStyle"/>
+    <module name="Indentation">
+      <property name="caseIndent" value="0"/>
+      <property name="arrayInitIndent" value="8"/>
+    </module>
     <module name="LeftCurly">
       <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
@@ -70,4 +74,7 @@
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf_cr_crlf"/>
+  </module>
 </module>
