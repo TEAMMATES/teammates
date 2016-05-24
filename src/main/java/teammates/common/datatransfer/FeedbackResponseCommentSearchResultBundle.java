@@ -23,7 +23,6 @@ import com.google.gson.Gson;
  * The search result bundle for {@link FeedbackResponseCommentAttributes}. 
  */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
-    private int numberOfCommentFound;
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
@@ -34,6 +33,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     public Set<String> instructorEmails = new HashSet<String>();
     
     public Cursor cursor;
+    
+    private int numberOfCommentFound;
     
     private Set<String> isAdded = new HashSet<String>();
     

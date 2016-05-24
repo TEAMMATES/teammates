@@ -36,9 +36,9 @@ import teammates.logic.core.TaskQueuesLogic;
 @SuppressWarnings("serial")
 public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
-    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
-    
     private static final int MAX_READING_LENGTH = 900000; 
+    
+    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
     //param needed for sending small number of emails
     private String addressReceiverListString;

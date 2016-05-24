@@ -31,10 +31,10 @@ import teammates.logic.core.TaskQueuesLogic;
 
 public class AdminEmailComposeSendAction extends Action {
     
+    private static final int MAX_READING_LENGTH = 900000; 
+    
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
-    
-    private static final int MAX_READING_LENGTH = 900000; 
     
     private boolean addressModeOn;
     private boolean groupModeOn;

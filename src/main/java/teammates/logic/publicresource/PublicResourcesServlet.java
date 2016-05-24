@@ -21,10 +21,10 @@ import teammates.common.util.Utils;
 @SuppressWarnings("serial")
 public abstract class PublicResourcesServlet extends HttpServlet {
     
+    protected static final Logger log = Utils.getLogger();
+    
     protected String servletName = "Unspecified";
     protected String action = "unspecified";
-    
-    protected static final Logger log = Utils.getLogger();
     
     /** Parameters received with the request */
     protected Map<String, String[]> requestParameters;

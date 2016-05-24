@@ -22,10 +22,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes> {
+public class CommentAttributes extends EntityAttributes implements Comparable<CommentAttributes> {
 
-    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -39,6 +37,7 @@ public class CommentAttributes extends EntityAttributes
     public Date createdAt;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long commentId;
 
     public CommentAttributes() {
         // attributes to be set after construction

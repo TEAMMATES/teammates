@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -39,6 +38,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long feedbackResponseCommentId;
 
     public FeedbackResponseCommentAttributes() {
         this.feedbackResponseCommentId = null;

@@ -21,6 +21,14 @@ import teammates.common.util.Const;
 public class FeedbackQuestion implements StoreCallback {
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
     
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp. Set
+     * to true when using scripts to update entities when you want to preserve
+     * the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp;
+    
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
@@ -72,14 +80,6 @@ public class FeedbackQuestion implements StoreCallback {
     @Persistent
     private Date updatedAt;
     
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
-    @NotPersistent
-    public boolean keepUpdateTimestamp;
-
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
             Text questionText, int questionNumber, FeedbackQuestionType questionType,
