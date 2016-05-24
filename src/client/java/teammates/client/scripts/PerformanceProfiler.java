@@ -73,6 +73,7 @@ public class PerformanceProfiler extends Thread {
         reportFilePath = path;
     }
 
+    @Override
     public void run() {
         //Data used for profiling
         String jsonString = "";

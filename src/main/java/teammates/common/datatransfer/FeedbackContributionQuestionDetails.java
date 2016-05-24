@@ -895,6 +895,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
     }
 
+    @Override
     public boolean isQuestionSkipped(String[] answer) {
         if (answer == null) {
             return true;

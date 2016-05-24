@@ -69,6 +69,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         adminEmailListGenerator.doOperationRemotely();
     }
 
+    @Override
     protected void doOperation() {
 
         try {

@@ -52,6 +52,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
 
         ______TS("MSQ: new question (frame) link");
@@ -61,6 +62,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
 
         ______TS("empty question text");
@@ -103,6 +105,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
     }
 
+    @Override
     public void testCustomizeOptions() {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
@@ -133,6 +136,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-4--1"));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
 
         ______TS("MSQ: add question action success");
@@ -146,6 +150,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MSQ: edit question success");
@@ -205,6 +210,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
+    @Override
     public void testDeleteQuestionAction() {
 
         ______TS("MSQ: qn delete then cancel");

@@ -225,6 +225,7 @@ public class Student implements StoreCallback {
     /**
      * Called by jdo before storing takes place.
      */
+    @Override
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
     }

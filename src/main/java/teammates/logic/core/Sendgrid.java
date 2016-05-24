@@ -399,6 +399,7 @@ public class Sendgrid {
      */
     public void send() throws JSONException, UnsupportedEncodingException {
         send(new WarningListener() {
+            @Override
             public void warning(String w, Throwable t) {
                 serverResponse = w;
             }

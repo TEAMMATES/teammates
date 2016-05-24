@@ -84,6 +84,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
+        @Override
         public String toString() {
             // replace _ to - to keep it consistent with old behavior
             return name().toLowerCase().replaceAll("_", "-");
