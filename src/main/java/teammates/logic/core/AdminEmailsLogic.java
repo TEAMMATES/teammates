@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
@@ -10,7 +9,6 @@ import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
 import teammates.storage.api.AdminEmailsDb;
 
 /**
@@ -21,10 +19,6 @@ import teammates.storage.api.AdminEmailsDb;
 public class AdminEmailsLogic {
     private static AdminEmailsLogic instance;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
-    
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
     
     public static AdminEmailsLogic inst() {
         if (instance == null) {
