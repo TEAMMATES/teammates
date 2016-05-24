@@ -22,7 +22,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String courseId;
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
-    public String giverEmail;
+    public String giverEmail; // TODO rename back "giver" as it may contain team name and "%GENERAL%"?
     public String giverSection;
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;

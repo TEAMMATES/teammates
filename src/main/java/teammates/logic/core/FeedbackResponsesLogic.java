@@ -554,8 +554,9 @@ public class FeedbackResponsesLogic {
                 || shouldDeleteByChangeOfRecipient;
 
         if (shouldDeleteResponse) {
+            fsLogic.updateSessionResponseRateForDeletedStudentResponse(enrollment.email,
+                                                             response.feedbackSessionName, enrollment.course);
             frDb.deleteEntity(response);
-            fsLogic.updateSessionResponseRateForDeletedStudentResponse(response);
         }
         
         return shouldDeleteResponse;

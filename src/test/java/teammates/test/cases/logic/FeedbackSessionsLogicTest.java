@@ -108,10 +108,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // response2ForQ2S2C1 is the ONLY response by student1InCourse1 in session2InCourse1
         FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response2ForQ2S2C1", dataBundle);
         FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session2InCourse1");
+        StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
         int originalResponseRate = getResponseRate(sessionAttributes);
 
         frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
-        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseGiver.getEmail(),
+                sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
         int responseRateAfterDeletion = getResponseRate(sessionAttributes);
 
         assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
@@ -124,10 +126,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // response1ForQ1S1C1 is NOT the only response by student1InCourse1 in session1InCourse1
         FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response1ForQ1S1C1", dataBundle);
         FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
         int originalResponseRate = getResponseRate(sessionAttributes);
 
         frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
-        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseGiver.getEmail(),
+                sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
         int responseRateAfterDeletion = getResponseRate(sessionAttributes);
 
         assertEquals(originalResponseRate, responseRateAfterDeletion);
