@@ -1806,8 +1806,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfRespondents() {
-        int numRespondents = (bundle.feedbackSession.respondingInstructorList.size() 
-                           + bundle.feedbackSession.respondingStudentList.size());
+        int numRespondents = bundle.feedbackSession.respondingInstructorList.size() 
+                           + bundle.feedbackSession.respondingStudentList.size();
         return isLargeNumberOfRespondents 
             || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
     }

@@ -203,7 +203,7 @@ public class TeamEvalResult {
             if (isSpecialValue((int) value)) {
                 output[j] = value;
             } else {
-                output[j] = (factor == 0 ? value : value * factor);
+                output[j] = factor == 0 ? value : value * factor;
             }
         }
         return output;
@@ -216,7 +216,7 @@ public class TeamEvalResult {
             int filterValue = (int) filterArray[i];
             boolean isSpecialValue = !isSanitized(filterValue)
                     || filterValue == NA;
-            returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+            returnValue[i] = isSpecialValue ? NA : valueArray[i];
         }
         return returnValue;
     }
@@ -234,7 +234,7 @@ public class TeamEvalResult {
 
             double value = input[i];
             if (value != NA) {
-                sum = (sum == NA ? value : sum + value);
+                sum = sum == NA ? value : sum + value;
             }
         }
         return sum;
@@ -249,7 +249,7 @@ public class TeamEvalResult {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
-                output[i][j] = ((i == j) ? NA : input[i][j]);
+                output[i][j] = (i == j) ? NA : input[i][j];
             }
         }
         return output;
