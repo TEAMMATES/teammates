@@ -26,7 +26,7 @@ import teammates.test.driver.AssertHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase {
 
-    private static DataBundle dataBundle = getTypicalDataBundle();;
+    private static DataBundle dataBundle = getTypicalDataBundle();
 
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static InstructorsDb instructorsDb = new InstructorsDb();

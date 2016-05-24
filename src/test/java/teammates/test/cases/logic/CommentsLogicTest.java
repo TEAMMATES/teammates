@@ -394,25 +394,25 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     // TODO: add tests for those one level down api call if test coverage is considered
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymouse".equals(c.giverEmail));
         }
     }
     
     private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
     private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymous".equals(c.recipients.iterator().next()));
         }
     }

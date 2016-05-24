@@ -44,6 +44,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
@@ -137,10 +138,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
-                institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
-                allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
-                instructorEmailCounter++;
-                updateProgressIndicator();
+            institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+            allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
+            instructorEmailCounter++;
+            updateProgressIndicator();
         }
 
         for (Student student : allStudents) {
@@ -279,6 +280,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
         Collections.sort(list, new Comparator<InstituteStats>() {
+            @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
                 return new Integer(inst2.studentTotal).compareTo(new Integer(inst1.studentTotal));

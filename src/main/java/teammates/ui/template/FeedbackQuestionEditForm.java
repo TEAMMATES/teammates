@@ -86,9 +86,9 @@ public class FeedbackQuestionEditForm {
                                                        FeedbackParticipantType.RECEIVER    };
         
         for (FeedbackParticipantType participant : participantTypes) {
-           isGiverNameVisible.put(participant.name(), true);
-           isRecipientNameVisible.put(participant.name(), true);
-           isResponsesVisible.put(participant.name(), true);
+            isGiverNameVisible.put(participant.name(), true);
+            isRecipientNameVisible.put(participant.name(), true);
+            isResponsesVisible.put(participant.name(), true);
         }
         
         return new FeedbackQuestionVisibilitySettings(new ArrayList<String>(), isResponsesVisible,

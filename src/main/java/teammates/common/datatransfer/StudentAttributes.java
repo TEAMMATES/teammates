@@ -38,18 +38,18 @@ public class StudentAttributes extends EntityAttributes {
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-                case 0:
-                    return ERROR;
-                case 1:
-                    return NEW;
-                case 2:
-                    return MODIFIED;
-                case 3:
-                    return UNMODIFIED;
-                case 4:
-                    return NOT_IN_ENROLL_LIST;
-                default:
-                    return UNKNOWN;
+            case 0:
+                return ERROR;
+            case 1:
+                return NEW;
+            case 2:
+                return MODIFIED;
+            case 3:
+                return UNMODIFIED;
+            case 4:
+                return NOT_IN_ENROLL_LIST;
+            default:
+                return UNKNOWN;
             }
         }
     }
@@ -185,6 +185,7 @@ public class StudentAttributes extends EntityAttributes {
                && otherStudent.section.equals(this.section);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertTrue(team != null);
@@ -204,33 +205,46 @@ public class StudentAttributes extends EntityAttributes {
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String sect1 = student1.section;
                 String sect2 = student2.section;
@@ -251,6 +265,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String team1 = student1.team;
                 String team2 = student2.team;
@@ -267,6 +282,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
 
@@ -305,10 +321,12 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
+    @Override
     public Student toEntity() {
         return new Student(email, name, googleId, comments, course, team, section);
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }

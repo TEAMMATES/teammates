@@ -33,8 +33,8 @@ public class AjaxResult extends ActionResult {
     public AjaxResult(AccountAttributes account,
                       List<StatusMessage> status, 
                       PageData data, boolean isClearingStatusMessage) {
-          this(account, status, data);
-          this.isClearingStatusMessage = isClearingStatusMessage;
+        this(account, status, data);
+        this.isClearingStatusMessage = isClearingStatusMessage;
     }
     
     @Override

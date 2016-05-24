@@ -127,18 +127,18 @@ public class StudentProfilePage extends AppPage {
 
     public void selectGender(String gender) {
         switch (gender) {
-            case Const.GenderTypes.MALE:
-                genderMaleRadio.click();
-                break;
-            case Const.GenderTypes.FEMALE:
-                genderFemaleRadio.click();
-                break;
-            case Const.GenderTypes.OTHER:
-                genderOtherRadio.click();
-                break;
-            default:
-                fail("Given gender " + gender + " is not valid!");
-                break;
+        case Const.GenderTypes.MALE:
+            genderMaleRadio.click();
+            break;
+        case Const.GenderTypes.FEMALE:
+            genderFemaleRadio.click();
+            break;
+        case Const.GenderTypes.OTHER:
+            genderOtherRadio.click();
+            break;
+        default:
+            fail("Given gender " + gender + " is not valid!");
+            break;
         }
     }
 
@@ -165,18 +165,18 @@ public class StudentProfilePage extends AppPage {
 
     private void ensureGenderIsSelectedAs(String gender) {
         switch (gender) {
-            case Const.GenderTypes.MALE:
-                assertTrue(genderMaleRadio.isSelected());
-                break;
-            case Const.GenderTypes.FEMALE:
-                assertTrue(genderFemaleRadio.isSelected());
-                break;
-            case Const.GenderTypes.OTHER:
-                assertTrue(genderOtherRadio.isSelected());
-                break;
-            default:
-                fail("unexpected gender value given");
-                break;
+        case Const.GenderTypes.MALE:
+            assertTrue(genderMaleRadio.isSelected());
+            break;
+        case Const.GenderTypes.FEMALE:
+            assertTrue(genderFemaleRadio.isSelected());
+            break;
+        case Const.GenderTypes.OTHER:
+            assertTrue(genderOtherRadio.isSelected());
+            break;
+        default:
+            fail("unexpected gender value given");
+            break;
         }
     }
 

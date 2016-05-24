@@ -277,6 +277,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         testNewRankRecipientsQuestionFrame();
         feedbackEditPage.reloadPage();
@@ -298,6 +299,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewRankOptionsQuestionFormIsDisplayed());
     }
 
+    @Override
     public void testInputValidation() {
         
         ______TS("Rank edit: empty question text");
@@ -311,6 +313,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // todo
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("Rank edit: add rank option question action success");
         
@@ -363,6 +366,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
         assertTrue(feedbackEditPage.clickEditQuestionButton(1));
@@ -401,6 +405,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));
     }
 
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("rank: qn delete");
 

@@ -341,11 +341,11 @@ public final class Const {
     }
     
     public class InstructorPermissionRoleNames {
-        public final static String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
     public class GenderTypes {

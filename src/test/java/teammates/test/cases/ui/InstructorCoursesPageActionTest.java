@@ -21,7 +21,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
      * to be used as a quick access to the values that are expected to be
      * found in the database. We specify final so that multiple tests, if any,
      * can use these values without fear of dependency caused by modification */
-    private final DataBundle dataBundle = getTypicalDataBundle();;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -124,7 +124,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     }
 
     private InstructorCoursesPageAction getAction(String... params) {
-            return (InstructorCoursesPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCoursesPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
 }

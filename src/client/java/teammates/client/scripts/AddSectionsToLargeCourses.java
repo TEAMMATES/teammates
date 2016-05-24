@@ -98,7 +98,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;
-   }
+    }
 
     public Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
         Set<String> largeCoursesWithoutSections = new HashSet<String>();

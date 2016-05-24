@@ -42,11 +42,17 @@ public class SessionAttributesTest extends BaseTestCase {
         s4 = new miniEval(time1, time3, "Session 4");
         s5 = new miniFeedback(time2, time3, "Session 5");
         
-        testList.add(s1); testList.add(s2); testList.add(s3);
-        testList.add(s4); testList.add(s5);
+        testList.add(s1);
+        testList.add(s2);
+        testList.add(s3);
+        testList.add(s4);
+        testList.add(s5);
         
-        expected.add(s1); expected.add(s3); expected.add(s4);
-        expected.add(s2); expected.add(s5);
+        expected.add(s1); 
+        expected.add(s3); 
+        expected.add(s4);
+        expected.add(s2); 
+        expected.add(s5);
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
@@ -54,12 +60,18 @@ public class SessionAttributesTest extends BaseTestCase {
         }
         
         testList.clear();
-        testList.add(s1); testList.add(s2); testList.add(s3);
-        testList.add(s4); testList.add(s5);
+        testList.add(s1);
+        testList.add(s2);
+        testList.add(s3);
+        testList.add(s4);
+        testList.add(s5);
         
         expected.clear();
-        expected.add(s2); expected.add(s5); expected.add(s4);
-        expected.add(s1); expected.add(s3);
+        expected.add(s2);
+        expected.add(s5);
+        expected.add(s4);
+        expected.add(s1);
+        expected.add(s3);
         
         Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {

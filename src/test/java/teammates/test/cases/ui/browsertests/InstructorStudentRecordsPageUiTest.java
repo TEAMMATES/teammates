@@ -39,6 +39,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testContent();
         testLinks();
         testScript();
+        testVisibilityCheckboxScript();
         testAction();
         testPanelsCollapseExpand();
     }
@@ -132,6 +133,40 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("edit comment button");
         viewPage.verifyEditCommentButtonClick(1);
+    }
+    
+    private void testVisibilityCheckboxScript() {
+        viewPage.clickVisibilityOptionsButton(1);
+        
+        ______TS("check giver when answer is unchecked");
+        
+        viewPage.clickGiverCheckboxForCourse(1);
+        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertTrue(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("uncheck answer when giver is checked");
+        
+        viewPage.clickAnswerCheckboxForCourse(1);
+        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("check recipient when answer is unchecked");
+        
+        viewPage.clickRecipientCheckboxForCourse(1);
+        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertTrue(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("uncheck answer when recipient is checked");
+        
+        viewPage.clickAnswerCheckboxForCourse(1);
+        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        viewPage.clickVisibilityOptionsButton(1);
     }
 
     private void testAction() {

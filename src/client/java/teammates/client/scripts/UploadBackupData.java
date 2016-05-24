@@ -82,6 +82,7 @@ public class UploadBackupData extends RemoteApiClient {
         uploadBackupData.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         
@@ -98,20 +99,20 @@ public class UploadBackupData extends RemoteApiClient {
         String[] folders = backupFolder.list();
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
-                 try {
+                try {
                     Date firstDate = dateFormat.parse(o1);
                     
                     Date secondDate = dateFormat.parse(o2);
                     
                     return secondDate.compareTo(firstDate);
-                }
-                catch (ParseException e) {
+                } catch (ParseException e) {
                     return 0;
                 }
             }
-          });
+        });
         listOfFolders.toArray(folders);
         return folders;
     }
@@ -224,7 +225,7 @@ public class UploadBackupData extends RemoteApiClient {
         try {
             fqDb.createFeedbackQuestions(questions.values());
             
-            for (FeedbackQuestionAttributes question: questions.values()) {
+            for (FeedbackQuestionAttributes question : questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
             

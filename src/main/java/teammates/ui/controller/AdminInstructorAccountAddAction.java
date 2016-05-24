@@ -89,9 +89,9 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       String courseId = null;    
+        String courseId = null;    
        
-       try {
+        try {
             courseId = importDemoData(data);             
         } catch (Exception e) {  
             

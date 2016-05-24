@@ -38,11 +38,11 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
-            fillTextBox(emailTextBox, userName);
-            loginButton.click();
-            waitForPageToLoad();
-            browser.isAdminLoggedIn = false;
-            return this;
+        fillTextBox(emailTextBox, userName);
+        loginButton.click();
+        waitForPageToLoad();
+        browser.isAdminLoggedIn = false;
+        return this;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class TeamEvalResultTest extends BaseTestCase {
         printTestClassHeader();
     }
 
-     @Test
+    @Test
     // @formatter:off
     public void testCalculatePoints() {
         
@@ -240,40 +240,40 @@ public class TeamEvalResultTest extends BaseTestCase {
         verifyCalculatePoints(input9, expected9);
         
         //one-person team
-            int[][] input10 = 
-                {{100}};
-            
-            int[][] expected10 = 
-                {{100},
-                    
-                 {NA},
-                 
-                 {NA},
-                 
-                 {NA}};
-            verifyCalculatePoints(input10, expected10);
-            
-            //anther interesting mix of values (used in Ui Tests)
-            int[][] input11 = 
-                {{ 103, 103,  94 }, 
-                 {  90, 110, NSU },
-                 { 100,  90, 110 }};
-            
-            int[][] expected11 = 
-                {{ 103, 103,  94 }, 
-                 {  90, 110, NSU },
-                 { 100,  90, 110 },
-                 
-                 {  NA, 105,  96 }, 
-                 { 101,  NA,  NA },
-                 { 106,  95,  NA },
-                 
-                 { 103,  100,  96 },
-                 
-                 { 103, 100,  96 }, 
-                 { 101,  99,  94 },
-                 { 103, 100,  96 }};
-            verifyCalculatePoints(input11, expected11);
+        int[][] input10 = 
+            {{100}};
+        
+        int[][] expected10 = 
+            {{100},
+                
+             {NA},
+             
+             {NA},
+             
+             {NA}};
+        verifyCalculatePoints(input10, expected10);
+        
+        //anther interesting mix of values (used in Ui Tests)
+        int[][] input11 = 
+            {{ 103, 103,  94 }, 
+             {  90, 110, NSU },
+             { 100,  90, 110 }};
+        
+        int[][] expected11 = 
+            {{ 103, 103,  94 }, 
+             {  90, 110, NSU },
+             { 100,  90, 110 },
+             
+             {  NA, 105,  96 }, 
+             { 101,  NA,  NA },
+             { 106,  95,  NA },
+             
+             { 103,  100,  96 },
+             
+             { 103, 100,  96 }, 
+             { 101,  99,  94 },
+             { 103, 100,  96 }};
+        verifyCalculatePoints(input11, expected11);
     }
 
     @Test

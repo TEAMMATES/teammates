@@ -21,10 +21,9 @@ public class EmailLogEntry {
     public String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws Exception {
-        
-            this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
-            this.subject = msg.getSubject();
-            this.content = (String) msg.getContent(); 
+        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+        this.subject = msg.getSubject();
+        this.content = (String) msg.getContent();
     }
     
     public EmailLogEntry(Sendgrid msg) {

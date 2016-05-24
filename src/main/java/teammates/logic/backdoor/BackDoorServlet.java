@@ -95,10 +95,12 @@ public class BackDoorServlet extends HttpServlet {
     
     private static final Logger log = Utils.getLogger();
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
     }
 
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);

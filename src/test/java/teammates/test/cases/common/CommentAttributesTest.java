@@ -43,7 +43,7 @@ public class CommentAttributesTest extends BaseTestCase {
     
     @Test
     public void testBasicGetters() {
-       CommentAttributes comment = new CommentAttributes(
+        CommentAttributes comment = new CommentAttributes(
                 courseId,
                 giverEmail,
                 recipientType,

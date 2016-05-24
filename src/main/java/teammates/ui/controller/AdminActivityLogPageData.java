@@ -45,9 +45,11 @@ public class AdminActivityLogPageData extends PageData {
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
-                                                      //this servlet name is set in CompileLogsServlet
-                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
+    private static String[] excludedLogRequestURIs = {
+            Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
+            // this servlet name is set in CompileLogsServlet
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION
+    };
     
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
@@ -153,7 +155,7 @@ public class AdminActivityLogPageData extends PageData {
             return false;
         }
         
-        for (String uri: excludedLogRequestURIs) {
+        for (String uri : excludedLogRequestURIs) {
             
             if (uri.contains(logEntry.getServletName())) {
                 return true;

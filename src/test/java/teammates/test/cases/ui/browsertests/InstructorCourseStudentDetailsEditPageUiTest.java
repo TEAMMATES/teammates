@@ -49,9 +49,9 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("content: unregistered student");
         
         AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
-        .withUserId(instructorId)
-        .withCourseId(courseId)
-        .withStudentEmail(testData.students.get("unregisteredStudent").email);
+                                        .withUserId(instructorId)
+                                        .withCourseId(courseId)
+                                        .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.verifyHtmlMainContent("/InstructorCourseStudentEditUnregisteredPage.html");

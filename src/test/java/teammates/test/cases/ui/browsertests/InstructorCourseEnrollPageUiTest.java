@@ -234,7 +234,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() {
-            BrowserPool.release(browser);
-        }
+    public static void classTearDown() {
+        BrowserPool.release(browser);
+    }
 }

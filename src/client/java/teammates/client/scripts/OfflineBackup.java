@@ -46,6 +46,7 @@ public class OfflineBackup extends RemoteApiClient {
         offlineBackup.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         List<String> logs = getModifiedLogs();
@@ -74,9 +75,7 @@ public class OfflineBackup extends RemoteApiClient {
                 modifiedLogs.add(logMessage);
             }
             in.close();
-        } 
-        
-        catch (IOException e) { 
+        } catch (IOException e) { 
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         } 
         
@@ -117,11 +116,11 @@ public class OfflineBackup extends RemoteApiClient {
     protected void createBackupDirectory(String directoryName) {
         File directory = new File(directoryName);
 
-       try {
-           directory.mkdirs();
-       } catch (SecurityException se) {
-           System.out.println("Error making directory: " + directoryName);
-       }        
+        try {
+            directory.mkdirs();
+        } catch (SecurityException se) {
+            System.out.println("Error making directory: " + directoryName);
+        }        
        
     }
     
@@ -184,7 +183,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for (CommentAttributes comment: comments) {
+        for (CommentAttributes comment : comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
