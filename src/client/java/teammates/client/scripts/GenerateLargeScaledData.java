@@ -22,6 +22,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
         dataGenerator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();

@@ -26,6 +26,7 @@ public abstract class WorkerServlet extends HttpServlet {
     protected String servletName = "unspecified";
     protected String action = "unspecified";
     
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             doGet(req, resp);
@@ -34,6 +35,7 @@ public abstract class WorkerServlet extends HttpServlet {
         }
     }
     
+    @Override
     public abstract void doGet(HttpServletRequest req, HttpServletResponse resp);
     
     protected void logMessage(HttpServletRequest request, String message) {

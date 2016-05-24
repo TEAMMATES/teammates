@@ -18,6 +18,7 @@ public class EmailWorkerServlet extends WorkerServlet {
     
     private static Logger log = Utils.getLogger();
     
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper
