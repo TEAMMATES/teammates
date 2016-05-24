@@ -61,17 +61,17 @@ var seeMoreRequest = function(e) {
     
     if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
-        if ($(panelCollapse[0]).attr('class').indexOf('checked') !== -1) {
+        if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
+            $(panelCollapse).collapse('show');
+            $(panelCollapse[0]).addClass('checked');
+            $(courseCheck).prop('checked', true);
+        } else {
             $(panelCollapse[0]).collapse('hide');
             $(panelHeading).addClass('ajax_submit');
             $(panelBody[0]).html('');
             $(panelCollapse[0]).removeClass('checked');
             $(courseCheck).prop('checked', false);
             numStudents -= courseNumStudents;
-        } else {
-            $(panelCollapse).collapse('show');
-            $(panelCollapse[0]).addClass('checked');
-            $(courseCheck).prop('checked', true);
         }
         checkCourseBinding(courseCheck);
     } else if (numStudents < STUDENT_LIMIT) {

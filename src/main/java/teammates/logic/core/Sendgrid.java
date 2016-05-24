@@ -156,9 +156,8 @@ public class Sendgrid {
      * @return         the SendGrid object.
      */
     public Sendgrid setReplyTo(String email) {
-      this.replyTo = email;
-
-      return this;
+        this.replyTo = email;
+        return this;
     }
 
     /**
@@ -376,8 +375,8 @@ public class Sendgrid {
 
         JSONObject headers = this.getHeaders();
         params.put("to", this.getFrom());
-        JSONArray tos_json = new JSONArray(this.getTos());
-        headers.put("to", tos_json);
+        JSONArray tosJson = new JSONArray(this.getTos());
+        headers.put("to", tosJson);
         this.setHeaders(headers);
         params.put("x-smtpapi", _escapeUnicode(this.getHeaders().toString()));
         
@@ -502,10 +501,10 @@ public class Sendgrid {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < input.length(); i++) {
-          int code = Character.codePointAt(input, i);
-          sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
+            int code = Character.codePointAt(input, i);
+            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
         }
         
         return sb.toString();
-      }
+    }
 }

@@ -38,18 +38,18 @@ public class StudentAttributes extends EntityAttributes {
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-                case 0:
-                    return ERROR;
-                case 1:
-                    return NEW;
-                case 2:
-                    return MODIFIED;
-                case 3:
-                    return UNMODIFIED;
-                case 4:
-                    return NOT_IN_ENROLL_LIST;
-                default:
-                    return UNKNOWN;
+            case 0:
+                return ERROR;
+            case 1:
+                return NEW;
+            case 2:
+                return MODIFIED;
+            case 3:
+                return UNMODIFIED;
+            case 4:
+                return NOT_IN_ENROLL_LIST;
+            default:
+                return UNKNOWN;
             }
         }
     }
@@ -204,27 +204,39 @@ public class StudentAttributes extends EntityAttributes {
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }
@@ -355,9 +367,8 @@ public class StudentAttributes extends EntityAttributes {
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
     
     public Date getCreatedAt() {

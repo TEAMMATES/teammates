@@ -90,9 +90,9 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       String courseId = null;    
+        String courseId = null;    
        
-       try {
+        try {
             courseId = importDemoData(data);             
         } catch (Exception e) {  
             
@@ -305,19 +305,18 @@ public class AdminInstructorAccountAddAction extends Action {
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
-        } else {
-            final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if (isFirstTimeDuplicate) {
-                return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
-                                                 maximumIdLength);
-            } else {
-                final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-                final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-                final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-
-                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1),
-                                                 maximumIdLength);
-            }
         }
+        
+        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+        if (isFirstTimeDuplicate) {
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
+                                             maximumIdLength);
+        }
+        
+        final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+
+        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 }

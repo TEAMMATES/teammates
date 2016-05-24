@@ -96,7 +96,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
-        for (InstructorAttributes instructor: instructorsToAdd) {
+        for (InstructorAttributes instructor : instructorsToAdd) {
             if (!instructorsToUpdate.contains(instructor)) {
                 putDocument(instructor);
             }
@@ -536,9 +536,8 @@ public class InstructorsDb extends EntitiesDb {
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
             
             return (List<Instructor>) q.execute(googleId, omitArchived);
-        } else {
-            return getInstructorEntitiesForGoogleId(googleId);
         }
+        return getInstructorEntitiesForGoogleId(googleId);
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

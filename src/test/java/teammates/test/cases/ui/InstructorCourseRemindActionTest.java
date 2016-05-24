@@ -133,7 +133,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
     }
 
-     private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
+    private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
         return (InstructorCourseRemindAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

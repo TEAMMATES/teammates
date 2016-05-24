@@ -81,7 +81,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -163,9 +163,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
             return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
-        } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
 
     }
 

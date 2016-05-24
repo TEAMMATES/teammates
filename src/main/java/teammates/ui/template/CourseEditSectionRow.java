@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 
 public class CourseEditSectionRow {
     private String sectionName;
+    private int sectionIndex;
     private InstructorAttributes instructor;
     private List<ElementTag> permissionInputGroup2;
     private List<ElementTag> permissionInputGroup3;
@@ -19,6 +20,7 @@ public class CourseEditSectionRow {
                                 InstructorAttributes instructor, int instructorIndex, 
                                 List<String> feedbackNames) {
         this.sectionName = sectionName;
+        this.sectionIndex = sectionIndex;
         this.instructor = instructor;
         feedbackSessions = new ArrayList<CourseEditFeedbackSessionRow>();
         
@@ -58,6 +60,10 @@ public class CourseEditSectionRow {
                                                                                                checkBoxList);
             feedbackSessions.add(feedbackSessionRow);
         }
+    }
+    
+    public int getSectionIndex() {
+        return sectionIndex;
     }
     
     public List<CourseEditFeedbackSessionRow> getFeedbackSessions() {

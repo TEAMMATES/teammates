@@ -115,7 +115,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-         return (FeedbackResponse) getEntity(response); 
+        return (FeedbackResponse) getEntity(response); 
     }
     
     /**
@@ -1082,16 +1082,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         
-        FeedbackResponseAttributes FeedbackResponseToGet =
+        FeedbackResponseAttributes feedbackResponseToGet =
                 (FeedbackResponseAttributes) attributes;
         
-        if (FeedbackResponseToGet.getId() != null) {
-            return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
+        if (feedbackResponseToGet.getId() != null) {
+            return getFeedbackResponseEntity(feedbackResponseToGet.getId());
         } 
         
         return getFeedbackResponseEntity(
-            FeedbackResponseToGet.feedbackQuestionId,
-            FeedbackResponseToGet.giverEmail,
-            FeedbackResponseToGet.recipientEmail);
+            feedbackResponseToGet.feedbackQuestionId,
+            feedbackResponseToGet.giverEmail,
+            feedbackResponseToGet.recipientEmail);
     }
 }
