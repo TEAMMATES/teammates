@@ -18,7 +18,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:1.9.30"
+        classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
     }
 }
 
@@ -90,6 +90,12 @@ dependencies {
 }
 
 sourceSets {
+    empty {
+        // Placeholder empty source for downloading all static analysis tools without running anything
+        java {
+            srcDir "static-analysis"
+        }
+    }
     main {
         java {
             srcDir "src/main/java"
@@ -129,7 +135,6 @@ appengineRun {
         daemon = true
     }
 }
-project.tasks.getByName("war").dependsOn "enhancerRun"
 
 task enhancerRun << {
     def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
@@ -146,6 +151,8 @@ task enhancerRun << {
     }
 }
 enhancerRun.dependsOn project.classes
+enhancerRun.shouldRunAfter project.testClasses
+war.dependsOn enhancerRun
 
 (1..numOfTestRetries + 1).each { id ->
     task "killFirefox${id}"(type: Exec) {
@@ -207,6 +214,9 @@ pmd {
     ruleSets = []
 }
 
+pmdMain.dependsOn compileJava
+pmdTest.dependsOn compileTestJava
+
 findbugs {
     toolVersion = "3.0.1"
     visitors = [
@@ -219,6 +229,11 @@ tasks.withType(FindBugs) {
         xml.enabled = false
         html.enabled = true
     }
+}
+
+task downloadStaticAnalysisTools {
+    // This will simply download all the jars needed by the static analysis tools
+    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty
 }
 
 task staticAnalysisMain {
@@ -289,7 +304,7 @@ task travisTests {
         if (!isLastRetry) {
             afterTest afterTestClosure
         }
-        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
+        finalizedBy "killFirefox${id+1}"
         dependsOn test, enhancerRun
         onlyIf {
             file("build/reports/test-try-${id}/testng-failed.xml").exists()
@@ -336,7 +351,7 @@ jacocoTestReport {
     }
 }
 
-defaultTasks "staticAnalysis", "appengineRun", "travisTests", "appengineStop", "jacocoTestReport"
+defaultTasks "appengineRun", "travisTests"
 
 // LOCAL TEST TASKS (NOT USED CURRENTLY)
 
