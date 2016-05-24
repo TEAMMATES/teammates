@@ -26,7 +26,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private ProfilesDb profilesDb = new ProfilesDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -299,7 +299,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         return a;
     }
     
-    private AccountAttributes getNewAccountAttributes() throws Exception {
+    private AccountAttributes getNewAccountAttributes() {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";
         a.name = "Valid Fresh Account";

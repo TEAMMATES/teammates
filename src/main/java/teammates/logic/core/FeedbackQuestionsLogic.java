@@ -278,8 +278,7 @@ public class FeedbackQuestionsLogic {
      * instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
-            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -323,8 +322,7 @@ public class FeedbackQuestionsLogic {
      * that students can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
-            List<FeedbackQuestionAttributes> allQuestions) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -424,8 +422,8 @@ public class FeedbackQuestionsLogic {
             List<StudentAttributes> teamMembers = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : teamMembers) {
-                    //accepts self feedback too
-                    recipients.put(student.email, student.name);
+                // accepts self feedback too
+                recipients.put(student.email, student.name);
             }
             break;
         case NONE:

@@ -13,7 +13,6 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -25,7 +24,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     AdminEmailComposePageData data;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         GateKeeper.inst().verifyAdminPrivileges(account);
         
         BlobInfo blobInfo = null;
@@ -147,14 +146,14 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                     listOfList.add(newList);
                    
                 } else {
-                   // either the left part or the right part of the broken email string 
-                   // does not contains a "@".
-                   // simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() - 1)
-                             .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    // either the left part or the right part of the broken email string 
+                    // does not contains a "@".
+                    // simply append the right part to the left part(last item of the list from last reading)
+                    listOfList.get(listOfList.size() - 1)
+                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                    
-                   //and also needs to delete the right part which is the first item of the list from current reading
-                   listOfList.add(newList.subList(1, newList.size() - 1));
+                    //and also needs to delete the right part which is the first item of the list from current reading
+                    listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
             }
             

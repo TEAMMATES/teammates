@@ -21,7 +21,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackConstSumRecipientQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -51,6 +51,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("CONSTSUM-recipient: new question (frame) link");
 
@@ -59,6 +60,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("CONST SUM:input validation");
@@ -75,6 +77,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
     }
 
+    @Override
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
@@ -86,6 +89,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
@@ -98,6 +102,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
@@ -112,6 +117,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
 
@@ -126,7 +132,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

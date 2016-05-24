@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -19,6 +20,8 @@ import teammates.logic.core.TeamEvalResult;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
+    
+    private static final Logger log = Utils.getLogger();
     
     public boolean isNotSureAllowed;
     
@@ -729,14 +732,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         // giver type can only be STUDENTS
         if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
-            Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
         if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-            Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            log.severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
@@ -895,6 +898,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
     }
 
+    @Override
     public boolean isQuestionSkipped(String[] answer) {
         if (answer == null) {
             return true;

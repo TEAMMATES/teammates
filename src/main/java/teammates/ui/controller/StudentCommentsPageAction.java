@@ -102,8 +102,7 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
-            throws EntityDoesNotExistException {
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) {
         List<String> coursePaginationList = new ArrayList<>();
 
         for (CourseAttributes course : sortedCourses) {

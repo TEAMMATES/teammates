@@ -73,6 +73,7 @@ public class PerformanceProfiler extends Thread {
         reportFilePath = path;
     }
 
+    @Override
     public void run() {
         //Data used for profiling
         String jsonString = "";
@@ -164,9 +165,8 @@ public class PerformanceProfiler extends Thread {
      * Run this script as an single-thread Java application (for simple, non-parallel profiling)
      * For parallel profiling, please use ParallelProfiler.java
      * @param args
-     * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         (new PerformanceProfiler(defaultReportPath)).start();
     }
 
@@ -219,7 +219,7 @@ public class PerformanceProfiler extends Thread {
     private void printResult(String filePath) throws IOException {
         List<String> list = new ArrayList<String>();
         for (String str : results.keySet()) {
-         list.add(str);
+            list.add(str);
         }
         Collections.sort(list);
         FileWriter fstream = new FileWriter(filePath);

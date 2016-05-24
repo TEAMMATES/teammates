@@ -5,8 +5,8 @@ function isInCommentsPage() {
 var addCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var addFormRow = $(this).parent().parent().parent();
+    var formObject = $(this).closest('form');
+    var addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
@@ -64,8 +64,8 @@ var addCommentHandler = function(e) {
 var editCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var displayedText = $(this).parent().parent().prev();
+    var formObject = $(this).closest('form');
+    var displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     var commentBar = displayedText.parent().find('div[id^=commentBar]');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
@@ -120,10 +120,10 @@ var editCommentHandler = function(e) {
 var deleteCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent();
-    var deletedCommentRow = $(this).parent().parent().parent();
+    var deletedCommentRow = $(this).closest('li');
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
-    var frCommentList = submitButton.parent().parent().parent().parent();
+    var frCommentList = submitButton.closest('.comments');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     
     e.preventDefault();
@@ -177,18 +177,19 @@ function registerResponseCommentsEvent() {
 
 function registerResponseCommentCheckboxEvent() {
     $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
@@ -420,9 +421,9 @@ function toggleCollapsiblePanel(collapsiblePanel) {
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
     if (numberOfPendingComments === 0) {
-        $('.badge').parent().parent().hide();
+        $('.badge').closest('.btn-group').hide();
     } else {
-        $('.badge').parent().parent().show();
+        $('.badge').closest('.btn-group').show();
     }
     $('.badge').text(numberOfPendingComments);
     $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments + ' recipient(s) of comments pending notification');
@@ -430,18 +431,19 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
 
 function registerCheckboxEventForVisibilityOptions() {
     $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {

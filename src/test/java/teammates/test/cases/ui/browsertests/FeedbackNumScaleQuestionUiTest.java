@@ -21,7 +21,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackNumScaleQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -51,6 +51,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
 
@@ -60,6 +61,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty options");
@@ -125,6 +127,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
 
+    @Override
     public void testCustomizeOptions() {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
@@ -144,6 +147,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("NUMSCALE: add question action success");
 
@@ -155,6 +159,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
@@ -171,6 +176,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
@@ -202,7 +208,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

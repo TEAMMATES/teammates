@@ -22,7 +22,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -52,6 +52,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
 
         ______TS("MCQ: new question (frame) link");
@@ -62,6 +63,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
 
         ______TS("empty question text");
@@ -108,6 +110,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
+    @Override
     public void testCustomizeOptions() {
 
         feedbackEditPage.clickNewQuestionButton();
@@ -138,6 +141,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
 
         ______TS("MCQ: add question action success");
@@ -152,6 +156,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MCQ: edit question success");
@@ -211,6 +216,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
+    @Override
     public void testDeleteQuestionAction() {
 
         ______TS("MCQ: qn delete then cancel");
@@ -226,7 +232,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

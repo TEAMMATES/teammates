@@ -27,7 +27,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         
@@ -219,7 +219,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }

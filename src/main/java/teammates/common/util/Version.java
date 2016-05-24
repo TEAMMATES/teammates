@@ -60,6 +60,7 @@ public class Version implements Comparable<Version> {
     /**
      * Compares by string representation.
      */
+    @Override
     public boolean equals(Object anotherVersion) {
         return toString().equals(anotherVersion.toString());
     }
@@ -67,6 +68,7 @@ public class Version implements Comparable<Version> {
     /**
      * Gets hash code for this version.
      */
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
@@ -74,6 +76,7 @@ public class Version implements Comparable<Version> {
     /**
      * Converts Version to String in format XX.XX.XXXX
      */
+    @Override
     public String toString() {
         return originalRepresentation.replace('-', '.');
     }

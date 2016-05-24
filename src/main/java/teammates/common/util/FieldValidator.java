@@ -485,8 +485,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public String getInvalidityInfoForInstituteName(String instituteName) {
-         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                              instituteName);
+        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                             instituteName);
     }
 
     /**
@@ -661,13 +661,13 @@ public class FieldValidator {
             earlierFieldName = START_TIME_FIELD_NAME;
             break;
         case END_TIME:
-            earlierFieldName = END_TIME_FIELD_NAME; 
+            earlierFieldName = END_TIME_FIELD_NAME;
             break;
         case SESSION_VISIBLE_TIME:
             earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
             break;
         case RESULTS_VISIBLE_TIME:
-            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
             break;
         default:
             throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
@@ -678,13 +678,13 @@ public class FieldValidator {
             laterFieldName = START_TIME_FIELD_NAME;
             break;
         case END_TIME:
-            laterFieldName = END_TIME_FIELD_NAME; 
+            laterFieldName = END_TIME_FIELD_NAME;
             break;
         case SESSION_VISIBLE_TIME:
             laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;    
+            break;
         case RESULTS_VISIBLE_TIME:
-            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
             break;
         default:
             throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
@@ -894,5 +894,5 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
-     }
+    }
 }

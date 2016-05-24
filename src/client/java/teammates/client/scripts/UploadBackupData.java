@@ -27,8 +27,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
@@ -84,6 +82,7 @@ public class UploadBackupData extends RemoteApiClient {
         uploadBackupData.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         
@@ -100,9 +99,10 @@ public class UploadBackupData extends RemoteApiClient {
         String[] folders = backupFolder.list();
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
-                 try {
+                try {
                     Date firstDate = dateFormat.parse(o1);
                     
                     Date secondDate = dateFormat.parse(o2);
@@ -112,7 +112,7 @@ public class UploadBackupData extends RemoteApiClient {
                     return 0;
                 }
             }
-          });
+        });
         listOfFolders.toArray(folders);
         return folders;
     }
@@ -182,7 +182,7 @@ public class UploadBackupData extends RemoteApiClient {
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
             }
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+        } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
     }

@@ -14,7 +14,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
@@ -30,7 +29,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAll() throws UnauthorizedAccessException, EntityDoesNotExistException {
+    public void testAll() throws EntityDoesNotExistException {
         ______TS("typical success case");
         
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");

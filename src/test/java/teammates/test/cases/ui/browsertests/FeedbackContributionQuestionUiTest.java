@@ -21,7 +21,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -52,6 +52,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testAddContributionQuestionAsSecondQuestion();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
 
@@ -60,6 +61,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
@@ -69,6 +71,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
+    @Override
     public void testCustomizeOptions() {
 
         //no question specific options to test
@@ -82,6 +85,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
@@ -93,6 +97,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
@@ -110,6 +115,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
 
@@ -146,7 +152,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

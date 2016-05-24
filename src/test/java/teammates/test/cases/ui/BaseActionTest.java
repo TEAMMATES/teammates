@@ -9,7 +9,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -37,16 +36,14 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
-    protected ShowPageResult getShowPageResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected ShowPageResult getShowPageResult(Action a) throws EntityDoesNotExistException {
         return (ShowPageResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
-    protected RedirectResult getRedirectResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected RedirectResult getRedirectResult(Action a) throws EntityDoesNotExistException {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
@@ -54,8 +51,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /** Executes the action and returns the result.
      * Assumption: The action returns a AjaxResult.
      */
-    protected AjaxResult getAjaxResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected AjaxResult getAjaxResult(Action a) throws EntityDoesNotExistException {
         return (AjaxResult) a.executeAndPostProcess();
     }
 
@@ -128,31 +124,31 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
         switch(order) {
-            case 1:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-                typicalCase[indexOfSessionPublishDate] = "08/05/2014";
-                typicalCase[indexOfSessionPublishTime] = "2";
-                break;
-            case 2:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-                
-                typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
-                break;
-            case 3:
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-                typicalCase[indexOfSessionInstructionsValue] = "";
-                break;
-            default:
-                Assumption.fail("Incorrect order");
-                break;
+        case 1:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
+            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishTime] = "2";
+            break;
+        case 2:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+            
+            typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
+            break;
+        case 3:
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
+            typicalCase[indexOfSessionInstructionsValue] = "";
+            break;
+        default:
+            Assumption.fail("Incorrect order");
+            break;
         }
         
         return typicalCase;
@@ -399,7 +395,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
         
         ______TS("not-logged-in users cannot access");
         

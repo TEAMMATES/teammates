@@ -30,7 +30,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -185,6 +185,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testInputJsValidationForRubricQuestion();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
@@ -193,6 +194,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
@@ -210,12 +212,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, feedbackEditPage.getStatus());
     }
     
+    @Override
     public void testCustomizeOptions() {
         
         // TODO somebody do this?
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
@@ -229,6 +233,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("RUBRIC: edit question success");
         
@@ -325,6 +330,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
@@ -439,7 +445,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }
