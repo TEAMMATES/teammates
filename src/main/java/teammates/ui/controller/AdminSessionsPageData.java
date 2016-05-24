@@ -165,10 +165,10 @@ public class AdminSessionsPageData extends PageData {
         }
         if (fs.isOpened()) {
             status.append("[Opened]");
-        } 
+        }
         if (fs.isWaitingToOpen()) {
             status.append("[Waiting To Open]");   
-        } 
+        }
         if (fs.isPublished()) {
             status.append("[Published]");
         }

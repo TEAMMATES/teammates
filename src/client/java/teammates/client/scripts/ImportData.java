@@ -47,8 +47,7 @@ public final class ImportData {
         data = gson.fromJson(jsonString, DataBundle.class);
         
         String status = "";
-        do
-        {
+        do {
             long start = System.currentTimeMillis();
             boolean hasAccounts = !data.accounts.isEmpty();
             boolean hasInstructors = !data.instructors.isEmpty();
@@ -85,8 +84,7 @@ public final class ImportData {
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map)
-    {
+    private static String persist(@SuppressWarnings("rawtypes") HashMap map) {
         DataBundle bundle = new DataBundle();
         int count = 0;
         @SuppressWarnings("unchecked")
@@ -95,28 +93,23 @@ public final class ImportData {
         Iterator itr = set.iterator();
         
         String type = "";
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
             String key = (String) itr.next();
             Object obj = map.get(key);
             
-            if (obj instanceof AccountAttributes)
-            {
+            if (obj instanceof AccountAttributes) {
                 type = "AccountData";
                 AccountAttributes accountData = (AccountAttributes) obj;
                 bundle.accounts.put(key, accountData);
-            } else if (obj instanceof InstructorAttributes)
-            {
+            } else if (obj instanceof InstructorAttributes) {
                 type = "InstructorData";
                 InstructorAttributes instructorData = (InstructorAttributes) obj;
                 bundle.instructors.put(key, instructorData);
-            } else if (obj instanceof CourseAttributes)
-            {
+            } else if (obj instanceof CourseAttributes) {
                 type = "CourseData";
                 CourseAttributes courseData = (CourseAttributes) obj;
                 bundle.courses.put(key, courseData);
-            } else if (obj instanceof StudentAttributes)
-            {
+            } else if (obj instanceof StudentAttributes) {
                 type = "StudentData";
                 StudentAttributes studentData = (StudentAttributes) obj;
                 bundle.students.put(key, studentData);

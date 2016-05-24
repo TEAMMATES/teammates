@@ -218,7 +218,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() throws Exception {
-            BrowserPool.release(browser);
-        }
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
 }
