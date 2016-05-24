@@ -71,6 +71,7 @@
     <module name="PackageDeclaration"/>
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
+    <module name="SimplifyBooleanExpression"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
