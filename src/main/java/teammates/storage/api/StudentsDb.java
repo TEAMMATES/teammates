@@ -388,7 +388,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for (StudentAttributes s: allStudents) {
+        for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
                 unregistered.add(s);
             }

@@ -123,7 +123,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
         
-        for (String courseIdToCopy: coursesIdToCopyTo) {
+        for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
             boolean fsAlreadyExists = existingFs != null;

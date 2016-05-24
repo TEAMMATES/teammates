@@ -129,7 +129,7 @@ public class StudentHomePageAction extends Action {
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
                                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions) {
+        for (FeedbackSessionDetailsBundle fsb : course.feedbackSessions) {
             sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
         }
     }

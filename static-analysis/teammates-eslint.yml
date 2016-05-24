@@ -385,7 +385,7 @@ rules:
     # id-match: "off"
 
     # enforce consistent indentation
-    indent: ["error", 4, { "SwitchCase": 1 }]
+    indent: ["error", 4]
 
     # enforce the consistent use of either double or single quotes in JSX attributes
     # jsx-quotes: "off"

@@ -45,14 +45,14 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries
                  : bundle.getQuestionResponseMap().entrySet()) {
-           FeedbackQuestionAttributes question = bundle.questions.get(responseEntries.getKey().getId());
-           Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-           
-           List<InstructorFeedbackResponseComment> responseCommentList = buildInstructorFeedbackResponseComments(
-                   responseEntries.getValue(), bundle, question, responseVisibilityMap);
+            FeedbackQuestionAttributes question = bundle.questions.get(responseEntries.getKey().getId());
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+            
+            List<InstructorFeedbackResponseComment> responseCommentList = buildInstructorFeedbackResponseComments(
+                    responseEntries.getValue(), bundle, question, responseVisibilityMap);
 
-           questionCommentsMap.put(question, responseCommentList);
-       }
+            questionCommentsMap.put(question, responseCommentList);
+        }
     }
     
     private List<InstructorFeedbackResponseComment> buildInstructorFeedbackResponseComments(

@@ -126,13 +126,19 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         String error;
 
         error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -318,11 +324,17 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) { return true; }
+        if (this == obj) {
+            return true;
+        }
 
-        if (obj == null) { return false; }
+        if (obj == null) {
+            return false;
+        }
 
-        if (getClass() != obj.getClass()) { return false; }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
         FeedbackQuestionAttributes other = (FeedbackQuestionAttributes) obj;
 
@@ -444,35 +456,35 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<FeedbackParticipantType>();
 
         switch (recipientType) {
-            case NONE:
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER);
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                break;
-            case TEAMS:
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                break;
-            case INSTRUCTORS:
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                break;
-            case OWN_TEAM:
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                break;
-            case OWN_TEAM_MEMBERS:
-                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                break;
-            default:
-                break;
+        case NONE:
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER);
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            break;
+        case TEAMS:
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            break;
+        case INSTRUCTORS:
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            break;
+        case OWN_TEAM:
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            break;
+        case OWN_TEAM_MEMBERS:
+            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            break;
+        default:
+            break;
         }
 
         switch (giverType) {
-            case TEAMS:
-                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-                break;
-            case INSTRUCTORS:
-                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-                break;
-            default:
-                break;
+        case TEAMS:
+            optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+            break;
+        case INSTRUCTORS:
+            optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+            break;
+        default:
+            break;
         }
 
         removeVisibilities(optionsToRemove);

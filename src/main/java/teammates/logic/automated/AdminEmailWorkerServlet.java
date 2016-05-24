@@ -39,12 +39,12 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
         
         if (emailContent == null || emailSubject == null) {
-          log.info("Sending large email. Going to retrieve email content and subject from datastore.");
-          AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
-          Assumption.assertNotNull(adminEmail);
-          
-          emailContent = adminEmail.getContent().getValue();
-          emailSubject = adminEmail.getSubject();
+            log.info("Sending large email. Going to retrieve email content and subject from datastore.");
+            AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
+            Assumption.assertNotNull(adminEmail);
+
+            emailContent = adminEmail.getContent().getValue();
+            emailSubject = adminEmail.getSubject();
         }
         
         Assumption.assertNotNull(emailContent);

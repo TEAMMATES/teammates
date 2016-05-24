@@ -200,20 +200,30 @@ public class InstructorAttributes extends EntityAttributes {
         
         if (googleId != null) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if (!error.isEmpty()) { errors.add(error); }
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(displayedName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }

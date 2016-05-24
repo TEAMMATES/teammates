@@ -496,7 +496,7 @@ public class StudentsLogic {
         }
 
         StringBuilder errorMessage = new StringBuilder();
-        for (String section: invalidSectionList) {
+        for (String section : invalidSectionList) {
             errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 

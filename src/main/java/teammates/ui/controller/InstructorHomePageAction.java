@@ -89,17 +89,17 @@ public class InstructorHomePageAction extends Action {
     
     private void sortCourse(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
         switch (sortCriteria) {
-            case Const.SORT_BY_COURSE_ID:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
-                break;
-            case Const.SORT_BY_COURSE_NAME:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
-                break;
-            case Const.SORT_BY_COURSE_CREATION_DATE:
-                CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
-                break;
-            default:
-                throw new RuntimeException("Invalid course sorting criteria.");
+        case Const.SORT_BY_COURSE_ID:
+            CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
+            break;
+        case Const.SORT_BY_COURSE_NAME:
+            CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
+            break;
+        case Const.SORT_BY_COURSE_CREATION_DATE:
+            CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
+            break;
+        default:
+            throw new RuntimeException("Invalid course sorting criteria.");
         }
     }    
 }
