@@ -1,6 +1,5 @@
 package teammates.logic.automated;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
@@ -39,6 +38,6 @@ public abstract class WorkerServlet extends HttpServlet {
     protected void logMessage(HttpServletRequest request, String message) {
         String url = HttpRequestHelper.getRequestedURL(request);
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url);
-        log.log(Level.INFO, activityLogEntry.generateLogMessage());
+        log.info(activityLogEntry.generateLogMessage());
     }
 }

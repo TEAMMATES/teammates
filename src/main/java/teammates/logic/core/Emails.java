@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -760,7 +759,7 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
         }
@@ -770,7 +769,7 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
         }
