@@ -13,7 +13,7 @@ import teammates.logic.api.GateKeeper;
 public class AdminAccountDetailsPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         

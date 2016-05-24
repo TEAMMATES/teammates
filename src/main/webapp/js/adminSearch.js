@@ -64,7 +64,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                  + '&courseid=' + studentCourseId
                  + '&googleid=' + wrongGoogleId;
     
-    var googleIdEntry = $(button).parent().parent().children().find('.homePageLink');
+    var googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     var originalButton = $(button).html();
     
     var originalGoogleIdEntry = $(googleIdEntry).html();
@@ -80,16 +80,14 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
-                    if (data.isGoogleIdReset) {
-                        googleIdEntry.html('');
-                        $(button).hide();
-                    } else {
-                        googleIdEntry.html(originalGoogleIdEntry);
-                        $(button).html(originalButton);
-                    }
-                } else {
+                if (data.isError) {
                     $(button).html('An Error Occurred, Please Retry');
+                } else if (data.isGoogleIdReset) {
+                    googleIdEntry.html('');
+                    $(button).hide();
+                } else {
+                    googleIdEntry.html(originalGoogleIdEntry);
+                    $(button).html(originalButton);
                 }
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);

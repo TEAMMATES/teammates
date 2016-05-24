@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -36,7 +35,7 @@ public class AdminInstructorAccountAddAction extends Action {
     private static int PERSISTENCE_WAITING_DURATION = 4000;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
 
@@ -90,9 +89,9 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       String courseId = null;    
+        String courseId = null;    
        
-       try {
+        try {
             courseId = importDemoData(data);             
         } catch (Exception e) {  
             
@@ -155,13 +154,10 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData)
-            throws EntityAlreadyExistsException,
-            InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
         String courseId = generateDemoCourseId(pageData.instructorEmail); 
@@ -305,19 +301,18 @@ public class AdminInstructorAccountAddAction extends Action {
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
-        } else {
-            final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if (isFirstTimeDuplicate) {
-                return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
-                                                 maximumIdLength);
-            } else {
-                final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-                final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-                final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-
-                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1),
-                                                 maximumIdLength);
-            }
         }
+        
+        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+        if (isFirstTimeDuplicate) {
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
+                                             maximumIdLength);
+        }
+        
+        final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+
+        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 }

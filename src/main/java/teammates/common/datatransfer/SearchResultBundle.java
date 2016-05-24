@@ -17,9 +17,8 @@ public abstract class SearchResultBundle {
     protected String extractContentFromQuotedString(String quotedString) {
         if (quotedString.matches("^\".*\"$")) {
             return quotedString.substring(1, quotedString.length() - 1);
-        } else {
-            return quotedString;
         }
+        return quotedString;
     }
     
     /**
@@ -28,7 +27,7 @@ public abstract class SearchResultBundle {
     protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                      List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             courseIdSet.add(ins.courseId);
         }
         

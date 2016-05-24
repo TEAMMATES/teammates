@@ -51,7 +51,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseStudentDeleteAction getAction(String... params) throws Exception {
+    private InstructorCourseStudentDeleteAction getAction(String... params) {
         return (InstructorCourseStudentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
     

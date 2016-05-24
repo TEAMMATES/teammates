@@ -89,7 +89,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable createInstructorTable() {
         List<AdminSearchInstructorRow> rows = new ArrayList<AdminSearchInstructorRow>();
         
-        for (InstructorAttributes instructor: instructorResultBundle.instructorList) {
+        for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
             rows.add(createInstructorRow(instructor));
         }
         
@@ -213,18 +213,18 @@ public class AdminSearchPageData extends PageData {
         List<String> links = new ArrayList<String>();
         
         switch (fsState) {
-            case OPEN:
-                links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case CLOSED:
-                links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case PUBLISHED:
-                links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            default:
-                Assumption.fail();
-                break;
+        case OPEN:
+            links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case CLOSED:
+            links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case PUBLISHED:
+            links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
         
         if (links != null) {

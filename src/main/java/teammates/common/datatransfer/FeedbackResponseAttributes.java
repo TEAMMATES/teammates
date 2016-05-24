@@ -110,10 +110,14 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }
@@ -204,10 +208,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
-        } else {
-            Gson gson = Utils.getTeammatesGson();
-            return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
+        Gson gson = Utils.getTeammatesGson();
+        return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
     }
     
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
@@ -224,11 +227,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-       return responseMetaData == null; 
+        return responseMetaData == null; 
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
         Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
+            @Override
             public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
                 return fr1.getId().compareTo(fr2.getId());
             }

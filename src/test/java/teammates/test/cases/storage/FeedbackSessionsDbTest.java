@@ -96,7 +96,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAllGetFeedbackSessions() throws Exception {
+    public void testAllGetFeedbackSessions() {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
@@ -105,7 +105,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         testGetFeedbackSessionsWithUnsentPublishedEmail();
     }
     
-    private void testGetFeedbackSessions() throws Exception {
+    private void testGetFeedbackSessions() {
         
         ______TS("standard success case");
         
@@ -140,7 +140,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsForCourse() throws Exception {
+    private void testGetFeedbackSessionsForCourse() {
         
         ______TS("standard success case");    
         
@@ -177,7 +177,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
     }
     
-    private void testGetNonPrivateFeedbackSessions() throws Exception {
+    private void testGetNonPrivateFeedbackSessions() {
         
         ______TS("standard success case"); 
         
@@ -190,7 +190,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
+    private void testGetFeedbackSessionsWithUnsentOpenEmail() {
         
         ______TS("standard success case"); 
         
@@ -203,7 +203,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
+    private void testGetFeedbackSessionsWithUnsentPublishedEmail() {
         
         ______TS("standard success case"); 
         
@@ -284,12 +284,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         deleteSessionsFromDb();
         printTestClassFooter();
     }
     
-    private static void deleteSessionsFromDb() throws Exception {
+    private static void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));

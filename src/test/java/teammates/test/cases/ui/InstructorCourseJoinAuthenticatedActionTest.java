@@ -175,7 +175,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAuthenticatedAction getAction(String... params) throws Exception {
+    private InstructorCourseJoinAuthenticatedAction getAction(String... params) {
         return (InstructorCourseJoinAuthenticatedAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

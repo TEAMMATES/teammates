@@ -135,7 +135,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         verifyLogMessageForActionWithEmailAndCourse(instructor, false);
     }
 
-    protected void testActionWithEmailAndCourseNoStudent() throws Exception {
+    protected void testActionWithEmailAndCourseNoStudent() {
         ______TS("Failure case: student does not exist");
 
         String[] submissionParams = new String[] {
@@ -232,7 +232,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }
 
-    private StudentProfilePictureAction getAction(String... params) throws Exception {
+    private StudentProfilePictureAction getAction(String... params) {
         return (StudentProfilePictureAction) (gaeSimulation.getActionObject(uri, params));
     }
 

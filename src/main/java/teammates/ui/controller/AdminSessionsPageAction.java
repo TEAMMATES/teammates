@@ -10,7 +10,6 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
@@ -36,7 +35,7 @@ public class AdminSessionsPageAction extends Action {
     private boolean isShowAll;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
@@ -275,7 +274,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isOpened()) {
                 numOfTotal += 1;
             }
@@ -287,7 +286,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isClosed()) {
                 numOfTotal += 1;
             }
@@ -299,7 +298,7 @@ public class AdminSessionsPageAction extends Action {
     private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         
         int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
             if (sessionAttributes.isWaitingToOpen()) {
                 numOfTotal += 1;
             }

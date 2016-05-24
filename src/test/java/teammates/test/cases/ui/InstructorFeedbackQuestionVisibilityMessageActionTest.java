@@ -191,7 +191,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
         return (InstructorFeedbackQuestionVisibilityMessageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

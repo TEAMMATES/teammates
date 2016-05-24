@@ -69,6 +69,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         adminEmailListGenerator.doOperationRemotely();
     }
 
+    @Override
     protected void doOperation() {
 
         try {
@@ -84,18 +85,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.student) {
             System.out.print("Student Status: ");
             switch (emailListConfig.studentStatus) {
-                case REG:
-                    System.out.print("REG\n");
-                    break;
-                case UNREG:
-                    System.out.print("UNREG\n");
-                    break;
-                case ALL:
-                    System.out.print("ALL\n");
-                    break;
-                default :
-                    System.out.print("ALL\n");
-                    break;
+            case REG:
+                System.out.print("REG\n");
+                break;
+            case UNREG:
+                System.out.print("UNREG\n");
+                break;
+            case ALL:
+                System.out.print("ALL\n");
+                break;
+            default:
+                System.out.print("ALL\n");
+                break;
             }
         }
         
@@ -112,18 +113,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.instructor) {
             System.out.print("Instructor Status: ");
             switch (emailListConfig.studentStatus) {
-                case REG:
-                    System.out.print("REG\n");
-                    break;
-                case UNREG:
-                    System.out.print("UNREG\n");
-                    break;
-                case ALL:
-                    System.out.print("ALL\n");
-                    break;
-                default :
-                    System.out.print("ALL\n");
-                    break;
+            case REG:
+                System.out.print("REG\n");
+                break;
+            case UNREG:
+                System.out.print("UNREG\n");
+                break;
+            case ALL:
+                System.out.print("ALL\n");
+                break;
+            default:
+                System.out.print("ALL\n");
+                break;
             }
         }
         
@@ -167,11 +168,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         int day = Integer.parseInt(split[0]);
         int month = Integer.parseInt(split[1]);
         int year = Integer.parseInt(split[2]);
-        if (isValidDate(day, month, year)) {
-            return getDate(day, month, year);
-        } else {
+        if (!isValidDate(day, month, year)) {
             throw new InvalidParametersException("Date format error");
         }
+        return getDate(day, month, year);
         
     }
     
@@ -328,7 +328,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         return null;
         
-}
+    }
 
     private boolean isStudentCreatedInRange(Student student) {
         
@@ -443,23 +443,23 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private boolean isValidDate(int day, int month, int year) {
         
-       boolean isDateValid = false; 
+        boolean isDateValid = false; 
 
         if (day <= 0 || month <= 0 || year <= 0) {
             isDateValid = false;
         } else if (day > getMaxNumOfDayForMonth(month, year)) {
             isDateValid = false;
         } else {
-          isDateValid = true;
+            isDateValid = true;
         }
    
-       if (isDateValid) {
-           System.out.print("Date Entered is valid.\n\n");
-       } else {
-           System.out.print("Date is not valid. Please Re-enter date.\n\n");
-       }
+        if (isDateValid) {
+            System.out.print("Date Entered is valid.\n\n");
+        } else {
+            System.out.print("Date is not valid. Please Re-enter date.\n\n");
+        }
        
-       return isDateValid;
+        return isDateValid;
         
     }
     

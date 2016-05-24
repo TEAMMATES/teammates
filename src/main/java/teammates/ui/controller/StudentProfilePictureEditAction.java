@@ -17,7 +17,6 @@ import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -41,7 +40,7 @@ public class StudentProfilePictureEditAction extends Action {
     private String _rotateString;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {
@@ -153,7 +152,7 @@ public class StudentProfilePictureEditAction extends Action {
      */
     private boolean validatePostParameters() {
         if (_leftXString.isEmpty() || _topYString.isEmpty()
-         || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
+             || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";

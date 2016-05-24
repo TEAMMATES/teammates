@@ -44,7 +44,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     private static InstructorAttributes sampleInstructor;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         sampleCourse = dataBundle.courses.get("typicalCourse1");
         sampleStudent = dataBundle.students.get("student1InCourse1");

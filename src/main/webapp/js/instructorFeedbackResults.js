@@ -44,13 +44,13 @@ function submitFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                } else {
                     var table = data.sessionResultsHtmlTableAsString;
                     content.html('<small>' + table + '</small>');
                     ajaxStatus.html(data.ajaxStatus);
-                } else {
-                    ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
                 setStatusMessage(data.statusForAjax);
             }, 500);
@@ -128,13 +128,13 @@ function filterResults(rawSearchText) {
                 // increment counter to skip child panels that have been shown
                 p += childrenSize;
             }
-        } else if (!hasChild) {
-            // current panel text does not match with search text & current panel has no child panels
-            $(panel).hide();
-        } else {
+        } else if (hasChild) {
             // current panel text does not match with search text & current panel has child panels
             // add current panel to pending parent panel stack
             showStack.push(panel);
+        } else {
+            // current panel text does not match with search text & current panel has no child panels
+            $(panel).hide();
         }
 
         if (hasChild) {
