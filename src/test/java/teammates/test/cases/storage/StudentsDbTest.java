@@ -196,6 +196,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         }
         
         studentsDb.deleteStudent(s.course, s.email);
+        studentsDb.deleteStudent(s2.course, s2.email);
     }
     
     @Test
