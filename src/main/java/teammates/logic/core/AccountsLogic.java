@@ -34,7 +34,7 @@ public class AccountsLogic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
         if (instance == null) {
