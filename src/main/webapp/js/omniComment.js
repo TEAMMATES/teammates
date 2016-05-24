@@ -7,9 +7,10 @@ $(document).ready(function() {
     }
     
     function getRedirectSpecificCommentRow() {
-        var start = $(location).attr('href').indexOf('#');
-        var end = $(location).attr('href').length;
-        var rowId = $(location).attr('href').substring(start, end);
+        var url = $(location).attr('href');
+        var start = url.indexOf('#');
+        var end = url.length;
+        var rowId = url.substring(start, end);
         var row = $(rowId);
         return row;
     }
