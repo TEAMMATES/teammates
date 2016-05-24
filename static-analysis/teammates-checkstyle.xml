@@ -65,6 +65,12 @@
     </module>
     <module name="LocalVariableName"/>
     <module name="ParameterName"/>
+    <module name="AvoidNestedBlocks"/>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+      <property name="tokens" value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INSTANCE_INIT,STATIC_INIT,LITERAL_SWITCH,LITERAL_TRY,LITERAL_WHILE"/>
+    </module>
+    <module name="EmptyCatchBlock"/>
     <module name="EmptyStatement"/>
     <module name="DefaultComesLast"/>
     <module name="ExplicitInitialization"/>
