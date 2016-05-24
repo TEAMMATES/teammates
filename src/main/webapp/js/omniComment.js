@@ -224,11 +224,8 @@ $(document).ready(function() {
         if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length !== $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).closest('tr');
-                // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
-                commentListRegionForFeedbackResponse.show();
-                commentListRegionForFeedbackResponse.prev().show();
-                commentListRegionForFeedbackResponse.prev().prev().show();
-                commentListRegionForFeedbackResponse.prev().prev().prev().show();
+                // a fbResponse in instructorCommentsPage (html) is made up of a table containing 4 rows
+                commentListRegionForFeedbackResponse.closest('table').show();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
@@ -266,11 +263,8 @@ $(document).ready(function() {
         if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length === $(comment).parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = $(comment).closest('tr');
-                // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
-                commentListRegionForFeedbackResponse.hide();
-                commentListRegionForFeedbackResponse.prev().hide();
-                commentListRegionForFeedbackResponse.prev().prev().hide();
-                commentListRegionForFeedbackResponse.prev().prev().prev().hide();
+                // a fbResponse in instructorCommentsPage (html) is made up of a table containing 4 rows
+                commentListRegionForFeedbackResponse.closest('table').hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
