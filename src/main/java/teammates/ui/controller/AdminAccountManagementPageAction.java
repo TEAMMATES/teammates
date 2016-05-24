@@ -7,14 +7,13 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountManagementPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
         
         String instructorGoogleId = this.getRequestParamValue("googleId");

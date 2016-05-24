@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -138,9 +137,8 @@ public class AdminEmailsLogic {
     /**
      * deletes files uploaded in admin email compose page
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
-     * @throws BlobstoreFailureException
      */
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+    public void deleteAdminEmailUploadedFile(BlobKey key) {
         adminEmailsDb.deleteAdminEmailUploadedFile(key);
     }
 }

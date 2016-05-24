@@ -197,6 +197,7 @@ public abstract class AppPage {
     public void waitForPageToLoad() {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
@@ -211,6 +212,7 @@ public abstract class AppPage {
     public void waitForElementNotCovered(final WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 return !isElementCovered(element);
             }
@@ -497,7 +499,7 @@ public abstract class AppPage {
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
-    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();
         } else {

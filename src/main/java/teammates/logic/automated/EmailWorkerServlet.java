@@ -13,6 +13,7 @@ import teammates.logic.core.Emails;
 @SuppressWarnings("serial")
 public class EmailWorkerServlet extends WorkerServlet {
     
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper

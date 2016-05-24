@@ -37,7 +37,7 @@ import teammates.test.cases.BaseTestCase;
  */
 public class FeedbackResponseDetailsTest extends BaseTestCase {
     @Test
-    public void testCreateResponseDetails() throws Exception {
+    public void testCreateResponseDetails() {
         
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();

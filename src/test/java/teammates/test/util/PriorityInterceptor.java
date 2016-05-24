@@ -35,6 +35,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
         }
     }
     
+    @Override
     @SuppressWarnings("deprecation")
     public List<IMethodInstance> intercept(List<IMethodInstance> methods,
             ITestContext context) {
@@ -90,6 +91,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 return -index;
             }
 
+            @Override
             public int compare(IMethodInstance m1, IMethodInstance m2) {
                 int val = 0;
                 

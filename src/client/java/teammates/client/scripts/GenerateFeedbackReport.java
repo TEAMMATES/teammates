@@ -21,6 +21,7 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         reportGenerator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();

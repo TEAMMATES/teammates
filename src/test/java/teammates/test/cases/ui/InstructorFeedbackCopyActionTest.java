@@ -17,7 +17,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     DataBundle dataBundle;    
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
     }
@@ -189,7 +189,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackCopyAction getAction(String... params) throws Exception {
+    private InstructorFeedbackCopyAction getAction(String... params) {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -399,10 +399,9 @@ public class StudentsLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -422,10 +421,9 @@ public class StudentsLogic {
      * Validates teams for any team name violations
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 

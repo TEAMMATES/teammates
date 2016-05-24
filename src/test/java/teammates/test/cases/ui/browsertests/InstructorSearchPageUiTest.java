@@ -125,7 +125,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

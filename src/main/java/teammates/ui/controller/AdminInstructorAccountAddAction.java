@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -36,7 +35,7 @@ public class AdminInstructorAccountAddAction extends Action {
     private static int PERSISTENCE_WAITING_DURATION = 4000;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
 
@@ -155,13 +154,10 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData)
-            throws EntityAlreadyExistsException,
-            InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
         String courseId = generateDemoCourseId(pageData.instructorEmail); 

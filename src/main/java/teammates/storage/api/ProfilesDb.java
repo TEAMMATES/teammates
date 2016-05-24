@@ -6,7 +6,6 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -146,10 +145,9 @@ public class ProfilesDb extends EntitiesDb {
      *     empties the key and updates the modifiedDate 
      * 
      * @param googleId
-     * @throws BlobstoreFailureException
      * @throws EntityDoesNotExistException 
      */
-    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException, EntityDoesNotExistException {
+    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
         
         if (!sp.getPictureKey().equals(new BlobKey(""))) {

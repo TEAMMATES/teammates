@@ -34,13 +34,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
 
     @BeforeMethod
-    public void refreshTestData() throws Exception {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -648,7 +648,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
