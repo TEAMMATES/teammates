@@ -56,7 +56,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes s = createNewStudent();
         
-        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        StudentAttributes student = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(student);
         
         // Assert dates are now.
@@ -162,7 +162,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.key));
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
         assertNull(studentsDb.getStudentForRegistrationKey("notExistingKey"));
-        ______TS("non existant student case");
+        ______TS("non existent student case");
         retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
         assertNull(retrieved);
         
@@ -273,12 +273,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
-        int currentStudentNum = studentsDb.getAllStudents().size();
+        int currentStudentNum = studentsDb.getAllCourseStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
-        assertEquals(2 + currentStudentNum, studentsDb.getAllStudents().size());
+        assertEquals(2 + currentStudentNum, studentsDb.getAllCourseStudents().size());
         studentsDb.deleteStudentsForCourseWithoutDocument(s.course);
-        assertEquals(currentStudentNum, studentsDb.getAllStudents().size());
+        assertEquals(currentStudentNum, studentsDb.getAllCourseStudents().size());
         // delete again - should fail silently
         studentsDb.deleteStudentWithoutDocument(s.course, s.email);
         
