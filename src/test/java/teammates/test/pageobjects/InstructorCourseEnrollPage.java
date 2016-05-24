@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseEnrollPage extends AppPage {
     
-    @FindBy(id = "spreadsheet_link")
+    @FindBy(id = "spreadsheet-link")
     protected WebElement spreadsheetLink;
     
     @FindBy(id = "enrollstudents")
