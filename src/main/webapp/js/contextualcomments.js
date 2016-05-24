@@ -83,19 +83,19 @@ $(document).ready(function() {
         $('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showcommentsto']").val(visibilityOptions.join(", "));
+        $("input[name='showcommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         $('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showgiverto']").val(visibilityOptions.join(", "));
+        $("input[name='showgiverto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         $('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showrecipientto']").val(visibilityOptions.join(", "));
+        $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     }
     
     if (isShowCommentBox) {
