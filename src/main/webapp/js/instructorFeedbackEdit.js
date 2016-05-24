@@ -4,9 +4,8 @@ $(document).ready(function() {
     updateUncommonSettingsInfo();
     hideUncommonPanels();
 
-    $('.dropdown-menu li a').click(function() {
-        $('#questiontype').val(this.id);
-        showNewQuestionFrame(this.id);
+    $('.dropdown-menu li').click(function() {
+        showNewQuestionFrame($(this).attr('questionType'));
     });
 });
 
@@ -437,6 +436,8 @@ function tallyCheckboxes(qnNumber) {
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type) {
+    $('#questiontype').val(type);
+	
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();

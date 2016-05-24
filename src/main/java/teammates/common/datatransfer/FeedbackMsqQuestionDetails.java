@@ -543,7 +543,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li><a id = \"MSQ\">" + Const.FeedbackQuestionTypeNames.MSQ + "</a></li>";
+        return "<li questionType = \"MSQ\"><a>" + Const.FeedbackQuestionTypeNames.MSQ + "</a></li>";
     }
 
     @Override

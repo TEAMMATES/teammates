@@ -19,7 +19,6 @@
                 <div class="col-sm-offset-3 col-sm-9">
 
                     <button
-                        name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
                         id = "button_openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
                         type="button" data-toggle="dropdown">

@@ -241,7 +241,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         return "Team, Recipient" + ", Average Rank" + Const.EOL + fragments + Const.EOL;
     }
-
+    
     /**
      * From the feedback responses, generate a mapping of the option to a list of 
      * ranks received for that option.
@@ -307,7 +307,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li><a id=\"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\">" 
+        return "<li questionType = \"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\"><a>" 
               + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</a></li>";
     }
 
