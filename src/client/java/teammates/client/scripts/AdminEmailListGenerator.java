@@ -58,7 +58,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private static enum InstructorStatus { REG, UNREG, ALL }
     
     private EmailListConfig emailListConfig = new EmailListConfig();
-    private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
+    private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<String, Date>();
     
     protected static final PersistenceManager pm = JDOHelper
                                                    .getPersistenceManagerFactory("transactions-optional")
@@ -314,14 +314,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(instructor.getCourseId());
+        if (courseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(instructor.getCourseId());
         }
         
         Course course = getCourseEntity(instructor.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         
@@ -369,14 +369,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(student.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(student.getCourseId());
+        if (courseIdToCreatedDateMap.get(student.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(student.getCourseId());
         }
         
         Course course = getCourseEntity(student.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         

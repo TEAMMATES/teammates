@@ -1172,8 +1172,8 @@ public final class Const {
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
     public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
-    public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-    public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
+    public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
+    public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
     
     //for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";

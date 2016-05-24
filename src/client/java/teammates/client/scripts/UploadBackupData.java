@@ -57,7 +57,7 @@ import teammates.storage.datastore.Datastore;
  */
 public class UploadBackupData extends RemoteApiClient {
 
-    private static String BACKUP_FOLDER = "BackupFiles/Backup";
+    private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();

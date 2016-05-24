@@ -15,11 +15,11 @@ import teammates.common.util.Utils;
 public class TeamEvalResult {
     
     /** submitted value is uninitialized */
-    public static int NA = Const.INT_UNINITIALIZED;
+    public static final int NA = Const.INT_UNINITIALIZED;
     /** submitted 'Not SUre' */
-    public static int NSU = Const.POINTS_NOT_SURE;
+    public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
-    public static int NSB = Const.POINTS_NOT_SUBMITTED;
+    public static final int NSB = Const.POINTS_NOT_SUBMITTED;
     private static Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */

@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
     
-    private static int PERSISTENCE_WAITING_DURATION = 4000;
+    private static final int PERSISTENCE_WAITING_DURATION = 4000;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

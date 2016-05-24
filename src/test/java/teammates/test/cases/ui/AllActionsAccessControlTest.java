@@ -73,7 +73,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorCoursesPage() throws Exception {
+    public void instructorCoursesPage() throws Exception {
         /*Explanation: We change the uri variable to specify which page we want 
          * test access control for. The URIs can be found in Const.ActionURIs
          */
@@ -93,55 +93,55 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void AdminAccountDelete() throws Exception {
+    public void adminAccountDelete() throws Exception {
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminAccountDetailsPage() throws Exception {
+    public void adminAccountDetailsPage() throws Exception {
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminAccountManagementPage() throws Exception {
+    public void adminAccountManagementPage() throws Exception {
         uri = Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminActivityLogPage() throws Exception {
+    public void adminActivityLogPage() throws Exception {
         uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminExceptionTest() throws Exception {
+    public void adminExceptionTest() throws Exception {
         uri = Const.ActionURIs.ADMIN_EXCEPTION_TEST;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminHomePage() throws Exception {
+    public void adminHomePage() throws Exception {
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminInstructorAccountAdd() throws Exception {
+    public void adminInstructorAccountAdd() throws Exception {
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void AdminSearchPage() throws Exception {
+    public void adminSearchPage() throws Exception {
         uri = Const.ActionURIs.ADMIN_SEARCH_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
     }
     
     @Test
-    public void InstructorFeedbackStatsPage() throws Exception {
+    public void instructorFeedbackStatsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -154,13 +154,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorCommentsPage() throws Exception {
+    public void instructorCommentsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
-    public void InstructorCourseAdd() throws Exception {
+    public void instructorCourseAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "ticac.tac.id",
@@ -173,7 +173,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseArchive() throws Exception {
+    public void instructorCourseArchive() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
@@ -184,7 +184,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseDelete() throws Exception {
+    public void instructorCourseDelete() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
         CoursesLogic.inst().createCourseAndInstructor(
                 dataBundle.instructors.get("instructor1OfCourse1").googleId, 
@@ -212,7 +212,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseDetailsPage() throws Exception {
+    public void instructorCourseDetailsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
@@ -222,7 +222,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseEdit() throws Exception {
+    public void instructorCourseEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
@@ -232,7 +232,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseEnrollPage() throws Exception {
+    public void instructorCourseEnrollPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
@@ -243,7 +243,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseEnrollSave() throws Exception {
+    public void instructorCourseEnrollSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
@@ -255,7 +255,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseInstructorAdd() throws Exception {
+    public void instructorCourseInstructorAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
@@ -277,7 +277,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseInstructorDelete() throws Exception {
+    public void instructorCourseInstructorDelete() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         String[] submissionParams = new String[]{
@@ -290,7 +290,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseInstructorEditSave() throws Exception {
+    public void instructorCourseInstructorEditSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String[] submissionParams = new String[]{
@@ -311,7 +311,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseJoin() throws Exception {
+    public void instructorCourseJoin() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, invalidEncryptedKey
@@ -321,7 +321,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseJoinAuthenticated() throws Exception {
+    public void instructorCourseJoinAuthenticated() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, invalidEncryptedKey
@@ -331,7 +331,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseRemind() throws Exception {
+    public void instructorCourseRemind() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
@@ -341,7 +341,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseStudentDelete() throws Exception {
+    public void instructorCourseStudentDelete() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student5InCourse1");
@@ -356,7 +356,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseStudentDetailsEdit() throws Exception {
+    public void instructorCourseStudentDetailsEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -371,7 +371,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseStudentDetailsEditSave() throws Exception {
+    public void instructorCourseStudentDetailsEditSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student3InCourse1");
@@ -386,7 +386,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseStudentDetailsPage() throws Exception {
+    public void instructorCourseStudentDetailsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -401,7 +401,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorCourseStudentListDownload() throws Exception {
+    public void instructorCourseStudentListDownload() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
@@ -413,7 +413,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackAdd() throws Exception {
+    public void instructorFeedbackAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         InstructorAttributes instructor1ofCourse1 = 
                 dataBundle.instructors.get("instructor1OfCourse1");
@@ -431,7 +431,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     @Test
     
-    public void InstructorFeedbackDelete() throws Exception {
+    public void instructorFeedbackDelete() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session2InCourse1");
         
@@ -453,7 +453,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackEditPage() throws Exception {
+    public void instructorFeedbackEditPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -467,7 +467,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackEditSave() throws Exception {
+    public void instructorFeedbackEditSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams =
@@ -478,7 +478,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackPreviewAsInstructor() throws Exception {
+    public void instructorFeedbackPreviewAsInstructor() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
@@ -493,7 +493,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackPreviewAsStudent() throws Exception {
+    public void instructorFeedbackPreviewAsStudent() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -508,7 +508,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackPublish() throws Exception {
+    public void instructorFeedbackPublish() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -532,7 +532,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackQuestionAdd() throws Exception {
+    public void instructorFeedbackQuestionAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
         FeedbackSessionAttributes fs = 
                 dataBundle.feedbackSessions.get("empty.session");
@@ -549,7 +549,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackQuestionEdit() throws Exception {
+    public void instructorFeedbackQuestionEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes fq = 
@@ -564,7 +564,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorFeedbackQuestionSubmissionEdit() throws Exception {
+    public void instructorFeedbackQuestionSubmissionEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -580,7 +580,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorFeedbackQuestionSubmissionEditSave() throws Exception {
+    public void instructorFeedbackQuestionSubmissionEditSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -597,7 +597,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackRemind() throws Exception {
+    public void instructorFeedbackRemind() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -610,7 +610,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorFeedbackResponseCommentAdd() throws Exception {
+    public void instructorFeedbackResponseCommentAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
         
         int questionNumber = 1;
@@ -649,7 +649,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorFeedbackResponseCommentDelete() throws Exception {
+    public void instructorFeedbackResponseCommentDelete() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
         
         int questionNumber = 2;
@@ -681,7 +681,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackResponseCommentEdit() throws Exception {
+    public void instructorFeedbackResponseCommentEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -714,7 +714,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackResultsDownload() throws Exception {
+    public void instructorFeedbackResultsDownload() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -727,7 +727,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackResultsPage() throws Exception {
+    public void instructorFeedbackResultsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -740,7 +740,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbacksPage() throws Exception {
+    public void instructorFeedbacksPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, 
@@ -750,7 +750,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackSubmissionEditPage() throws Exception {
+    public void instructorFeedbackSubmissionEditPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -763,7 +763,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackSubmissionEditSave() throws Exception {
+    public void instructorFeedbackSubmissionEditSave() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -795,7 +795,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorFeedbackUnpublish() throws Exception {
+    public void instructorFeedbackUnpublish() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -821,7 +821,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorHomePage() throws Exception {
+    public void instructorHomePage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         verifyOnlyInstructorsCanAccess(submissionParams);
         
@@ -834,7 +834,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorStudentCommentAdd() throws Exception {
+    public void instructorStudentCommentAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
         CommentAttributes comment = dataBundle.comments.get("comment1FromI1C1toS1C1");
         comment.commentText = new Text("New Comment");
@@ -859,7 +859,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorStudentCommentEdit() throws Exception {
+    public void instructorStudentCommentEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -889,13 +889,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorStudentListPage() throws Exception {
+    public void instructorStudentListPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
-    public void InstructorStudentRecordsPage() throws Exception {
+    public void instructorStudentRecordsPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -909,13 +909,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCommentsPage() throws Exception {
+    public void studentCommentsPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 
     @Test
-    public void StudentCourseDetailsPage() throws Exception {
+    public void studentCourseDetailsPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         String idOfCourseOfStudent = dataBundle.students
                 .get("student1InCourse1").course;
@@ -938,7 +938,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCourseJoinLegacyLink() throws Exception {
+    public void studentCourseJoinLegacyLink() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
         StudentAttributes unregStudent1 = dataBundle.students.get("student2InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
@@ -954,7 +954,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCourseJoin() throws Exception {
+    public void studentCourseJoin() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").getId()
@@ -975,7 +975,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCourseJoinAuthenticated() throws Exception {
+    public void studentCourseJoinAuthenticated() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
         StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
@@ -1004,7 +1004,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentFeedbackQuestionSubmissionEditPage() throws Exception {
+    public void studentFeedbackQuestionSubmissionEditPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -1043,7 +1043,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentFeedbackQuestionSubmissionEditSave() throws Exception {
+    public void studentFeedbackQuestionSubmissionEditSave() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -1065,7 +1065,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentFeedbackResultsPage() throws Exception {
+    public void studentFeedbackResultsPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -1085,7 +1085,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentFeedbackSubmissionEditPage() throws Exception {
+    public void studentFeedbackSubmissionEditPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -1100,7 +1100,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void StudentFeedbackSubmissionEditSave() throws Exception {
+    public void studentFeedbackSubmissionEditSave() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         
@@ -1141,7 +1141,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void StudentHomePage() throws Exception {
+    public void studentHomePage() throws Exception {
         uri = Const.ActionURIs.STUDENT_HOME_PAGE;
         String[] submissionParams = new String[]{};
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
@@ -1155,20 +1155,20 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void StudentProfileEditSave() throws Exception {
+    public void studentProfileEditSave() throws Exception {
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
         String[] submissionParams = createValidParamsForProfile();
         verifyAnyRegisteredUserCanAccess(submissionParams);
     }
     
     @Test
-    public void StudentProfilePage() throws Exception {
+    public void studentProfilePage() throws Exception {
         uri = Const.ActionURIs.STUDENT_PROFILE_PAGE;
         verifyAnyRegisteredUserCanAccess(submissionParams);
     }
     
     @Test
-    public void StudentProfilePictureEdit() throws Exception {
+    public void studentProfilePictureEdit() throws Exception {
         uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.PROFILE_PICTURE_LEFTX, "0",

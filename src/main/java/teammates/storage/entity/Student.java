@@ -48,7 +48,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
+    //CHECKSTYLE:OFF the database uses ID  
     private String ID;
+    //CHECKSTYLE:ON
 
     /**
      * The email used to contact the student regarding this course.
