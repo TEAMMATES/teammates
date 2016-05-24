@@ -432,11 +432,7 @@ public class StudentsDb extends EntitiesDb {
      */
     @Deprecated
     public List<StudentAttributes> getAllCourseStudents() { 
-        List<StudentAttributes> list = new LinkedList<StudentAttributes>();
-        
-        // TODO: Need to read from CourseStudents? Create a separate method?
-        // Need a method for Students not in CourseStudents?
-        
+        List<StudentAttributes> list = new LinkedList<StudentAttributes>();  
         List<CourseStudent> entities = getCourseStudentEntities();
         Iterator<CourseStudent> it = entities.iterator();
         while (it.hasNext()) {
