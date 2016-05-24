@@ -418,6 +418,29 @@ public class StudentsDb extends EntitiesDb {
         }
         return list;
     }
+    
+    /**
+     * This method is not scalable. Not to be used unless for admin features.
+     * @return the list of all students in the database. 
+     */
+    @Deprecated
+    public List<StudentAttributes> getAllCourseStudents() { 
+        List<StudentAttributes> list = new LinkedList<StudentAttributes>();
+        
+        // TODO: Need to read from CourseStudents? Create a separate method?
+        // Need a method for Students not in CourseStudents?
+        
+        List<CourseStudent> entities = getCourseStudentEntities();
+        Iterator<CourseStudent> it = entities.iterator();
+        while (it.hasNext()) {
+            CourseStudent student = it.next();
+            
+            if (!JDOHelper.isDeleted(student)) {
+                list.add(new StudentAttributes(student));
+            }
+        }
+        return list;
+    }
 
     /**
      * Updates the student identified by {@code courseId} and {@code email}. 
@@ -632,18 +655,25 @@ public class StudentsDb extends EntitiesDb {
     public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        // TODO: This is not even used, only tested.
-        // Is there even a use case for this function?
-        // TODO: Delete from CourseStudent
-        
+        // Delete from Student
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-        
         if (hasDocument) {
             for (Student student : studentList) {
                 deleteDocument(new StudentAttributes(student));
             }
         }
         getPM().deletePersistentAll(studentList);
+        
+        // Delete from CourseStudent
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForGoogleId(googleId);
+        if (hasDocument) {
+            for (Student student : studentList) {
+                deleteDocument(new StudentAttributes(student));
+            }
+        }
+        getPM().deletePersistentAll(courseStudentList);
+        
+        
         getPM().flush();
     }
 
@@ -687,7 +717,7 @@ public class StudentsDb extends EntitiesDb {
         List<CourseStudent> courseStudentsToDelete = getCourseStudentEntitiesForCourses(courseIds);
         List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
         
-        // TODO: Delete search documents are not done
+        // TODO: Delete search documents not done
         // This method is only called to delete data bundle which should not use search documents,
         // but it should still be done or documented properly.
         
@@ -902,8 +932,12 @@ public class StudentsDb extends EntitiesDb {
 
         return studentList;
     }
-
-    private List<CourseStudent> getCourseStudentEntities() { 
+    
+    @Deprecated
+    /**
+     * Retrieves all course tudent entities. This function is not scalable.
+     */
+    public  List<CourseStudent> getCourseStudentEntities() { 
         
         Query q = getPM().newQuery(CourseStudent.class);
         

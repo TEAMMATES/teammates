@@ -46,7 +46,7 @@ public class CourseStudent implements StoreCallback {
     public transient boolean keepUpdateTimestamp = false;
     
     /**
-     * Copied from old student class in strng form
+     * Copied from old student class in string form
      * Null if using new registration key instead.
      */
     @Persistent
