@@ -62,10 +62,7 @@ public class FeedbackSessionDetailsBundle {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(100);
-        sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-                + Const.EOL)
-          .append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
-        return sb.toString();
+        return "course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName + Const.EOL
+               + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
     }
 }

@@ -613,7 +613,7 @@ public abstract class AppPage {
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-       return tableElement.findElements(By.tagName("tr")).size();
+        return tableElement.findElements(By.tagName("tr")).size();
     }
     
     /** 

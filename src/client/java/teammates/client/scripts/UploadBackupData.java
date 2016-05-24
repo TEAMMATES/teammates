@@ -104,7 +104,7 @@ public class UploadBackupData extends RemoteApiClient {
             @Override
             public int compare(String o1, String o2) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
-                 try {
+                try {
                     Date firstDate = dateFormat.parse(o1);
                     
                     Date secondDate = dateFormat.parse(o2);
@@ -114,7 +114,7 @@ public class UploadBackupData extends RemoteApiClient {
                     return 0;
                 }
             }
-          });
+        });
         listOfFolders.toArray(folders);
         return folders;
     }
