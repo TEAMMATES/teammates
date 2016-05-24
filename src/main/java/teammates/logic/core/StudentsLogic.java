@@ -672,14 +672,16 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
+            if (enrollment.updateStatus != UpdateStatus.MODIFIED) {
+                continue;
+            }
+
             boolean isResponseDeleted = false;
-            if (enrollment.updateStatus == UpdateStatus.MODIFIED 
-                && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+            if (isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
-            if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED
-                && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
+            if (!isResponseDeleted && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
