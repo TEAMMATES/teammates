@@ -46,7 +46,7 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();

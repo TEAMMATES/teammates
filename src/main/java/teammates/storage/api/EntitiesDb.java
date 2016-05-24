@@ -41,7 +41,7 @@ public abstract class EntitiesDb {
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
-    private static final Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     
     /**
      * Preconditions: 

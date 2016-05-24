@@ -3,7 +3,6 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -15,12 +14,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-    private static final Logger log = Utils.getLogger();
     
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd) throws InvalidParametersException {
         List<EntityAttributes> questionsToUpdate = createEntities(questionsToAdd);

@@ -49,7 +49,7 @@ import teammates.logic.api.GateKeeper;
  */
 public class Emails {
     //TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING = "TEAMMATES: Feedback session now open";
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";

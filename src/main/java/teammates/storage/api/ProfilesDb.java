@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -19,7 +18,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -29,9 +27,6 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class ProfilesDb extends EntitiesDb {
-    
-    @SuppressWarnings("unused")
-    private static final Logger log = Utils.getLogger();
     
     /**
      * Gets the datatransfer (*Attributes) version of the profile

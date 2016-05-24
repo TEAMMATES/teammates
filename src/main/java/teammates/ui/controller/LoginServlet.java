@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -18,8 +16,6 @@ import teammates.logic.api.Logic;
  * Servlet to handle Login
  */
 public class LoginServlet extends HttpServlet {
-    
-    protected static final Logger log = Utils.getLogger();
     
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp)

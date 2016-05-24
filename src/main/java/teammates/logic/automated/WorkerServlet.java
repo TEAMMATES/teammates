@@ -21,7 +21,7 @@ import teammates.common.util.Utils;
 @SuppressWarnings("serial")
 public abstract class WorkerServlet extends HttpServlet {
     
-    protected static Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     
     protected String servletName = "unspecified";
     protected String action = "unspecified";

@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -26,6 +27,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
@@ -34,7 +36,9 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  * Data and utility methods needed to render a specific page.
  */
 public class PageData {
-
+    
+    protected static final Logger log = Utils.getLogger();
+    
     public static final String DISABLED = " disabled\" onclick=\"return false\"";
 
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 

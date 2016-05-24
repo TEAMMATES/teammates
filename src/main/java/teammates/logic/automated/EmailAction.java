@@ -30,7 +30,7 @@ public abstract class EmailAction {
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
     
-    protected static Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     
     protected Boolean isError = false;
     

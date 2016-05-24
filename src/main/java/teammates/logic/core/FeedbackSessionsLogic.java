@@ -54,7 +54,7 @@ public class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance;
 
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
