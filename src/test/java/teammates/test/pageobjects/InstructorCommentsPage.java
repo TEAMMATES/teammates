@@ -153,7 +153,7 @@ public class InstructorCommentsPage extends AppPage {
         List<WebElement> giverCheckboxes = browser.driver
                                            .findElement(By.id("visibility-options" + row))
                                            .findElements(By.className("giverCheckbox"));
-        for (WebElement checkbox: giverCheckboxes) {
+        for (WebElement checkbox : giverCheckboxes) {
             checkbox.click();
         }
     }
