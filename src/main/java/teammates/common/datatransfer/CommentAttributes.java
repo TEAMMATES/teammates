@@ -41,7 +41,7 @@ public class CommentAttributes extends EntityAttributes
     public Date lastEditedAt;
 
     public CommentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
@@ -118,40 +118,40 @@ public class CommentAttributes extends EntityAttributes
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
-                case PERSON :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+            case PERSON :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case TEAM :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case TEAM :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case SECTION :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case SECTION :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case COURSE :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case COURSE :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                default : // cases for NONE or null
-                    break;
+                }
+                break;
+            default : // cases for NONE or null
+                break;
             }
         }
 
@@ -237,26 +237,26 @@ public class CommentAttributes extends EntityAttributes
 
     private void sanitizeForVisibilityOptions() {
         switch (recipientType) {
-            case PERSON :
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
-                break;
-            case TEAM :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
-                break;
-            case SECTION :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
-                break;
-            case COURSE :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
-                break;
-            default :
-                break;
+        case PERSON :
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
+            break;
+        case TEAM :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
+            break;
+        case SECTION :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
+            break;
+        case COURSE :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
+            break;
+        default :
+            break;
         }
     }
     
@@ -294,7 +294,7 @@ public class CommentAttributes extends EntityAttributes
         Iterator<CommentParticipantType> iter = visibilityOptions.iterator();
         while (iter.hasNext()) {
             CommentParticipantType otherType = iter.next();
-            if (otherType == typeToRemove) {
+            if (otherType.equals(typeToRemove)) {
                 iter.remove();
             }
         }

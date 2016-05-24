@@ -84,10 +84,9 @@ public class AdminEmailLogPageData extends PageData {
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
-        query = query.toLowerCase();
         
         try {
-            q = parseQuery(query);
+            q = parseQuery(query.toLowerCase());
         } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -106,10 +105,10 @@ public class AdminEmailLogPageData extends PageData {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1); 
        
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
@@ -188,7 +187,6 @@ public class AdminEmailLogPageData extends PageData {
         return true;
     }
 
-
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
      * The boolean variables determine if the specific label was within the query
@@ -252,8 +250,5 @@ public class AdminEmailLogPageData extends PageData {
                 throw new Exception("Invalid label");
             }
         }
-    }
-
-    
-    
+    }   
 }

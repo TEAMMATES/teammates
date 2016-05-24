@@ -62,11 +62,17 @@ public class StudentAttributesFactory {
         int fieldCount = locateColumnIndexes(headerRow);
 
         if (fieldCount < MIN_FIELD_COUNT || !hasTeam || !hasName || !hasEmail) {
-            String missingField = "";
-            missingField = hasTeam ? missingField : missingField + " <mark>Team</mark>";
-            missingField = hasName ? missingField : missingField + " <mark>Name</mark>";
-            missingField = hasEmail ? missingField : missingField + " <mark>Email</mark>";
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField);
+            StringBuilder missingField = new StringBuilder(50);
+            if (!hasTeam) {
+                missingField.append(" <mark>Team</mark>");
+            }
+            if (!hasName) {
+                missingField.append(" <mark>Name</mark>");
+            }
+            if (!hasEmail) {
+                missingField.append(" <mark>Email</mark>");
+            }
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField.toString());
         }
     }
 
@@ -163,7 +169,6 @@ public class StudentAttributesFactory {
 
     private String[] splitLineIntoColumns(String line) {
         Assumption.assertNotNull(line);
-        String[] cols = line.replace("|", "\t").split("\t", -1);
-        return cols;
+        return line.replace("|", "\t").split("\t", -1);
     }
 }

@@ -85,10 +85,9 @@ public class Browser {
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
-        } else {
-            System.out.println("Using " + browser + " is not supported!");
-            return null;
         }
+        System.out.println("Using " + browser + " is not supported!");
+        return null;
 
     }
     

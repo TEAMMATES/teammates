@@ -101,7 +101,6 @@ public class BackDoorServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
@@ -279,5 +278,4 @@ public class BackDoorServlet extends HttpServlet {
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
-
 }

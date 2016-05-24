@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +19,8 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-
 public class AdminSearchPageAction extends Action {
-    
-        
-    
+
     private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
     private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
@@ -67,8 +63,7 @@ public class AdminSearchPageAction extends Action {
         data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
                                     data.instructorResultBundle.instructorList,
                                     data);
-        
-        
+
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
@@ -173,9 +168,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
-    
+
     private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         Logic logic = new Logic();
@@ -203,8 +196,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         
         for (StudentAttributes student : students) {
@@ -245,8 +237,7 @@ public class AdminSearchPageAction extends Action {
         
         return data;
     }
-    
-    
+
     /**
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
@@ -290,19 +281,20 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
+        AdminSearchPageData processedData = rawData;
         
         for (StudentAttributes student : students) {    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
             for (FeedbackSessionAttributes fsa : feedbackSessions) {               
-                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);              
             }       
         }       
  
-        return data;
+        return processedData;
            
     }
     
@@ -310,59 +302,55 @@ public class AdminSearchPageAction extends Action {
                                                                AdminSearchPageData data, 
                                                                StudentAttributes student) {
          
-         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                .withCourseId(student.course)
-                                .withSessionName(fsa.feedbackSessionName)
-                                .withRegistrationKey(StringHelper.encrypt(student.key))
-                                .withStudentEmail(student.email)
-                                .toAbsoluteString();
-         
-         if (fsa.isOpened() == false) {
-             
-             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                 List<String> submitUrlList = new ArrayList<String>();
-                 submitUrlList.add(submitUrl);   
-                 data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
-             
-         } else {                 
-             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                  List<String> submitUrlList = new ArrayList<String>();
-                  submitUrlList.add(submitUrl);   
-                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-             } else {
-                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
-         }
-         
-         
-         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                                    .withCourseId(student.course)
-                                    .withSessionName(fsa.feedbackSessionName)
-                                    .withRegistrationKey(StringHelper.encrypt(student.key))
-                                    .withStudentEmail(student.email)
-                                    .toAbsoluteString();
-             
-         if (fsa.isPublished()) {
-             if (data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                 List<String> viewResultUrlList = new ArrayList<String>();
-                 viewResultUrlList.add(viewResultUrl);
-                 data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
-             } else {
-                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
-             }
-             
-             data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
-         }
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                               .withCourseId(student.course)
+                               .withSessionName(fsa.feedbackSessionName)
+                               .withRegistrationKey(StringHelper.encrypt(student.key))
+                               .withStudentEmail(student.email)
+                               .toAbsoluteString();
         
+        if (fsa.isOpened()) {
+            if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                List<String> submitUrlList = new ArrayList<String>();
+                submitUrlList.add(submitUrl);   
+                data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
            
-         return data;
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
+            
+        } else {                 
+            if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                List<String> submitUrlList = new ArrayList<String>();
+                submitUrlList.add(submitUrl);   
+                data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+            } else {
+                data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
+        }
+
+        String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                                   .withCourseId(student.course)
+                                   .withSessionName(fsa.feedbackSessionName)
+                                   .withRegistrationKey(StringHelper.encrypt(student.key))
+                                   .withStudentEmail(student.email)
+                                   .toAbsoluteString();
+            
+        if (fsa.isPublished()) {
+            if (data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
+                List<String> viewResultUrlList = new ArrayList<String>();
+                viewResultUrlList.add(viewResultUrl);
+                data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
+            } else {
+                data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
+            }
+            
+            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
+        }
+        return data;
     }
     
 }

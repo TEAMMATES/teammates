@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-public class FeedbackQuestionFormTemplates {
+public final class FeedbackQuestionFormTemplates {
     public static String FEEDBACK_QUESTION_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionAdditionalInfoTemplate.html");
 
     public static String TEXT_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionTextSubmissionFormTemplate.html");
@@ -76,6 +76,9 @@ public class FeedbackQuestionFormTemplates {
     public static String RANK_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
     public static String RANK_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientFragment.html");
     
+    private FeedbackQuestionFormTemplates() {
+        // utility class
+    }
     
     /** Populates the feedback question form html templates by replacing 
      * variables in the template string with the given value string.

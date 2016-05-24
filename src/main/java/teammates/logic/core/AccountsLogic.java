@@ -38,12 +38,12 @@ public class AccountsLogic {
     private static Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AccountsLogic();
+        }
         return instance;
     }
-    
-    
+
     public void createAccount(AccountAttributes accountData) 
                     throws InvalidParametersException {
     
@@ -130,7 +130,6 @@ public class AccountsLogic {
             createStudentAccount(student);
         }
     }
-    
 
     /**
      * Joins the user as an instructor, and sets the institute too.
@@ -151,8 +150,7 @@ public class AccountsLogic {
         joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
         
     }
-    
-    
+
     /**
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course. 
@@ -227,7 +225,6 @@ public class AccountsLogic {
         
     }
 
-
     /**
      * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
@@ -244,7 +241,6 @@ public class AccountsLogic {
         }
         
     }
-
 
     /**
      * @throws JoinCourseException if the key does not correspond to an
@@ -277,8 +273,6 @@ public class AccountsLogic {
                                                   StringHelper.obscure(instructorForKey.googleId)));
         }
     }
-    
-
 
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
@@ -292,12 +286,11 @@ public class AccountsLogic {
             if (studentRole.googleId.equals(googleId)) {
                 throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
                         "You (" + googleId + ") have already joined this course");
-            } else {
-                throw new JoinCourseException(
-                        Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                        String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                    StringHelper.obscure(studentRole.googleId)));
             }
+            throw new JoinCourseException(
+                    Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                    String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                  StringHelper.obscure(studentRole.googleId)));
         } 
     
         StudentAttributes existingStudent =

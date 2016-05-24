@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -12,6 +13,8 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
@@ -147,7 +150,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, 
                                                            Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if (description != null) {
-                    if (rowAdded == false) {
+                    if (!rowAdded) {
                         descRows++;
                         rubricDescriptions.add(new ArrayList<String>());
                         rowAdded = true;
@@ -201,19 +204,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-            || this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false
-            || newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
+            || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+            || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
-        if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
-            || this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false
-            || newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
-            return true;
-        }
-        
-        return false;
+        return this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+            || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
+            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
 
     @Override
@@ -535,13 +534,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i));
-
-            if (fqd.hasAssignedWeights) {
-                header += "<span style=\"font-weight:normal;\"> (Weight: "
-                          + weightFormat.format(rubricWeights.get(i)) 
-                          + ")</span>";
-            }
+            String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i))
+                          + (fqd.hasAssignedWeights
+                            ? "<span style=\"font-weight:normal;\"> (Weight: " 
+                              + weightFormat.format(rubricWeights.get(i)) + ")</span>"
+                            : "");
 
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
@@ -724,11 +721,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // table header
         for (int i = 0; i < rubricChoices.size(); i++) {
 
-            String header = rubricChoices.get(i);
-
-            if (hasAssignedWeights) {
-                header += " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")";
-            }
+            String header = rubricChoices.get(i)
+                          + (hasAssignedWeights 
+                            ? " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")"
+                            : "");
 
             csv.append(',').append(Sanitizer.sanitizeForCsv(header));
         }
@@ -767,8 +763,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-       return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
-            + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
+             + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
     
     @Override
@@ -802,7 +798,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
-        String detailedResponsesRow = "";
+        StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "", chosenChoiceValue = "";
@@ -815,21 +811,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
-            detailedResponsesRow += Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
-                                    + "," + Sanitizer.sanitizeForCsv(chosenIndexString)
-                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceValue)
-                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
-                                    + Const.EOL;
+            detailedResponsesRow
+                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                        + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
+                        + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
+                        + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                        + Const.EOL);
         }
         
-        return detailedResponsesRow;
+        return detailedResponsesRow.toString();
     }
 
     @Override
@@ -891,7 +888,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
+    
 }

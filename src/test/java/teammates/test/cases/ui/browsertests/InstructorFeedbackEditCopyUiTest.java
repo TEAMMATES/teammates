@@ -105,7 +105,6 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
     }
 
-
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
@@ -118,6 +117,5 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                                              .withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
-
 
 }

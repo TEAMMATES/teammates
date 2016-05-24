@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +89,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable createInstructorTable() {
         List<AdminSearchInstructorRow> rows = new ArrayList<AdminSearchInstructorRow>();
         
-        for (InstructorAttributes instructor: instructorResultBundle.instructorList) {
+        for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
             rows.add(createInstructorRow(instructor));
         }
         
@@ -117,9 +116,8 @@ public class AdminSearchPageData extends PageData {
         String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
-        id = "instructor_" + id;
         
-        return id;
+        return "instructor_" + id;
     }
     
     private String createViewRecentActionsId(InstructorAttributes instructor) {
@@ -180,9 +178,7 @@ public class AdminSearchPageData extends PageData {
     private String createId(StudentAttributes student) {
         String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
         id = id.replace(" ", "").replace("@", "");
-        id = "student_" + id;
-        
-        return id;
+        return "student_" + id;
     }
 
     private String createViewRecentActionsId(StudentAttributes student) {
@@ -217,18 +213,18 @@ public class AdminSearchPageData extends PageData {
         List<String> links = new ArrayList<String>();
         
         switch (fsState) {
-            case OPEN:
-                links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case CLOSED:
-                links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case PUBLISHED:
-                links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            default:
-                Assumption.fail();
-                break;
+        case OPEN:
+            links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case CLOSED:
+            links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case PUBLISHED:
+            links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
         
         if (links != null) {

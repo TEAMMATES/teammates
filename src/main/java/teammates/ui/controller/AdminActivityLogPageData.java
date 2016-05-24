@@ -45,9 +45,11 @@ public class AdminActivityLogPageData extends PageData {
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
-                                                      //this servlet name is set in CompileLogsServlet
-                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
+    private static String[] excludedLogRequestURIs = {
+            Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
+            // this servlet name is set in CompileLogsServlet
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION
+    };
     
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
@@ -129,17 +131,15 @@ public class AdminActivityLogPageData extends PageData {
         }
         return false;
     }
-    
-    
+
     /**
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase();
         
         try {
-            q = parseQuery(query);
+            q = parseQuery(filterQuery.toLowerCase());
         } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -151,11 +151,11 @@ public class AdminActivityLogPageData extends PageData {
      */   
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if (ifShowAll == true) {        
+        if (ifShowAll) {        
             return false;
         }
         
-        for (String uri: excludedLogRequestURIs) {
+        for (String uri : excludedLogRequestURIs) {
             
             if (uri.contains(logEntry.getServletName())) {
                 return true;
@@ -253,10 +253,10 @@ public class AdminActivityLogPageData extends PageData {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1); 
          
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
@@ -285,9 +285,10 @@ public class AdminActivityLogPageData extends PageData {
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
                 isFromDateSpecifiedInQuery = true;
-                                                
+
             } else if ("to".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);
@@ -309,38 +310,33 @@ public class AdminActivityLogPageData extends PageData {
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
         return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
     }
-    
-    
+
     private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns) {
         
-        String outputHtml = "<tr>";      
+        StringBuilder outputHtml = new StringBuilder(100);
+        outputHtml.append("<tr>");
         int count = 0;      
         for (int i = 0; i < totalColumns; i++) {
             
-            outputHtml += "<td>";
-            outputHtml += "<ul class=\"list-group\">";
+            outputHtml.append("<td><ul class=\"list-group\">");
             for (int j = 0; j < rowsPerCol; j++) {
                 
                 if (count >= allActionNames.size()) {
                     break;
                 }
                 
-                outputHtml += "<li class=\"list-group-item " 
-                              + getStyleForListGroupItem(allActionNames.get(count))
-                              + "\">" + allActionNames.get(count) + "</li>";
+                outputHtml.append("<li class=\"list-group-item "
+                                  + getStyleForListGroupItem(allActionNames.get(count))
+                                  + "\">" + allActionNames.get(count) + "</li>");
                               
                 count++;
             }
-            outputHtml += "</ul>";
-            outputHtml += "</td>";
+            outputHtml.append("</ul></td>");
         }
         
-       
-        return outputHtml;    
-
+        return outputHtml.toString();
     }
-    
-    
+
     private String getStyleForListGroupItem(String actionName) {
         
         String style = "";
@@ -369,8 +365,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return rowsPerCol;
     }
-    
-     
+
     private List<String> getAllActionNames() {
        
         List<String> actionNameList = new ArrayList<String>();
@@ -383,8 +378,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return actionNameList;            
     }
-    
-    
+
     private String getActionNameStringFromField(Field field) {
         
         String rawActionString = "";
@@ -508,7 +502,5 @@ public class AdminActivityLogPageData extends PageData {
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }
-  
 
-    
 }

@@ -240,7 +240,9 @@ public class Emails {
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
-            if (s == null) continue;
+            if (s == null) {
+                continue;
+            }
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
@@ -485,8 +487,7 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
-    {
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
         message.setSubject(subject);
@@ -494,7 +495,6 @@ public class Emails {
         message.setContent(content, "text/html");
         return message;
     }
-    
 
     public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
             CourseAttributes course, StudentAttributes student) 
@@ -530,8 +530,7 @@ public class Emails {
         return messageToUser;
 
     }
-    
-    
+
     @Deprecated
     /**
      * Generate the join link to be sent to the account requester's email
@@ -550,8 +549,7 @@ public class Emails {
         
         return joinUrl;
     }
-    
-    
+
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
@@ -611,9 +609,7 @@ public class Emails {
         if (userType != null && userType.id != null) {
             actualUser = userType.id;
         }
-        
-        
-        
+
         emailBody = emailBody.replace("${actualUser}", actualUser);
         emailBody = emailBody.replace("${requestMethod}", requestMethod);
         emailBody = emailBody.replace("${requestUserAgent}", requestUserAgent);
@@ -823,52 +819,32 @@ public class Emails {
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
-
-        String joinUrl;
-        if (s == null) {    
-            joinUrl = "{The join link unique for each student appears here}";
-        } else {
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        }
-
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
+        String joinUrl = s == null
+                       ? "{The join link unique for each student appears here}"
+                       : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
+        
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN)
+                        .replace("${joinUrl}", joinUrl);
     }
-    
-    
+
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes s, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
-
-        String joinUrl;
-        if (s == null) {    
-            joinUrl = "{The join link unique for each student appears here}";
-        } else {
-            joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
-        }
-
-        return emailBody.replace("${joinUrl}", joinUrl);
+        String joinUrl = s == null
+                       ? "{The join link unique for each student appears here}"
+                       : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
+        
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET)
+                        .replace("${joinUrl}", joinUrl);
     }
-    
-    
+
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        emailBody = emailBody.replace("${joinFragment}",
-                EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN);
+        String joinUrl = instructor == null
+                       ? "" 
+                       : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                               .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                               .toAbsoluteString();
 
-        String joinUrl = "";
-        if (instructor != null) {
-            String key;
-            key = StringHelper.encrypt(instructor.key);
-    
-            joinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                            .withRegistrationKey(key)
-                                            .toAbsoluteString();
-        }
-
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
+        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN)
+                        .replace("${joinUrl}", joinUrl);
     }
 
     private MimeMessage getEmptyEmailAddressedToEmail(String email)
@@ -883,8 +859,7 @@ public class Emails {
         message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
         return message;
     }
-    
-    
+
     private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
         
         mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
@@ -895,7 +870,6 @@ public class Emails {
         return s.googleId == null || s.googleId.isEmpty();
     }
 
-    
     public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         
@@ -930,7 +904,7 @@ public class Emails {
      */
     public String extractSenderEmail(String from) {
         if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
+            return from.substring(from.indexOf('<') + 1, from.indexOf('>'));
         }
         return from;
     }

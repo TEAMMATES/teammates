@@ -21,7 +21,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
-
 /**
  * Generate list of institutes and number of users per institute.
  */
@@ -44,8 +43,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
         statistics.doOperationRemotely();
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
@@ -70,19 +68,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         System.out.println("\n\n" + "***************************************************" + "\n\n");
         System.out.println(statsForUniqueInstructorEmail);
     }
-    
 
     private String generateUniqueInstructorEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
-       
-        
+
         String result = "===============Unique Instructor Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
                         + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
-    
-    
+
     private boolean isTestingInstructorData(Instructor instructor) {
         boolean isTestingData = false;
         
@@ -97,8 +92,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         return isTestingData;
     }
-    
-    
+
     private String generateUniqueStudentEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
        
         String result = "===============Unique Student Emails===============\n"
@@ -143,15 +137,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
-                institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
-                allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
-                instructorEmailCounter++;
-                updateProgressIndicator();
+            institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+            allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
+            instructorEmailCounter++;
+            updateProgressIndicator();
         }
 
-        
-        
-        
         for (Student student : allStudents) {
             
             if (isTestingStudentData(student) || student.getEmail() == null) {
@@ -234,8 +225,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         return null;
     }
-    
-    
+
     private Account getAccountEntity(String googleId) {
         
         try {
@@ -254,8 +244,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             return null;
         }
     }
-    
-    
+
     private void print(List<InstituteStats> statList) {
         System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");

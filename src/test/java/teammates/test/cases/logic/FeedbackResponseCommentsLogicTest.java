@@ -274,7 +274,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
         verifyAbsentInDatastore(actualFrComment);
-        
 
         ______TS("typical success case for response");
         
@@ -285,7 +284,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(anotherFrComment);
         
     }
-    
 
     @Test
     public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
@@ -362,7 +360,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                                  existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+        for (FeedbackResponseCommentAttributes c : existingFrComments) {
             if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;

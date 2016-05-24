@@ -36,19 +36,17 @@ import com.meterware.servletunit.ServletUnitClient;
  * test up to Servlets level.
  */
 public class GaeSimulation {
-    
-
-    public static GaeSimulation inst() {
-        return instance;
-    }
 
     private static final GaeSimulation instance = new GaeSimulation();
-    
-    
+
     /** This is used only to generate an HttpServletRequest for given parameters */
     protected  ServletUnitClient sc;
     
     protected  LocalServiceTestHelper helper;
+
+    public static GaeSimulation inst() {
+        return instance;
+    }
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");
@@ -90,8 +88,7 @@ public class GaeSimulation {
         
         sc = new ServletRunner().newClient();
     }
-    
-    
+
     /**Logs in the user to the GAE simulation environment without admin rights.
      */
     public void loginUser(String userId) {
@@ -165,7 +162,6 @@ public class GaeSimulation {
         }
     }
 
-
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
@@ -186,12 +182,10 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 
     }
-
 
 }

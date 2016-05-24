@@ -19,8 +19,6 @@ import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
 
-    private InstructorStudentListPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -46,14 +44,14 @@ public class InstructorStudentListPageAction extends Action {
             instructors.put(instructor.courseId, instructor);
         }
         
-        if (courses.size() == 0) {
+        if (courses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
         
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
-        for (CourseAttributes course: courses) {
+        for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
@@ -65,11 +63,10 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        data = new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
+        InstructorStudentListPageData data = 
+                new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
-        return response;
-
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
     }
 
 }

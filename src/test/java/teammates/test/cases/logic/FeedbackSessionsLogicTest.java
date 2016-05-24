@@ -57,8 +57,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -139,8 +138,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
-        
-        
+
         ______TS("init : 0 non private sessions closing within time-limit");
         List<FeedbackSessionAttributes> sessionList = fsLogic
                 .getFeedbackSessionsClosingWithinTimeLimit();
@@ -226,8 +224,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
-        
-        
+
         ______TS("init : no published sessions");
         unpublishAllSessions();
         List<FeedbackSessionAttributes> sessionList = fsLogic
@@ -356,8 +353,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fsLogic.deleteFeedbackSessionCascade(copiedSession.feedbackSessionName, copiedSession.courseId);
     }
-    
-    
+
     public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
         
         // This file contains a session with a private session + a standard
@@ -377,13 +373,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("private.session").toString());
         
-        String actualSessions = "";
+        StringBuilder actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%"
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
         
+        String actualSessions = actualSessionsBuilder.toString();
         ______TS("standard session");
         
         assertEquals(4, detailsList.size());
@@ -397,8 +395,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(8, stats.expectedTotal);
         // 1 instructor, 1 student, did not respond => 8-2=6
         assertEquals(6, stats.submittedTotal);
-        
-        
+
         ______TS("No recipients session");
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" 
                                + newDataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
@@ -457,12 +454,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 newDataBundle.instructors.get("instructor2OfCourse1").googleId);
         
         detailsMap.clear();
-        actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                    + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
+        actualSessions = actualSessionsBuilder.toString();
         
         AssertHelper.assertContains(expectedSessions, actualSessions);   
         
@@ -490,12 +489,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         detailsMap.clear();
         actualSessions = "";
+        actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessions += details.feedbackSession.toString();
-            detailsMap.put(details.feedbackSession.feedbackSessionName + "%" 
-                           + details.feedbackSession.courseId, details);
+            actualSessionsBuilder.append(details.feedbackSession.toString());
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details);
         }
-        
+        actualSessions = actualSessionsBuilder.toString();
         AssertHelper.assertContains(expectedSessions, actualSessions);  
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
                 + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
@@ -522,7 +523,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals("Trying to get feedback sessions for a course that does not exist.", edne.getMessage());
         }
         
-       ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
+        ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
         
         // 2 valid sessions in course 1, 0 in course 2.
         
@@ -572,7 +573,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
         assertEquals(1, actualSessions.size());
 
-        
         ______TS("Private session viewing");
         
         // This is the creator for the private session.
@@ -581,7 +581,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actualSessions.toString());
 
-        
         ______TS("Feedback session without questions for students but with visible responses are visible");
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
@@ -592,8 +591,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("standard test");
 
-        
-        
         FeedbackSessionQuestionsBundle actual =
                 fsLogic.getFeedbackSessionQuestionsForStudent(
                         "First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
@@ -689,9 +686,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to get a feedback session for student that does not exist.", edne.getMessage());
         }
-        
-        
-        
+
     }
     
     public void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
@@ -822,7 +817,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
         List<String> actualStrings = new ArrayList<String>();
-        for (FeedbackResponseAttributes response: results.responses) {
+        for (FeedbackResponseAttributes response : results.responses) {
             String giverName = results.getNameForEmail(response.giverEmail);
             String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
             giverName = results.appendTeamNameToName(giverName, giverTeamName);
@@ -850,24 +845,24 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         actualStrings.clear();
         
         // case: Unknown User
-        String UnknownUserName = Const.USER_UNKNOWN_TEXT;
+        String unknownUserName = Const.USER_UNKNOWN_TEXT;
         String someTeamName = "Some Team Name";
-        UnknownUserName = results.appendTeamNameToName(UnknownUserName, someTeamName);
-        actualStrings.add(UnknownUserName);
+        unknownUserName = results.appendTeamNameToName(unknownUserName, someTeamName);
+        actualStrings.add(unknownUserName);
         
         // case: Nobody
-        String NobodyUserName = Const.USER_NOBODY_TEXT;
-        NobodyUserName = results.appendTeamNameToName(NobodyUserName, someTeamName);
-        actualStrings.add(NobodyUserName);
+        String nobodyUserName = Const.USER_NOBODY_TEXT;
+        nobodyUserName = results.appendTeamNameToName(nobodyUserName, someTeamName);
+        actualStrings.add(nobodyUserName);
         
         // case: Anonymous User
-        String AnonymousUserName = "Anonymous " + System.currentTimeMillis();
-        AnonymousUserName = results.appendTeamNameToName(AnonymousUserName, someTeamName);
-        actualStrings.add(AnonymousUserName);
+        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
+        actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
                 Const.USER_UNKNOWN_TEXT,
                 Const.USER_NOBODY_TEXT,
-                AnonymousUserName);
+                anonymousUserName);
         assertEquals(expectedStrings.toString(), actualStrings.toString());
         
         // Test the generated response visibilityTable for userNames.        
@@ -887,8 +882,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 getResponseId("qn8.resp2", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(11, results.visibilityTable.size());
-        
-        
+
         /*** Test result bundle for instructor1 within a course ***/
         InstructorAttributes instructor =
                 responseBundle.instructors.get("instructor1OfCourse1");        
@@ -1089,8 +1083,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         //TODO: check for cases where a person is both a student and an instructor
     }
-    
-    
+
     public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
 
         ______TS("typical case");
@@ -1316,39 +1309,39 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
-             "Course,\"" + session.courseId + "\"",
-             "Session Name,\"" + session.feedbackSessionName + "\"",
-             "",
-             "",
-             "Question 1,\"Rate our product.\"",
-             "",
-             "Summary Statistics,",
-             "Team, Recipient, Average, Minimum, Maximum",
-             "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",2,2,2",
-             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5",
-             "",
-             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",3.5",
-             "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
-             "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-             "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-             "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-             "",
-             "",
-             "Question 2,\"Rate our product.\"",
-             "",
-             "Summary Statistics,",
-             "Team, Recipient, Average, Minimum, Maximum",
-             "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5",
-             "\"Instructors\",\"Instructor2 Course1\",1,1,1",
-             "",
-             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-             "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5",
-             "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1",
-             "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-             "",
-             "",
-             ""
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"Rate our product.\"",
+            "",
+            "Summary Statistics,",
+            "Team, Recipient, Average, Minimum, Maximum",
+            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",2,2,2",
+            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",3.5",
+            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
+            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"Rate our product.\"",
+            "",
+            "Summary Statistics,",
+            "Team, Recipient, Average, Minimum, Maximum",
+            "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5",
+            "\"Instructors\",\"Instructor2 Course1\",1,1,1",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5",
+            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1",
+            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+            "",
+            "",
+            ""
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);        
@@ -1720,8 +1713,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testUpdateFeedbackSession() throws Exception {
-        
-        
+
         FeedbackSessionAttributes fsa = null;
         
         ______TS("failure 1: null object");
@@ -1902,9 +1894,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
-        
-        
-        
+
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student3OfCourse1 = dataBundle.students.get("student3InCourse1");
@@ -1994,8 +1984,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         emailsToInstructor.get(1).getSubject());
                 AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
             }
-            
-            
+
         }
         
         ______TS("failure: non-existent Feedback session");
@@ -2142,16 +2131,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
-        String tableString = "";
+        StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableString += "{";
-            tableString += entry.getKey().toString();
-            tableString += "={";
-            tableString += String.valueOf(entry.getValue()[0]);
-            tableString += ",";
-            tableString += String.valueOf(entry.getValue()[1]);
-            tableString += "}},";
+            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+                                      + entry.getValue()[0] + ','
+                                      + entry.getValue()[1] + "}},");
         }
+        String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {
             tableString = tableString.substring(0, tableString.length() - 1);
         }

@@ -24,7 +24,6 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     private static Browser browser;
     private static InstructorCourseStudentDetailsEditPage editPage;
     private static DataBundle testData;
-    
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -33,8 +32,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
-    
-    
+
     @Test
     public void testAll() throws Exception {
         testContent();
@@ -51,9 +49,9 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("content: unregistered student");
         
         AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
-        .withUserId(instructorId)
-        .withCourseId(courseId)
-        .withStudentEmail(testData.students.get("unregisteredStudent").email);
+                                        .withUserId(instructorId)
+                                        .withCourseId(courseId)
+                                        .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.verifyHtmlMainContent("/InstructorCourseStudentEditUnregisteredPage.html");
@@ -105,14 +103,12 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
     }
 
-
     public void testEditAction() throws Exception {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
-        
-        
+
         editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
         editPage.verifyStatus(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, anotherStudent.name,
                                             anotherStudent.email));
@@ -126,8 +122,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt", student.email);
         assertEquals("This student's name is José Gómez</option></td></div>'\"", student.comments);
-        
-        
+
         ______TS("edit action");
         
         InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
@@ -143,7 +138,6 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals("newemail@gmail.tmt", student.email);
         assertEquals("New comments", student.comments);
     }
-
 
     @AfterClass
     public static void classTearDown() throws Exception {

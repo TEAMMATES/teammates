@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-
 /**
  * Data model for Instructor Feedback Results view by question, view by...
  */
@@ -26,8 +25,7 @@ public class InstructorFeedbackResultsResponseRow {
     
     private String displayableResponse;
     private InstructorFeedbackResultsModerationButton moderationButton;
-    
-    
+
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, 
@@ -72,8 +70,7 @@ public class InstructorFeedbackResultsResponseRow {
     public String getDisplayableResponse() {
         return displayableResponse;
     }
-    
-    
+
     public InstructorFeedbackResultsModerationButton getModerationButton() {
         return moderationButton;
     }
@@ -146,6 +143,5 @@ public class InstructorFeedbackResultsResponseRow {
     public void setActionsDisplayed(boolean isActionsDisplayed) {
         this.isActionsDisplayed = isActionsDisplayed;
     }
-    
-    
+
 }

@@ -75,7 +75,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testDeleteCourse();
     }
 
-
     public void testGetCourse() throws Exception {
 
         ______TS("failure: course doesn't exist");
@@ -189,7 +188,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                                               "sample course with additional -demo");
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
-         ______TS("Null parameter");
+        ______TS("Null parameter");
     
         try {
             coursesLogic.isSampleCourse(null);
@@ -478,7 +477,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
         assertEquals("Team 1.2", teams.get(1).name);
 
-
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
@@ -529,7 +527,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(0, sectionNum);
 
-         ______TS("non-existent");
+        ______TS("non-existent");
 
         try {
             coursesLogic.getNumberOfSections("non-existent-course");
@@ -1126,7 +1124,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
         ______TS("success: typical case");
 
-         i.email = "ins.for.iccai@gmail.tmt";
+        i.email = "ins.for.iccai@gmail.tmt";
 
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);

@@ -27,7 +27,6 @@ public class InstructorCommentsPageAction extends Action {
 
     public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
     
-    private InstructorCommentsPageData data;
     private String courseId;
     private String isDisplayArchivedCourseString;
     private Boolean isDisplayArchivedCourse;
@@ -53,13 +52,13 @@ public class InstructorCommentsPageAction extends Action {
         
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
-        data = new InstructorCommentsPageData(account);
+        InstructorCommentsPageData data = new InstructorCommentsPageData(account);
         
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new HashMap<String, List<Boolean>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-        if (coursePaginationList.size() > 0) {
+        if (!coursePaginationList.isEmpty()) {
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
             roster = new CourseRoster(logic.getStudentsForCourse(courseId), logic.getInstructorsForCourse(courseId));
@@ -117,8 +116,8 @@ public class InstructorCommentsPageAction extends Action {
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             if (isDisplayArchivedCourse 
-             || !isCourseArchived(course, account.googleId) 
-             || course.getId().equals(courseId)) {
+                 || !isCourseArchived(course, account.googleId) 
+                 || course.getId().equals(courseId)) {
                 if (courseId.isEmpty()) {
                     courseId = course.getId();
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -189,8 +188,7 @@ public class InstructorCommentsPageAction extends Action {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
-        return fsList;
+        return logic.getFeedbackSessionsForCourse(courseId);
     }
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {

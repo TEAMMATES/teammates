@@ -17,7 +17,6 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    
 
     @BeforeClass
     public static void classSetup() throws Exception {

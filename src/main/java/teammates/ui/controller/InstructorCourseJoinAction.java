@@ -18,8 +18,6 @@ import teammates.logic.api.GateKeeper;
  */
 public class InstructorCourseJoinAction extends Action {
     
-    private InstructorCourseJoinConfirmationPageData pageData;
-    
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         
@@ -55,7 +53,8 @@ public class InstructorCourseJoinAction extends Action {
         //2.For instructors added by other instructors, institute is not passed from the link so the value 
         //will be null
         
-        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+        InstructorCourseJoinConfirmationPageData pageData = 
+                                        new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }

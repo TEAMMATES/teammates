@@ -59,8 +59,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         }     
         
         BlobKey blobKey = blobInfo.getBlobKey();     
-        
-        
+
         data.groupReceiverListFileKey = blobKey.getKeyString();
         
         data.isFileUploaded = true;
@@ -69,8 +68,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
         return createAjaxResult(data);
     }
-    
-    
+
     /**
      * This method: <br>
      * 1.goes through the just uploaded list file by splitting the content of the txt file(email addresses separated by comma)
@@ -131,8 +129,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             //get the read bytes into string and split it by ","
             String readString = new String(array);
             List<String> newList = Arrays.asList(readString.split(","));
-            
-            
+
             if (listOfList.isEmpty()) {
                 //this is the first time reading
                 listOfList.add(newList);
@@ -150,14 +147,14 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                     listOfList.add(newList);
                    
                 } else {
-                   // either the left part or the right part of the broken email string 
-                   // does not contains a "@".
-                   // simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() - 1)
-                             .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    // either the left part or the right part of the broken email string 
+                    // does not contains a "@".
+                    // simply append the right part to the left part(last item of the list from last reading)
+                    listOfList.get(listOfList.size() - 1)
+                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                    
-                   //and also needs to delete the right part which is the first item of the list from current reading
-                   listOfList.add(newList.subList(1, newList.size() - 1));
+                    //and also needs to delete the right part which is the first item of the list from current reading
+                    listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
             }
             
@@ -174,21 +171,20 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             }
         }
     }
-    
-    
+
     private BlobInfo extractGroupReceiverListFileKey() {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
             
-            if (blobs != null && blobs.size() > 0) {
-                BlobInfo groupReceiverListFile = blobs.get(0);
-                return validateGroupReceiverListFile(groupReceiverListFile);
-            } else {
+            if (blobs == null || blobs.isEmpty()) {
                 data.ajaxStatus = Const.StatusMessages.NO_GROUP_RECEIVER_LIST_FILE_GIVEN;
                 isError = true;
                 return null;
             }
+            
+            BlobInfo groupReceiverListFile = blobs.get(0);
+            return validateGroupReceiverListFile(groupReceiverListFile);
         } catch (IllegalStateException e) {
             return null;
         }
@@ -206,7 +202,9 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     }
     
     private void deleteGroupReceiverListFile(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) return;
+        if (blobKey.equals(new BlobKey(""))) {
+            return;
+        }
         
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);

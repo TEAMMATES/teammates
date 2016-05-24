@@ -35,8 +35,8 @@ public class AdminAccountManagementPageData extends PageData {
             String key = entry.getKey();
             AccountAttributes acc = entry.getValue();
             
-            if (isTestingAccount(acc) && isToShowAll == false) {
-                 continue;
+            if (isTestingAccount(acc) && !isToShowAll) {
+                continue;
             }
             
             ArrayList<InstructorAttributes> coursesList = instructorCoursesTable.get(key);
@@ -70,6 +70,7 @@ public class AdminAccountManagementPageData extends PageData {
         link = Url.addParamToUrl(link, "account", "true");
         return link;
     }
+    
     public static String getInstructorHomePageViewLink(String googleId) {
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

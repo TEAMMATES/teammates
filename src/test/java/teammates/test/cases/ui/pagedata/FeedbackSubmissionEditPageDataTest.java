@@ -25,7 +25,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;
     
-    private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes question;
     private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
     
@@ -41,7 +40,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     }
     
     public void createData(StudentAttributes student) {        
-        feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");      
         
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));

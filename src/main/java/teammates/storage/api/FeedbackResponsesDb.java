@@ -64,7 +64,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         }
         return new FeedbackResponseAttributes(feedbackResponse);        
     }
-    
 
     /**
      * Preconditions: <br>
@@ -116,7 +115,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-         return (FeedbackResponse) getEntity(response); 
+        return (FeedbackResponse) getEntity(response); 
     }
     
     /**
@@ -453,7 +452,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestion(feedbackQuestionId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -530,7 +528,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver);
         List<FeedbackResponseAttributes> fraList =
@@ -556,7 +553,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail);
         List<FeedbackResponseAttributes> fraList =
@@ -672,13 +668,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         getPM().flush();
     }
     
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.setFilter(":p.contains(courseId)");
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseIds);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseIds);
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
@@ -694,14 +689,13 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return fraList;
     }
     
+    @SuppressWarnings("unchecked")
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
 
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId);
-        return feedbackResponses;
+        return (List<FeedbackResponse>) q.execute(courseId);
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -720,7 +714,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponses.get(0);
     }
 
-        
     private FeedbackResponse getFeedbackResponseEntity(
             String feedbackQuestionId, String giverEmail, String receiver) {
         
@@ -1089,16 +1082,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         
-        FeedbackResponseAttributes FeedbackResponseToGet =
+        FeedbackResponseAttributes feedbackResponseToGet =
                 (FeedbackResponseAttributes) attributes;
         
-        if (FeedbackResponseToGet.getId() != null) {
-            return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
+        if (feedbackResponseToGet.getId() != null) {
+            return getFeedbackResponseEntity(feedbackResponseToGet.getId());
         } 
         
         return getFeedbackResponseEntity(
-            FeedbackResponseToGet.feedbackQuestionId,
-            FeedbackResponseToGet.giverEmail,
-            FeedbackResponseToGet.recipientEmail);
+            feedbackResponseToGet.feedbackQuestionId,
+            feedbackResponseToGet.giverEmail,
+            feedbackResponseToGet.recipientEmail);
     }
 }

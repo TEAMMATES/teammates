@@ -40,8 +40,9 @@ public class FeedbackQuestionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     public static FeedbackQuestionsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FeedbackQuestionsLogic();
+        }
         return instance;
     }
     
@@ -76,8 +77,7 @@ public class FeedbackQuestionsLogic {
             FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
-        return newFqa;
+        return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
@@ -382,7 +382,7 @@ public class FeedbackQuestionsLogic {
                 studentsLogic.getStudentsForCourse(question.courseId);
             for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
-                if (giver.equals(student.email) == false) {
+                if (!giver.equals(student.email)) {
                     recipients.put(student.email, student.name);
                 }
             }
@@ -402,7 +402,7 @@ public class FeedbackQuestionsLogic {
                 coursesLogic.getTeamsForCourse(question.courseId);
             for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
-                if (giverTeam.equals(team.name) == false) {
+                if (!giverTeam.equals(team.name)) {
                     // recipientEmail doubles as team name in this case.
                     recipients.put(team.name, team.name);
                 }
@@ -415,17 +415,17 @@ public class FeedbackQuestionsLogic {
             List<StudentAttributes> students = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : students) {
-                if (student.email.equals(giver) == false) {
+                if (!student.email.equals(giver)) {
                     recipients.put(student.email, student.name);
                 }
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> students_Member = 
+            List<StudentAttributes> teamMembers = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : students_Member) {
-                    //accepts self feedback too
-                    recipients.put(student.email, student.name);
+            for (StudentAttributes student : teamMembers) {
+                // accepts self feedback too
+                recipients.put(student.email, student.name);
             }
             break;
         case NONE:
@@ -591,7 +591,6 @@ public class FeedbackQuestionsLogic {
         updateFeedbackQuestion(newAttributes, true);
     }
 
-
     private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
@@ -698,10 +697,9 @@ public class FeedbackQuestionsLogic {
         
         if (questionToDelete == null) {
             return; // Silently fail if question does not exist.
-        } else {
-            // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
-        }
+        } 
+        // Cascade delete responses for question.
+        frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
         try {

@@ -79,7 +79,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question, feedbackSessionResultsBundle);
-        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question, feedbackSessionResultsBundle);
         
         // Need to get actual team name and giver/recipient emails here,
         // only for getting the responseAnswer.
@@ -89,9 +88,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         
         int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
         int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
-        
-        
-        String responseAnswerHtml = "";
         
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
@@ -108,22 +104,24 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
-        } else {
-            responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                    teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
-    
-            if (response.giverEmail.equals(response.recipientEmail)) {
-                StudentResultSummary studentResult = stats.get(response.giverEmail);
-                responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                        studentResult.claimedToInstructor);
-                if (studentResult != null) {
-                    //For CONTRIB qns, We want to show PC if giver == recipient.
-                    int pc = studentResult.perceivedToInstructor;
-                    responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-                }
-            }
+            
+            return "";
         }
-        return responseAnswerHtml;
+            
+        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question, feedbackSessionResultsBundle);
+        
+        if (response.giverEmail.equals(response.recipientEmail)) {
+            StudentResultSummary studentResult = stats.get(response.giverEmail);
+            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                              studentResult.claimedToInstructor);
+            
+            //For CONTRIB qns, We want to show PC if giver == recipient.
+            int pc = studentResult.perceivedToInstructor;
+            return responseAnswerHtml 
+                 + FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+        }
+        return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                                        teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
     }
     
     private String getContributionQuestionResponseAnswerCsv(

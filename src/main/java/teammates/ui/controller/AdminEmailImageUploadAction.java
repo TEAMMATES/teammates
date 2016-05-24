@@ -13,7 +13,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-
 public class AdminEmailImageUploadAction extends Action {
     
     AdminEmailComposePageData data;
@@ -59,14 +58,14 @@ public class AdminEmailImageUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD);
             
-            if (blobs != null && blobs.size() > 0) {
-                BlobInfo image = blobs.get(0);
-                return validateImage(image);
-            } else {
+            if (blobs == null || blobs.isEmpty()) {
                 data.ajaxStatus = Const.StatusMessages.NO_IMAGE_GIVEN;
                 isError = true;
                 return null;
-            }
+            } 
+            
+            BlobInfo image = blobs.get(0);
+            return validateImage(image);
         } catch (IllegalStateException e) {
             return null;
         }
@@ -89,7 +88,9 @@ public class AdminEmailImageUploadAction extends Action {
     }
     
     private void deleteImage(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) return;
+        if (blobKey.equals(new BlobKey(""))) {
+            return;
+        }
         
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);

@@ -34,8 +34,7 @@ public class ActivityLogEntry {
     public static final int POSITION_OF_TIMETAKEN = 11;
     
     private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
-    
-    
+
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -91,8 +90,7 @@ public class ActivityLogEntry {
         url = link;
         id = "Unknown";
     }
-    
-    
+
     /**
      * Constructor that creates an ActivityLog object from a app log on the server.
      * Used in AdminActivityLogServlet.
@@ -110,7 +108,6 @@ public class ActivityLogEntry {
         keyStringsToHighlight = null;
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
-
 
     private void initUsingAppLogMessage(String[] tokens) {
         servletName = tokens[POSITION_OF_SERVLETNAME];
@@ -141,7 +138,6 @@ public class ActivityLogEntry {
         }
     }
 
-
     private void initAsFailure(AppLogLine appLog, Exception e) {
         servletName = "Unknown";
         action = "Unknown";
@@ -156,12 +152,11 @@ public class ActivityLogEntry {
         id = "Unknown" + "%" + formatTimeForId(new Date(time));
         timeTaken = null;
     }
-    
-    
+
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
         for (String name : automatedActions) {
             if (name.toLowerCase().contains(servletName.toLowerCase())) {
-                role = "Auto";
+                return "Auto";
             }
         }
         
@@ -276,41 +271,34 @@ public class ActivityLogEntry {
         sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         return sdf.format(date.getTime());
     }
-    
-    
+
     public String getIconRoleForShow() {
-        String iconRole = "";
+        StringBuilder iconRole = new StringBuilder(100);
         
-        if (role.contains("Instructor")) {   
-           
+        if (role.contains("Instructor")) {
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>");
             if (role.contains("(M)")) {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
-            } else {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+                iconRole.append(
+                    "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
         } else if (role.contains("Student")) {
-            
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>");
             if (role.contains("(M)")) {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
-            } else {
-                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+                iconRole.append("-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
         } else if (role.contains("Unregistered")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-user\"></span>");
         } else if (role.contains("Auto")) {
-            iconRole = "<span class = \"glyphicon glyphicon-cog\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-cog\"></span>");
         } else {
-            iconRole = role;
+            iconRole.append(role);
         }
 
         if (role.contains("Admin")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
+            iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>");
         }
-            
-        
-        return iconRole;
+
+        return iconRole.toString();
     }
     
     /**
@@ -322,7 +310,6 @@ public class ActivityLogEntry {
         return requestUrl.split("/")[2].split("\\?")[0];
     }
 
-
     /**
      * Generates a log message that will be logged in the server
      */
@@ -331,8 +318,7 @@ public class ActivityLogEntry {
         return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow ? "true" : "false") + "|||" 
                 + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url + "|||" + id;
     }
-    
-    
+
     public String getDateInfo() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -365,9 +351,8 @@ public class ActivityLogEntry {
         String style = "";
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
-           || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
-            
-                style = "text-danger";      
+             || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
+            style = "text-danger";
         } else {
             style = "text-success bold";
         }
@@ -386,7 +371,6 @@ public class ActivityLogEntry {
                 
         return message;
     }
-    
 
     public String getColorCode(Long timeTaken) {
         
@@ -403,8 +387,7 @@ public class ActivityLogEntry {
         
         return colorCode;            
     }
-    
-    
+
     public String getTableCellColorCode(Long timeTaken) {
         
         if (timeTaken == null) {
@@ -431,21 +414,17 @@ public class ActivityLogEntry {
             className = "btn-info";
         }
         return className;
-   }
-    
-    
-    
+    }
+
     public String getUrlToShow() {
-        String urlToShow = url;
-        //If not in masquerade mode, add masquerade mode
-        if (!urlToShow.contains("user=")) {
-            if (urlToShow.contains("?")) {
-                urlToShow += "&user=" + googleId;
-            } else {
-                urlToShow += "?user=" + googleId;
-            }
+        if (url.contains("user=")) {
+            return url;
         }
-        return urlToShow;
+        // If not in masquerade mode, add masquerade mode
+        if (url.contains("?")) {
+            return url + "&user=" + googleId;
+        } 
+        return url + "?user=" + googleId;
     }
     
     public String getId() {
@@ -533,18 +512,17 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>";
-        message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
-        message += HttpRequestHelper.printRequestParameters(req) + "</span>";
+        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>"
+                       + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>"
+                       + HttpRequestHelper.printRequestParameters(req) + "</span>";
         
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url, 
-                                                             courseId, studentEmail);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
+                                                             url, courseId, studentEmail);
         
         return exceptionLog.generateLogMessage();
     }
-
 
     public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
@@ -588,13 +566,9 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-    
-    
+
     public String getLogInfoForTableRowAsHtml() {
-        
-        
-        String result = "";
-        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
@@ -611,8 +585,6 @@ public class ActivityLogEntry {
                + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\" value=\"false\">"
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
-        return result;
-        
     }
     
     private String getAvailableIdenficationString() {
