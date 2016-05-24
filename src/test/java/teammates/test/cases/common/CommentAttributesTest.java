@@ -1,8 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -46,7 +43,7 @@ public class CommentAttributesTest extends BaseTestCase {
     
     @Test
     public void testBasicGetters() {
-       CommentAttributes comment = new CommentAttributes(
+        CommentAttributes comment = new CommentAttributes(
                 courseId,
                 giverEmail,
                 recipientType,
@@ -126,7 +123,7 @@ public class CommentAttributesTest extends BaseTestCase {
         ______TS("Sanitize potentially harmful characters");
         
         comment.sanitizeForSaving();
-        for (String recipientId : comment.recipients){
+        for (String recipientId : comment.recipients) {
             assertEquals(Sanitizer.sanitizeForHtml(invalidRecipientId), recipientId);
         }
     }

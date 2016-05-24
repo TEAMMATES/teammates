@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
@@ -12,13 +10,14 @@ import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.FileHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
-public class HtmlHelperTest {
+public class HtmlHelperTest extends BaseTestCase {
     
     @Test
-    public void testComparison() throws SAXException, IOException, TransformerException{
+    public void testComparison() throws SAXException, IOException, TransformerException {
         String expected = "<html></html>";
         String actual = expected;
         HtmlHelper.assertSameHtml(expected, actual, false);
@@ -47,7 +46,7 @@ public class HtmlHelperTest {
     }
     
     @Test
-    public void testConvertToStandardHtml() throws Exception{
+    public void testConvertToStandardHtml() throws Exception {
         
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";

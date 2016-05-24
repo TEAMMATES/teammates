@@ -27,7 +27,7 @@ public class Comment {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long commentId = null;
+    private transient Long commentId;
     
     /** The foreign key to locate the Course object. */
     @Persistent

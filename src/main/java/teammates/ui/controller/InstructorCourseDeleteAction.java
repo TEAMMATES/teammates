@@ -30,9 +30,8 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        } else {
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         }
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     /**

@@ -13,7 +13,9 @@ import teammates.common.util.Assumption;
  */
 public interface SessionAttributes {
     Date getSessionStartTime();
+    
     Date getSessionEndTime();
+    
     String getSessionName();
     
     /**
@@ -61,10 +63,10 @@ public interface SessionAttributes {
             FeedbackSessionAttributes feedbackSession2 = null;
             Boolean isSession1PrivateFeedback = false;
             Boolean isSession2PrivateFeedback = false;
-            if (session1 instanceof FeedbackSessionAttributes){
+            if (session1 instanceof FeedbackSessionAttributes) {
                 feedbackSession1 = (FeedbackSessionAttributes) session1;
             }
-            if (session2 instanceof FeedbackSessionAttributes){
+            if (session2 instanceof FeedbackSessionAttributes) {
                 feedbackSession2 = (FeedbackSessionAttributes) session2;
             }
             
@@ -85,7 +87,7 @@ public interface SessionAttributes {
             int result = 0;
             
             //Compares end times
-            if (!isSession1PrivateFeedback && !isSession2PrivateFeedback){
+            if (!isSession1PrivateFeedback && !isSession2PrivateFeedback) {
                 result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
                         : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
             }

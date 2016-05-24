@@ -27,7 +27,6 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "btnAddInstructorDetailsSingleLineForm")
     WebElement submitButtonDetailsSingleLineForm;
     
-    
     public AdminHomePage(Browser browser) {
         super(browser);
     }

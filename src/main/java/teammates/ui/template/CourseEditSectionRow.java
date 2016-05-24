@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 
 public class CourseEditSectionRow {
     private String sectionName;
+    private int sectionIndex;
     private InstructorAttributes instructor;
     private List<ElementTag> permissionInputGroup2;
     private List<ElementTag> permissionInputGroup3;
@@ -19,6 +20,7 @@ public class CourseEditSectionRow {
                                 InstructorAttributes instructor, int instructorIndex, 
                                 List<String> feedbackNames) {
         this.sectionName = sectionName;
+        this.sectionIndex = sectionIndex;
         this.instructor = instructor;
         feedbackSessions = new ArrayList<CourseEditFeedbackSessionRow>();
         
@@ -28,12 +30,12 @@ public class CourseEditSectionRow {
         
         String content = "";
         String onClick = "";
-        if (!isSessionsInSectionSpecial()) {
-            content = "Give different permissions for sessions in this section";
-            onClick = "showTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
-        } else {
+        if (isSessionsInSectionSpecial()) {
             content = "Hide session-level permissions";
             onClick = "hideTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
+        } else {
+            content = "Give different permissions for sessions in this section";
+            onClick = "showTuneSessionnPermissionsDiv(" + instructorIndex + ", " + sectionIndex + ")";
         }
         
         String id = "toggleSessionLevelInSection" + sectionIndex + "ForInstructor" + instructorIndex;
@@ -60,10 +62,21 @@ public class CourseEditSectionRow {
         }
     }
     
+    public int getSectionIndex() {
+        return sectionIndex;
+    }
+    
     public List<CourseEditFeedbackSessionRow> getFeedbackSessions() {
         return feedbackSessions;
     }
     
+    /**
+     * Checks if the section this row corresponds to is special.
+     * A section is considered special if the instructor has special privileges
+     * ie. privileges that are not defined at course level.
+     * 
+     * @return true if the section is special.
+     */
     public boolean isSectionSpecial() {
         return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
     }
@@ -135,19 +148,42 @@ public class CourseEditSectionRow {
         
         return permissionInputGroup;
     }
-
+    
+    /**
+     * Creates a row of selections elements (checkboxes), each representing a single section
+     *   and automatically checks a single checkbox if special privileges have been assigned to
+     *   the section it corresponds to.
+     *   
+     * @param sectionNames the list of sections in the course
+     * @param sectionIndex the index of the section which will be checked for special privileges
+     * @return             a list of checkboxes, separated into rows and columns
+     */
     private List<List<ElementTag>> createSpecialSectionsForSectionRow(List<String> sectionNames, 
                                                                       int sectionIndex) {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
+        // i represents the row (vertical alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {
             List<ElementTag> specialSectionGroup = new ArrayList<ElementTag>();
+            
+            // j represents the column (horizontal alignment) of the checkbox
             for (int j = 0; j < 3 && i + j < sectionNames.size(); j++) {
+                int positionOfNewSection = i + j;
                 String name = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
-                              + Const.ParamsNames.INSTRUCTOR_SECTION + (i + j);
-                ElementTag checkbox = createCheckBox(sectionNames.get(i + j), name, sectionNames.get(i + j),
-                                                     i + j == sectionIndex);
+                              + Const.ParamsNames.INSTRUCTOR_SECTION + positionOfNewSection;
+                
+                ElementTag checkbox;
+                if (isSectionSpecial()) {
+                    boolean isPositionMatchedWithSection = positionOfNewSection == sectionIndex;
+                    checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
+                                                         sectionNames.get(positionOfNewSection),
+                                                         isPositionMatchedWithSection);
+                } else {
+                    checkbox = createCheckBox(sectionNames.get(positionOfNewSection), name,
+                                                         sectionNames.get(positionOfNewSection), false);
+                }
                 specialSectionGroup.add(checkbox);
             }
+            
             specialSections.add(specialSectionGroup);
         }
         return specialSections;

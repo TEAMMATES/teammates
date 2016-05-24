@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.BeforeClass;
@@ -106,7 +104,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
-    private InstructorCommentsPageAction getAction(String... params) throws Exception{
+    private InstructorCommentsPageAction getAction(String... params) throws Exception {
         return (InstructorCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

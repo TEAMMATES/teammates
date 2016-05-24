@@ -14,7 +14,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; //NOPMD
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -32,7 +32,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
-        for (String user : usersToRemind){
+        for (String user : usersToRemind) {
             statusToAdmin += "<br>" + user;
         }
         statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName 

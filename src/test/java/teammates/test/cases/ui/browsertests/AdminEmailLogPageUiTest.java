@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
@@ -29,12 +28,11 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll(){
+    public void testAll() {
         testContent();
         testFilterReference();
     }
-    
-    
+
     private void testFilterReference() {
         emailLogPage.clickReferenceButton();
         assertTrue(emailLogPage.isFilterReferenceVisible());
@@ -61,11 +59,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailLogDataDisplayCorrect() {
-        if (emailLogPage.isElementPresent(By.className("table"))) {
-            return isEmailLogTableHeaderCorrect();
-        } else {     
-            return false;
-        }
+        return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();
     }
 
     private boolean isEmailLogTableHeaderCorrect() {

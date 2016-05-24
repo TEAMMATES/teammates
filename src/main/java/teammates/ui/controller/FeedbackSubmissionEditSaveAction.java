@@ -44,8 +44,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
-        String userTeamForCourse = getUserTeamForCourse();
-        String userSectionForCourse = getUserSectionForCourse();
+        
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
@@ -59,6 +58,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
             return createSpecificRedirectResult();
         }
+        
+        String userTeamForCourse = getUserTeamForCourse();
+        String userSectionForCourse = getUserSectionForCourse();
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
@@ -186,20 +188,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             existingResponsesId.add(existingResponse.getId());
         }
         
-        if (!existingResponsesId.contains(response.getId())) {
-            // response id is invalid
-            return false; 
-        }
-        
-        return true;
+        // checks if response id is valid
+        return existingResponsesId.contains(response.getId());
     }
 
     private void saveResponse(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
-        if (response.getId() != null) {
+        boolean isExistingResponse = response.getId() != null; 
+        if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() ||
-                    response.recipientEmail.isEmpty()) {
+            if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -209,8 +207,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
-        } else if (!response.responseMetaData.getValue().isEmpty() &&
-                !response.recipientEmail.isEmpty()) {
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;
@@ -262,9 +260,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
-        } else if (recipientType == FeedbackParticipantType.TEAMS){
+        } else if (recipientType == FeedbackParticipantType.TEAMS) {
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
-        } else if (recipientType == FeedbackParticipantType.STUDENTS){
+        } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
             response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {
@@ -276,15 +274,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                requestParameters, 
                                                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        if (!questionDetails.isQuestionSkipped(answer)) {
-            FeedbackResponseDetails responseDetails = 
-                    FeedbackResponseDetails.createResponseDetails(
-                            answer,
-                            questionDetails.questionType,
-                            questionDetails, requestParameters, questionIndx, responseIndx);
-            response.setResponseDetails(responseDetails);
-        } else {
+        if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
+        } else {
+            FeedbackResponseDetails responseDetails = 
+                                            FeedbackResponseDetails.createResponseDetails(
+                                                                            answer,
+                                                                            questionDetails.questionType,
+                                                                            questionDetails, requestParameters, questionIndx, responseIndx);
+            response.setResponseDetails(responseDetails);
         }
         
         return response;

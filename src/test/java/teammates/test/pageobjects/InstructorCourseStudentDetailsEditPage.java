@@ -25,7 +25,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     @FindBy (id = "button_submit")
     private WebElement submitButton;
     
-
     public InstructorCourseStudentDetailsEditPage(Browser browser) {
         super(browser);
     }
@@ -70,11 +69,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        // only if team name is edited, the confirmation dialog will pop up
-        if (teamName != null) {
-            clickAndConfirm(submitButton);
-        } else {
+        if (teamName == null) {
             submitButton.click();
+        } else {
+            // if team name is edited, the confirmation dialog will pop up
+            clickAndConfirm(submitButton);
         }
     }
     
@@ -83,7 +82,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
     }
 
-    public InstructorCourseDetailsPage submitButtonClicked(){
+    public InstructorCourseDetailsPage submitButtonClicked() {
         submitButton.click();
         return changePageType(InstructorCourseDetailsPage.class);
     }

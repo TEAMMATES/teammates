@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Text;
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes> {
 
-    private Long commentId = null;
+    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -41,14 +41,14 @@ public class CommentAttributes extends EntityAttributes
     public Date lastEditedAt;
 
     public CommentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
                              Set<String> recipients, Date createdAt, Text commentText) {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
-        this.recipientType = recipientType != null ? recipientType : CommentParticipantType.PERSON;
+        this.recipientType = recipientType == null ? CommentParticipantType.PERSON : recipientType;
         this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
@@ -62,16 +62,17 @@ public class CommentAttributes extends EntityAttributes
         this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
-        this.sendingState = comment.getSendingState() != null ? comment.getSendingState() : CommentSendingState.SENT;
+        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.showCommentTo = comment.getShowCommentTo();
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                                        comment.getLastEditorEmail() : comment.getGiverEmail();
-        this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
+        this.lastEditorEmail = comment.getLastEditorEmail() == null 
+                             ? comment.getGiverEmail()
+                             : comment.getLastEditorEmail();
+        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
     }
 
     public Long getCommentId() {
@@ -117,40 +118,40 @@ public class CommentAttributes extends EntityAttributes
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
-                case PERSON :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+            case PERSON :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case TEAM :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case TEAM :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case SECTION :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case SECTION :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case COURSE :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case COURSE :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                default : // cases for NONE or null
-                    break;
+                }
+                break;
+            default : // cases for NONE or null
+                break;
             }
         }
 
@@ -171,19 +172,19 @@ public class CommentAttributes extends EntityAttributes
 
     @Override
     public String toString() {
-        return "CommentAttributes [commentId = " + commentId +
-                ", courseId = " + courseId +
-                ", giverEmail = " + giverEmail +
-                ", recipientType = " + recipientType +
-                ", recipient = " + recipients +
-                ", status = " + status +
-                ", showCommentTo = " + showCommentTo +
-                ", showGiverNameTo = " + showGiverNameTo +
-                ", showRecipientNameTo = " + showRecipientNameTo +
-                ", commentText = " + commentText.getValue() +
-                ", createdAt = " + createdAt +
-                ", lastEditorEmail = " + lastEditorEmail +
-                ", lastEditedAt = " + lastEditedAt + "]";
+        return "CommentAttributes [commentId = " + commentId 
+               + ", courseId = " + courseId 
+               + ", giverEmail = " + giverEmail 
+               + ", recipientType = " + recipientType 
+               + ", recipient = " + recipients 
+               + ", status = " + status 
+               + ", showCommentTo = " + showCommentTo 
+               + ", showGiverNameTo = " + showGiverNameTo 
+               + ", showRecipientNameTo = " + showRecipientNameTo 
+               + ", commentText = " + commentText.getValue() 
+               + ", createdAt = " + createdAt 
+               + ", lastEditorEmail = " + lastEditorEmail 
+               + ", lastEditedAt = " + lastEditedAt + "]";
     }
 
     @Override
@@ -236,26 +237,26 @@ public class CommentAttributes extends EntityAttributes
 
     private void sanitizeForVisibilityOptions() {
         switch (recipientType) {
-            case PERSON :
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
-                break;
-            case TEAM :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
-                break;
-            case SECTION :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
-                break;
-            case COURSE :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
-                break;
-            default :
-                break;
+        case PERSON :
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
+            break;
+        case TEAM :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
+            break;
+        case SECTION :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
+            break;
+        case COURSE :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
+            break;
+        default :
+            break;
         }
     }
     
@@ -278,14 +279,14 @@ public class CommentAttributes extends EntityAttributes
         }
     }
 
-    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove){
+    private void removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType typeToRemove) {
         removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
-            CommentParticipantType typeToRemove){
+            CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }
@@ -293,7 +294,7 @@ public class CommentAttributes extends EntityAttributes
         Iterator<CommentParticipantType> iter = visibilityOptions.iterator();
         while (iter.hasNext()) {
             CommentParticipantType otherType = iter.next();
-            if (otherType == typeToRemove) {
+            if (otherType.equals(typeToRemove)) {
                 iter.remove();
             }
         }
@@ -324,13 +325,13 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt != null && !this.lastEditedAt.equals(this.createdAt)) {
-            String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-            return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
-                    "at " + displayTimeAs + ")";
-        } else {
+        if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
             return "";
         }
+        String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
+        return "(last edited " 
+             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") 
+             + "at " + displayTimeAs + ")";
+        
     }
 }

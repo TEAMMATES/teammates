@@ -35,10 +35,9 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    
     public InstructorCopyFsToModal fsCopyModal;
     
-    public InstructorHomePage(Browser browser){
+    public InstructorHomePage(Browser browser) {
         super(browser);
         if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
@@ -50,7 +49,7 @@ public class InstructorHomePage extends AppPage {
         return containsExpectedPageContents(getPageSource());
     }
     
-    public static boolean containsExpectedPageContents(String pageSource){
+    public static boolean containsExpectedPageContents(String pageSource) {
         return pageSource.contains("<h1>Instructor Home</h1>");
     }
 
@@ -81,6 +80,7 @@ public class InstructorHomePage extends AppPage {
             ele.click();
         }
     }
+    
     public void sortTablesByName() {
         clickElements(tablesSortByName);
     }
@@ -127,8 +127,7 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
-    
-    
+
     /**
      * This is for customized feedback session 
      */
@@ -161,7 +160,7 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
@@ -171,7 +170,7 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         clickAndConfirm(getUnpublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
@@ -181,15 +180,13 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
     }
-    
-    
-    
+
     public void clickHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();
@@ -212,7 +209,7 @@ public class InstructorHomePage extends AppPage {
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
-        js.executeScript("arguments[0].href=arguments[1]", element, newValue );
+        js.executeScript("arguments[0].href=arguments[1]", element, newValue);
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {
@@ -274,19 +271,19 @@ public class InstructorHomePage extends AppPage {
         remindModal.findElement(By.name("form_remind_list")).submit();
     }
     
-    public WebElement getPublishLink(String courseId, String evalName){
+    public WebElement getPublishLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-publish-for-test", getEvaluationRowId(courseId, evalName));
     }
     
-    public WebElement getUnpublishLink(String courseId, String evalName){
+    public WebElement getUnpublishLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
     }
     
-    public WebElement getDeleteEvalLink(String courseId, String evalName){
+    public WebElement getDeleteEvalLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-delete-for-test", getEvaluationRowId(courseId, evalName));
     }
     
-    public WebElement getDeleteCourseLink(String courseId){
+    public WebElement getDeleteCourseLink(String courseId) {
         return getCourseLinkInRow("course-delete-for-test", getCourseRowId(courseId));
     }
 
@@ -302,17 +299,17 @@ public class InstructorHomePage extends AppPage {
         return this;
     }
     
-    public String getArchiveCourseLink(String courseId){
+    public String getArchiveCourseLink(String courseId) {
         return getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).getAttribute("href");
     }
     
-    private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId){
+    private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId) {
         waitForElementPresence(By.id("session" + rowId));
         waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("session" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
     
-    private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId){
+    private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId) {
         waitForElementPresence(By.id("course-" + rowId));
         waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("course-" + rowId)).findElement(By.className(elementClassNamePrefix));
@@ -320,8 +317,9 @@ public class InstructorHomePage extends AppPage {
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1)
+        if (courseRowID == -1) {
             return -2;
+        }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {

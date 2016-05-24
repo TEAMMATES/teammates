@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-
 public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseDetails {
     public int answer;
     
@@ -15,7 +14,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
         this.setRankResponseDetails(Integer.parseInt(answer[0]));
     }
 
-    
     @Override
     public String getAnswerString() {
         return Integer.toString(answer);

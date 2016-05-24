@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMcqChoices;
@@ -43,8 +45,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> mcqChoices = new LinkedList<String>();
         boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
         
-        if (HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG) != null
-            && HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG).equals("on")) {
+        if ("on".equals(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
             mcqOtherEnabled = true;
         }
         
@@ -87,9 +88,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
-                generateOptionsFor == FeedbackParticipantType.STUDENTS ||
-                generateOptionsFor == FeedbackParticipantType.TEAMS ||
-                generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
+                generateOptionsFor == FeedbackParticipantType.STUDENTS 
+                || generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
     @Override
@@ -105,9 +106,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
-        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
-            this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
-            newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
+            || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
+            || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
             return true;
         }
         
@@ -115,11 +116,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.otherEnabled != newMcqDetails.otherEnabled) {
-            return true;
-        }
-        
-        return false;
+        return this.otherEnabled != newMcqDetails.otherEnabled;
     }
 
     @Override
@@ -211,49 +208,45 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor) {
-            case NONE:
-                optionList = mcqChoices;
-                break;
-            case STUDENTS:
-                List<StudentAttributes> studentList = 
-                        StudentsLogic.inst().getStudentsForCourse(courseId);
-    
-                for (StudentAttributes student : studentList) {
-                    optionList.add(student.name + " (" + student.team + ")");
+        switch (generateOptionsFor) {
+        case NONE:
+            optionList = mcqChoices;
+            break;
+        case STUDENTS:
+            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+
+            for (StudentAttributes student : studentList) {
+                optionList.add(student.name + " (" + student.team + ")");
+            }
+            
+            Collections.sort(optionList);
+            break;
+        case TEAMS:
+            try {
+                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+                
+                for (TeamDetailsBundle team : teamList) {
+                    optionList.add(team.name);
                 }
                 
                 Collections.sort(optionList);
-                break;
-            case TEAMS:
-                try {
-                    List<TeamDetailsBundle> teamList = 
-                            CoursesLogic.inst().getTeamsForCourse(courseId);
-                    
-                    for (TeamDetailsBundle team : teamList) {
-                        optionList.add(team.name);
-                    }
-                    
-                    Collections.sort(optionList);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Course disappeared");
-                }
-                break;
-            case INSTRUCTORS:
-                List<InstructorAttributes> instructorList =
-                        InstructorsLogic.inst().getInstructorsForCourse(
-                                courseId);
-    
-                for (InstructorAttributes instructor : instructorList) {
-                    optionList.add(instructor.name);
-                }
-    
-                Collections.sort(optionList);
-                break;
-            default:
-                Assumption
-                        .fail("Trying to generate options for neither students, teams nor instructors");
-                break;
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Course disappeared");
+            }
+            break;
+        case INSTRUCTORS:
+            List<InstructorAttributes> instructorList =
+                    InstructorsLogic.inst().getInstructorsForCourse(courseId);
+
+            for (InstructorAttributes instructor : instructorList) {
+                optionList.add(instructor.name);
+            }
+
+            Collections.sort(optionList);
+            break;
+        default:
+            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
+            break;
         }
 
         return optionList;
@@ -303,9 +296,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices.add("");
         this.mcqChoices.add("");
         
-        return "<div id=\"mcqForm\">" + 
-                    this.getQuestionSpecificEditFormHtml(-1) +
-               "</div>";
+        return "<div id=\"mcqForm\">" 
+                  + this.getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
 
     @Override
@@ -313,7 +306,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if (this.generateOptionsFor != FeedbackParticipantType.NONE){
+        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
                 "<br>The options for this question is automatically generated from the list of all %s in this course.", 
                 generateOptionsFor.toString().toLowerCase());
@@ -360,72 +353,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("student")) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         
-        if (responses.size() == 0) {
-            return "";
-        }
-        
-        String html = "";
-        String fragments = "";
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        
-        for (String option : mcqChoices){
-            answerFrequency.put(option, 0);
-        }
-        
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-        
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
-            
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
-            } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
-            }
-        }
-        
-        DecimalFormat df = new DecimalFormat("#.##");
-        
-        for (Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
-                                "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size()));
-        }
-        
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments);
-        
-        return html;
-    }
-    
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
-            return "";
-        }
-        
-        String csv = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices) {
@@ -442,32 +374,77 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 1);
-                } else {
-                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-                }
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
             } else {
                 if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 1);
-                } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-                }
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
-                      + entry.getValue().toString() + ","
-                      + df.format(100 * (double) entry.getValue() / responses.size()) + Const.EOL;
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                                "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
+                                "${count}", entry.getValue().toString(),
+                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size())));
         }
         
-        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
+    }
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        if (responses.isEmpty()) {
+            return "";
+        }
         
-        csv += fragments;
+        StringBuilder fragments = new StringBuilder();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        return csv;
+        for (String option : mcqChoices) {
+            answerFrequency.put(option, 0);
+        }
+        
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
+        for (FeedbackResponseAttributes response : responses) {
+            String answerString = response.getResponseDetails().getAnswerString();
+            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 0);
+                } 
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+            } else {
+                if (!answerFrequency.containsKey(answerString)) {
+                    answerFrequency.put(answerString, 0);
+                } 
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
+                     .append(entry.getValue().toString()).append(',')
+                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
+        }
+        
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments.toString();
     }
     
     @Override
@@ -483,8 +460,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES){
+        if (generateOptionsFor == FeedbackParticipantType.NONE 
+            && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
@@ -501,12 +478,21 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
             
-            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE) {
-                if (!mcqChoices.contains(frd.getAnswerString())) {
-                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
-                }
+            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
+                    && !mcqChoices.contains(frd.getAnswerString())) {
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
             }
         }
         return errors;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 }

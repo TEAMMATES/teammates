@@ -21,17 +21,16 @@ function linkAjaxForResponseRate() {
             success: function(data) {
                 setTimeout(function() {
                     var type = data.sessionDetails ? 'sessionDetails' : 'evaluationDetails';
-                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / ' +
-                                                 data[type].stats.expectedTotal);
+                    parentOfHyperlinkObject.html(data[type].stats.submittedTotal + ' / '
+                                                 + data[type].stats.expectedTotal);
                 }, 500);
             }
         });
     };
     $('td[class*="session-response-for-test"] > a').click(responseRateClickHandler);
 
-
-    $(".table").each(function(idx) {
-        //this is bound to current object in question
+    $('.table').each(function() {
+        // this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
         
         var allRows = currentTable.find('tr:has(td)');
@@ -44,12 +43,12 @@ function linkAjaxForResponseRate() {
         });
 
         var sortedElements = $.merge(recentElements, nonRecentElements);
-        sortedElements.each(function(idx) {
+        sortedElements.each(function() {
             currentTable.get(0).appendChild(this);
         });
     });
     
-    //recent class will only be appended to 'td' element with class 't_session_response'
+    // recent class will only be appended to 'td' element with class 't_session_response'
     $('.table .recent a').click();
 }
 

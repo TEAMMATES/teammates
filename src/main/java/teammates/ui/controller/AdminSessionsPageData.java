@@ -27,7 +27,7 @@ public class AdminSessionsPageData extends PageData {
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private boolean isShowAll = false;
+    private boolean isShowAll;
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
     
@@ -97,23 +97,21 @@ public class AdminSessionsPageData extends PageData {
     public List<InstitutionPanel> getInstitutionPanels() {
         return institutionPanels;
     }
+    
     public String getInstructorHomePageViewLink(String email) {
 
         Logic logic = new Logic();
         List<InstructorAttributes> instructors = logic
                 .getInstructorsForEmail(email);
 
-        String link = "";
-
-        if (instructors != null && !instructors.isEmpty()) {
-            String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
-            link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-            link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-            link = "href=\"" + link + "\"";
-        } else {
+        if (instructors == null || instructors.isEmpty()) {
             return "";
         }
-        return link;
+        
+        String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
+        String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+        return "href=\"" + link + "\"";
     }
 
     @SuppressWarnings("deprecation")
@@ -161,27 +159,24 @@ public class AdminSessionsPageData extends PageData {
     
     public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
         
-        String status = "";
+        StringBuilder status = new StringBuilder(100);
         if (fs.isClosed()) {
-            status += "[Closed]";   
+            status.append("[Closed]");   
         }
-          if (fs.isOpened()) {
-            status += "[Opened]";    
-        } 
-          if (fs.isWaitingToOpen()) {
-            status +=  "[Waiting To Open]";   
-        } 
-          if (fs.isPublished()) {
-            status +=  "[Published]";   
+        if (fs.isOpened()) {
+            status.append("[Opened]");
         }
-          if (fs.isInGracePeriod()) {
-            status +=  "[Grace Period]";   
+        if (fs.isWaitingToOpen()) {
+            status.append("[Waiting To Open]");   
+        }
+        if (fs.isPublished()) {
+            status.append("[Published]");
+        }
+        if (fs.isInGracePeriod()) {
+            status.append("[Grace Period]");
         }
           
-        status = status.isEmpty() ? "No Status" : status;
-        
-        return status;
-        
+        return status.length() == 0 ? "No Status" : status.toString();
     }
     
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
@@ -204,8 +199,7 @@ public class AdminSessionsPageData extends PageData {
         }
         return feedbackSessionRows;
     }
-    
-    
+
     private void setFilter() {
         filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), 
                                  getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd), 

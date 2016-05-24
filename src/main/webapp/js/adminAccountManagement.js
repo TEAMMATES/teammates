@@ -1,4 +1,4 @@
-var entryPerPage = 200; 
+var entryPerPage = 200;
 
 var start = 0;
 var end = 0;
@@ -9,7 +9,7 @@ var totalPages;
 
 $(document).ready(function() {
     
-    toggleSort($("#button_sort_createat").parent());
+    toggleSort($('#button_sort_createat').parent());
     reLabelOrderedAccountEntries();
     caculateTotalPages();
     updatePagination();
@@ -21,26 +21,26 @@ function updatePagination() {
     
     if (totalPages > 5) {
         if (currentPage >= 3 && currentPage + 1 < totalPages) {
-            $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
         if (currentPage >= 3 && currentPage + 1 === totalPages) {
-            $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
             });
-        } 
+        }
         
         if (currentPage < 3) {
-            $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
                 $(this).text(index + 1);
             });
         }
     } else {
-        $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+        $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
             $(this).text(index + 1);
             
             if (index + 1 > totalPages) {
@@ -49,16 +49,16 @@ function updatePagination() {
         });
     }
     
-    $("div#pagination_top ul.pagination li a.pageNumber").each(function(index) {
+    $('div#pagination_top ul.pagination li a.pageNumber').each(function() {
         var pageNum = parseInt($(this).text());
         if (pageNum === currentPage) {
-            $(this).parent().attr("class", "active");
+            $(this).parent().attr('class', 'active');
         } else {
-            $(this).parent().attr("class", "");
+            $(this).parent().attr('class', '');
         }
     });
     
-    $("#pagination_bottom").html($("#pagination_top").html());
+    $('#pagination_bottom').html($('#pagination_top').html());
 }
 
 function caculateTotalPages() {
@@ -68,14 +68,14 @@ function caculateTotalPages() {
 }
 
 function updateEntriesCount() {
-    var newText = start + "~" + (end > total ? total : end);
+    var newText = start + '~' + (end > total ? total : end);
     
-    $("span#currentPageEntryCount").text(newText);    
-    $("span#totalEntryCount").text(total);
+    $('span#currentPageEntryCount').text(newText);
+    $('span#totalEntryCount').text(total);
 }
 
 function hideAllEntries() {
-    $("tr.accountEntry").hide();
+    $('tr.accountEntry').hide();
 }
 
 function showFirstPage() {
@@ -89,14 +89,14 @@ function showFirstPage() {
 function showEntryInInterval(start, end) {
     hideAllEntries();
     for (var i = start; i <= end; i++) {
-        $("#accountEntry_" + i).show();
+        $('#accountEntry_' + i).show();
     }
 }
 
 function reLabelOrderedAccountEntries() {
     total = 0;
-    $("tr.accountEntry").each(function(index) {
-        $(this).attr("id", "accountEntry_" + (index + 1));
+    $('tr.accountEntry').each(function(index) {
+        $(this).attr('id', 'accountEntry_' + (index + 1));
         total++;
     });
     
@@ -112,18 +112,18 @@ function showEntriesForSelectedPage() {
     
 }
 
-$(document).on("click", "ul.pagination li.previous", function() {
+$(document).on('click', 'ul.pagination li.previous', function() {
     goToPreviousPage();
 });
 
-$(document).on("click", "ul.pagination li a.pageNumber", function() {
+$(document).on('click', 'ul.pagination li a.pageNumber', function() {
     currentPage = parseInt($(this).text());
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();
 });
 
-$(document).on("click", "ul.pagination li.next", function() {
+$(document).on('click', 'ul.pagination li.next', function() {
     goToNextPage();
 });
 
@@ -142,12 +142,10 @@ function goToNextPage() {
 }
 
 $(document).keydown(function(e) {
-    if (e.keyCode === 37) { //LEFT
+    if (e.keyCode === 37) { // LEFT
         goToPreviousPage();
-     }
-    if (e.keyCode === 39) { //RIGHT
+    }
+    if (e.keyCode === 39) { // RIGHT
         goToNextPage();
-     }
- });
-
-
+    }
+});

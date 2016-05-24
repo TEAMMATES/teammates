@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,7 +27,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
@@ -48,7 +46,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  anotherInstructorOfCourse1.email,
                      redirectResult.getStatusMessage());
              
@@ -70,7 +68,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  student1InCourse1.email,
                      redirectResult.getStatusMessage());
              
@@ -99,7 +97,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT,
                      redirectResult.getStatusMessage());
              
@@ -135,7 +133,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
     }
 
-     private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
+    private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
         return (InstructorCourseRemindAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

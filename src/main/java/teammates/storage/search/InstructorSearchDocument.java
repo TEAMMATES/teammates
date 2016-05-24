@@ -14,13 +14,13 @@ public class InstructorSearchDocument extends SearchDocument {
     private InstructorAttributes instructor;
     private CourseAttributes course;
     
-    public InstructorSearchDocument(InstructorAttributes instructor){
+    public InstructorSearchDocument(InstructorAttributes instructor) {
         this.instructor = instructor;
     }
     
     @Override
     protected void prepareData() {
-        if (instructor == null){
+        if (instructor == null) {
             return;
         }
         
@@ -38,10 +38,10 @@ public class InstructorSearchDocument extends SearchDocument {
         // instructorGoogleId, instructorRole
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(instructor.courseId).append(delim)
-                             .append(course != null ? course.name : "").append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
                              .append(instructor.name).append(delim)
                              .append(instructor.email).append(delim)
-                             .append(instructor.googleId != null ? instructor.googleId : "").append(delim)
+                             .append(instructor.googleId == null ? "" : instructor.googleId).append(delim)
                              .append(instructor.role).append(delim)
                              .append(instructor.displayedName).append(delim);
         

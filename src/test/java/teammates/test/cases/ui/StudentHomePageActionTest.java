@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,7 +30,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
@@ -48,7 +45,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                         r.getStatusMessage());
         
@@ -86,7 +83,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="
                                           + studentWithoutCourses.googleId, 
                                           r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
                                           r.getStatusMessage());
         
@@ -112,7 +109,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         assertEquals("/jsp/studentHome.jsp?error=false&user=" + studentId, 
                                         r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
@@ -168,8 +165,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }
 
-    private StudentHomePageAction getAction(String... params) throws Exception{
-            return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
+    private StudentHomePageAction getAction(String... params) throws Exception {
+        return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
 }

@@ -1,9 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
@@ -13,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,7 +49,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.courseId = "invalid id with space";
         try {
             commentsDb.createEntity(c);
-        } catch (InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT), 
                     e.getLocalizedMessage());
         }
@@ -142,7 +137,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.courseId = null;
         try {
             commentsDb.getCommentsForGiver(retrievedComment.courseId, retrievedComment.giverEmail);
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
@@ -151,7 +146,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.recipients = null;
         try {
             commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType, retrievedComment.giverEmail);
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
     }
@@ -173,7 +168,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("invalid comment attributes");
         try {
             commentsDb.updateComment(null);
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
         
@@ -269,19 +264,19 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateInstructorEmail(courseId1, null, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
         try {
             commentsDb.updateInstructorEmail(null, giverEmail1, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
         try {
             commentsDb.updateInstructorEmail(courseId1, giverEmail1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
         
@@ -290,19 +285,19 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateStudentEmail(courseId1, null, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.updateStudentEmail(null, giverEmail1, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.updateStudentEmail(courseId1, giverEmail1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
@@ -396,7 +391,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.deleteCommentsByStudentEmail(courseId1, student2);
         List<CommentAttributes> comments = commentsDb.getCommentsForGiver(courseId1, instr1);
         assertEquals(1, comments.size());
-        assertEquals(true, comments.get(0).recipients.contains(student1));
+        assertTrue(comments.get(0).recipients.contains(student1));
         
         ______TS("success: delete team comments");
         
@@ -426,59 +421,59 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.deleteCommentsByInstructorEmail(courseId1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.deleteCommentsByInstructorEmail(null, instr1);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             commentsDb.deleteCommentsByStudentEmail(courseId1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.deleteCommentsByStudentEmail(null, student1);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             commentsDb.deleteCommentsForTeam(courseId1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.deleteCommentsForTeam(null, team1);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             commentsDb.deleteCommentsForSection(courseId1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.deleteCommentsForSection(null, section1);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             commentsDb.deleteCommentsForCourse(null);
             this.signalFailureToDetectException("Assertion error not detected properly");
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
@@ -493,12 +488,12 @@ public class CommentsDbTest extends BaseComponentTestCase {
             throws EntityAlreadyExistsException {
         try {
             commentsDb.createEntity(comment);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     expectedMessage,
                     e.getMessage());
-        } catch (AssertionError e){
+        } catch (AssertionError e) {
             AssertHelper.assertContains(
                     expectedMessage,
                     e.getMessage());

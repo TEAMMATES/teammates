@@ -37,14 +37,13 @@ import teammates.storage.entity.Student;
  * and CommentAttributes.
  */
 public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteApiClient {
-    private final boolean isPreview = true;
+    private static final boolean isPreview = true;
     
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     private FeedbackResponsesLogic responsesLogic = new FeedbackResponsesLogic();
     private CommentsLogic commentsLogic = new CommentsLogic();
-    
-    
+
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator = new RepairTeamNameInStudentResponseAndCommentAttributes();
         migrator.doOperationRemotely();
@@ -80,11 +79,11 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                                    + " comment(s) with extra spaces in recipient!");
                              
             } else {
-                System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
+                System.out.println(numberOfStudentsWithExtraSpacesInTeamName 
                                    + "/" + totalNumberOfStudents + " student(s) have been fixed!");
-                System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                System.out.println(numberOfReponsesWithExtraSpacesInRecipient 
                                    + " response(s) have been fixed!");
-                System.out.println("" + numberOfCommentsWithExtraSpacesInRecipient 
+                System.out.println(numberOfCommentsWithExtraSpacesInRecipient 
                                    + " comment(s) have been fixed!");
                 System.out.println("Extra space removing done!");
             }
@@ -97,8 +96,9 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         List<Student> studentList = new ArrayList<Student>();
         System.out.println("Number of courses in last year : " + courseList.size());
         for (CourseAttributes course : courseList) {
-            System.out.println("Getting students of " + course.id + " and adding to current total of " + studentList.size());
-            studentList.addAll(studentsDb.getStudentEntitiesForCourse(course.id));
+            System.out.println("Getting students of " + course.getId()
+                               + " and adding to current total of " + studentList.size());
+            studentList.addAll(studentsDb.getStudentEntitiesForCourse(course.getId()));
         }
         return studentList;
     }
@@ -166,7 +166,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfStudentsWithExtraSpacesInTeamName++;
             
             if (isPreview) {
-                System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
+                System.out.println(numberOfStudentsWithExtraSpacesInTeamName 
                                    + ". \"" + studentEntity.getTeamName() + "\" "
                                    + "courseId: " + studentEntity.getCourseId());
             } else {
@@ -206,7 +206,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfCommentWithExtraSpacesInRecipient++;
             if (isPreview) {
                 String recipientsWithExtraSpace = extractStringsWithExtraSpace(comment.recipients);
-                System.out.println("" + numberOfCommentWithExtraSpacesInRecipient 
+                System.out.println(numberOfCommentWithExtraSpacesInRecipient 
                                    + ". \"" + recipientsWithExtraSpace + "\""
                                    + "courseId: " + comment.courseId);
             } else {
@@ -247,7 +247,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         for (FeedbackResponseAttributes response : responses) {
             numberOfReponsesWithExtraSpacesInRecipient++;
             if (isPreview) {
-                System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                System.out.println(numberOfReponsesWithExtraSpacesInRecipient 
                                    + ". From \"" + response.giverEmail + "\" "
                                    + ". To \"" + response.recipientEmail + "\" "
                                    + "courseId: " + response.courseId + " sessionName: "

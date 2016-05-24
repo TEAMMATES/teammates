@@ -30,7 +30,7 @@ public class InstructorCourseRemindAction extends Action {
     protected static final Logger log = Utils.getLogger();
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException{
+    public ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -40,10 +40,12 @@ public class InstructorCourseRemindAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
-        if (studentEmail != null) {
+        boolean isSendingToStudent = studentEmail != null;
+        boolean isSendingToInstructor = instructorEmail != null;
+        if (isSendingToStudent) {
             new GateKeeper().verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        } else if (instructorEmail != null) {
+        } else if (isSendingToInstructor) {
             new GateKeeper().verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         } else {
@@ -57,13 +59,13 @@ public class InstructorCourseRemindAction extends Action {
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
         String redirectUrl = "";
         try {
-            if (studentEmail != null) {
+            if (isSendingToStudent) {
                 MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
                 emailsSent.add(emailSent);
                 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail, StatusMessageColor.SUCCESS));
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (instructorEmail != null) {
+            } else if (isSendingToInstructor) {
                 MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
                 emailsSent.add(emailSent);
                 
@@ -90,8 +92,10 @@ public class InstructorCourseRemindAction extends Action {
     }
     
     private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
-        String statusToAdmin = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
+        StringBuilder statusToAdmin = new StringBuilder(200);
+        statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
+                     .append(courseId)
+                     .append("]</span>:<br/>");
         
         Iterator<Entry<String, JoinEmailData>> extractedEmailIterator = 
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -102,11 +106,11 @@ public class InstructorCourseRemindAction extends Action {
             String userEmail = extractedEmail.getKey();
             JoinEmailData joinEmailData = extractedEmail.getValue();
             
-            statusToAdmin += joinEmailData.userName + "<span class=\"bold\"> (" + userEmail + ")"
-                    + "</span>.<br/>" + joinEmailData.regKey + "<br/>";
+            statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
+                         .append(")</span>.<br/>").append(joinEmailData.regKey).append("<br/>");
         }
         
-        return statusToAdmin;
+        return statusToAdmin.toString();
     }
 
     private Map<String, JoinEmailData> extractEmailDataForLogging(List<MimeMessage> emails) {

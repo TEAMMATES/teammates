@@ -48,13 +48,14 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('" 
-                          + sanitizeForJs(courseDetails.course.id) + "')) "
-                          + "window.location.href='" + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.id)) + "';";
+                          + sanitizeForJs(courseDetails.course.getId()) + "')) "
+                          + "window.location.href='"
+                          + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
-        for (SectionDetailsBundle section: courseDetails.sections) {
+        for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
@@ -76,7 +77,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);
-            this.hasSection = !section.getSectionName().equals("None");
+            this.hasSection = !"None".equals(section.getSectionName());
         } else {
             this.hasSection = true;
         }
@@ -119,7 +120,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, 
-                            String title, String dataToggle, String onClick, boolean isDisabled){
+                            String title, String dataToggle, String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         if (buttonClass != null) {

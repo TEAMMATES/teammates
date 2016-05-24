@@ -34,17 +34,17 @@ public class AdminEmailComposeSendAction extends Action {
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
     
-    private final int MAX_READING_LENGTH = 900000; 
+    private static final int MAX_READING_LENGTH = 900000; 
     
-    private boolean addressModeOn = false;
-    private boolean groupModeOn = false;
+    private boolean addressModeOn;
+    private boolean groupModeOn;
     
     //params needed to move heavy jobs into a address mode task
-    private String addressReceiverListString = null;
+    private String addressReceiverListString;
     
     //params needed to move heavy jobs into a group mode task
-    private String groupReceiverListFileKey = null;
-    private String emailId = null;
+    private String groupReceiverListFileKey;
+    private String emailId;
     
     @Override
     protected ActionResult execute() {
@@ -61,7 +61,7 @@ public class AdminEmailComposeSendAction extends Action {
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
         groupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
         
-        if (groupModeOn){     
+        if (groupModeOn) {     
             try {
                 groupReceiver.add(groupReceiverListFileKey);
                 checkGroupReceiverListFile(groupReceiverListFileKey);
@@ -71,7 +71,7 @@ public class AdminEmailComposeSendAction extends Action {
             }     
         }
         
-        if (addressModeOn){
+        if (addressModeOn) {
             addressReceiver.add(addressReceiverListString);          
             try {
                 checkAddressReceiverString(addressReceiverListString);
@@ -81,13 +81,13 @@ public class AdminEmailComposeSendAction extends Action {
             }  
         } 
         
-        if (!addressModeOn && !groupModeOn){
+        if (!addressModeOn && !groupModeOn) {
             isError = true;
             statusToAdmin = "Error : No reciver address or file given";
             statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));       
         }
         
-        if (isError){
+        if (isError) {
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
                                                         groupReceiver,
@@ -96,17 +96,16 @@ public class AdminEmailComposeSendAction extends Action {
             data.emailToEdit.emailId = emailId;
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
-        
-        
+
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
         
-        if (!isEmailDraft) {
-            recordNewSentEmail(subject, addressReceiver, groupReceiver, emailContent);
-        } else {
+        if (isEmailDraft) {
             updateDraftEmailToSent(emailId, subject, addressReceiver, groupReceiver, emailContent);
+        } else {
+            recordNewSentEmail(subject, addressReceiver, groupReceiver, emailContent);
         }
  
-        if (isError){
+        if (isError) {
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
                                                         groupReceiver,
@@ -118,18 +117,18 @@ public class AdminEmailComposeSendAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
-    private void checkAddressReceiverString(String addressReceiverString) throws InvalidParametersException{
-       FieldValidator validator = new FieldValidator();
+    private void checkAddressReceiverString(String addressReceiverString) throws InvalidParametersException {
+        FieldValidator validator = new FieldValidator();
        
-       String[] emails = addressReceiverString.split(",");
-       for (String email : emails){
-           String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-           if (error != null && !error.isEmpty()){
-               isError = true;
-               statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
-               throw new InvalidParametersException("<strong>Email Format Error</strong>");
-           }
-       }
+        String[] emails = addressReceiverString.split(",");
+        for (String email : emails) {
+            String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+            if (error != null && !error.isEmpty()) {
+                isError = true;
+                statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
+                throw new InvalidParametersException("<strong>Email Format Error</strong>");
+            }
+        }
        
     }
     
@@ -178,7 +177,7 @@ public class AdminEmailComposeSendAction extends Action {
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
    
-        while (size > 0){
+        while (size > 0) {
             //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
@@ -194,9 +193,8 @@ public class AdminEmailComposeSendAction extends Action {
             //get the read bytes into string and split it by ","
             String readString = new String(array);
             List<String> newList = Arrays.asList(readString.split(","));
-            
-            
-            if (listOfList.isEmpty()){
+
+            if (listOfList.isEmpty()) {
                 //this is the first time reading
                 listOfList.add(newList);
             } else {
@@ -207,40 +205,35 @@ public class AdminEmailComposeSendAction extends Action {
                 //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
-                if (!lastStringOfLastAddedList.contains("@") ||
-                   !firstStringOfNewList.contains("@")){
-                   //either the left part or the right part of the broken email string 
-                   //does not contains a "@".
-                   //simply append the right part to the left part(last item of the list from last reading)
-                   listOfList.get(listOfList.size() - 1)
-                             .set(lastAddedList.size() - 1,
-                                  lastStringOfLastAddedList + 
-                                  firstStringOfNewList);
-                   
-                   //and also needs to delete the right part which is the first item of the list from current reading
-                   listOfList.add(newList.subList(1, newList.size() - 1));
+                if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
+                    //no broken email from last reading found, simply add the list
+                    //from current reading into the upper list.
+                    listOfList.add(newList);
                 } else {      
-                   //no broken email from last reading found, simply add the list
-                   //from current reading into the upper list.
-                   listOfList.add(newList);
+                    //either the left part or the right part of the broken email string 
+                    //does not contains a "@".
+                    //simply append the right part to the left part(last item of the list from last reading)
+                    listOfList.get(listOfList.size() - 1)
+                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    
+                    //and also needs to delete the right part which is the first item of the list from current reading
+                    listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
             }
             
             blobStream.close();
         }
-        
-        
+
     }
     
-    private long getFileSize(String blobkeyString){
+    private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
-    private void moveJobToGroupModeTaskQueue(){
-        if (!groupModeOn){
+    private void moveJobToGroupModeTaskQueue() {
+        if (!groupModeOn) {
             return;
         }
         
@@ -255,14 +248,12 @@ public class AdminEmailComposeSendAction extends Action {
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
-                
 
-        
     }
     
-    private void moveJobToAddressModeTaskQueue(){
+    private void moveJobToAddressModeTaskQueue() {
         
-        if (!addressModeOn){
+        if (!addressModeOn) {
             return;
         }
         
@@ -275,11 +266,9 @@ public class AdminEmailComposeSendAction extends Action {
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
-               
-        
+
     }
-    
-    
+
     private void recordNewSentEmail(String subject,
                                     List<String> addressReceiver,
                                     List<String> groupReceiver,
@@ -302,13 +291,12 @@ public class AdminEmailComposeSendAction extends Action {
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
     }
-    
-    
+
     private void updateDraftEmailToSent(String emailId,
                                         String subject,
                                         List<String> addressReceiver,
                                         List<String> groupReceiver,
-                                        String content){
+                                        String content) {
         
         AdminEmailAttributes fanalisedEmail = new AdminEmailAttributes(subject,
                                             addressReceiver,

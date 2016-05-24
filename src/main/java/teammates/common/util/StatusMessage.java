@@ -16,18 +16,18 @@ public class StatusMessage implements Serializable {
         this.text = text;
         
         switch (color) {
-            case SUCCESS:
-                this.color = "success";
-                break;
-            case WARNING:
-                this.color = "warning";
-                break;
-            case DANGER:
-                this.color = "danger";
-                break;
-            case INFO:
-            default:
-                this.color = "info";
+        case SUCCESS:
+            this.color = "success";
+            break;
+        case WARNING:
+            this.color = "warning";
+            break;
+        case DANGER:
+            this.color = "danger";
+            break;
+        default:
+            this.color = "info";
+            break;
         }
     }
     

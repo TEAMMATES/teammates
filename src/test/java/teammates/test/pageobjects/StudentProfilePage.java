@@ -2,14 +2,13 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class StudentProfilePage extends AppPage {
@@ -126,19 +125,20 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) throws Exception {
+    public void selectGender(String gender) {
         switch (gender) {
-            case Const.GenderTypes.MALE:
-                genderMaleRadio.click();
-                break;
-            case Const.GenderTypes.FEMALE:
-                genderFemaleRadio.click();
-                break;
-            case Const.GenderTypes.OTHER:
-                genderOtherRadio.click();
-                break;
-            default:
-                throw new InvalidParametersException("Given gender " + gender + " is not valid!");
+        case Const.GenderTypes.MALE:
+            genderMaleRadio.click();
+            break;
+        case Const.GenderTypes.FEMALE:
+            genderFemaleRadio.click();
+            break;
+        case Const.GenderTypes.OTHER:
+            genderOtherRadio.click();
+            break;
+        default:
+            fail("Given gender " + gender + " is not valid!");
+            break;
         }
     }
 
@@ -165,17 +165,18 @@ public class StudentProfilePage extends AppPage {
 
     private void ensureGenderIsSelectedAs(String gender) {
         switch (gender) {
-            case Const.GenderTypes.MALE:
-                assertTrue(genderMaleRadio.isSelected());
-                break;
-            case Const.GenderTypes.FEMALE:
-                assertTrue(genderFemaleRadio.isSelected());
-                break;
-            case Const.GenderTypes.OTHER:
-                assertTrue(genderOtherRadio.isSelected());
-                break;
-            default:
-                Assumption.fail("unexpected gender value given");
+        case Const.GenderTypes.MALE:
+            assertTrue(genderMaleRadio.isSelected());
+            break;
+        case Const.GenderTypes.FEMALE:
+            assertTrue(genderFemaleRadio.isSelected());
+            break;
+        case Const.GenderTypes.OTHER:
+            assertTrue(genderOtherRadio.isSelected());
+            break;
+        default:
+            fail("unexpected gender value given");
+            break;
         }
     }
 

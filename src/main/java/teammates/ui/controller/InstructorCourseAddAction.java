@@ -55,7 +55,7 @@ public class InstructorCourseAddAction extends Action {
         
         List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
         for (CourseAttributes course : allCourses) {
-            if (archivedCourseIds.contains(course.id)) {
+            if (archivedCourseIds.contains(course.getId())) {
                 archivedCourses.add(course);
             } else {
                 activeCourses.add(course);
@@ -66,12 +66,12 @@ public class InstructorCourseAddAction extends Action {
         CourseAttributes.sortById(activeCourses);
         CourseAttributes.sortById(archivedCourses);
         
-        String CourseIdToShowParam = "";
-        String CourseNameToShowParam = "";
+        String courseIdToShowParam = "";
+        String courseNameToShowParam = "";
         
         if (isError) { // there is error in adding the course
-            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.id);
-            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.name);
+            courseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
+            courseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
             
             List<String> statusMessageTexts = new ArrayList<String>();
             
@@ -81,28 +81,28 @@ public class InstructorCourseAddAction extends Action {
             
             statusToAdmin = StringHelper.toString(statusMessageTexts, "<br>");
         } else {
-            statusToAdmin = "Course added : " + newCourse.id;
+            statusToAdmin = "Course added : " + newCourse.getId();
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
         
-        data.init(activeCourses, archivedCourses, instructorsForCourses, CourseIdToShowParam, CourseNameToShowParam);
+        data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
 
     private void createCourse(CourseAttributes course) {
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.id, course.name);
+            logic.createCourseAndInstructor(data.account.googleId, course.getId(), course.getName());
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
-                    data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
-                    data.getInstructorCourseEditLink(course.id));
+                    data.getInstructorCourseEnrollLink(course.getId())).replace("${courseEditLink}",
+                    data.getInstructorCourseEditLink(course.getId()));
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             isError = false;
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
         } catch (InvalidParametersException e) {
-            setStatusForException(e, Const.StatusMessages.COURSE_INVALID_ID);
+            setStatusForException(e);
         }
 
         if (isError) {

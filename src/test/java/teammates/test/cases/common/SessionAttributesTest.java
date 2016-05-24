@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -50,8 +49,8 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s2); expected.add(s5);
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
-        for (int i = 0; i < testList.size(); i++){
-            AssertJUnit.assertEquals(expected.get(i), testList.get(i));
+        for (int i = 0; i < testList.size(); i++) {
+            assertEquals(expected.get(i), testList.get(i));
         }
         
         testList.clear();
@@ -63,8 +62,8 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s1); expected.add(s3);
         
         Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
-        for (int i = 0; i < testList.size(); i++){
-            AssertJUnit.assertEquals(expected.get(i), testList.get(i));
+        for (int i = 0; i < testList.size(); i++) {
+            assertEquals(expected.get(i), testList.get(i));
         }
     }
     
@@ -77,7 +76,7 @@ public class SessionAttributesTest extends BaseTestCase {
         public Date startTime, endTime;
         public String name;
         
-        public miniEval(Date startTime, Date endTime, String name){
+        public miniEval(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
@@ -105,7 +104,7 @@ public class SessionAttributesTest extends BaseTestCase {
         public Date startTime, endTime;
         public String name;
         
-        public miniFeedback(Date startTime, Date endTime, String name){
+        public miniFeedback(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;

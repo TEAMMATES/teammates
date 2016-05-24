@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.*;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -14,7 +13,7 @@ import teammates.test.cases.BaseTestCase;
 public class CourseRosterTest extends BaseTestCase {
     
     @Test
-    public void allTests(){
+    public void allTests() {
 
         ______TS("No students");
         

@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -19,7 +15,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -50,7 +45,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testGetInstructorAccounts() throws Exception{
+    public void testGetInstructorAccounts() throws Exception {
         
         ______TS("success case");
         
@@ -155,7 +150,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
-        } catch (InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             ignoreExpectedException();
         }
         
@@ -182,7 +177,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("test getInstructorAccounts");
         
         
-        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()) {
             ______TS(aa.toString());
         }
         
@@ -276,7 +271,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
             signalFailureToDetectException();
-        } catch (JoinCourseException e) {
+        } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
                     e.getMessage());
         }
@@ -415,7 +410,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
         
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
-        Assumption.assertNotNull(accountCreated);
+        assertNotNull(accountCreated);
         
         
         ______TS("success: instructor joined but Account object creation goes wrong");
@@ -431,14 +426,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
         
         accountCreated = accountsLogic.getAccount(loggedInGoogleId);
-        Assumption.assertNotNull(accountCreated);
+        assertNotNull(accountCreated);
         
         accountsLogic.deleteAccountCascade(loggedInGoogleId);
         
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -456,7 +451,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes (null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
+        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
         
         instructorsLogic.createInstructor(newIns);  
         
@@ -464,7 +459,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);

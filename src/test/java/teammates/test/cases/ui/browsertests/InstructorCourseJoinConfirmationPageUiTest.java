@@ -47,23 +47,20 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.manage().deleteAllCookies();
     }
 
-    
     @Test
     public void testAll() throws Exception {
         
         testContent();
         testJoinConfirmation();
     }
-    
- 
+
     private void testContent(){
         
         /*covered in testJoinConfirmation() 
          *case: Click join link then confirm: success: valid key
          */
     }
-    
-    
+
     private void testJoinConfirmation() throws Exception {
         
         ______TS("Click join link then cancel");
@@ -78,8 +75,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                                      TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         
         confirmationPage.clickCancelButton();
-        
-        
+
         ______TS("Click join link then confirm: fail: invalid key");
         
         browser.driver.get(joinLink);
@@ -93,7 +89,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("Click join link then confirm: success: valid key");
 
-        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
+        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").getId();
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
         String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));

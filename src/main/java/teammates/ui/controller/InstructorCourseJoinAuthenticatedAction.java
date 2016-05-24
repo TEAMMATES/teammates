@@ -29,10 +29,10 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         /* Process authentication for the instructor to join course */
         try {       
           
-            if (institute != null) {
-                logic.joinCourseForInstructor(regkey, account.googleId, institute);
-            } else {
+            if (institute == null) {
                 logic.joinCourseForInstructor(regkey, account.googleId);
+            } else {
+                logic.joinCourseForInstructor(regkey, account.googleId, institute);
             }
            
         } catch (JoinCourseException | InvalidParametersException e) {
@@ -45,10 +45,10 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         final String joinedCourseMsg = "Action Instructor Joins Course"
                 + "<br/>Google ID: " + account.googleId
                 + "<br/>Key : " + StringHelper.decrypt(regkey);
-        if (statusToAdmin != null) {
-            statusToAdmin += "<br/><br/>" + joinedCourseMsg;
-        } else {
+        if (statusToAdmin == null) {
             statusToAdmin = joinedCourseMsg;
+        } else {
+            statusToAdmin += "<br/><br/>" + joinedCourseMsg;
         }
         
         /* Create redirection to instructor's homepage */

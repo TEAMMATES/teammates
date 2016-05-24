@@ -9,7 +9,7 @@ $(document).ready(function() {
     });
     
     $('form[name="form_commentadd"]').submit(function() {
-        return checkComment(this);        
+        return checkComment(this);
     });
     
     function checkComment(form) {
@@ -38,7 +38,7 @@ $(document).ready(function() {
     $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
     
     function commentRecipientSelectChangeHandler() {
-        //TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
+        // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
         var selectedValue = $('#comment_recipient_select option:selected').val();
         if (selectedValue === 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');
@@ -65,19 +65,19 @@ $(document).ready(function() {
         }
     }
     
-    $("input[type=checkbox]").on("click", visibilityOptionsHandler);
+    $('input[type=checkbox]').on('click', visibilityOptionsHandler);
     
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];
         var target = $(e.target);
         
-        if (target.prop("class").includes("answerCheckbox") && !target.prop("checked")) {
-            target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-            target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
+            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
         }
-        if ((target.prop("class").includes("giverCheckbox") || 
-                target.prop("class").includes("recipientCheckbox")) && target.prop("checked")) {
-            target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         $('.answerCheckbox:checked').each(function() {
@@ -100,10 +100,10 @@ $(document).ready(function() {
     
     if (isShowCommentBox) {
         $('#button_add_comment').click();
-        if (commentRecipient === "team") {
+        if (commentRecipient === 'team') {
             $('#comment_recipient_select').val('TEAM');
             commentRecipientSelectChangeHandler();
-        } else if (commentRecipient === "section") {
+        } else if (commentRecipient === 'section') {
             $('#comment_recipient_select').val('SECTION');
             commentRecipientSelectChangeHandler();
         }

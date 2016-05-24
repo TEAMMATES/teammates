@@ -14,14 +14,11 @@ public class UserType {
     public enum Role { ADMIN, INSTRUCTOR, STUDENT };
     
     //TODO: add a com.google.appengine.api.users.User object here 
-    public String id = null;
+    public String id;
     
-    public boolean isAdmin = false;
-    public boolean isInstructor = false;
-    public boolean isStudent = false;
-    
-    public UserType() {
-    }
+    public boolean isAdmin;
+    public boolean isInstructor;
+    public boolean isStudent;
     
     public UserType(String googleId) {
         this.id = googleId;

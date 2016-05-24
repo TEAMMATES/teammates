@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
-
 import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 
@@ -44,7 +42,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetActionName(){
+    public void testGetActionName() {
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse"));
         assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse?user=x"));
         try {

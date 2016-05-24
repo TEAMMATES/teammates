@@ -98,9 +98,8 @@ public class FeedbackResponseCommentsLogic {
                                                            String feedbackSessionName, String section) {
         if (section == null) {
             return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
-        } else {
-            return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
         }
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(
@@ -270,8 +269,8 @@ public class FeedbackResponseCommentsLogic {
         }
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? 
-                true : relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
+                                 || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
         
@@ -326,8 +325,9 @@ public class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion ?
-                relatedQuestion.isResponseVisibleTo(viewerType) : relatedComment.isVisibleTo(viewerType);
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion 
+                            ? relatedQuestion.isResponseVisibleTo(viewerType) 
+                            : relatedComment.isVisibleTo(viewerType);
         return isVisibleTo;
     }
     

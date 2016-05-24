@@ -30,23 +30,23 @@ public class GenerateLargeScaledData extends RemoteApiClient {
         try {
             int index = 0;
             /*
-            for (StudentAttributes student : largeScaleBundle.students.values()){
+            for (StudentAttributes student : largeScaleBundle.students.values()) {
                 logic.createStudent(student);
                 index++;
-                if (index % 100 == 0){
+                if (index % 100 == 0) {
                     logger.info("Create student " + index);
                 }
             }
             */
           
-            for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
+            for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()) {
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
-                if (index % 100 == 0){
+                if (index % 100 == 0) {
                     logger.info("Create response " + index);
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -59,23 +59,22 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                 FeedbackQuestionsLogic.inst().getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
                         qnNumber).getId();
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { // NOPMD
             // Correct question ID was already attached to response.
         }
         
         return response;
     }
     
-    private static DataBundle loadDataBundle(String pathToJsonFile){
-        if (pathToJsonFile.startsWith("/")){
-            pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
-        }
-        String jsonString;
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
-            jsonString = FileHelper.readFile(pathToJsonFile);
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                                  + pathToJsonFileParam;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
     }
+
 }

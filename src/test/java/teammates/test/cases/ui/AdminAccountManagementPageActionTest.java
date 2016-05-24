@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,7 +19,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         
         ______TS("case: view admin acount management page");
         
@@ -37,10 +35,9 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user", 
                      result.getDestinationWithParams());
-        assertEquals(false, result.isError);      
+        assertFalse(result.isError);      
                 
     }
-    
 
     private AdminAccountManagementPageAction getAction(String... params) throws Exception {
         return (AdminAccountManagementPageAction) (gaeSimulation.getActionObject(uri, params));

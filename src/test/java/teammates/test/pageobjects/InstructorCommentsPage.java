@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -27,26 +26,21 @@ public class InstructorCommentsPage extends AppPage {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
     }
     
-    public void loadResponseComments() throws Exception{
+    public void loadResponseComments() throws Exception {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
-        try {
-            String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
-            waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
-        } catch (StaleElementReferenceException e){
-            //do nothing 
-            //TODO why?
-        }
+        String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
+        waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
     }
 
-    public void clickSendEmailNotificationButton(){
+    public void clickSendEmailNotificationButton() {
         String pathToSendEmailNotificationButton = "//*[@id=\"mainContent\"]/div[4]/div[1]/div/a";
         browser.driver.findElement(By.xpath(pathToSendEmailNotificationButton)).click();
         waitForPageToLoad();
     }
     
-    public InstructorHomePage clickHomePageLinkInHeader(){
+    public InstructorHomePage clickHomePageLinkInHeader() {
         String pathToHomePageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a";
         browser.driver.findElement(By.xpath(pathToHomePageLink)).click();
         waitForPageToLoad();
@@ -54,53 +48,53 @@ public class InstructorCommentsPage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
     
-    public void clickCommentsPageLinkInHeader(){
+    public void clickCommentsPageLinkInHeader() {
         String pathToCommentsPageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a";
         browser.driver.findElement(By.xpath(pathToCommentsPageLink)).click();
         waitForPageToLoad();
     }
     
-    public void clickShowMoreOptions(){
+    public void clickShowMoreOptions() {
         showMoreOptionsCheckbox.click();
         waitForPageToLoad();
     }
     
-    public void clickIsIncludeArchivedCoursesCheckbox(){
+    public void clickIsIncludeArchivedCoursesCheckbox() {
         isIncludeArchivedCoursesCheckbox.click();
         waitForPageToLoad();
     }
     
-    public void clickPreviousCourseLink(){
+    public void clickPreviousCourseLink() {
         getPreviousCourseLink().click();
         waitForPageToLoad();
     }
     
-    public void clickNextCourseLink(){
+    public void clickNextCourseLink() {
         getNextCourseLink().click();
         waitForPageToLoad();
     }
     
-    public void showCommentsForAll(){
+    public void showCommentsForAll() {
         browser.driver.findElement(By.id("panel_all")).click();
     }
     
-    public void showCommentsFromAll(){
+    public void showCommentsFromAll() {
         browser.driver.findElement(By.id("giver_all")).click();
     }
     
-    public void showCommentsFromAllStatus(){
+    public void showCommentsFromAllStatus() {
         browser.driver.findElement(By.id("status_all")).click();
     }
     
-    public void showCommentsForPanel(int panelIdx){
+    public void showCommentsForPanel(int panelIdx) {
         browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();
     }
     
-    public void showCommentsFromGiver(String giverIdx){
+    public void showCommentsFromGiver(String giverIdx) {
         browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();
     }
     
-    public void showCommentsForStatus(String status){
+    public void showCommentsForStatus(String status) {
         browser.driver.findElement(By.id("status_check-" + status)).click();
     }
 
@@ -135,22 +129,22 @@ public class InstructorCommentsPage extends AppPage {
         visibilityEditButton.click();
     }
     
-    public void clickAllCheckboxes(int row){
+    public void clickAllCheckboxes(int row) {
         List<WebElement> answerCheckboxes = browser.driver
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for (WebElement checkbox:checkboxes){
+        for (WebElement checkbox : checkboxes) {
             checkbox.click();
         }
     }
     
-    public void clickAllCheckboxes(String suffix){
+    public void clickAllCheckboxes(String suffix) {
         List<WebElement> answerCheckboxes = browser.driver
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for (WebElement checkbox:checkboxes){
+        for (WebElement checkbox : checkboxes) {
             checkbox.click();
         }
     }
@@ -164,14 +158,14 @@ public class InstructorCommentsPage extends AppPage {
         }
     }
 
-    public void fillTextareaToEditStudentCommentForRow(int i, String text){
+    public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
         textarea.click();
         textarea.clear();
         textarea.sendKeys(text);
     }
     
-    public void saveEditStudentCommentForRow(int i){
+    public void saveEditStudentCommentForRow(int i) {
         browser.driver.findElement(By.id("commentsave-" + i)).click();
         waitForPageToLoad();
     }
@@ -314,13 +308,13 @@ public class InstructorCommentsPage extends AppPage {
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         int idNumber = commentTableIdSuffix.split("-").length;
-        if (idNumber == 4){
+        if (idNumber == 4) {
             WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
             waitForElementPresence(errorSpan);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
-        } else if (idNumber == 3){
+        } else if (idNumber == 3) {
             WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");

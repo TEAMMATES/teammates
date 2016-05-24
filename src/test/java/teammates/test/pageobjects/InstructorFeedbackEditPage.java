@@ -129,8 +129,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
- 
-    
+
     @FindBy(id = "button_copy")
     private WebElement copyButton;
     
@@ -145,8 +144,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
-    
-    
+
     public InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
@@ -189,8 +187,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
@@ -298,7 +295,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, choice);
     }
-    
+
+    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+        String idSuffix = getIdSuffix(qnNumber);
+        
+        String elemid = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        
+        WebElement weightBox = browser.driver.findElement(By.id(elemid));
+        fillTextBox(weightBox, weight);
+    }
+
     public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
         
@@ -415,6 +421,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickVisibilityPreviewForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
     }
+    
     public void clickVisibilityOptionsForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
     }
@@ -590,9 +597,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
                 if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    previousButton.click();
                 }
+                previousButton.click();
             }
 
         } else {
@@ -602,9 +608,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
                 if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    nextButton.click();
                 }
+                nextButton.click();
             }
         }
 
@@ -790,6 +795,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
+    public void clickAssignWeightsCheckbox(int qnIndex) {
+        By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
+        WebElement assignWeightsCheckbox = browser.driver.findElement(by);
+        assignWeightsCheckbox.click();
+    }
+
     public void clickAddRubricRowLink(int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricAddSubQuestionLink" + idSuffix));
@@ -816,8 +827,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
         clickAndConfirm(removeRubricColLink);
     }
-    
-    
+
     public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
         assertFalse(optionBox.isDisplayed());
@@ -846,6 +856,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
+    
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         checkBox.click();

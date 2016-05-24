@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +101,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
             }
         }
         
-        assertTrue(actualFrComment != null);
+        assertNotNull(actualFrComment);
         
         //delete afterwards
         frcLogic.deleteFeedbackResponseComment(frComment);
@@ -210,13 +206,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++){
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)){
+        for (int i = 0; i < actualFrComments.size(); i++) {
+            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
                 actualFrComment = actualFrComments.get(i);
                 break;
             }
         }
-        assertTrue(actualFrComment != null);
+        assertNotNull(actualFrComment);
         
         ______TS("typical success case update feedback response comment giver email");
         
@@ -278,7 +274,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
         verifyAbsentInDatastore(actualFrComment);
-        
 
         ______TS("typical success case for response");
         
@@ -289,7 +284,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(anotherFrComment);
         
     }
-    
 
     @Test
     public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
@@ -297,9 +291,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
         
-        List<FeedbackResponseCommentAttributes> frcList 
-            = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
-        assertNotEquals(0, frcList.size());
+        List<FeedbackResponseCommentAttributes> frcList = 
+                frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertFalse(frcList.isEmpty());
         
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
         
@@ -366,7 +360,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                                  existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+        for (FeedbackResponseCommentAttributes c : existingFrComments) {
             if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;

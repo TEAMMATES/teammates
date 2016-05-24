@@ -21,7 +21,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
-    private InstructorAttributes instructor = null;
+    private InstructorAttributes instructor;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -99,7 +99,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment =
                 new HashMap<String, FeedbackQuestionAttributes>();
-        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
+        for (FeedbackResponseAttributes fr : responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
             if (!questionsWithFeedbackResponseComment.containsKey(qn.getId())) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);

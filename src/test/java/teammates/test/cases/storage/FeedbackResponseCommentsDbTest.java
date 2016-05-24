@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -438,7 +433,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frcDb.getFeedbackResponseCommentEntitiesForCourses(courseIds);
         List<FeedbackResponseCommentAttributes> actualFrcas =
                 new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc: actualFrcs) {
+        for (FeedbackResponseComment frc : actualFrcs) {
             actualFrcas.add(new FeedbackResponseCommentAttributes(frc));
         }
         
@@ -451,7 +446,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertTrue(actualFrcs.isEmpty());
     }
 
-    
     private void verifyListsContainSameResponseCommentAttributes(
             List<FeedbackResponseCommentAttributes> expectedFrcas,
             List<FeedbackResponseCommentAttributes> actualFrcas) {

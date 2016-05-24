@@ -12,7 +12,11 @@ import java.nio.file.Paths;
  * File-related helper methods used for testing. There is another FileHelper on
  * the server side.
  */
-public class FileHelper {
+public final class FileHelper {
+    
+    private FileHelper() {
+        // utility class
+    }
 
     public static void writeToFile(String fileName, String fileContent) {
         try {
@@ -55,8 +59,8 @@ public class FileHelper {
     }
     
     public static void deleteFile(String fileName) {
-       File file = new File(fileName);
-       file.delete();
+        File file = new File(fileName);
+        file.delete();
     }
 
     public static String readFile(String path, Charset encoding) {

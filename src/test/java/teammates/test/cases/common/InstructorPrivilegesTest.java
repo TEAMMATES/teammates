@@ -1,9 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
@@ -41,7 +37,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         String invalidKey = "invalid key";
         assertEquals(null, courseLevelMap.get(invalidKey));
-        assertEquals(true, privileges.getSessionLevelPrivileges().isEmpty());
+        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
         
         // manager: only one false
         privileges.setDefaultPrivilegesForManager();

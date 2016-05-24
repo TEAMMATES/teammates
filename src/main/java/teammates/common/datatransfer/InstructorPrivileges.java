@@ -327,18 +327,16 @@ public final class InstructorPrivileges {
     public void addSectionWithDefaultPrivileges(String sectionName) {
         if (this.sectionLevel.containsKey(sectionName)) {
             return;
-        } else {
-            this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
         }
+        this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
     }
     
     public void addSessionWithDefaultPrivileges(String sectionName, String sessionName) {
         verifyExistenceOfsectionName(sectionName);
         if (this.sessionLevel.get(sectionName).containsKey(sessionName)) {
             return;
-        } else {
-            this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
         }
+        this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
     }
     
     /**
@@ -470,9 +468,9 @@ public final class InstructorPrivileges {
 
         if (!this.courseLevel.containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.courseLevel.get(privilegeName).booleanValue();
         }
+        
+        return this.courseLevel.get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
@@ -484,9 +482,8 @@ public final class InstructorPrivileges {
         }
         if (!this.sectionLevel.get(sectionName).containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.sectionLevel.get(sectionName).get(privilegeName).booleanValue();
-        }
+        } 
+        return this.sectionLevel.get(sectionName).get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
@@ -499,9 +496,8 @@ public final class InstructorPrivileges {
         }
         if (!this.sessionLevel.get(sectionName).get(sessionName).containsKey(privilegeName)) {
             return false;
-        } else {
-            return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue();
         }
+        return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue();
     }
     
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
@@ -584,9 +580,9 @@ public final class InstructorPrivileges {
         }
         
         InstructorPrivileges rhs = (InstructorPrivileges) another;
-        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) &&
-                this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges()) &&
-                this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
+        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) 
+               && this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges())
+               && this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
     }
     
     @Override

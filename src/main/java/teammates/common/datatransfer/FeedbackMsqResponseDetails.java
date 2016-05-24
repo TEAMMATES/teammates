@@ -27,7 +27,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answers = Arrays.asList(answer);      
     }
-    
 
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                     FeedbackQuestionDetails questionDetails, String[] answer,
@@ -39,7 +38,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER 
                                         + "-" + questionIndx + "-" + responseIndx);
         
-        if (isOtherOptionAnswer != null && isOtherOptionAnswer.equals("1")) {
+        if ("1".equals(isOtherOptionAnswer)) {
             isOther = true;
             try {
                 otherFieldContent = answer[answer.length - 1];
@@ -104,8 +103,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
     
     protected boolean isAnswerBlank() {
-        return answers.size() == 1 && 
-               answers.get(0).equals("");
+        return answers.size() == 1 && answers.get(0).isEmpty();
     }
     
     public Boolean isOtherOptionAnswer() {

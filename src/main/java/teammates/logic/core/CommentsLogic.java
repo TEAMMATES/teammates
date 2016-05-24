@@ -576,12 +576,12 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
-            if (studentOfThisEmail != null) {
+            if (studentOfThisEmail == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                          frc.getId().toString(), studentOfThisEmail.team);
+                                                frc.getId().toString(), relatedResponse.recipientEmail);
             } else {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                          frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), studentOfThisEmail.team);
             }
         }
     }
@@ -592,13 +592,13 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
-            if (roster.getStudentForEmail(relatedResponse.recipientEmail) != null) {
-                addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
-                                         frc.getId().toString(), relatedResponse.recipientEmail);
-            } else {
+            if (roster.getStudentForEmail(relatedResponse.recipientEmail) == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
-                                          responseCommentsAddedTable, frc.getId().toString(),
-                                          relatedResponse.recipientEmail);
+                                                responseCommentsAddedTable, frc.getId().toString(),
+                                                relatedResponse.recipientEmail);
+            } else {
+                addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                                frc.getId().toString(), relatedResponse.recipientEmail);
             }
         }
     }
@@ -709,7 +709,7 @@ public class CommentsLogic {
                                                  commentId, section);
                 }
             }
-        } else {//not visible to SECTION
+        } else { //not visible to SECTION
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
                 for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
@@ -760,7 +760,7 @@ public class CommentsLogic {
                                               commentId, team);
                 }
             }
-        } else {//not visible to TEAM
+        } else { //not visible to TEAM
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
                 for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
@@ -788,7 +788,7 @@ public class CommentsLogic {
                 addRecipientEmailsToList(studentCommentsAddedTable, recipientEmailList,
                                          commentId, recipientEmail);
             }
-        } else {//not visible to PERSON
+        } else { //not visible to PERSON
             for (String recipientEmail : pendingComment.recipients) {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, commentId, recipientEmail);
             }

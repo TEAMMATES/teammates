@@ -71,20 +71,18 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
-        } else {
-            if (this.shortName.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
-            } else if (this.email.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
-            } else if (this.pictureKey.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
-            } else if (this.moreInfo.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
-            } else if (this.nationality.isEmpty()) {
-                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
-            }
-            return "";
+        } else if (this.shortName.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
+        } else if (this.email.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
+        } else if (this.pictureKey.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
+        } else if (this.moreInfo.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
+        } else if (this.nationality.isEmpty()) {
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
         }
+        return "";
     }
 
     private boolean isMultipleFieldsEmpty() {
@@ -106,7 +104,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+            error = validator.getInvalidityInfoForPersonName(shortName);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
@@ -120,20 +118,20 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         if (!institute.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+            error = validator.getInvalidityInfoForInstituteName(institute);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
 
         if (!nationality.isEmpty()) {
-            error = validator.getInvalidityInfo(FieldValidator.FieldType.NATIONALITY, nationality);
+            error = validator.getInvalidityInfoForNationality(nationality);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
 
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
+        error = validator.getInvalidityInfoForGender(gender);
         if (!error.isEmpty()) {
             errors.add(error);
         }

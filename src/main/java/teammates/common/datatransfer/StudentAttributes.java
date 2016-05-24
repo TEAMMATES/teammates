@@ -38,18 +38,18 @@ public class StudentAttributes extends EntityAttributes {
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-                case 0:
-                    return ERROR;
-                case 1:
-                    return NEW;
-                case 2:
-                    return MODIFIED;
-                case 3:
-                    return UNMODIFIED;
-                case 4:
-                    return NOT_IN_ENROLL_LIST;
-                default:
-                    return UNKNOWN;
+            case 0:
+                return ERROR;
+            case 1:
+                return NEW;
+            case 2:
+                return MODIFIED;
+            case 3:
+                return UNMODIFIED;
+            case 4:
+                return NOT_IN_ENROLL_LIST;
+            default:
+                return UNKNOWN;
             }
         }
     }
@@ -61,11 +61,11 @@ public class StudentAttributes extends EntityAttributes {
     public String name;
     public String lastName;
     public String email;
-    public String course = null;
-    public String comments = null;
-    public String team = null;
-    public String section = null;
-    public String key = null;
+    public String course;
+    public String comments;
+    public String team;
+    public String section;
+    public String key;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
@@ -83,7 +83,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public StudentAttributes(String section, String team, String name, String email, String comment,
@@ -124,20 +124,17 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String toEnrollmentString() {
-        String enrollmentString = "";
         String enrollmentStringSeparator = "|";
 
-        enrollmentString = this.section + enrollmentStringSeparator;
-        enrollmentString += this.team + enrollmentStringSeparator;
-        enrollmentString += this.name + enrollmentStringSeparator;
-        enrollmentString += this.email + enrollmentStringSeparator;
-        enrollmentString += this.comments;
-
-        return enrollmentString;
+        return this.section + enrollmentStringSeparator
+             + this.team + enrollmentStringSeparator
+             + this.name + enrollmentStringSeparator
+             + this.email + enrollmentStringSeparator
+             + this.comments;
     }
 
     public boolean isRegistered() {
-        return googleId != null && !googleId.equals("");
+        return googleId != null && !googleId.isEmpty();
     }
 
     public String getRegistrationUrl() {
@@ -207,27 +204,39 @@ public class StudentAttributes extends EntityAttributes {
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }
@@ -358,9 +367,8 @@ public class StudentAttributes extends EntityAttributes {
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
     
     public Date getCreatedAt() {
@@ -383,5 +391,25 @@ public class StudentAttributes extends EntityAttributes {
      **/
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Checks whether the edit form of student has changed the section value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if section value has changed from its original value.
+     */
+    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
+        return this.section != null && !this.section.equals(originalStudentAttribute.section);
+    }
+    
+    /**
+     * Checks whether the edit form of student has changed the team value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if team value has changed from its original value.
+     */
+    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
+        return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
 }

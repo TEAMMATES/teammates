@@ -27,7 +27,6 @@ import teammates.logic.api.GateKeeper;
  */
 public class StudentCommentsPageAction extends Action {
     
-    private StudentCommentsPageData data;
     private String courseId;
     private String studentEmail;
     
@@ -39,12 +38,20 @@ public class StudentCommentsPageAction extends Action {
         
         //COURSE_ID can be null, if viewed by default
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (courseId == null) {
-            courseId = "";
+        
+        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
+        
+        Collections.sort(courses);
+        
+        if (courseId == null && !courses.isEmpty()) {
+            // if courseId not provided, select the newest course
+            courseId = courses.get(0).getId();
         }
         
-        List<String> coursePaginationList = new ArrayList<String>(); 
-        String courseName = getCoursePaginationList(coursePaginationList);
+        String courseName = getSelectedCourseName(courses);
+        if (courseName.isEmpty()) {
+            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
+        }
         
         //check accessibility with courseId
         if (!isJoinedCourse(courseId)) {
@@ -52,12 +59,14 @@ public class StudentCommentsPageAction extends Action {
         }
         verifyAccessible();
         
+        List<String> coursePaginationList = getCoursePaginationList(courses); 
+        
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
                 new HashMap<String, FeedbackSessionResultsBundle>();
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        if (coursePaginationList.size() > 0) {
+        if (!coursePaginationList.isEmpty()) {
             roster = new CourseRoster(
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
@@ -68,13 +77,13 @@ public class StudentCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new StudentCommentsPageData(account);
+        StudentCommentsPageData data = new StudentCommentsPageData(account);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
         
-        statusToAdmin = "studentComments Page Load<br>" + 
-                "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
-                "for Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "studentComments Page Load<br>" 
+                + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " 
+                + "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COMMENTS, data);
     }
@@ -93,26 +102,24 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private String getCoursePaginationList(List<String> coursePaginationList) 
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
             throws EntityDoesNotExistException {
-        String courseName = "";
-        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        Collections.sort(courses);
-        for (int i = 0; i < courses.size(); i++) {
-            CourseAttributes course = courses.get(i);
-            coursePaginationList.add(course.id);
-            if (courseId.isEmpty()) {
-                //if courseId not provided, select the newest course
-                courseId = course.id;
-            }
-            if (course.id.equals(courseId)) {
-                courseName = course.id + " : " + course.name;
+        List<String> coursePaginationList = new ArrayList<>();
+
+        for (CourseAttributes course : sortedCourses) {
+            coursePaginationList.add(course.getId());
+        }
+        
+        return coursePaginationList;
+    }
+    
+    private String getSelectedCourseName(List<CourseAttributes> sortedCourses) {
+        for (CourseAttributes course : sortedCourses) {
+            if (course.getId().equals(courseId)) {
+                return course.getId() + " : " + course.getName();
             }
         }
-        if (courseName.equals("")) {
-            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
-        }
-        return courseName;
+        return "";
     }
     
     /*
@@ -146,15 +153,15 @@ public class StudentCommentsPageAction extends Action {
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = 
                 new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes fr: bundle.responses) {
+        for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if (frComment != null && frComment.size() != 0) {
+            if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = 
                 new HashMap<String, FeedbackQuestionAttributes>();
-        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
+        for (FeedbackResponseAttributes fr : responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
             if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);

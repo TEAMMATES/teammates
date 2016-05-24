@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -47,19 +45,20 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: add and edit students for non-empty course");        
         
-        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL;
-        // A new student
-        enrollString += "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL;
-        // A new student with extra spaces in the team and name
-        enrollString += "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
-                        + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL;
-        // A student to be modified
-        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
-                        + "New comment added" + Const.EOL;
-        // An existing student with no modification
-        enrollString += "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t" + Const.EOL;
-        // An existing student, now with extra spaces, should cause no modification
-        enrollString += "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
+        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+                       // A new student
+                       + "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL
+                       // A new student with extra spaces in the team and name
+                       + "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
+                       + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL
+                       // A student to be modified
+                       + "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
+                       + "New comment added" + Const.EOL
+                       // An existing student with no modification
+                       + "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t"
+                       + Const.EOL
+                       // An existing student, now with extra spaces, should cause no modification
+                       + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -70,7 +69,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
@@ -131,7 +130,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
@@ -157,8 +156,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         String studentWithoutEnoughParam = "Team 1\tStudentWithNoEmailInput";
         String studentWithInvalidEmail = "Team 2\tBenjamin Tan\tinvalid.email.tmt";
-        enrollString = "Team | Name | Email" + Const.EOL;
-        enrollString += studentWithoutEnoughParam + Const.EOL + studentWithInvalidEmail;
+        enrollString = "Team | Name | Email" + Const.EOL
+                     + studentWithoutEnoughParam + Const.EOL
+                     + studentWithInvalidEmail;
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -168,7 +168,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
@@ -223,7 +223,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         };
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(false, pageResult.isError);
+        assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         //fail to enroll, if exceed the range
@@ -237,7 +237,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
         
         ______TS("Failure case: empty input");
@@ -253,7 +253,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
                      pageResult.getDestinationWithParams());
-        assertEquals(true, pageResult.isError);
+        assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -280,7 +280,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
             }
         }
         
-        assertEquals(true, result);
+        assertTrue(result);
     }
     
     private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {

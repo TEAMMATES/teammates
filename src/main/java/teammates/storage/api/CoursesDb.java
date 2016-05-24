@@ -32,10 +32,10 @@ public class CoursesDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
     
-    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
+    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
         
         List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
-        for (EntityAttributes entity : coursesToUpdate){
+        for (EntityAttributes entity : coursesToUpdate) {
             CourseAttributes course = (CourseAttributes) entity;
             try {
                 updateCourse(course);
@@ -70,7 +70,7 @@ public class CoursesDb extends EntitiesDb {
         List<Course> courses = getCourseEntities(courseIds);
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         // TODO add method to get List<CourseAttributes> from List<Course>
-        for (Course c: courses) {
+        for (Course c : courses) {
             if (!JDOHelper.isDeleted(c)) {
                 courseAttributes.add(new CourseAttributes(c));
             }
@@ -118,13 +118,13 @@ public class CoursesDb extends EntitiesDb {
             throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
         }
         
-        Course courseEntityToUpdate = getCourseEntity(courseToUpdate.id);
+        Course courseEntityToUpdate = getCourseEntity(courseToUpdate.getId());
         
         if (courseEntityToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         
-        courseEntityToUpdate.setName(courseToUpdate.name);
+        courseEntityToUpdate.setName(courseToUpdate.getName());
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());
@@ -142,17 +142,15 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseAttributes entityToDelete = new CourseAttributes();
-        entityToDelete.id = courseId;
+        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course");
         
         deleteEntity(entityToDelete);
     }
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {
-        return getCourseEntity(((CourseAttributes) attributes).id);
+        return getCourseEntity(((CourseAttributes) attributes).getId());
     }
-
 
     private Course getCourseEntity(String courseId) {
         Query q = getPM().newQuery(Course.class);

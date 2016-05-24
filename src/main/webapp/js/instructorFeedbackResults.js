@@ -44,13 +44,13 @@ function submitFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                } else {
                     var table = data.sessionResultsHtmlTableAsString;
                     content.html('<small>' + table + '</small>');
                     ajaxStatus.html(data.ajaxStatus);
-                } else {
-                    ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
                 setStatusMessage(data.statusForAjax);
             }, 500);
@@ -75,14 +75,14 @@ function showHideStats() {
 //
 // When at least one of the nested panels in a panel is found to contain the search text in its title,
 // the panel will be shown
-function filterResults(searchText) {
+function filterResults(rawSearchText) {
     // Reduce white spaces to only 1 white space
-    searchText = (searchText.split('\\s+')).join(' ');
+    var searchText = rawSearchText.split('\\s+').join(' ');
 
-    // all panel text will be sorted in post-order 
+    // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
 
-    // a stack that stores parent panels that are pending on 
+    // a stack that stores parent panels that are pending on
     // the search result from the child panels to decide show/hide
     var showStack = [];
 
@@ -99,13 +99,12 @@ function filterResults(searchText) {
 
         var panelParent = $(panel).parent().closest('div.panel');
 
-        // reset traversed parent panel stack & pending parent panel stack 
+        // reset traversed parent panel stack & pending parent panel stack
         // to the parent of current panel
         while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
             parentStack.pop();
             if (showStack.length > 0) {
-                var s = showStack.pop();
-                $(s).hide();
+                $(showStack.pop()).hide();
             }
         }
 
@@ -113,8 +112,7 @@ function filterResults(searchText) {
         if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
             // pop and show all parent panels from the showStack
             while (showStack.length > 0) {
-                var s = showStack.pop();
-                $(s).show();
+                $(showStack.pop()).hide();
             }
 
             // show current panel
@@ -130,13 +128,13 @@ function filterResults(searchText) {
                 // increment counter to skip child panels that have been shown
                 p += childrenSize;
             }
-        } else if (!hasChild) {
-            // current panel text does not match with search text & current panel has no child panels
-            $(panel).hide();
-        } else {
+        } else if (hasChild) {
             // current panel text does not match with search text & current panel has child panels
             // add current panel to pending parent panel stack
             showStack.push(panel);
+        } else {
+            // current panel text does not match with search text & current panel has no child panels
+            $(panel).hide();
         }
 
         if (hasChild) {
@@ -147,8 +145,7 @@ function filterResults(searchText) {
 
     // hide panels that are still remain on the showStack
     while (showStack.length > 0) {
-        var s = showStack.pop();
-        $(s).hide();
+        $(showStack.pop()).hide();
     }
 }
 
@@ -156,12 +153,12 @@ function updateResultsFilter() {
     filterResults($('#results-search-box').val());
 }
 
-function toggleCollapse(e, panels) {
+function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
+    var panels = pans || $('div.panel-collapse');
     
     if ($(e).html().trim().startsWith(expand)) {
-        panels = panels || $('div.panel-collapse');
         isExpandingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
@@ -180,20 +177,19 @@ function toggleCollapse(e, panels) {
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        panels = panels || $('div.panel-collapse');
         isCollapsingAll = true;
-        var i = 0;
-        for (var idx = 0; idx < panels.length; idx++) {
-            if ($(panels[idx]).attr('class').indexOf('in') !== -1) {
-                setTimeout(hideSingleCollapse, 100 * i, panels[idx]);
-                i++;
+        var j = 0;
+        for (var k = 0; k < panels.length; k++) {
+            if ($(panels[k]).attr('class').indexOf('in') !== -1) {
+                setTimeout(hideSingleCollapse, 100 * j, panels[k]);
+                j++;
             }
         }
-        var htmlString = $(e).html();
-        htmlString = htmlString.replace(collapse, expand);
-        $(e).html(htmlString);
-        var tooltipString = $(e).attr('data-original-title').replace(collapse, expand);
-        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+        var htmlStr = $(e).html();
+        htmlStr = htmlStr.replace(collapse, expand);
+        $(e).html(htmlStr);
+        var tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
+        $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
     }
 }
 
@@ -203,7 +199,8 @@ function getNextId(e) {
     return nextId;
 }
 
-function bindCollapseEvents(panels, numPanels) {
+function bindCollapseEvents(panels, nPanels) {
+    var numPanels = nPanels;
     for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
@@ -224,8 +221,8 @@ function bindCollapseEvents(panels, numPanels) {
 }
 
 /**
- * For ajax error handling. 
- * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting 
+ * For ajax error handling.
+ * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting
  * the user to retry.
  */
 function displayAjaxRetryMessageForPanelHeading($element) {
@@ -258,7 +255,7 @@ $(document).ready(function() {
         toggleCollapse(this, panels);
     });
 
-    $('#results-search-box').keyup(function(e) {
+    $('#results-search-box').keyup(function() {
         updateResultsFilter();
     });
 
@@ -280,7 +277,7 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function(e) {
+    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 

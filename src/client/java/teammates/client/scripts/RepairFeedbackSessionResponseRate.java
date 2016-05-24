@@ -45,8 +45,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     
     // if isPreview is true, then no writes will be done 
     private boolean isPreview = true;
-    
-    
+
     // if numDays is set to > 0,
     // then feedback sessions with start date from (now - numDays) days to the current time
     // will be retrieved and checked
@@ -57,10 +56,9 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     // the feedback session specified will be operated upon.
     // If either of courseId or feedbackSessionName is null,
     // then all feedback sessions will be checked
-    private String courseId = null;
-    private String feedbackSessionName = null;
-    
-    
+    private String courseId;
+    private String feedbackSessionName;
+
     private Map<String, Set<String>> emailsInCourse = new HashMap<>();
     
     public static void main(String[] args) throws IOException {
@@ -116,7 +114,6 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         }
     }
 
-    
     private Set<String> getNonRespondentsForFeedbackSession(
                                     FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException {
         
@@ -126,8 +123,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         
         Set<String> respondents = new HashSet<>(respondingInstructorsEmail);
         respondents.addAll(respondingStudentsEmail);
-        
-        
+
         Set<String> nonRespondentsEmails;
         // obtain emails of every student and instructor in the course
         if (emailsInCourse.containsKey(feedbackSession.courseId)) {
@@ -146,7 +142,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                 if (possibleRespondent instanceof StudentAttributes) {
                     StudentAttributes student = (StudentAttributes) possibleRespondent;
                     nonRespondentsEmails.add(student.email);
-                } else if (possibleRespondent instanceof InstructorAttributes){
+                } else if (possibleRespondent instanceof InstructorAttributes) {
                     InstructorAttributes instructor = (InstructorAttributes) possibleRespondent;
                     nonRespondentsEmails.add(instructor.email);
                 }

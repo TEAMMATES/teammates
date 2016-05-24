@@ -1,9 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,11 +75,11 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("3 sessions unpublished, 1 published and emails unsent");
         int counter = 0;
 
-        while (counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if (FeedbackSessionPublishedCallback.verifyTaskCount(1)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(1)) {
                 break;
             }
         }
@@ -119,11 +115,11 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 
         counter = 0;
 
-        while (counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if (FeedbackSessionPublishedCallback.verifyTaskCount(3)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(3)) {
                 break;
             }
         }
@@ -134,22 +130,22 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         
         counter = 0;
 
-        while (counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if (FeedbackSessionPublishedCallback.verifyTaskCount(2)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(2)) {
                 break;
             }
         }
-        if (counter == 10){
+        if (counter == 10) {
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 2);
         }
        
     }
 
     @Test
-    public void testFeedbackSessionPublishedMailAction() throws Exception{
+    public void testFeedbackSessionPublishedMailAction() throws Exception {
 
         ______TS("MimeMessage Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
@@ -181,7 +177,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("testing whether no more mails are sent");
         FeedbackSessionPublishedCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionPublishedEmails();
-        if (!FeedbackSessionPublishedCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionPublishedCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 0);
         }
     }

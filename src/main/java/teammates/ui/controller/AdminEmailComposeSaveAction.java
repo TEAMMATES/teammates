@@ -35,13 +35,13 @@ public class AdminEmailComposeSaveAction extends Action {
         
         addressReceiver.add(addressReceiverListString);
         
-        if (groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty()){
+        if (groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty()) {
             groupReceiver.add(groupReceiverListFileKey);
         }
         
         boolean isNewDraft = emailId == null;
         
-        if (isNewDraft){
+        if (isNewDraft) {
             //this is a new email draft, so create a new admin email entity
             createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
         } else {            
@@ -51,7 +51,7 @@ public class AdminEmailComposeSaveAction extends Action {
             //retrieve the previous draft email
             AdminEmailAttributes previousDraft = logic.getAdminEmailById(emailId);
             
-            if (previousDraft == null){
+            if (previousDraft == null) {
                 //the previous draft is not found (eg. deleted by accident when editing) 
                 createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
             } else {
@@ -60,7 +60,7 @@ public class AdminEmailComposeSaveAction extends Action {
             }         
         }
         
-        if (isError){
+        if (isError) {
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
                                                         groupReceiver,
@@ -68,8 +68,8 @@ public class AdminEmailComposeSaveAction extends Action {
                                                         null);    
             data.emailToEdit.emailId = emailId;
         } else {
-            statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>" +
-                            "Subject: " + subject;
+            statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
+                    + "Subject: " + subject;
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS)); 
         }
         
@@ -81,7 +81,7 @@ public class AdminEmailComposeSaveAction extends Action {
                                           List<String> addressReceiver,
                                           List<String> groupReceiver,
                                           String content
-                                          ){
+                                          ) {
         
         AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
                                                                  addressReceiver,
@@ -100,7 +100,7 @@ public class AdminEmailComposeSaveAction extends Action {
     private void createAndSaveNewDraft(String subject, 
                                        List<String> addressReceiver,
                                        List<String> groupReceiver,
-                                       String content){
+                                       String content) {
         
         AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
                                                                  addressReceiver,

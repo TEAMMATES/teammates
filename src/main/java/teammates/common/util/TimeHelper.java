@@ -17,7 +17,7 @@ import teammates.common.util.Const.SystemParams;
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  * Time zone is assumed as UTC unless specifically mentioned.
  */
-public class TimeHelper {
+public final class TimeHelper {
     
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
@@ -29,7 +29,7 @@ public class TimeHelper {
      *Note: No DST is handled here.
      */
     
-    static{
+    static {
         map("-12.0", "Baker Island, Howland Island");
         map("-11.0", "American Samoa, Niue");
         map("-10.0", "Hawaii, Cook Islands");
@@ -71,13 +71,17 @@ public class TimeHelper {
         map("14.0", "Line Islands");
         
     }
+    
+    private TimeHelper() {
+        // utility class
+    }
         
     private static void map(String timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
     
-    public static String getCitiesForTimeZone(String zone){
+    public static String getCitiesForTimeZone(String zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
@@ -162,7 +166,7 @@ public class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    public static String convertToOptionValueInTimeDropDown(Date date) { 
+    public static int convertToOptionValueInTimeDropDown(Date date) { 
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
@@ -170,7 +174,7 @@ public class TimeHelper {
         int minutes = c.get(Calendar.MINUTE);
         hour = hour == 0 ? 24 : hour;
         hour = hour == 23 && minutes == 59 ? 24 : hour;
-        return hour + "";
+        return hour;
     }
     
     /**
@@ -178,12 +182,12 @@ public class TimeHelper {
      * Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
-        String optionValue = convertToOptionValueInTimeDropDown(date);
-        if (optionValue.equals("24")) {
+        int optionValue = convertToOptionValueInTimeDropDown(date);
+        if (optionValue == 24) {
             return "2359H";
-        } else if (optionValue.length() == 1) {
+        } else if (optionValue >= 0 && optionValue < 10) {
             return "0" + optionValue + "00H";
-        } else if (optionValue.length() == 2) {
+        } else if (optionValue >= 10 && optionValue < 24) {
             return optionValue + "00H";
         } else {
             throw new RuntimeException("Unrecognized time option: " + optionValue);
@@ -194,8 +198,9 @@ public class TimeHelper {
      * Formats a date in the format dd/MM/yyyy
      */
     public static String formatDate(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
@@ -206,8 +211,9 @@ public class TimeHelper {
      * 2:04 PM<br />
      */
     public static String formatTime12H(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
@@ -237,8 +243,9 @@ public class TimeHelper {
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
     public static String formatDateTimeForInstructorHomePage(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -253,8 +260,9 @@ public class TimeHelper {
     }
 
     public static String calendarToString(Calendar c) {
-        if (c == null)
+        if (c == null) {
             return "";
+        }
         return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
     }
 
@@ -273,8 +281,9 @@ public class TimeHelper {
 
     public static Calendar dateToCalendar(Date date) {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        if (date == null)
+        if (date == null) {
             return c;
+        }
         c.setTime(date);
         return c;
     }
@@ -303,11 +312,11 @@ public class TimeHelper {
             return false;
         }
         
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
-            date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-            date.equals(Const.TIME_REPRESENTS_LATER) ||
-            date.equals(Const.TIME_REPRESENTS_NEVER) ||
-            date.equals(Const.TIME_REPRESENTS_NOW);
+        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) 
+               || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+               || date.equals(Const.TIME_REPRESENTS_LATER)
+               || date.equals(Const.TIME_REPRESENTS_NEVER)
+               || date.equals(Const.TIME_REPRESENTS_NOW);
         
     }
 
@@ -384,12 +393,14 @@ public class TimeHelper {
      * Example: 1200 milliseconds ---> 0:1:200
      */
     
-    public static String convertToStandardDuration(Long timeInMilliseconds){
+    public static String convertToStandardDuration(Long timeInMilliseconds) {
      
-        return timeInMilliseconds != null ? String.format("%d:%d:%d",
-                                                         timeInMilliseconds / 60000,
-                                                         timeInMilliseconds / 1000,
-                                                         timeInMilliseconds % 1000) : "";
+        return timeInMilliseconds == null 
+             ? "" 
+             : String.format("%d:%d:%d",
+                             timeInMilliseconds / 60000,
+                             timeInMilliseconds / 1000,
+                             timeInMilliseconds % 1000);
     }
     
   
@@ -415,26 +426,19 @@ public class TimeHelper {
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
-        String oldDateString = date;
         SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        Date d;
         try {
-            d = sdf.parse(oldDateString);
+            Date d = sdf.parse(date);
             sdf.applyPattern(NEW_FORMAT);
-            date = sdf.format(d);
+            int intHour = Integer.parseInt(hour);
+            String amOrPm = intHour >= 12 ? "PM" : "AM";
+            intHour = intHour >= 13 ? intHour - 12 : intHour;
+            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
         } catch (ParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
         
-        int intHour = Integer.parseInt(hour);
-        
-        String amOrPm = intHour >= 12 ? "PM" : "AM";
-        intHour = intHour >= 13 ? intHour - 12 : intHour;
-        
-        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-
-        return formatedStr;
 
     }
 

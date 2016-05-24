@@ -30,28 +30,29 @@ public class EmailWorkerServlet extends WorkerServlet {
         log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
         switch(typeOfMail) {
-            case FEEDBACK_CLOSING:
-                emailObj = new FeedbackSessionClosingMailAction(req);
-                break;
-            case FEEDBACK_OPENING:
-                emailObj = new FeedbackSessionOpeningMailAction(req);
-                break;
-            case FEEDBACK_PUBLISHED:
-                emailObj = new FeedbackSessionPublishedMailAction(req);
-                break;
-            case PENDING_COMMENT_CLEARED:
-                emailObj = new PendingCommentClearedMailAction(req);
-                break;
-            default:
-                log.severe("Type of email is null");
-                responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+        case FEEDBACK_CLOSING:
+            emailObj = new FeedbackSessionClosingMailAction(req);
+            break;
+        case FEEDBACK_OPENING:
+            emailObj = new FeedbackSessionOpeningMailAction(req);
+            break;
+        case FEEDBACK_PUBLISHED:
+            emailObj = new FeedbackSessionPublishedMailAction(req);
+            break;
+        case PENDING_COMMENT_CLEARED:
+            emailObj = new PendingCommentClearedMailAction(req);
+            break;
+        default:
+            log.severe("Type of email is null");
+            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+            break;
         }
         
-        if (emailObj != null) {
-            emailObj.sendEmails();
-        } else {
+        if (emailObj == null) {
             log.severe("Email object is null");
             responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+        } else {
+            emailObj.sendEmails();
         }
         
         resp.setStatus(responseCode);

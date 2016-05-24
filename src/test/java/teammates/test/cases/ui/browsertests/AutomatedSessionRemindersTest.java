@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,8 +44,8 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        int _23hours59min_InMilliSeconds = (60 * 23 + 59) * 60 * 1000;
-        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
+        int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
+        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes);
 
         //Opening time for one feedback session already set to some time in the past.
         
@@ -57,19 +56,19 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testFeedbackSessionOpeningReminders(){
+    public void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
-    public void testFeedbackSesssionClosingReminders(){
+    public void testFeedbackSesssionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
-    public void testFeedbackSessionPublishedReminders(){
+    public void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(browser, publishedRemindersUrl, GenericAppPage.class);
     }

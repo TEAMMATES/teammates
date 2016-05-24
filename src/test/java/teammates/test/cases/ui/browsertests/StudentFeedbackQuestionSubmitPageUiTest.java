@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -30,8 +25,6 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
     private FeedbackQuestionSubmitPage submitPage;
-    private FeedbackQuestionAttributes fqOpen;
-    private FeedbackQuestionAttributes fqClosed;
     private FeedbackQuestionAttributes fq;
     private static Date fsOriginalEndTime;
 
@@ -58,8 +51,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         logout(browser);
         
-        fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
-        fqClosed = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
+        FeedbackQuestionAttributes fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        FeedbackQuestionAttributes fqClosed = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
         
         // Open session
         StudentAttributes unregStudent = testData.students.get("Unregistered");
@@ -99,7 +92,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
 
-        assertEquals(false, submitPage.getSubmitButton().isEnabled());
+        assertFalse(submitPage.getSubmitButton().isEnabled());
 
         ______TS("Closed session");
 
@@ -172,7 +165,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         // test if the button is disabled after the response has been submitted
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
-        assertEquals(false, submitPage.getSubmitButton().isEnabled());
+        assertFalse(submitPage.getSubmitButton().isEnabled());
 
         // test the response submitted during the grace period
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");

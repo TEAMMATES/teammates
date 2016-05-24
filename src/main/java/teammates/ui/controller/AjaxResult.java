@@ -34,14 +34,14 @@ public class AjaxResult extends ActionResult {
     public AjaxResult(AccountAttributes account,
                       List<StatusMessage> status, 
                       PageData data, boolean isClearingStatusMessage) {
-          this(account, status, data);
-          this.isClearingStatusMessage = isClearingStatusMessage;
+        this(account, status, data);
+        this.isClearingStatusMessage = isClearingStatusMessage;
     }
     
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         
-        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);
+        req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
 
         addStatusMessagesToPageData(req);
 

@@ -17,7 +17,7 @@ public class Config {
 
     private static Logger log = Utils.getLogger();
     private static Config instance = inst();
-    private static Properties props = null;
+    private static Properties props;
     
     /** The value of the "app.url" in build.properties file */
     public static String APP_URL;
@@ -66,7 +66,7 @@ public class Config {
     /**
      * @return The app ID e.g., "teammatesv4"
      */
-    public String getAppId(){
+    public String getAppId() {
         return SystemProperty.applicationId.get();
     }
 
@@ -86,7 +86,7 @@ public class Config {
         return SystemProperty.environment.value() == SystemProperty.Environment.Value.Development;
     }
 
-    private static void initProperties(){
+    private static void initProperties() {
         APP_URL = instance.getAppUrl();
         GCS_BUCKETNAME = instance.getGcsBucketname();
         BACKDOOR_KEY = instance.getBackdoorKey();
@@ -119,12 +119,12 @@ public class Config {
         return props.getProperty("app.backdoor.key");
     }
 
-    private String getEncyptionKey(){
+    private String getEncyptionKey() {
         return props.getProperty("app.encryption.key");
     }
 
     private int getPersistenceCheckduration() {
-        return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
+        return Integer.valueOf(props.getProperty("app.persistence.checkduration"));
     }
 
     private String getSupportEmail() {

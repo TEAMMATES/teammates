@@ -14,6 +14,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackSessionTemplates;
@@ -42,8 +43,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 instructor,
                 logic.getCourse(courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -66,17 +65,18 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
+                log.severe(TeammatesException.toStringWithStackTrace(e));
             }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " +
-                    "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime +
-                    "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
-                    "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " 
+                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
+                    + "<span class=\"bold\">From:</span> " + fs.startTime 
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
@@ -102,6 +102,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
                                        feedbackSessionType);
         
@@ -118,7 +119,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
-        for (FeedbackQuestionAttributes fqa : questions){
+        for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }
@@ -157,38 +158,44 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-                newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
+            newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            break;
+        default:
+            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+            break;
         }
         
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-                newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-                newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-                newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                // overwrite if private
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
-                break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
+            newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
+            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
+            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            // overwrite if private
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+            break;
+        default:
+            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
+            break;
         }
         
         String[] sendReminderEmailsArray =

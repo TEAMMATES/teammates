@@ -26,6 +26,7 @@ import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+
 /**
  * Receives requests from the Browser, executes the matching action and sends 
  * the result back to the Browser. The result can be a page to view or instructions
@@ -130,7 +131,7 @@ public class ControllerServlet extends HttpServlet {
         
     }
     
-    private void cleanUpStatusMessageInSession(HttpServletRequest req){
+    private void cleanUpStatusMessageInSession(HttpServletRequest req) {
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
     }
 }

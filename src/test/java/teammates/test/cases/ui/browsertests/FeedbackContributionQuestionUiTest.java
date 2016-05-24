@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,15 +28,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
-    
-    
+
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         
         //TODO: move/create other Contribution question related UI tests here.
@@ -57,8 +51,6 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
         testAddContributionQuestionAsSecondQuestion();
     }
-    
-    
 
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
@@ -76,7 +68,6 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
         
     }
-    
 
     public void testCustomizeOptions() {
 
@@ -105,7 +96,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         //Check invalid feedback paths are disabled.
         //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
@@ -119,7 +110,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
-    public void testDeleteQuestionAction(){
+    public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
@@ -137,7 +128,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
      * has options invalid for contribution questions. This is to prevent invalid options
      * from being copied over to the contribution question.
      */
-    private void testAddContributionQuestionAsSecondQuestion(){
+    private void testAddContributionQuestionAsSecondQuestion() {
         ______TS("CONTRIB: add as second question");
 
         feedbackEditPage.selectNewQuestionType("Essay question");

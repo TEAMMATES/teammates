@@ -8,12 +8,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
@@ -39,7 +39,7 @@ import teammates.test.util.FileHelper;
 public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     protected String currentFileName = "";
-    protected boolean hasPreviousEntity = false;
+    protected boolean hasPreviousEntity;
     protected Set<String> accountsSaved = new HashSet<String>();
     
     public static void main(String[] args) throws IOException {
@@ -49,7 +49,7 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void doOperation() {
         Datastore.initialize();
-        Vector<String> logs = getModifiedLogs();
+        List<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
         backupFileDirectory = "BackupFiles/Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
@@ -59,8 +59,8 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities
      */
-    private Vector<String> getModifiedLogs() {
-        Vector<String> modifiedLogs = new Vector<String>();
+    private List<String> getModifiedLogs() {
+        List<String> modifiedLogs = new ArrayList<String>();
         TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
@@ -75,9 +75,7 @@ public class OfflineBackup extends RemoteApiClient {
                 modifiedLogs.add(logMessage);
             }
             in.close();
-        } 
-        
-        catch (IOException e) { 
+        } catch (IOException e) { 
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         } 
         
@@ -88,13 +86,13 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Look through the logs and extracts all recently modified courses. 
      */
-    private Set<String> extractModifiedCourseIds(Vector<String> modifiedLogs) {
+    private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
         
         //Extracts the course Ids to be backup from the logs
         Set<String> courses = new HashSet<String>();
         for (String course : modifiedLogs) {
             course = course.trim();
-            if (!course.equals("")) {
+            if (!course.isEmpty()) {
                 courses.add(course);
             }
             
@@ -118,11 +116,11 @@ public class OfflineBackup extends RemoteApiClient {
     protected void createBackupDirectory(String directoryName) {
         File directory = new File(directoryName);
 
-       try {
-           directory.mkdirs();
-       } catch (SecurityException se) {
-           System.out.println("Error making directory: " + directoryName);
-       }        
+        try {
+            directory.mkdirs();
+        } catch (SecurityException se) {
+            System.out.println("Error making directory: " + directoryName);
+        }        
        
     }
     
@@ -189,7 +187,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
-        for (CommentAttributes comment: comments) {
+        for (CommentAttributes comment : comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
@@ -208,7 +206,7 @@ public class OfflineBackup extends RemoteApiClient {
         }
         
         FileHelper.appendToFile(currentFileName, "\t\"courses\":{\n");
-        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.id));
+        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.getId()));
         
         hasPreviousEntity = false;
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
@@ -330,7 +328,7 @@ public class OfflineBackup extends RemoteApiClient {
             FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
             
             for (StudentAttributes student : students) {
-                if (student != null && student.googleId != null && !student.googleId.equals("")) {
+                if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
                     StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
                     if (profile != null) {
                         saveProfile(profile);
@@ -349,18 +347,17 @@ public class OfflineBackup extends RemoteApiClient {
      *  Perform formatting of the string to ensure that it conforms to json formatting
      */
     protected String formatJsonString(String entityJsonString, String name) {
-        String formattedString = "";
+        StringBuilder formattedString = new StringBuilder();
         
         if (hasPreviousEntity) {
-            formattedString += ",\n";
+            formattedString.append(",\n");
         } else {
             hasPreviousEntity = true;
         }
         
-        entityJsonString = entityJsonString.replace("\n", "\n\t\t");
-        formattedString += "\t\t\"" + name + "\":" + entityJsonString;
+        formattedString.append("\t\t\"" + name + "\":" + entityJsonString.replace("\n", "\n\t\t"));
         
-        return formattedString;
+        return formattedString.toString();
     }
     
     /** 
