@@ -78,6 +78,12 @@
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
     <module name="RedundantImport"/>
+    <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="groups" value="/^javax?\./,org,teammates,com"/>
+      <property name="separated" value="true"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>

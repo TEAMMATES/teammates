@@ -8,9 +8,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Course;
 
 /**

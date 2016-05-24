@@ -3,18 +3,18 @@ package teammates.ui.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.log.AppLogLine;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.log.AppLogLine;
 
 public class AdminEmailLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;

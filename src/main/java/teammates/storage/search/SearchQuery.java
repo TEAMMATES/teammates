@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.QueryOptions;
-
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
+
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Query;
+import com.google.appengine.api.search.QueryOptions;
 
 /**
  * The SearchQuery object that defines how we query {@link Document}

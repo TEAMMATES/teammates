@@ -7,12 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.StatusMessage;
 
 public class ImageResult extends ActionResult {
 

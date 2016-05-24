@@ -10,8 +10,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends

@@ -1,12 +1,12 @@
 package teammates.ui.controller;
 
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 public class AdminEmailTrashDeleteAction extends Action {
 
