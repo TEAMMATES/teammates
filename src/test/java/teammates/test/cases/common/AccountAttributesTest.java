@@ -19,7 +19,7 @@ public class AccountAttributesTest extends BaseTestCase {
     //TODO: test toString() method
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     

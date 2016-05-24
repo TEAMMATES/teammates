@@ -34,7 +34,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRankQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -483,7 +483,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

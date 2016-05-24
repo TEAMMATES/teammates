@@ -29,7 +29,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -38,7 +38,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception {    
+    public void allTests() {    
         testContent();
         testSearch();        
     }
@@ -279,7 +279,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

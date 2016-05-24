@@ -14,7 +14,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

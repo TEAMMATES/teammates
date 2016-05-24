@@ -78,7 +78,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     

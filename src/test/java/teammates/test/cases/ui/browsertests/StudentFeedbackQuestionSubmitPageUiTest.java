@@ -29,7 +29,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static Date fsOriginalEndTime;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -228,7 +228,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

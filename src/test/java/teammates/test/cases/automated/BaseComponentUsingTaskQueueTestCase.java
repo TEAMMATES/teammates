@@ -16,14 +16,14 @@ public class BaseComponentUsingTaskQueueTestCase extends BaseComponentTestCase {
     
     @Override
     @BeforeTest
-    public void testSetUp() throws Exception {
+    public void testSetUp() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
     }
 
     @Override
     @AfterTest
-    public void testTearDown() throws Exception {
+    public void testTearDown() {
         gaeSimulation.tearDown();
     }
 }
