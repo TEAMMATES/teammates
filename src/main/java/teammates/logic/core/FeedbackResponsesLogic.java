@@ -533,9 +533,8 @@ public class FeedbackResponsesLogic {
 
     }
 
-    public boolean updateFeedbackResponseForChangingTeam(
-            StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) {
+    public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackQuestionAttributes question = fqLogic
                 .getFeedbackQuestion(response.feedbackQuestionId);
@@ -556,6 +555,7 @@ public class FeedbackResponsesLogic {
 
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
+            fsLogic.updateSessionResponseRateForDeletedStudentResponse(response);
         }
         
         return shouldDeleteResponse;
