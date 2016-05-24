@@ -77,6 +77,7 @@
     <module name="PackageDeclaration"/>
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
+    <module name="RedundantImport"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
