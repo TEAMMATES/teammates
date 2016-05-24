@@ -48,6 +48,15 @@ public class InstructorStudentRecordsPage extends AppPage {
         return this;
     }
 
+    public void addCommentWithVisibility(String commentText, int id) {
+        addCommentLink.click();
+        commentTextBox.sendKeys(commentText);
+        getVisibilityToggleLink(id).click();
+        clickAllCheckboxes(id);
+        saveCommentLink.click();
+        waitForPageToLoad();
+    }
+
     public InstructorStudentRecordsPage clickDeleteCommentAndCancel(int id) {
         clickAndCancel(getCommentDeleteLink(id));
         waitForPageToLoad();
@@ -67,6 +76,15 @@ public class InstructorStudentRecordsPage extends AppPage {
         getCommentSaveLink(id).click();
         waitForPageToLoad();
         return this;
+    }
+    
+    public void clickAllCheckboxes(int id){
+        List<WebElement> answerCheckboxes = browser.driver
+                                            .findElement(By.id("visibility-options" + id))
+                                            .findElements(By.className("answerCheckbox"));
+        for (WebElement checkbox : answerCheckboxes) {
+            checkbox.click();
+        }
     }
 
     public boolean verifyAddCommentButtonClick() {
@@ -113,6 +131,10 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     private WebElement getCommentSaveLink(int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
+    }
+    
+    private WebElement getVisibilityToggleLink(int id) {
+        return browser.driver.findElement(By.id("visibility-options-trigger" + id));
     }
 
     /**
