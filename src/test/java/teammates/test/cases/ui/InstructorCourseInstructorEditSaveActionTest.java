@@ -18,7 +18,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
