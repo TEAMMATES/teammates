@@ -70,7 +70,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingInstructorList = fs.getRespondingInstructorList() == null ? new HashSet<String>()
                                                                                   : fs.getRespondingInstructorList();
         this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
-                                                                            : fs.getRespondingStudentList();
+                                                                           : fs.getRespondingStudentList();
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId, 
