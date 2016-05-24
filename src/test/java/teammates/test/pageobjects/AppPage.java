@@ -476,7 +476,7 @@ public abstract class AppPage {
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
-    public void saveCurrentPage(String filePath, String content) throws Exception {
+    public void saveCurrentPage(String filePath, String content) throws IOException {
         FileWriter output = new FileWriter(new File(filePath));
         output.write(content);
         output.close();
@@ -843,25 +843,19 @@ public abstract class AppPage {
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
-    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
-        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
-            return regenerateHtmlFile(filePath, content, isPart);
-        }
-        return false;
+    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
+        return Boolean.parseBoolean(System.getProperty("godmode"))
+                && regenerateHtmlFile(filePath, content, isPart);
     }
     
-    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
+    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
         if (content == null || content.isEmpty()) { 
             return false;
         }
         
         TestProperties.inst().verifyReadyForGodMode();
-        try {
-            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-            saveCurrentPage(filePath, processedPageSource);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+        saveCurrentPage(filePath, processedPageSource);
         return true;
     }
     
