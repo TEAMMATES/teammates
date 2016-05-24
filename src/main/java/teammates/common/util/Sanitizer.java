@@ -283,7 +283,8 @@ public final class Sanitizer {
      */
     public static String convertStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
-        int startPos = 0, i = 0;
+        int startPos = 0;
+        int i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;

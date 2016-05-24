@@ -648,7 +648,9 @@ public class FieldValidator {
             return "";
         }
 
-        String mainFieldName, earlierFieldName, laterFieldName;
+        String mainFieldName;
+        String earlierFieldName;
+        String laterFieldName;
         
         if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
             mainFieldName = FEEDBACK_SESSION_NAME;

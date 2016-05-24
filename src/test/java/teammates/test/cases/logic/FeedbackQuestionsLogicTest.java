@@ -422,7 +422,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
 
     public void testGetFeedbackQuestionsForInstructor() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for instructors and self");
         
@@ -501,7 +503,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
 
     public void testGetFeedbackQuestionsForStudents() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for students");
         
@@ -554,7 +558,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testIsQuestionHasResponses() {
-        FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
+        FeedbackQuestionAttributes questionWithResponse;
+        FeedbackQuestionAttributes questionWithoutResponse;
         
         ______TS("Check that a question has some responses");
         
