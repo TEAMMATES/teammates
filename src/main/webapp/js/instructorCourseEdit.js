@@ -73,7 +73,7 @@ function showNewInstructorForm() {
     $('#panelAddInstructor').show();
     $('#btnShowNewInstructorForm').hide();
     if (hasClickedAddInstructorBefore === false) {
-    	var index = $("#new-instructor-index").val();
+        var index = $('#new-instructor-index').val();
         checkTheRoleThatApplies(index);
         bindChangingRole(index);
         hasClickedAddInstructorBefore = true;
