@@ -72,7 +72,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
+    private FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

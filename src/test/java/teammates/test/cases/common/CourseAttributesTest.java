@@ -17,7 +17,7 @@ public class CourseAttributesTest extends BaseTestCase {
     //TODO: add test for constructor
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 

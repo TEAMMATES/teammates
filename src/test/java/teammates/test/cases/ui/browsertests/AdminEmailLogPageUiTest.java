@@ -22,7 +22,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     public static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
        
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
@@ -49,7 +49,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
@@ -59,11 +59,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailLogDataDisplayCorrect() {
-        if (emailLogPage.isElementPresent(By.className("table"))) {
-            return isEmailLogTableHeaderCorrect();
-        } else {     
-            return false;
-        }
+        return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();
     }
 
     private boolean isEmailLogTableHeaderCorrect() {

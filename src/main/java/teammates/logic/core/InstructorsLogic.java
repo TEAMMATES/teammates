@@ -301,8 +301,7 @@ public class InstructorsLogic {
     }
     
     @SuppressWarnings("deprecation")
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
-           throws EntityDoesNotExistException {
+    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
         
         String joinLink = "";
         Emails emailMgr = new Emails();
@@ -326,16 +325,24 @@ public class InstructorsLogic {
         String error;
         
         error = validator.getInvalidityInfoForPersonName(shortName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForInstituteName(institute);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         //No validation for isInstructor and createdAt fields.
         return errors;

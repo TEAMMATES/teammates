@@ -9,7 +9,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
@@ -20,7 +19,7 @@ import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 public class InstructorStudentListPageAction extends Action {
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
 
         new GateKeeper().verifyInstructorPrivileges(account);
 
@@ -51,7 +50,7 @@ public class InstructorStudentListPageAction extends Action {
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
         
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
-        for (CourseAttributes course: courses) {
+        for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);

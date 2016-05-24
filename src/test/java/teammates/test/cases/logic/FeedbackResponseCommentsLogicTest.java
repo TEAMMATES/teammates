@@ -30,7 +30,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public void setupClass() throws Exception {
+    public void setupClass() {
         printTestClassHeader();
     }
     
@@ -108,7 +108,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponseComments() throws Exception {
+    public void testGetFeedbackResponseComments() {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         List<FeedbackResponseCommentAttributes> expectedFrComments = 
                 new ArrayList<FeedbackResponseCommentAttributes>();
@@ -286,7 +286,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
+    public void testDeleteFeedbackResponseCommentFromCourse() {
         
         ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
@@ -360,7 +360,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                                  existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+        for (FeedbackResponseCommentAttributes c : existingFrComments) {
             if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;

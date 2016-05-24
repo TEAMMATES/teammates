@@ -9,6 +9,6 @@ import teammates.common.util.Const;
  * <br> * The total number of students who submitted .
  */
 public class FeedbackSessionStats {
-        public int submittedTotal = Const.INT_UNINITIALIZED;
-        public int expectedTotal = Const.INT_UNINITIALIZED;
+    public int submittedTotal = Const.INT_UNINITIALIZED;
+    public int expectedTotal = Const.INT_UNINITIALIZED;
 }

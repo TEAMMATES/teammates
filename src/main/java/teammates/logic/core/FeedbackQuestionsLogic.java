@@ -278,8 +278,7 @@ public class FeedbackQuestionsLogic {
      * instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
-            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -323,8 +322,7 @@ public class FeedbackQuestionsLogic {
      * that students can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
-            List<FeedbackQuestionAttributes> allQuestions) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -421,11 +419,11 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> students_Member = 
+            List<StudentAttributes> teamMembers = 
                 studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : students_Member) {
-                    //accepts self feedback too
-                    recipients.put(student.email, student.name);
+            for (StudentAttributes student : teamMembers) {
+                // accepts self feedback too
+                recipients.put(student.email, student.name);
             }
             break;
         case NONE:
@@ -697,10 +695,9 @@ public class FeedbackQuestionsLogic {
         
         if (questionToDelete == null) {
             return; // Silently fail if question does not exist.
-        } else {
-            // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
-        }
+        } 
+        // Cascade delete responses for question.
+        frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
         try {

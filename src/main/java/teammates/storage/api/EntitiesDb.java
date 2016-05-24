@@ -11,7 +11,6 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.EntityAttributes;
@@ -273,7 +272,7 @@ public abstract class EntitiesDb {
         }
     }
     
-    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deletePicture(BlobKey key) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
         } catch (Exception e) {
@@ -281,7 +280,7 @@ public abstract class EntitiesDb {
         }
     }
     
-    public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
+    public void deletePictures(BlobKey[] keys) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(keys);
         } catch (Exception e) {
@@ -319,9 +318,8 @@ public abstract class EntitiesDb {
         try {
             if (query.getFilterSize() > 0) {
                 return SearchManager.searchDocuments(indexName, query.toQuery());
-            } else {
-                return null;
             }
+            return null;
         } catch (SearchQueryException e) {
             log.info("Unsupported query for this query string: " + query.toString());
             return null;

@@ -32,6 +32,7 @@ public class FeedbackSessionDetailsBundle {
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionDetailsBundle>() {
+            @Override
             public int compare(FeedbackSessionDetailsBundle fsd1, FeedbackSessionDetailsBundle fsd2) {
                 FeedbackSessionAttributes session1 = fsd1.feedbackSession;
                 FeedbackSessionAttributes session2 = fsd2.feedbackSession;
@@ -59,11 +60,9 @@ public class FeedbackSessionDetailsBundle {
         });
     }
 
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(100);
-        sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-                + Const.EOL)
-          .append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
-        return sb.toString();
+        return "course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName + Const.EOL
+               + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
     }
 }

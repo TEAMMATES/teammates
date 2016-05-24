@@ -354,10 +354,9 @@ public class TeamEvalResult {
             values.append(value).append(' ');
             if (value == NA) {
                 continue;
-            } else {
-                sum += value;
-                count++;
             }
+            sum += value;
+            count++;
         }
         // omit calculation if no data points
         double average = count == 0 ? NA : (double) (sum / count);
@@ -406,6 +405,7 @@ public class TeamEvalResult {
                           .replace(NSU + ".0", "NSU");
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }
@@ -440,7 +440,7 @@ public class TeamEvalResult {
           .append(indentString)
           .append(pointsToString(denormalizedAveragePerceived).replace(
                         Const.EOL, Const.EOL + indentString + filler))
-          .append(divider);
+            .append(divider);
         return sb.toString();
     }
 

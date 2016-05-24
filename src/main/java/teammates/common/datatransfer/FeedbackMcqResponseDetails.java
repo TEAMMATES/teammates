@@ -63,9 +63,8 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerString() {
         if (isOther) {
             return otherFieldContent;
-        } else {
-            return answer;
         }
+        return answer;
     }
 
     @Override

@@ -89,22 +89,31 @@ public class AccountAttributes extends EntityAttributes {
         return institute;
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForInstituteName(institute);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
         // only check profile if the account is proper
@@ -116,11 +125,13 @@ public class AccountAttributes extends EntityAttributes {
         return errors;
     }
 
+    @Override
     public Account toEntity() {
         Assumption.assertNotNull(this.studentProfile);
         return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     
+    @Override
     public String toString() {
         return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
     }

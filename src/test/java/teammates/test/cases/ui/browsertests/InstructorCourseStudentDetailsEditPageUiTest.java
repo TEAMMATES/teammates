@@ -26,7 +26,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -49,9 +49,9 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("content: unregistered student");
         
         AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
-        .withUserId(instructorId)
-        .withCourseId(courseId)
-        .withStudentEmail(testData.students.get("unregisteredStudent").email);
+                                        .withUserId(instructorId)
+                                        .withCourseId(courseId)
+                                        .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.verifyHtmlMainContent("/InstructorCourseStudentEditUnregisteredPage.html");
@@ -103,7 +103,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
     }
 
-    public void testEditAction() throws Exception {
+    public void testEditAction() {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
@@ -140,7 +140,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

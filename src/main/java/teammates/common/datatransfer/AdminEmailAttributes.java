@@ -58,10 +58,14 @@ public class AdminEmailAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfo(FieldType.EMAIL_CONTENT, content);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL_SUBJECT, subject);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
        
         return errors;
     }

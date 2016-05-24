@@ -108,16 +108,15 @@ public class InstructorCommentsPageAction extends Action {
         session.setAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION, isDisplayArchivedCourse);
     }
 
-    private String getCoursePaginationList(List<String> coursePaginationList) 
-            throws EntityDoesNotExistException {
+    private String getCoursePaginationList(List<String> coursePaginationList) {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         java.util.Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             if (isDisplayArchivedCourse 
-             || !isCourseArchived(course, account.googleId) 
-             || course.getId().equals(courseId)) {
+                 || !isCourseArchived(course, account.googleId) 
+                 || course.getId().equals(courseId)) {
                 if (courseId.isEmpty()) {
                     courseId = course.getId();
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);

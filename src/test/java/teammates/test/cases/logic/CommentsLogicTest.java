@@ -369,7 +369,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteComment() throws Exception {
+    public void testDeleteComment() {
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");
@@ -394,25 +394,25 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     // TODO: add tests for those one level down api call if test coverage is considered
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymouse".equals(c.giverEmail));
         }
     }
     
     private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
     private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymous".equals(c.recipients.iterator().next()));
         }
     }
@@ -448,8 +448,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
         try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {

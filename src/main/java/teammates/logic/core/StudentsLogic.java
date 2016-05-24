@@ -404,10 +404,9 @@ public class StudentsLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -427,10 +426,9 @@ public class StudentsLogic {
      * Validates teams for any team name violations
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -468,9 +466,8 @@ public class StudentsLogic {
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
-        } else {
-            return students.get(0).section;
         }
+        return students.get(0).section;
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -497,7 +494,7 @@ public class StudentsLogic {
         }
 
         StringBuilder errorMessage = new StringBuilder();
-        for (String section: invalidSectionList) {
+        for (String section : invalidSectionList) {
             errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 

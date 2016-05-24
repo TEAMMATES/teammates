@@ -1,11 +1,9 @@
 package teammates.logic.publicresource;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,8 +33,7 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     public abstract void doGet(HttpServletRequest req, HttpServletResponse resp);
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) {
               
         try {
             doGet(req, resp);
