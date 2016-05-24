@@ -226,8 +226,8 @@ $(document).ready(function() {
         if (commentToShow.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if (commentToShow.parent().find('li[style*="display: none"]').length !== commentToShow.parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-                // a fbResponse in instructorCommentsPage (html) is made up of a table containing 4 rows
-                commentListRegionForFeedbackResponse.closest('table').show();
+                // a fbResponse in instructorCommentsPage (html) is made up of 4 rows in a table
+                commentListRegionForFeedbackResponse.siblings().andSelf().show();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
@@ -266,8 +266,8 @@ $(document).ready(function() {
         if (commentToHide.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if (commentToHide.parent().find('li[style*="display: none"]').length === commentToHide.parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
-                // a fbResponse in instructorCommentsPage (html) is made up of a table containing 4 rows
-                commentListRegionForFeedbackResponse.closest('table').hide();
+                // a fbResponse in instructorCommentsPage (html) is made up of 4 rows in a table
+                commentListRegionForFeedbackResponse.siblings().andSelf().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
