@@ -99,8 +99,8 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         for (String nonRespondentEmail : nonRespondants) {
             boolean isRespondentWithResponses = logic.hasGiverRespondedForSession(
                                                         nonRespondentEmail, 
-                                                        feedbackSession.feedbackSessionName, 
-                                                        feedbackSession.courseId);
+                                                        feedbackSession.getFeedbackSessionName(), 
+                                                        feedbackSession.getCourseId());
             if (isRespondentWithResponses) {
                 System.out.println("Inconsistent data for " + feedbackSession.getIdentificationString() 
                                  + nonRespondentEmail);
@@ -110,28 +110,28 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         
         if (!isPreview && isRepairRequired) {
             System.out.println("fixing " + feedbackSession.getIdentificationString());
-            logic.updateRespondants(feedbackSession.feedbackSessionName, feedbackSession.courseId);
+            logic.updateRespondants(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
         }
     }
 
     private Set<String> getNonRespondentsForFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         
         // obtain the respondents first
-        Set<String> respondingStudentsEmail = feedbackSession.respondingStudentList;                
-        Set<String> respondingInstructorsEmail = feedbackSession.respondingInstructorList;
+        Set<String> respondingStudentsEmail = feedbackSession.getRespondingStudentList();                
+        Set<String> respondingInstructorsEmail = feedbackSession.getRespondingInstructorList();
         
         Set<String> respondents = new HashSet<>(respondingInstructorsEmail);
         respondents.addAll(respondingStudentsEmail);
 
         Set<String> nonRespondentsEmails;
         // obtain emails of every student and instructor in the course
-        if (emailsInCourse.containsKey(feedbackSession.courseId)) {
-            nonRespondentsEmails = emailsInCourse.get(feedbackSession.courseId);
+        if (emailsInCourse.containsKey(feedbackSession.getCourseId())) {
+            nonRespondentsEmails = emailsInCourse.get(feedbackSession.getCourseId());
         } else {
             List<InstructorAttributes> allInstructors = 
-                                            logic.getInstructorsForCourse(feedbackSession.courseId);
+                                            logic.getInstructorsForCourse(feedbackSession.getCourseId());
             List<StudentAttributes> allStudents = 
-                                            logic.getStudentsForCourse(feedbackSession.courseId);
+                                            logic.getStudentsForCourse(feedbackSession.getCourseId());
             List<EntityAttributes> allPossibleRespondents = new ArrayList<>();
             allPossibleRespondents.addAll(allInstructors);
             allPossibleRespondents.addAll(allStudents);
@@ -147,7 +147,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                 }
             }
             
-            emailsInCourse.put(feedbackSession.courseId, nonRespondentsEmails);
+            emailsInCourse.put(feedbackSession.getCourseId(), nonRespondentsEmails);
         }
         
         // non-respondents = all students and instructors - respondents

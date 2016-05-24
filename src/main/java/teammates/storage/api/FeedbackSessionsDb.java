@@ -91,11 +91,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
             endCal.setTime(end);
             FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
             
-            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
-            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
+            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
+            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
             
-            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.startTime, true, false);
-            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.endTime, false, true);
+            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTime(), true, false);
+            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTime(), false, true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -246,19 +246,19 @@ public class FeedbackSessionsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
-        fs.setInstructions(newAttributes.instructions);
-        fs.setStartTime(newAttributes.startTime);
-        fs.setEndTime(newAttributes.endTime);
-        fs.setSessionVisibleFromTime(newAttributes.sessionVisibleFromTime);
-        fs.setResultsVisibleFromTime(newAttributes.resultsVisibleFromTime);
-        fs.setTimeZone(newAttributes.timeZone);
-        fs.setGracePeriod(newAttributes.gracePeriod);
-        fs.setFeedbackSessionType(newAttributes.feedbackSessionType);
-        fs.setSentOpenEmail(newAttributes.sentOpenEmail);
-        fs.setSentPublishedEmail(newAttributes.sentPublishedEmail);
-        fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled);
-        fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled);
-        fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
+        fs.setInstructions(newAttributes.getInstructions());
+        fs.setStartTime(newAttributes.getStartTime());
+        fs.setEndTime(newAttributes.getEndTime());
+        fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+        fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+        fs.setTimeZone(newAttributes.getTimeZone());
+        fs.setGracePeriod(newAttributes.getGracePeriod());
+        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
+        fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
+        fs.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
+        fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
+        fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+        fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
                 
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
@@ -556,6 +556,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
-        return getFeedbackSessionEntity(feedbackSessionToGet.feedbackSessionName, feedbackSessionToGet.courseId);
+        return getFeedbackSessionEntity(feedbackSessionToGet.getFeedbackSessionName(), feedbackSessionToGet.getCourseId());
     }    
 }

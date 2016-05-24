@@ -51,8 +51,8 @@ public class FeedbackQuestionEditForm {
         
         newQnForm.doneEditingLink = doneEditingLink;
         newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
-        newQnForm.courseId = feedbackSession.courseId;
-        newQnForm.feedbackSessionName = feedbackSession.feedbackSessionName;
+        newQnForm.courseId = feedbackSession.getCourseId();
+        newQnForm.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         newQnForm.questionNumberSuffix = "";
         
         newQnForm.questionTypeOptions = questionTypeChoiceOptions;

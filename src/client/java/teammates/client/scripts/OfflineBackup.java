@@ -404,7 +404,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     protected void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackSession.getJsonString(), feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId));
+        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackSession.getJsonString(), feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
     }
     
     protected void saveInstructor(InstructorAttributes instructor) {

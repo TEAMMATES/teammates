@@ -588,8 +588,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(String instructorName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.instructors.get(instructorName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
@@ -597,8 +597,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
             String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.students.get(studentName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 

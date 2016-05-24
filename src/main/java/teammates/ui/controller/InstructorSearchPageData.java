@@ -156,7 +156,7 @@ public class InstructorSearchPageData extends PageData {
         List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
         
         for (String fsName : frcSearchResultBundle.questions.keySet()) {
-            String courseId = frcSearchResultBundle.sessions.get(fsName).courseId;
+            String courseId = frcSearchResultBundle.sessions.get(fsName).getCourseId();
             
             rows.add(new FeedbackSessionRow(fsName, courseId, createQuestionTables(
                                                                 fsName, frcSearchResultBundle)));

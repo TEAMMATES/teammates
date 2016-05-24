@@ -27,7 +27,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
 
         browser = BrowserPool.getBrowser();
     }

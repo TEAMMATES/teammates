@@ -52,7 +52,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (int i = 0; i < questions.size(); i++) {
             FeedbackQuestionAttributes question = questions.get(i);
-            buildExistingQuestionForm(feedbackSession.feedbackSessionName, 
+            buildExistingQuestionForm(feedbackSession.getFeedbackSessionName(), 
                                       questions.size(), questionHasResponses, 
                                       instructor.courseId, question, i + 1);
         }
@@ -67,7 +67,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
                                     List<StudentAttributes> studentList,
                                     List<InstructorAttributes> instructorList) {
-        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+        previewForm = new FeedbackSessionPreviewForm(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(), 
                                                      getPreviewAsStudentOptions(studentList), 
                                                      getPreviewAsInstructorOptions(instructorList));
     }
@@ -77,7 +77,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(), Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings, 
@@ -93,7 +93,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                     InstructorAttributes instructor) {
         List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
                                                                                       instructor);
-        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(), 
                                                    copyQuestionRows);
     }
 
@@ -180,8 +180,8 @@ public class InstructorFeedbackEditPageData extends PageData {
       
         String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                 .withUserId(account.googleId)
-                                .withCourseId(feedbackSession.courseId)
-                                .withSessionName(feedbackSession.feedbackSessionName)
+                                .withCourseId(feedbackSession.getCourseId())
+                                .withSessionName(feedbackSession.getFeedbackSessionName())
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
                                                           getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),

@@ -146,7 +146,7 @@ public class InstructorCourseInstructorAddAction extends Action {
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.feedbackSessionName);
+            feedbackNames.add(feedback.getFeedbackSessionName());
         }
         HashMap<String, List<String>> sectionNamesMap = extractSectionNames(instructorToAdd, sectionNames, sectionNamesTable);
         for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {

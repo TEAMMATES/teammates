@@ -91,7 +91,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                     String feedbackSessionNameForSessionList) {
         List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
-            if (instructors.get(existingFeedbackSession.courseId)
+            if (instructors.get(existingFeedbackSession.getCourseId())
                            .isAllowedForPrivilege(
                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 filteredFeedbackSessions.add(existingFeedbackSession);
@@ -103,7 +103,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         instructors, feedbackSessionNameForSessionList,
                                                                         courseIdForNewSession);
         
-        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
+        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.getFeedbackSessionName();
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
@@ -177,17 +177,17 @@ public class InstructorFeedbacksPageData extends PageData {
         int displayedStatsCount = 0;
         
         for (FeedbackSessionAttributes session : sessions) {
-            String courseId = session.courseId;
-            String name = sanitizeForHtml(session.feedbackSessionName);
+            String courseId = session.getCourseId();
+            String name = sanitizeForHtml(session.getFeedbackSessionName());
             String tooltip = getInstructorHoverMessageForFeedbackSession(session);
             String status = getInstructorStatusForFeedbackSession(session);
-            String href = getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName);
+            String href = getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName());
             
             String recent = "";
             if (session.isOpened() || session.isWaitingToOpen()) {
                 recent = " recent";
             } else if (displayedStatsCount < InstructorFeedbacksPageData.MAX_CLOSED_SESSION_STATS
-                       && !TimeHelper.isOlderThanAYear(session.createdTime)) {
+                       && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
                 recent = " recent";
                 ++displayedStatsCount;
             }
@@ -197,7 +197,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                                            instructors.get(courseId));
             
             ElementTag elementAttributes;
-            if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {
+            if (session.getCourseId().equals(courseIdForNewSession) && session.getFeedbackSessionName().equals(feedbackSessionNameForSessionList)) {
                 elementAttributes = new ElementTag("class", "sessionsRow warning");
             } else {
                 elementAttributes = new ElementTag("class", "sessionsRow");
@@ -250,7 +250,7 @@ public class InstructorFeedbacksPageData extends PageData {
             // True if this is a submission of the filled 'new session' form
             // for this course:
             boolean isFilledFormForSessionInThisCourse =
-                    newFeedbackSession != null && course.getId().equals(newFeedbackSession.courseId);
+                    newFeedbackSession != null && course.getId().equals(newFeedbackSession.getCourseId());
 
             // True if this is for displaying an empty form for creating a
             // session for this course:

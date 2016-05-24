@@ -189,7 +189,7 @@ public class AdminSessionsPageAction extends Action {
 
         for (FeedbackSessionAttributes fs : allOpenFeedbackSessionsList) {
 
-            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.courseId);
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.getCourseId());
 
             if (instructors.isEmpty()) {
                 putIntoUnknownList(map, fs);
@@ -229,7 +229,7 @@ public class AdminSessionsPageAction extends Action {
     private void constructSessionToInstructorIdMap() {
         for (String institute : this.map.keySet()) {
             for (FeedbackSessionAttributes fs : this.map.get(institute)) {
-                String googleId = findAvailableInstructorGoogleIdForCourse(fs.courseId);
+                String googleId = findAvailableInstructorGoogleIdForCourse(fs.getCourseId());
                 this.sessionToInstructorIdMap.put(fs.getIdentificationString(), googleId);
             }
         }

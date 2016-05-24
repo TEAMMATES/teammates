@@ -50,23 +50,23 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();
-        newSession.courseId = "CFeedbackUiT.CS1101";
-        newSession.feedbackSessionName = "New Session ##";
+        newSession.setCourseId("CFeedbackUiT.CS1101");
+        newSession.setFeedbackSessionName("New Session ##");
         // start time is in future, hence the year.
-        newSession.startTime = TimeHelper.convertToDate("2035-04-01 11:59 PM UTC");
-        newSession.endTime = TimeHelper.convertToDate("2035-04-30 10:00 PM UTC");
-        newSession.creatorEmail = "teammates.test1@gmail.tmt";
-        newSession.createdTime = Const.TIME_REPRESENTS_NEVER;
-        newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-        newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
-        newSession.gracePeriod = 0;
-        newSession.instructions = new Text("Please fill in the new feedback session.");
-        newSession.sentOpenEmail = false;
-        newSession.sentPublishedEmail = false;
-        newSession.timeZone = 8.0;
-        newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
-        newSession.isClosingEmailEnabled = true;
-        newSession.isPublishedEmailEnabled = true;
+        newSession.setStartTime(TimeHelper.convertToDate("2035-04-01 11:59 PM UTC"));
+        newSession.setEndTime(TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"));
+        newSession.setCreatorEmail("teammates.test1@gmail.tmt");
+        newSession.setCreatedTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        newSession.setGracePeriod(0);
+        newSession.setInstructions(new Text("Please fill in the new feedback session."));
+        newSession.setSentOpenEmail(false);
+        newSession.setSentPublishedEmail(false);
+        newSession.setTimeZone(8.0);
+        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        newSession.setClosingEmailEnabled(true);
+        newSession.setPublishedEmailEnabled(true);
             
         browser = BrowserPool.getBrowser();
     }
@@ -181,12 +181,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickManualPublishTimeButton();
         
         feedbackPage.addFeedbackSession(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         FeedbackSessionAttributes savedSession =
-                BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+                BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         assertEquals(newSession.toString(), savedSession.toString());
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
@@ -203,16 +203,16 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         String templateSessionName = "Team Peer Evaluation Session";
         feedbackPage.addFeedbackSession(
-                templateSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod);
+                templateSessionName, newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackTeamPeerEvalTemplateAddSuccess.html");
         //TODO: check that the questions created match. Maybe do that in action test.
 
         //Remove added session to prevent state leaks.
         assertEquals("[BACKDOOR_STATUS_SUCCESS]",
-                     BackDoor.deleteFeedbackSession(templateSessionName, newSession.courseId));
+                     BackDoor.deleteFeedbackSession(templateSessionName, newSession.getCourseId()));
         
         
         ______TS("failure case: session exists already");
@@ -220,9 +220,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.addFeedbackSession(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
         
         
@@ -237,33 +237,33 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn"));
         feedbackPage.verifyHidden(By.id("instructionsRow"));
         
-        newSession.feedbackSessionName = "private session of characters1234567 #";
-        newSession.courseId = "CFeedbackUiT.CS2104";
-        newSession.timeZone = 5.75;
-        newSession.endTime = null;
-        newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-        newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+        newSession.setFeedbackSessionName("private session of characters1234567 #");
+        newSession.setCourseId("CFeedbackUiT.CS2104");
+        newSession.setTimeZone(5.75);
+        newSession.setEndTime(null);
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         
-        newSession.isClosingEmailEnabled = false;
-        newSession.isPublishedEmailEnabled = true;
+        newSession.setClosingEmailEnabled(false);
+        newSession.setPublishedEmailEnabled(true);
         
         // disable emails for opening and closing
         feedbackPage.toggleSendOpenEmailCheckbox();
         feedbackPage.toggleSendClosingEmailCheckbox();
         
         // fill in defaults
-        newSession.instructions = new Text("Please answer all the given questions.");
-        newSession.gracePeriod = 15;
+        newSession.setInstructions(new Text("Please answer all the given questions."));
+        newSession.setGracePeriod(15);
         
-        newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+        newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
         
         feedbackPage.addFeedbackSessionWithTimeZone(
-                newSession.feedbackSessionName, newSession.courseId,
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 null, null, null, null,
-                null, -1, newSession.timeZone);
+                null, -1, newSession.getTimeZone());
         
-        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
-        newSession.startTime = savedSession.startTime;
+        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
+        newSession.setStartTime(savedSession.getStartTime());
         
         assertEquals(newSession.toString(), savedSession.toString());
         
@@ -276,33 +276,33 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickDefaultPublishTimeButton();
         
-        newSession.feedbackSessionName = "Allow Early Viewing Session #";
-        newSession.courseId = "CFeedbackUiT.CS1101";
-        newSession.timeZone = -4.5;
+        newSession.setFeedbackSessionName("Allow Early Viewing Session #");
+        newSession.setCourseId("CFeedbackUiT.CS1101");
+        newSession.setTimeZone(-4.5);
         
-        newSession.startTime = TimeHelper.convertToDate("2004-05-01 8:00 AM UTC");
-        newSession.endTime = newSession.startTime;
-        newSession.gracePeriod = 30;
+        newSession.setStartTime(TimeHelper.convertToDate("2004-05-01 8:00 AM UTC"));
+        newSession.setEndTime(newSession.getStartTime());
+        newSession.setGracePeriod(30);
         
-        newSession.sessionVisibleFromTime = TimeHelper.convertToDate("2004-03-01 5:00 PM UTC");
-        newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
-        newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
+        newSession.setSessionVisibleFromTime(TimeHelper.convertToDate("2004-03-01 5:00 PM UTC"));
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         
-        newSession.instructions = new Text("");
+        newSession.setInstructions(new Text(""));
 
-        newSession.isClosingEmailEnabled = false;
-        newSession.isPublishedEmailEnabled = false;
+        newSession.setClosingEmailEnabled(false);
+        newSession.setPublishedEmailEnabled(false);
         
         // toggle emails for closing and results
         feedbackPage.toggleSendClosingEmailCheckbox();
         feedbackPage.toggleSendPublishedEmailCheckbox();
         
         feedbackPage.addFeedbackSessionWithTimeZone(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, newSession.sessionVisibleFromTime, null,
-                newSession.instructions, newSession.gracePeriod, newSession.timeZone);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), newSession.getSessionVisibleFromTime(), null,
+                newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
         
-        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         assertEquals(newSession.toString(), savedSession.toString());
         
         
@@ -314,27 +314,27 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
         
-        newSession.feedbackSessionName = "responses cant be seen my students 1 #";
+        newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
-        newSession.startTime = TimeHelper.convertToDate("2012-05-01 4:00 AM UTC");
-        newSession.endTime = TimeHelper.convertToDate("2017-31-12 11:59 PM UTC");
-        newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-        newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-        newSession.gracePeriod = 25;
-        newSession.instructions = new Text("cannot \r\n see responses<script>test</script> $^/\\=?");
-        newSession.timeZone = -2;
-        newSession.isPublishedEmailEnabled = false;
-        newSession.isClosingEmailEnabled = true;
+        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
+        newSession.setEndTime(TimeHelper.convertToDate("2017-31-12 11:59 PM UTC"));
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setGracePeriod(25);
+        newSession.setInstructions(new Text("cannot \r\n see responses<script>test</script> $^/\\=?"));
+        newSession.setTimeZone(-2);
+        newSession.setPublishedEmailEnabled(false);
+        newSession.setClosingEmailEnabled(true);
         
         // enable emails for closing
         feedbackPage.toggleSendPublishedEmailCheckbox();
         
         feedbackPage.addFeedbackSessionWithTimeZone(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod, newSession.timeZone);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
         
-        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
         assertEquals(newSession.toString(), savedSession.toString());
         
@@ -346,25 +346,25 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
-        newSession.feedbackSessionName = "Long Instruction Test ##";
-        newSession.timeZone = 0;
-        newSession.startTime = TimeHelper.convertToDate("2012-05-01 8:00 AM UTC");
-        newSession.endTime = TimeHelper.convertToDate("2012-09-01 11:00 PM UTC");
-        newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+        newSession.setFeedbackSessionName("Long Instruction Test ##");
+        newSession.setTimeZone(0);
+        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 8:00 AM UTC"));
+        newSession.setEndTime(TimeHelper.convertToDate("2012-09-01 11:00 PM UTC"));
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         // visible from time is in future, hence the year.
-        newSession.resultsVisibleFromTime = TimeHelper.convertToDate("2035-09-01 11:00 PM UTC");
-        newSession.gracePeriod = 5;
+        newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
+        newSession.setGracePeriod(5);
         
-        newSession.instructions = new Text(StringHelper.generateStringOfLength(3000));
-        newSession.isPublishedEmailEnabled = true;
-        newSession.isClosingEmailEnabled = true;
+        newSession.setInstructions(new Text(StringHelper.generateStringOfLength(3000)));
+        newSession.setPublishedEmailEnabled(true);
+        newSession.setClosingEmailEnabled(true);
         
         feedbackPage.addFeedbackSessionWithTimeZone(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, newSession.resultsVisibleFromTime,
-                newSession.instructions, newSession.gracePeriod, newSession.timeZone);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, newSession.getResultsVisibleFromTime(),
+                newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
         
-        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
         assertEquals(newSession.toString(), savedSession.toString());
         
@@ -377,20 +377,20 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         
-        newSession.feedbackSessionName = "invalid publish time #";
-        newSession.startTime = TimeHelper.convertToDate("2012-05-01 8:00 PM UTC");
-        newSession.endTime = TimeHelper.convertToDate("2012-05-01 4:00 PM UTC");
+        newSession.setFeedbackSessionName("invalid publish time #");
+        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 8:00 PM UTC"));
+        newSession.setEndTime(TimeHelper.convertToDate("2012-05-01 4:00 PM UTC"));
         
-        newSession.sessionVisibleFromTime = TimeHelper.convertToDate("2012-05-01 10:00 PM UTC");
-        newSession.resultsVisibleFromTime = TimeHelper.convertToDate("2012-05-01 7:00 AM UTC");
-        newSession.gracePeriod = 30;
-        newSession.instructions = new Text("Test instructions");
+        newSession.setSessionVisibleFromTime(TimeHelper.convertToDate("2012-05-01 10:00 PM UTC"));
+        newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2012-05-01 7:00 AM UTC"));
+        newSession.setGracePeriod(30);
+        newSession.setInstructions(new Text("Test instructions"));
         
         feedbackPage.addFeedbackSession(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime,
-                newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime,
-                newSession.instructions, newSession.gracePeriod);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(),
+                newSession.getSessionVisibleFromTime(), newSession.getResultsVisibleFromTime(),
+                newSession.getInstructions(), newSession.getGracePeriod());
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
@@ -418,12 +418,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         //feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        newSession.feedbackSessionName = "bad name %% #";
-        newSession.endTime = Const.TIME_REPRESENTS_LATER;
+        newSession.setFeedbackSessionName("bad name %% #");
+        newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.addFeedbackSession(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod());
         assertEquals(String.format(
                         FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                         "bad name %% #",
@@ -437,14 +437,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testCopyFromAction() throws Exception {
         
         ______TS("Success case: copy successfully a previous session");
-        feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.courseId);
+        feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.getCourseId());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
         
         ______TS("Success case: copy successfully a previous session with trimmed name");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.copyFeedbackSession(" New Session ## Trimmed (Copied) ", newSession.courseId);
+        feedbackPage.copyFeedbackSession(" New Session ## Trimmed (Copied) ", newSession.getCourseId());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopyTrimmedSuccess.html");
@@ -452,14 +452,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name is the same with existing one");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.courseId);
+        feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.getCourseId());
         feedbackPage.verifyStatus("A feedback session by this name already exists under this course");
        
         feedbackPage.reloadPage();
         
         ______TS("Failure case: copy fail since the feedback session name is blank");
         
-        feedbackPage.copyFeedbackSession("", newSession.courseId);
+        feedbackPage.copyFeedbackSession("", newSession.getCourseId());
         feedbackPage.verifyStatus(
                 "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
                 + "The value of feedback session name should be no longer than 38 characters. "
@@ -469,7 +469,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name starts with (");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("(New Session ##)", newSession.courseId);
+        feedbackPage.copyFeedbackSession("(New Session ##)", newSession.getCourseId());
         feedbackPage.verifyStatus(
                 "\"(New Session ##)\" is not acceptable to TEAMMATES as feedback session name because "
                 + "it starts with a non-alphanumeric character. "
@@ -481,7 +481,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testCopyToAction() {
         String feedbackSessionName = "Open Session #";
-        String courseId = newSession.courseId;
+        String courseId = newSession.getCourseId();
         
         ______TS("Submit empty course list: Feedbacks Page");
         
@@ -548,7 +548,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     public void testDeleteAction() throws Exception {
         
-        String courseId = newSession.courseId;
+        String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
         
         // refresh page
@@ -570,13 +570,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        String courseId = testData.feedbackSessions.get("publishedSession").courseId;
-        String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
+        String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
 
         ______TS("PRIVATE: publish link unclickable");
         
-        courseId = testData.feedbackSessions.get("privateSession").courseId;
-        sessionName = testData.feedbackSessions.get("privateSession").feedbackSessionName;
+        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
+        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
@@ -584,8 +584,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("MANUAL: publish link clickable");
         
-        courseId = testData.feedbackSessions.get("manualSession").courseId;
-        sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
+        courseId = testData.feedbackSessions.get("manualSession").getCourseId();
+        sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
         
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
@@ -604,16 +604,16 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testUnpublishAction() throws Exception {
         // refresh page
         
-        String courseId = testData.feedbackSessions.get("publishedSession").courseId;
-        String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
+        String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         
         ______TS("PRIVATE: unpublish link unclickable");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions2").googleId);
         
-        courseId = testData.feedbackSessions.get("privateSession").courseId;
-        sessionName = testData.feedbackSessions.get("privateSession").feedbackSessionName;
+        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
+        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
@@ -622,8 +622,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        courseId = testData.feedbackSessions.get("manualSession").courseId;
-        sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
+        courseId = testData.feedbackSessions.get("manualSession").getCourseId();
+        sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
         
         feedbackPage.clickAndCancel(feedbackPage.getUnpublishLink(courseId, sessionName));
         assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
@@ -800,22 +800,22 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("view results clickable not creator, open session");
         
         fsa = testData.feedbackSessions.get("openSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName)
+        assertNull(feedbackPage.getViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
                                .getAttribute("onclick"));
         
-        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         
         ______TS("view results clickable creator, closed session");
         
         fsa = testData.feedbackSessions.get("manualSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName)
+        assertNull(feedbackPage.getViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
                                .getAttribute("onclick"));
         
-        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
     
@@ -826,11 +826,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("edit link clickable when creator");
         
         fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName)
+        assertNull(feedbackPage.getEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
                                .getAttribute("onclick"));
         
-        feedbackResultsPage = feedbackPage.loadEditLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackResultsPage = feedbackPage.loadEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
     
@@ -842,27 +842,27 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("submit link clickable when visible");
         
         fsa = testData.feedbackSessions.get("awaitingSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName)
+        assertNull(feedbackPage.getSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
                                .getAttribute("onclick"));
         
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         
         ______TS("submit link clickable when private (never visible)");
         
         fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName)
+        assertNull(feedbackPage.getSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
                                .getAttribute("onclick"));
         
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
     
     public void testCopySessionModalButtons() {
-        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.courseId);
+        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.getCourseId());
         
         assertFalse(feedbackPage.isCopySubmitButtonEnabled());
         
@@ -924,7 +924,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
          // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.courseId);
+        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.getCourseId());
         
         assertFalse(feedbackPage.isCopySubmitButtonEnabled());
         
@@ -945,11 +945,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
-                templateSessionName, newSession.courseId, 
+                templateSessionName, newSession.getCourseId(), 
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod);
+                newSession.getInstructions(), newSession.getGracePeriod());
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
@@ -964,11 +964,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Team peer evaluation session");
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithTimeZone(
-                templateSessionName, newSession.courseId,
+                templateSessionName, newSession.getCourseId(),
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod, -2.0);
+                newSession.getInstructions(), newSession.getGracePeriod(), -2.0);
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
@@ -980,15 +980,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        newSession.feedbackSessionName = "";
-        newSession.endTime = Const.TIME_REPRESENTS_LATER;
+        newSession.setFeedbackSessionName("");
+        newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickNeverPublishTimeButton();
         feedbackPage.addFeedbackSession(
-                newSession.feedbackSessionName, newSession.courseId,
-                newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions,
-                newSession.gracePeriod);
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getInstructions(),
+                newSession.getGracePeriod());
         assertEquals(String.format(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                         "",

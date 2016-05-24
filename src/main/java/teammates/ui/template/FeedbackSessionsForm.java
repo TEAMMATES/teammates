@@ -67,27 +67,27 @@ public class FeedbackSessionsForm {
         
         fsForm.copyToLink = fsEditCopyLink;
         
-        fsForm.courseId = existingFs.courseId;
+        fsForm.courseId = existingFs.getCourseId();
         
         fsForm.isFsNameEditable = false;
-        fsForm.fsName = existingFs.feedbackSessionName;
+        fsForm.fsName = existingFs.getFeedbackSessionName();
         
         fsForm.isCourseIdEditable = false;
         fsForm.isFeedbackSessionTypeEditable = false;
         
         fsForm.isEditFsButtonsVisible = true;
       
-        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.timeZone);
+        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.getTimeZone());
 
-        fsForm.instructions = Sanitizer.sanitizeForHtml(existingFs.instructions.getValue());
+        fsForm.instructions = Sanitizer.sanitizeForHtml(existingFs.getInstructions().getValue());
         
-        fsForm.fsStartDate = TimeHelper.formatDate(existingFs.startTime);
-        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.startTime);
+        fsForm.fsStartDate = TimeHelper.formatDate(existingFs.getStartTime());
+        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTime());
         
-        fsForm.fsEndDate = TimeHelper.formatDate(existingFs.endTime);
-        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.endTime);
+        fsForm.fsEndDate = TimeHelper.formatDate(existingFs.getEndTime());
+        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTime());
         
-        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.gracePeriod);
+        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriod());
         
         fsForm.isSubmitButtonDisabled = false;
         fsForm.isSubmitButtonVisible = false;
@@ -114,7 +114,7 @@ public class FeedbackSessionsForm {
         newFsForm.courseId = defaultCourseId;
         
         newFsForm.isFsNameEditable = true;
-        newFsForm.fsName = feedbackSession == null ? "" : feedbackSession.feedbackSessionName;
+        newFsForm.fsName = feedbackSession == null ? "" : feedbackSession.getFeedbackSessionName();
         
         newFsForm.isCourseIdEditable = true;
         newFsForm.courses = courseIds;
@@ -127,29 +127,29 @@ public class FeedbackSessionsForm {
 
         newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null 
                                                                             ? Const.DOUBLE_UNINITIALIZED 
-                                                                            : feedbackSession.timeZone);
+                                                                            : feedbackSession.getTimeZone());
         
         newFsForm.instructions = feedbackSession == null 
                                ? "Please answer all the given questions." 
-                               : Sanitizer.sanitizeForHtml(feedbackSession.instructions.getValue());
+                               : Sanitizer.sanitizeForHtml(feedbackSession.getInstructions().getValue());
         
         newFsForm.fsStartDate = feedbackSession == null 
                               ? TimeHelper.formatDate(TimeHelper.getNextHour()) 
-                              : TimeHelper.formatDate(feedbackSession.startTime);
+                              : TimeHelper.formatDate(feedbackSession.getStartTime());
 
-        Date startDate = feedbackSession == null ? null : feedbackSession.startTime;
+        Date startDate = feedbackSession == null ? null : feedbackSession.getStartTime();
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
         
         newFsForm.fsEndDate = feedbackSession == null 
                             ? ""  
-                            : TimeHelper.formatDate(feedbackSession.endTime);
+                            : TimeHelper.formatDate(feedbackSession.getEndTime());
         
-        Date endDate = feedbackSession == null ? null : feedbackSession.endTime;
+        Date endDate = feedbackSession == null ? null : feedbackSession.getEndTime();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
         
         newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null  
                                                                               ? Const.INT_UNINITIALIZED  
-                                                                              : feedbackSession.gracePeriod);
+                                                                              : feedbackSession.getGracePeriod());
         
         newFsForm.isSubmitButtonDisabled = isSubmitButtonDisabled;
         newFsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;

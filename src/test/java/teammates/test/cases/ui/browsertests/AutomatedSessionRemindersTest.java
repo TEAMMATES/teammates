@@ -37,15 +37,15 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
         testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
         testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("closingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("openingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("publishedSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
+        testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
+        testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackQuestions.get("question").creatorEmail = Config.SUPPORT_EMAIL;
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
         int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
-        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes);
+        closingFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes));
 
         //Opening time for one feedback session already set to some time in the past.
         

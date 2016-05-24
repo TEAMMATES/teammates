@@ -51,7 +51,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.sentOpenEmail = true;
+        feedbackObject.setSentOpenEmail(true);
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 

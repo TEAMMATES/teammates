@@ -145,7 +145,7 @@ public class FeedbackResponseCommentsLogic {
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
                 frcList.addAll(
-                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state));
+                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.getFeedbackSessionName(), state));
             }
         }
         return frcList;
@@ -159,7 +159,7 @@ public class FeedbackResponseCommentsLogic {
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+                frcDb.updateFeedbackResponseComments(courseId, fs.getFeedbackSessionName(), oldState, newState);    
             }
         }
     }

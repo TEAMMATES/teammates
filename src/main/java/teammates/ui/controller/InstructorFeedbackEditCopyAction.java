@@ -82,13 +82,13 @@ public class InstructorFeedbackEditCopyAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "Copying to multiple feedback sessions.<br>"
-                    + "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> "
+                    + "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> "
                     + "for Courses: <br>" + commaSeparatedListOfCourses + "<br>"
-                    + "<span class=\"bold\">From:</span> " + fs.startTime
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
-                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions + "<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.getStartTime()
+                    + "<span class=\"bold\"> to</span> " + fs.getEndTime() + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.getSessionVisibleFromTime() + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTime() + "<br><br>"
+                    + "<span class=\"bold\">Instructions:</span> " + fs.getInstructions() + "<br>"
                     + "Copied from <span class=\"bold\">(" + originalFeedbackSessionName + ")</span> for Course "
                     + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>";
 
@@ -129,7 +129,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             boolean fsAlreadyExists = existingFs != null;
             
             if (fsAlreadyExists) {
-                courses.add(existingFs.courseId);
+                courses.add(existingFs.getCourseId());
             }
         }
         

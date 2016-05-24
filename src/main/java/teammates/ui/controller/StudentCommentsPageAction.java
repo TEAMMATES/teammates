@@ -138,11 +138,11 @@ public class StudentCommentsPageAction extends Action {
             
             FeedbackSessionResultsBundle bundle = 
                     logic.getFeedbackSessionResultsForStudent(
-                                  fs.feedbackSessionName, courseId, studentEmail, roster);
+                                  fs.getFeedbackSessionName(), courseId, studentEmail, roster);
             if (bundle != null) {
                 removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
                 if (bundle.questions.size() != 0) {
-                    feedbackResultBundles.put(fs.feedbackSessionName, bundle);
+                    feedbackResultBundles.put(fs.getFeedbackSessionName(), bundle);
                 }
             }
         }

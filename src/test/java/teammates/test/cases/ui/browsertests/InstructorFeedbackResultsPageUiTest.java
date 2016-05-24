@@ -664,8 +664,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
@@ -676,8 +676,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                              boolean needAjax, String viewType) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         if (needAjax) {
             resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
