@@ -892,11 +892,9 @@ public abstract class AppPage {
     /**
      * Verifies that the title of the loaded page is the same as {@code expectedTitle}
      * @param expectedTitle
-     * @return The page (for chaining method calls).
      */
-    public AppPage verifyTitle(String expectedTitle) {
+    public void verifyTitle(String expectedTitle) {
         assertEquals(expectedTitle, browser.driver.getTitle());
-        return this;
     }
 
     /**
