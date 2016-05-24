@@ -439,7 +439,7 @@ public class TeamEvalResult {
           .append(indentString)
           .append(pointsToString(denormalizedAveragePerceived).replace(
                         Const.EOL, Const.EOL + indentString + filler))
-          .append(divider);
+            .append(divider);
         return sb.toString();
     }
 

@@ -79,9 +79,9 @@ public class SanitizerTest extends BaseTestCase {
 
     private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
         String unsanitized = "<div><td>&lt;</td></div>";
-         String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
-         String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
-         assertEquals(expected, sanitized);
+        String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
+        String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
+        assertEquals(expected, sanitized);
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
