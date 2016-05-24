@@ -67,6 +67,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testAll() throws Exception {
+        testUpdateSessionResponseRateForDeletedStudentResponse();
         
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
@@ -96,6 +97,57 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
+    public void testUpdateSessionResponseRateForDeletedStudentResponse() throws InvalidParametersException,
+                                                                                EntityDoesNotExistException {
+        updateResponseRate_noRemainingResponsesFromStudent_decreaseResponseRate();
+        updateResponseRate_hasRemainingResponsesFromStudent_noChangeToResponseRate();
+    }
+
+    private void updateResponseRate_noRemainingResponsesFromStudent_decreaseResponseRate()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        // response2ForQ2S2C1 is the ONLY response by student1InCourse1 in session2InCourse1
+        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response2ForQ2S2C1", dataBundle);
+        FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session2InCourse1");
+        int originalResponseRate = getResponseRate(sessionAttributes);
+
+        frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted);
+        int responseRateAfterDeletion = getResponseRate(sessionAttributes);
+
+        assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
+
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    private void updateResponseRate_hasRemainingResponsesFromStudent_noChangeToResponseRate()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        // response1ForQ1S1C1 is NOT the only response by student1InCourse1 in session1InCourse1
+        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response1ForQ1S1C1", dataBundle);
+        FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
+        int originalResponseRate = getResponseRate(sessionAttributes);
+
+        frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted);
+        int responseRateAfterDeletion = getResponseRate(sessionAttributes);
+
+        assertEquals(originalResponseRate, responseRateAfterDeletion);
+
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    private int getResponseRate(FeedbackSessionAttributes sessionAttributes) {
+        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(
+            sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
+        return sessionFromDataStore.respondingInstructorList.size()
+                + sessionFromDataStore.respondingStudentList.size();
+    }
+
+    private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        frLogic.createFeedbackResponse(response);
+        fsLogic.addStudentRespondant(response.giverEmail, response.feedbackSessionName, response.courseId);
+    }
+
     public void testGetFeedbackSessionsListForInstructor() throws Exception {        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
