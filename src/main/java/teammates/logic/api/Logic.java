@@ -1682,7 +1682,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteStudentRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.deleteStudentFromRespondantList(email, feedbackSessionName, courseId);
     }
     
     /**

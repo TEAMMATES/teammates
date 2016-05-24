@@ -661,7 +661,7 @@ public class FeedbackResponsesLogic {
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
-                        fsLogic.deleteStudentRespondant(email,
+                        fsLogic.deleteStudentFromRespondantList(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     }
