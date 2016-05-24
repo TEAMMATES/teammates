@@ -182,6 +182,7 @@ public class InstructorCourseEditPage extends AppPage {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     
