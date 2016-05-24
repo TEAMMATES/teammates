@@ -62,6 +62,15 @@
     </module>
     <module name="LocalVariableName"/>
     <module name="ParameterName"/>
+    <module name="EmptyStatement"/>
+    <module name="DefaultComesLast"/>
+    <module name="ExplicitInitialization"/>
+    <module name="InnerAssignment">
+      <property name="tokens" value="DIV_ASSIGN,BXOR_ASSIGN,STAR_ASSIGN,BAND_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,ASSIGN,MINUS_ASSIGN,SR_ASSIGN,BSR_ASSIGN,BOR_ASSIGN"/>
+    </module>
+    <module name="PackageDeclaration"/>
+    <module name="ParameterAssignment"/>
+    <module name="OneStatementPerLine"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
