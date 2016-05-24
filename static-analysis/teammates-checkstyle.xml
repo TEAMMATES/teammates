@@ -71,6 +71,13 @@
     <module name="PackageDeclaration"/>
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
+    <module name="InterfaceTypeParameterName"/>
+    <module name="PackageName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="StaticVariableName"/>
+    <module name="TypeName"/>
+    <module name="MemberName"/>
+    <module name="MethodName"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
