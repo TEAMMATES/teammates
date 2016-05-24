@@ -176,8 +176,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
         
         assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
-        assertTrue(studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s) ||
-                   studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s)
+                || studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s2));
         assertTrue(studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
         
         
