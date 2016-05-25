@@ -4,74 +4,15 @@
          name=""
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
     <description>
-        This is the PMD ruleset for TEAMMATES production code.
+        This is the PMD additional ruleset for TEAMMATES production code.
     </description>
 
-    <rule ref="rulesets/java/basic.xml"/>
-
-    <rule ref="rulesets/java/design.xml">
-        <exclude name="AvoidSynchronizedAtMethodLevel"/>
-        <exclude name="ConstructorCallsOverridableMethod"/>
-        <exclude name="GodClass"/>
-        <exclude name="ImmutableField"/>
-        <exclude name="NonThreadSafeSingleton"/>
-        <exclude name="SimpleDateFormatNeedsLocale"/>
-        <exclude name="UseLocaleWithCaseConversions"/>
-        <exclude name="UseVarargs"/>
-    </rule>
-
-    <rule ref="rulesets/java/empty.xml"/>
-    <rule ref="rulesets/java/imports.xml"/>
-
-    <rule ref="rulesets/java/junit.xml">
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-        <exclude name="JUnitStaticSuite"/>
-        <exclude name="JUnitTestContainsTooManyAsserts"/>
-    </rule>
-
-    <rule ref="rulesets/java/optimizations.xml">
-        <exclude name="AvoidInstantiatingObjectsInLoops"/>
-        <exclude name="LocalVariableCouldBeFinal"/>
-        <exclude name="MethodArgumentCouldBeFinal"/>
-        <exclude name="SimplifyStartsWith"/>
-    </rule>
-
-    <rule ref="rulesets/java/strictexception.xml">
-        <exclude name="AvoidCatchingGenericException"/>
-        <exclude name="AvoidThrowingRawExceptionTypes"/>
-    </rule>
-
-    <rule ref="rulesets/java/strings.xml">
-        <exclude name="AvoidDuplicateLiterals"/>
-    </rule>
-
     <rule ref="rulesets/java/logging-java.xml">
+        <!-- Not worth the added safety -->
         <exclude name="GuardLogStatementJavaUtil"/>        
     </rule>
 
-    <rule ref="rulesets/java/unnecessary.xml"/>
-    <rule ref="rulesets/java/unusedcode.xml"/>
-
-    <!-- Not used, but kept here for reference and possible change in the future -->
-
-    <!-- Irrelevant for our code -->
-    <!--<rule ref="rulesets/java/clone.xml"/>-->
-    <!--<rule ref="rulesets/java/finalizers.xml"/>-->
-    <!--<rule ref="rulesets/java/logging-jakarta-commons.xml"/>-->
-    <!--<rule ref="rulesets/java/j2ee.xml"/>-->
-    <!--<rule ref="rulesets/java/javabeans.xml"/>-->
-    <!--<rule ref="rulesets/java/migrating.xml"/>-->
-
-    <!-- Not worth the trouble in enforcing -->
-    <!--<rule ref="rulesets/java/codesize.xml"/>-->
-    <!--<rule ref="rulesets/java/comments.xml"/>-->
-    <!--<rule ref="rulesets/java/controversial.xml"/>-->
-    <!--<rule ref="rulesets/java/coupling.xml"/>-->
-    <!--<rule ref="rulesets/java/sunsecure.xml"/>-->
-
-    <!-- Handled by Checkstyle -->
-    <!--<rule ref="rulesets/java/braces.xml"/>-->
-    <!--<rule ref="rulesets/java/naming.xml"/>-->
+    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
 
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
     <exclude-pattern>.*/client/java/.*</exclude-pattern>
