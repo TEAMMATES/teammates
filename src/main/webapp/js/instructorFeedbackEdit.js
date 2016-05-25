@@ -3,10 +3,6 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
-
-    $('.dropdown-menu li').click(function() {
-        showNewQuestionFrame($(this).attr('questionType'));
-    });
 });
 
 /**
@@ -44,6 +40,10 @@ function readyFeedbackEditPage() {
         if (editStatus === 'hasResponses') {
             $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
         }
+    });
+    
+    $('.dropdown-menu li').click(function() {
+        showNewQuestionFrame($(this).data('questiontype'));
     });
     
     // Copy Binding

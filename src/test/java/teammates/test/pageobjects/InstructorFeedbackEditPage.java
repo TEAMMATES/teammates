@@ -629,8 +629,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void selectNewQuestionType(String questionType) {
-        //browser.driver.findElement(By.id(questionType)).click();
-        browser.driver.findElement(By.cssSelector("[questionType=" + questionType + "]")).click();
+        browser.driver.findElement(By.cssSelector("[data-questionType=" + questionType + "]")).click();
     }
     
     public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber) {

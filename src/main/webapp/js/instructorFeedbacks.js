@@ -21,7 +21,7 @@ function checkFeedbackQuestion(form) {
         setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER);
         return false;
     }
-    if ($(form).find('[name = ' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
+    if ($(form).find('[name= ' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
