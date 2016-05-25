@@ -1007,7 +1007,7 @@ public class FeedbackSessionsLogic {
             String possibleRecipientLastName = results.getLastNameFromRoster(possibleRecipient);
             String possibleRecipientEmail = results.getDisplayableEmailFromRoster(possibleRecipient);
             
-            if (questionDetails.shouldShowNoResponseText(giver, possibleRecipient, question)) {
+            if (questionDetails.shouldShowNoResponseText(possibleRecipient, question)) {
                 exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(giver)) 
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
