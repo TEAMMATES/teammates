@@ -201,8 +201,7 @@ public class Emails {
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            List<StudentAttributes> allStudents = studentsLogic.
-                    getStudentsForCourse(session.courseId);
+            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.courseId);
 
             for (StudentAttributes student : allStudents) {
                 if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(

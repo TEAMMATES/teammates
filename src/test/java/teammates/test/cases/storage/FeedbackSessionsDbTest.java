@@ -65,9 +65,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackSessionsDb.
-                    ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
-                    + fsa.getIdentificationString(), e.getMessage());
+            AssertHelper.assertContains(String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      fsa.getEntityTypeAsString())
+                                            + fsa.getIdentificationString(),
+                                        e.getMessage());
         }
         
         fsDb.deleteEntity(fsa);

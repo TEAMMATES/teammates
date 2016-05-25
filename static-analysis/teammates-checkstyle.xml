@@ -85,6 +85,13 @@
     <module name="CovariantEquals"/>
     <module name="EqualsAvoidNull"/>
     <module name="MultipleVariableDeclarations"/>
+    <module name="SeparatorWrap">
+      <property name="tokens" value="COMMA,SEMI"/>
+    </module>
+    <module name="SeparatorWrap">
+      <property name="option" value="nl"/>
+      <property name="tokens" value="DOT"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
