@@ -92,7 +92,6 @@ public class BackDoorServlet extends HttpServlet {
     public static final String RETURN_VALUE_TRUE = "true";
     public static final String RETURN_VALUE_FALSE = "false";
     
-    
     private static final Logger log = Utils.getLogger();
 
     @Override

@@ -42,7 +42,7 @@
     </module>
     <module name="AvoidStarImport"/>
     <module name="EmptyLineSeparator">
-      <property name="tokens" value="CLASS_DEF,CTOR_DEF,IMPORT,INSTANCE_INIT,INTERFACE_DEF,METHOD_DEF,PACKAGE_DEF,STATIC_INIT"/>
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
       <property name="allowMultipleEmptyLines" value="false"/>
     </module>
     <module name="ArrayTypeStyle"/>

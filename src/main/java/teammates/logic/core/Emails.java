@@ -66,7 +66,7 @@ public class Emails {
         FEEDBACK_OPENING,
         FEEDBACK_PUBLISHED,
         PENDING_COMMENT_CLEARED
-    };
+    }
     
     private String senderEmail;
     private String senderName;
