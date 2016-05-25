@@ -12,6 +12,8 @@ import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
+    private static final String EXPECTED_LOG_SEGMENT = "instructorCourseEnroll Page Load"
+            + Const.HTML_BR_TAG + "Enrollment for Course <span class=\"bold\">[%s]</span>";
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
@@ -59,8 +61,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         assertEquals(courseId, pageData.getCourseId());
         assertEquals(null, pageData.getEnrollStudents());
 
-        String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>";
+        String expectedLogSegment = String.format(EXPECTED_LOG_SEGMENT, courseId);
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
@@ -83,9 +84,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         assertEquals(null, pageData.getEnrollStudents());
-        
-        String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
+
+        String expectedLogSegment = String.format(EXPECTED_LOG_SEGMENT, courseId);
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
@@ -111,9 +111,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         assertEquals(null, pageData.getEnrollStudents());
-        
-        String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
+
+        String expectedLogSegment = String.format(EXPECTED_LOG_SEGMENT, courseId);
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
