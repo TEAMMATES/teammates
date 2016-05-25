@@ -829,7 +829,7 @@ public class CoursesLogic {
     /**
      * @param courseId
      * @param instructorGoogleId
-     * @return a CSV for the details(name, email, status) of all students belongs to a given course
+     * @return a CSV for the details(name, email, status) of all students belonging to a given course
      * @throws EntityDoesNotExistException
      */
     public String getCourseStudentListAsCsv(String courseId, String instructorGoogleId) throws EntityDoesNotExistException {
