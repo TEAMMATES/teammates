@@ -105,8 +105,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
     private void updateResponseRate_noRemainingResponsesFromStudent_decreaseResponseRate()
             throws InvalidParametersException, EntityDoesNotExistException {
-        // response2ForQ2S2C1 is the ONLY response by student1InCourse1 in session2InCourse1
-        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response2ForQ2S2C1", dataBundle);
+        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response2ForQ2S2C1",
+                                                                                  dataBundle);
+        assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
+                                                       responseToBeDeleted.feedbackSessionName));
+
         FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session2InCourse1");
         StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
         int originalResponseRate = getResponseRate(sessionAttributes);
@@ -123,8 +126,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
     private void updateResponseRate_hasRemainingResponsesFromStudent_noChangeToResponseRate()
             throws InvalidParametersException, EntityDoesNotExistException {
-        // response1ForQ1S1C1 is NOT the only response by student1InCourse1 in session1InCourse1
-        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response1ForQ1S1C1", dataBundle);
+        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response1ForQ1S1C1",
+                                                                                  dataBundle);
+        assertTrue(1 < numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
+                                                      responseToBeDeleted.feedbackSessionName));
+
         FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
         int originalResponseRate = getResponseRate(sessionAttributes);
@@ -137,6 +143,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(originalResponseRate, responseRateAfterDeletion);
 
         restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    private int numResponsesFromGiverInSession(String studentEmail, String sessionName) {
+        int numResponses = 0;
+        for (FeedbackResponseAttributes response : dataBundle.feedbackResponses.values()) {
+            if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)) {
+                numResponses++;
+            }
+        }
+        return numResponses;
     }
 
     private int getResponseRate(FeedbackSessionAttributes sessionAttributes) {
