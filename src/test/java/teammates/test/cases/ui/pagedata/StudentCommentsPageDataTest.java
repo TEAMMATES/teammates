@@ -33,7 +33,7 @@ import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.ResponseRow;
 
 public class StudentCommentsPageDataTest extends BaseTestCase {
@@ -122,12 +122,12 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             List<ResponseRow> responseRows = new ArrayList<ResponseRow>();
             List<FeedbackResponseAttributes> responses = questionToResponsesMap.get(question);
             for (FeedbackResponseAttributes response : responses) {
-                List<FeedbackResponseComment> feedbackResponseCommentRows = new ArrayList<FeedbackResponseComment>();
+                List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
                 List<FeedbackResponseCommentAttributes> responseComments = 
                         bundle.responseComments.get(response.getId());
                 for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-                    FeedbackResponseComment feedbackResponseCommentRow = 
-                            new FeedbackResponseComment(responseComment, responseComment.giverEmail);
+                    FeedbackResponseCommentRow feedbackResponseCommentRow = 
+                            new FeedbackResponseCommentRow(responseComment, responseComment.giverEmail);
                     feedbackResponseCommentRows.add(feedbackResponseCommentRow);
                 }
                 String giverName = bundle.getGiverNameForResponse(response);
@@ -270,9 +270,9 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         assertEquals(expectedResponseRow.getGiverName(), actualResponseRow.getGiverName());
         assertEquals(expectedResponseRow.getRecipientName(), actualResponseRow.getRecipientName());
         assertEquals(expectedResponseRow.getResponse(), actualResponseRow.getResponse());
-        List<FeedbackResponseComment> actualFeedbackResponseCommentRows = 
+        List<FeedbackResponseCommentRow> actualFeedbackResponseCommentRows = 
                 actualResponseRow.getFeedbackResponseComments();
-        List<FeedbackResponseComment> expectedFeedbackResponseCommentRows = 
+        List<FeedbackResponseCommentRow> expectedFeedbackResponseCommentRows = 
                 expectedResponseRow.getFeedbackResponseComments();
         assertEquals(expectedFeedbackResponseCommentRows.size(), 
                      actualFeedbackResponseCommentRows.size());
@@ -299,7 +299,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     }
     
     private static void checkFeedbackResponseCommentRowsEqual(
-            FeedbackResponseComment expected, FeedbackResponseComment actual) {
+            FeedbackResponseCommentRow expected, FeedbackResponseCommentRow actual) {
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
         assertEquals(expected.getCommentId(), actual.getCommentId());
         assertEquals(expected.getGiverDisplay(), actual.getGiverDisplay());

@@ -20,7 +20,7 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.Comment;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
@@ -224,11 +224,11 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
     
-    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
         
-        List<FeedbackResponseComment> rows = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
         
@@ -241,7 +241,7 @@ public class InstructorSearchPageData extends PageData {
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
                               + frc.courseId + "#" + frc.getId();         
             
-            FeedbackResponseComment frcDiv = new FeedbackResponseComment(frc, frCommentGiver);
+            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
             frcDiv.setLinkToCommentsPage(link);
             
             rows.add(frcDiv);

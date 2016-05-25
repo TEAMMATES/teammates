@@ -16,8 +16,8 @@ public class InstructorFeedbackResultsResponsePanel {
     
     private String displayableResponse;
     
-    private List<FeedbackResponseComment> comments;
-    private FeedbackResponseComment frcForAdding;
+    private List<FeedbackResponseCommentRow> comments;
+    private FeedbackResponseCommentRow frcForAdding;
     private boolean isAllowedToAddComment;
     
     // The indexes are used for the parameters of js functions for handling response comments 
@@ -29,7 +29,7 @@ public class InstructorFeedbackResultsResponsePanel {
                                                   String questionText, String additionalInfoText, 
                                                   ElementTag rowAttributes, 
                                                   String displayableResponse, 
-                                                  List<FeedbackResponseComment> comments, boolean isAllowedToAddComment) {
+                                                  List<FeedbackResponseCommentRow> comments, boolean isAllowedToAddComment) {
         this.question = question;
         this.response = response;
         this.questionText = questionText;
@@ -70,7 +70,7 @@ public class InstructorFeedbackResultsResponsePanel {
         return displayableResponse;
     }
     
-    public List<FeedbackResponseComment> getComments() {
+    public List<FeedbackResponseCommentRow> getComments() {
         return comments;
     }
 
@@ -90,11 +90,11 @@ public class InstructorFeedbackResultsResponsePanel {
         return qnIndex;
     }
 
-    public void setFrcForAdding(FeedbackResponseComment frcForAdding) {
+    public void setFrcForAdding(FeedbackResponseCommentRow frcForAdding) {
         this.frcForAdding = frcForAdding;
     }
 
-    public FeedbackResponseComment getFrcForAdding() {
+    public FeedbackResponseCommentRow getFrcForAdding() {
         return frcForAdding;
     }
     

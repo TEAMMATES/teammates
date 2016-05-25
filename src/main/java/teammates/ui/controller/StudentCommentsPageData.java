@@ -18,7 +18,7 @@ import teammates.common.util.StringHelper;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
@@ -233,15 +233,15 @@ public class StudentCommentsPageData extends PageData {
         return feedbackResponseRows;
     }
     
-    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
             FeedbackSessionResultsBundle feedbackResultBundle, FeedbackResponseAttributes responseEntry) {
-        List<FeedbackResponseComment> feedbackResponseCommentRows = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> frcList = 
                 feedbackResultBundle.responseComments.get(responseEntry.getId());
         
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            FeedbackResponseComment feedbackResponseCommentRow = 
-                    new FeedbackResponseComment(frc, frc.giverEmail);
+            FeedbackResponseCommentRow feedbackResponseCommentRow = 
+                    new FeedbackResponseCommentRow(frc, frc.giverEmail);
             
             feedbackResponseCommentRows.add(feedbackResponseCommentRow);
         }

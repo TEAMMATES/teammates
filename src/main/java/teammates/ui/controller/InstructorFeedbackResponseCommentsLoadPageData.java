@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
@@ -79,11 +79,11 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             List<FeedbackResponseCommentAttributes> feedbackResponseCommentsAttributes =
                     bundle.responseComments.get(response.getId());
 
-            List<FeedbackResponseComment> frcList = buildFeedbackResponseComments(
+            List<FeedbackResponseCommentRow> frcList = buildFeedbackResponseComments(
                     feedbackResponseCommentsAttributes, question, response, giverName, recipientName,
                     responseVisibilityMap, bundle.feedbackSession);
             
-            FeedbackResponseComment feedbackResponseCommentAdd = buildFeedbackResponseCommentAdd(
+            FeedbackResponseCommentRow feedbackResponseCommentAdd = buildFeedbackResponseCommentAdd(
                     question, response, responseVisibilityMap, giverName, recipientName);
             
             responseCommentList.add(new InstructorFeedbackResponseComment(
@@ -94,12 +94,12 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         return responseCommentList;
     }
 
-    private List<FeedbackResponseComment> buildFeedbackResponseComments(
+    private List<FeedbackResponseCommentRow> buildFeedbackResponseComments(
             List<FeedbackResponseCommentAttributes> feedbackResponseCommentsAttributes,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             String giverName, String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilities,
             FeedbackSessionAttributes feedbackSession) {
-        List<FeedbackResponseComment> comments = new ArrayList<>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
             boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
@@ -125,7 +125,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 isNotificationIconShown = frca.sendingState == CommentSendingState.PENDING;
             }
             
-            FeedbackResponseComment frc = new FeedbackResponseComment(
+            FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                 frca, frca.giverEmail, giverName, recipientName, showCommentToString,
                 showGiverNameToString, responseVisibilities);
             
@@ -158,7 +158,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                    recipientSection, feedbackSessionName, privilege);
     }
 
-    private FeedbackResponseComment buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
+    private FeedbackResponseCommentRow buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             String giverName, String recipientName) {
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
@@ -185,7 +185,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         }
         
         
-        return new FeedbackResponseComment(
+        return new FeedbackResponseCommentRow(
                 frca, giverName, recipientName, getResponseCommentVisibilityString(question),
                 getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
     }

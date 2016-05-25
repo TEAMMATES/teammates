@@ -7,7 +7,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.TimeHelper;
 
-public class FeedbackResponseComment {
+public class FeedbackResponseCommentRow {
     private Long commentId;
     private String extraClass = "";
     private String giverDisplay;
@@ -38,7 +38,7 @@ public class FeedbackResponseComment {
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
     
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
@@ -47,7 +47,7 @@ public class FeedbackResponseComment {
     }
 
     // for editing / deleting comments
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString,
             String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this(frc, giverDisplay);
@@ -56,7 +56,7 @@ public class FeedbackResponseComment {
     }
     
     // for adding comments
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
             String giverName, String recipientName, String showCommentToString,
             String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
@@ -288,7 +288,7 @@ public class FeedbackResponseComment {
         this.withNotificationIcon = true;
     }
 
-    public FeedbackResponseComment setLinkToCommentsPage(String linkToCommentsPage) {
+    public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {
         this.withLinkToCommentsPage = true;
         this.linkToCommentsPage = linkToCommentsPage;
         return this;
