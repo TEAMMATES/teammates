@@ -13,13 +13,13 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Generate list of institutes and number of users per institute.
@@ -31,11 +31,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
-    private int iterationCounter;
-    
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
     private static final String UNKNOWN_INSTITUTE = "Unknown Institute";
+    
+    private int iterationCounter;
     
     private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
     
@@ -283,7 +283,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
-                return new Integer(inst2.studentTotal).compareTo(new Integer(inst1.studentTotal));
+                return Integer.valueOf(inst2.studentTotal).compareTo(Integer.valueOf(inst1.studentTotal));
             }
         });
     }
