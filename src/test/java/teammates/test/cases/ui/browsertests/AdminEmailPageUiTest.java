@@ -18,7 +18,7 @@ import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
     
-    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
+    private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
     private static Browser browser;
     private static AdminEmailPage emailPage;

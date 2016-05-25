@@ -13,12 +13,13 @@ import com.google.appengine.api.log.AppLogLine;
 /** A log entry which contains info about subject, receiver, content and sent date of a sent email*/
 public class EmailLogEntry {
     
-    public String logInfoAsHtml;
-    
     private String receiver;
     private String subject;
     private String content;
     private long time;
+    
+    @SuppressWarnings("unused") // used by js
+    private String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws Exception {
         this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();

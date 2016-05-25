@@ -69,7 +69,7 @@ public class ActivityLogEntry {
     
     private boolean isFirstRow;
     
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // used by js
     private String logInfoAsHtml;
     
     private String[] keyStringsToHighlight;
