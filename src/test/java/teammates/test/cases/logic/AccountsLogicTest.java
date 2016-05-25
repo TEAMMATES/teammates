@@ -30,10 +30,10 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
 
-    private AccountsLogic accountsLogic = AccountsLogic.inst();
-    private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private Logic logic = new Logic();
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final Logic logic = new Logic();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass

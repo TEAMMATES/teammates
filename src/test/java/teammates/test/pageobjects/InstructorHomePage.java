@@ -35,13 +35,17 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    public InstructorCopyFsToModal fsCopyModal;
+    private InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
         super(browser);
         if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
         }
+    }
+    
+    public InstructorCopyFsToModal getFsCopyModal() {
+        return fsCopyModal;
     }
 
     @Override

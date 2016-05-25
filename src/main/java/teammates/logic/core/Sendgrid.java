@@ -27,6 +27,11 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class Sendgrid {
     
+    protected String domain = "https://sendgrid.com/";
+    protected String endpoint = "api/mail.send.json";
+    protected String username;
+    protected String password;
+
     private String from;
     private String fromName;
     private String replyTo;
@@ -39,11 +44,6 @@ public class Sendgrid {
     private ArrayList<String> toNameList  = new ArrayList<String>();
     private ArrayList<String> bccList = new ArrayList<String>();
     private JSONObject headerList = new JSONObject();
-
-    protected String domain = "https://sendgrid.com/";
-    protected String endpoint = "api/mail.send.json";
-    protected String username;
-    protected String password;
 
     public Sendgrid(String username, String password) throws JSONException {
         this.username = username;
