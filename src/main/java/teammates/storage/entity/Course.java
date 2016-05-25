@@ -18,7 +18,7 @@ public class Course {
     @SerializedName("id")
     //CHECKSTYLE:OFF the database uses ID
     private String ID;
-    //CHECKSTYLE:ON the database uses ID
+    //CHECKSTYLE:ON
 
     @Persistent
     private String name;
