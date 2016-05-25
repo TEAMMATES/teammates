@@ -79,8 +79,33 @@ public class FieldValidatorTest extends BaseTestCase {
                         maxLength, 
                         untrimmedValue));
     }
+
+    @Test
+    public void testGetValidityInfoForNonHtmlField_cleanInput_returnEmptyString() {
+        String clean = "Valid clean input with no special HTML characters";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, clean);
+        assertEquals("Valid clean input with no special HTML characters should return empty string", "",
+                     actual);
+    }
+
+    @Test
+    public void testGetValidityInfoForNonHtmlField_sanitizedInput_returnEmptyString() {
+        String sanitizedInput = "Valid sanitized input &lt; &gt; &quot; &#x2f; &#39; &amp;";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, sanitizedInput);
+        assertEquals("Valid sanitized input should return empty string", "", actual);
+    }
     
     @Test
+    public void testGetValidityInfoForNonHtmlField_unsanitizedInput_returnErrorString() {
+        String unsanitizedInput = "Invalid unsanitized input <>\\/'&";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
+        assertEquals("Invalid unsanitized input should return error string", 
+                     String.format(NON_HTML_FIELD_ERROR_MESSAGE, testFieldName), actual);
+    }
+
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
         
         String typicalFieldName = "my field";
