@@ -376,7 +376,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace general identifier with "General"
         if (!isHiddenRecipient && !isRecipientCurrentUser 
-            && hasAtLeastTwoResponsesOtherThanCurrentUser) {
+                && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return isRecipientGeneral ? "General" : recipientName;
         }
         return null;
@@ -394,7 +394,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Display other recipients' team name
         if (!isHiddenRecipient && !isRecipientCurrentUser
-            && hasAtLeastTwoResponsesOtherThanCurrentUser) {
+                && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return recipientTeamName;
         }
         return null;
@@ -405,7 +405,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean isRecipientTeam, String currentUserTeam) {
         
         if (isRecipientStudent && numResponses.containsKey(currentUserEmail) 
-            && numResponses.get(currentUserEmail) >= 1) {
+                && numResponses.get(currentUserEmail) >= 1) {
             return currentUserEmail;
         } else if (isRecipientTeam && numResponses.containsKey(currentUserTeam) 
                    && numResponses.get(currentUserTeam) >= 1) {
@@ -602,8 +602,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.visibilityTable.get(response.getId())[1]
-                && type != FeedbackParticipantType.SELF
-                && type != FeedbackParticipantType.NONE) {
+                    && type != FeedbackParticipantType.SELF
+                    && type != FeedbackParticipantType.NONE) {
                 
                 hiddenRecipients.add(response.recipientEmail);
             }
@@ -642,7 +642,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
 
             if (hasAtLeastTwoResponses(numResponses, recipient)
-                && !recipient.equals(currentUserIdentifier)) {
+                    && !recipient.equals(currentUserIdentifier)) {
                 
                 isAtLeastTwoResponsesOtherThanCurrentUser = true;
                 break;

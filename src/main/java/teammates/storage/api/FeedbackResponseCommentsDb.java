@@ -532,7 +532,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> feedbackResponseCommentList =
-               (List<FeedbackResponseComment>) q.execute(feedbackResponseCommentId);
+                (List<FeedbackResponseComment>) q.execute(feedbackResponseCommentId);
         
         if (feedbackResponseCommentList.isEmpty() || JDOHelper.isDeleted(feedbackResponseCommentList.get(0))) {
             return null;

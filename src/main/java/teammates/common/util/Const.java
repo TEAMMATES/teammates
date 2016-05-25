@@ -57,20 +57,20 @@ public final class Const {
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN,
-            ActionURIs.STUDENT_COURSE_JOIN_NEW,
-            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+                ActionURIs.STUDENT_COURSE_JOIN,
+                ActionURIs.STUDENT_COURSE_JOIN_NEW,
+                ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
         );
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-            ActionURIs.STUDENT_HOME_PAGE,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+                ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                ActionURIs.STUDENT_HOME_PAGE,
+                ActionURIs.INSTRUCTOR_COURSE_JOIN,
+                ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
         );
         
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(

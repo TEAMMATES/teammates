@@ -701,7 +701,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackResponseId);
+                (List<FeedbackResponse>) q.execute(feedbackResponseId);
         
         if (feedbackResponses.isEmpty() || JDOHelper.isDeleted(feedbackResponses.get(0))) {
             return null;
@@ -722,7 +722,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, receiver);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, receiver);
         
         if (feedbackResponses.isEmpty() || JDOHelper.isDeleted(feedbackResponses.get(0))) {
             return null;
@@ -742,17 +742,17 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, section);
         feedbackResponses.addAll(firstQueryResponses);
          
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, "None");
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, "None");
         feedbackResponses.addAll(secondQueryResponses);
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> thirdQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, "None", section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, "None", section);
         feedbackResponses.addAll(thirdQueryResponses);
        
         return feedbackResponses;
@@ -767,7 +767,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
         return feedbackResponses;
     }
@@ -782,7 +782,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
         return feedbackResponses;
     }
@@ -796,7 +796,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
         
         return feedbackResponses;
     }
@@ -811,7 +811,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
         
         return feedbackResponses;
     }
@@ -827,7 +827,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for (FeedbackResponse response : firstQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -837,7 +837,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for (FeedbackResponse response : secondQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -856,7 +856,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
         return  queryResponses;
     }
@@ -870,7 +870,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
         return  queryResponses;
     }
@@ -887,7 +887,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for (FeedbackResponse response : firstQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -898,7 +898,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setRange(0, range + 1);
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for (FeedbackResponse response : secondQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -918,7 +918,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
         return  queryResponses;
     }
@@ -933,7 +933,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+                (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
         return  queryResponses;
     }
@@ -947,7 +947,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver);
         
         return feedbackResponses;
     }
@@ -964,7 +964,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for (FeedbackResponse response : firstQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -975,7 +975,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 + "&& receiverSection == sectionParam");
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for (FeedbackResponse response : secondQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -994,7 +994,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail);
         
         return feedbackResponses;
     }
@@ -1011,7 +1011,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for (FeedbackResponse response : firstQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -1022,7 +1022,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 + "&& receiverSection == sectionParam");
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
+                (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for (FeedbackResponse response : secondQueryResponses) {
             if (!JDOHelper.isDeleted(response)) {
                 feedbackResponses.put(response.getId(), response);
@@ -1042,7 +1042,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(giverEmail, feedbackSessionName, courseId);
+                (List<FeedbackResponse>) q.execute(giverEmail, feedbackSessionName, courseId);
         
         return feedbackResponses;
     }
@@ -1056,7 +1056,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(courseId, receiver);
+                (List<FeedbackResponse>) q.execute(courseId, receiver);
         
         return feedbackResponses;
     }
@@ -1070,7 +1070,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponses =
-            (List<FeedbackResponse>) q.execute(courseId, giverEmail);
+                (List<FeedbackResponse>) q.execute(courseId, giverEmail);
         
         return feedbackResponses;
     }

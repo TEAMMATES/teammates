@@ -119,8 +119,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
         if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
-            || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
-            || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
+                || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
+                || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
             return true;
         }
         
@@ -320,8 +320,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
-                "<br>The options for this question is automatically generated from the list of all %s in this course.", 
-                generateOptionsFor.toString().toLowerCase());
+                    "<br>The options for this question is automatically generated from the list of all %s in this course.", 
+                    generateOptionsFor.toString().toLowerCase());
             optionListHtml.append(optionHelpText);
         }
         
@@ -473,7 +473,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE 
-            && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
+                && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?

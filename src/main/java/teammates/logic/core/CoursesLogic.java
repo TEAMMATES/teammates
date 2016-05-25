@@ -153,9 +153,9 @@ public class CoursesLogic {
                 //TODO Remove excessive logging after the reason why s can be null is found
                 StringBuilder logMsg = new StringBuilder();
                 logMsg.append(
-                    "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
-                    + googleId + "<br> Course: " + c.getId()
-                    + "<br> All Courses Retrieved using the Google ID:");
+                        "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
+                        + googleId + "<br> Course: " + c.getId()
+                        + "<br> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
                     logMsg.append("<br>").append(course.getId());
                 }
