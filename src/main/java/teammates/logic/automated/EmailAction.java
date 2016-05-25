@@ -122,7 +122,7 @@ public abstract class EmailAction {
         log.severe(e.getMessage());
     }
 
-    private String generateLogMessage(List<MimeMessage> emailsSent) throws Exception {
+    private String generateLogMessage(List<MimeMessage> emailsSent) throws MessagingException, IOException {
         StringBuilder logMessage = new StringBuilder(100);
         logMessage.append("Emails sent to:<br/>");
         
@@ -144,7 +144,8 @@ public abstract class EmailAction {
         return logMessage.toString();
     }
     
-    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails) throws Exception {
+    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails)
+            throws MessagingException, IOException {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
         for (MimeMessage email : emails) {
