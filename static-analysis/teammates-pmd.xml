@@ -27,6 +27,7 @@
 
     <rule ref="rulesets/java/empty.xml">
         <!-- Prefer Checkstyle's which allows commented empty block -->
+        <exclude name="EmptyIfStmt"/>
         <exclude name="EmptyCatchBlock"/>
     </rule>
 
