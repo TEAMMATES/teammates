@@ -442,13 +442,11 @@ public final class BackDoor {
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
             String feedbackSessionName, int qnNumber) {
         String jsonString = getFeedbackQuestionAsJson(feedbackSessionName, courseID, qnNumber);
-        Utils.getLogger().info(jsonString);
         return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
     }
     
     public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
         String jsonString = getFeedbackQuestionForIdAsJson(questionId);
-        Utils.getLogger().info(jsonString);
         return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
     }
     
@@ -489,7 +487,6 @@ public final class BackDoor {
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
             String giverEmail, String recipient) {
         String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
-        Utils.getLogger().info(jsonString);
         return Utils.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
     }
     

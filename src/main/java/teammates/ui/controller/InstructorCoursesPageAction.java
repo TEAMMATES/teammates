@@ -4,22 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursesPageAction extends Action {
-    /* Explanation: Get a logger to be used for any logging */
-    protected static final Logger log = Utils.getLogger();
 
     @Override
     public ActionResult execute() {

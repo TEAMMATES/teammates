@@ -15,7 +15,7 @@ import com.google.appengine.api.utils.SystemProperty;
  */
 public class Config {
 
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static Config instance = inst();
     private static Properties props;
     

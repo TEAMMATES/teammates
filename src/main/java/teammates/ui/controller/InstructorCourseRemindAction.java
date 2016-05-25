@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -18,7 +17,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Utils;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
@@ -26,7 +24,6 @@ import teammates.logic.api.GateKeeper;
  * Action: remind instructor or student to register for a course by sending reminder emails
  */
 public class InstructorCourseRemindAction extends Action {
-    protected static final Logger log = Utils.getLogger();
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

@@ -34,7 +34,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-    protected static final Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
