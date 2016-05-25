@@ -306,7 +306,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
     }
 
-    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (StudentFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

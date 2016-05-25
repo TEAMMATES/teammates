@@ -17,7 +17,6 @@ import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -41,7 +40,7 @@ public class StudentProfilePictureEditAction extends Action {
     private String rotateString;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {

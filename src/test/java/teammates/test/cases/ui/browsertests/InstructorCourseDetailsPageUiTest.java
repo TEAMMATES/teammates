@@ -34,7 +34,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
@@ -250,7 +250,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }

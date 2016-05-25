@@ -35,6 +35,7 @@ public class FeedbackQuestionBundle {
     }
 
     private class RecipientComparator implements Comparator<Map.Entry<String, String>> {
+        @Override
         public int compare(Map.Entry<String, String> recipient1, Map.Entry<String, String> recipient2) {
             // Sort by value (name) first.
             if (!recipient1.getValue().equals(recipient2.getValue())) {

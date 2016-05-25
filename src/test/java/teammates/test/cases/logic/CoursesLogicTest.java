@@ -100,7 +100,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetArchivedCoursesForInstructor() throws Exception {
+    public void testGetArchivedCoursesForInstructor() {
         
         ______TS("success: instructor with archive course");
         String instructorId = dataBundle.instructors.get("instructorOfArchivedCourse").googleId;
@@ -1162,7 +1162,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
-    public void testDeleteCourse() throws Exception {
+    public void testDeleteCourse() {
     
         ______TS("typical case");
     

@@ -48,7 +48,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
-    public void testSetUp() throws Exception {
+    public void testSetUp() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
         
@@ -205,7 +205,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     @AfterTest
-    public void testTearDown() throws Exception {
+    public void testTearDown() {
         gaeSimulation.tearDown();
     }
 }

@@ -114,8 +114,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         }
     }
 
-    private Set<String> getNonRespondentsForFeedbackSession(
-                                    FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException {
+    private Set<String> getNonRespondentsForFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         
         // obtain the respondents first
         Set<String> respondingStudentsEmail = feedbackSession.respondingStudentList;                

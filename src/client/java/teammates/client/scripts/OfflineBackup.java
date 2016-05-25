@@ -26,7 +26,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -47,6 +46,7 @@ public class OfflineBackup extends RemoteApiClient {
         offlineBackup.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         List<String> logs = getModifiedLogs();
@@ -156,26 +156,22 @@ public class OfflineBackup extends RemoteApiClient {
      */
     protected void retrieveAndSaveAccountsByCourse(String courseId) {
         
-        try {
-            Logic logic = new Logic();
-            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            
-            FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
-            
-            for (StudentAttributes student : students) {
-                saveStudentAccount(student);
-            }
-            
-            for (InstructorAttributes instructor : instructors) {
-                saveInstructorAccount(instructor);
-            } 
-            
-            FileHelper.appendToFile(currentFileName, "\n\t},\n");
-            hasPreviousEntity = false;
-        } catch (EntityDoesNotExistException entityException) {
-            System.out.println("Error occurred while trying to save accounts within course " + courseId);
+        Logic logic = new Logic();
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        
+        FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
+        
+        for (StudentAttributes student : students) {
+            saveStudentAccount(student);
         }
+        
+        for (InstructorAttributes instructor : instructors) {
+            saveInstructorAccount(instructor);
+        } 
+        
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
+        hasPreviousEntity = false;
     }
     
     /** 
@@ -300,20 +296,16 @@ public class OfflineBackup extends RemoteApiClient {
      *  Retrieves all the students from a course and saves them
      */
     protected void retrieveAndSaveStudentsByCourse(String courseId) {
-        try {
-            Logic logic = new Logic();
-            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-            
-            FileHelper.appendToFile(currentFileName, "\t\"students\":{\n");
-            
-            for (StudentAttributes student : students) {
-                saveStudent(student);
-            }
-            hasPreviousEntity = false;
-            FileHelper.appendToFile(currentFileName, "\n\t},\n");
-        } catch (EntityDoesNotExistException exception) {
-            System.out.println("Error while trying to save students in course " + courseId);
+        Logic logic = new Logic();
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        
+        FileHelper.appendToFile(currentFileName, "\t\"students\":{\n");
+        
+        for (StudentAttributes student : students) {
+            saveStudent(student);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -321,26 +313,22 @@ public class OfflineBackup extends RemoteApiClient {
      */
     protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
   
-        try {
-            Logic logic = new Logic();
-            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-            
-            FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
-            
-            for (StudentAttributes student : students) {
-                if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
-                    StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-                    if (profile != null) {
-                        saveProfile(profile);
-                    }
+        Logic logic = new Logic();
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        
+        FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
+        
+        for (StudentAttributes student : students) {
+            if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
+                StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+                if (profile != null) {
+                    saveProfile(profile);
                 }
             }
-            
-            FileHelper.appendToFile(currentFileName, "\n\t}\n");
-            hasPreviousEntity = false;
-        } catch (EntityDoesNotExistException entityException) {
-            System.out.println("Error occurred while trying to save profiles within course " + courseId);
         }
+        
+        FileHelper.appendToFile(currentFileName, "\n\t}\n");
+        hasPreviousEntity = false;
     }
     
     /** 

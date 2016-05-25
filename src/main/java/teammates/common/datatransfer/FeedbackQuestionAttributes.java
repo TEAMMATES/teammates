@@ -78,6 +78,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.feedbackQuestionId = id;
     }
 
+    @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionNumber, questionType, giverType,
@@ -120,6 +121,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();

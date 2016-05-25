@@ -26,6 +26,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         migrator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         appendInstitutionForAccounts();
     }
