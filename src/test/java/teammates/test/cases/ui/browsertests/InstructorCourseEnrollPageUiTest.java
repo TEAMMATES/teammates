@@ -119,8 +119,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         // Ensure students were actually enrolled
         AppUrl coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(courseId);
+                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                .withCourseId(courseId);
         InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 

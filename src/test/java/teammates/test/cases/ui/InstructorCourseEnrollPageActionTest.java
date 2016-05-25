@@ -58,8 +58,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         courseId = instructor.courseId;
 
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
         };
         enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
         pageResult = getShowPageResult(enrollPageAction);
