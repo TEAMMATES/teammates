@@ -207,10 +207,28 @@ function bindCollapseEvents(panels, nPanels) {
             if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
             }
-            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + numPanels);
-            $(heading[0]).attr('id', 'panelHeading-' + numPanels);
+
+            var sectionIndex = '';
+
+            var isSectionPanel = true,
+                sectionBody = $(heading).next().find('[id^="sectionBody-"]');
+
+            if (sectionBody.length === 0) {
+                sectionBody = $(heading).parents('[id^="sectionBody-"]');
+                isSectionPanel = false;
+            }
+
+            if (sectionBody.length !== 0) {
+                sectionIndex = sectionBody.attr('id').match(/sectionBody-(\d+)/)[1] + '-';
+                if (isSectionPanel) {
+                    sectionIndex = "section-" + sectionIndex;
+                }
+            }
+
+            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + sectionIndex + numPanels);
+            $(heading[0]).attr('id', 'panelHeading-' + sectionIndex + numPanels);
             $(heading[0]).css('cursor', 'pointer');
-            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + numPanels);
+            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + sectionIndex + numPanels);
         }
     }
     return numPanels;

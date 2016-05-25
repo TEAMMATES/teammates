@@ -393,7 +393,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-recipient-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
@@ -406,18 +406,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
-        ______TS("Failure case: ajax error for giver > recipient > question");
-        // Change fs name so that the ajax request will fail
-        resultsPage.changeFsNameInAjaxLoadResponsesForm(1, "invalidFsName");
-        resultsPage.clickAjaxLoadResponsesPanel(1);
-        resultsPage.waitForAjaxError(1);
-        
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-question-recipient");
         
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
@@ -432,7 +426,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-question-giver");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
@@ -447,7 +441,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-giver-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
