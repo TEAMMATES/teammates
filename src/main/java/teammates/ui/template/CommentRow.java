@@ -7,7 +7,7 @@ import teammates.common.util.TimeHelper;
 
 import static teammates.common.datatransfer.CommentParticipantType.*;
 
-public class Comment {
+public class CommentRow {
 
     private CommentAttributes comment;
     private String giverDisplay;
@@ -29,7 +29,7 @@ public class Comment {
     private String studentEmail;
     private int numComments;
 
-    public Comment(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
+    public CommentRow(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
         this.comment = comment;
         this.giverDisplay = giverDisplay;
         this.recipientDisplay = recipientDisplay;
