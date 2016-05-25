@@ -110,14 +110,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
                                                        responseToBeDeleted.feedbackSessionName));
 
-        FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session2InCourse1");
-        StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
-        int originalResponseRate = getResponseRate(sessionAttributes);
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
 
         frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
-        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseGiver.getEmail(),
-                sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
-        int responseRateAfterDeletion = getResponseRate(sessionAttributes);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted.giverEmail,
+                responseToBeDeleted.feedbackSessionName, responseToBeDeleted.courseId);
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
 
         assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
 
@@ -131,14 +131,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertTrue(1 < numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
                                                       responseToBeDeleted.feedbackSessionName));
 
-        FeedbackSessionAttributes sessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
-        int originalResponseRate = getResponseRate(sessionAttributes);
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
 
         frLogic.deleteFeedbackResponseAndCascade(responseToBeDeleted);
-        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseGiver.getEmail(),
-                sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
-        int responseRateAfterDeletion = getResponseRate(sessionAttributes);
+        fsLogic.updateSessionResponseRateForDeletedStudentResponse(responseToBeDeleted.giverEmail,
+                responseToBeDeleted.feedbackSessionName, responseToBeDeleted.courseId);
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
 
         assertEquals(originalResponseRate, responseRateAfterDeletion);
 
@@ -155,9 +155,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         return numResponses;
     }
 
-    private int getResponseRate(FeedbackSessionAttributes sessionAttributes) {
-        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(
-            sessionAttributes.getFeedbackSessionName(), sessionAttributes.getCourseId());
+    private int getResponseRate(String sessionName, String courseId) {
+        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(sessionName, courseId);
         return sessionFromDataStore.respondingInstructorList.size()
                 + sessionFromDataStore.respondingStudentList.size();
     }
