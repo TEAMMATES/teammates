@@ -1109,6 +1109,9 @@ public final class Const {
         public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
                 + "<span class='text-danger text-bold text-large'>%s</span>. " 
                 + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
+                "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
+                + "Enrollment for Course <span class=\"bold\">[%s]</span>";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
