@@ -8,8 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
@@ -22,6 +20,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class CommentsLogicTest extends BaseComponentTestCase {
 

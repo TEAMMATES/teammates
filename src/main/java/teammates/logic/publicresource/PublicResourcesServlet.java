@@ -1,7 +1,6 @@
 package teammates.logic.publicresource;
 
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
@@ -56,6 +55,6 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     protected void logMessage(HttpServletRequest request, String message) {
         String url = HttpRequestHelper.getRequestedURL(request);
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url);
-        log.log(Level.INFO, activityLogEntry.generateLogMessage());
+        log.info(activityLogEntry.generateLogMessage());
     }
 }

@@ -648,13 +648,15 @@ public class FieldValidator {
             return "";
         }
 
-        String mainFieldName, earlierFieldName, laterFieldName;
+        String mainFieldName;
         
         if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
             mainFieldName = FEEDBACK_SESSION_NAME;
         } else {
             throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
         }
+        
+        String earlierFieldName;
         
         switch (earlierFieldType) {
         case START_TIME:
@@ -672,6 +674,8 @@ public class FieldValidator {
         default:
             throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
         }
+        
+        String laterFieldName;
         
         switch (laterFieldType) {
         case START_TIME:

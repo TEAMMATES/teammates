@@ -3,15 +3,15 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 /**
  * The data transfer class for Instructor entities.

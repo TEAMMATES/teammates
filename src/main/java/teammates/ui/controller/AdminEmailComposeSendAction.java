@@ -9,25 +9,25 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobInfo;
-import com.google.appengine.api.blobstore.BlobInfoFactory;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreInputStream;
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.TaskQueuesLogic;
+
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreInputStream;
+import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailComposeSendAction extends Action {
     

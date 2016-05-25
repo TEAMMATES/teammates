@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -23,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -37,12 +34,14 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.EmailTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
  * Handles operations related to sending e-mails.
@@ -761,10 +760,9 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     
@@ -772,10 +770,9 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     

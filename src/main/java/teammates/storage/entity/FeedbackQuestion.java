@@ -1,7 +1,7 @@
 package teammates.storage.entity;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -11,11 +11,11 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Const;
+
+import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {

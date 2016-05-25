@@ -87,10 +87,8 @@ public final class TestProperties {
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException(e);
         }
     }
 

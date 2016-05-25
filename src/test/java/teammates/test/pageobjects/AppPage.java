@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -31,8 +30,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -46,7 +45,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -62,7 +60,6 @@ import teammates.test.driver.TestProperties;
  */
 @SuppressWarnings("deprecation")
 public abstract class AppPage {
-    protected static Logger log = Utils.getLogger();
     private static final By MAIN_CONTENT = By.id("mainContent");
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
@@ -479,7 +476,7 @@ public abstract class AppPage {
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
-    public void saveCurrentPage(String filePath, String content) throws Exception {
+    public void saveCurrentPage(String filePath, String content) throws IOException {
         FileWriter output = new FileWriter(new File(filePath));
         output.write(content);
         output.close();
@@ -846,25 +843,19 @@ public abstract class AppPage {
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
-    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
-        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
-            return regenerateHtmlFile(filePath, content, isPart);
-        }
-        return false;
+    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
+        return Boolean.parseBoolean(System.getProperty("godmode"))
+                && regenerateHtmlFile(filePath, content, isPart);
     }
     
-    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
+    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
         if (content == null || content.isEmpty()) { 
             return false;
         }
         
         TestProperties.inst().verifyReadyForGodMode();
-        try {
-            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-            saveCurrentPage(filePath, processedPageSource);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+        saveCurrentPage(filePath, processedPageSource);
         return true;
     }
     

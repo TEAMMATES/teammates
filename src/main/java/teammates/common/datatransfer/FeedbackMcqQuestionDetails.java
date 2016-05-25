@@ -22,10 +22,22 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
-    public int numOfMcqChoices;
-    public List<String> mcqChoices;
-    public boolean otherEnabled;
-    FeedbackParticipantType generateOptionsFor;
+    private int numOfMcqChoices;
+    private List<String> mcqChoices;
+    private boolean otherEnabled;
+    private FeedbackParticipantType generateOptionsFor;
+
+    public int getNumOfMcqChoices() {
+        return numOfMcqChoices;
+    }
+
+    public List<String> getMcqChoices() {
+        return mcqChoices;
+    }
+
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
+    }
 
     public FeedbackMcqQuestionDetails() {
         super(FeedbackQuestionType.MCQ);
@@ -273,7 +285,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
-                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 

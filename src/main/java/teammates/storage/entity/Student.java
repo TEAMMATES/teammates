@@ -148,7 +148,7 @@ public class Student implements StoreCallback {
     }
 
     public void setGoogleId(String googleId) {
-        this.ID = (googleId == null ? null : googleId.trim());
+        this.ID = googleId == null ? null : googleId.trim();
     }
 
     public String getName() {
@@ -180,7 +180,7 @@ public class Student implements StoreCallback {
 
     // null comment setting are not tested
     public void setComments(String comments) {
-        this.comments = (comments == null ? null : comments.trim());
+        this.comments = comments == null ? null : comments.trim();
     }
 
     public Long getRegistrationKey() {
@@ -201,7 +201,7 @@ public class Student implements StoreCallback {
 
     // null team name setting are not tested
     public void setTeamName(String teamName) {
-        this.teamName = (teamName == null ? null : teamName.trim());
+        this.teamName = teamName == null ? null : teamName.trim();
     }
 
     public String getSectionName() {
@@ -209,7 +209,7 @@ public class Student implements StoreCallback {
     }
 
     public void setSectionName(String sectionName) {
-        this.sectionName = (sectionName == null ? null : sectionName.trim());
+        this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
     // not tested as this is part of client script

@@ -34,7 +34,7 @@ public class AccountsLogic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
         if (instance == null) {
@@ -161,7 +161,7 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
+        String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
         
         if (account == null) {
             createAccount(new AccountAttributes(googleId,

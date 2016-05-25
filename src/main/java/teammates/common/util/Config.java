@@ -42,7 +42,7 @@ public class Config {
     /** The value of the "app.sendgrid.password" in build.properties file */
     public static String SENDGRID_PASSWORD;
 
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static Config instance = inst();
     private static Properties props;
     
