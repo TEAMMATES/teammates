@@ -3,11 +3,11 @@ $(document).ready(function() {
     var classNameForCommentsInStudentRecords = 'panel panel-info student-record-comments giver_display-by';
     
     function isRedirectToSpecificComment() {
-        return $(location).attr('href').indexOf('#') !== -1;
+        return location.href.indexOf('#') !== -1;
     }
     
     function getRedirectSpecificCommentRow() {
-        var url = $(location).attr('href');
+        var url = location.href;
         var start = url.indexOf('#');
         var end = url.length;
         var rowId = url.substring(start, end);
