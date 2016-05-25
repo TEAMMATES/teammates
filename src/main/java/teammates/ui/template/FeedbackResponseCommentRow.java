@@ -3,8 +3,8 @@ package teammates.ui.template;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {

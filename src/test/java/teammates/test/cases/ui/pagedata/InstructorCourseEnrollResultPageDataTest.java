@@ -13,11 +13,12 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
+@SuppressWarnings("PMD.UseUtilityClass")
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
-private static DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     

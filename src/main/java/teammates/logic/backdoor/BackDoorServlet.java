@@ -3,7 +3,6 @@ package teammates.logic.backdoor;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,13 +95,13 @@ public class BackDoorServlet extends HttpServlet {
     
     private static final Logger log = Utils.getLogger();
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);
         log.info(action);
@@ -278,5 +277,4 @@ public class BackDoorServlet extends HttpServlet {
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
-
 }

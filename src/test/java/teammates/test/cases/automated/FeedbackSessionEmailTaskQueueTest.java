@@ -6,17 +6,17 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 /**
  *  Tests feedback session reminder and publish emails.
@@ -65,7 +65,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 
@@ -112,7 +112,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
     }
     
-    private void testFeedbackSessionsRemindEmail() throws Exception {
+    private void testFeedbackSessionsRemindEmail() {
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
 

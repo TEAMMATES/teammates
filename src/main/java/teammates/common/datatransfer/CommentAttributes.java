@@ -11,10 +11,10 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
@@ -22,10 +22,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes> {
+public class CommentAttributes extends EntityAttributes implements Comparable<CommentAttributes> {
 
-    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -39,9 +37,10 @@ public class CommentAttributes extends EntityAttributes
     public Date createdAt;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long commentId;
 
     public CommentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
@@ -100,6 +99,7 @@ public class CommentAttributes extends EntityAttributes
         this.commentId = commentId;
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
@@ -118,46 +118,47 @@ public class CommentAttributes extends EntityAttributes
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
-                case PERSON :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+            case PERSON :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case TEAM :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case TEAM :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case SECTION :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case SECTION :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                case COURSE :
-                    for (String recipientId : recipients) {
-                        error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
-                        if (!error.isEmpty()) {
-                            errors.add(error);
-                        }
+                }
+                break;
+            case COURSE :
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
                     }
-                    break;
-                default : // cases for NONE or null
-                    break;
+                }
+                break;
+            default : // cases for NONE or null
+                break;
             }
         }
 
         return errors;
     }
 
+    @Override
     public Comment toEntity() {
         return new Comment(courseId, giverEmail, recipientType, recipients, status, sendingState, showCommentTo,
                 showGiverNameTo, showRecipientNameTo, commentText, createdAt, lastEditorEmail, lastEditedAt);
@@ -237,26 +238,26 @@ public class CommentAttributes extends EntityAttributes
 
     private void sanitizeForVisibilityOptions() {
         switch (recipientType) {
-            case PERSON :
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
-                break;
-            case TEAM :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
-                break;
-            case SECTION :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
-                break;
-            case COURSE :
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
-                removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
-                removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
-                break;
-            default :
-                break;
+        case PERSON :
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
+            break;
+        case TEAM :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
+            break;
+        case SECTION :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
+            break;
+        case COURSE :
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
+            removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
+            break;
+        default :
+            break;
         }
     }
     
@@ -302,6 +303,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTime(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment1.createdAt.compareTo(comment2.createdAt);
             }
@@ -310,6 +312,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment2.createdAt.compareTo(comment1.createdAt);
             }

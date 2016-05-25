@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -182,8 +182,7 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 

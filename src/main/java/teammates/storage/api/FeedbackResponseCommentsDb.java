@@ -6,13 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
@@ -24,10 +20,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
+
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD Operations for {@link FeedbackResponseComment}.
@@ -35,8 +33,6 @@ import teammates.storage.search.FeedbackResponseCommentSearchQuery;
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
-    private static final Logger log = Utils.getLogger();
-    
     /**
      * This method is for testing only
      * @param commentsToAdd
@@ -68,10 +64,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         if (createdEntity == null) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
-        } else {
-            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            return createdComment;
         }
+        return new FeedbackResponseCommentAttributes(createdEntity);
     }
     
     /*
@@ -345,8 +339,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        return updatedComment;
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /*

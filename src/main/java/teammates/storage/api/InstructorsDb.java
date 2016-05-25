@@ -5,13 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -24,10 +20,12 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
+
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD Operations for instructor roles.
@@ -36,14 +34,13 @@ import teammates.storage.search.InstructorSearchQuery;
  */
 public class InstructorsDb extends EntitiesDb {
     
-    private static final Logger log = Utils.getLogger();
-
     /* =========================================================================
      * Methods related to Google Search API
      * =========================================================================
      */
     
-    public void putDocument(InstructorAttributes instructor) {
+    public void putDocument(InstructorAttributes instructorParam) {
+        InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
@@ -95,7 +92,7 @@ public class InstructorsDb extends EntitiesDb {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
         
-        for (InstructorAttributes instructor: instructorsToAdd) {
+        for (InstructorAttributes instructor : instructorsToAdd) {
             if (!instructorsToUpdate.contains(instructor)) {
                 putDocument(instructor);
             }
@@ -181,8 +178,7 @@ public class InstructorsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
-        encryptedKey = encryptedKey.trim();
-        String decryptedKey = StringHelper.decrypt(encryptedKey);
+        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
@@ -526,20 +522,18 @@ public class InstructorsDb extends EntitiesDb {
      * Omits instructors with isArchived == omitArchived.
      * This means that the corresponding course is archived by the instructor.
      */
+    @SuppressWarnings("unchecked")
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (!omitArchived) {
-            return getInstructorEntitiesForGoogleId(googleId);
-        } 
-        
-        Query q = getPM().newQuery(Instructor.class);
-        q.declareParameters("String googleIdParam, boolean omitArchivedParam");
-        // Omit archived == true, get instructors with isArchived != true
-        q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
-        
-        @SuppressWarnings("unchecked")
-        List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-        return instructorList;
+        if (omitArchived) {
+            Query q = getPM().newQuery(Instructor.class);
+            q.declareParameters("String googleIdParam, boolean omitArchivedParam");
+            // Omit archived == true, get instructors with isArchived != true
+            q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
+            
+            return (List<Instructor>) q.execute(googleId, omitArchived);
+        }
+        return getInstructorEntitiesForGoogleId(googleId);
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

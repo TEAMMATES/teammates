@@ -20,8 +20,8 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    public transient static final int MIN_NUM_OF_OPTIONS = 2;
-    public transient static final String ERROR_NOT_ENOUGH_OPTIONS =
+    public static final transient int MIN_NUM_OF_OPTIONS = 2;
+    public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
             + ". Minimum number of options is: ";
     
@@ -252,8 +252,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             return "";
         }
         
-        String html = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder(100);
         
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
@@ -267,18 +266,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             String option = entry.getKey();
             
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                                                                         "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
                                                                         "${ranksReceived}", ranksReceived,
-                                                                        "${averageRank}", df.format(average));
+                                                                        "${averageRank}", df.format(average)));
         
         }
  
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
                                                              "${optionRecipientDisplayName}", "Option",
-                                                             "${fragments}", fragments);
-        
-        return html;
+                                                             "${fragments}", fragments.toString());
     }
 
     @Override
@@ -290,8 +287,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
@@ -301,14 +297,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
           
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
-            fragments += option + "," + df.format(average) + Const.EOL;
-            
+            String fragment = option + "," + df.format(average) + Const.EOL;
+            fragments.append(fragment);
         }
-        
-        csv += "Option" + ", Average Rank" + Const.EOL 
-             + fragments + Const.EOL;
-        
-        return csv;
+
+        return "Option, Average Rank" + Const.EOL + fragments.toString() + Const.EOL;
     }
 
     /**
@@ -394,23 +387,22 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         if (areDuplicatesAllowed) {
             return new ArrayList<String>();
-        } else {
-            List<String> errors = new ArrayList<>();
-            
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-                Set<Integer> responseRank = new HashSet<>();
-                
-                for (int answer : frd.getFilteredSortedAnswerList()) {
-                    if (responseRank.contains(answer)) {
-                        errors.add("Duplicate rank " + answer);
-                    }
-                    responseRank.add(answer);
-                }
-            }
-        
-            return errors;
         }
+        List<String> errors = new ArrayList<>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+            Set<Integer> responseRank = new HashSet<>();
+            
+            for (int answer : frd.getFilteredSortedAnswerList()) {
+                if (responseRank.contains(answer)) {
+                    errors.add("Duplicate rank " + answer);
+                }
+                responseRank.add(answer);
+            }
+        }
+    
+        return errors;
     }
 
     @Override

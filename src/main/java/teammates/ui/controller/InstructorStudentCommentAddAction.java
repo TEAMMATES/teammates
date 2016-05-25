@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
@@ -19,10 +17,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Url;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Create a new {@link CommentAttributes}
@@ -92,7 +92,7 @@ public class InstructorStudentCommentAddAction extends Action {
         }
     }
 
-    private void verifyAccessibleByInstructor(String courseId) throws EntityDoesNotExistException {
+    private void verifyAccessibleByInstructor(String courseId) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);

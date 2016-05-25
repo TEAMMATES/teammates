@@ -27,7 +27,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         
@@ -219,7 +219,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
@@ -248,11 +248,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     // continuously ask BackDoor to get the key until a legit key is returned
     private String getKeyFromBackDoor(String courseId, String studentEmail) {
-        int NUMBER_OF_REMAINING_RETRIES = 10;
+        int numberOfRemainingRetries = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
             key = BackDoor.getKeyForStudent(courseId, studentEmail);
-            NUMBER_OF_REMAINING_RETRIES--;
+            numberOfRemainingRetries--;
             ThreadHelper.waitFor(100);
         }
         return key;

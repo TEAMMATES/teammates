@@ -15,10 +15,6 @@ public class FeedbackQuestionFeedbackPathSettings {
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
-    
-    public FeedbackQuestionFeedbackPathSettings() {
-        
-    }
 
     public List<ElementTag> getGiverParticipantOptions() {
         return giverParticipantOptions;

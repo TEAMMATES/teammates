@@ -83,16 +83,16 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
-        choiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
+        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
-        choiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
+        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -138,10 +138,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        getSubmitButton().click();
     }
 
+    public WebElement getSubmitButton() {
+        return browser.driver.findElement(By.id("response_submit_button"));
+    }
+    
     public void linkOnHomeLink() {
         studentHomeTab.click();
         AppPage.getNewPageInstance(browser, StudentHomePage.class);

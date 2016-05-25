@@ -14,8 +14,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
@@ -34,7 +32,7 @@ public class BackDoorTest extends BaseTestCase {
     private static String jsonString = gson.toJson(dataBundle);
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         printTestClassHeader();
         dataBundle = getTypicalDataBundle();
         int retryLimit = 5;
@@ -46,10 +44,6 @@ public class BackDoorTest extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
     }
 
-    @SuppressWarnings("unused")
-    private void ____SYSTEM_level_methods_________________________________() {
-    }
-    
     @Priority(-2)
     @Test
     public void testPersistence() {
@@ -127,12 +121,8 @@ public class BackDoorTest extends BaseTestCase {
 
     }
     
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods_________________________________() {
-    }
-    
     @Test
-    public void testAccounts() throws Exception {
+    public void testAccounts() {
         
         testCreateAccount();
         testGetAccountAsJson();
@@ -172,10 +162,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyPresentInDatastore(testAccount);
         BackDoor.deleteAccount(testAccount.googleId);
         verifyAbsentInDatastore(testAccount);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods_________________________________() {
     }
 
     public void testDeleteInstructors() {
@@ -220,12 +206,8 @@ public class BackDoorTest extends BaseTestCase {
         // method not implemented
     }
 
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods_________________________________() {
-    }
-
     @Test
-    public void testCreateCourse() throws InvalidParametersException {
+    public void testCreateCourse() {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
@@ -258,12 +240,8 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
 
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods_________________________________() {
-    }
-
     @Test
-    public void testCreateStudent() throws EnrollException {
+    public void testCreateStudent() {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
@@ -279,7 +257,7 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetKeyForStudent() throws EnrollException {
+    public void testGetKeyForStudent() {
 
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
@@ -348,10 +326,6 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
-    }
-
     @Test
     public void testCreateFeedbackResponse() {
 
@@ -384,15 +358,7 @@ public class BackDoorTest extends BaseTestCase {
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
         verifyAbsentInDatastore(fr);
     }
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
-
-    @SuppressWarnings("unused")
-    private void ____helper_methods_________________________________() {
-    }
-
+    
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
     }

@@ -29,7 +29,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -38,7 +38,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception {    
+    public void allTests() {    
         testContent();
         testSearch();        
     }
@@ -131,10 +131,9 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                 }
             }
             return true;
-        } else {     
-            searchPage.verifyStatus("No result found, please try again");
-            return true;
         }
+        searchPage.verifyStatus("No result found, please try again");
+        return true;
         
     }
     
@@ -275,13 +274,12 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             return actualNameLink.equals(expectedNameLink) 
                    && actualGoogleIdLink.equals(expectedGoogleIdLink);
 
-        } else {
-            return actualNameLink.equals(expectedNameLink);
         }
+        return actualNameLink.equals(expectedNameLink);
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

@@ -18,6 +18,7 @@ public class CourseEditInstructorPanel {
     private ElementTag addSectionLevelForInstructorButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
+    private int firstBlankSectionRowIndex;
     
     public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, 
                                      InstructorAttributes instructor, List<String> sectionNames, 
@@ -42,7 +43,7 @@ public class CourseEditInstructorPanel {
                 style = "display: none;";
             }
             String onClick = "showTuneSectionPermissionsDiv(" + index + ", " 
-                             + instructor.privileges.numberOfSectionsSpecial() + ")";
+                             + firstBlankSectionRowIndex + ")";
             String content = "Give different permissions for a specific section";
             String id = "addSectionLevelForInstructor" + index;
             addSectionLevelForInstructorButton = createButton(content, "small", id, "javascript:;",
@@ -52,14 +53,30 @@ public class CourseEditInstructorPanel {
 
     private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames, 
                                    List<String> feedbackNames) {
+        firstBlankSectionRowIndex = sectionNames.size();
         List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
+        List<CourseEditSectionRow> blankRows = new ArrayList<CourseEditSectionRow>();
         int sectionIndex = -1; 
         for (String sectionName : sectionNames) {
             sectionIndex++;
             CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, 
                                                                        sectionIndex, instructor, 
                                                                        instructorIndex, feedbackNames);
-            rows.add(sectionRow);
+            
+            // break section rows into special and blank lists
+            if (sectionRow.isSectionSpecial()) {
+                rows.add(sectionRow);
+            } else {
+                blankRows.add(sectionRow);
+                if (firstBlankSectionRowIndex == sectionNames.size()) {
+                    firstBlankSectionRowIndex = sectionRow.getSectionIndex();
+                }
+            }
+        }
+        
+        // append blank list to the special list, so all special rows appear before blank rows
+        for (CourseEditSectionRow blankRow : blankRows) {
+            rows.add(blankRow);
         }
         return rows;
     }

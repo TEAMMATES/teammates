@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +60,8 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionNumberOptions = qnNumOptions;
       
         FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
-        FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings();
         
         newQnForm.feedbackPathSettings = feedbackPathSettings;
-        newQnForm.visibilitySettings = visibilitySettings;
         
         feedbackPathSettings.setGiverParticipantOptions(giverOptions);
         feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
@@ -71,12 +70,14 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
         newQnForm.isEditable = true;
         
-        setDefaultVisibilityOptions(visibilitySettings);
+        FeedbackQuestionVisibilitySettings visibilitySettings = 
+                                        getDefaultVisibilityOptions();
+        newQnForm.visibilitySettings = visibilitySettings;
         
         return newQnForm;
     }
     
-    private static void setDefaultVisibilityOptions(FeedbackQuestionVisibilitySettings visibilityOptions) {
+    private static FeedbackQuestionVisibilitySettings getDefaultVisibilityOptions() {
         Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
@@ -85,19 +86,15 @@ public class FeedbackQuestionEditForm {
                                                        FeedbackParticipantType.RECEIVER    };
         
         for (FeedbackParticipantType participant : participantTypes) {
-           isGiverNameVisible.put(participant.name(), true);
-           isRecipientNameVisible.put(participant.name(), true);
-           isResponsesVisible.put(participant.name(), true);
+            isGiverNameVisible.put(participant.name(), true);
+            isRecipientNameVisible.put(participant.name(), true);
+            isResponsesVisible.put(participant.name(), true);
         }
         
-        visibilityOptions.setGiverNameVisibleFor(isGiverNameVisible);
-        visibilityOptions.setRecipientNameVisibleFor(isRecipientNameVisible);
-        visibilityOptions.setResponseVisibleFor(isResponsesVisible);
+        return new FeedbackQuestionVisibilitySettings(new ArrayList<String>(), isResponsesVisible,
+                                                       isGiverNameVisible, isRecipientNameVisible);
     }
     
-    public FeedbackQuestionEditForm() {
-    }
-
     public String getCourseId() {
         return courseId;
     }

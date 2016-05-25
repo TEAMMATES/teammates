@@ -20,7 +20,7 @@ public class TeamEvalResult {
     public static int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
     public static int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;
@@ -203,7 +203,7 @@ public class TeamEvalResult {
             if (isSpecialValue((int) value)) {
                 output[j] = value;
             } else {
-                output[j] = (factor == 0 ? value : value * factor);
+                output[j] = factor == 0 ? value : value * factor;
             }
         }
         return output;
@@ -216,7 +216,7 @@ public class TeamEvalResult {
             int filterValue = (int) filterArray[i];
             boolean isSpecialValue = !isSanitized(filterValue)
                     || filterValue == NA;
-            returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+            returnValue[i] = isSpecialValue ? NA : valueArray[i];
         }
         return returnValue;
     }
@@ -234,7 +234,7 @@ public class TeamEvalResult {
 
             double value = input[i];
             if (value != NA) {
-                sum = (sum == NA ? value : sum + value);
+                sum = sum == NA ? value : sum + value;
             }
         }
         return sum;
@@ -249,7 +249,7 @@ public class TeamEvalResult {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
-                output[i][j] = ((i == j) ? NA : input[i][j]);
+                output[i][j] = i == j ? NA : input[i][j];
             }
         }
         return output;
@@ -347,22 +347,21 @@ public class TeamEvalResult {
     private static double averageColumn(double[][] array, int columnIndex) {
         double sum = 0;
         int count = 0;
-        String values = "";
+        StringBuilder values = new StringBuilder();
         for (int j = 0; j < array.length; j++) {
             double value = array[j][columnIndex];
 
-            values = values + value + " ";
+            values.append(value).append(' ');
             if (value == NA) {
                 continue;
-            } else {
-                sum += value;
-                count++;
             }
+            sum += value;
+            count++;
         }
         // omit calculation if no data points
         double average = count == 0 ? NA : (double) (sum / count);
 
-        String logMessage = "Average(" + values.trim() + ") = " + average;
+        String logMessage = "Average(" + values.toString().trim() + ") = " + average;
         log.fine(replaceMagicNumbers(logMessage));
 
         return average;
@@ -377,37 +376,36 @@ public class TeamEvalResult {
     }
 
     public static String pointsToString(double[][] array) {
-        String returnValue = "";
+        StringBuilder returnValue = new StringBuilder();
         boolean isSquareArray = array.length == array[0].length;
         int teamSize = (array.length - 1) / 3;
         int firstDividerLocation = teamSize - 1;
         int secondDividerLocation = teamSize * 2 - 1;
         int thirdDividerLocation = secondDividerLocation + 1;
         for (int i = 0; i < array.length; i++) {
-            returnValue = returnValue + Arrays.toString(array[i]) + Const.EOL;
+            returnValue.append(Arrays.toString(array[i])).append(Const.EOL);
             if (isSquareArray) {
                 continue;
             }
             if (i == firstDividerLocation || i == secondDividerLocation
                 || i == thirdDividerLocation) {
-                returnValue = returnValue + "======================="
-                        + Const.EOL;
+                returnValue.append("=======================")
+                           .append(Const.EOL);
             }
         }
-        returnValue = replaceMagicNumbers(returnValue);
-        return returnValue;
+        return replaceMagicNumbers(returnValue.toString());
     }
 
     /** replaces 999 etc. with NA, NSB, NSU etc.
      */
     public static String replaceMagicNumbers(String returnValue) {
-        returnValue = returnValue.replace(NA + ".0", " NA");
-        returnValue = returnValue.replace(Integer.toString(NA), " NA");
-        returnValue = returnValue.replace(NSB + ".0", "NSB");
-        returnValue = returnValue.replace(NSU + ".0", "NSU");
-        return returnValue;
+        return returnValue.replace(NA + ".0", " NA")
+                          .replace(Integer.toString(NA), " NA")
+                          .replace(NSB + ".0", "NSB")
+                          .replace(NSU + ".0", "NSU");
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }
@@ -442,7 +440,7 @@ public class TeamEvalResult {
           .append(indentString)
           .append(pointsToString(denormalizedAveragePerceived).replace(
                         Const.EOL, Const.EOL + indentString + filler))
-          .append(divider);
+            .append(divider);
         return sb.toString();
     }
 

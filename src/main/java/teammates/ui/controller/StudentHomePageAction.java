@@ -10,18 +10,16 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class StudentHomePageAction extends Action { 
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException { 
+    public ActionResult execute() { 
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
@@ -81,13 +79,7 @@ public class StudentHomePageAction extends Action {
 
         String studentEmail = student.email;
         
-        try {
-            return logic.hasStudentSubmittedFeedback(fs, studentEmail);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Parameters are expected to be valid at this point :"
-                             + TeammatesException.toStringWithStackTrace(e));
-            return false;
-        }
+        return logic.hasStudentSubmittedFeedback(fs, studentEmail);
     }
     
     private boolean isCourseIncluded(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {
@@ -129,7 +121,7 @@ public class StudentHomePageAction extends Action {
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
                                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions) {
+        for (FeedbackSessionDetailsBundle fsb : course.feedbackSessions) {
             sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
         }
     }

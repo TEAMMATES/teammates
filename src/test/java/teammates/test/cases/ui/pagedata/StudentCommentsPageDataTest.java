@@ -31,9 +31,9 @@ import teammates.ui.controller.StudentCommentsPageData;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
-import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.ResponseRow;
 
 public class StudentCommentsPageDataTest extends BaseTestCase {
@@ -44,7 +44,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     private static InstructorAttributes sampleInstructor;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         sampleCourse = dataBundle.courses.get("typicalCourse1");
         sampleStudent = dataBundle.students.get("student1InCourse1");
@@ -53,7 +53,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public static void testAll() {
+    public void testAll() {
         
         ______TS("typical success case");
         

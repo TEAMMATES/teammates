@@ -3,20 +3,17 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
-
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -27,14 +24,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.StudentsDb;
+
+import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -57,13 +56,10 @@ public class StudentsLogic {
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
-    
     public static StudentsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new StudentsLogic();
+        }
         return instance;
     }
 
@@ -403,10 +399,9 @@ public class StudentsLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -414,9 +409,7 @@ public class StudentsLogic {
             return;
         }
 
-        String errorMessage = "";
-        errorMessage += getSectionInvalidityInfo(mergedList);
-        errorMessage += getTeamInvalidityInfo(mergedList);
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
 
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
@@ -428,21 +421,19 @@ public class StudentsLogic {
      * Validates teams for any team name violations
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
         if (mergedList.size() < 2) { // no conflicts
             return;
         }
+        
+        String errorMessage = getTeamInvalidityInfo(mergedList);
 
-        String errorMessage = "";
-        errorMessage += getTeamInvalidityInfo(mergedList);
-
-        if (!errorMessage.isEmpty()) {
+        if (errorMessage.length() > 0) {
             throw new EnrollException(errorMessage);
         }
 
@@ -470,9 +461,8 @@ public class StudentsLogic {
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
-        } else {
-            return students.get(0).section;
         }
+        return students.get(0).section;
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -498,12 +488,12 @@ public class StudentsLogic {
             }
         }
 
-        String errorMessage = "";
-        for (String section: invalidSectionList) {
-            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+        StringBuilder errorMessage = new StringBuilder();
+        for (String section : invalidSectionList) {
+            errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 
-        return errorMessage;
+        return errorMessage.toString();
     }
 
     private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -521,15 +511,16 @@ public class StudentsLogic {
             }
         }
 
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
-        }
-        if (!errorMessage.isEmpty()) {
-            errorMessage += "Please use the enroll page to edit multiple students";
+            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
         }
 
-        return errorMessage;
+        if (errorMessage.length() != 0) {
+            errorMessage.append("Please use the enroll page to edit multiple students");
+        }
+
+        return errorMessage.toString();
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -773,8 +764,7 @@ public class StudentsLogic {
     
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList) {
-        boolean isEmailDuplicated = studentEmailList.contains(email);
-        return isEmailDuplicated;
+        return studentEmailList.contains(email);
     }
     
     private boolean isInEnrollList(StudentAttributes student,

@@ -3,15 +3,10 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -22,9 +17,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD Operations for accounts.
@@ -32,7 +30,6 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-    private static final Logger log = Utils.getLogger();
     
     /**
      * Preconditions: 
@@ -96,8 +93,7 @@ public class AccountsDb extends EntitiesDb {
         }
         closePM();
         
-        AccountAttributes accAttr = new AccountAttributes(a);
-        return accAttr;
+        return new AccountAttributes(a);
     }
     
     public AccountAttributes getAccount(String googleId) {

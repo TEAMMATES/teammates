@@ -13,9 +13,11 @@ import teammates.common.exception.NullPostParameterException;
  * 
  * @see Assert
  */
-public class Assumption {
+public final class Assumption {
 
-    protected Assumption() {
+    private Assumption() {
+        // utility class
+        // Intentional private constructor to prevent instantiation.
     }
 
     /**
@@ -167,7 +169,7 @@ public class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, long expected, long actual) {
-        assertEquals(message, new Long(expected), new Long(actual));
+        assertEquals(message, Long.valueOf(expected), Long.valueOf(actual));
     }
 
     /**
@@ -199,7 +201,7 @@ public class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, byte expected, byte actual) {
-        assertEquals(message, new Byte(expected), new Byte(actual));
+        assertEquals(message, Byte.valueOf(expected), Byte.valueOf(actual));
     }
 
     /**
@@ -229,7 +231,7 @@ public class Assumption {
      * AssertionFailedError is thrown with the given message.
      */
     public static void assertEquals(String message, short expected, short actual) {
-        assertEquals(message, new Short(expected), new Short(actual));
+        assertEquals(message, Short.valueOf(expected), Short.valueOf(actual));
     }
 
     /**
@@ -244,7 +246,7 @@ public class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, int expected, int actual) {
-        assertEquals(message, new Integer(expected), new Integer(actual));
+        assertEquals(message, Integer.valueOf(expected), Integer.valueOf(actual));
     }
 
     /**

@@ -27,14 +27,14 @@ $(document).ready(function() {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
                 var $panelBody = $(panelBody[0]);
                 $(data).remove();
-                if (typeof appendedQuestion !== 'undefined') {
+                if (typeof appendedQuestion === 'undefined') {
+                    $panelBody.removeClass('padding-0');
+                    $panelBody.html('There are too many responses for this question. Please view the responses one section at a time.');
+                } else {
                     if (appendedQuestion.indexOf('resultStatistics') === -1) {
                         $panelBody.removeClass('padding-0');
                     }
                     $panelBody.html(appendedQuestion);
-                } else {
-                    $panelBody.removeClass('padding-0');
-                    $panelBody.html('There are too many responses for this question. Please view the responses one section at a time.');
                 }
                 
                 bindErrorImages($panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click'));

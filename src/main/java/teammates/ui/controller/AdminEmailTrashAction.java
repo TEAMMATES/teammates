@@ -3,8 +3,8 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailTrashAction extends Action {
@@ -17,7 +17,7 @@ public class AdminEmailTrashAction extends Action {
         String emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         
         String redirect = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT);
-        redirect = redirect == null ? Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE : redirect;
+        redirect = redirect == null ? Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE : redirect; // NOPMD
         
         if (redirect.contains("sentpage")) {
             redirect = Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE;

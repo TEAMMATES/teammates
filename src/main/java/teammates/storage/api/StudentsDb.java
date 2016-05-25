@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -22,7 +21,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
@@ -40,8 +38,6 @@ public class StudentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
     
-    private static final Logger log = Utils.getLogger();
-
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
@@ -52,8 +48,9 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
                                             String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
                 new StudentSearchQuery(instructors, queryString, cursorString));
@@ -70,8 +67,9 @@ public class StudentsDb extends EntitiesDb {
      * @return null if no result found
      */ 
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
                 new StudentSearchQuery(queryString, cursorString));
@@ -169,9 +167,8 @@ public class StudentsDb extends EntitiesDb {
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
-        } else {
-            return new StudentAttributes(studentList.get(0));
         }
+        return new StudentAttributes(studentList.get(0));
     }
     
     /**
@@ -184,13 +181,11 @@ public class StudentsDb extends EntitiesDb {
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
         StudentAttributes studentAttributes;
-        registrationKey = registrationKey.trim();
-        String originalKey = registrationKey;
         try {
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
-            registrationKey = StringHelper.decrypt(registrationKey);
+            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             Student student = getPM().getObjectById(Student.class,
-                    KeyFactory.stringToKey(registrationKey));
+                    KeyFactory.stringToKey(decryptedKey));
             studentAttributes = new StudentAttributes(student); 
         } catch (Exception e) {
             try {
@@ -198,7 +193,7 @@ public class StudentsDb extends EntitiesDb {
                 //  (early versions of the system sent unencrypted keys).
                 //TODO: This branch can be removed after Dec 2013
                 Student student = getPM().getObjectById(Student.class,
-                        KeyFactory.stringToKey(originalKey));
+                        KeyFactory.stringToKey(registrationKey.trim()));
                 studentAttributes = new StudentAttributes(student);
             } catch (Exception e2) {
                 //Failing both, we assume there is no such student
@@ -287,7 +282,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s: studentList) {
+        for (Student s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -307,7 +302,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for (StudentAttributes s: allStudents) {
+        for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
                 unregistered.add(s);
             }
@@ -571,14 +566,13 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
     
     private List<Student> getStudentEntitiesForCourses(List<String> courseIds) {

@@ -167,7 +167,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 }

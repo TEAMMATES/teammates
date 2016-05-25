@@ -16,6 +16,16 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
+    
+    /**
+     * this array stores the requests to be excluded from being shown in admin activity logs page
+     */
+    private static String[] excludedLogRequestURIs = {
+            Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
+            // this servlet name is set in CompileLogsServlet
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION
+    };
+    
     private String filterQuery;
     private String queryMessage;
     private List<ActivityLogEntry> logs;
@@ -42,12 +52,10 @@ public class AdminActivityLogPageData extends PageData {
     private String statusForAjax;
     private QueryParameters q;
     
-    /**
-     * this array stores the requests to be excluded from being shown in admin activity logs page
-     */
-    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
-                                                      //this servlet name is set in CompileLogsServlet
-                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
+    public AdminActivityLogPageData(AccountAttributes account) {
+        super(account);
+        setDefaultLogSearchPeriod();
+    }
     
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
@@ -55,11 +63,6 @@ public class AdminActivityLogPageData extends PageData {
             excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
         }
         return excludedList;
-    }
-    
-    public AdminActivityLogPageData(AccountAttributes account) {
-        super(account);
-        setDefaultLogSearchPeriod();
     }
     
     private void setDefaultLogSearchPeriod() {
@@ -135,10 +138,9 @@ public class AdminActivityLogPageData extends PageData {
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
-        query = filterQuery.toLowerCase();
         
         try {
-            q = parseQuery(query);
+            q = parseQuery(filterQuery.toLowerCase());
         } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -154,7 +156,7 @@ public class AdminActivityLogPageData extends PageData {
             return false;
         }
         
-        for (String uri: excludedLogRequestURIs) {
+        for (String uri : excludedLogRequestURIs) {
             
             if (uri.contains(logEntry.getServletName())) {
                 return true;
@@ -252,10 +254,10 @@ public class AdminActivityLogPageData extends PageData {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1); 
          
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
@@ -312,30 +314,28 @@ public class AdminActivityLogPageData extends PageData {
 
     private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns) {
         
-        String outputHtml = "<tr>";      
+        StringBuilder outputHtml = new StringBuilder(100);
+        outputHtml.append("<tr>");
         int count = 0;      
         for (int i = 0; i < totalColumns; i++) {
             
-            outputHtml += "<td>";
-            outputHtml += "<ul class=\"list-group\">";
+            outputHtml.append("<td><ul class=\"list-group\">");
             for (int j = 0; j < rowsPerCol; j++) {
                 
                 if (count >= allActionNames.size()) {
                     break;
                 }
                 
-                outputHtml += "<li class=\"list-group-item " 
-                              + getStyleForListGroupItem(allActionNames.get(count))
-                              + "\">" + allActionNames.get(count) + "</li>";
+                outputHtml.append("<li class=\"list-group-item "
+                                  + getStyleForListGroupItem(allActionNames.get(count))
+                                  + "\">" + allActionNames.get(count) + "</li>");
                               
                 count++;
             }
-            outputHtml += "</ul>";
-            outputHtml += "</td>";
+            outputHtml.append("</ul></td>");
         }
-
-        return outputHtml;    
-
+        
+        return outputHtml.toString();
     }
 
     private String getStyleForListGroupItem(String actionName) {

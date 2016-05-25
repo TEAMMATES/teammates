@@ -3,6 +3,7 @@ package teammates.storage.search;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
@@ -18,8 +19,9 @@ public class StudentSearchDocument extends SearchDocument {
     
     @Override
     protected void prepareData() {
-        if (student == null) 
+        if (student == null) {
             return;
+        }
         
         course = logic.getCourse(student.course);
     }

@@ -16,12 +16,12 @@ import teammates.ui.template.StudentProfile;
 
 public class InstructorStudentRecordsPageData extends PageData {
 
+    public StudentProfileAttributes spa; // used for testing admin message
     private String courseId;
     private String studentName;
     private String studentEmail;
     private String showCommentBox;
     private StudentProfile studentProfile;
-    public StudentProfileAttributes spa; // used for testing admin message
     private List<CommentsForStudentsTable> commentsForStudentTable;
     private List<String> sessionNames;
 

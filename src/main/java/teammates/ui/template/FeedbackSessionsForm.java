@@ -57,9 +57,6 @@ public class FeedbackSessionsForm {
     
     private ElementTag editButtonTags;
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
-    
-    public FeedbackSessionsForm() {
-    }
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,

@@ -5,8 +5,8 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.common.util.Const.AdminEmailPageState;
+import teammates.common.util.Url;
 
 public class AdminEmailTrashPageData extends AdminEmailPageData {
     public List<AdminEmailAttributes> adminTrashEmailList;

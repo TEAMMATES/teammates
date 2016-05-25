@@ -2,9 +2,9 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.util.Const;
 import teammates.logic.core.CommentsLogic;
@@ -32,16 +32,18 @@ public class CommentSearchResultBundle extends SearchResultBundle {
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults) {
+        for (ScoredDocument doc : filteredResults) {
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);

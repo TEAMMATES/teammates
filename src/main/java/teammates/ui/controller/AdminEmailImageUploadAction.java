@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -18,7 +17,7 @@ public class AdminEmailImageUploadAction extends Action {
     AdminEmailComposePageData data;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
@@ -88,7 +87,9 @@ public class AdminEmailImageUploadAction extends Action {
     }
     
     private void deleteImage(BlobKey blobKey) {
-        if (blobKey.equals(new BlobKey(""))) return;
+        if (blobKey.equals(new BlobKey(""))) {
+            return;
+        }
         
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);

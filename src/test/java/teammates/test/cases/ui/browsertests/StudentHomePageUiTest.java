@@ -25,11 +25,11 @@ import teammates.test.pageobjects.StudentHomePage;
 public class StudentHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentHomePage studentHome;
+    private static StudentHomePage studentHome;
     private static FeedbackSessionAttributes gracedFeedbackSession;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         
@@ -197,7 +197,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

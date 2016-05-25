@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -106,7 +105,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "button_sortid")
     private WebElement sortByIdIcon;
     
-    public InstructorCopyFsToModal fsCopyToModal;
+    private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbacksPage(Browser browser) {
         super(browser);
@@ -116,6 +115,10 @@ public class InstructorFeedbacksPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
+    }
+    
+    public InstructorCopyFsToModal getFsCopyToModal() {
+        return fsCopyToModal;
     }
     
     public void selectSessionType(String visibleText) {
@@ -310,7 +313,7 @@ public class InstructorFeedbacksPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) throws ParseException {
+    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 

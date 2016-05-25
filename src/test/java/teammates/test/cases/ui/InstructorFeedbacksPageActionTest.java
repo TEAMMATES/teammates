@@ -15,10 +15,10 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
-    String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-    String adminUserId = "admin.user";
+    private static final String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+    private static final String adminUserId = "admin.user";
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -120,8 +120,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
-            return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
+    private InstructorFeedbacksPageAction getAction(String... params) {
+        return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
 }

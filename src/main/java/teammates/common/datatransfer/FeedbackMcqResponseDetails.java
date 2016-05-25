@@ -38,11 +38,11 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     }
     
     public void extractResponseDetails(FeedbackQuestionType questionType,
-                                    FeedbackQuestionDetails questionDetails, String[] answer,
+                                    FeedbackQuestionDetails questionDetails, String[] rawAnswer,
                                     Map<String, String[]> requestParameters, int questionIndx,
                                     int responseIndx) {
 
-        answer = appendOtherOptionFlagToAnswer(answer, requestParameters, questionIndx, responseIndx);
+        String[] answer = appendOtherOptionFlagToAnswer(rawAnswer, requestParameters, questionIndx, responseIndx);
         /*
          * answer[0] contains the answer given by the student, answer[1] is "1"
          * if "other" is selected by the student, "0" if "other" is not
@@ -63,9 +63,8 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerString() {
         if (isOther) {
             return otherFieldContent;
-        } else {
-            return answer;
         }
+        return answer;
     }
 
     @Override
@@ -96,7 +95,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
             
             answerWithOtherOptionFlag[0] = answer[0]; // answer given by the student
             answerWithOtherOptionFlag[1] = isOtherOptionAnswer; // "1" (other is selected) or "0" (other is not selected)
-            answer = answerWithOtherOptionFlag;
+            return answerWithOtherOptionFlag;
         }
         return answer;
     }

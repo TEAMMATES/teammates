@@ -26,7 +26,7 @@ public class InstructorCommentsPage extends AppPage {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
     }
     
-    public void loadResponseComments() throws Exception {
+    public void loadResponseComments() {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
@@ -134,7 +134,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for (WebElement checkbox:checkboxes) {
+        for (WebElement checkbox : checkboxes) {
             checkbox.click();
         }
     }
@@ -144,7 +144,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        for (WebElement checkbox:checkboxes) {
+        for (WebElement checkbox : checkboxes) {
             checkbox.click();
         }
     }

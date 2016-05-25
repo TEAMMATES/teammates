@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * category of constants.
  */
 @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
-public class Const {
+public final class Const {
     
     public static class SystemParams {
 
@@ -56,6 +56,33 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN,
+            ActionURIs.STUDENT_COURSE_JOIN_NEW,
+            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+        );
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+            ActionURIs.STUDENT_HOME_PAGE,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+        );
+        
+        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
+                ActionURIs.STUDENT_COURSE_JOIN
+        );
+        
+        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+        
+        private SystemParams() {
+            // utility class
+        }
+        
         /**
          * @return The file source for jquery.min.js used in application pages,
          * chosen based on the build's environment.<br>
@@ -82,28 +109,6 @@ public class Const {
                                : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
         }
         
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN,
-            ActionURIs.STUDENT_COURSE_JOIN_NEW,
-            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
-        );
-        
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-            ActionURIs.STUDENT_HOME_PAGE,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-        );
-        
-        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
-                ActionURIs.STUDENT_COURSE_JOIN
-        );
-        
-        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -337,11 +342,11 @@ public class Const {
     }
     
     public class InstructorPermissionRoleNames {
-        public final static String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
+        public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
     public class GenderTypes {
@@ -1139,9 +1144,6 @@ public class Const {
     /* This section holds constants that are defined as constants primarily 
      * because they are repeated in many places.
      */
-    @SuppressWarnings("unused")
-    private void _______repeated_phrases___________________________________(){}
-    
     public static final String EOL = System.getProperty("line.separator");
     public static final String HTML_BR_TAG = "<br>";
     
@@ -1186,12 +1188,10 @@ public class Const {
     public static final String DEFAULT_SECTION = "None";
     
     public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
+    
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
      */
-    @SuppressWarnings("unused")
-    private void _______values_with_special_meanings________________________(){}
-    
     public static final int INT_UNINITIALIZED = -9999;
     public static final double DOUBLE_UNINITIALIZED = -9999.0;
     
@@ -1227,12 +1227,12 @@ public class Const {
     
     /* Other Constants
      */
-    @SuppressWarnings("unused")
-    private void _______other_constants________________________(){}
-    
     public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
     public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-    
+
+    private Const() {
+        // Utility class containing constants
+    }
 }

@@ -273,7 +273,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
     }
     
-    private InstructorFeedbackResponseCommentAddAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentAddAction) (gaeSimulation.getActionObject(uri, params));
     }
 }
