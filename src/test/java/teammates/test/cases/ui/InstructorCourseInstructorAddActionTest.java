@@ -148,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
     }
     
-    private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
+    private InstructorCourseInstructorAddAction getAction(String... parameters) {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

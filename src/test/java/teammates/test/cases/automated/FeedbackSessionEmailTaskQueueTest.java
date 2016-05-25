@@ -65,7 +65,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 
@@ -112,7 +112,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
     }
     
-    private void testFeedbackSessionsRemindEmail() throws Exception {
+    private void testFeedbackSessionsRemindEmail() {
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
 

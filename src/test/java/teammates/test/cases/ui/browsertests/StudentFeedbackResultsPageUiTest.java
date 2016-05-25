@@ -26,7 +26,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -155,7 +155,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

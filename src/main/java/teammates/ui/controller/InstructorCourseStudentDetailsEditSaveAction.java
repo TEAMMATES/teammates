@@ -14,7 +14,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

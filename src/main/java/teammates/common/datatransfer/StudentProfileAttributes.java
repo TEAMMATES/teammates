@@ -144,6 +144,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         return errors;
     }
 
+    @Override
     public String toString() {
         return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
     }

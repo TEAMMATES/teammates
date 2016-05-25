@@ -141,7 +141,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         }
     }
     
-    private InstructorFeedbackPreviewAsInstructorAction getAction(String... params) throws Exception {
+    private InstructorFeedbackPreviewAsInstructorAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsInstructorAction) gaeSimulation.getActionObject(uri, params);
     }
 }

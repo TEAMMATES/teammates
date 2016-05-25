@@ -3,7 +3,6 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -18,7 +17,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -32,7 +30,6 @@ import com.google.appengine.api.datastore.KeyFactory;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-    private static final Logger log = Utils.getLogger();
     
     /**
      * Preconditions: 

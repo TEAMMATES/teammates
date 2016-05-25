@@ -24,12 +24,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private AccountsDb accountsDb = new AccountsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
     @Test 
-    public void testGetStudentProfile() throws Exception {
+    public void testGetStudentProfile() {
         
         ______TS("success case");
         // implicitly tested in update

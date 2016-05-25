@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.modules.ModulesService;
 import com.google.appengine.api.modules.ModulesServiceFactory;
@@ -11,6 +12,8 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
  * Provides access to application versions via Google AppEngine API.
  */
 public class GaeVersionApi {
+    
+    private static final Logger log = Utils.getLogger();
     
     /**
      * Gets all available versions.
@@ -48,7 +51,7 @@ public class GaeVersionApi {
             resultVersions = getSublistOfVersionList(versionList, currentVersionIndex, numVersions);
         } catch (Exception e) {
             resultVersions.add(currentVersion.toStringWithDashes());
-            Utils.getLogger().severe(e.getMessage());
+            log.severe(e.getMessage());
         }
         return resultVersions;
     }

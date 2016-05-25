@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -41,7 +40,7 @@ public class StudentProfilePictureEditAction extends Action {
     private String _rotateString;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {

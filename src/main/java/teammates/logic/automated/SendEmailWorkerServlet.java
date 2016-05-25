@@ -22,6 +22,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 @SuppressWarnings("serial")
 public class SendEmailWorkerServlet extends WorkerServlet {
     
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         //Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
         int responseCodeForRetry = 100;

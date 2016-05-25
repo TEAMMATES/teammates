@@ -321,7 +321,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ajaxPanels.click();
     }
 
-    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {
+    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
@@ -341,7 +341,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveByOffset(100, 100).click().perform();
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
+    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
@@ -364,7 +364,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
+    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
@@ -384,7 +384,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                  int tableCol, String urlRegex) throws Exception {
+                                                  int tableCol, String urlRegex) {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
 
         /*
@@ -414,12 +414,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                       String urlRegex) throws Exception {
+                                                       String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
     public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                           String urlRegex) throws Exception {
+                                                           String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 

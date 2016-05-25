@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +46,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes newSession;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();
@@ -81,7 +80,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testLinks() throws Exception {
+    public void testLinks() {
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
@@ -89,12 +88,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testButtons() throws Exception {
+    public void testButtons() {
         testCopySessionModalButtons();
     }
 
     @Test
-    public void testMiscellaneous() throws Exception {
+    public void testMiscellaneous() {
         testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
@@ -480,7 +479,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
     
-    public void testCopyToAction() throws Exception {
+    public void testCopyToAction() {
         String feedbackSessionName = "Open Session #";
         String courseId = newSession.courseId;
         
@@ -648,7 +647,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
     
-    public void testJScripts() throws ParseException {
+    public void testJScripts() {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testDefaultTimeZone();
         testSessionViewableTable();
@@ -679,7 +678,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyDisabled(By.id("publishtime"));
     }
     
-    public void testDatePickerScripts() throws ParseException {
+    public void testDatePickerScripts() {
         
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
@@ -1005,7 +1004,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

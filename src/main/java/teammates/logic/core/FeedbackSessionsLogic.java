@@ -37,7 +37,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
@@ -54,7 +53,7 @@ public class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance;
 
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -224,11 +223,8 @@ public class FeedbackSessionsLogic {
      * 
      * @param googleId
      * @return
-     * @throws EntityDoesNotExistException
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
-            String googleId, boolean omitArchived)
-            throws EntityDoesNotExistException {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
 
         List<InstructorAttributes> instructorList =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
@@ -237,7 +233,7 @@ public class FeedbackSessionsLogic {
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
-            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorList) {
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
         
@@ -249,7 +245,7 @@ public class FeedbackSessionsLogic {
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionListForInstructor(
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
+            InstructorAttributes instructor) {
         return getFeedbackSessionsListForCourse(instructor.courseId, instructor.email);
     }
 
@@ -808,14 +804,14 @@ public class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         
         return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail, String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -1089,8 +1085,7 @@ public class FeedbackSessionsLogic {
     }
 
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
-                                                       String userEmail)
-                   throws EntityDoesNotExistException {
+                                                       String userEmail) {
         Assumption.assertNotNull(fsa);
         if (fsa.respondingStudentList.contains(userEmail)) {
             return true;
@@ -2254,8 +2249,7 @@ public class FeedbackSessionsLogic {
 
     private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
             FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
+            FeedbackQuestionAttributes question, CourseRoster roster) {
         // keys of emailNameTable are participantIdentifiers,
         // which consists of students' email, instructors' email, team names, or %GENERAL%.
         // participants identifiers of anonymous responses are not anonymised in the tables
@@ -2265,8 +2259,7 @@ public class FeedbackSessionsLogic {
     
     private void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
             FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
+            FeedbackQuestionAttributes question, CourseRoster roster) {
         addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
                 EMAIL_LASTNAME_PAIR);
     }
@@ -2274,8 +2267,7 @@ public class FeedbackSessionsLogic {
     private void addEmailTeamNamePairsToTable(
             Map<String, String> emailTeamNameTable,
             FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
+            FeedbackQuestionAttributes question, CourseRoster roster) {
         addEmailNamePairsToTable(emailTeamNameTable, response, question,
                 roster, EMAIL_TEAMNAME_PAIR);
     }
@@ -2283,7 +2275,7 @@ public class FeedbackSessionsLogic {
     private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster,
-            int pairType) throws EntityDoesNotExistException {
+            int pairType) {
         if (question.giverType == FeedbackParticipantType.TEAMS 
             && roster.isStudentInCourse(response.giverEmail)) {
             if (!emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER)) {
@@ -2340,7 +2332,7 @@ public class FeedbackSessionsLogic {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId, String instructorEmail) throws EntityDoesNotExistException {
+            String courseId, String instructorEmail) {
         
         List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>(); 
         List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
@@ -2356,8 +2348,7 @@ public class FeedbackSessionsLogic {
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
             FeedbackSessionAttributes fsa, CourseRoster roster,
-            List<FeedbackQuestionAttributes> questions)
-            throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> questions) {
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         List<StudentAttributes> students = roster.getStudents();
@@ -2398,8 +2389,7 @@ public class FeedbackSessionsLogic {
     // return a pair of String that contains Giver/Recipient'sName (at index 0)
     // and TeamName (at index 1)
     private String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
-            String email, CourseRoster roster)
-            throws EntityDoesNotExistException {
+            String email, CourseRoster roster) {
         String giverRecipientName = null;
         String giverRecipientLastName = null;
         String teamName = null;
@@ -2553,11 +2543,8 @@ public class FeedbackSessionsLogic {
     /**
      * Returns true if there are any questions for students to answer.
      * @param session
-     * @throws EntityDoesNotExistException
      */
-    public boolean isFeedbackSessionForStudentsToAnswer(
-                                    FeedbackSessionAttributes session)
-                                    throws EntityDoesNotExistException {
+    public boolean isFeedbackSessionForStudentsToAnswer(FeedbackSessionAttributes session) {
         
         List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(

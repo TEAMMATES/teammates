@@ -61,6 +61,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return name;
     }
     
+    @Override
     public List<String> getInvalidityInfo() {
         
         FieldValidator validator = new FieldValidator();
@@ -80,10 +81,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return errors;
     }
 
+    @Override
     public Course toEntity() {
         return new Course(getId(), getName(), Boolean.valueOf(isArchived), createdAt);
     }
 
+    @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
                + " isArchived: " + isArchived;
@@ -125,6 +128,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     public static void sortById(List<CourseAttributes> courses) {
         Collections.sort(courses, new Comparator<CourseAttributes>() {
+            @Override
             public int compare(CourseAttributes c1, CourseAttributes c2) {
                 return c1.getId().compareTo(c2.getId());
             }
@@ -136,6 +140,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
+        @Override
         public int compare(CourseAttributes course1, CourseAttributes course2) {
             if (course1.createdAt.compareTo(course2.createdAt) == 0) {
                 return course1.getId().compareTo(course2.getId());

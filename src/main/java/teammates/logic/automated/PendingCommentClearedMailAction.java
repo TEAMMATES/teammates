@@ -50,6 +50,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
         commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
     }
 
+    @Override
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
         //recover the pending state when it fails
         frcLogic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);

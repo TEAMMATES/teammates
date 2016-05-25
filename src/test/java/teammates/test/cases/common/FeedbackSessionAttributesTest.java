@@ -38,7 +38,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionAttributes fsa;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         
         feedbackSessionName = null;
@@ -104,7 +104,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

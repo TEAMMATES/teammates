@@ -369,7 +369,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteComment() throws Exception {
+    public void testDeleteComment() {
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");
@@ -448,8 +448,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
         try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {

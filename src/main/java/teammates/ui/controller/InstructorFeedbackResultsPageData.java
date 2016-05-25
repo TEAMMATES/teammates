@@ -84,6 +84,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
+        @Override
         public String toString() {
             // replace _ to - to keep it consistent with old behavior
             return name().toLowerCase().replaceAll("_", "-");
@@ -1806,8 +1807,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfRespondents() {
-        int numRespondents = (bundle.feedbackSession.respondingInstructorList.size() 
-                           + bundle.feedbackSession.respondingStudentList.size());
+        int numRespondents = bundle.feedbackSession.respondingInstructorList.size() 
+                           + bundle.feedbackSession.respondingStudentList.size();
         return isLargeNumberOfRespondents 
             || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
     }

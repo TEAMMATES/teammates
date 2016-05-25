@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 
@@ -16,7 +15,7 @@ import com.google.appengine.api.blobstore.UploadOptions;
 public class StudentProfileCreateFormUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         StudentProfileCreateFormUrlAjaxPageData data =
                 new StudentProfileCreateFormUrlAjaxPageData(account, getUploadUrl(), isError);
         return createAjaxResult(data);

@@ -92,7 +92,7 @@ public class InstructorStudentCommentAddAction extends Action {
         }
     }
 
-    private void verifyAccessibleByInstructor(String courseId) throws EntityDoesNotExistException {
+    private void verifyAccessibleByInstructor(String courseId) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);

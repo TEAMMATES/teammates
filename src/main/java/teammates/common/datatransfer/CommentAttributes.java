@@ -100,6 +100,7 @@ public class CommentAttributes extends EntityAttributes
         this.commentId = commentId;
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
@@ -158,6 +159,7 @@ public class CommentAttributes extends EntityAttributes
         return errors;
     }
 
+    @Override
     public Comment toEntity() {
         return new Comment(courseId, giverEmail, recipientType, recipients, status, sendingState, showCommentTo,
                 showGiverNameTo, showRecipientNameTo, commentText, createdAt, lastEditorEmail, lastEditedAt);
@@ -302,6 +304,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTime(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment1.createdAt.compareTo(comment2.createdAt);
             }
@@ -310,6 +313,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment2.createdAt.compareTo(comment1.createdAt);
             }

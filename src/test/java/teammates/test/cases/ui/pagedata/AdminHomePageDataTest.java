@@ -13,7 +13,7 @@ public class AdminHomePageDataTest extends BaseTestCase {
     private AdminHomePageData pageData;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 

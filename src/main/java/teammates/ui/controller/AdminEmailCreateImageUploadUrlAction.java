@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -12,7 +11,7 @@ import com.google.appengine.api.blobstore.UploadOptions;
 public class AdminEmailCreateImageUploadUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
@@ -37,7 +36,7 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
         
     }
 
-    public String getNewUploadUrl() throws EntityDoesNotExistException {     
+    public String getNewUploadUrl() {     
         try {
             return generateNewUploadUrl();
         } catch (BlobstoreFailureException e) {

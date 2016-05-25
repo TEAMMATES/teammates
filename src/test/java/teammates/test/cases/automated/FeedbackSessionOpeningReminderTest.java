@@ -62,7 +62,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     

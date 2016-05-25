@@ -25,13 +25,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                              EntityDoesNotExistException {
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
         
@@ -468,7 +467,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

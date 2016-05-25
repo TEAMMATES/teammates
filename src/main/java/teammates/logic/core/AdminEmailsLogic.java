@@ -2,17 +2,14 @@ package teammates.logic.core;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
 import teammates.storage.api.AdminEmailsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 /**
  * Handles the logic related to admin emails
@@ -22,10 +19,6 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 public class AdminEmailsLogic {
     private static AdminEmailsLogic instance;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
-    
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
     
     public static AdminEmailsLogic inst() {
         if (instance == null) {
@@ -144,9 +137,8 @@ public class AdminEmailsLogic {
     /**
      * deletes files uploaded in admin email compose page
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
-     * @throws BlobstoreFailureException
      */
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+    public void deleteAdminEmailUploadedFile(BlobKey key) {
         adminEmailsDb.deleteAdminEmailUploadedFile(key);
     }
 }

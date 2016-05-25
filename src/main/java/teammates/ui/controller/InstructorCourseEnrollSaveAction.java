@@ -89,7 +89,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
+                return o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation;
             }
         });
 

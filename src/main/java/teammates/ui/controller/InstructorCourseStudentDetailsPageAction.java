@@ -10,7 +10,7 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsPageAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

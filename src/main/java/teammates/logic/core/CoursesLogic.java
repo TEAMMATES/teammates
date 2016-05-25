@@ -443,7 +443,7 @@ public class CoursesLogic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
-    public CourseDetailsBundle getCourseSummary(CourseAttributes cd) throws EntityDoesNotExistException {
+    public CourseDetailsBundle getCourseSummary(CourseAttributes cd) {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
@@ -470,7 +470,7 @@ public class CoursesLogic {
         return courseSummary;
     }
 
-    public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) throws EntityDoesNotExistException {
+    public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) {
         Assumption.assertNotNull("Supplied parameter was null\n", course);
 
         return new CourseSummaryBundle(course);
@@ -502,18 +502,16 @@ public class CoursesLogic {
         return courseList;
     }
 
-    public List<CourseAttributes> getCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForInstructor(String googleId) {
         return getCoursesForInstructor(googleId, false);
     }
     
-    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) 
-            throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
         return getCoursesForInstructor(instructorList);
     }
     
-    public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
         List<String> courseIdList = new ArrayList<String>();
 
@@ -560,8 +558,7 @@ public class CoursesLogic {
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) 
-            throws EntityDoesNotExistException {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
@@ -617,7 +614,7 @@ public class CoursesLogic {
     }
     
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
-            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
+            String instructorId, boolean omitArchived) {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, 
                                                                                                omitArchived);
@@ -625,7 +622,7 @@ public class CoursesLogic {
     }
     
     // TODO: batch retrieve courses?
-    public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
+    public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         
@@ -691,7 +688,7 @@ public class CoursesLogic {
     }
     
     private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
-            List<InstructorAttributes> instructorAttributesList) throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorAttributesList) {
         
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         

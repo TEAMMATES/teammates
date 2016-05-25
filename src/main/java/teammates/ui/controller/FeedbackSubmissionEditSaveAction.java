@@ -212,7 +212,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;
-            } catch (EntityAlreadyExistsException | InvalidParametersException e) {
+            } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
         }

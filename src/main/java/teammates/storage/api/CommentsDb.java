@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -23,7 +22,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
@@ -38,7 +36,6 @@ import com.google.appengine.api.search.ScoredDocument;
 public class CommentsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
-    private static final Logger log = Utils.getLogger();
     
     /**
      * This method is for testing only

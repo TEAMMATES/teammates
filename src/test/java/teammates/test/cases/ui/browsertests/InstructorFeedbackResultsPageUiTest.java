@@ -1,7 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -29,20 +28,19 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-    protected static Logger log = Utils.getLogger();
 
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
 
     @BeforeMethod
-    public void refreshTestData() throws Exception {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -650,7 +648,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

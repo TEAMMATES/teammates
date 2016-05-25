@@ -19,7 +19,7 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
 public class CompileLogs {
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     public String doLogExam() {
         LogService logService = LogServiceFactory.getLogService();
