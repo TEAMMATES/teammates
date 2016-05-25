@@ -35,12 +35,11 @@ public class SessionAttributesTest extends BaseTestCase {
         cal.set(2014, 2, 1);
         Date time3 = cal.getTime();
         
-        SessionAttributes s1, s2, s3, s4, s5;
-        s1 = new MiniFeedback(time1, time2, "Session 1");
-        s2 = new MiniEval(time2, time3, "Session 2");
-        s3 = new MiniFeedback(time1, time2, "Session 3");
-        s4 = new MiniEval(time1, time3, "Session 4");
-        s5 = new MiniFeedback(time2, time3, "Session 5");
+        SessionAttributes s1 = new MiniFeedback(time1, time2, "Session 1");
+        SessionAttributes s2 = new MiniEval(time2, time3, "Session 2");
+        SessionAttributes s3 = new MiniFeedback(time1, time2, "Session 3");
+        SessionAttributes s4 = new MiniEval(time1, time3, "Session 4");
+        SessionAttributes s5 = new MiniFeedback(time2, time3, "Session 5");
         
         testList.add(s1);
         testList.add(s2);
@@ -85,7 +84,8 @@ public class SessionAttributesTest extends BaseTestCase {
     }
     
     private class MiniEval implements SessionAttributes {
-        public Date startTime, endTime;
+        public Date startTime;
+        public Date endTime;
         public String name;
         
         public MiniEval(Date startTime, Date endTime, String name) {
@@ -113,7 +113,8 @@ public class SessionAttributesTest extends BaseTestCase {
     
     private class MiniFeedback implements SessionAttributes {
         
-        public Date startTime, endTime;
+        public Date startTime;
+        public Date endTime;
         public String name;
         
         public MiniFeedback(Date startTime, Date endTime, String name) {

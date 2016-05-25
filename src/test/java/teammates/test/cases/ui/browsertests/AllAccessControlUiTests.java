@@ -38,7 +38,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static String instructorUsername = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
     private static String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 
-    static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
+    private static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
 
     private static Browser browser;
     private static DataBundle testData;

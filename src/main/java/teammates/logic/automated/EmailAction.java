@@ -23,13 +23,13 @@ import teammates.logic.core.Emails;
 
 public abstract class EmailAction {
 
+    protected static final Logger log = Utils.getLogger();
+    
     protected HttpServletRequest req;
     protected List<MimeMessage> emailsToBeSent;
 
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
-    
-    protected static final Logger log = Utils.getLogger();
     
     protected Boolean isError = false;
     
