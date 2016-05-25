@@ -15,6 +15,7 @@ public class DownloadAllCourseData extends OfflineBackup {
         downloadAllCourseData.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         

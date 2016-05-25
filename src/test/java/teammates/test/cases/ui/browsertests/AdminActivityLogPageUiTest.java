@@ -20,7 +20,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     private static AdminActivityLogPage logPage;
        
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
@@ -126,7 +126,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

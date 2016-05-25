@@ -20,7 +20,7 @@ public class TeamEvalResult {
     public static int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
     public static int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;
@@ -405,6 +405,7 @@ public class TeamEvalResult {
                           .replace(NSU + ".0", "NSU");
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }

@@ -46,10 +46,6 @@ public class StudentFeedbackResultsPageData extends PageData {
         return bundle;
     }
     
-    public AccountAttributes getAccount() {
-        return account;
-    }
-    
     public String getRegisterMessage() {
         return registerMessage;
     }

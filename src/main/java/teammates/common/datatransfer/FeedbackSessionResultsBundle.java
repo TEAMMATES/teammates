@@ -38,7 +38,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments;
     public boolean isComplete;
 
-    protected static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     /**
      * Responses with identities of giver/recipients NOT hidden.

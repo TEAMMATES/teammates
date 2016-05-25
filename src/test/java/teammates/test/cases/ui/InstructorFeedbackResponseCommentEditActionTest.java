@@ -326,7 +326,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
     }
     
-    private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentEditAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentEditAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

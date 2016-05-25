@@ -31,12 +31,12 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     private static final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void testInitWithoutDefaultFormValues() throws Exception {
+    public void testInitWithoutDefaultFormValues() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         
@@ -224,7 +224,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     }
 
     @Test
-    public void testInit() throws Exception {
+    public void testInit() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         
@@ -308,7 +308,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     }
     
     @Test
-    public void testInitWithoutHighlighting() throws Exception {
+    public void testInitWithoutHighlighting() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor2OfCourse1");
         

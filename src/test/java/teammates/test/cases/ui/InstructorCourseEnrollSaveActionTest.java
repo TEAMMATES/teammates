@@ -283,7 +283,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertTrue(result);
     }
     
-    private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseEnrollSaveAction getAction(String... params) {
         return (InstructorCourseEnrollSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 

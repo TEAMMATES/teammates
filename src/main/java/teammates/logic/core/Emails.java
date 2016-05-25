@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -49,7 +48,7 @@ import teammates.logic.api.GateKeeper;
  */
 public class Emails {
     //TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING = "TEAMMATES: Feedback session now open";
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";
@@ -123,7 +122,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
-                    throws EntityDoesNotExistException, MessagingException, IOException {
+                    throws MessagingException, IOException {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -227,7 +226,7 @@ public class Emails {
     }
     
     public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
-            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException {
+            throws MessagingException, UnsupportedEncodingException {
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
         Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
@@ -285,7 +284,7 @@ public class Emails {
     
     public List<MimeMessage> generateFeedbackSessionPublishedEmails(
             FeedbackSessionAttributes session)
-                    throws MessagingException, IOException, EntityDoesNotExistException {
+                    throws MessagingException, IOException {
         
         StudentsLogic studentsLogic = StudentsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -760,10 +759,9 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     
@@ -771,10 +769,9 @@ public class Emails {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
-            log.log(Level.INFO, emailLogInfo);
+            log.info(emailLogInfo);
         } catch (Exception e) {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
-            e.printStackTrace();
         }
     }
     

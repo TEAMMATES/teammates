@@ -17,7 +17,7 @@ import teammates.common.util.Utils;
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-    protected static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     

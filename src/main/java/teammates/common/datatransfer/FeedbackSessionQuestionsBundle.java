@@ -75,6 +75,7 @@ public class FeedbackSessionQuestionsBundle {
                                                              .get(feedbackQuestionId).entrySet());
 
         Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
+            @Override
             public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
                 // Sort by value (name).
                 int compare = o1.getValue().compareTo(o2.getValue());
