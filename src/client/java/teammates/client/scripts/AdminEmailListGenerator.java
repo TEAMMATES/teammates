@@ -18,18 +18,18 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.repackaged.org.joda.time.DateTime;
-
 import teammates.client.remoteapi.RemoteApiClient;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.common.exception.InvalidParametersException;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.repackaged.org.joda.time.DateTime;
 
 /**
  * Generates txt file which contains a list of receiver emails.<br>

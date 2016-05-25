@@ -8,9 +8,6 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -20,6 +17,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailsDb extends EntitiesDb {
     

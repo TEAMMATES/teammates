@@ -7,8 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -20,6 +18,8 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
