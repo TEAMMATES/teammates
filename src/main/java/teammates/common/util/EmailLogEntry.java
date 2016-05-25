@@ -26,7 +26,7 @@ public class EmailLogEntry {
         this.content = (String) msg.getContent();
     }
     
-    public EmailLogEntry(Sendgrid msg) throws Exception {
+    public EmailLogEntry(Sendgrid msg) {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();

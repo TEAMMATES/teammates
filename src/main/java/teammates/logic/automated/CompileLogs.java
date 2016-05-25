@@ -19,7 +19,7 @@ import teammates.common.util.Utils;
 import teammates.logic.core.Emails;
 
 public class CompileLogs {
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     public String doLogExam() {
         LogService logService = LogServiceFactory.getLogService();

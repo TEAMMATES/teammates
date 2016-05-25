@@ -43,7 +43,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ");
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         
         /* Explanation: These two lines persist the test data on the server. */
@@ -157,7 +157,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() throws Exception {
+    public void testLinks() {
         
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
@@ -368,7 +368,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //Explanation: release the Browser back to be reused by other tests.
         BrowserPool.release(browser);
         

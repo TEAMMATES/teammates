@@ -385,7 +385,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteQuestion() throws Exception {
+    public void testDeleteQuestion() {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
         
@@ -502,7 +502,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
 
-    public void testGetFeedbackQuestionsForStudents() throws Exception {
+    public void testGetFeedbackQuestionsForStudents() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
         List<FeedbackQuestionAttributes> allQuestions;
@@ -620,7 +620,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

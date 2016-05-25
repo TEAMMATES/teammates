@@ -4,7 +4,6 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -12,7 +11,7 @@ import teammates.logic.api.GateKeeper;
 public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
@@ -37,7 +36,7 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
         
     }
 
-    public String getNewUploadUrl() throws EntityDoesNotExistException {     
+    public String getNewUploadUrl() {     
         try {
             return generateNewUploadUrl();
         } catch (BlobstoreFailureException e) {

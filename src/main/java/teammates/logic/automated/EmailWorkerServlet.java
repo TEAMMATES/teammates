@@ -1,7 +1,5 @@
 package teammates.logic.automated;
 
-import java.util.logging.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,15 +7,13 @@ import org.seleniumhq.jetty7.server.Response;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.Emails;
 
 @SuppressWarnings("serial")
 public class EmailWorkerServlet extends WorkerServlet {
     
-    private static Logger log = Utils.getLogger();
-    
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper

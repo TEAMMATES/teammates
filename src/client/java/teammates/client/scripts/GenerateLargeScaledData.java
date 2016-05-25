@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
@@ -15,13 +14,13 @@ import teammates.test.driver.TestProperties;
 import teammates.common.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
-    private static Logger logger = Logger.getLogger(GenerateLargeScaledData.class.getName());
     
     public static void main(String[] args) throws IOException {
         GenerateLargeScaledData dataGenerator = new GenerateLargeScaledData();
         dataGenerator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
@@ -43,7 +42,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
                 if (index % 100 == 0) {
-                    logger.info("Create response " + index);
+                    System.out.println("Create response " + index);
                 }
             }
         } catch (Exception e) {

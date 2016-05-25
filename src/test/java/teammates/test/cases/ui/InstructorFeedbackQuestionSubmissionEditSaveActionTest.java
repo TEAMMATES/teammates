@@ -460,7 +460,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         }
     }
     
-    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

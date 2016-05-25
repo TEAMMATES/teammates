@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,8 +24,7 @@ public class ImageResult extends ActionResult {
     }
 
     @Override
-    public void send(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         
         if (blobKey.isEmpty()) {
             resp.sendError(1, "No image found");

@@ -20,7 +20,6 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 /**
  * Handles the logic related to accounts.
@@ -35,7 +34,7 @@ public class AccountsLogic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     public static AccountsLogic inst() {
         if (instance == null) {
@@ -372,17 +371,15 @@ public class AccountsLogic {
         profilesDb.updateStudentProfile(newStudentProfileAttributes);
     }
 
-    public void deleteStudentProfilePicture(String googleId) 
-            throws BlobstoreFailureException, EntityDoesNotExistException {
+    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         profilesDb.deleteStudentProfilePicture(googleId);
     }
     
-    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deletePicture(BlobKey key) {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture(String googleId, String newPictureKey)
-        throws EntityDoesNotExistException, BlobstoreFailureException {
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) throws EntityDoesNotExistException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
         
     }
