@@ -406,7 +406,7 @@ public class BackDoorLogic extends Logic {
             }
             response.feedbackQuestionId = question.getId();
             
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -433,7 +433,7 @@ public class BackDoorLogic extends Logic {
                             responseComment.feedbackSessionName,
                             responseComment.courseId,
                             qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
