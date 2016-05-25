@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -130,7 +131,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+            log.severe(TeammatesException.toStringWithStackTrace(e));
             // Assumption.fails are not tested
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
                             + feedbackQuestionAttributes.questionType.toString() + " question type.");
@@ -245,7 +246,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
         List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
         
-        if (params.isEmpty()) { return list; }    
+        if (params.isEmpty()) {
+            return list;
+        }
         
         String[] splitString = params.split(",");
         

@@ -22,7 +22,7 @@ import teammates.test.cases.BaseTestCase;
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -264,7 +264,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

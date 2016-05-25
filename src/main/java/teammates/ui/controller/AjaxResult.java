@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,12 +33,12 @@ public class AjaxResult extends ActionResult {
     public AjaxResult(AccountAttributes account,
                       List<StatusMessage> status, 
                       PageData data, boolean isClearingStatusMessage) {
-          this(account, status, data);
-          this.isClearingStatusMessage = isClearingStatusMessage;
+        this(account, status, data);
+        this.isClearingStatusMessage = isClearingStatusMessage;
     }
     
     @Override
-    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         
         req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
 

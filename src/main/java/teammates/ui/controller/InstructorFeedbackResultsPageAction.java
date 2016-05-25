@@ -119,36 +119,36 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
 
         switch (sortType) {
-            case "question":
-                data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
-            case "recipient-giver-question":
-                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
-                                              ViewType.RECIPIENT_GIVER_QUESTION);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
-            case "giver-recipient-question":
-                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                              ViewType.GIVER_RECIPIENT_QUESTION);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
-            case "recipient-question-giver":
-                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                              ViewType.RECIPIENT_QUESTION_GIVER);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
-            case "giver-question-recipient":
-                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
-                                              ViewType.GIVER_QUESTION_RECIPIENT);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
-            default:
-                sortType = "recipient-giver-question";
-                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
-                                              ViewType.RECIPIENT_GIVER_QUESTION);
-                return createShowPageResult(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        case "question":
+            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
+        case "recipient-giver-question":
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+                                          ViewType.RECIPIENT_GIVER_QUESTION);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        case "giver-recipient-question":
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+                                          ViewType.GIVER_RECIPIENT_QUESTION);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
+        case "recipient-question-giver":
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+                                          ViewType.RECIPIENT_QUESTION_GIVER);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
+        case "giver-question-recipient":
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+                                          ViewType.GIVER_QUESTION_RECIPIENT);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
+        default:
+            sortType = "recipient-giver-question";
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+                                          ViewType.RECIPIENT_GIVER_QUESTION);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
     }
 

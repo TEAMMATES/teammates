@@ -36,7 +36,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private CommentsDb commentsDb = new CommentsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -203,7 +203,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testUpdateInstructorEmailAndStudentEmail() 
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         
         String courseId1 = "CDT.upd.courseId1";
         String courseId2 = "CDT.upd.courseId2";
@@ -308,7 +308,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteComment() throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    public void testDeleteComment() throws InvalidParametersException, EntityAlreadyExistsException {
         
         CommentAttributes c = createNewComment();
         commentsDb.createEntity(c);

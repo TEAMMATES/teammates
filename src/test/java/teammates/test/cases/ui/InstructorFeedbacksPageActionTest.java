@@ -120,8 +120,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
-            return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
+    private InstructorFeedbacksPageAction getAction(String... params) {
+        return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
 }

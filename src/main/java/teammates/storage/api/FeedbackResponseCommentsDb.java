@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -24,7 +23,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -35,8 +33,6 @@ import teammates.storage.search.FeedbackResponseCommentSearchQuery;
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
-    private static final Logger log = Utils.getLogger();
-    
     /**
      * This method is for testing only
      * @param commentsToAdd

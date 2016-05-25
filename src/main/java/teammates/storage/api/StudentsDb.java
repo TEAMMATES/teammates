@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -22,7 +21,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
@@ -40,8 +38,6 @@ public class StudentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
     
-    private static final Logger log = Utils.getLogger();
-
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
@@ -286,7 +282,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s: studentList) {
+        for (Student s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -306,7 +302,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for (StudentAttributes s: allStudents) {
+        for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
                 unregistered.add(s);
             }

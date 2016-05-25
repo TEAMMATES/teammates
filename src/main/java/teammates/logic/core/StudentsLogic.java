@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
@@ -56,10 +55,6 @@ public class StudentsLogic {
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
-    
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
         if (instance == null) {
@@ -404,10 +399,9 @@ public class StudentsLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -427,10 +421,9 @@ public class StudentsLogic {
      * Validates teams for any team name violations
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -496,7 +489,7 @@ public class StudentsLogic {
         }
 
         StringBuilder errorMessage = new StringBuilder();
-        for (String section: invalidSectionList) {
+        for (String section : invalidSectionList) {
             errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
         }
 

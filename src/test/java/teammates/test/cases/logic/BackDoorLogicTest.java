@@ -25,7 +25,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -73,7 +73,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
     
-    private void verifyPresentInDatastore(DataBundle data) throws Exception {
+    private void verifyPresentInDatastore(DataBundle data) {
         HashMap<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
@@ -108,7 +108,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     */
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

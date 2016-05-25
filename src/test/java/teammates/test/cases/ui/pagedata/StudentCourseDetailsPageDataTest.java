@@ -14,7 +14,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentCourseDetailsPageData;
 
@@ -22,12 +21,12 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void test() throws EntityDoesNotExistException {
+    public void test() {
         ______TS("typical success case");
         
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");      

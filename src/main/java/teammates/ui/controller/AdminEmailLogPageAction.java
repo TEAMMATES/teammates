@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
@@ -33,7 +32,7 @@ public class AdminEmailLogPageAction extends Action {
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");

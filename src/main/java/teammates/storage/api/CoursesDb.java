@@ -3,7 +3,6 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -14,7 +13,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Course;
 
 /**
@@ -29,8 +27,6 @@ public class CoursesDb extends EntitiesDb {
      */
 
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
-    
-    private static final Logger log = Utils.getLogger();
     
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
         
@@ -70,7 +66,7 @@ public class CoursesDb extends EntitiesDb {
         List<Course> courses = getCourseEntities(courseIds);
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         // TODO add method to get List<CourseAttributes> from List<Course>
-        for (Course c: courses) {
+        for (Course c : courses) {
             if (!JDOHelper.isDeleted(c)) {
                 courseAttributes.add(new CourseAttributes(c));
             }

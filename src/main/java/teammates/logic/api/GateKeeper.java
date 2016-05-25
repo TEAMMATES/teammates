@@ -47,7 +47,9 @@ public class GateKeeper {
     public UserType getCurrentUser() {
         User user = getCurrentGoogleUser();
         
-        if (user == null) { return null; }
+        if (user == null) {
+            return null;
+        }
 
         UserType userType = new UserType(user);
 
@@ -85,7 +87,9 @@ public class GateKeeper {
 
     /** Verifies the user is logged in */
     public void verifyLoggedInUserPrivileges() {
-        if (isUserLoggedOn()) { return; }
+        if (isUserLoggedOn()) {
+            return;
+        }
         
         throw new UnauthorizedAccessException("User is not logged in");
     }

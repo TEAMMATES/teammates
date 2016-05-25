@@ -54,7 +54,7 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public boolean isUsingAjax() {
-      return this.isUsingAjax;
+        return this.isUsingAjax;
     }
     
     public String getCourseIdToShow() {

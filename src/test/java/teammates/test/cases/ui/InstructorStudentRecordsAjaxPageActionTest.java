@@ -75,7 +75,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         
     }
 
-    private InstructorStudentRecordsAjaxPageAction getAction(String... params) throws Exception {
+    private InstructorStudentRecordsAjaxPageAction getAction(String... params) {
         return (InstructorStudentRecordsAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

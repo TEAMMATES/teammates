@@ -78,7 +78,7 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
-    protected static void removeTypicalDataInDatastore() throws Exception {
+    protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.deleteExistingData(dataBundle);

@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -19,7 +18,7 @@ import teammates.logic.api.Logic;
 public class StudentCourseJoinAction extends Action {
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
         String nextUrl = getNextUrl();
         
