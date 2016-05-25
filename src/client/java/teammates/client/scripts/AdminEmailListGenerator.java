@@ -204,9 +204,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG 
-                     || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
-                     || emailListConfig.instructorStatus == InstructorStatus.ALL)
-                 && isInstructorCreatedInRange(instructor)) {
+                        || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG 
+                        || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                    && isInstructorCreatedInRange(instructor)) {
                 instructorEmailSet.add(instructor.getEmail());
             }
             updateProgressIndicator();
@@ -223,9 +223,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
             if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG 
-                     || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
-                     || emailListConfig.studentStatus == StudentStatus.ALL)
-                 && isStudentCreatedInRange(student)) {
+                        || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG 
+                        || emailListConfig.studentStatus == StudentStatus.ALL)
+                    && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
             }
             updateProgressIndicator();
@@ -282,8 +282,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return false;
         }
         
-        if (emailListConfig.instructorCreatedDateRangeEnd == null 
-            && emailListConfig.instructorCreatedDateRangeStart == null) {
+        if (emailListConfig.instructorCreatedDateRangeEnd == null
+                && emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null 
@@ -338,8 +338,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return false;
         }
         
-        if (emailListConfig.studentCreatedDateRangeEnd == null 
-            && emailListConfig.studentCreatedDateRangeStart == null) {
+        if (emailListConfig.studentCreatedDateRangeEnd == null
+                && emailListConfig.studentCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.studentCreatedDateRangeStart != null 
