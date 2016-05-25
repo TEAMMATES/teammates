@@ -197,31 +197,24 @@ Role: PM
 
 
 ###Applying a fix
-Role: committer
+Role: dev (with push permission), or reviewer
 
-  * Do not merge online. Always merge locally and push to the repo. If you 
-    merge online, you will not be able to run tests or use the required format
-    for the commit message.
-  * Fetch code from upstream: <br>
-    `git fetch origin`<br>
-  * Checkout the branch and update with latest master<br>
-    `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
-    `git merge master` <br>
-  * Test the code by running the `Local tests` and ensure that the all tests pass on Travis.
-  * If green, 
-    * Merge to master and push.<br>
-      `git checkout master` <br>
-       Merge the branch. Format of the commit message: 
-       `[Issue number] Issue title as given in the original issue`<br>
-       e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
-    * Remove any status labels from the corresponding issue and close it.
-    * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
-      the estimated effort required to fix the issue.
-  * If not green,
-    * Delete the merge commit, if any.
-    * Change the pull request status to `s.Ongoing`
-    * Add a comment to mention the test failure.
+  * Merging can be done via GitHub. Make sure that GitHub gives a green light for merging.
+    There are a few scenarios where GitHub can prevent merging from proceeding:
+    * **Failed status check**: The PR breaks some tests or did not pass static analysis; the author
+      will need to correct them before proceeding.
+    * **Merge conflict**: The PR is conflicting with the current `master` branch; the author will
+      need to resolve the conflicts before proceeding.
+    * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
+      need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
+  * When GitHub gives a green light for merging,
+    * Merge with "squash and merge" option (preferable). Format of the commit message:<br>
+      `[Issue number] Issue title as given in the original issue`<br>
+      e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`<br>
+      The additional descriptions can be left as is.
+    * Optionally, apply an `e.*` label to the issue (not the PR) to indicate 
+      the estimated effort required to fix the issue, and another `e.*` label to the PR
+      to indicate the estimated effort required to review the PR.
 
 ###Assigning labels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)
