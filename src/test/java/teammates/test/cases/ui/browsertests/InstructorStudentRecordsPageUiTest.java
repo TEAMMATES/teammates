@@ -19,7 +19,8 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal, testDataQuestionType;
+    private static DataBundle testDataNormal;
+    private static DataBundle testDataQuestionType;
 
     private static String instructorId;
     private static String courseId;

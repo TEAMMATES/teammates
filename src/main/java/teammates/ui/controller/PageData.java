@@ -473,8 +473,8 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, 
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -485,8 +485,8 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ARCHIVE_STATUS, Boolean.toString(archiveStatus));
         link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }

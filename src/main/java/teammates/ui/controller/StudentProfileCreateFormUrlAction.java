@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-
-import teammates.common.util.Config;
-import teammates.common.util.Const;
 
 /**
  * Action: generates the UploadUrl for pictures given by students.

@@ -77,6 +77,14 @@
     <module name="PackageDeclaration"/>
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
+    <module name="RedundantImport"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="StringLiteralEquality"/>
+    <module name="UnnecessaryParentheses"/>
+    <module name="CovariantEquals"/>
+    <module name="EqualsAvoidNull"/>
+    <module name="MultipleVariableDeclarations"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>

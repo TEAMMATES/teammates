@@ -161,7 +161,7 @@ public class AccountsLogic {
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = (institute == null ? getCourseInstitute(instructor.courseId) : institute);
+        String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
         
         if (account == null) {
             createAccount(new AccountAttributes(googleId,
