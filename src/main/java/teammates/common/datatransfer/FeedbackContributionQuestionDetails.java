@@ -25,6 +25,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     public boolean isNotSureAllowed;
     
+    private static final String QUESTION_NUMBER = "${questionNumber}"; 
+    
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
         this.isNotSureAllowed = true;
@@ -75,15 +77,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int points = frd.getAnswer();
         String optionSelectFragmentsHtml = getContributionOptionsHtml(points);
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
-        
-        return html;
     }
 
     @Override
@@ -92,22 +92,20 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
-        
-        return html;
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
-                "${questionNumber}", Integer.toString(questionNumber),
+                QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
@@ -126,14 +124,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName();
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
-                "${questionNumber}", Integer.toString(questionNumber),
+                QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        return html;
     }
     
     /**
@@ -201,7 +198,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
-                "${questionNumber}", Integer.toString(question.questionNumber),
+                QUESTION_NUMBER, Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
@@ -769,9 +766,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             StudentResultSummary studentResult = stats.get(targetEmail);
             int pc = studentResult.perceivedToInstructor;
             
-            String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            return FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
-            return perceivedContributionHtml;
         }
         return "";
     }
