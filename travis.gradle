@@ -210,7 +210,7 @@ checkstyle {
 pmd {
     toolVersion = "5.4.1"
     consoleOutput = true
-    ruleSetFiles = files("static-analysis/teammates-pmd.xml")
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
 

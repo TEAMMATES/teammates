@@ -58,7 +58,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                 FeedbackQuestionsLogic.inst().getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
                         qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         

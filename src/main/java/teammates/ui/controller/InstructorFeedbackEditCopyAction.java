@@ -31,7 +31,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; //NOPMD
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);

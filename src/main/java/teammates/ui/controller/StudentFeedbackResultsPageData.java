@@ -168,14 +168,17 @@ public class StudentFeedbackResultsPageData extends PageData {
         String recipientName = recipientNameParam;
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(response);
+            String displayedGiverName;
             
             /* Change display name to 'You' or 'Your team' if necessary */
             boolean isUserGiver = student.email.equals(response.giverEmail);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
-                giverName = "Your Team (" + giverName + ")"; // NOPMD
+                displayedGiverName = "Your Team (" + giverName + ")";
             } else if (isUserGiver) {
-                giverName = "You";
+                displayedGiverName = "You";
+            } else {
+                displayedGiverName = giverName;
             }
             
             boolean isUserRecipient = student.email.equals(response.recipientEmail);
@@ -194,7 +197,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
                                                                                           response.getId());
             
-            responses.add(new FeedbackResultsResponse(giverName, answer, comments));
+            responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
         }
         return new FeedbackResultsResponseTable(recipientName, responses);
     }
