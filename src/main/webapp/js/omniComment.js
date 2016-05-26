@@ -249,10 +249,22 @@ $(document).ready(function() {
         // hide comment's add form in commentListRegionForFeedbackResponse
         $("li[id^='showResponseCommentAddForm']").hide();
         
-        // to hide feedback question + feedback session panel
-        // if all list elements are hidden within fbResponse, then hide fbResponse
-        if (commentToHide.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
-            if (commentToHide.parent().find('li[style*="display: none"]').length === commentToHide.parent().find('li').length) {
+        // to hide student comments
+        if (commentToHide.hasClass('student-record-comments')) {
+            var studentCommentPanel = commentToHide.closest('.student-comments-panel');
+            var studentCommentPanelBody = commentToHide.parent();
+            // if all student comments are hidden, then hide the student comments panel
+            var allStudentCommentsAreHidden =
+                    studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length 
+                    === studentCommentPanel.find('div[class*="giver_display-by"]').length
+            if (allStudentCommentsAreHidden) {
+                studentCommentPanelBody.hide();
+            }
+        } else { // to hide feedback question + feedback session panel
+            var allCommentsForFeedbackResponseAreHidden =
+                    commentToHide.parent().find('li[style*="display: none"]').length 
+                    === commentToHide.parent().find('li').length;
+            if (allCommentsForFeedbackResponseAreHidden) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
                 // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
                 // comment list region row to the giver recipient row 
@@ -263,26 +275,21 @@ $(document).ready(function() {
                         .addBack().prev('.feedback-response-giver-recipient-row').addBack().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
-                if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
-                    // if all responses are hidden within fbQuestion, then hide the fbQuestion
+                var allFeedbackResponsesForFeedbackQuestionAreHidden =
+                        feedbackQuestion.find('tr[style*="display: none"]').length 
+                        === feedbackQuestion.find('tr').length
+                if (allFeedbackResponsesForFeedbackQuestionAreHidden) {
                     feedbackQuestion.hide();
                     
                     var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
-                        // if all questions are hidden within fbSession, then hide the fbsession's body
+                    var allFeedbackQuestionsForFeedbackSessionAreHidden =
+                            feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length 
+                            === feedbackSessionPanel.find('div[class="panel panel-info"]').length
+                    if (allFeedbackQuestionsForFeedbackSessionAreHidden) {
                         feedbackSessionPanelBody.hide();
                     }
                 }
-            }
-        }
-        // to hide student comments
-        if (commentToHide.prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = commentToHide.closest('.student-comments-panel');
-            var studentCommentPanelBody = commentToHide.parent();
-            // if all student comments are hidden, then hide the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
-                studentCommentPanelBody.hide();
             }
         }
     }
