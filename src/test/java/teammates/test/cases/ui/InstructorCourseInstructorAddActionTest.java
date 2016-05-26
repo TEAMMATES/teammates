@@ -16,7 +16,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -148,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
     }
     
-    private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
+    private InstructorCourseInstructorAddAction getAction(String... parameters) {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

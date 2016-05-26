@@ -27,7 +27,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -610,7 +610,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

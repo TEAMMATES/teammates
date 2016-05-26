@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -7,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -283,7 +283,8 @@ public final class Sanitizer {
      */
     public static String convertStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
-        int startPos = 0, i = 0;
+        int startPos = 0;
+        int i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;

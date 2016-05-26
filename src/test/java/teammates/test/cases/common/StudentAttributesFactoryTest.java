@@ -15,7 +15,7 @@ import teammates.test.cases.BaseTestCase;
 public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 

@@ -202,7 +202,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>"
-                             + (enrollString).replace("\n", "<br>");
+                             + enrollString.replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Boundary test for size limit per enrollment");
@@ -283,7 +283,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertTrue(result);
     }
     
-    private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseEnrollSaveAction getAction(String... params) {
         return (InstructorCourseEnrollSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 

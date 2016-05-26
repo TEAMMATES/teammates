@@ -2,20 +2,17 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.ui.template.EnrollResultPanel;
 
 /**
  * PageData: page data for the 'Result' page after enrollment for a course
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
-    protected static final Logger log = Utils.getLogger();
     
     private String courseId;
     private List<StudentAttributes>[] students;

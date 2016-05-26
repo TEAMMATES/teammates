@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
         
@@ -117,7 +117,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

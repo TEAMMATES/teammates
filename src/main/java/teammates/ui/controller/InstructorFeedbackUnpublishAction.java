@@ -6,11 +6,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAction {
+public class InstructorFeedbackUnpublishAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);

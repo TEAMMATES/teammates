@@ -10,9 +10,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -170,7 +170,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponses() throws Exception {
+    public void testGetFeedbackResponses() {
         
         ______TS("standard success case");    
         
@@ -226,7 +226,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackResponsesForQuestion() throws Exception {
+    public void testGetFeedbackResponsesForQuestion() {
         
         ______TS("standard success case");
         
@@ -248,7 +248,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesForQuestionInSection() throws Exception {
+    public void testGetFeedbackResponsesForQuestionInSection() {
         
         ______TS("standard success case");  
         
@@ -286,7 +286,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackResponsesForSession() throws Exception {
+    public void testGetFeedbackResponsesForSession() {
         
         ______TS("standard success case");  
         
@@ -324,7 +324,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackResponsesForReceiverForQuestion() throws Exception {
+    public void testGetFeedbackResponsesForReceiverForQuestion() {
         
         ______TS("standard success case");  
         
@@ -362,7 +362,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesForReceiverForQuestionInSection() throws Exception {
+    public void testGetFeedbackResponsesForReceiverForQuestionInSection() {
         
         ______TS("standard success case");  
         
@@ -419,7 +419,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackResponsesForReceiverForCourse() throws Exception {
+    public void testGetFeedbackResponsesForReceiverForCourse() {
         
         ______TS("standard success case");  
         
@@ -457,7 +457,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackResponsesFromGiverForQuestion() throws Exception {
+    public void testGetFeedbackResponsesFromGiverForQuestion() {
                 
         ______TS("standard success case");  
         
@@ -495,7 +495,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesFromGiverForQuestionInSection() throws Exception {
+    public void testGetFeedbackResponsesFromGiverForQuestionInSection() {
         
         ______TS("standard success case");  
         
@@ -552,7 +552,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesFromGiverForCourse() throws Exception {
+    public void testGetFeedbackResponsesFromGiverForCourse() {
         
         ______TS("standard success case");  
         
@@ -590,7 +590,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesForSessionWithinRange() throws Exception {
+    public void testGetFeedbackResponsesForSessionWithinRange() {
 
         ______TS("standard success case");  
         
@@ -627,7 +627,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponsesForSessionInSection() throws Exception {
+    public void testGetFeedbackResponsesForSessionInSection() {
 
         
         
@@ -666,7 +666,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test 
-    public void testGetFeedbackResponsesForSessionFromSection() throws Exception {
+    public void testGetFeedbackResponsesForSessionFromSection() {
         
         ______TS("standard success case");  
         
@@ -707,7 +707,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test 
-    public void testGetFeedbackResponsesForSessionToSection() throws Exception {
+    public void testGetFeedbackResponsesForSessionToSection() {
         
         ______TS("standard success case");  
         
@@ -838,12 +838,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         deleteResponsesFromDb();
     }
     
-    private static void deleteResponsesFromDb() throws Exception {
+    private static void deleteResponsesFromDb() {
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
             frDb.deleteEntity(dataBundle.feedbackResponses.get(i));

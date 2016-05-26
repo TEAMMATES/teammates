@@ -35,18 +35,18 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.Emails;
+import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -96,7 +96,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor() throws Exception {        
+    public void testGetFeedbackSessionsListForInstructor() {        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
@@ -1691,7 +1691,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testIsFeedbackSessionViewableToStudents() throws EntityDoesNotExistException {
+    public void testIsFeedbackSessionViewableToStudents() {
         ______TS("Session with questions for students to answer");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
@@ -1881,7 +1881,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testIsFeedbackSessionCompletedByStudent() throws Exception {
+    public void testIsFeedbackSessionCompletedByStudent() {
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
@@ -2144,7 +2144,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         return tableString;
     }
     
-    public void testDeleteFeedbackSessionsForCourse() throws Exception {
+    public void testDeleteFeedbackSessionsForCourse() {
         
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
         fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
@@ -2152,7 +2152,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

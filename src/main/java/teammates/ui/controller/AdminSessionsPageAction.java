@@ -10,7 +10,6 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
@@ -20,9 +19,10 @@ import teammates.logic.api.GateKeeper;
 
 public class AdminSessionsPageAction extends Action {
     
-    AdminSessionsPageData data;
-
     private static final String UNKNOWN_INSTITUTION = "Unknown";
+    
+    private AdminSessionsPageData data;
+
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
@@ -36,7 +36,7 @@ public class AdminSessionsPageAction extends Action {
     private boolean isShowAll;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       

@@ -20,7 +20,7 @@ public class TeamEvalResult {
     public static int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
     public static int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;
@@ -203,7 +203,7 @@ public class TeamEvalResult {
             if (isSpecialValue((int) value)) {
                 output[j] = value;
             } else {
-                output[j] = (factor == 0 ? value : value * factor);
+                output[j] = factor == 0 ? value : value * factor;
             }
         }
         return output;
@@ -216,7 +216,7 @@ public class TeamEvalResult {
             int filterValue = (int) filterArray[i];
             boolean isSpecialValue = !isSanitized(filterValue)
                     || filterValue == NA;
-            returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+            returnValue[i] = isSpecialValue ? NA : valueArray[i];
         }
         return returnValue;
     }
@@ -234,7 +234,7 @@ public class TeamEvalResult {
 
             double value = input[i];
             if (value != NA) {
-                sum = (sum == NA ? value : sum + value);
+                sum = sum == NA ? value : sum + value;
             }
         }
         return sum;
@@ -249,7 +249,7 @@ public class TeamEvalResult {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
-                output[i][j] = ((i == j) ? NA : input[i][j]);
+                output[i][j] = i == j ? NA : input[i][j];
             }
         }
         return output;
@@ -405,6 +405,7 @@ public class TeamEvalResult {
                           .replace(NSU + ".0", "NSU");
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }

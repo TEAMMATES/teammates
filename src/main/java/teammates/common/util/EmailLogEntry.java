@@ -18,7 +18,8 @@ public class EmailLogEntry {
     private String content;
     private long time;
     
-    public String logInfoAsHtml;
+    @SuppressWarnings("unused") // used by js
+    private String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws Exception {
         this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
@@ -26,7 +27,7 @@ public class EmailLogEntry {
         this.content = (String) msg.getContent();
     }
     
-    public EmailLogEntry(Sendgrid msg) throws Exception {
+    public EmailLogEntry(Sendgrid msg) {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();

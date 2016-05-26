@@ -19,10 +19,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.datastore.Text;
@@ -212,7 +212,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;
-            } catch (EntityAlreadyExistsException | InvalidParametersException e) {
+            } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
         }

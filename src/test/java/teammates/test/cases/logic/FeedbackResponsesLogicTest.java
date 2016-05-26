@@ -60,7 +60,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackResponsesForCourse();
     }
 
-    public void testSpecialCharactersInTeamName() throws Exception {
+    public void testSpecialCharactersInTeamName() {
         ______TS("test special characters");
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
@@ -417,7 +417,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }   
     }
     
-    public void testIsNameVisibleTo() throws Exception {
+    public void testIsNameVisibleTo() {
 
         ______TS("testIsNameVisibleTo");
         
@@ -603,7 +603,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

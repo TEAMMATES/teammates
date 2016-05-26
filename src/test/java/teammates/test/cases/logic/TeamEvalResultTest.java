@@ -1,21 +1,22 @@
 package teammates.test.cases.logic;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import java.util.Arrays;
-
-import teammates.logic.core.TeamEvalResult;
-import teammates.test.cases.BaseTestCase;
-
 import static teammates.common.util.Const.EOL;
 import static teammates.logic.core.TeamEvalResult.NA;
 import static teammates.logic.core.TeamEvalResult.NSB;
 import static teammates.logic.core.TeamEvalResult.NSU;
 
+import java.util.Arrays;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import teammates.logic.core.TeamEvalResult;
+import teammates.test.cases.BaseTestCase;
+
 public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public static void setUp() {
         printTestClassHeader();
     }
 
@@ -479,7 +480,7 @@ public class TeamEvalResultTest extends BaseTestCase {
         print(t.toString());
     }
     
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) {
         int[][] input = 
             {{  100,  100,  110 }, 
              { 100,  100,  110 },

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
@@ -24,13 +23,13 @@ import teammates.logic.core.Emails;
 
 public abstract class EmailAction {
 
+    protected static final Logger log = Utils.getLogger();
+    
     protected HttpServletRequest req;
     protected List<MimeMessage> emailsToBeSent;
 
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
-    
-    protected static Logger log = Utils.getLogger();
     
     protected Boolean isError = false;
     
@@ -108,7 +107,7 @@ public abstract class EmailAction {
         }
         
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null, message, url);
-        log.log(Level.INFO, activityLogEntry.generateLogMessage());
+        log.info(activityLogEntry.generateLogMessage());
     }
 
     protected void logActivityFailure(HttpServletRequest req, Throwable e) {
@@ -119,7 +118,7 @@ public abstract class EmailAction {
                        + e.getMessage() + "</span>";
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null,
                                                                  message, url);
-        log.log(Level.INFO, activityLogEntry.generateLogMessage());
+        log.info(activityLogEntry.generateLogMessage());
         log.severe(e.getMessage());
     }
 

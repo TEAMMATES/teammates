@@ -20,7 +20,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionAttributes fq;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -123,7 +123,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }
