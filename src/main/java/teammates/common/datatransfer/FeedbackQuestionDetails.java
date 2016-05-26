@@ -176,9 +176,12 @@ public abstract class FeedbackQuestionDetails {
                + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
-
-    public boolean shouldShowNoResponseText(String recipientEmail,
-                                            FeedbackQuestionAttributes question) {
+    
+    /**
+     * returns true if 'No Response' to be displayed in the Response rows
+     * Used to construct missing response rows between the recipient and possible givers.
+     */
+    public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
         return question.recipientType != FeedbackParticipantType.STUDENTS 
             && question.recipientType != FeedbackParticipantType.TEAMS;
