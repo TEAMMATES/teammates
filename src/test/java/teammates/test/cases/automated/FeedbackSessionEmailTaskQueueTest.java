@@ -103,7 +103,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         try {
             feedbackSessionsLogic.publishFeedbackSession("non-existent-feedback-session", "non-existent-course");
         } catch (Exception e) {
-            assertEquals("Trying to publish a non-existant session.", 
+            assertEquals("Trying to publish a non-existent session.", 
                     e.getMessage());
         }
         if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)) {

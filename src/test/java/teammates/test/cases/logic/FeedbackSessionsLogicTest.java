@@ -1845,7 +1845,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to publish a non-existant session.", e.getMessage());
+            assertEquals("Trying to publish a non-existent session.", e.getMessage());
         }
         
         try {
@@ -1854,7 +1854,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to unpublish a non-existant session.", e.getMessage());
+            assertEquals("Trying to unpublish a non-existent session.", e.getMessage());
         }
     }
     
