@@ -11,20 +11,20 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
+import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.AdminEmailsLogic;
+import teammates.logic.core.TaskQueuesLogic;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.apphosting.api.ApiProxy;
-
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
-import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.TaskQueuesLogic;
 
 /**
  * This class creates admin email tasks for receiver emails<br>
@@ -36,9 +36,9 @@ import teammates.logic.core.TaskQueuesLogic;
 @SuppressWarnings("serial")
 public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
-    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
-    
     private static final int MAX_READING_LENGTH = 900000; 
+    
+    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
     //param needed for sending small number of emails
     private String addressReceiverListString;

@@ -18,12 +18,12 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
     // modify this value to choose to update respondants for all sessions or a specific session
-    boolean isForAllSession = true; 
+    private boolean isForAllSession = true; 
     // if modifying all sessions, modify this value to only update sessions with no respondants
-    boolean isOnlyModifyingZeroResponseRate = true; 
+    private boolean isOnlyModifyingZeroResponseRate = true; 
 
     // modify for preview
-    boolean isPreview = true;
+    private boolean isPreview = true;
     
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();

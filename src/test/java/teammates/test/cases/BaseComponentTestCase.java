@@ -3,8 +3,6 @@ package teammates.test.cases;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -28,6 +26,8 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
 
+import com.google.gson.Gson;
+
 /** Base class for Component tests.
  * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
  */
@@ -48,7 +48,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
-    public void testSetUp() throws Exception {
+    public void testSetUp() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
         
@@ -205,7 +205,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     @AfterTest
-    public void testTearDown() throws Exception {
+    public void testTearDown() {
         gaeSimulation.tearDown();
     }
 }

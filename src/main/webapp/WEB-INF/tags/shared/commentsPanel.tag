@@ -19,7 +19,7 @@
         <c:set var="bodyTitle" value="Comments for students" />
     </c:otherwise>
 </c:choose>
-<div class="panel panel-primary">
+<div class="panel panel-primary student-comments-panel">
     <div class="panel-heading cursor-pointer"  data-toggle="collapse"
         data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
         <div class="display-icon pull-right">

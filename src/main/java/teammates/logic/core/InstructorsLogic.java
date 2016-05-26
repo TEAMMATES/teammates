@@ -32,7 +32,7 @@ public class InstructorsLogic {
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static InstructorsLogic instance;
     
@@ -301,8 +301,7 @@ public class InstructorsLogic {
     }
     
     @SuppressWarnings("deprecation")
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
-           throws EntityDoesNotExistException {
+    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
         
         String joinLink = "";
         Emails emailMgr = new Emails();

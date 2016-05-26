@@ -20,13 +20,13 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.Comment;
+import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
-import teammates.ui.template.CommentsForStudentsTable;
-import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.SearchCommentsForResponsesTable;
+import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.StudentListSectionData;
 
 /**

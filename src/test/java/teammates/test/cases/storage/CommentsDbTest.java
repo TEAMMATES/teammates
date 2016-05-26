@@ -1,8 +1,8 @@
 package teammates.test.cases.storage;
 
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -25,6 +23,8 @@ import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.datastore.Text;
+
 public class CommentsDbTest extends BaseComponentTestCase {
     
     private String courseId = "CDT.courseId";
@@ -36,7 +36,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private CommentsDb commentsDb = new CommentsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -203,7 +203,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testUpdateInstructorEmailAndStudentEmail() 
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         
         String courseId1 = "CDT.upd.courseId1";
         String courseId2 = "CDT.upd.courseId2";
@@ -308,7 +308,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteComment() throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    public void testDeleteComment() throws InvalidParametersException, EntityAlreadyExistsException {
         
         CommentAttributes c = createNewComment();
         commentsDb.createEntity(c);

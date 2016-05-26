@@ -14,21 +14,8 @@ public class FeedbackSessionResponseStatus {
     public Map<String, String> emailSectionTable;
     public Map<String, String> emailTeamNameTable;
 
-    public FeedbackSessionResponseStatus() {
-        hasResponse = new ArrayList<String>();
-        noResponse = new ArrayList<String>();
-        emailNameTable = new HashMap<String, String>();
-        emailSectionTable = new HashMap<String, String>();
-        emailTeamNameTable = new HashMap<String, String>();
-    }
-
-    public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
-        Collections.sort(noResponse, compareByTeamNameStudentName);
-        return noResponse;
-    }
-
     // Sorts by teamName > studentName
-    public Comparator<String> compareByTeamNameStudentName = new Comparator<String>() {
+    private Comparator<String> compareByTeamNameStudentName = new Comparator<String>() {
 
         @Override
         public int compare(String s1, String s2) {
@@ -45,7 +32,7 @@ public class FeedbackSessionResponseStatus {
     };
 
     // Sorts by teamName
-    public Comparator<String> compareByTeamName = new Comparator<String>() {
+    private Comparator<String> compareByTeamName = new Comparator<String>() {
 
         @Override
         public int compare(String s1, String s2) {
@@ -78,7 +65,7 @@ public class FeedbackSessionResponseStatus {
     };
 
     // Sorts by studentName
-    public Comparator<String> compareByName = new Comparator<String>() {
+    private Comparator<String> compareByName = new Comparator<String>() {
 
         @Override
         public int compare(String s1, String s2) {
@@ -89,6 +76,19 @@ public class FeedbackSessionResponseStatus {
         }
 
     };
+
+    public FeedbackSessionResponseStatus() {
+        hasResponse = new ArrayList<String>();
+        noResponse = new ArrayList<String>();
+        emailNameTable = new HashMap<String, String>();
+        emailSectionTable = new HashMap<String, String>();
+        emailTeamNameTable = new HashMap<String, String>();
+    }
+
+    public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
+        Collections.sort(noResponse, compareByTeamNameStudentName);
+        return noResponse;
+    }
 
     public List<String> getNoResponse() {
         return noResponse;

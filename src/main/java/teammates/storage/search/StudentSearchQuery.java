@@ -2,13 +2,13 @@ package teammates.storage.search;
 
 import java.util.List;
 
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
+
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.MatchScorer;
 import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.SortOptions;
-
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Const;
 
 public class StudentSearchQuery extends SearchQuery {
     

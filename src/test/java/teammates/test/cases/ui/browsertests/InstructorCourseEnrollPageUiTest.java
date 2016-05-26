@@ -25,13 +25,13 @@ import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private AppUrl enrollUrl;
+    private static AppUrl enrollUrl;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -234,7 +234,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

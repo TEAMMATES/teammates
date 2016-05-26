@@ -760,6 +760,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return csv.toString();
     }
     
+    @Override
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
@@ -772,6 +773,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "Choice Value";
     }
     
+    @Override
     public String getCsvDetailedResponsesHeader() {
         return    "Team" + "," + "Giver's Full Name" + "," 
                 + "Giver's Last Name" + "," + "Giver's Email" + ","  
@@ -781,6 +783,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Choice Number" + Const.EOL;
     }
     
+    @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
             FeedbackQuestionAttributes question) {
@@ -801,7 +804,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
             int chosenIndex = frd.answer.get(i);
-            String chosenChoiceNumber = "", chosenChoiceValue = "";
+            String chosenChoiceNumber = "";
+            String chosenChoiceValue = "";
             String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
             
             if (chosenIndex == -1) {

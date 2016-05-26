@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -14,6 +11,9 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * The data transfer object for StudentProfile entities.
@@ -144,6 +144,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         return errors;
     }
 
+    @Override
     public String toString() {
         return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
     }
