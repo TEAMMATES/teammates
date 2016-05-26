@@ -54,7 +54,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testJoinConfirmation();
     }
 
-    private void testContent(){
+    private void testContent() {
         
         /*covered in testJoinConfirmation() 
          *case: Click join link then confirm: success: valid key
