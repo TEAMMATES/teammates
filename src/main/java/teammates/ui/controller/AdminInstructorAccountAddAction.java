@@ -99,7 +99,8 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
             StringBuilder errorMessage = new StringBuilder(100);
-            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            errorMessage.append(retryLink);
             
             statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
             
