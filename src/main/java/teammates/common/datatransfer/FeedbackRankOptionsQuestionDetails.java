@@ -33,12 +33,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         this.options = new ArrayList<String>();
     }
 
-    public FeedbackRankOptionsQuestionDetails(String questionText,
-                                       List<String> rankOptions) {
-        super(FeedbackQuestionType.RANK_OPTIONS, questionText);
-        this.options = rankOptions;
-    }
-
     @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {

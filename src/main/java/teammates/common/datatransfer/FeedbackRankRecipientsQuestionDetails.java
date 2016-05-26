@@ -23,10 +23,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         super(FeedbackQuestionType.RANK_RECIPIENTS);
     }
 
-    public FeedbackRankRecipientsQuestionDetails(String questionText) {
-        super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
-    }
-
     @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {

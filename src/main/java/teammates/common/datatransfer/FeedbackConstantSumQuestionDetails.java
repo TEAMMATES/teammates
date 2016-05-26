@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,25 +52,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.forceUnevenDistribution = unevenDistribution;
         
     }
-
-    public FeedbackConstantSumQuestionDetails(String questionText,
-            boolean pointsPerOption, int points, boolean unevenDistribution) {
-        super(FeedbackQuestionType.CONSTSUM, questionText);
-        
-        this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<String>();
-        this.distributeToRecipients = true;
-        this.pointsPerOption = pointsPerOption;
-        this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-    }
     
     @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         
-        List<String> tempConstSumOptions = new LinkedList<String>();
         String distributeToRecipientsString = null;
         String pointsPerOptionString = null;
         String pointsString = null;
