@@ -221,37 +221,20 @@ $(document).ready(function() {
         var commentToShow = $(comment);
         commentToShow.show();
         
-        // to show feedback question + feedback session panel
-        // if not all list elements are hidden within fbResponse, then show fbResponse
-        if (commentToShow.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
-            if (commentToShow.parent().find('li[style*="display: none"]').length !== commentToShow.parent().find('li').length) {
-                var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
-                // comment list region row to the giver recipient row  
-                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().show();
-                
-                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
-                if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
-                    // if not all responses are hidden within fbQuestion, then show the fbQuestion
-                    feedbackQuestion.show();
-                    
-                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
-                    var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
-                        // if not all questions are hidden within fbSession, then show the fbsession's body
-                        feedbackSessionPanelBody.show();
-                    }
-                }
-            }
-        }
         // to show student comments (only works for Giver filter)
-        if (commentToShow.prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = commentToShow.closest('.student-comments-panel');
-            var studentCommentPanelBody = commentToShow.parent();
-            // if not all student comments are hidden, then show the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
-                studentCommentPanelBody.show();
-            }
+        if (commentToShow.hasClass('student-record-comments')) {
+            var studentCommentPanelBody = commentToShow.closest('.student-comments-panel').parent();
+            studentCommentPanelBody.show();
+        } else { // to show feedback question + feedback session panel
+            var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
+            // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
+            // comment list region row to the giver recipient row  
+            commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().show();
+            var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
+            feedbackQuestion.show();
+                    
+            var feedbackSessionPanelBody = feedbackQuestion.parent();
+            feedbackSessionPanelBody.show();
         }
     }
     
