@@ -226,7 +226,9 @@ $(document).ready(function() {
         if (commentToShow.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if (commentToShow.parent().find('li[style*="display: none"]').length !== commentToShow.parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-                commentListRegionForFeedbackResponse.siblings().andSelf().show();
+                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
+                // comment list region row to the giver recipient row  
+                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().show();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
@@ -265,7 +267,9 @@ $(document).ready(function() {
         if (commentToHide.prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if (commentToHide.parent().find('li[style*="display: none"]').length === commentToHide.parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
-                commentListRegionForFeedbackResponse.siblings().andSelf().hide();
+                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
+                // comment list region row to the giver recipient row  
+                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {

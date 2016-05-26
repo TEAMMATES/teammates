@@ -31,7 +31,7 @@
                 <table class="table">
                     <tbody>
                         <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
-                            <tr>
+                            <tr class="feedback-response-giver-recipient-row">
                                 <td><b>From:</b> ${fn:escapeXml(response.giverName)} <b>To:</b> ${fn:escapeXml(response.recipientName)}</td>
                             </tr>
                             <tr>
