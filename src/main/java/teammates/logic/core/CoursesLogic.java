@@ -159,9 +159,9 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseDetailsBundle course details} for all courses a given student is enrolled in. 
      * @param googleId The Google ID of the student
-     * @return a list of {@link CourseDetailsBundle}
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         courses a given student is enrolled in
      * @throws EntityDoesNotExistException
      */
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId) 
@@ -227,10 +227,10 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a list of section names for a course with or without a need to check if the course is existent
      * @param courseId Course ID of the course
      * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
-     * @return list of sections names from the specified course
+     * @return a list of section names for a course with or without a need to
+     *         check if the course is existent
      * @throws EntityDoesNotExistException
      */
     private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified) 
@@ -290,10 +290,10 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a list of {@link SectionDetailsBundle section details} for a given course using course attributes and course details bundle.
      * @param course {@link CourseAttributes}
      * @param courseDetails {@link CourseDetailsBundle}
-     * @return a list of {@link SectionDetailsBundle}
+     * @return a list of {@link SectionDetailsBundle section details} for a
+     *         given course using course attributes and course details bundle.
      */
     public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle courseDetails) {
         Assumption.assertNotNull("Course is null", course);
@@ -520,15 +520,15 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns the {@link CourseSummaryBundle course summary}, including its feedback sessions using the given {@link InstructorAttributes}.
-     * @param instructor
-     * @return {@link CourseSummaryBundle}
+     * @param instructorAttributes
+     * @return the {@link CourseSummaryBundle course summary}, including
+     *         its feedback sessions using the given {@link InstructorAttributes}.
      * @throws EntityDoesNotExistException
      */
     public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
-        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructor.courseId);
-        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructor));
+            InstructorAttributes instructorAttributes) throws EntityDoesNotExistException {
+        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructorAttributes.courseId);
+        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructorAttributes));
         return courseSummary;
     }
 
@@ -707,10 +707,11 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns a Map (CourseId, {@link CourseSummaryBundle course summary excluding statistics}) for all courses mapped to a given instructor.
      * @param instructorId
      * @param omitArchived if {@code true}, omits all the archived courses from the return
-     * @return a Map<CourseId, {@link CourseSummaryBundle}
+     * @return a Map (CourseId, {@link CourseSummaryBundle course summary
+     *         excluding statistics}) for all courses mapped to a given
+     *         instructor
      * @throws EntityDoesNotExistException
      */
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
@@ -917,7 +918,8 @@ public class CoursesLogic {
     /**
      * @param courseBundles all courses
      * @param googleId The Google ID of the instructor
-     * @return a list of {@link CourseDetailsBundle course details} for all active courses mapped to a particular instructor
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         active courses mapped to a particular instructor
      */
     public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
@@ -932,7 +934,8 @@ public class CoursesLogic {
     /**
      * @param courseBundles all courses
      * @param googleId The Google ID of the instructor
-     * @return a list of {@link CourseDetailsBundle course details} for all archived courses mapped to a particular instructor
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         archived courses mapped to a particular instructor
      */
     public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
