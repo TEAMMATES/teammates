@@ -39,7 +39,6 @@ public class AdminActivityLogPageAction extends Action {
      */
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
-    
     private int totalLogsSearched;
     private boolean isFirstRow = true;
     private Long nextEndTimeToSearch;

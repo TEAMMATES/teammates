@@ -296,12 +296,10 @@ public class TeamEvalResult {
         return factor;
     }
 
-    // Suppress PMD.AvoidArrayLoops since the arrays are of different types
-    @SuppressWarnings("PMD.AvoidArrayLoops")
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];  
+            converted[i] = (double) input[i];  
         }
         return converted;
     }

@@ -103,13 +103,17 @@ public class Version implements Comparable<Version> {
         if (s2 == null) {
             return -1;
         }
-        String convertedS1 = s1;
-        String convertedS2 = s2;
-        while (convertedS1.length() < convertedS2.length()) {
-            convertedS1 = "0" + convertedS1; // NOPMD
-        }
-        while (convertedS2.length() < convertedS1.length()) {
-            convertedS2 = "0" + convertedS2; // NOPMD
+        String convertedS1;
+        String convertedS2;
+        if (s1.length() == s2.length()) {
+            convertedS1 = s1;
+            convertedS2 = s2;
+        } else if (s1.length() > s2.length()) {
+            convertedS1 = s1;
+            convertedS2 = StringHelper.generateStringOfLength(s1.length() - s2.length(), '0') + s2;
+        } else {
+            convertedS1 = StringHelper.generateStringOfLength(s2.length() - s1.length(), '0') + s1;
+            convertedS2 = s2;
         }
         return convertedS2.compareTo(convertedS1);
     }

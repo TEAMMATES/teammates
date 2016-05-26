@@ -123,7 +123,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
-        switch(order) {
+        switch (order) {
         case 1:
             typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
             typicalCase[indexOfSessionVisibleDate] = "";

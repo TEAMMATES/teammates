@@ -214,7 +214,6 @@ public abstract class Action {
         return false;
     }
 
-    @SuppressWarnings("PMD.EmptyIfStmt")
     protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         
