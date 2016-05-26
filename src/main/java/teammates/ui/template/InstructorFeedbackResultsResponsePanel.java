@@ -29,7 +29,8 @@ public class InstructorFeedbackResultsResponsePanel {
                                                   String questionText, String additionalInfoText, 
                                                   ElementTag rowAttributes, 
                                                   String displayableResponse, 
-                                                  List<FeedbackResponseCommentRow> comments, boolean isAllowedToAddComment) {
+                                                  List<FeedbackResponseCommentRow> comments, 
+                                                  boolean isAllowedToAddComment) {
         this.question = question;
         this.response = response;
         this.questionText = questionText;
