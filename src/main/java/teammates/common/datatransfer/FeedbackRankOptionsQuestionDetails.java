@@ -364,7 +364,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li data-questionType = \"" + FeedbackQuestionType.RANK_OPTIONS.name() + "\"><a>" + Const.FeedbackQuestionTypeNames.RANK_OPTION 
+        return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_OPTIONS.name() + "\"><a>" + Const.FeedbackQuestionTypeNames.RANK_OPTION 
              + "</a></li>";
     }
 
