@@ -515,13 +515,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetValidityInfoEmail() {
-        invalidityInfoFor_nullEmail_throwException();
-        invalidityInfoFor_validEmail_returnEmptyString();
-        invalidityInfoFor_invalidEmail_returnErrorString();
-    }
-
-    private void invalidityInfoFor_nullEmail_throwException() {
+    public void testGetInvalidityInfoForEmail_null_throwException() {
         String errorMessage = "Did not throw the expected AssertionError for null email";
         try {
             validator.getInvalidityInfoForEmail(null);
@@ -531,7 +525,8 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_validEmail_returnEmptyString() {
+    @Test
+    public void testGetInvalidityInfoForEmail_valid_returnEmptyString() {
         String typicalEmail = "someone@yahoo.com";
         assertEquals("Valid email (typical) should return empty string", "",
                      validator.getInvalidityInfoForEmail(typicalEmail));
@@ -545,7 +540,8 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getInvalidityInfoForEmail(maxLengthEmail));
     }
 
-    private void invalidityInfoFor_invalidEmail_returnErrorString() {
+    @Test
+    public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
                      String.format(EMAIL_ERROR_MESSAGE, emptyEmail, REASON_EMPTY),
