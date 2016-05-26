@@ -64,7 +64,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                           + feedbackQuestion.courseId + "]</span> created.<br>"
                           + "<span class=\"bold\">"
                           + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                          + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+                          + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
         } catch (InvalidParametersException e) {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();

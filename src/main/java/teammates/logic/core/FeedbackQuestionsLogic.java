@@ -198,7 +198,7 @@ public class FeedbackQuestionsLogic {
                     return order;
                 }
                 
-                return q1Details.questionText.compareTo(q2Details.questionText);
+                return q1Details.getQuestionText().compareTo(q2Details.getQuestionText());
             }
         });
         

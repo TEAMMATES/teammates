@@ -19,15 +19,15 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
-    public int minScale;
-    public int maxScale;
-    public double step;
+    private int minScale;
+    private int maxScale;
+    private double step;
     
     public FeedbackNumericalScaleQuestionDetails() {
         super(FeedbackQuestionType.NUMSCALE);
-        this.minScale = 1;
-        this.maxScale = 5;
-        this.step = 0.5;
+        this.setMinScale(1);
+        this.setMaxScale(5);
+        this.setStep(0.5);
     }
     
     @Override
@@ -53,9 +53,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     private void setNumericalScaleQuestionDetails(int minScale, int maxScale, double step) {
-        this.minScale = minScale;
-        this.maxScale = maxScale;
-        this.step = step;
+        this.setMinScale(minScale);
+        this.setMaxScale(maxScale);
+        this.setStep(step);
     }
     
     @Override
@@ -75,9 +75,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${minScale}", Integer.toString(minScale),
-                "${maxScale}", Integer.toString(maxScale),
-                "${step}", StringHelper.toDecimalFormatString(step),
+                "${minScale}", Integer.toString(getMinScale()),
+                "${maxScale}", Integer.toString(getMaxScale()),
+                "${step}", StringHelper.toDecimalFormatString(getStep()),
                 "${existingAnswer}", numscaleResponseDetails.getAnswerString(),
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -94,9 +94,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${minScale}", Integer.toString(minScale),
-                "${maxScale}", Integer.toString(maxScale),
-                "${step}", StringHelper.toDecimalFormatString(step),
+                "${minScale}", Integer.toString(getMinScale()),
+                "${maxScale}", Integer.toString(getMaxScale()),
+                "${step}", StringHelper.toDecimalFormatString(getStep()),
                 "${existingAnswer}", "",
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -110,9 +110,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${minScale}", Integer.toString(minScale),
-                "${maxScale}", Integer.toString(maxScale),
-                "${step}", StringHelper.toDecimalFormatString(step),
+                "${minScale}", Integer.toString(getMinScale()),
+                "${maxScale}", Integer.toString(getMaxScale()),
+                "${step}", StringHelper.toDecimalFormatString(getStep()),
                 "${possibleValues}", getPossibleValuesStringEdit(),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
@@ -125,9 +125,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Set default values
-        this.minScale = 1;
-        this.maxScale = 5;
-        this.step = 1;
+        this.setMinScale(1);
+        this.setMaxScale(5);
+        this.setStep(1);
         
         return "<div id=\"numScaleForm\">" 
                   + this.getQuestionSpecificEditFormHtml(-1) 
@@ -138,9 +138,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
         String additionalInfo = getQuestionTypeDisplayName()
-                              + ":<br/>Minimum value: " + minScale 
-                              + ". Increment: " + step + ". Maximum value: "
-                              + maxScale + '.';
+                              + ":<br/>Minimum value: " + getMinScale() 
+                              + ". Increment: " + getStep() + ". Maximum value: "
+                              + getMaxScale() + '.';
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
@@ -657,9 +657,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
         
-        return this.minScale != newNumScaleDetails.minScale 
-               || this.maxScale != newNumScaleDetails.maxScale
-               || this.step != newNumScaleDetails.step;
+        return this.getMinScale() != newNumScaleDetails.getMinScale() 
+               || this.getMaxScale() != newNumScaleDetails.getMaxScale()
+               || this.getStep() != newNumScaleDetails.getStep();
     }
 
     @Override
@@ -681,28 +681,28 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
     
     private String getPossibleValuesString() {
-        double cur = minScale + step;
+        double cur = getMinScale() + getStep();
         int possibleValuesCount = 1;
-        while ((maxScale - cur) >= -1e-9) {
-            cur += step;
+        while ((getMaxScale() - cur) >= -1e-9) {
+            cur += getStep();
             possibleValuesCount++;
         }
         
         StringBuilder possibleValuesString = new StringBuilder();
         if (possibleValuesCount > 6) {
             possibleValuesString
-                .append(StringHelper.toDecimalFormatString(minScale)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + 2 * step)).append(", ..., ")
-                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale - step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale));
+                .append(StringHelper.toDecimalFormatString(getMinScale())).append(", ")
+                .append(StringHelper.toDecimalFormatString(getMinScale() + getStep())).append(", ")
+                .append(StringHelper.toDecimalFormatString(getMinScale() + 2 * getStep())).append(", ..., ")
+                .append(StringHelper.toDecimalFormatString(getMaxScale() - 2 * getStep())).append(", ")
+                .append(StringHelper.toDecimalFormatString(getMaxScale() - getStep())).append(", ")
+                .append(StringHelper.toDecimalFormatString(getMaxScale()));
         } else {
-            possibleValuesString.append(Integer.toString(minScale));
-            cur = minScale + step;
-            while ((maxScale - cur) >= -1e-9) {
+            possibleValuesString.append(Integer.toString(getMinScale()));
+            cur = getMinScale() + getStep();
+            while ((getMaxScale() - cur) >= -1e-9) {
                 possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur));
-                cur += step;
+                cur += getStep();
             }
         }
         return possibleValuesString.toString() + "]";
@@ -711,10 +711,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if (minScale >= maxScale) {
+        if (getMinScale() >= getMaxScale()) {
             errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);
         }
-        if (step <= 0) {
+        if (getStep() <= 0) {
             errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP);
         }
         return errors;
@@ -727,8 +727,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         List<String> errors = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
-            if (frd.getAnswer() < minScale || frd.getAnswer() > maxScale) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min=" + minScale + ", max=" + maxScale + ")");
+            if (frd.getAnswer() < getMinScale() || frd.getAnswer() > getMaxScale()) {
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min=" + getMinScale() + ", max=" + getMaxScale() + ")");
             }
             //TODO: strengthen check for step
         }
@@ -743,5 +743,29 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public int getMinScale() {
+        return minScale;
+    }
+
+    public void setMinScale(int minScale) {
+        this.minScale = minScale;
+    }
+
+    public int getMaxScale() {
+        return maxScale;
+    }
+
+    public void setMaxScale(int maxScale) {
+        this.maxScale = maxScale;
+    }
+
+    public double getStep() {
+        return step;
+    }
+
+    public void setStep(double step) {
+        this.step = step;
     }
 }

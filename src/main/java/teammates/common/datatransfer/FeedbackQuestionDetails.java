@@ -19,16 +19,16 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
  * question type
  */
 public abstract class FeedbackQuestionDetails {
-    public FeedbackQuestionType questionType;
-    public String questionText;
+    protected FeedbackQuestionType questionType;
+    protected String questionText;
 
     protected FeedbackQuestionDetails(FeedbackQuestionType questionType) {
-        this.questionType = questionType;
+        this.setQuestionType(questionType);
     }
 
     protected FeedbackQuestionDetails(FeedbackQuestionType questionType, String questionText) {
-        this.questionType = questionType;
-        this.questionText = questionText;
+        this.setQuestionType(questionType);
+        this.setQuestionText(questionText);
     }
 
     public abstract String getQuestionTypeDisplayName();
@@ -234,4 +234,16 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 }

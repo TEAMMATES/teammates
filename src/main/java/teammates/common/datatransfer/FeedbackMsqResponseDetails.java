@@ -91,7 +91,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         if (isAnswerBlank()) {
             csvBuilder.append("");
         } else {
-            for (String choice : msqDetails.msqChoices) {
+            for (String choice : msqDetails.getMsqChoices()) {
                 csvBuilder.append(',');
                 if (this.contains(choice)) {
                     csvBuilder.append(Sanitizer.sanitizeForCsv(choice));

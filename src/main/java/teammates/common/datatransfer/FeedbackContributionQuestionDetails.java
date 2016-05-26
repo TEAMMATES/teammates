@@ -23,20 +23,20 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static final Logger log = Utils.getLogger();
     
-    public boolean isNotSureAllowed;
+    private boolean isNotSureAllowed;
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
-        this.isNotSureAllowed = true;
+        this.setNotSureAllowed(true);
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        this.isNotSureAllowed = true;
+        this.setNotSureAllowed(true);
     }
     
     private void setContributionQuestionDetails(boolean isNotSureAllowed) {
-        this.isNotSureAllowed = isNotSureAllowed;
+        this.setNotSureAllowed(isNotSureAllowed);
     }
        
     @Override
@@ -59,7 +59,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
-        return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
+        return newContribDetails.isNotSureAllowed() != this.isNotSureAllowed();
     }
     
     @Override
@@ -108,14 +108,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
+                "${isNotSureAllowedChecked}", isNotSureAllowed() ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        this.isNotSureAllowed = true;
+        this.setNotSureAllowed(true);
         
         return "<div id=\"contribForm\">" 
                   + this.getQuestionSpecificEditFormHtml(-1) 
@@ -826,7 +826,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                         + ">" + convertToEqualShareFormat(i)
                         + "</option>\r\n");
         }
-        if (isNotSureAllowed) {
+        if (isNotSureAllowed()) {
             result.append("<option class=\""
                           + getContributionOptionsColor(Const.POINTS_NOT_SURE)
                           + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
@@ -914,6 +914,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
         return null;
+    }
+
+    public boolean isNotSureAllowed() {
+        return isNotSureAllowed;
+    }
+
+    public void setNotSureAllowed(boolean isNotSureAllowed) {
+        this.isNotSureAllowed = isNotSureAllowed;
     }
 
 }

@@ -1492,7 +1492,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getQuestionText(String feedbackQuestionId) {
         return Sanitizer.sanitizeForHtml(questions.get(feedbackQuestionId)
                                                   .getQuestionDetails()
-                                                  .questionText);
+                                                  .getQuestionText());
     }
 
     // TODO: make responses to the student calling this method always on top.

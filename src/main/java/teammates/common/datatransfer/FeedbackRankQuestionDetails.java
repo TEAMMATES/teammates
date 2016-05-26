@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     
-    public boolean areDuplicatesAllowed;
+    private boolean areDuplicatesAllowed;
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
@@ -31,7 +31,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
         
-        this.areDuplicatesAllowed = areDuplicatesAllowed;
+        this.setAreDuplicatesAllowed(areDuplicatesAllowed);
         return true;
     }
 
@@ -148,6 +148,14 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
         
         return normalisedRankForSingleSetOfRankings;
+    }
+
+    public boolean isAreDuplicatesAllowed() {
+        return areDuplicatesAllowed;
+    }
+
+    public void setAreDuplicatesAllowed(boolean areDuplicatesAllowed) {
+        this.areDuplicatesAllowed = areDuplicatesAllowed;
     }
 
 }

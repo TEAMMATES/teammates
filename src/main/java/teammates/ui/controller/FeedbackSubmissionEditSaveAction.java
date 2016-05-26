@@ -280,7 +280,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackResponseDetails responseDetails = 
                                             FeedbackResponseDetails.createResponseDetails(
                                                                             answer,
-                                                                            questionDetails.questionType,
+                                                                            questionDetails.getQuestionType(),
                                                                             questionDetails, requestParameters, questionIndx, responseIndx);
             response.setResponseDetails(responseDetails);
         }

@@ -173,7 +173,7 @@ public class InstructorSearchPageData extends PageData {
         
         for (FeedbackQuestionAttributes question : questionList) {
             int questionNumber = question.questionNumber;
-            String questionText = question.getQuestionDetails().questionText;
+            String questionText = question.getQuestionDetails().getQuestionText();
             String additionalInfo = question.getQuestionDetails()
                                             .getQuestionAdditionalInfoHtml(questionNumber, "");
             
