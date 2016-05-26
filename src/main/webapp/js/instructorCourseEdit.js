@@ -74,7 +74,6 @@ function showNewInstructorForm() {
     $('#btnShowNewInstructorForm').hide();
     if (hasClickedAddInstructorBefore === false) {
         var index = $('#new-instructor-index').val();
-        checkTheRoleThatApplies(index);
         bindChangingRole(index);
         hasClickedAddInstructorBefore = true;
     }
