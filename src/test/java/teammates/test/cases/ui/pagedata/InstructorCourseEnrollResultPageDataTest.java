@@ -13,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
-@SuppressWarnings("PMD.UseUtilityClass")
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
@@ -22,13 +21,13 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         printTestClassHeader();
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         String courseId = "idOfTypicalCourse1";
         
+        @SuppressWarnings("unchecked")
         List<StudentAttributes>[] students = new ArrayList[UpdateStatus.STATUS_COUNT];
         for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
             students[i] = new ArrayList<StudentAttributes>();

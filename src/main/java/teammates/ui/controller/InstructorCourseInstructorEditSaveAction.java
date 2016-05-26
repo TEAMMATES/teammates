@@ -82,9 +82,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = displayedName == null || displayedName.isEmpty() //NOPMD
-                      ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
-                      : displayedName;
+        if (displayedName == null || displayedName.isEmpty()) {
+            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         

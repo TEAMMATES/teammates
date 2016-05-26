@@ -1,5 +1,6 @@
 package teammates.logic.backdoor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -405,7 +406,7 @@ public class BackDoorLogic extends Logic {
             }
             response.feedbackQuestionId = question.getId();
             
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -432,7 +433,7 @@ public class BackDoorLogic extends Logic {
                             responseComment.feedbackSessionName,
                             responseComment.courseId,
                             qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -597,7 +598,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws Exception {
+            byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData, "");
         updateStudentProfilePicture(googleId, pictureKey);
     }

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -141,7 +143,7 @@ public class AdminActivityLogPageData extends PageData {
         
         try {
             q = parseQuery(filterQuery.toLowerCase());
-        } catch (Exception e) {
+        } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -246,7 +248,7 @@ public class AdminActivityLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception {
+    private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
@@ -263,7 +265,7 @@ public class AdminActivityLogPageData extends PageData {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
-                throw new Exception("Invalid format");
+                throw new InvalidParametersException("Invalid format");
             }
             
             String[] values = pair[1].split(",", -1);
@@ -437,7 +439,7 @@ public class AdminActivityLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception {
+        public void add(String label, String[] values) throws InvalidParametersException {
             switch (label) {
             case "request":
                 isRequestInQuery = true;
@@ -468,7 +470,7 @@ public class AdminActivityLogPageData extends PageData {
                 idValues = values;
                 break;
             default:
-                throw new Exception("Invalid label");
+                throw new InvalidParametersException("Invalid label");
             }
         }
     }

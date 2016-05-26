@@ -36,7 +36,9 @@ public class InstructorFeedbackUnpublishAction extends Action {
             setStatusForException(e);
         }
 
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; // NOPMD
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
 
         return createRedirectResult(nextUrl);
     }

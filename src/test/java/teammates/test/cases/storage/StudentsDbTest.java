@@ -20,7 +20,6 @@ import teammates.test.driver.AssertHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
     
-
     private StudentsDb studentsDb = new StudentsDb();
     
     @BeforeClass
