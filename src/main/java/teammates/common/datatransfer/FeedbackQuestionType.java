@@ -21,6 +21,19 @@ public enum FeedbackQuestionType {
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
+     * Constructor for FeedbackQuestionType.
+     * Pass in the corresponding questionDetailsClass and responseDetailsClass
+     *
+     * @param questionDetailsClass
+     * @param responseDetailsClass
+     */
+    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
+                                 Class<? extends FeedbackResponseDetails> responseDetailsClass) {
+        this.questionDetailsClass = questionDetailsClass;
+        this.responseDetailsClass = responseDetailsClass;
+    }
+
+    /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
      *
      * @return FeedbackQuestionDetails
@@ -141,19 +154,6 @@ public enum FeedbackQuestionType {
         }
 
         return feedbackResponseDetails;
-    }
-
-    /**
-     * Constructor for FeedbackQuestionType.
-     * Pass in the corresponding questionDetailsClass and responseDetailsClass
-     *
-     * @param questionDetailsClass
-     * @param responseDetailsClass
-     */
-    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
-                                 Class<? extends FeedbackResponseDetails> responseDetailsClass) {
-        this.questionDetailsClass = questionDetailsClass;
-        this.responseDetailsClass = responseDetailsClass;
     }
 
     /**

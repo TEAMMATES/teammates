@@ -30,12 +30,12 @@ import teammates.test.util.Priority;
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
         
@@ -50,12 +50,12 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     
     @Test
-    public void testAdjustmentOfSubsmission() throws Exception {
+    public void testAdjustmentOfSubsmission() {
         
         //load the enrollPage
         loadEnrollmentPage();

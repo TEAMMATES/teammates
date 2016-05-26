@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.TimeHelper;
@@ -87,7 +89,7 @@ public class AdminEmailLogPageData extends PageData {
         
         try {
             q = parseQuery(query.toLowerCase());
-        } catch (Exception e) {
+        } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -97,7 +99,7 @@ public class AdminEmailLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception {
+    private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
         setVersions(new ArrayList<String>());
         
@@ -114,7 +116,7 @@ public class AdminEmailLogPageData extends PageData {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
-                throw new Exception("Invalid format");
+                throw new InvalidParametersException("Invalid format");
             }
             
             String[] values = pair[1].split(",", -1);
@@ -219,7 +221,7 @@ public class AdminEmailLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception {
+        public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -247,7 +249,7 @@ public class AdminEmailLogPageData extends PageData {
                 isInfoInQuery = true;
                 infoValues = values;
             } else {
-                throw new Exception("Invalid label");
+                throw new InvalidParametersException("Invalid label");
             }
         }
     }   

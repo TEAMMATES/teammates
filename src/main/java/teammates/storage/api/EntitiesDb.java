@@ -7,13 +7,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -26,6 +19,12 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
 
 public abstract class EntitiesDb {
 
@@ -41,7 +40,7 @@ public abstract class EntitiesDb {
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
-    private static final Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     
     /**
      * Preconditions: 
@@ -273,7 +272,7 @@ public abstract class EntitiesDb {
         }
     }
     
-    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deletePicture(BlobKey key) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
         } catch (Exception e) {
@@ -281,7 +280,7 @@ public abstract class EntitiesDb {
         }
     }
     
-    public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
+    public void deletePictures(BlobKey[] keys) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(keys);
         } catch (Exception e) {

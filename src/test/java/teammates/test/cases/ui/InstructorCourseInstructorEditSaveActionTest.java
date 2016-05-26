@@ -18,7 +18,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -210,7 +210,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         }
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return gaeSimulation.getActionObject(uri, parameters);
     }
 }

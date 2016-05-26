@@ -22,12 +22,12 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
-import teammates.ui.template.FeedbackQuestionVisibilitySettings;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
+import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {

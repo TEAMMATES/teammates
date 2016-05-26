@@ -32,10 +32,10 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
-    private CoursesLogic coursesLogic = new CoursesLogic();
-    private CoursesDb coursesDb = new CoursesDb();
-    private AccountsDb accountsDb = new AccountsDb();
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private static final CoursesLogic coursesLogic = new CoursesLogic();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -100,7 +100,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetArchivedCoursesForInstructor() throws Exception {
+    public void testGetArchivedCoursesForInstructor() {
         
         ______TS("success: instructor with archive course");
         String instructorId = dataBundle.instructors.get("instructorOfArchivedCourse").googleId;
@@ -1162,7 +1162,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
-    public void testDeleteCourse() throws Exception {
+    public void testDeleteCourse() {
     
         ______TS("typical case");
     

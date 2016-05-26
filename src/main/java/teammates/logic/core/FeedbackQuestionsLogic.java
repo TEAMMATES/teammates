@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -278,8 +278,7 @@ public class FeedbackQuestionsLogic {
      * instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
-            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -323,8 +322,7 @@ public class FeedbackQuestionsLogic {
      * that students can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
-            List<FeedbackQuestionAttributes> allQuestions) 
-                    throws EntityDoesNotExistException {
+            List<FeedbackQuestionAttributes> allQuestions) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();

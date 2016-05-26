@@ -11,8 +11,8 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -33,7 +33,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private static String courseId;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -543,7 +543,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     
