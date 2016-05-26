@@ -24,12 +24,6 @@ import com.google.gson.annotations.SerializedName;
 public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
     
-    @Persistent
-    private Date createdAt;
-    
-    @Persistent
-    private Date updatedAt;
-    
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to 
@@ -37,6 +31,12 @@ public class Student implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
+    
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Date updatedAt;
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -148,7 +148,7 @@ public class Student implements StoreCallback {
     }
 
     public void setGoogleId(String googleId) {
-        this.ID = (googleId == null ? null : googleId.trim());
+        this.ID = googleId == null ? null : googleId.trim();
     }
 
     public String getName() {
@@ -180,7 +180,7 @@ public class Student implements StoreCallback {
 
     // null comment setting are not tested
     public void setComments(String comments) {
-        this.comments = (comments == null ? null : comments.trim());
+        this.comments = comments == null ? null : comments.trim();
     }
 
     public Long getRegistrationKey() {
@@ -201,7 +201,7 @@ public class Student implements StoreCallback {
 
     // null team name setting are not tested
     public void setTeamName(String teamName) {
-        this.teamName = (teamName == null ? null : teamName.trim());
+        this.teamName = teamName == null ? null : teamName.trim();
     }
 
     public String getSectionName() {
@@ -209,7 +209,7 @@ public class Student implements StoreCallback {
     }
 
     public void setSectionName(String sectionName) {
-        this.sectionName = (sectionName == null ? null : sectionName.trim());
+        this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
     // not tested as this is part of client script

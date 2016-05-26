@@ -3,13 +3,13 @@ package teammates.logic.core;
 import java.util.Date;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.AdminEmailsDb;
+
+import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles the logic related to admin emails

@@ -17,7 +17,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     private static final boolean isTrial = true;
     
     // TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
+    private static final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     

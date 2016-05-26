@@ -32,10 +32,10 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
-    private CoursesLogic coursesLogic = new CoursesLogic();
-    private CoursesDb coursesDb = new CoursesDb();
-    private AccountsDb accountsDb = new AccountsDb();
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private static final CoursesLogic coursesLogic = new CoursesLogic();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 

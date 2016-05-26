@@ -25,7 +25,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    Logic logic = new Logic();
+    private final Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {

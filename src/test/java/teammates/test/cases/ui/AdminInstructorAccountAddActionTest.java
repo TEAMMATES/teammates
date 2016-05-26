@@ -11,10 +11,10 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
-import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
-import teammates.ui.controller.AjaxResult; 
+import teammates.ui.controller.AdminInstructorAccountAddAction;
+import teammates.ui.controller.AjaxResult;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 

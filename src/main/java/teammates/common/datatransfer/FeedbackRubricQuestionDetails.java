@@ -804,7 +804,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
             int chosenIndex = frd.answer.get(i);
-            String chosenChoiceNumber = "", chosenChoiceValue = "";
+            String chosenChoiceNumber = "";
+            String chosenChoiceValue = "";
             String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
             
             if (chosenIndex == -1) {

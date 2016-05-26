@@ -15,10 +15,6 @@ import com.google.appengine.api.utils.SystemProperty;
  */
 public class Config {
 
-    private static final Logger log = Utils.getLogger();
-    private static Config instance = inst();
-    private static Properties props;
-    
     /** The value of the "app.url" in build.properties file */
     public static String APP_URL;
     
@@ -46,6 +42,10 @@ public class Config {
     /** The value of the "app.sendgrid.password" in build.properties file */
     public static String SENDGRID_PASSWORD;
 
+    private static final Logger log = Utils.getLogger();
+    private static Config instance = inst();
+    private static Properties props;
+    
     public static Config inst() {
         if (instance == null) {
             Properties prop = new Properties();

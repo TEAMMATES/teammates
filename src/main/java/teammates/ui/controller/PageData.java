@@ -39,8 +39,6 @@ public class PageData {
     
     protected static final Logger log = Utils.getLogger();
     
-    public static final String DISABLED = " disabled\" onclick=\"return false\"";
-
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
@@ -473,8 +471,8 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, 
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -485,8 +483,8 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ARCHIVE_STATUS, Boolean.toString(archiveStatus));
         link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }

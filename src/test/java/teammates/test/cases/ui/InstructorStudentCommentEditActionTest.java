@@ -21,7 +21,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    BackDoorLogic backDoorLogic = new BackDoorLogic();
+    private final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
