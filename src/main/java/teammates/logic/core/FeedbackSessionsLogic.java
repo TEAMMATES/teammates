@@ -1174,20 +1174,20 @@ public class FeedbackSessionsLogic {
      */
     public void updateSessionResponseRateForDeletedStudentResponse(String studentEmail, String sessionName,
             String courseId) throws InvalidParametersException, EntityDoesNotExistException {
-        if (noRemainingResponsesFromStudent(studentEmail, sessionName, courseId)) {
+        if (!hasRemainingResponsesFromStudent(studentEmail, sessionName, courseId)) {
             deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
         }
     }
 
-    private boolean noRemainingResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
+    private boolean hasRemainingResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
         List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
                                                                                             courseId);
         for (FeedbackResponseAttributes response : responses) {
             if (response.giverEmail.equals(studentEmail)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
