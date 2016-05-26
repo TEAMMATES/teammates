@@ -5,13 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -24,10 +20,12 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
+
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD Operations for instructor roles.
@@ -36,8 +34,6 @@ import teammates.storage.search.InstructorSearchQuery;
  */
 public class InstructorsDb extends EntitiesDb {
     
-    private static final Logger log = Utils.getLogger();
-
     /* =========================================================================
      * Methods related to Google Search API
      * =========================================================================

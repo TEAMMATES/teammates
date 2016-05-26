@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
     public String feedbackSessionName;
@@ -67,10 +67,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
-        this.respondingInstructorList = (fs.getRespondingInstructorList() == null ? new HashSet<String>()
-                                                                                  : fs.getRespondingInstructorList());
-        this.respondingStudentList = (fs.getRespondingStudentList() == null ? new HashSet<String>()
-                                                                            : fs.getRespondingStudentList());
+        this.respondingInstructorList = fs.getRespondingInstructorList() == null ? new HashSet<String>()
+                                                                                 : fs.getRespondingInstructorList();
+        this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
+                                                                           : fs.getRespondingStudentList();
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId, 
@@ -447,6 +447,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
+            @Override
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session1.courseId.compareTo(session2.courseId);
 
@@ -481,6 +482,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
+            @Override
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {

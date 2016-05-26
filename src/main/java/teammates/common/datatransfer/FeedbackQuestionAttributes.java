@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -33,6 +32,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackQuestionId;
     private transient Date createdAt;
     private transient Date updatedAt;
 
@@ -78,6 +78,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.feedbackQuestionId = id;
     }
 
+    @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionNumber, questionType, giverType,
@@ -120,6 +121,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();

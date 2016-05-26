@@ -769,7 +769,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
     }
    
-    public void testGetStudentForEmail() throws Exception {
+    public void testGetStudentForEmail() {
 
         ______TS("null parameters");
 
@@ -820,7 +820,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
-    public void testGetStudentsForGoogleId() throws Exception {
+    public void testGetStudentsForGoogleId() {
     
         ______TS("student in one course");
     
@@ -895,7 +895,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetStudentForCourseIdAndGoogleId() throws Exception {
+    public void testGetStudentForCourseIdAndGoogleId() {
     
         ______TS("student in two courses");
         
@@ -930,7 +930,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetStudentsForCourse() throws Exception {
+    public void testGetStudentsForCourse() {
         
         ______TS("course with multiple students");
     
@@ -1154,7 +1154,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testDeleteStudent() throws Exception {
+    public void testDeleteStudent() {
 
         ______TS("typical delete");
 
@@ -1208,7 +1208,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
         
     @AfterClass()
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();    
     }

@@ -11,10 +11,10 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
-import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
-import teammates.ui.controller.AjaxResult; 
+import teammates.ui.controller.AdminInstructorAccountAddAction;
+import teammates.ui.controller.AjaxResult;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
@@ -22,7 +22,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     //TODO: move all the input validation/sanitization js code to server side
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
         // removeAndRestoreTypicalDataInDatastore();
@@ -137,7 +137,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals("Case courseId input: index is '9', short ID boundary with maximumIdLength:" + maximumIdLength, strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10", (String) generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9", maximumIdLength));
     }
 
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 

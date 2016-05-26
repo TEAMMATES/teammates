@@ -129,7 +129,7 @@ public class InstructorStudentListPage extends AppPage {
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
-                return (courseNumber + "." + i);
+                return courseNumber + "." + i;
             }
         }
         return "";

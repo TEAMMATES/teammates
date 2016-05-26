@@ -21,7 +21,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    BackDoorLogic backDoorLogic = new BackDoorLogic();
+    private final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -521,7 +521,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     }
     
-    private InstructorStudentCommentEditAction getAction(String... params) throws Exception {
+    private InstructorStudentCommentEditAction getAction(String... params) {
         return (InstructorStudentCommentEditAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

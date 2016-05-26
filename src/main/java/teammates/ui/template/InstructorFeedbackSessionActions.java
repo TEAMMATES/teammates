@@ -7,6 +7,8 @@ import teammates.ui.controller.PageData;
 
 public class InstructorFeedbackSessionActions {
     
+    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
+
     private boolean privateSession;
 
     private String courseId;
@@ -26,8 +28,6 @@ public class InstructorFeedbackSessionActions {
     private boolean allowedToRemind;
 
     private FeedbackSessionPublishButton publishButton;
-
-    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {

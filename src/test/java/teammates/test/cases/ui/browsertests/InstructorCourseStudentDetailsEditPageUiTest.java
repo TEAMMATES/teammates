@@ -8,8 +8,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -26,7 +26,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -103,7 +103,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
     }
 
-    public void testEditAction() throws Exception {
+    public void testEditAction() {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
@@ -140,7 +140,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

@@ -327,7 +327,7 @@ public final class DataGenerator {
     public static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;
         do {
-            num = (int) Math.floor(random.nextGaussian() * (STANDARD_DEVIATION_STUDENT_PER_COURSE) + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
+            num = (int) Math.floor(random.nextGaussian() * STANDARD_DEVIATION_STUDENT_PER_COURSE + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
         } while (num > MAX_NUM_OF_STUDENTS_PER_COURSE || num < MIN_NUM_OF_STUDENTS_PER_COURSE);
         return num;
     }

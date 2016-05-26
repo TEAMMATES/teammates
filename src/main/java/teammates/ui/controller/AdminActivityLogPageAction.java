@@ -12,11 +12,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
-import teammates.common.util.GaeVersionApi;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.GaeLogApi;
+import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Version;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -45,7 +45,7 @@ public class AdminActivityLogPageAction extends Action {
     private Long nextEndTimeToSearch;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
@@ -284,11 +284,7 @@ public class AdminActivityLogPageAction extends Action {
         Logic logic = new Logic();
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         if (userGoogleId != null && !userGoogleId.isEmpty()) {
-            try {
-                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
-            } catch (EntityDoesNotExistException e) {
-                localTimeZone = Const.DOUBLE_UNINITIALIZED;
-            }
+            localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
             
             if (localTimeZone != Const.DOUBLE_UNINITIALIZED) {
                 return localTimeZone;

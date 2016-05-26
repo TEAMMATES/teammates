@@ -3,6 +3,7 @@ package teammates.storage.search;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;

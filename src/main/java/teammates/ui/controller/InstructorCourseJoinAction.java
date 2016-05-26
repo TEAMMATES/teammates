@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
@@ -19,7 +18,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseJoinAction extends Action {
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         

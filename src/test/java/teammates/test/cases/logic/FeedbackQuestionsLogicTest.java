@@ -9,12 +9,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,6 +22,8 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     
@@ -385,7 +385,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteQuestion() throws Exception {
+    public void testDeleteQuestion() {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
         
@@ -422,7 +422,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
 
     public void testGetFeedbackQuestionsForInstructor() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for instructors and self");
         
@@ -500,8 +502,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
 
-    public void testGetFeedbackQuestionsForStudents() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+    public void testGetFeedbackQuestionsForStudents() {
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for students");
         
@@ -554,7 +558,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     public void testIsQuestionHasResponses() {
-        FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
+        FeedbackQuestionAttributes questionWithResponse;
+        FeedbackQuestionAttributes questionWithoutResponse;
         
         ______TS("Check that a question has some responses");
         
@@ -615,7 +620,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

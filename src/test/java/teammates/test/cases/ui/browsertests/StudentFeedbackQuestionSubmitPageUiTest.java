@@ -24,12 +24,12 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private FeedbackQuestionSubmitPage submitPage;
-    private FeedbackQuestionAttributes fq;
+    private static FeedbackQuestionSubmitPage submitPage;
+    private static FeedbackQuestionAttributes fq;
     private static Date fsOriginalEndTime;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -228,7 +228,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }
