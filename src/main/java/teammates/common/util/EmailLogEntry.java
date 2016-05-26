@@ -20,7 +20,8 @@ public class EmailLogEntry {
     private String content;
     private long time;
     
-    public String logInfoAsHtml;
+    @SuppressWarnings("unused") // used by js
+    private String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws MessagingException, IOException {
         this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();

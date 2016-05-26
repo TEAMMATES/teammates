@@ -18,11 +18,23 @@ import teammates.storage.entity.Course;
  */
 public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
     
+    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
+        @Override
+        public int compare(CourseAttributes course1, CourseAttributes course2) {
+            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
+                return course1.getId().compareTo(course2.getId());
+            }
+            
+            // sort by newest course first
+            return -1 * course1.createdAt.compareTo(course2.createdAt);
+        }
+    };
+    
     //Note: be careful when changing these variables as their names are used in *.json files.
-    private String id;
-    private String name;
     public Date createdAt;
     public boolean isArchived;
+    private String id;
+    private String name;
     
     public CourseAttributes() {
         // attributes to be set after construction
@@ -139,15 +151,4 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         Collections.sort(courses, createdDateComparator);
     }
 
-    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
-        @Override
-        public int compare(CourseAttributes course1, CourseAttributes course2) {
-            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                return course1.getId().compareTo(course2.getId());
-            }
-            
-            // sort by newest course first
-            return -1 * course1.createdAt.compareTo(course2.createdAt);
-        }
-    };
 }

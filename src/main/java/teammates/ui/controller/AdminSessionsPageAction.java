@@ -19,9 +19,10 @@ import teammates.logic.api.GateKeeper;
 
 public class AdminSessionsPageAction extends Action {
     
-    AdminSessionsPageData data;
-
     private static final String UNKNOWN_INSTITUTION = "Unknown";
+    
+    private AdminSessionsPageData data;
+
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;

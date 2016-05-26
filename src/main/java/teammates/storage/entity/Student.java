@@ -24,12 +24,6 @@ import com.google.gson.annotations.SerializedName;
 public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
     
-    @Persistent
-    private Date createdAt;
-    
-    @Persistent
-    private Date updatedAt;
-    
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to 
@@ -37,6 +31,12 @@ public class Student implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
+    
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Date updatedAt;
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
