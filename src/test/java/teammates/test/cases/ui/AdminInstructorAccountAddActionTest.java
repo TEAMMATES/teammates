@@ -108,7 +108,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         // delete the comment that was created
-        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON,  "alice.b.tmms@gmail.tmt").get(0);
+        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON, "alice.b.tmms@gmail.tmt").get(0);
         CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }

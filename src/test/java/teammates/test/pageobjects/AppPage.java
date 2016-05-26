@@ -319,7 +319,7 @@ public abstract class AppPage {
      * Waits for text contained in the element to disappear from the page, or timeout
      */
     public void waitForTextContainedInElementAbsence(By by, String text) {
-        WebDriverWait wait =  new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
@@ -1008,7 +1008,7 @@ public abstract class AppPage {
         return this;
     }
     
-    private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
+    private static <T extends AppPage> T createNewPage(Browser currentBrowser, Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
             constructor = typeOfPage.getConstructor(Browser.class);

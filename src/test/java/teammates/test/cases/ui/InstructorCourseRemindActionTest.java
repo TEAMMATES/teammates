@@ -47,7 +47,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  anotherInstructorOfCourse1.email,
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + anotherInstructorOfCourse1.email,
                      redirectResult.getStatusMessage());
              
         String expectedLogSegment = "Registration Key sent to the following users "
@@ -69,7 +69,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  student1InCourse1.email,
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                      redirectResult.getStatusMessage());
              
         expectedLogSegment = "Registration Key sent to the following users "

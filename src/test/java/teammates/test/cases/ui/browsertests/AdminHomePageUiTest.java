@@ -83,7 +83,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorAttributes instructor = new InstructorAttributes();
         
         String shortName = "Instrúctör";
-        instructor.name =  "AHPUiT Instrúctör";
+        instructor.name = "AHPUiT Instrúctör";
         instructor.email = "AHPUiT.instr1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";

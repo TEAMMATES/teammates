@@ -92,7 +92,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 "time for the session to become visible", 
                 "creator's email", 
                 "session creation time"};
-        for  (String fieldName : fieldNames) {
+        for (String fieldName : fieldNames) {
             expectedErrorMessage.add(String.format(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE, fieldName));
         }
         

@@ -487,7 +487,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             assertEquals(e.getMessage(), "Trying to get questions for a feedback session that does not exist.");
         }
         
-        ______TS("Get questions created for self  from list of all questions");
+        ______TS("Get questions created for self from list of all questions");
 
         allQuestions = new ArrayList<FeedbackQuestionAttributes>();
         allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));

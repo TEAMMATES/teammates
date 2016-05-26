@@ -54,7 +54,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -65,7 +65,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: empty", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -129,7 +129,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -177,7 +177,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      String.format(INVALID_NAME_ERROR_MESSAGE,
                                    Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar),
                                    typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
-                     validator.getValidityInfoForAllowedName(typicalFieldName,  maxLength, 
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, 
                                                              nameStartedWithNonAlphaNumChar));
         
         ______TS("failure: starts with curly braces but contains invalid char");
@@ -224,7 +224,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
@@ -236,7 +236,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: empty", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
@@ -428,7 +428,7 @@ public class FieldValidatorTest extends BaseTestCase {
         testOnce("invalid: empty string", 
                 FieldType.GOOGLE_ID, 
                 emptyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
         
         String untrimmedValue = " e@email.com ";
         testOnce("invalid: untrimmed", 
@@ -512,7 +512,7 @@ public class FieldValidatorTest extends BaseTestCase {
         testOnce("invalid: empty string", 
                 FieldType.EMAIL, 
                 emptyValue, 
-                String.format(EMAIL_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+                String.format(EMAIL_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
         
         String untrimmedValue = " e@email.com ";
         testOnce("invalid: untrimmed", 
@@ -578,7 +578,7 @@ public class FieldValidatorTest extends BaseTestCase {
         testOnce("invalid: empty string", 
                 FieldType.COURSE_ID, 
                 emptyValue, 
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
         
         String untrimmedValue = " $cs1101-sem1.2_ ";
         testOnce("invalid: untrimmed", 

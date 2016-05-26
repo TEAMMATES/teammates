@@ -87,7 +87,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
-        modifiedStudent.section  = "Section 2";
+        modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
@@ -118,7 +118,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String headerRow = "Name\tEmail\tTeam\tComment";
         String studentsInfo = "Jean Wong\tjean@email.tmt\tTeam 1\tExchange student"
                               + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
-        enrollString = headerRow + Const.EOL +  studentsInfo;
+        enrollString = headerRow + Const.EOL + studentsInfo;
         
         submissionParams = new String[]{
                 Const.ParamsNames.USER_ID, instructorId,

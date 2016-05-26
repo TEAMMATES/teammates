@@ -425,7 +425,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("non-registered users cannot access");
         
-        String    unregUserId = "unreg.user";
+        String unregUserId = "unreg.user";
         
         InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
@@ -667,7 +667,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * URI is matched and parameters are ignored. E.g. "/page/studentHome" 
      * matches "/page/studentHome?user=abc". 
      */
-    protected void verifyRedirectTo(String expectedRedirectUrl,    String... params) throws Exception {
+    protected void verifyRedirectTo(String expectedRedirectUrl, String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
         RedirectResult r = (RedirectResult) c.executeAndPostProcess();
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);

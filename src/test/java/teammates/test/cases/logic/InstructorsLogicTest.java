@@ -430,7 +430,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
 
-    public void testVerifyInstructorExists() throws Exception  {
+    public void testVerifyInstructorExists() throws Exception {
         
         ______TS("success: instructor does exist");
         
@@ -458,7 +458,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
+    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: instructor belongs to course");
         

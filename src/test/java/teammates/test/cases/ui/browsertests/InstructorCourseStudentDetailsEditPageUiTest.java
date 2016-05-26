@@ -109,14 +109,14 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
 
-        editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
+        editPage = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
         editPage.verifyStatus(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, anotherStudent.name,
                                             anotherStudent.email));
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data
-        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
-                                                                              "CCSDEditUiT.jose.tmms@gmail.tmt");
+        StudentAttributes student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                                                             "CCSDEditUiT.jose.tmms@gmail.tmt");
         assertEquals("José Gómez</option></td></div>'\"", student.name);
         assertEquals("Team 1</td></div>'\"", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
@@ -130,8 +130,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
             
         // Verify data
-        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
-                                       "newemail@gmail.tmt");
+        student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                      "newemail@gmail.tmt");
         assertEquals("New name", student.name);
         assertEquals("New team", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);

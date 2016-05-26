@@ -464,7 +464,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
-        String headerLine = "Team  | Name | Email";
+        String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
         String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + "| student@email.tmt";
         String lineWithInvalidEmail = "Team 1 | James |" + "James_invalid_email.tmt";
@@ -525,7 +525,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("enrollLines with some empty fields");
        
-        String lineWithTeamNameEmpty = "    | StudentWithTeamFieldEmpty | student@email.tmt";
+        String lineWithTeamNameEmpty = " | StudentWithTeamFieldEmpty | student@email.tmt";
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
         

@@ -192,17 +192,17 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private WebElement getDeleteLinkInRow(int rowId) {
-        By deleteLink =  By.className("t_course_delete" + rowId);
+        By deleteLink = By.className("t_course_delete" + rowId);
         return browser.driver.findElement(deleteLink);
     }
     
     private WebElement getArchiveLinkInRow(int rowId) {
-        By archiveLink =  By.className("t_course_archive" + rowId);
+        By archiveLink = By.className("t_course_archive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
     
     private WebElement getUnarchiveLinkInRow(int rowId) {
-        By archiveLink =  By.id("t_course_unarchive" + rowId);
+        By archiveLink = By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
 

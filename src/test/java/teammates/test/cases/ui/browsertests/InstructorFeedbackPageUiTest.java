@@ -706,7 +706,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(initialCal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
         
         
-        ______TS("decreasing start date affects  visible time, end date range and publish date range");
+        ______TS("decreasing start date affects visible time, end date range and publish date range");
         
         cal.add(Calendar.DATE, -35);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);

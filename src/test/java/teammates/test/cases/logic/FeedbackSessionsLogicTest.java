@@ -1018,7 +1018,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         session = responseBundle.feedbackSessions.get("private.session");
         
         /*** Test result bundle for student1 ***/
-        student =  responseBundle.students.get("student1InCourse1");        
+        student = responseBundle.students.get("student1InCourse1");        
         results = fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
                         session.courseId, student.email);
         

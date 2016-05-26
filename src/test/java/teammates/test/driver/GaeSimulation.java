@@ -40,9 +40,9 @@ public class GaeSimulation {
     private static final GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters */
-    protected  ServletUnitClient sc;
+    protected ServletUnitClient sc;
     
-    protected  LocalServiceTestHelper helper;
+    protected LocalServiceTestHelper helper;
 
     public static GaeSimulation inst() {
         return instance;
@@ -59,7 +59,7 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();
@@ -81,7 +81,7 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();

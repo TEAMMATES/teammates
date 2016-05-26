@@ -393,7 +393,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript(
-                "$(document.getElementById('" +  idOfQuestionBody + "')" 
+                "$(document.getElementById('" + idOfQuestionBody + "')" 
                 + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" 
                 + ".querySelectorAll('td')['" + tableCol + "']" 
                 + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");

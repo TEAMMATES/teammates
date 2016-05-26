@@ -72,7 +72,7 @@ public class StudentAttributesFactory {
             if (!hasEmail) {
                 missingField.append(" <mark>Email</mark>");
             }
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField.toString());
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ":" + missingField.toString());
         }
     }
 

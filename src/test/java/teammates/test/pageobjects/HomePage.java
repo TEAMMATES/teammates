@@ -14,7 +14,7 @@ public class HomePage extends AppPage {
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
     
-    public HomePage(Browser    browser) {
+    public HomePage(Browser browser) {
         super(browser);
     }
 
@@ -61,7 +61,7 @@ public class HomePage extends AppPage {
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
             return changePageType(GoogleLoginPage.class);
         } else {
-            throw new IllegalStateException("Not a valid login page :"    + pageSource);
+            throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
     }
 

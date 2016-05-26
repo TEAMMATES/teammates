@@ -121,7 +121,7 @@ public final class AssertHelper {
      *     <code>&lt;div class="{*}"&gt;</code>, however, will match both.</li>
      * </ol>
      */
-    public static boolean isContainsRegex(String regexExpected,    String stringActual) {
+    public static boolean isContainsRegex(String regexExpected, String stringActual) {
         String processedActual = stringActual.replaceAll("[\t\r\n]", "");
         String processedRegex = Pattern.quote(regexExpected)
                 .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
