@@ -113,7 +113,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
 
-     private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
+    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
         final Method generateNextDemoCourseId;
         generateNextDemoCourseId = a.getClass().getDeclaredMethod("generateNextDemoCourseId", String.class, int.class);
