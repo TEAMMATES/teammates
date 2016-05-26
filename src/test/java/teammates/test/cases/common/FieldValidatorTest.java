@@ -1,6 +1,8 @@
 package teammates.test.cases.common;
 
+//CHECKSTYLE:OFF as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
+//CHECKSTYLE:ON
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,7 +18,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -610,7 +612,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_NAME() throws Exception {
+    public void test_REGEX_NAME() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
@@ -629,7 +631,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_EMAIL() throws Exception {
+    public void test_REGEX_EMAIL() {
         ______TS("success: typical email");
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
@@ -660,7 +662,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_COURSE_ID() throws Exception {
+    public void test_REGEX_COURSE_ID() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
@@ -675,7 +677,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_SAMPLE_COURSE_ID() throws Exception {
+    public void test_REGEX_SAMPLE_COURSE_ID() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
         assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
@@ -686,7 +688,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_GOOGLE_ID_NON_EMAIL() throws Exception {
+    public void test_REGEX_GOOGLE_ID_NON_EMAIL() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
@@ -710,9 +712,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if (!fieldName.isEmpty() && !expected.isEmpty()) {
-            expected = "Invalid " + fieldName + ": " + expected;
-        }
         assertEquals(description, expected, 
                 validator.getInvalidityInfo(fieldType, fieldName, value));
     }

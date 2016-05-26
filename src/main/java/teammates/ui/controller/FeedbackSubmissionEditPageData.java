@@ -101,10 +101,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return studentToViewPageAs;
     }
     
-    public AccountAttributes getAccount() {
-        return account;
-    }
-    
     public StudentAttributes getStudent() {
         return student;
     }

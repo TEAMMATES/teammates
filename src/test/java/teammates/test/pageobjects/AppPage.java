@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -31,8 +30,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -46,7 +45,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -62,12 +60,9 @@ import teammates.test.driver.TestProperties;
  */
 @SuppressWarnings("deprecation")
 public abstract class AppPage {
-    protected static Logger log = Utils.getLogger();
     private static final By MAIN_CONTENT = By.id("mainContent");
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    
-    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
@@ -114,8 +109,7 @@ public abstract class AppPage {
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
-    
-    
+
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -125,7 +119,9 @@ public abstract class AppPage {
         this.browser = browser;
         boolean isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         // To minimize test failures due to eventual consistency, we try to
         //  reload the page and compare once more.
@@ -136,7 +132,9 @@ public abstract class AppPage {
         this.reloadPage();
         isCorrectPageType = containsExpectedPageContents();
         
-        if (isCorrectPageType) { return; }
+        if (isCorrectPageType) {
+            return;
+        }
         
         System.out.println("######### Not in the correct page! ##########");
         throw new IllegalStateException("Not in the correct page!");
@@ -197,6 +195,7 @@ public abstract class AppPage {
     public void waitForPageToLoad() {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
                 // to understand more on a web document's readyState
@@ -211,6 +210,7 @@ public abstract class AppPage {
     public void waitForElementNotCovered(final WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver d) {
                 return !isElementCovered(element);
             }
@@ -266,7 +266,8 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
+                    } catch (Exception e) {
+                        // empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -445,9 +446,8 @@ public abstract class AppPage {
         waitForPageToLoad();
         if (TestProperties.inst().isDevServer()) {
             return changePageType(DevServerLoginPage.class);
-        } else {
-            return changePageType(GoogleLoginPage.class);
         }
+        return changePageType(GoogleLoginPage.class);
     }
 
     /**
@@ -457,7 +457,6 @@ public abstract class AppPage {
         logoutButton.click();
         return this;
     }
-    
     
     /**
      * @return the HTML source of the currently loaded page.
@@ -478,7 +477,7 @@ public abstract class AppPage {
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
-    public void saveCurrentPage(String filePath, String content) throws Exception {
+    public void saveCurrentPage(String filePath, String content) throws IOException {
         FileWriter output = new FileWriter(new File(filePath));
         output.write(content);
         output.close();
@@ -499,7 +498,7 @@ public abstract class AppPage {
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
-    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();
         } else {
@@ -610,7 +609,7 @@ public abstract class AppPage {
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-       return tableElement.findElements(By.tagName("tr")).size();
+        return tableElement.findElements(By.tagName("tr")).size();
     }
     
     /** 
@@ -673,7 +672,6 @@ public abstract class AppPage {
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
-
 
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading. 
@@ -804,12 +802,10 @@ public abstract class AppPage {
         return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath) throws IOException {
+    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
@@ -848,25 +844,19 @@ public abstract class AppPage {
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
-    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
-        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
-            return regenerateHtmlFile(filePath, content, isPart);
-        }
-        return false;
+    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
+        return Boolean.parseBoolean(System.getProperty("godmode"))
+                && regenerateHtmlFile(filePath, content, isPart);
     }
     
-    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
+    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
         if (content == null || content.isEmpty()) { 
             return false;
         }
         
         TestProperties.inst().verifyReadyForGodMode();
-        try {
-            String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-            saveCurrentPage(filePath, processedPageSource);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
+        saveCurrentPage(filePath, processedPageSource);
         return true;
     }
     
@@ -895,6 +885,14 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
+    /**
+     * Verifies that the title of the loaded page is the same as {@code expectedTitle}
+     * @param expectedTitle
+     */
+    public void verifyTitle(String expectedTitle) {
+        assertEquals(expectedTitle, browser.driver.getTitle());
+    }
+
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
@@ -1009,7 +1007,7 @@ public abstract class AppPage {
         assertFalse(pageSource.contains(searchString));
         return this;
     }
-        
+    
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {

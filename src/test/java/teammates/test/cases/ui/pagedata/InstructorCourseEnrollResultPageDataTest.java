@@ -14,20 +14,20 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
-private static DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         String courseId = "idOfTypicalCourse1";
         
+        @SuppressWarnings("unchecked")
         List<StudentAttributes>[] students = new ArrayList[UpdateStatus.STATUS_COUNT];
         for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
             students[i] = new ArrayList<StudentAttributes>();

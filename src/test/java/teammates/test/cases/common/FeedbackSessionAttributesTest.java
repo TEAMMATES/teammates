@@ -8,13 +8,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static String feedbackSessionName;
@@ -38,7 +38,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionAttributes fsa;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         
         feedbackSessionName = null;
@@ -104,7 +104,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

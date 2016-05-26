@@ -82,6 +82,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
 
     @Override
-    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO
     }
 }

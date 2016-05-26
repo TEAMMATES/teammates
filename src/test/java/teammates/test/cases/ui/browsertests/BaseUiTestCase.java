@@ -19,7 +19,7 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 
-public class BaseUiTestCase extends BaseTestCase {
+public abstract class BaseUiTestCase extends BaseTestCase {
 
     /** indicates if the test-run is to use GodMode */
     protected static Boolean enableGodMode = false;

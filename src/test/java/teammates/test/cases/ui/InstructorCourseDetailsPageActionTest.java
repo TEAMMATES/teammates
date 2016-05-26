@@ -28,7 +28,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
-         ______TS("Not enough parameters");
+        ______TS("Not enough parameters");
         verifyAssumptionFailure();
 
         ______TS("Typical Case, Course with at least one student");
@@ -169,7 +169,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                      pageData.getStudentListHtmlTableAsString());
     }
 
-    private InstructorCourseDetailsPageAction getAction(String... params) throws Exception {
-            return (InstructorCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+    private InstructorCourseDetailsPageAction getAction(String... params) {
+        return (InstructorCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

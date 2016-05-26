@@ -167,23 +167,23 @@ public class StringHelperTest extends BaseTestCase {
     @Test 
     public void testRemoveExtraSpace() {
         
-       String str = "";
-       assertEquals("", StringHelper.removeExtraSpace(str));
+        String str = "";
+        assertEquals("", StringHelper.removeExtraSpace(str));
        
-       str = null;
-       assertEquals(null, StringHelper.removeExtraSpace(str));
+        str = null;
+        assertEquals(null, StringHelper.removeExtraSpace(str));
        
-       str = "a    a";
-       assertEquals("a a", StringHelper.removeExtraSpace(str));
+        str = "a    a";
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
        
-       str = "  a    a   ";
-       assertEquals("a a", StringHelper.removeExtraSpace(str));
+        str = "  a    a   ";
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
        
-       str = "    ";
-       assertEquals("", StringHelper.removeExtraSpace(str));
+        str = "    ";
+        assertEquals("", StringHelper.removeExtraSpace(str));
        
-       str = " a      b       c       d      ";
-       assertEquals("a b c d", StringHelper.removeExtraSpace(str));
+        str = " a      b       c       d      ";
+        assertEquals("a b c d", StringHelper.removeExtraSpace(str));
     }
     
     @Test

@@ -7,23 +7,31 @@
 
 package teammates.logic.core;
 
-import java.net.HttpURLConnection;
-import java.util.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
 
 public class Sendgrid {
     
+    protected String domain = "https://sendgrid.com/";
+    protected String endpoint = "api/mail.send.json";
+    protected String username;
+    protected String password;
+
     private String from;
     private String fromName;
     private String replyTo;
@@ -36,11 +44,6 @@ public class Sendgrid {
     private ArrayList<String> toNameList  = new ArrayList<String>();
     private ArrayList<String> bccList = new ArrayList<String>();
     private JSONObject headerList = new JSONObject();
-
-    protected String domain = "https://sendgrid.com/";
-    protected String endpoint = "api/mail.send.json";
-    protected String username;
-    protected String password;
 
     public Sendgrid(String username, String password) throws JSONException {
         this.username = username;
@@ -153,9 +156,8 @@ public class Sendgrid {
      * @return         the SendGrid object.
      */
     public Sendgrid setReplyTo(String email) {
-      this.replyTo = email;
-
-      return this;
+        this.replyTo = email;
+        return this;
     }
 
     /**
@@ -335,12 +337,12 @@ public class Sendgrid {
      * @throws UnsupportedEncodingException 
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
-        String string = "";
+        StringBuilder urlPart = new StringBuilder();
         for (int i = 0; i < array.size(); i++) {
-            string += "&" + token + "[]=" + URLEncoder.encode(array.get(i), "UTF-8");
+            urlPart.append('&').append(token).append("[]=").append(URLEncoder.encode(array.get(i), "UTF-8"));
         }
 
-        return string;
+        return urlPart.toString();
     }
 
     /**
@@ -373,8 +375,8 @@ public class Sendgrid {
 
         JSONObject headers = this.getHeaders();
         params.put("to", this.getFrom());
-        JSONArray tos_json = new JSONArray(this.getTos());
-        headers.put("to", tos_json);
+        JSONArray tosJson = new JSONArray(this.getTos());
+        headers.put("to", tosJson);
         this.setHeaders(headers);
         params.put("x-smtpapi", _escapeUnicode(this.getHeaders().toString()));
         
@@ -397,6 +399,7 @@ public class Sendgrid {
      */
     public void send() throws JSONException, UnsupportedEncodingException {
         send(new WarningListener() {
+            @Override
             public void warning(String w, Throwable t) {
                 serverResponse = w;
             }
@@ -443,14 +446,15 @@ public class Sendgrid {
             }
         }
         
-        String request = this.domain + this.endpoint;
+        StringBuilder request = new StringBuilder(); 
+        request.append(this.domain).append(this.endpoint);
 
         if (this.getBccs().size() > 0) {
-            request += "?" + this.arrayToUrlPart(this.getBccs(), "bcc").substring(1);
+            request.append('?').append(this.arrayToUrlPart(this.getBccs(), "bcc").substring(1));
         }
         
         try {
-            URL url = new URL(request);
+            URL url = new URL(request.toString());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -461,11 +465,12 @@ public class Sendgrid {
             writer.flush();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line, response = "";
+            String line;
+            StringBuilder response = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
                 // Process line
-                response += line;
+                response.append(line);
             }
             reader.close();
             writer.close();
@@ -475,7 +480,7 @@ public class Sendgrid {
                 serverResponse = "success";
             } else {
                 // Server returned HTTP error code.
-                JSONObject apiResponse = new JSONObject(response);
+                JSONObject apiResponse = new JSONObject(response.toString());
                 JSONArray errorsObj = (JSONArray) apiResponse.get("errors");
                 
                 for (int i = 0; i < errorsObj.length(); i++) {
@@ -497,10 +502,10 @@ public class Sendgrid {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < input.length(); i++) {
-          int code = Character.codePointAt(input, i);
-          sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
+            int code = Character.codePointAt(input, i);
+            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
         }
         
         return sb.toString();
-      }
+    }
 }

@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
@@ -148,7 +148,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "confirmation-modal-ok")
     private WebElement confirmationModalOkButton;
     
-    public InstructorCopyFsToModal fsCopyToModal;
+    private InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
@@ -158,6 +158,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
+    }
+    
+    public InstructorCopyFsToModal getFsCopyToModal() {
+        return fsCopyToModal;
     }
     
     public String getCourseId() {
@@ -190,8 +194,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
@@ -597,9 +600,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
                 if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    previousButton.click();
                 }
+                previousButton.click();
             }
 
         } else {
@@ -609,9 +611,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
                 if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    nextButton.click();
                 }
+                nextButton.click();
             }
         }
 

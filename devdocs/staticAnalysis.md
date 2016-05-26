@@ -24,16 +24,36 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
 5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
 
+#####Suppressing Checkstyle warnings
+
+To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
+
+An example for suppressing the `Avoid star imports` rule is as follows:
+```
+//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+import static teammates.common.util.Const.ActionURIs.*;
+//CHECKSTYLE:ON
+```
+
 ### PMD
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
+#####Configuring PMD Eclipse plugin
+
+1. In `Project > Properties`, go to the `PMD` tab.
+2. Check `Enable PMD`.
+3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,  
+   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK. 
+   You have successfully setup the PMD Eclipse plugin.
+
+
 #####Suppressing PMD warnings
-To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
-the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
-The suppression should be as specific as possible, and the reason for violating the rule should be explained.      
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs
 
@@ -93,6 +113,8 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `travis.gradle` is using. 
+
 Alternatively, run the tools via Gradle:
 ```
 ./gradlew -b travis.gradle {toolType}{sourceCodeType}
@@ -108,7 +130,7 @@ The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
-./gradlew -b travis.gradle staticAnalysis
+./gradlew -b travis.gradle staticAnalysis --continue
 ```
 
 ## Running code coverage session

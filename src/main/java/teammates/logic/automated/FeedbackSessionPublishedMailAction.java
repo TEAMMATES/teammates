@@ -56,7 +56,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
+    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
@@ -82,6 +82,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     }
 
     @Override
-    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO fix this
     }
 }

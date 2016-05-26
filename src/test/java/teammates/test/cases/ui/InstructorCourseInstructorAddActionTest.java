@@ -16,7 +16,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -49,7 +49,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-                };
+        };
         
         Action addAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -93,7 +93,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                };
+        };
         
         addAction = getAction(submissionParams);
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -128,7 +128,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-                };
+        };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
@@ -148,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
     }
     
-    private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
+    private InstructorCourseInstructorAddAction getAction(String... parameters) {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

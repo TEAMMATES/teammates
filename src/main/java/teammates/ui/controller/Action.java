@@ -30,9 +30,7 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-    protected static Logger log = Utils.getLogger();
-    
-    protected Logic logic;
+    protected static final Logger log = Utils.getLogger();
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
     public String regkey;
@@ -45,6 +43,8 @@ public abstract class Action {
     
     /** This is the unregistered and not loggedin student's attributes. */
     public StudentAttributes student;
+    
+    protected Logic logic;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -135,16 +135,16 @@ public abstract class Action {
                 log.severe("TEAMMATES accessed using old join link");
             }
             return legacyRegkey;
-        } else {
-            return regkey;
         }
+        return regkey;
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            loggedInUser = new AccountAttributes();
-            loggedInUser.googleId = currentUser.id;
+            AccountAttributes newLoggedInUser = new AccountAttributes();
+            newLoggedInUser.googleId = currentUser.id;
+            return newLoggedInUser;
         }
         return loggedInUser;
     }
@@ -214,7 +214,6 @@ public abstract class Action {
         return false;
     }
 
-    @SuppressWarnings("PMD.EmptyIfStmt")
     protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         
@@ -234,11 +233,10 @@ public abstract class Action {
                     account.googleId = paramRequestedUserId;
                 }
                 return account;
-            } else {
-                throw new UnauthorizedAccessException("User " + loggedInUserType.id 
-                                                    + " is trying to masquerade as " + paramRequestedUserId 
-                                                    + " without admin permission.");
             }
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id 
+                                                + " is trying to masquerade as " + paramRequestedUserId 
+                                                + " without admin permission.");
         }
         
         account = loggedInUser;

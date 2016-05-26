@@ -32,10 +32,10 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
-    private CoursesLogic coursesLogic = new CoursesLogic();
-    private CoursesDb coursesDb = new CoursesDb();
-    private AccountsDb accountsDb = new AccountsDb();
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private static final CoursesLogic coursesLogic = new CoursesLogic();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -100,7 +100,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetArchivedCoursesForInstructor() throws Exception {
+    public void testGetArchivedCoursesForInstructor() {
         
         ______TS("success: instructor with archive course");
         String instructorId = dataBundle.instructors.get("instructorOfArchivedCourse").googleId;
@@ -188,7 +188,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                                               "sample course with additional -demo");
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
-         ______TS("Null parameter");
+        ______TS("Null parameter");
     
         try {
             coursesLogic.isSampleCourse(null);
@@ -527,7 +527,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(0, sectionNum);
 
-         ______TS("non-existent");
+        ______TS("non-existent");
 
         try {
             coursesLogic.getNumberOfSections("non-existent-course");
@@ -1124,7 +1124,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
         ______TS("success: typical case");
 
-         i.email = "ins.for.iccai@gmail.tmt";
+        i.email = "ins.for.iccai@gmail.tmt";
 
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
@@ -1162,7 +1162,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
-    public void testDeleteCourse() throws Exception {
+    public void testDeleteCourse() {
     
         ______TS("typical case");
     

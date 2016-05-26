@@ -10,13 +10,13 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackSessionActions;
-import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
-import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackSessionsTable;
+import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.InstructorFeedbackSessionActions;
 
 public class InstructorFeedbacksPageData extends PageData {
 
@@ -81,7 +81,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -163,9 +163,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
             return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
-        } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
         }
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
 
     }
 

@@ -16,7 +16,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -24,6 +23,7 @@ import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
 import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {
@@ -250,12 +250,12 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return
      */
     public String getNewQuestionSpecificEditFormHtml() {
-        String newQuestionSpecificEditForms = "";
+        StringBuilder newQuestionSpecificEditForms = new StringBuilder();
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms 
-                    += type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms.append(
+                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml());
         }
-        return newQuestionSpecificEditForms;
+        return newQuestionSpecificEditForms.toString();
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {

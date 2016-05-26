@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -98,9 +98,8 @@ public class FeedbackResponseCommentsLogic {
                                                            String feedbackSessionName, String section) {
         if (section == null) {
             return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
-        } else {
-            return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
         }
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(

@@ -22,12 +22,12 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
-import teammates.ui.template.FeedbackQuestionVisibilitySettings;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
+import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
@@ -302,8 +302,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
-        InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
-        return instructorAttributes;
+        return dataBundle.instructors.get(instructor);
     }
 
     public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {

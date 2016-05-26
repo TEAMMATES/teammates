@@ -35,13 +35,17 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    public InstructorCopyFsToModal fsCopyModal;
+    private InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
         super(browser);
         if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
         }
+    }
+    
+    public InstructorCopyFsToModal getFsCopyModal() {
+        return fsCopyModal;
     }
 
     @Override
@@ -317,8 +321,9 @@ public class InstructorHomePage extends AppPage {
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1)
+        if (courseRowID == -1) {
             return -2;
+        }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {

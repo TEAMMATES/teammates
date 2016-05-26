@@ -11,21 +11,20 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -36,7 +35,7 @@ public class AdminInstructorAccountAddAction extends Action {
     private static int PERSISTENCE_WAITING_DURATION = 4000;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
 
@@ -90,9 +89,9 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
             
-       String courseId = null;    
+        String courseId = null;    
        
-       try {
+        try {
             courseId = importDemoData(data);             
         } catch (Exception e) {  
             
@@ -101,15 +100,21 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            String errorMessage = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
-            statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
-            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
-            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
-            errorMessage += "<br>" + message;
+            StringBuilder errorMessage = new StringBuilder(100);
+            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            errorMessage.append(retryLink);
+            
+            statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
+            
+            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>"
+                             + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
+            
+            errorMessage.append("<br>").append(message);
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
+            
             data.instructorAddingResultForAjax = false;
-            data.statusForAjax = errorMessage;
+            data.statusForAjax = errorMessage.toString();
             return createAjaxResult(data);
         }
         
@@ -150,13 +155,10 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData)
-            throws EntityAlreadyExistsException,
-            InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
         String courseId = generateDemoCourseId(pageData.instructorEmail); 
@@ -300,19 +302,18 @@ public class AdminInstructorAccountAddAction extends Action {
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
-        } else {
-            final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-            if (isFirstTimeDuplicate) {
-                return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
-                                                 maximumIdLength);
-            } else {
-                final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-                final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-                final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-
-                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1),
-                                                 maximumIdLength);
-            }
         }
+        
+        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+        if (isFirstTimeDuplicate) {
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
+                                             maximumIdLength);
+        }
+        
+        final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+
+        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 }

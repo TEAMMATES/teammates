@@ -1,5 +1,6 @@
 package teammates.logic.backdoor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,7 +22,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -46,7 +46,7 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -81,7 +81,7 @@ public class BackDoorLogic extends Logic {
      */
 
     public String persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         if (dataBundle == null) {
             throw new InvalidParametersException(
@@ -301,7 +301,7 @@ public class BackDoorLogic extends Logic {
         return Utils.getTeammatesGson().toJson(student);
     }
     
-    public String getAllStudentsAsJson(String courseId) throws EntityDoesNotExistException {
+    public String getAllStudentsAsJson(String courseId) {
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(courseId);
         return Utils.getTeammatesGson().toJson(studentList);
@@ -350,7 +350,7 @@ public class BackDoorLogic extends Logic {
     }
     
     public void editStudentAsJson(String originalEmail, String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         student.section = (student.section == null) ? "None" : student.section;
@@ -406,7 +406,7 @@ public class BackDoorLogic extends Logic {
             }
             response.feedbackQuestionId = question.getId();
             
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -433,7 +433,7 @@ public class BackDoorLogic extends Logic {
                             responseComment.feedbackSessionName,
                             responseComment.courseId,
                             qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -507,10 +507,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getAccount(a.googleId);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + a.toString());
@@ -524,10 +523,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getCourse(c.getId());
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + c.toString());
@@ -542,11 +540,12 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    if (retryCount % 10 == 0) { log.info("Waiting for delete to persist"); }
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                if (retryCount % 10 == 0) {
+                    log.info("Waiting for delete to persist");
+                }
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + f.toString());
@@ -563,10 +562,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getStudentForEmail(s.course, s.email);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + s.toString());
@@ -580,10 +578,9 @@ public class BackDoorLogic extends Logic {
                 retreived = this.getInstructorForEmail(i.courseId, i.email);
                 if (retreived == null) {
                     break;
-                } else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
                 }
+                retryCount++;
+                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
             }
             if (retreived != null) {
                 log.warning("Object did not get deleted in time \n" + i.toString());
@@ -601,7 +598,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws Exception {
+            byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData, "");
         updateStudentProfilePicture(googleId, pictureKey);
     }

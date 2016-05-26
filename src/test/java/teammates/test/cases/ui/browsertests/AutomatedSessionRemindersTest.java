@@ -23,7 +23,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
@@ -44,8 +44,8 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        int _23hours59min_InMilliSeconds = (60 * 23 + 59) * 60 * 1000;
-        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
+        int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
+        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes);
 
         //Opening time for one feedback session already set to some time in the past.
         
@@ -74,7 +74,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

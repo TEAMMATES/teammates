@@ -9,7 +9,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -29,24 +28,22 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
-    
     /**URI that matches with the action being tested */
     protected static String uri;
 
+    private DataBundle data = getTypicalDataBundle();
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
-    protected ShowPageResult getShowPageResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected ShowPageResult getShowPageResult(Action a) throws EntityDoesNotExistException {
         return (ShowPageResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
-    protected RedirectResult getRedirectResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected RedirectResult getRedirectResult(Action a) throws EntityDoesNotExistException {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
@@ -54,8 +51,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /** Executes the action and returns the result.
      * Assumption: The action returns a AjaxResult.
      */
-    protected AjaxResult getAjaxResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected AjaxResult getAjaxResult(Action a) throws EntityDoesNotExistException {
         return (AjaxResult) a.executeAndPostProcess();
     }
 
@@ -112,7 +108,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        if (order == 0) return typicalCase;
+        if (order == 0) {
+            return typicalCase;
+        }
         
         List<String> paramList = Arrays.asList(typicalCase); 
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -126,31 +124,31 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
         switch(order) {
-            case 1:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-                typicalCase[indexOfSessionPublishDate] = "08/05/2014";
-                typicalCase[indexOfSessionPublishTime] = "2";
-                break;
-            case 2:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-                
-                typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
-                break;
-            case 3:
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-                typicalCase[indexOfSessionInstructionsValue] = "";
-                break;
-            default:
-                Assumption.fail("Incorrect order");
-                break;
+        case 1:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
+            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishTime] = "2";
+            break;
+        case 2:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+            
+            typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
+            break;
+        case 3:
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
+            typicalCase[indexOfSessionInstructionsValue] = "";
+            break;
+        default:
+            Assumption.fail("Incorrect order");
+            break;
         }
         
         return typicalCase;
@@ -231,6 +229,11 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
     }
 
+    /*
+     * 'high-level' tests here means it tests access control of an action for the 
+     * full range of user types.
+     */
+    
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
@@ -283,6 +286,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
 
+    /*
+     * 'mid-level' tests here tests access control of an action for 
+     * one user types.
+     */
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
@@ -388,7 +395,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
         
         ______TS("not-logged-in users cannot access");
         
@@ -596,6 +603,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
+    /*
+     * 'low-level' tests here it tests an action once with the given parameters.
+     * These methods are not aware of the user type.
+     */
     /**
      * Verifies that the {@link Action} matching the {@code params} is 
      * accessible to the logged in user. 

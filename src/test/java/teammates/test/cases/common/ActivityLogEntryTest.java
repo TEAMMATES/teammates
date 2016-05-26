@@ -1,12 +1,13 @@
 package teammates.test.cases.common;
 
 import org.testng.annotations.Test;
-import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
+
+import com.google.appengine.api.log.AppLogLine;
 
 public class ActivityLogEntryTest extends BaseTestCase {
 

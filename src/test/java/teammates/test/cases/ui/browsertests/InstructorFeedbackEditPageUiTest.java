@@ -43,7 +43,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes editedSession;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -64,7 +64,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

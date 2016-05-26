@@ -11,20 +11,20 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
+import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.AdminEmailsLogic;
+import teammates.logic.core.TaskQueuesLogic;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.apphosting.api.ApiProxy;
-
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
-import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.TaskQueuesLogic;
 
 /**
  * This class creates admin email tasks for receiver emails<br>
@@ -36,9 +36,9 @@ import teammates.logic.core.TaskQueuesLogic;
 @SuppressWarnings("serial")
 public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
-    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
-    
     private static final int MAX_READING_LENGTH = 900000; 
+    
+    private List<List<String>> processedReceiverEmails = new ArrayList<List<String>>();
     
     //param needed for sending small number of emails
     private String addressReceiverListString;
@@ -99,8 +99,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     private long getFileSize(String blobkeyString) {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        long blobSize = blobInfo.getSize();
-        return blobSize;
+        return blobInfo.getSize();
     }
     
     /**
@@ -112,7 +111,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
      * @param size
      * @throws IOException
      */
-    private List<List<String>> getReceiverList(String listFileKey, int size) 
+    private List<List<String>> getReceiverList(String listFileKey, int sizeParam) 
             throws IOException {
         
         Assumption.assertNotNull(listFileKey);   
@@ -146,6 +145,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
+        int size = sizeParam;
         //file size is needed to track the number of unread bytes 
         while (size > 0) {
             //makes sure not to over-read
@@ -183,7 +183,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                     // does not contains a "@".
                     // simply append the right part to the left part(last item of the list from last reading)
                     listOfList.get(listOfList.size() - 1)
-                    .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                     // and also needs to delete the right part which is the first item of the list from current reading
                     listOfList.add(newList.subList(1, newList.size() - 1));
                 }              
@@ -292,8 +292,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                     }
                 }               
                 
-                if (isNearDeadline())
-                {
+                if (isNearDeadline()) {
                     pauseAndCreateAnNewTask(i, j);
                     log.info("Adding group mail tasks for mail with id " + emailId + "have been paused with list index: " + i + " email index: " + j);
                     return;
