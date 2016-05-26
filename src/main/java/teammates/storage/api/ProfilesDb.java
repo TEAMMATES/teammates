@@ -1,15 +1,9 @@
 package teammates.storage.api;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -18,9 +12,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles CRUD Operations for profiles.
@@ -28,9 +26,6 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class ProfilesDb extends EntitiesDb {
-    
-    @SuppressWarnings("unused")
-    private static final Logger log = Utils.getLogger();
     
     /**
      * Gets the datatransfer (*Attributes) version of the profile

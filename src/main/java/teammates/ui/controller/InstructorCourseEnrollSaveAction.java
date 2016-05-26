@@ -13,9 +13,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -89,7 +89,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
+                return o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation;
             }
         });
 

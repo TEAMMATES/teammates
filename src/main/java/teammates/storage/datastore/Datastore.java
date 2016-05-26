@@ -17,7 +17,7 @@ import teammates.common.util.Utils;
  */
 public final class Datastore {
     private static PersistenceManagerFactory PMF;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
     
     private Datastore() {

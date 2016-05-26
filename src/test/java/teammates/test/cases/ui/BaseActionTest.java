@@ -28,11 +28,11 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
-    
     /**URI that matches with the action being tested */
     protected static String uri;
 
+    private DataBundle data = getTypicalDataBundle();
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */

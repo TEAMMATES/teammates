@@ -28,8 +28,8 @@ import teammates.storage.entity.Course;
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
-    private Logic logic = new Logic();
-    private CoursesDb coursesDb = new CoursesDb();
+    private static final Logic logic = new Logic();
+    private static final CoursesDb coursesDb = new CoursesDb();
     private static final boolean isPreview = true;
     private static final boolean isModifyingOnlyArchivedCourses = true;
     

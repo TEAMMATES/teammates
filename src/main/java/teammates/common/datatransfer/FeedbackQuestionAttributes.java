@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -33,6 +32,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackQuestionId;
     private transient Date createdAt;
     private transient Date updatedAt;
 

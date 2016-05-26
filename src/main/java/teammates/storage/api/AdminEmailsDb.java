@@ -4,13 +4,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -20,11 +16,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 public class AdminEmailsDb extends EntitiesDb {
-    private static final Logger log = Utils.getLogger();
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {

@@ -11,10 +11,10 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 

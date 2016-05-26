@@ -24,8 +24,8 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private FeedbackQuestionSubmitPage submitPage;
-    private FeedbackQuestionAttributes fq;
+    private static FeedbackQuestionSubmitPage submitPage;
+    private static FeedbackQuestionAttributes fq;
     private static Date fsOriginalEndTime;
 
     @BeforeClass
