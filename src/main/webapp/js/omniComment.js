@@ -1,4 +1,4 @@
-$(document).ready(function() {    
+$(document).ready(function() {
     function isRedirectToSpecificComment() {
         return location.href.indexOf('#') !== -1;
     }
@@ -224,7 +224,7 @@ $(document).ready(function() {
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-            // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
+            // a fbResponse in instructorCommentsPage consists of the 4 table rows from the
             // comment list region row to the giver recipient row
             // The following statement shows the rows between comment list region row and giver recipient row
             // including the comment list region row and giver recipient row.
@@ -252,19 +252,19 @@ $(document).ready(function() {
             var studentCommentPanelBody = commentToHide.parent();
             // if all student comments are hidden, then hide the student comments panel
             var allStudentCommentsAreHidden =
-                    studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length 
-                    === studentCommentPanel.find('div[class*="giver_display-by"]').length
+                    studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length
+                    === studentCommentPanel.find('div[class*="giver_display-by"]').length;
             if (allStudentCommentsAreHidden) {
                 studentCommentPanelBody.hide();
             }
         } else { // to hide feedback question + feedback session panel
             var allCommentsForFeedbackResponseAreHidden =
-                    commentToHide.parent().find('li[style*="display: none"]').length 
+                    commentToHide.parent().find('li[style*="display: none"]').length
                     === commentToHide.parent().find('li').length;
             if (allCommentsForFeedbackResponseAreHidden) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
-                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
-                // comment list region row to the giver recipient row 
+                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the
+                // comment list region row to the giver recipient row
                 // The following statement hides the rows between comment list region row and giver recipient row
                 // including the comment list region row and giver recipient row.
                 // See stackoverflow post: http://stackoverflow.com/questions/2770588/jquery-prevuntil-include-start-selector-and-end-selecter
@@ -273,16 +273,16 @@ $(document).ready(function() {
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 var allFeedbackResponsesForFeedbackQuestionAreHidden =
-                        feedbackQuestion.find('tr[style*="display: none"]').length 
-                        === feedbackQuestion.find('tr').length
+                        feedbackQuestion.find('tr[style*="display: none"]').length
+                        === feedbackQuestion.find('tr').length;
                 if (allFeedbackResponsesForFeedbackQuestionAreHidden) {
                     feedbackQuestion.hide();
                     
                     var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
                     var allFeedbackQuestionsForFeedbackSessionAreHidden =
-                            feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length 
-                            === feedbackSessionPanel.find('div[class="panel panel-info"]').length
+                            feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length
+                            === feedbackSessionPanel.find('div[class="panel panel-info"]').length;
                     if (allFeedbackQuestionsForFeedbackSessionAreHidden) {
                         feedbackSessionPanelBody.hide();
                     }
