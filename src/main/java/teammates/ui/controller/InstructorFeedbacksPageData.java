@@ -240,7 +240,7 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
 
-    private List<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,
+    private List<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String courseIdForNewSession,
                                                      Map<String, InstructorAttributes> instructors,
                                                      FeedbackSessionAttributes newFeedbackSession) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();

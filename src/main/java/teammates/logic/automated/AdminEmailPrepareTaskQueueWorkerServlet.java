@@ -59,7 +59,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         
             log.info("Preparing admin email task queue in address mode...");
             
-            emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+            emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
             Assumption.assertNotNull(emailId);
             
             addressReceiverListString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS);
@@ -71,10 +71,10 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             
             log.info("Preparing admin email task queue in group mode...");
         
-            emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+            emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
             Assumption.assertNotNull(emailId);
             
-            groupReceiverListFileKey =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);        
+            groupReceiverListFileKey = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);        
             Assumption.assertNotNull(groupReceiverListFileKey);
             
             groupReceiverListFileSize = (int) getFileSize(groupReceiverListFileKey);

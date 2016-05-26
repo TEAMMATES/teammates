@@ -161,7 +161,7 @@ public class AdminActivityLogPageAction extends Action {
         
         double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
-        String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+        String timeInUserTimeZone = computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
                       + adminTimeZone + ") and ");

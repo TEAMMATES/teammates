@@ -29,7 +29,7 @@ import com.google.appengine.api.datastore.Text;
 public class InstructorStudentCommentEditAction extends Action {
 
     @Override
-    protected ActionResult execute()  throws EntityDoesNotExistException {
+    protected ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);

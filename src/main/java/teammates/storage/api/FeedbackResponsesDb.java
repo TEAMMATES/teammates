@@ -858,7 +858,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> queryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
-        return  queryResponses;
+        return queryResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionToSection(
@@ -872,7 +872,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> queryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
-        return  queryResponses;
+        return queryResponses;
     }
     
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
@@ -920,7 +920,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> queryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
-        return  queryResponses;
+        return queryResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionToSectionWithinRange(
@@ -935,7 +935,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> queryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
 
-        return  queryResponses;
+        return queryResponses;
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(

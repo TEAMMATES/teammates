@@ -90,7 +90,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${rankOptionVisibility}", "",
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
+                            "${rankOptionValue}", Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
@@ -129,7 +129,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${rankOptionVisibility}", "",
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
+                            "${rankOptionValue}", Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
@@ -178,7 +178,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)),
+                            "${rankOptionValue}", Sanitizer.sanitizeForHtml(options.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -267,7 +267,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String option = entry.getKey();
             
             fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
-                                                                        "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
+                                                                        "${rankOptionValue}", Sanitizer.sanitizeForHtml(option),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));
         
@@ -331,7 +331,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                     obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
 
             for (int i = 0; i < options.size(); i++) {
-                String optionReceivingRanks =  options.get(i);
+                String optionReceivingRanks = options.get(i);
                 int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
                 
                 if (rankReceived != Const.POINTS_NOT_SUBMITTED) { 

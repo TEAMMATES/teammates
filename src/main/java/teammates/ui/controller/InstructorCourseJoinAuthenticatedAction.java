@@ -53,7 +53,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         
         /* Create redirection to instructor's homepage */
         RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorAttributes instructor  = logic.getInstructorForRegistrationKey(regkey);
+        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor != null) {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);    
         }

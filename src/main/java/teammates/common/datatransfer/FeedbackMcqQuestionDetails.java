@@ -190,7 +190,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
@@ -273,7 +273,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(mcqChoices.get(i)),
+                            "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(mcqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -330,7 +330,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMcqChoices; i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                                "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(mcqChoices.get(i)));
+                                "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(mcqChoices.get(i)));
 
                 optionListHtml.append(optionFragment);
             }        
@@ -401,7 +401,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
+                                "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
                                 "${percentage}", df.format(100 * (double) entry.getValue() / responses.size())));
         }

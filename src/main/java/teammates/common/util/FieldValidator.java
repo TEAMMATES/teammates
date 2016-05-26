@@ -794,7 +794,7 @@ public class FieldValidator {
     private String getInvalidInfoForGoogleId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        Assumption.assertTrue("\"" + value + "\"" +  "is not expected to be a gmail address.", 
+        Assumption.assertTrue("\"" + value + "\"" + "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
         
         if (value.isEmpty()) {

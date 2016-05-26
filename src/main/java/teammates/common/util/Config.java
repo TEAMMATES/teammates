@@ -28,7 +28,7 @@ public class Config {
     public static String ENCRYPTION_KEY;
     
     /** The value of the "app.persistence.checkduration" in build.properties file */
-    public static int    PERSISTENCE_CHECK_DURATION;
+    public static int PERSISTENCE_CHECK_DURATION;
     
     /** The value of the "app.crashreport.email" in build.properties file */
     public static String SUPPORT_EMAIL;

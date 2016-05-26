@@ -155,7 +155,7 @@ public class StudentAttributesFactory {
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
-                fieldCount = hasComment ?  fieldCount : fieldCount + 1;
+                fieldCount = hasComment ? fieldCount : fieldCount + 1;
                 hasComment = true;
             }
         }

@@ -1104,7 +1104,7 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes fsa = this.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");

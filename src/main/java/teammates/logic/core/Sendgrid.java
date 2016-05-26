@@ -40,8 +40,8 @@ public class Sendgrid {
     private String html;
     
     private String serverResponse = "";
-    private ArrayList<String> toList  = new ArrayList<String>();
-    private ArrayList<String> toNameList  = new ArrayList<String>();
+    private ArrayList<String> toList = new ArrayList<String>();
+    private ArrayList<String> toNameList = new ArrayList<String>();
     private ArrayList<String> bccList = new ArrayList<String>();
     private JSONObject headerList = new JSONObject();
 

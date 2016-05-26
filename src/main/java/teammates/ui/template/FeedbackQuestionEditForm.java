@@ -43,7 +43,7 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions,  List<ElementTag> giverOptions,
+                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
                                                         List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, 
                                                         String newQuestionEditForm) {
         
@@ -82,8 +82,10 @@ public class FeedbackQuestionEditForm {
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
         
-        FeedbackParticipantType[] participantTypes = { FeedbackParticipantType.INSTRUCTORS,
-                                                       FeedbackParticipantType.RECEIVER    };
+        FeedbackParticipantType[] participantTypes = {
+                FeedbackParticipantType.INSTRUCTORS,
+                FeedbackParticipantType.RECEIVER
+        };
         
         for (FeedbackParticipantType participant : participantTypes) {
             isGiverNameVisible.put(participant.name(), true);

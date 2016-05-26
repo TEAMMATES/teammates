@@ -783,7 +783,7 @@ public class Emails {
             String requestUserAgent = req.getHeader("User-Agent");
             String requestPath = req.getServletPath();
             String requestUrl = req.getRequestURL().toString();
-            String requestParam =  HttpRequestHelper.printRequestParameters(req);
+            String requestParam = HttpRequestHelper.printRequestParameters(req);
             email = generateSystemErrorEmail(error,
                                             requestMethod,
                                             requestUserAgent,

@@ -142,8 +142,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                                   ?  question.numberOfEntitiesToGiveFeedbackTo
-                                                                   :  1);
+                                                                   ? question.numberOfEntitiesToGiveFeedbackTo
+                                                                   : 1);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
         // maps for setting visibility

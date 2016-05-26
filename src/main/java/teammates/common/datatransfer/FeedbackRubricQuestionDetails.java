@@ -312,7 +312,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(i),
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         return tableBodyHtml.toString();
@@ -405,7 +405,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${row}", Integer.toString(j),
                             "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString(),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -582,7 +582,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         
@@ -775,7 +775,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getCsvDetailedResponsesHeader() {
-        return    "Team" + "," + "Giver's Full Name" + "," 
+        return "Team" + "," + "Giver's Full Name" + "," 
                 + "Giver's Last Name" + "," + "Giver's Email" + ","  
                 + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","  

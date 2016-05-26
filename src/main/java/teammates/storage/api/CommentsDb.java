@@ -269,7 +269,7 @@ public class CommentsDb extends EntitiesDb {
      */
     public CommentAttributes updateComment(CommentAttributes newAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
         newAttributes.sanitizeForSaving();
         

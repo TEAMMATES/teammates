@@ -85,7 +85,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         } 
         
         // Return to student home page if there is no error and user is registered
-        return  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
     protected StudentAttributes getStudent() {

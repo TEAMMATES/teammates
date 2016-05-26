@@ -27,10 +27,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         
-        String emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+        String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
         Assumption.assertNotNull(emailId);
         
-        String receiverEmail =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);       
+        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);       
         Assumption.assertNotNull(receiverEmail);
         
 

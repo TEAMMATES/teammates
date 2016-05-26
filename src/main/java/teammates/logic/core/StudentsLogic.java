@@ -720,7 +720,7 @@ public class StudentsLogic {
     private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
-        ArrayList<String>  studentEmailList = new ArrayList<String>();
+        ArrayList<String> studentEmailList = new ArrayList<String>();
     
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         

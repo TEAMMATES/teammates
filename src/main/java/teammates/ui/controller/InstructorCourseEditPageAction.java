@@ -33,7 +33,7 @@ public class InstructorCourseEditPageAction extends Action {
         /* Setup page data for 'Edit' page of a course for an instructor */
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
         
-        int instructorToShowIndex  = -1;    // -1 means showing all instructors
+        int instructorToShowIndex = -1; // -1 means showing all instructors
         
         if (instructorEmail == null) {
             instructorList = logic.getInstructorsForCourse(courseId);

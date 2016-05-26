@@ -114,7 +114,7 @@ public class ActivityLogEntry {
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params,  String link) {
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link) {
         this(servlet, act, acc, params, link, null, null);
     }
 
@@ -138,7 +138,7 @@ public class ActivityLogEntry {
             email = "Unknown";
             
             UserType userType = GateKeeper.inst().getCurrentUser();
-            googleId = userType == null ?  "Unknown" : userType.id;
+            googleId = userType == null ? "Unknown" : userType.id;
         
         } else {
             role = acc.isInstructor ? "Instructor" : "Student"; 
@@ -579,7 +579,7 @@ public class ActivityLogEntry {
                + "<h4 class=\"list-group-item-heading\">" 
                + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
                + "<small> id:" + id + " " + getPersonInfo() + "</span>" + "&nbsp;"
-               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
+               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() + " btn-xs\">"
                + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
                + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getAvailableIdenficationString() + "\">"
                + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"

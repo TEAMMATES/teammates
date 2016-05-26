@@ -205,7 +205,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String userAverageExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
             
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
-            String recipientTeam  = bundle.getTeamNameForEmail(recipient);
+            String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             fragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
                                     fragmentTemplateToUse,

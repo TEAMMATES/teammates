@@ -541,8 +541,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             FeedbackQuestionAttributes question = bundle.questions.get(questionId);
             String questionText = bundle.getQuestionText(questionId);
             
-            int giverIndex     = viewType.isPrimaryGroupingOfGiverType() ? primaryParticipantIndex 
-                                                                         : secondaryRecipientIndex;
+            int giverIndex = viewType.isPrimaryGroupingOfGiverType() ? primaryParticipantIndex 
+                                                                     : secondaryRecipientIndex;
             int recipientIndex = viewType.isPrimaryGroupingOfGiverType() ? secondaryRecipientIndex 
                                                                          : primaryParticipantIndex;
             
@@ -1246,7 +1246,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible participant who did not give/receive a response to/from the participantIdentifier 
-            String participantWithResponse =          isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
+            String participantWithResponse = isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
             removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses, 
                                                 participantWithResponse);
 

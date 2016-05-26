@@ -244,20 +244,20 @@ public class BackDoorServlet extends HttpServlet {
             String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
-        }  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON)) { 
+        } else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON)) { 
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
             return backDoorLogic.getFeedbackResponsesForGiverAsJson(courseId, giverEmail);
-        }  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON)) { 
+        } else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON)) { 
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String recipient = req.getParameter(PARAMETER_RECIPIENT);
             return backDoorLogic.getFeedbackResponsesForReceiverAsJson(courseId, recipient);
-        }  else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_AS_JSON)) { 
+        } else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_AS_JSON)) { 
             String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             int qnNumber = Integer.parseInt(req.getParameter(PARAMETER_FEEDBACK_QUESTION_NUMBER));
             return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);            
-        }  else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON)) { 
+        } else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON)) { 
             String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
             return backDoorLogic.getFeedbackQuestionForIdAsJson(questionId);
         } else if (action.equals(OPERATION_DELETE_FEEDBACK_QUESTION)) {

@@ -336,7 +336,7 @@ public class CommentsLogic {
         return teammatesEmails;
     }
 
-    private void removeNonVisibleCommentsForCourse(List<CommentAttributes> commentsForCourse,                                                   StudentAttributes student,
+    private void removeNonVisibleCommentsForCourse(List<CommentAttributes> commentsForCourse, StudentAttributes student,
                                                    List<String> teammates, List<String> sectionStudentsEmails,
                                                    List<String> teamsInThisSection, HashSet<String> commentsVisitedSet,
                                                    List<CommentAttributes> comments) {
