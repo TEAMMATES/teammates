@@ -418,14 +418,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoFor_GoogleId() {
-        invalidityInfoFor_nullGoogleId_throwException();
-        invalidityInfoFor_googleIdWithGmailDomain_throwException();
-        invalidityInfoFor_validGoogleId_returnEmptyString();
-        invalidityInfoFor_invalidGoogleId_returnErrorString();
-    }
-
-    private void invalidityInfoFor_nullGoogleId_throwException() {
+    public void testGetInvalidityInfoForGoogleId_null_throwException() {
         String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
         try {
             validator.getInvalidityInfoForGoogleId(null);
@@ -435,7 +428,8 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_googleIdWithGmailDomain_throwException() {
+    @Test
+    public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
         String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
                                                      + "with untrimmed GMail domain (i.e., @gmail.com)";
         try {
@@ -446,7 +440,8 @@ public class FieldValidatorTest extends BaseTestCase {
         }
     }
 
-    private void invalidityInfoFor_validGoogleId_returnEmptyString() {
+    @Test
+    public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
         assertEquals("Valid Google ID (typical) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(typicalId));
@@ -468,7 +463,8 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getInvalidityInfoForGoogleId(maxLengthId));
     }
 
-    private void invalidityInfoFor_invalidGoogleId_returnErrorString() {
+    @Test
+    public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
                      validator.getInvalidityInfoForGoogleId(emptyId),
