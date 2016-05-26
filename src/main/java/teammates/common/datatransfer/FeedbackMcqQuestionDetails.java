@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,12 +19,13 @@ import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
-    public int numOfMcqChoices;
-    public List<String> mcqChoices;
-    public boolean otherEnabled;
-    FeedbackParticipantType generateOptionsFor;
+    private int numOfMcqChoices;
+    private List<String> mcqChoices;
+    private boolean otherEnabled;
+    private FeedbackParticipantType generateOptionsFor;
 
     public FeedbackMcqQuestionDetails() {
         super(FeedbackQuestionType.MCQ);
@@ -32,6 +34,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices = new ArrayList<String>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
+    }
+
+    public int getNumOfMcqChoices() {
+        return numOfMcqChoices;
+    }
+
+    public List<String> getMcqChoices() {
+        return mcqChoices;
+    }
+
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
     }
 
     @Override
@@ -105,8 +119,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
         if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
-            || this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false
-            || newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+            || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
+            || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
             return true;
         }
         
@@ -114,11 +128,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.otherEnabled != newMcqDetails.otherEnabled) {
-            return true;
-        }
-        
-        return false;
+        return this.otherEnabled != newMcqDetails.otherEnabled;
     }
 
     @Override
@@ -210,49 +220,45 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor) {
-            case NONE:
-                optionList = mcqChoices;
-                break;
-            case STUDENTS:
-                List<StudentAttributes> studentList = 
-                        StudentsLogic.inst().getStudentsForCourse(courseId);
-    
-                for (StudentAttributes student : studentList) {
-                    optionList.add(student.name + " (" + student.team + ")");
+        switch (generateOptionsFor) {
+        case NONE:
+            optionList = mcqChoices;
+            break;
+        case STUDENTS:
+            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+
+            for (StudentAttributes student : studentList) {
+                optionList.add(student.name + " (" + student.team + ")");
+            }
+            
+            Collections.sort(optionList);
+            break;
+        case TEAMS:
+            try {
+                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+                
+                for (TeamDetailsBundle team : teamList) {
+                    optionList.add(team.name);
                 }
                 
                 Collections.sort(optionList);
-                break;
-            case TEAMS:
-                try {
-                    List<TeamDetailsBundle> teamList = 
-                            CoursesLogic.inst().getTeamsForCourse(courseId);
-                    
-                    for (TeamDetailsBundle team : teamList) {
-                        optionList.add(team.name);
-                    }
-                    
-                    Collections.sort(optionList);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Course disappeared");
-                }
-                break;
-            case INSTRUCTORS:
-                List<InstructorAttributes> instructorList =
-                        InstructorsLogic.inst().getInstructorsForCourse(
-                                courseId);
-    
-                for (InstructorAttributes instructor : instructorList) {
-                    optionList.add(instructor.name);
-                }
-    
-                Collections.sort(optionList);
-                break;
-            default:
-                Assumption
-                        .fail("Trying to generate options for neither students, teams nor instructors");
-                break;
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Course disappeared");
+            }
+            break;
+        case INSTRUCTORS:
+            List<InstructorAttributes> instructorList =
+                    InstructorsLogic.inst().getInstructorsForCourse(courseId);
+
+            for (InstructorAttributes instructor : instructorList) {
+                optionList.add(instructor.name);
+            }
+
+            Collections.sort(optionList);
+            break;
+        default:
+            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
+            break;
         }
 
         return optionList;
@@ -279,7 +285,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
-                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 
@@ -359,12 +365,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if ("student".equals(view) || responses.size() == 0) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
         
-        String html = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices) {
@@ -395,16 +400,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(entry.getKey()),
                                 "${count}", entry.getValue().toString(),
-                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size()));
+                                "${percentage}", df.format(100 * (double) entry.getValue() / responses.size())));
         }
         
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
-                "${fragments}", fragments);
-        
-        return html;
+        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                                                              "${fragments}", fragments.toString());
     }
 
     @Override
@@ -412,12 +415,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
         
-        String csv = "";
-        String fragments = "";
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
         for (String option : mcqChoices) {
@@ -448,16 +450,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
-                      + entry.getValue().toString() + ","
-                      + df.format(100 * (double) entry.getValue() / responses.size()) + Const.EOL;
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
+                     .append(entry.getValue().toString()).append(',')
+                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
         }
         
-        csv += "Choice, Response Count, Percentage" + Const.EOL;
-        
-        csv += fragments;
-        
-        return csv;
+        return "Choice, Response Count, Percentage" + Const.EOL
+               + fragments.toString();
     }
     
     @Override
@@ -497,5 +496,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return errors;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 }

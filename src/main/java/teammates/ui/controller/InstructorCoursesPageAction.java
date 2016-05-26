@@ -4,27 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursesPageAction extends Action {
-    /* Explanation: Get a logger to be used for any logging */
-    protected static final Logger log = Utils.getLogger();
 
     @Override
-    public ActionResult execute() 
-            throws EntityDoesNotExistException {
+    public ActionResult execute() {
         /* Explanation: First, we extract any parameters from the request object.
          * e.g., idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
          * After that, we may verify parameters.
@@ -73,7 +67,7 @@ public class InstructorCoursesPageAction extends Action {
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (data.isUsingAjax() && allCourses.size() == 0) {
+        if (data.isUsingAjax() && allCourses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
@@ -83,7 +77,6 @@ public class InstructorCoursesPageAction extends Action {
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }  
 }

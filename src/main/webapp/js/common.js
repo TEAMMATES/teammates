@@ -209,7 +209,7 @@ function toggleSort(divElement, comparator) {
  * @param ascending
  *     if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
+function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     // Get the table
     var $table = $(oneOfTableCell);
     
@@ -244,6 +244,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
+    var comparator = comp;
     if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
             comparator = sortNum;
@@ -313,12 +314,12 @@ function sortNum(x, y) {
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function sortDate(x, y) {
-    x = Date.parse(x);
-    y = Date.parse(y);
-    if (x > y) {
+    var x0 = Date.parse(x);
+    var y0 = Date.parse(y);
+    if (x0 > y0) {
         return 1;
     }
-    return x < y ? -1 : 0;
+    return x0 < y0 ? -1 : 0;
 }
 
 /**
@@ -363,13 +364,13 @@ function isNumber(num) {
  * @param b
  */
 function sortByPoint(a, b) {
-    a = getPointValue(a, true);
-    b = getPointValue(b, true);
+    var a0 = getPointValue(a, true);
+    var b0 = getPointValue(b, true);
     
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
     }
-    return sortBase(a, b);
+    return sortBase(a0, b0);
 }
 
 /**
@@ -380,13 +381,13 @@ function sortByPoint(a, b) {
  * @param b
  */
 function sortByDiff(a, b) {
-    a = getPointValue(a, false);
-    b = getPointValue(b, false);
+    var a0 = getPointValue(a, false);
+    var b0 = getPointValue(b, false);
 
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
     }
-    return sortBase(a, b);
+    return sortBase(a0, b0);
 }
 
 /**
@@ -399,34 +400,34 @@ function sortByDiff(a, b) {
  * @returns
  */
 function getPointValue(s, ditchZero) {
-    if (s.lastIndexOf('<') !== -1) {
-        s = s.substring(0, s.lastIndexOf('<'));
-        s = s.substring(s.lastIndexOf('>') + 1);
+    var s0 = s;
+    if (s0.lastIndexOf('<') !== -1) {
+        s0 = s0.substring(0, s0.lastIndexOf('<'));
+        s0 = s0.substring(s0.lastIndexOf('>') + 1);
     }
     
-    if (s.indexOf('/') !== -1) {
-        if (s.indexOf('S') !== -1) {
+    if (s0.indexOf('/') !== -1) {
+        if (s0.indexOf('S') !== -1) {
             return 999; // Case N/S
         }
         
         return 1000; // Case N/A
     }
     
-    if (s === '0%') { // Case 0%
+    if (s0 === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
         }
         return 100;
     }
     
-    s = s.replace('E', '');
-    s = s.replace('%', '');
+    s0 = s0.replace('E', '').replace('%', '');
     
-    if (s === '') {
+    if (s0 === '') {
         return 100; // Case E
     }
     
-    return 100 + parseInt(s); // Other typical cases
+    return 100 + parseInt(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -479,17 +480,17 @@ function scrollToPosition(scrollPos, duration) {
  *                  * duration: duration of animation,
  *                              defaults to 0 for scrolling without animation
  */
-function scrollToElement(element, options) {
+function scrollToElement(element, opts) {
     var defaultOptions = {
         type: 'top',
         offset: 0,
         duration: 0
     };
     
-    options = options || {};
+    var options = opts || {};
     var type = options.type || defaultOptions.type;
-    var offset = options.offset !== undefined ? options.offset : defaultOptions.offset;
-    var duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    var offset = options.offset || defaultOptions.offset;
+    var duration = options.duration || defaultOptions.duration;
     
     var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
@@ -547,17 +548,13 @@ function setStatusMessage(message, status) {
         return;
     }
 
-    // Default the status type to info if any invalid status is passed in
-    if (!StatusType.isValidType(status)) {
-        status = StatusType.INFO;
-    }
-    
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessage = $('<div></div>');
     
     $statusMessage.addClass('overflow-auto');
     $statusMessage.addClass('alert');
-    $statusMessage.addClass('alert-' + status);
+    // Default the status type to info if any invalid status is passed in
+    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
     $statusMessage.addClass('statusMessage');
     $statusMessage.html(message);
     
@@ -594,11 +591,11 @@ function clearStatusMessages() {
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
  *
- * @param googleId
+ * @param rawGoogleId
  * @returns sanitizedGoolgeId
  */
-function sanitizeGoogleId(googleId) {
-    googleId = googleId.trim();
+function sanitizeGoogleId(rawGoogleId) {
+    var googleId = rawGoogleId.trim();
     var loc = googleId.toLowerCase().indexOf('@gmail.com');
     if (loc > -1) {
         googleId = googleId.substring(0, loc);
@@ -610,12 +607,12 @@ function sanitizeGoogleId(googleId) {
  * Check if the GoogleID is valid
  * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
  *
- * @param googleId
+ * @param rawGoogleId
  * @return {Boolean}
  */
-function isValidGoogleId(googleId) {
+function isValidGoogleId(rawGoogleId) {
     var isValidNonEmailGoogleId = false;
-    googleId = googleId.trim();
+    var googleId = rawGoogleId.trim();
     
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
@@ -647,11 +644,11 @@ function isEmailValid(email) {
  * Checks whether a person's name is valid.
  * (Used in instructorCourseEdit.js)
  *
- * @param name
+ * @param rawName
  * @returns {Boolean}
  */
-function isNameValid(name) {
-    name = name.trim();
+function isNameValid(rawName) {
+    var name = rawName.trim();
 
     if (name === '') {
         return false;
@@ -672,11 +669,11 @@ function isNameValid(name) {
 /**
  * Checks whether an institution name is valid
  * Used in adminHome page (through administrator.js)
- * @param name
+ * @param rawInstitution
  * @returns {Boolean}
  */
-function isInstitutionValid(institution) {
-    institution = institution.trim();
+function isInstitutionValid(rawInstitution) {
+    var institution = rawInstitution.trim();
 
     if (institution === '') {
         return false;
@@ -739,7 +736,8 @@ function escapeRegExp(string) {
 /**
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
  */
-function sanitizeForJs(string) {
+function sanitizeForJs(rawString) {
+    var string = rawString;
     string = replaceAll(string, '\\', '\\\\');
     string = replaceAll(string, '\'', '\\\'');
     return string;
@@ -836,10 +834,10 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') !== -1) {
-        hideSingleCollapse($(e.currentTarget).attr('data-target'));
-    } else {
+    if (className.indexOf('glyphicon-chevron-up') === -1) {
         showSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
     }
 }
 

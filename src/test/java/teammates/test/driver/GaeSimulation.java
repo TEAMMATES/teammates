@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,16 +37,16 @@ import com.meterware.servletunit.ServletUnitClient;
  */
 public class GaeSimulation {
 
-    public static GaeSimulation inst() {
-        return instance;
-    }
-
     private static final GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters */
     protected  ServletUnitClient sc;
     
     protected  LocalServiceTestHelper helper;
+
+    public static GaeSimulation inst() {
+        return instance;
+    }
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");
@@ -182,8 +182,7 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 

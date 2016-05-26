@@ -80,4 +80,9 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION;
         actionDescription = "send closing reminders";
     }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO
+    }
 }

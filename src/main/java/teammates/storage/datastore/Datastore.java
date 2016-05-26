@@ -15,10 +15,14 @@ import teammates.common.util.Utils;
  * Code taken from:
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
  */
-public class Datastore {
+public final class Datastore {
     private static PersistenceManagerFactory PMF;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
+    
+    private Datastore() {
+        // utility class
+    }
 
     public static void initialize() {
         if (PMF == null) {

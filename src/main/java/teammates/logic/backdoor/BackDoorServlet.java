@@ -3,13 +3,14 @@ package teammates.logic.backdoor;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -96,13 +97,13 @@ public class BackDoorServlet extends HttpServlet {
     
     private static final Logger log = Utils.getLogger();
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);
         log.info(action);
@@ -134,7 +135,7 @@ public class BackDoorServlet extends HttpServlet {
     }
 
     private String executeBackendAction(HttpServletRequest req, String action)
-            throws Exception {
+            throws EntityDoesNotExistException, InvalidParametersException, IOException {
         // TODO: reorder in alphabetical order
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
@@ -274,9 +275,8 @@ public class BackDoorServlet extends HttpServlet {
             FeedbackResponseAttributes fr = backDoorLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
             backDoorLogic.deleteFeedbackResponse(fr);
         } else {
-            throw new Exception("Unknown command: " + action);
+            throw new InvalidParametersException("Unknown command: " + action);
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
-
 }

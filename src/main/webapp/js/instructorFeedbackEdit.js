@@ -457,99 +457,99 @@ function hideAllNewQuestionForms() {
 
 function prepareQuestionForm(type) {
     switch (type) {
-        case 'TEXT':
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
-            
-            hideAllNewQuestionForms();
-            break;
-        case 'MCQ':
-            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MCQ);
-            
-            hideAllNewQuestionForms();
-            
-            $('#mcqForm').show();
-            break;
-        case 'MSQ':
-            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MSQ);
-            
-            hideAllNewQuestionForms();
-            
-            $('#msqForm').show();
-            break;
-        case 'NUMSCALE':
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-            
-            hideAllNewQuestionForms();
-            
-            $('#numScaleForm').show();
-            $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
-            break;
-        case 'CONSTSUM_OPTION':
-            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
-            $('#constSumOption_Recipient--1').hide();
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
-            
-            hideAllNewQuestionForms();
-            
-            $('#constSumForm').show();
-            break;
-        case 'CONSTSUM_RECIPIENT':
-            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
-            $('#constSumOption_Option--1').hide();
-            hideConstSumOptionTable(-1);
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-            
-            hideAllNewQuestionForms();
-            
-            $('#constSumForm').show();
-            var optionText = $('#constSum_labelText--1').text();
-            $('#constSum_labelText--1').text(optionText.replace('option', 'recipient'));
-            var tooltipText = $('#constSum_tooltipText--1').attr('data-original-title');
-            $('#constSum_tooltipText--1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
-            break;
-        case 'CONTRIB':
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
-            
-            hideAllNewQuestionForms();
-            
-            $('#contribForm').show();
-            fixContribQnGiverRecipient();
-            setDefaultContribQnVisibility();
-            setContribQnVisibilityFormat();
-            break;
-        case 'RUBRIC':
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-            
-            hideAllNewQuestionForms();
-            
-            $('#rubricForm').show();
-            break;
-        case 'RANK_OPTIONS':
-            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
-            $('#rankOption_Recipient--1').hide();
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
-            
-            hideAllNewQuestionForms();
-            
-            $('#rankOptionsForm').show();
-            break;
-        case 'RANK_RECIPIENTS':
-            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
-            $('#rankOption_Option--1').hide();
-            hideRankOptionTable(-1);
-            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-            
-            hideAllNewQuestionForms();
-            
-            $('#rankRecipientsForm').show();
-            break;
-        default:
-            // do nothing if the question type is not recognized, which should not happen
-            break;
+    case 'TEXT':
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
+        
+        hideAllNewQuestionForms();
+        break;
+    case 'MCQ':
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MCQ);
+        
+        hideAllNewQuestionForms();
+        
+        $('#mcqForm').show();
+        break;
+    case 'MSQ':
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MSQ);
+        
+        hideAllNewQuestionForms();
+        
+        $('#msqForm').show();
+        break;
+    case 'NUMSCALE':
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
+        
+        hideAllNewQuestionForms();
+        
+        $('#numScaleForm').show();
+        $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
+        break;
+    case 'CONSTSUM_OPTION':
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
+        $('#constSumOption_Recipient--1').hide();
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+        
+        hideAllNewQuestionForms();
+        
+        $('#constSumForm').show();
+        break;
+    case 'CONSTSUM_RECIPIENT':
+        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
+        $('#constSumOption_Option--1').hide();
+        hideConstSumOptionTable(-1);
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+        
+        hideAllNewQuestionForms();
+        
+        $('#constSumForm').show();
+        var optionText = $('#constSum_labelText--1').text();
+        $('#constSum_labelText--1').text(optionText.replace('option', 'recipient'));
+        var tooltipText = $('#constSum_tooltipText--1').attr('data-original-title');
+        $('#constSum_tooltipText--1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
+        break;
+    case 'CONTRIB':
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+        
+        hideAllNewQuestionForms();
+        
+        $('#contribForm').show();
+        fixContribQnGiverRecipient();
+        setDefaultContribQnVisibility();
+        setContribQnVisibilityFormat();
+        break;
+    case 'RUBRIC':
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
+        
+        hideAllNewQuestionForms();
+        
+        $('#rubricForm').show();
+        break;
+    case 'RANK_OPTIONS':
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
+        $('#rankOption_Recipient--1').hide();
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
+        
+        hideAllNewQuestionForms();
+        
+        $('#rankOptionsForm').show();
+        break;
+    case 'RANK_RECIPIENTS':
+        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
+        $('#rankOption_Option--1').hide();
+        hideRankOptionTable(-1);
+        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
+        
+        hideAllNewQuestionForms();
+        
+        $('#rankRecipientsForm').show();
+        break;
+    default:
+        // do nothing if the question type is not recognized, which should not happen
+        break;
     }
 }
 
@@ -561,27 +561,31 @@ function formatCheckBoxes() {
     // TODO: change class -> name?
     $('input[class*="answerCheckbox"]').change(function() {
         if (!$(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="giverCheckbox"]')
+            var visibilityOptionsRow = $(this).closest('tr');
+            visibilityOptionsRow.find('input[class*="giverCheckbox"]')
                                      .prop('checked', false);
-            $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+            visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
                                      .prop('checked', false);
         }
     });
     $('input[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            var visibilityOptionsRow = $(this).closest('tr');
+            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
     $('input[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            var visibilityOptionsRow = $(this).closest('tr');
+            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
                                      .prop('checked', true);
         }
     });
     $('input[name=receiverLeaderCheckbox]').change(function() {
-        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+        var visibilityOptionsRow = $(this).closest('tr');
+        visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
 }
@@ -685,12 +689,12 @@ function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipien
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
-    elem = $(elem);
-    if (elem.val() === 'INSTRUCTORS' || elem.val() === 'TEAMS') {
-        disableRow(elem, 2);
+    var $elem = $(elem);
+    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
+        disableRow($elem, 2);
         return;
     }
-    enableRow(elem, 2);
+    enableRow($elem, 2);
 }
 
 /**
@@ -738,11 +742,11 @@ function bindCopyButton() {
         e.preventDefault();
         
         var questionRows = $('#copyTableModal >tbody>tr');
-        if (!questionRows.length) {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
-        } else {
+        if (questionRows.length) {
             setStatusMessage('', StatusType.WARNING);
             $('#copyModal').modal('show');
+        } else {
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
         }
        
         return false;
@@ -766,11 +770,11 @@ function bindCopyButton() {
             }
         });
 
-        if (!hasRowSelected) {
+        if (hasRowSelected) {
+            $('#copyModalForm').submit();
+        } else {
             setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
             $('#copyModal').modal('hide');
-        } else {
-            $('#copyModalForm').submit();
         }
 
         return false;
@@ -1280,9 +1284,10 @@ function setContribQnVisibilityFormat(questionNumber) {
                                      .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
                                      .prop('checked', false);
             } else {
-                $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                var visibilityOptionsRow = $(this).closest('tr');
+                visibilityOptionsRow.find('input[class*="giverCheckbox"]')
                                          .prop('checked', false);
-                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
                                          .prop('checked', false);
             }
             
@@ -1308,7 +1313,8 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            var visibilityOptionsRow = $(this).closest('tr');
+            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
@@ -1316,14 +1322,16 @@ function setContribQnVisibilityFormat(questionNumber) {
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+            var visibilityOptionsRow = $(this).closest('tr');
+            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
     
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function() {
-        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+        var visibilityOptionsRow = $(this).closest('tr');
+        visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
 

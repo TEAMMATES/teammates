@@ -9,8 +9,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackResultsPageAction extends Action {
@@ -42,7 +42,7 @@ public class StudentFeedbackResultsPageAction extends Action {
                                                   + " does not exist in " + courseId + ".");
         }
 
-        if (data.getBundle().feedbackSession.isPublished() == false) {
+        if (!data.getBundle().feedbackSession.isPublished()) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
 

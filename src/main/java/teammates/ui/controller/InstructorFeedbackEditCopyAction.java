@@ -12,9 +12,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditCopyAction extends Action {    
@@ -31,7 +31,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
@@ -123,7 +125,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
         
-        for (String courseIdToCopy: coursesIdToCopyTo) {
+        for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
             boolean fsAlreadyExists = existingFs != null;

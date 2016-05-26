@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.util.Utils;
 
 public abstract class TaskQueueWorkerAction {
-    protected static Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     protected HttpServletRequest request;
     
     protected TaskQueueWorkerAction(HttpServletRequest request) {

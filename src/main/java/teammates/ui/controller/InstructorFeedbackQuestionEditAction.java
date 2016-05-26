@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionEditAction extends Action {
@@ -127,9 +128,10 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", 
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
+            
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+            log.severe(TeammatesException.toStringWithStackTrace(e));
             // Assumption.fails are not tested
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
                             + feedbackQuestionAttributes.questionType.toString() + " question type.");
@@ -238,17 +240,15 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             return false;
         }
         
-        if (!"custom".equals(nEntityTypes)) {
-            return false;
-        }
-        
-        return true;
+        return "custom".equals(nEntityTypes);
     }
 
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
         List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
         
-        if (params.isEmpty()) { return list; }    
+        if (params.isEmpty()) {
+            return list;
+        }
         
         String[] splitString = params.split(",");
         

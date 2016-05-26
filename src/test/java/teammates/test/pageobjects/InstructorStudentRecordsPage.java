@@ -114,6 +114,56 @@ public class InstructorStudentRecordsPage extends AppPage {
     private WebElement getCommentSaveLink(int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
     }
+    
+    // Visibility options
+    
+    public void clickVisibilityOptionsButton(int id) {
+        getVisibilityOptions(id).click();
+    }
+    
+    public void clickAnswerCheckboxForCourse(int id) {
+        getAnswerCheckboxForCourse(id).click();
+    }
+    
+    public void clickGiverCheckboxForCourse(int id) {
+        getGiverCheckboxForCourse(id).click();
+    }
+    
+    public void clickRecipientCheckboxForCourse(int id) {
+        getRecipientCheckboxForCourse(id).click();
+    }
+    
+    public boolean isAnswerCheckboxForCourseSelected(int id) {
+        return getAnswerCheckboxForCourse(id).isSelected();
+    }
+    
+    public boolean isGiverCheckboxForCourseSelected(int id) {
+        return getGiverCheckboxForCourse(id).isSelected();
+    }
+    
+    public boolean isRecipientCheckboxForCourseSelected(int id) {
+        return getRecipientCheckboxForCourse(id).isSelected();
+    }
+    
+    private WebElement getVisibilityOptions(int id) {
+        return browser.driver.findElement(By.id("visibility-options-trigger" + id));
+    }
+    
+    private WebElement getCourseVisibilityRow(int id) {
+        return browser.driver.findElement(By.id("recipient-course" + id));
+    }
+    
+    private WebElement getAnswerCheckboxForCourse(int id) {
+        return getCourseVisibilityRow(id).findElement(By.className("answerCheckbox"));
+    }
+    
+    private WebElement getGiverCheckboxForCourse(int id) {
+        return getCourseVisibilityRow(id).findElement(By.className("giverCheckbox"));
+    }
+    
+    private WebElement getRecipientCheckboxForCourse(int id) {
+        return getCourseVisibilityRow(id).findElement(By.className("recipientCheckbox"));
+    }
 
     /**
      * Clicks all the headings of the record panels to either expand/collapse the panel body.

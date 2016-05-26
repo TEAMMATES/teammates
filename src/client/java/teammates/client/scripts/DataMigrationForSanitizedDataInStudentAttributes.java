@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
 
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
@@ -102,7 +100,9 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
 
     private boolean isSanitizedString(String s) {
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
         if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
             || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
             return false;
@@ -146,10 +146,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
                 updateStudent(student.email, student);
             }
         } catch (InvalidParametersException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + student.email + " invalid!");
+            System.out.println("Student " + student.email + " invalid!");
             e.printStackTrace();
         } catch (EntityDoesNotExistException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + student.email + " does not exist!");
+            System.out.println("Student " + student.email + " does not exist!");
             e.printStackTrace();
         }
     }

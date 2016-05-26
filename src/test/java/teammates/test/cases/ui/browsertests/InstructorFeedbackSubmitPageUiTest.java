@@ -27,7 +27,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -288,23 +288,23 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         assertEquals("70, 30", frConstSum.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_0 =
+        FeedbackConstantSumResponseDetails frConstSum0 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1</td></div>'\"").getResponseDetails();
 
-        assertEquals("90", frConstSum2_0.getAnswerString());
+        assertEquals("90", frConstSum0.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_1 =
+        FeedbackConstantSumResponseDetails frConstSum1 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 2").getResponseDetails();
 
-        assertEquals("110", frConstSum2_1.getAnswerString());
+        assertEquals("110", frConstSum1.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_2 =
+        FeedbackConstantSumResponseDetails frConstSum2 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 3").getResponseDetails();
 
-        assertEquals("100", frConstSum2_2.getAnswerString());
+        assertEquals("100", frConstSum2.getAnswerString());
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
@@ -610,7 +610,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

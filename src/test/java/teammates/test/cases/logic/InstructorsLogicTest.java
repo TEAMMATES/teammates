@@ -26,7 +26,7 @@ import teammates.test.driver.AssertHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase {
 
-    private static DataBundle dataBundle = getTypicalDataBundle();;
+    private static DataBundle dataBundle = getTypicalDataBundle();
 
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static InstructorsDb instructorsDb = new InstructorsDb();
@@ -112,7 +112,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }    
     }   
     
-    public void testGetInstructorForEmail() throws Exception {
+    public void testGetInstructorForEmail() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -148,7 +148,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForGoogleId() throws Exception {
+    public void testGetInstructorForGoogleId() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -184,7 +184,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForRegistrationKey() throws Exception {
+    public void testGetInstructorForRegistrationKey() {
         
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -255,7 +255,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForGoogleId() throws Exception {
+    public void testGetInstructorsForGoogleId() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -287,7 +287,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -357,7 +357,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
     
-    public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
+    public void testIsGoogleIdOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -393,7 +393,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsEmailOfInstructorOfCourse() throws Exception {
+    public void testIsEmailOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -493,7 +493,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsNewInstructor() throws Exception {
+    public void testIsNewInstructor() {
         
         ______TS("success: instructor with only 1 sample course");
         
@@ -701,7 +701,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("typical case: delete all instructors of a given course");
         

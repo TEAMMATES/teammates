@@ -27,7 +27,6 @@ import teammates.logic.api.GateKeeper;
  */
 public class StudentCommentsPageAction extends Action {
     
-    private StudentCommentsPageData data;
     private String courseId;
     private String studentEmail;
     
@@ -67,7 +66,7 @@ public class StudentCommentsPageAction extends Action {
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
                 new HashMap<String, FeedbackSessionResultsBundle>();
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        if (coursePaginationList.size() > 0) {
+        if (!coursePaginationList.isEmpty()) {
             roster = new CourseRoster(
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
@@ -78,7 +77,7 @@ public class StudentCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new StudentCommentsPageData(account);
+        StudentCommentsPageData data = new StudentCommentsPageData(account);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
         
@@ -103,8 +102,7 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
-            throws EntityDoesNotExistException {
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) {
         List<String> coursePaginationList = new ArrayList<>();
 
         for (CourseAttributes course : sortedCourses) {
@@ -154,15 +152,15 @@ public class StudentCommentsPageAction extends Action {
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = 
                 new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes fr: bundle.responses) {
+        for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if (frComment != null && frComment.size() != 0) {
+            if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = 
                 new HashMap<String, FeedbackQuestionAttributes>();
-        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
+        for (FeedbackResponseAttributes fr : responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
             if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);

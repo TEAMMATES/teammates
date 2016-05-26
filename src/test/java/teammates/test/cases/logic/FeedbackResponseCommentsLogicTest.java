@@ -7,8 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -21,16 +19,18 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.datastore.Text;
+
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
-    private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public void setupClass() throws Exception {
+    public void setupClass() {
         printTestClassHeader();
     }
     
@@ -108,7 +108,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetFeedbackResponseComments() throws Exception {
+    public void testGetFeedbackResponseComments() {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         List<FeedbackResponseCommentAttributes> expectedFrComments = 
                 new ArrayList<FeedbackResponseCommentAttributes>();
@@ -286,7 +286,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
+    public void testDeleteFeedbackResponseCommentFromCourse() {
         
         ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
@@ -360,7 +360,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                                  existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+        for (FeedbackResponseCommentAttributes c : existingFrComments) {
             if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;

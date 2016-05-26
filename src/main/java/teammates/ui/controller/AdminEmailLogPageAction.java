@@ -3,18 +3,17 @@ package teammates.ui.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.log.AppLogLine;
-
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.log.AppLogLine;
 
 public class AdminEmailLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;
@@ -32,10 +31,8 @@ public class AdminEmailLogPageAction extends Action {
      */
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
-    private Long nextEndTimeToSearch;
-    
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
@@ -113,12 +110,13 @@ public class AdminEmailLogPageAction extends Action {
             totalLogsSearched += searchResult.size();
             query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
-        nextEndTimeToSearch = query.getEndTime();
+        Long nextEndTimeToSearch = query.getEndTime();
         
-        String status = "&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
+                      + totalLogsSearched + "<br>"
         //link for Next button, will fetch older logs
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                  + nextEndTimeToSearch + "');\">Search More</button>";
+                      + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
+                      + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
         return emailLogs;

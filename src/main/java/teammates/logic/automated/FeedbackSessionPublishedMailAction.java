@@ -56,7 +56,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
+    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
@@ -79,5 +79,10 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     private void initializeNameAndDescription() {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION;
         actionDescription = "send published alert";
+    }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO fix this
     }
 }

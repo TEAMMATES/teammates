@@ -12,9 +12,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorEditSaveAction extends Action {
@@ -82,9 +82,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = displayedName == null || displayedName.isEmpty() 
-                      ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
-                      : displayedName;
+        if (displayedName == null || displayedName.isEmpty()) {
+            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         

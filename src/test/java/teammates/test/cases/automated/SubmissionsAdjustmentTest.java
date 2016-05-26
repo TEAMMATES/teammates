@@ -8,9 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -18,16 +15,16 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -35,6 +32,9 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+import com.google.gson.Gson;
 
 public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     
@@ -78,7 +78,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
@@ -107,7 +107,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //Verify no tasks sent to the task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
-           assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
+            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
         ______TS("try to enroll with empty input enroll lines");
@@ -131,8 +131,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         ______TS("enroll new students to existing course(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollLines += newStudentLine + Const.EOL + "\t";
+        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL
+                    + newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
         while (counter != 10) {
@@ -184,8 +184,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
-        enrollLines = "Section | Team | Name | Email | Comment";
-        enrollLines += studentInTeam1.toEnrollmentString();
+        enrollLines = "Section | Team | Name | Email | Comment" + studentInTeam1.toEnrollmentString();
         
         counter = 0;
         while (counter != 10) {
@@ -209,9 +208,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Reset task count in TaskQueue callback
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
-        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL;
         String invalidStudentId = "t1|n6|e6@g@";
-        invalidEnrollLine += invalidStudentId + Const.EOL;
+        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL
+                                 + invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());

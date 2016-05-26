@@ -8,10 +8,10 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -39,6 +38,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long feedbackResponseCommentId;
 
     public FeedbackResponseCommentAttributes() {
         this.feedbackResponseCommentId = null;
@@ -143,13 +143,19 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
         
@@ -218,6 +224,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
         Collections.sort(frcs, new Comparator<FeedbackResponseCommentAttributes>() {
+            @Override
             public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
                 return frc1.createdAt.compareTo(frc2.createdAt);
             }

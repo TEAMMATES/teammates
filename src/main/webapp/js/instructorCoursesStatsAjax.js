@@ -1,6 +1,6 @@
 function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function(e) {
-        var row = $(this).parent().parent();
+        var row = $(this).closest('tr');
         var ajaxCols = $(row).children('td[id^="course-stats"]');
         var hyperlinkObject = $(this);
 

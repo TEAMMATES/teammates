@@ -22,6 +22,7 @@ function checkBrowserVersion() {
     var verOffset;
     var supported = true;
 
+    /* eslint-disable no-negated-condition */ // usage of .contains() equivalent requires !==
     // In MSIE, the true version is after "MSIE" in userAgent
     if ((verOffset = nAgt.indexOf('MSIE')) !== -1) {
         browserName = MICROSOFT_INTERNET_EXPLORER;
@@ -63,6 +64,7 @@ function checkBrowserVersion() {
         fullVersion = 0;
         supported = false;
     }
+    /* eslint-enable no-negated-condition */
     
     if (!supported) {
         var message = document.getElementById('browserMessage');

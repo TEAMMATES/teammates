@@ -30,13 +30,12 @@ import teammates.test.util.Priority;
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private AppUrl enrollUrl;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
         
@@ -51,12 +50,12 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     
     @Test
-    public void testAdjustmentOfSubsmission() throws Exception {
+    public void testAdjustmentOfSubsmission() {
         
         //load the enrollPage
         loadEnrollmentPage();
@@ -105,9 +104,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     private void loadEnrollmentPage() {
-        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
-                .withCourseId(testData.courses.get("typicalCourse1").getId());
+        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                            .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                            .withCourseId(testData.courses.get("typicalCourse1").getId());
                 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
     }

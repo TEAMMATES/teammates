@@ -19,7 +19,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     private static final int PROGRESS_STEP = 100;
     private static int counter;
 
-    protected static final PersistenceManager pm = JDOHelper
+    private static final PersistenceManager pm = JDOHelper
                                                    .getPersistenceManagerFactory("transactions-optional")
                                                    .getPersistenceManager();
     
@@ -42,10 +42,10 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
             a.setInstitute(toInstitute);
             updateProgressIndicator(accountsList.size());
         }
-
-        if (accountsList.size() == 0) {
+              
+        
+        if (accountsList.isEmpty()) {
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
-         
         }
   
         pm.close();

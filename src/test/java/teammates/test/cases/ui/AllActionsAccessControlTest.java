@@ -38,15 +38,16 @@ import com.google.appengine.api.datastore.Text;
 
 public class AllActionsAccessControlTest extends BaseActionTest {
     
-    private String[] submissionParams = new String[]{};
     private static final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private static final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    
+    private String[] submissionParams = new String[]{};
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -56,7 +57,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
     
@@ -145,8 +146,10 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        String[] submissionParams = new String[] { Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
-                                            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
@@ -265,7 +268,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-                };
+        };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
@@ -544,7 +547,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         // remove the session as removing questions is difficult
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
-   }
+    }
     
     @Test
     public void InstructorFeedbackQuestionEdit() throws Exception {
@@ -609,7 +612,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
 
     @Test
     public void InstructorFeedbackResponseCommentAdd() throws Exception {
-         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
         
         int questionNumber = 1;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");

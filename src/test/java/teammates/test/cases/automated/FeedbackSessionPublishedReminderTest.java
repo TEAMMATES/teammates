@@ -9,20 +9,20 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.core.Emails;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.util.Priority;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 @Priority(-1)
 public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
@@ -64,7 +64,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     

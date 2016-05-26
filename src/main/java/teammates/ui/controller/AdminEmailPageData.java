@@ -16,6 +16,7 @@ import teammates.ui.template.AdminTrashEmailRow;
 import teammates.ui.template.AdminTrashEmailTable;
 
 public abstract class AdminEmailPageData extends PageData {
+    protected AdminEmailPageState state;
     private AdminSentEmailTable sentEmailTable;
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
@@ -29,8 +30,6 @@ public abstract class AdminEmailPageData extends PageData {
         draftEmailTable = createAdminDraftEmailTable();
         trashEmailTable = createAdminTrashEmailTable();
     }
-    
-    protected AdminEmailPageState state;
     
     public AdminSentEmailTable getSentEmailTable() {
         return sentEmailTable;

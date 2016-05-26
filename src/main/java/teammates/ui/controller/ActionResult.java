@@ -15,12 +15,13 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 
 /**
  * The result of executing an {@link Action}.
  */
 public abstract class ActionResult {
-    protected static Logger log;
+    protected static final Logger log = Utils.getLogger();
     
     /** The URI that represents the result. 
      * e.g., "/page/instructorHome" "/jsp/instructorHome.jsp"
@@ -35,6 +36,14 @@ public abstract class ActionResult {
     
     /** A list of status messages to be shown to the user */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
+    
+    /**
+     * Parameters to be sent with the result. These will be automatically added
+     * to the {@code destination} of the result. For example, if the {@code destination}
+     * is {@code /page/instructorHome} and if we have {@code user=abc} in this map, 
+     * the result will be sent to {@code /page/instructorHome?user=abc}
+     */
+    protected Map<String, String> responseParams = new HashMap<String, String>();
     
     public ActionResult(
             String destination, 
@@ -64,14 +73,6 @@ public abstract class ActionResult {
     public String getStatusMessageColor() {
         return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
-    
-    /**
-     * Parameters to be sent with the result. These will be automatically added
-     * to the {@code destination} of the result. For example, if the {@code destination}
-     * is {@code /page/instructorHome} and if we have {@code user=abc} in this map, 
-     * the result will be sent to {@code /page/instructorHome?user=abc}
-     */
-    protected Map<String, String> responseParams = new HashMap<String, String>();
     
     /**
      * Add a (key,value) pair ot the list of response parameters.

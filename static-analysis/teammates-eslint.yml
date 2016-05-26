@@ -232,7 +232,7 @@ rules:
     # no-octal-escape: "off"
 
     # disallow reassigning function parameters
-    no-param-reassign: "off" # recommended by Airbnb
+    no-param-reassign: "error"
 
     # disallow usage of __proto__ property
     # no-proto: "off"
@@ -385,7 +385,7 @@ rules:
     # id-match: "off"
 
     # enforce consistent indentation
-    indent: ["error", 4, { "SwitchCase": 1 }]
+    indent: ["error", 4]
 
     # enforce the consistent use of either double or single quotes in JSX attributes
     # jsx-quotes: "off"
@@ -454,10 +454,10 @@ rules:
     no-mixed-spaces-and-tabs: "error"
 
     # disallow multiple empty lines
-    # no-multiple-empty-lines: "off"
+    no-multiple-empty-lines: "error"
 
     # disallow negated conditions
-    no-negated-condition: "off" # recommended by Google
+    no-negated-condition: "error"
 
     # disallow nested ternary expressions
     no-nested-ternary: "error"

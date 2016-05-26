@@ -13,7 +13,12 @@ import teammates.common.util.Url;
 /** 
  * Represents properties in test.properties file
  */
-public class TestProperties {
+public final class TestProperties {
+    
+    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
+    
+    private static TestProperties instance;
     
     public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
     public int TEAMMATES_REMOTEAPI_APP_PORT;
@@ -43,15 +48,8 @@ public class TestProperties {
     
     public int TEST_TIMEOUT;
     
-    private static TestProperties instance;
-    private Properties prop;
-    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
-    /// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
-    // functions to that sub class. It should be in util package.
-    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
-    
     private TestProperties() {
-        prop = new Properties();
+        Properties prop = new Properties();
         try {
             
             prop.load(new FileInputStream("src/test/resources/test.properties"));
@@ -89,16 +87,15 @@ public class TestProperties {
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static TestProperties inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new TestProperties();
+        }
         return instance;
     }
 
@@ -143,11 +140,10 @@ public class TestProperties {
         String uniqueId = inst().TEST_STUDENT1_ACCOUNT.substring("alice.tmms.".length());
         if (uniqueId.isEmpty()) {
             return false;
-        } else {
-            return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
-                && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
-                && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
         }
+        return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
+            && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
+            && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
     }
 
     private boolean isStudentMotdUrlEmpty() {

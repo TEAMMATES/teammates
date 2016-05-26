@@ -78,7 +78,7 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Email Subject
      */
-    private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
+    public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as " + EMAIL_SUBJECT_FIELD_NAME + " because it %s. " 
@@ -89,7 +89,7 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Email Content
      */
-    private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
+    public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
     public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
 
     /*
@@ -188,8 +188,8 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Gender
      */
-    private static final String GENDER_FIELD_NAME = "gender";
-    private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
+    public static final String GENDER_FIELD_NAME = "gender";
+    public static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " 
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
@@ -199,7 +199,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Institute name
      */    
-    private static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
+    public static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
     public static final String INSTITUTE_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as " + INSTITUTE_NAME_FIELD_NAME + " because it %s. " 
@@ -211,7 +211,7 @@ public class FieldValidator {
      * Field: Student comment
      * Not allowed: |
      */
-    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
+    public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " because it %s. " 
@@ -235,7 +235,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Team name
      */
-    private static final String TEAM_NAME_FIELD_NAME = "a team name";
+    public static final String TEAM_NAME_FIELD_NAME = "a team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as " + TEAM_NAME_FIELD_NAME + " because it %s. " 
@@ -246,7 +246,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Section name
      */
-    private static final String SECTION_NAME_FIELD_NAME = "a section name";
+    public static final String SECTION_NAME_FIELD_NAME = "a section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as " + SECTION_NAME_FIELD_NAME + " because it %s. " 
@@ -411,9 +411,8 @@ public class FieldValidator {
         
         if (fieldName.isEmpty() || returnValue.isEmpty()) {
             return returnValue;
-        } else {
-            return "Invalid " + fieldName + ": " + returnValue;
         }
+        return "Invalid " + fieldName + ": " + returnValue;
     }
 
     /**
@@ -486,8 +485,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public String getInvalidityInfoForInstituteName(String instituteName) {
-         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                              instituteName);
+        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
+                                             instituteName);
     }
 
     /**
@@ -595,7 +594,7 @@ public class FieldValidator {
         if (value.length() > maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
-        if (!Character.isLetterOrDigit(value.codePointAt(0))) {           
+        if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
                 return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
@@ -649,45 +648,47 @@ public class FieldValidator {
             return "";
         }
 
-        String mainFieldName, earlierFieldName, laterFieldName;
+        String mainFieldName;
         
-        switch (mainFieldType) {
-        case FEEDBACK_SESSION_TIME_FRAME:
-            mainFieldName = FEEDBACK_SESSION_NAME; 
-            break;
-        default:
+        if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
+            mainFieldName = FEEDBACK_SESSION_NAME;
+        } else {
             throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
         }
+        
+        String earlierFieldName;
         
         switch (earlierFieldType) {
         case START_TIME:
             earlierFieldName = START_TIME_FIELD_NAME;
             break;
         case END_TIME:
-            earlierFieldName = END_TIME_FIELD_NAME; 
+            earlierFieldName = END_TIME_FIELD_NAME;
             break;
         case SESSION_VISIBLE_TIME:
             earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
             break;
         case RESULTS_VISIBLE_TIME:
-            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
             break;
         default:
             throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
         }
+        
+        String laterFieldName;
         
         switch (laterFieldType) {
         case START_TIME:
             laterFieldName = START_TIME_FIELD_NAME;
             break;
         case END_TIME:
-            laterFieldName = END_TIME_FIELD_NAME; 
+            laterFieldName = END_TIME_FIELD_NAME;
             break;
         case SESSION_VISIBLE_TIME:
             laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;    
+            break;
         case RESULTS_VISIBLE_TIME:
-            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
             break;
         default:
             throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
@@ -707,10 +708,10 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", recipientType);
         
         List<String> errors = new LinkedList<String>();
-        if (giverType.isValidGiver() == false) {
+        if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
         }
-        if (recipientType.isValidRecipient() == false) {
+        if (!recipientType.isValidRecipient()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
         }
         if (giverType == FeedbackParticipantType.TEAMS
@@ -739,11 +740,11 @@ public class FieldValidator {
         List<String> errors = new LinkedList<String>();
         
         for (FeedbackParticipantType type : showGiverNameTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }            
-            if (showResponsesTo.contains(type) == false) {
+            if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show giver name to "
                         + type.toString()
                         + " without showing response first.");
@@ -751,11 +752,11 @@ public class FieldValidator {
         }
         
         for (FeedbackParticipantType type : showRecipientNameTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }            
-            if (showResponsesTo.contains(type) == false) {
+            if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show recipient name to "
                         + type.toString()
                         + " without showing response first.");
@@ -763,7 +764,7 @@ public class FieldValidator {
         }
         
         for (FeedbackParticipantType type : showResponsesTo) {
-            if (type.isValidViewer() == false) {
+            if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
                         type.toString(), VIEWER_TYPE_NAME));
             }
@@ -897,5 +898,5 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
-     }
+    }
 }

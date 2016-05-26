@@ -17,16 +17,16 @@ public class InstructorCopyFsToModal extends AppPage {
     private static final String FEEDBACK_COPY_MODAL_STATUS = "feedback-copy-modal-status";
     public WebElement copyModalStatusMessage;
     
+    public InstructorCopyFsToModal(Browser browser) {
+        super(browser);
+    }
+    
     /**
      * @return true if the modal for copying feedback sessions to multiple courses,
      *         identified by its html id, is present, otherwise false
      */
     public static boolean isPresentOnPage(Browser browser) {
         return !browser.driver.findElements(By.id("fsCopyModal")).isEmpty();
-    }
-    
-    public InstructorCopyFsToModal(Browser browser) {
-        super(browser);
     }
     
     @Override

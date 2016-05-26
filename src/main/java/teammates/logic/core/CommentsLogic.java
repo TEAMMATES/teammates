@@ -173,8 +173,7 @@ public class CommentsLogic {
         commentsDb.deleteDocument(comment);
     }
     
-    public List<CommentAttributes> getCommentDrafts(String giverEmail)
-            throws EntityDoesNotExistException {
+    public List<CommentAttributes> getCommentDrafts(String giverEmail) {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     

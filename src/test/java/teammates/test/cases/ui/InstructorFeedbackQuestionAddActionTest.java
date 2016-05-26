@@ -885,7 +885,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionAddAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionAddAction getAction(String... params) {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

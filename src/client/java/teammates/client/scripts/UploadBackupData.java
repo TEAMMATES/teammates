@@ -13,22 +13,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gson.Gson;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
@@ -44,6 +40,8 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
+
+import com.google.gson.Gson;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -84,6 +82,7 @@ public class UploadBackupData extends RemoteApiClient {
         uploadBackupData.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         
@@ -100,20 +99,20 @@ public class UploadBackupData extends RemoteApiClient {
         String[] folders = backupFolder.list();
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
-                 try {
+                try {
                     Date firstDate = dateFormat.parse(o1);
                     
                     Date secondDate = dateFormat.parse(o2);
                     
                     return secondDate.compareTo(firstDate);
-                }
-                catch (ParseException e) {
+                } catch (ParseException e) {
                     return 0;
                 }
             }
-          });
+        });
         listOfFolders.toArray(folders);
         return folders;
     }
@@ -179,10 +178,11 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
-            for (AccountAttributes accountData : accounts.values())
+            for (AccountAttributes accountData : accounts.values()) {
                 logic.createAccount(accountData.googleId, accountData.name, 
                     accountData.isInstructor, accountData.email, accountData.institute);
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+            }
+        } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
     }
@@ -225,7 +225,7 @@ public class UploadBackupData extends RemoteApiClient {
         try {
             fqDb.createFeedbackQuestions(questions.values());
             
-            for (FeedbackQuestionAttributes question: questions.values()) {
+            for (FeedbackQuestionAttributes question : questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
             

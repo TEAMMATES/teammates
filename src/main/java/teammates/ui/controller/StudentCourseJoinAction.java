@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -18,10 +17,8 @@ import teammates.logic.api.Logic;
  */
 public class StudentCourseJoinAction extends Action {
     
-    private StudentCourseJoinConfirmationPageData data;
-    
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
         String nextUrl = getNextUrl();
         
@@ -42,7 +39,7 @@ public class StudentCourseJoinAction extends Action {
         boolean isNextUrlAccessibleWithoutLogin =
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
-        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
+        StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
                                                          Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
                                                          isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
