@@ -601,7 +601,7 @@ public class FeedbackSessionsLogic {
         Map<String, String> params = new HashMap<String, String>();
         params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
         params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, "fasle");
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
         params.put(KEY_TO_SECTION, VALUE_FALSE);
         params.put(KEY_QUESTION_ID, questionId);
         
