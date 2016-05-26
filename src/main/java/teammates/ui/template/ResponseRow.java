@@ -9,7 +9,7 @@ public class ResponseRow {
     private List<FeedbackResponseCommentRow> feedbackResponseComments;
     
     public ResponseRow(String giverName, String recipientName, 
-                           String response, List<FeedbackResponseCommentRow> feedbackResponseComments) {
+                       String response, List<FeedbackResponseCommentRow> feedbackResponseComments) {
         this.giverName = giverName;
         this.recipientName = recipientName;
         this.response = response;
