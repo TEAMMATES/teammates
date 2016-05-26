@@ -50,7 +50,7 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
 public class FeedbackSessionsLogic {
-
+    
     private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondant for ";
     private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response";
     private static final String ASSUMPTION_FAIL_RESPONSES_ORIGIN = "Client did not indicate the origin of the responses";
@@ -69,6 +69,16 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_GET_NON_EXISTENT_SESSION = "Trying to get a feedback session that does not exist.";
     private static final String ERROR_GET_NON_EXISTENT_SESSION_COURSE = "Trying to get feedback sessions for a course that does not exist.";
     private static final String ERROR_GET_NON_EXISTENT_SESSION_STUDENT = "Trying to get a feedback session for student that does not exist.";
+    private static final String KEY_FROM_SECTION = "fromSection";
+    private static final String KEY_IN_SECTION = "inSection";
+    private static final String KEY_IS_INCLUDE_RESPONSE_STATUS = "isIncludeResponseStatus";
+    private static final String KEY_QUESTION_ID = "questionId";
+    private static final String KEY_RANGE = "range";
+    private static final String KEY_SECTION = "section";
+    private static final String KEY_TO_SECTION = "toSection";
+    private static final String KEY_VIEW_TYPE = "viewType";
+    private static final String VALUE_FALSE = "false";
+    private static final String VALUE_TRUE = "true";
 
     private static FeedbackSessionsLogic instance;
 
@@ -589,11 +599,11 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "false");
-        params.put("fromSection", "fasle");
-        params.put("toSection", "false");
-        params.put("questionId", questionId);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_FALSE);
+        params.put(KEY_FROM_SECTION, "fasle");
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_QUESTION_ID, questionId);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -613,12 +623,12 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "true");
-        params.put("fromSection", "false");
-        params.put("toSection", "false");
-        params.put("questionId", questionId);
-        params.put("section", selectedSection);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_TRUE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_QUESTION_ID, questionId);
+        params.put(KEY_SECTION, selectedSection);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -646,15 +656,15 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "true");
-        params.put("fromSection", "false");
-        params.put("toSection", "false");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_TRUE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_SECTION, section);
         if (range > 0) {
-            params.put("range", String.valueOf(range));
+            params.put(KEY_RANGE, String.valueOf(range));
         }
-        params.put("viewType", viewType);
+        params.put(KEY_VIEW_TYPE, viewType);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -671,13 +681,13 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "false");
-        params.put("fromSection", "true");
-        params.put("toSection", "false");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_FALSE);
+        params.put(KEY_FROM_SECTION, VALUE_TRUE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_SECTION, section);
         if (range > 0) {
-            params.put("range", String.valueOf(range));
+            params.put(KEY_RANGE, String.valueOf(range));
         }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -694,13 +704,13 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "false");
-        params.put("fromSection", "false");
-        params.put("toSection", "true");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_FALSE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_TRUE);
+        params.put(KEY_SECTION, section);
         if (range > 0) {
-            params.put("range", String.valueOf(range));
+            params.put(KEY_RANGE, String.valueOf(range));
         }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -728,11 +738,11 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "true");
-        params.put("fromSection", "false");
-        params.put("toSection", "false");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_TRUE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -750,11 +760,11 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "false");
-        params.put("inSection", "false");
-        params.put("fromSection", "true");
-        params.put("toSection", "false");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_FALSE);
+        params.put(KEY_IN_SECTION, VALUE_FALSE);
+        params.put(KEY_FROM_SECTION, VALUE_TRUE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -772,11 +782,11 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "false");
-        params.put("fromSection", "false");
-        params.put("toSection", "true");
-        params.put("section", section);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
+        params.put(KEY_IN_SECTION, VALUE_FALSE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_TRUE);
+        params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -790,10 +800,10 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         
         Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", String.valueOf(isIncludeResponseStatus));
-        params.put("inSection", "true");
-        params.put("fromSection", "false");
-        params.put("toSection", "false");
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, String.valueOf(isIncludeResponseStatus));
+        params.put(KEY_IN_SECTION, VALUE_TRUE);
+        params.put(KEY_FROM_SECTION, VALUE_FALSE);
+        params.put(KEY_TO_SECTION, VALUE_FALSE);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail,
                 UserType.Role.INSTRUCTOR, roster, params);
@@ -1911,7 +1921,7 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
         //Show all questions even if no responses, unless is an ajax request for a specific question.
-        if (role == UserType.Role.INSTRUCTOR && !params.containsKey("questionId")) {
+        if (role == UserType.Role.INSTRUCTOR && !params.containsKey(KEY_QUESTION_ID)) {
             for (FeedbackQuestionAttributes question : allQuestions) {
                 relevantQuestions.put(question.getId(), question);
             }
@@ -1929,12 +1939,12 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, roster, responseComments);
         }
         
-        boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
+        boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get(KEY_IS_INCLUDE_RESPONSE_STATUS));
         
-        String section = params.get("section");
+        String section = params.get(KEY_SECTION);
         
-        if (params.get("questionId") != null) {
-            String questionId = params.get("questionId");
+        if (params.get(KEY_QUESTION_ID) != null) {
+            String questionId = params.get(KEY_QUESTION_ID);
             boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
             
             if (isQueryingResponseRateStatus) {
@@ -2027,13 +2037,13 @@ public class FeedbackSessionsLogic {
             allQuestionsMap.put(qn.getId(), qn);
         }
         
-        boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
-        boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
-        boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
-        boolean isComplete = params.get("range") == null;
+        boolean isInSection = Boolean.parseBoolean(params.get(KEY_IN_SECTION));
+        boolean isToSection = Boolean.parseBoolean(params.get(KEY_TO_SECTION));
+        boolean isFromSection = Boolean.parseBoolean(params.get(KEY_FROM_SECTION));
+        boolean isComplete = params.get(KEY_RANGE) == null;
         
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        if (params.get("range") == null) {
+        if (params.get(KEY_RANGE) == null) {
             if (isInSection) {
                 allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
                                                                                courseId, section);
@@ -2047,7 +2057,7 @@ public class FeedbackSessionsLogic {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
-            long range = Long.parseLong(params.get("range"));
+            long range = Long.parseLong(params.get(KEY_RANGE));
             if (isInSection) {
                 allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
                                                                                           courseId, section, range);
@@ -2116,9 +2126,9 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        if (params.get("viewType") == null
-                || "giver-recipient-question".equals(params.get("viewType"))
-                || "recipient-giver-question".equals(params.get("viewType"))) {
+        if (params.get(KEY_VIEW_TYPE) == null
+                || "giver-recipient-question".equals(params.get(KEY_VIEW_TYPE))
+                || "recipient-giver-question".equals(params.get(KEY_VIEW_TYPE))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
                             feedbackSessionName, section);
