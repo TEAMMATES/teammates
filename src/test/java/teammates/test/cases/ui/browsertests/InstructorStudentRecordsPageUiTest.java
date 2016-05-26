@@ -170,7 +170,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.clickVisibilityOptionsButton(1);
     }
 
-    private void testAction() {
+    private void testAction() throws Exception {
         
         ______TS("add comment: failure (empty comment)");
 
