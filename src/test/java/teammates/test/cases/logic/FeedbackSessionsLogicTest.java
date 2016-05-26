@@ -108,7 +108,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response2ForQ2S2C1",
                                                                                   dataBundle);
         assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
-                                                       responseToBeDeleted.feedbackSessionName));
+                                                       responseToBeDeleted.feedbackSessionName,
+                                                       responseToBeDeleted.courseId));
 
         int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
                                                    responseToBeDeleted.courseId);
@@ -129,7 +130,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore("response1ForQ1S1C1",
                                                                                   dataBundle);
         assertTrue(1 < numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
-                                                      responseToBeDeleted.feedbackSessionName));
+                                                     responseToBeDeleted.feedbackSessionName,
+                                                     responseToBeDeleted.courseId));
 
         int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
                                                    responseToBeDeleted.courseId);
@@ -145,10 +147,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
     }
 
-    private int numResponsesFromGiverInSession(String studentEmail, String sessionName) {
+    private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
         int numResponses = 0;
         for (FeedbackResponseAttributes response : dataBundle.feedbackResponses.values()) {
-            if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)) {
+            if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
+                && response.courseId.equals(courseId)) {
                 numResponses++;
             }
         }
