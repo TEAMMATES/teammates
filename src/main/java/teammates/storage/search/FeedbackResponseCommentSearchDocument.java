@@ -53,8 +53,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         
         course = logic.getCourse(comment.courseId);
         
-        giverAsInstructor = logic.
-                getInstructorForEmail(comment.courseId, comment.giverEmail);
+        giverAsInstructor = logic.getInstructorForEmail(comment.courseId, comment.giverEmail);
         
         relatedInstructors = new ArrayList<InstructorAttributes>();
         relatedStudents = new ArrayList<StudentAttributes>();

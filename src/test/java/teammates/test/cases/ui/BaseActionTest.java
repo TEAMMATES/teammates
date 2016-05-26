@@ -28,11 +28,11 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
-    
     /**URI that matches with the action being tested */
     protected static String uri;
 
+    private DataBundle data = getTypicalDataBundle();
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
@@ -123,7 +123,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
-        switch(order) {
+        switch (order) {
         case 1:
             typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
             typicalCase[indexOfSessionVisibleDate] = "";

@@ -486,11 +486,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Submit empty course list: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.clickSubmitButton();
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
@@ -499,46 +499,46 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Copying fails due to fs with same name in course selected: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, courseId);
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(error);
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(error);
         
-        feedbackPage.fsCopyToModal.clickCloseButton();
+        feedbackPage.getFsCopyToModal().clickCloseButton();
         
         
         ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
         
-        feedbackPage.fsCopyToModal.clickCloseButton();
+        feedbackPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Successful case: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected("New name!");
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
    
         feedbackPage.waitForPageToLoad();
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);

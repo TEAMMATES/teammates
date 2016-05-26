@@ -378,55 +378,55 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("Submit empty course list: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.fsCopyModal.waitForModalToLoad();
-        homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
-        homePage.fsCopyModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        homePage.getFsCopyModal().waitForModalToLoad();
+        homePage.getFsCopyModal().clickSubmitButton();
+        homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
+        homePage.getFsCopyModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
-        homePage.fsCopyModal.clickCloseButton();
+        homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.fsCopyModal.waitForModalToLoad();
-        homePage.fsCopyModal.fillFormWithAllCoursesSelected(feedbackSessionName);
+        homePage.getFsCopyModal().waitForModalToLoad();
+        homePage.getFsCopyModal().fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        homePage.fsCopyModal.clickSubmitButton();
+        homePage.getFsCopyModal().clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
-        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
-        homePage.fsCopyModal.verifyStatusMessage(error);
+        homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
+        homePage.getFsCopyModal().verifyStatusMessage(error);
         
-        homePage.fsCopyModal.clickCloseButton();
+        homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.getFsCopyModal().waitForModalToLoad();
         String invalidFeedbackSessionName = "Invalid name | for feedback session";
-        homePage.fsCopyModal.fillFormWithAllCoursesSelected(invalidFeedbackSessionName);
+        homePage.getFsCopyModal().fillFormWithAllCoursesSelected(invalidFeedbackSessionName);
         
-        homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
+        homePage.getFsCopyModal().clickSubmitButton();
+        homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
-        homePage.fsCopyModal.verifyStatusMessage(
+        homePage.getFsCopyModal().verifyStatusMessage(
                                      String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, 
                                                    invalidFeedbackSessionName,
                                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                    FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
-        homePage.fsCopyModal.clickCloseButton();
+        homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Successful case: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.fsCopyModal.waitForModalToLoad();
-        homePage.fsCopyModal.fillFormWithAllCoursesSelected("New name!");
+        homePage.getFsCopyModal().waitForModalToLoad();
+        homePage.getFsCopyModal().fillFormWithAllCoursesSelected("New name!");
         
-        homePage.fsCopyModal.clickSubmitButton();
+        homePage.getFsCopyModal().clickSubmitButton();
 
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
@@ -440,7 +440,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
-        homePage.fsCopyModal.waitForModalLoadingError();
+        homePage.getFsCopyModal().waitForModalLoadingError();
 
     }
 

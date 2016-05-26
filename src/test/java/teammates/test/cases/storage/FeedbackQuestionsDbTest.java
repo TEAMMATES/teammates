@@ -8,9 +8,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -208,9 +208,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackQuestionAttributes> expected = createFeedbackQuestions(numToCreate);
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForSession(expected.get(0).
-                                                                                         feedbackSessionName,
-                                                                                         expected.get(0).courseId);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, expected.get(0).courseId);
 
         for (int i = 0; i < numToCreate; i++) {
             expected.get(i).setId(questions.get(i).getId());
@@ -257,10 +256,9 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                                                                                           "testCourse",
-                                                                                           FeedbackParticipantType.
-                                                                                           INSTRUCTORS);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                      FeedbackParticipantType.INSTRUCTORS);
         assertEquals(questions.size(), numOfQuestions[0]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,

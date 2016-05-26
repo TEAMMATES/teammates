@@ -12,8 +12,112 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * this class contains several nested classes, each containing a specific
  * category of constants.
  */
-@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class Const {
+    
+    /* 
+     * This section holds constants that are defined as constants primarily 
+     * because they are repeated in many places.
+     */
+    public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
+    
+    public static final String USER_NOBODY_TEXT = "-";
+    public static final String USER_UNKNOWN_TEXT = "Unknown user";
+    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    public static final String REGEXP_TEAM = String.format("^.*%s$", TEAM_OF_EMAIL_OWNER);
+    
+    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
+    public static final String NONE_OF_THE_ABOVE = "None of the above";
+
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
+    
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
+    
+    public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
+    public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
+    
+    public static final String USER_NAME_FOR_SELF = "Myself";
+    public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    
+    public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
+    public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
+    
+    // for course sorting in instructorHomePage
+    public static final String SORT_BY_COURSE_ID = "id";
+    public static final String SORT_BY_COURSE_NAME = "name";
+    public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
+    public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
+    
+    // used for instructor details single line form
+    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
+    
+    public static final String DEFAULT_SECTION = "None";
+    
+    public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
+    
+    /* 
+     * These constants are used as variable values to mean that the variable 
+     * is in a 'special' state.
+     */
+    public static final int INT_UNINITIALIZED = -9999;
+    public static final double DOUBLE_UNINITIALIZED = -9999.0;
+    
+    public static final int MAX_POSSIBLE_RECIPIENTS = -100;
+    
+    public static final int POINTS_EQUAL_SHARE = 100;
+    public static final int POINTS_NOT_SURE = -101;
+    public static final int POINTS_NOT_SUBMITTED = -999;
+    
+    public static final int VISIBILITY_TABLE_GIVER = 0;
+    public static final int VISIBILITY_TABLE_RECIPIENT = 1;
+    
+    public static final String GENERAL_QUESTION = "%GENERAL%";
+    public static final String USER_IS_TEAM = "%TEAM%";
+    public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
+    
+    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
+    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
+    public static final Date TIME_REPRESENTS_NEVER;
+    public static final Date TIME_REPRESENTS_LATER;
+    public static final Date TIME_REPRESENTS_NOW;
+    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+      
+    static {
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
+        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
+        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
+        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
+    }
+    
+    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
+    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
+    
+    /* 
+     * Other Constants
+     */
+    
+    public static enum AdminEmailPageState {
+        COMPOSE, SENT, TRASH, DRAFT
+    }
+    
+    public static enum StatusMessageColor {
+        INFO, SUCCESS, WARNING, DANGER
+    }
+
+    private Const() {
+        // Utility class containing constants
+    }
     
     public static class SystemParams {
 
@@ -56,32 +160,6 @@ public final class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
-        /**
-         * @return The file source for jquery.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
-        }
-        
-        /**
-         * @return The file source for jquery-ui.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryUiFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
-        }
-        
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
             ActionURIs.STUDENT_COURSE_JOIN_NEW,
@@ -108,6 +186,33 @@ public final class Const {
         private SystemParams() {
             // utility class
         }
+        
+        /**
+         * @return The file source for jquery.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+        }
+        
+        /**
+         * @return The file source for jquery-ui.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryUiFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery-ui.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+        }
+        
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -160,14 +265,12 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
 
-        
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED = "The list of points that this student received from others";
 
         public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
         public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
 
-        
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
@@ -773,7 +876,6 @@ public final class Const {
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
-        
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
@@ -938,6 +1040,10 @@ public final class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
+        public static final String COURSE_ENROLL_POSSIBLE_DATA_LOSS = "There are existing feedback responses "
+                + "for this course. Modifying records of enrolled students will result in some existing "
+                + "responses from those modified students to be deleted. You may wish to download the data "
+                + "before you make the changes.";
         public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
         public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
         public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
@@ -1105,6 +1211,9 @@ public final class Const {
         public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
                 + "<span class='text-danger text-bold text-large'>%s</span>. " 
                 + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
+                "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
+                + "Enrollment for Course <span class=\"bold\">[%s]</span>";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -1140,98 +1249,4 @@ public final class Const {
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
 
-    /* This section holds constants that are defined as constants primarily 
-     * because they are repeated in many places.
-     */
-    public static final String EOL = System.getProperty("line.separator");
-    public static final String HTML_BR_TAG = "<br>";
-    
-    public static final String USER_NOBODY_TEXT = "-";
-    public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
-    public static final String REGEXP_TEAM = String.format("^.*%s$", TEAM_OF_EMAIL_OWNER);
-    
-    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
-    public static final String NONE_OF_THE_ABOVE = "None of the above";
-
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
-    
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
-    
-    public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
-    public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
-    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
-    
-    public static final String USER_NAME_FOR_SELF = "Myself";
-    public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
-    
-    public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-    public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
-    
-    //for course sorting in instructorHomePage
-    public static final String SORT_BY_COURSE_ID = "id";
-    public static final String SORT_BY_COURSE_NAME = "name";
-    public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
-    public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
-    
-    // used for instructor details single line form
-    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
-    
-    public static final String DEFAULT_SECTION = "None";
-    
-    public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
-    
-    /* These constants are used as variable values to mean that the variable 
-     * is in a 'special' state.
-     */
-    public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
-    
-    public static final int MAX_POSSIBLE_RECIPIENTS = -100;
-    
-    public static final int POINTS_EQUAL_SHARE = 100;
-    public static final int POINTS_NOT_SURE = -101;
-    public static final int POINTS_NOT_SUBMITTED = -999;
-    
-    public static final int VISIBILITY_TABLE_GIVER = 0;
-    public static final int VISIBILITY_TABLE_RECIPIENT = 1;
-    
-    public static final String GENERAL_QUESTION = "%GENERAL%";
-    public static final String USER_IS_TEAM = "%TEAM%";
-    public static final String USER_IS_NOBODY = "%NOBODY%";
-    public static final String USER_IS_MISSING = "%MISSING%";
-    
-    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
-    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Date TIME_REPRESENTS_NEVER;
-    public static final Date TIME_REPRESENTS_LATER;
-    public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-      
-    static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
-    }
-    
-    /* Other Constants
-     */
-    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
-    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
-    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
-    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-
-    private Const() {
-        // Utility class containing constants
-    }
 }

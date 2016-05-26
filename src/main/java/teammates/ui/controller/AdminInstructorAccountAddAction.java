@@ -17,14 +17,14 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -101,7 +101,8 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
             StringBuilder errorMessage = new StringBuilder(100);
-            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            errorMessage.append(retryLink);
             
             statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
             

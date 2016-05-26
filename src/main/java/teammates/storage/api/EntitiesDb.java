@@ -7,12 +7,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -25,6 +19,12 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
 
 public abstract class EntitiesDb {
 

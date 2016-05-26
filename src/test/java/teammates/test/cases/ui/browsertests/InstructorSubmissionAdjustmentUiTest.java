@@ -30,7 +30,7 @@ import teammates.test.util.Priority;
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
     

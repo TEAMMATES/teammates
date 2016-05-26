@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
 public final class FeedbackSessionTemplates {
     private static final Map<String, String> TEMPLATES = createSessionTemplatesMap();

@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
     private String feedbackSessionName;
@@ -50,27 +50,27 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     public FeedbackSessionAttributes(FeedbackSession fs) {
-        this.setFeedbackSessionName(fs.getFeedbackSessionName());
-        this.setCourseId(fs.getCourseId());
-        this.setCreatorEmail(fs.getCreatorEmail());
-        this.setInstructions(fs.getInstructions());
-        this.setCreatedTime(fs.getCreatedTime());
-        this.setStartTime(fs.getStartTime());
-        this.setEndTime(fs.getEndTime());
-        this.setSessionVisibleFromTime(fs.getSessionVisibleFromTime());
-        this.setResultsVisibleFromTime(fs.getResultsVisibleFromTime());
-        this.setTimeZone(fs.getTimeZone());
-        this.setGracePeriod(fs.getGracePeriod());
-        this.setFeedbackSessionType(fs.getFeedbackSessionType());
-        this.setSentOpenEmail(fs.isSentOpenEmail());
-        this.setSentPublishedEmail(fs.isSentPublishedEmail());
-        this.setOpeningEmailEnabled(fs.isOpeningEmailEnabled());
-        this.setClosingEmailEnabled(fs.isClosingEmailEnabled());
-        this.setPublishedEmailEnabled(fs.isPublishedEmailEnabled());
-        this.setRespondingInstructorList((fs.getRespondingInstructorList() == null ? new HashSet<String>()
-                                                                                  : fs.getRespondingInstructorList()));
-        this.setRespondingStudentList((fs.getRespondingStudentList() == null ? new HashSet<String>()
-                                                                            : fs.getRespondingStudentList()));
+        this.feedbackSessionName = fs.getFeedbackSessionName();
+        this.courseId = fs.getCourseId();
+        this.creatorEmail = fs.getCreatorEmail();
+        this.instructions = fs.getInstructions();
+        this.createdTime = fs.getCreatedTime();
+        this.startTime = fs.getStartTime();
+        this.endTime = fs.getEndTime();
+        this.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
+        this.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
+        this.timeZone = fs.getTimeZone();
+        this.gracePeriod = fs.getGracePeriod();
+        this.feedbackSessionType = fs.getFeedbackSessionType();
+        this.sentOpenEmail = fs.isSentOpenEmail();
+        this.sentPublishedEmail = fs.isSentPublishedEmail();
+        this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
+        this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
+        this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
+        this.respondingInstructorList = fs.getRespondingInstructorList() == null ? new HashSet<String>()
+                                                                                 : fs.getRespondingInstructorList();
+        this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
+                                                                           : fs.getRespondingStudentList();
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId, 

@@ -8,9 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -18,16 +15,16 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -35,6 +32,9 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+import com.google.gson.Gson;
 
 public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     

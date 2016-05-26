@@ -27,6 +27,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
 
+    public FeedbackMcqQuestionDetails() {
+        super(FeedbackQuestionType.MCQ);
+        
+        this.numOfMcqChoices = 0;
+        this.mcqChoices = new ArrayList<String>();
+        this.otherEnabled = false;
+        this.generateOptionsFor = FeedbackParticipantType.NONE;
+    }
+
     public int getNumOfMcqChoices() {
         return numOfMcqChoices;
     }
@@ -37,15 +46,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public FeedbackParticipantType getGenerateOptionsFor() {
         return generateOptionsFor;
-    }
-
-    public FeedbackMcqQuestionDetails() {
-        super(FeedbackQuestionType.MCQ);
-        
-        this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
-        this.otherEnabled = false;
-        this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
     @Override
@@ -285,7 +285,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
-                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 

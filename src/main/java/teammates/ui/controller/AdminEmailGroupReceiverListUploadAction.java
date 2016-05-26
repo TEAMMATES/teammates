@@ -7,15 +7,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.logic.api.GateKeeper;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class AdminEmailGroupReceiverListUploadAction extends Action {
     

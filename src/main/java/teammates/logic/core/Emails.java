@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -36,19 +34,20 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.EmailTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
  * Handles operations related to sending e-mails.
  */
 public class Emails {
     //TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
-    private static final Logger log = Utils.getLogger();
 
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING = "TEAMMATES: Feedback session now open";
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";
@@ -60,13 +59,15 @@ public class Emails {
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
-            
+    
+    private static final Logger log = Utils.getLogger();
+    
     public static enum EmailType {
         FEEDBACK_CLOSING,
         FEEDBACK_OPENING,
         FEEDBACK_PUBLISHED,
         PENDING_COMMENT_CLEARED
-    };
+    }
     
     private String senderEmail;
     private String senderName;
@@ -201,9 +202,7 @@ public class Emails {
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            List<StudentAttributes> allStudents = studentsLogic.
-                    getStudentsForCourse(session.getCourseId());
-
+            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.getCourseId());
             for (StudentAttributes student : allStudents) {
                 if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(
                         session.getFeedbackSessionName(), session.getCourseId(),

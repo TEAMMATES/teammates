@@ -238,7 +238,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
-        switch(generateOptionsFor) {
+        switch (generateOptionsFor) {
         case NONE:
             optionList = msqChoices;
             break;
@@ -305,7 +305,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
-                "${checkedOtherOptionEnabled}", (otherEnabled ? "checked" : ""),
+                "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked", 

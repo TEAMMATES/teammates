@@ -42,6 +42,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         try {
@@ -117,7 +118,7 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) { // NOPMD, used as fallback
+        } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
