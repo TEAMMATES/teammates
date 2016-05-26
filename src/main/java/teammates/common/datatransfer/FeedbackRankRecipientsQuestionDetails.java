@@ -50,22 +50,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment = 
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                        "${qnIdx}", Integer.toString(qnIdx),
-                        "${responseIdx}", Integer.toString(responseIdx),
+                        Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        "${disabled}", sessionIsOpen ? "" : "disabled",
-                        "${rankOptionVisibility}", "style=\"display:none\"",
+                        Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
-                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${rankOptionVisibility}", "style=\"display:none\"",
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -86,22 +86,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment = 
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                        "${qnIdx}", Integer.toString(qnIdx),
-                        "${responseIdx}", Integer.toString(responseIdx),
+                        Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        "${disabled}", sessionIsOpen ? "" : "disabled",
-                        "${rankOptionVisibility}", "style=\"display:none\"",
+                        Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
-                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${rankOptionVisibility}", "style=\"display:none\"",
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                             "${rankToRecipientsValue}", "true",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,

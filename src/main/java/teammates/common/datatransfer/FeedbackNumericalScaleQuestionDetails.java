@@ -72,18 +72,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${minScale}", Integer.toString(minScale),
-                "${maxScale}", Integer.toString(maxScale),
-                "${step}", StringHelper.toDecimalFormatString(step),
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.MIN_SCALE, Integer.toString(minScale),
+                Const.FeedbackQuestion.MAX_SCALE, Integer.toString(maxScale),
+                Const.FeedbackQuestion.STEP, StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", numscaleResponseDetails.getAnswerString(),
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
+                Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
     @Override
@@ -91,15 +91,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${responseIdx}", Integer.toString(responseIdx),
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
                 "${step}", StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", "",
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);

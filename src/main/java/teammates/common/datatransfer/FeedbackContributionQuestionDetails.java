@@ -79,10 +79,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
     }
 
@@ -94,10 +94,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
     }
 

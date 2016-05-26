@@ -26,6 +26,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
+    
+    public FeedbackMcqQuestionDetails() {
+        super(FeedbackQuestionType.MCQ);
+        
+        this.numOfMcqChoices = 0;
+        this.mcqChoices = new ArrayList<String>();
+        this.otherEnabled = false;
+        this.generateOptionsFor = FeedbackParticipantType.NONE;
+    }
 
     public int getNumOfMcqChoices() {
         return numOfMcqChoices;
@@ -37,15 +46,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public FeedbackParticipantType getGenerateOptionsFor() {
         return generateOptionsFor;
-    }
-
-    public FeedbackMcqQuestionDetails() {
-        super(FeedbackQuestionType.MCQ);
-        
-        this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
-        this.otherEnabled = false;
-        this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
     @Override
@@ -144,24 +144,24 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${disabled}", sessionIsOpen ? "" : "disabled",
-                            "${checked}", existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
-                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.CHECKED, existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${disabled}", sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
-                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
@@ -185,11 +185,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${disabled}", sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${checked}", "",
-                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${mcqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -198,12 +198,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment = 
                        FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${disabled}", sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", "disabled",
                             "${checked}", "",
-                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", "",
                             "${mcqOtherOptionAnswer}", "0");

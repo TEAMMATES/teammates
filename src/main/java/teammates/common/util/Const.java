@@ -277,19 +277,35 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final String QUESTION_INDEX = "${qnIdx}"; 
+        public static final String RESPONSE_INDEX = "${responseIdx}";
+        public static final String DISABLED = "${disabled}";
+        public static final String FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
+        public static final String CHECKED = "${checked}";
+        public static final String OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
     
         // Mcq
+        public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
         public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ 
                                                           + ". Minimum number of options is: ";
         public static final String MCQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
         
         // Msq
+        public static final String MSQ_CHOICE_VALUE= "${msqChoiceValue}";
+        public static final String MSQ_CHOICE_TEXT = "${msqChoiceText}";
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         
         // Numscale
+        public static final String MIN_SCALE = "${minScale}";
+        public static final String MAX_SCALE = "${maxScale}";
+        public static final String STEP = "${step}";
+        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}";
+        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}";
+        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_STEP = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}";
         public static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         public static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
@@ -304,6 +320,17 @@ public final class Const {
                 + " These values will be used instead.";
         
         // Constant sum
+        public static final String OPTION_INDEX = "${optionIdx}";
+        public static final String CONST_SUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
+        public static final String CONST_SUM_OPTION_POINT = "${constSumOptionPoint}";
+        public static final String CONST_SUM_OPTION_VALUE = "${constSumOptionValue}";
+        public static final String CONST_SUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+        public static final String CONST_SUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
+        public static final String CONST_SUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
+        public static final String CONST_SUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
+        public static final String CONST_SUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+        
+        
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
         public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
@@ -312,7 +339,19 @@ public final class Const {
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     
+        //Rank
+        public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";
+        public static final String RANK_OPTION_VALUE = "${rankOptionValue}";
+        
         // Rubric
+        public static final String CURRENT_ROWS ="${currRows}";
+        public static final String CURRENT_COLS = "${currCols}";
+        public static final String TABLE_HEADER_ROW_FRAGMENT_HTML= "${tableHeaderRowFragmentHtml}";
+        public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
+        public static final String ROW = "${row}";
+        public static final String COL = "${col}";
+        public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
+        
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
         public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;

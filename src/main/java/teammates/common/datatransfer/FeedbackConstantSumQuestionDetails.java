@@ -28,22 +28,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public boolean pointsPerOption;
     public boolean forceUnevenDistribution;
     public int points;
-    
-    private String QUESTION_INDEX = "${qnIdx}"; 
-    private String RESPONSE_INDEX = "${responseIdx}";
-    private String OPTION_INDEX = "${optionIdx}";
-    private String DISABLED = "${disabled}";
-    private String CONST_SUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
-    private String CONST_SUM_OPTION_POINT = "${constSumOptionPoint}";
-    private String CONST_PARAMSNAMES_FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
-    private String CONST_SUM_OPTION_VALUE = "${constSumOptionValue}";
-    private String OPTION_RECIEPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
-    private String CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMPOINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
-    private String CONST_SUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
-    private String CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
-    private String CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
-    private String CONST_PARAMSNAME_FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
-    
+
     public FeedbackConstantSumQuestionDetails() {
         super(FeedbackQuestionType.CONSTSUM);
         
@@ -171,27 +156,27 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                            QUESTION_INDEX, Integer.toString(qnIdx),
-                            RESPONSE_INDEX, Integer.toString(responseIdx),
-                            OPTION_INDEX, "0",
-                            DISABLED, sessionIsOpen ? "" : "disabled",
-                            CONST_SUM_OPTION_VISIBILITY, "style=\"display:none\"",
-                            CONST_SUM_OPTION_POINT, existingConstSumResponse.getAnswerString(),
-                            CONST_PARAMSNAMES_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            CONST_SUM_OPTION_VALUE, "");
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.OPTION_INDEX, "0",
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, "style=\"display:none\"",
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_POINT, existingConstSumResponse.getAnswerString(),
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE, "");
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                                QUESTION_INDEX, Integer.toString(qnIdx),
-                                RESPONSE_INDEX, Integer.toString(responseIdx),
-                                OPTION_INDEX, Integer.toString(i),
-                                DISABLED, sessionIsOpen ? "" : "disabled",
-                                CONST_SUM_OPTION_VISIBILITY, "",
-                                CONST_SUM_OPTION_POINT, Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
-                                CONST_PARAMSNAMES_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                Const.FeedbackQuestion.OPTION_INDEX, Integer.toString(i),
+                                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, "",
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_POINT, Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
+                                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -199,19 +184,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
-                QUESTION_INDEX, Integer.toString(qnIdx),
-                RESPONSE_INDEX, Integer.toString(responseIdx),
-                CONST_SUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
-                CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                CONST_PARAMSNAME_FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                Const.FeedbackQuestion.CONST_SUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                Const.FeedbackQuestion.CONST_SUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Const.FeedbackQuestion.CONST_SUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
 
@@ -225,27 +210,27 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                            QUESTION_INDEX, Integer.toString(qnIdx),
-                            RESPONSE_INDEX, Integer.toString(responseIdx),
-                            OPTION_INDEX, "0",
-                            DISABLED, sessionIsOpen ? "" : "disabled",
-                            CONST_SUM_OPTION_VISIBILITY, "style=\"display:none\"",
-                            CONST_SUM_OPTION_POINT, "",
-                            CONST_PARAMSNAMES_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            CONST_SUM_OPTION_VALUE, "");
+                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.OPTION_INDEX, "0",
+                            Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, "style=\"display:none\"",
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_POINT, "",
+                            Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE, "");
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                                QUESTION_INDEX, Integer.toString(qnIdx),
-                                RESPONSE_INDEX, Integer.toString(responseIdx),
-                                OPTION_INDEX, Integer.toString(i),
-                                DISABLED, sessionIsOpen ? "" : "disabled",
-                                CONST_SUM_OPTION_VISIBILITY, "",
-                                CONST_SUM_OPTION_POINT, "",
-                                CONST_PARAMSNAMES_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                Const.FeedbackQuestion.OPTION_INDEX, Integer.toString(i),
+                                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, "",
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_POINT, "",
+                                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -253,19 +238,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
-                QUESTION_INDEX, Integer.toString(qnIdx),
-                RESPONSE_INDEX, Integer.toString(responseIdx),
-                CONST_SUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
-                CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
+                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Const.FeedbackQuestion.CONST_SUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                CONST_PARAMSNAME_FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                Const.FeedbackQuestion.CONST_SUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                Const.FeedbackQuestion.CONST_SUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Const.FeedbackQuestion.CONST_SUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
 
@@ -277,7 +262,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
+                            Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -289,16 +274,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
-                CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
                 "${constSumOptionTableVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
                 "${constSumPoints}", points == 0 ? "100" : Integer.toString(points),
-                OPTION_RECIEPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
+                Const.FeedbackQuestion.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                CONST_PARAMSNAME_FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                CONST_PARAMSNAMES_FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+                Const.FeedbackQuestion.CONST_SUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                Const.FeedbackQuestion.CONST_SUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                Const.FeedbackQuestion.CONST_SUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Const.FeedbackQuestion.CONST_SUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
     }
 
@@ -384,7 +369,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
+                        Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average)));
@@ -393,7 +378,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                                    CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
+                                    Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average)));
             }
@@ -401,11 +386,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         if (distributeToRecipients) {
             return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
-                    OPTION_RECIEPIENT_DISPLAY_NAME, "Recipient",
+                    Const.FeedbackQuestion.OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                     "${fragments}", fragments.toString());
         }
         return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
-                OPTION_RECIEPIENT_DISPLAY_NAME, "Option",
+                Const.FeedbackQuestion.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 "${fragments}", fragments.toString());
     }
 
