@@ -1,7 +1,4 @@
-$(document).ready(function() {
-    var classNameForCommentsInFeedbackResponse = 'list-group-item list-group-item-warning giver_display-by';
-    var classNameForCommentsInStudentRecords = 'panel panel-info student-record-comments giver_display-by';
-    
+$(document).ready(function() {    
     function isRedirectToSpecificComment() {
         return location.href.indexOf('#') !== -1;
     }
