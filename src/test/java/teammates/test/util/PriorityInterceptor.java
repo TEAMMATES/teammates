@@ -27,6 +27,7 @@ import teammates.common.util.FileHelper;
 
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
+    
     static {
         try {
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml");
