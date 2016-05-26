@@ -178,8 +178,7 @@ public abstract class FeedbackQuestionDetails {
     }
     
     /**
-     * returns true if 'No Response' to be displayed in the Response rows
-     * Used to construct missing response rows between the recipient and possible givers.
+     * @return true if 'No Response' is to be displayed in the Response rows.
      */
     public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
