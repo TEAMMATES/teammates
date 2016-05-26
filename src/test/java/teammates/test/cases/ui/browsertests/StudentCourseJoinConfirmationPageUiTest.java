@@ -137,7 +137,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         studentHomePage.logout();
     }
 
-    private void testContent(){
+    private void testContent() {
         
         /*covered in testJoinConfirmation()
          *case: click join link then confirm: success: valid key

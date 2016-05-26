@@ -136,9 +136,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackResponsesDb.
-                    ERROR_CREATE_ENTITY_ALREADY_EXISTS, fra.getEntityTypeAsString())
-                    + fra.getIdentificationString(), e.getMessage());
+            AssertHelper.assertContains(String.format(FeedbackResponsesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      fra.getEntityTypeAsString())
+                                            + fra.getIdentificationString(),
+                                        e.getMessage());
         }
         
         ______TS("delete - with id specified");

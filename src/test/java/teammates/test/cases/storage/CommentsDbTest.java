@@ -93,8 +93,10 @@ public class CommentsDbTest extends BaseComponentTestCase {
         anotherRetrievedComment = commentsDb.getComment(retrievedComment);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.status).get(0);
+        anotherRetrievedComment =
+                commentsDb.getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail,
+                                                        retrievedComment.status)
+                          .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         retrievedComment.status = CommentStatus.DRAFT;
@@ -105,24 +107,27 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.showCommentTo.add(CommentParticipantType.COURSE);
         commentsDb.updateComment(retrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentDrafts(retrievedComment.giverEmail).get(0);
+        anotherRetrievedComment = commentsDb.getCommentDrafts(retrievedComment.giverEmail).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.PERSON).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.PERSON)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.TEAM).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.TEAM)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.SECTION).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.SECTION)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.COURSE).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.COURSE)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         ______TS("non existant comment case");
