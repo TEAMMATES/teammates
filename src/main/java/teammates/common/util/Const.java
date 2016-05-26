@@ -12,8 +12,106 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * this class contains several nested classes, each containing a specific
  * category of constants.
  */
-@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class Const {
+    
+    /* 
+     * This section holds constants that are defined as constants primarily 
+     * because they are repeated in many places.
+     */
+    public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
+    
+    public static final String USER_NOBODY_TEXT = "-";
+    public static final String USER_UNKNOWN_TEXT = "Unknown user";
+    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    public static final String REGEXP_TEAM = String.format("^.*%s$", TEAM_OF_EMAIL_OWNER);
+    
+    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
+    public static final String NONE_OF_THE_ABOVE = "None of the above";
+
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
+    
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
+    
+    public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
+    public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
+    
+    public static final String USER_NAME_FOR_SELF = "Myself";
+    public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    
+    public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
+    public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
+    
+    // for course sorting in instructorHomePage
+    public static final String SORT_BY_COURSE_ID = "id";
+    public static final String SORT_BY_COURSE_NAME = "name";
+    public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
+    public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
+    
+    // used for instructor details single line form
+    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
+    
+    public static final String DEFAULT_SECTION = "None";
+    
+    public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
+    
+    /* 
+     * These constants are used as variable values to mean that the variable 
+     * is in a 'special' state.
+     */
+    public static final int INT_UNINITIALIZED = -9999;
+    public static final double DOUBLE_UNINITIALIZED = -9999.0;
+    
+    public static final int MAX_POSSIBLE_RECIPIENTS = -100;
+    
+    public static final int POINTS_EQUAL_SHARE = 100;
+    public static final int POINTS_NOT_SURE = -101;
+    public static final int POINTS_NOT_SUBMITTED = -999;
+    
+    public static final int VISIBILITY_TABLE_GIVER = 0;
+    public static final int VISIBILITY_TABLE_RECIPIENT = 1;
+    
+    public static final String GENERAL_QUESTION = "%GENERAL%";
+    public static final String USER_IS_TEAM = "%TEAM%";
+    public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
+    
+    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
+    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
+    public static final Date TIME_REPRESENTS_NEVER;
+    public static final Date TIME_REPRESENTS_LATER;
+    public static final Date TIME_REPRESENTS_NOW;
+    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+      
+    static {
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
+        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
+        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
+        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
+    }
+    
+    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
+    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
+    
+    /* 
+     * Other Constants
+     */
+    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
+    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
+
+    private Const() {
+        // Utility class containing constants
+    }
     
     public static class SystemParams {
 
@@ -1141,98 +1239,4 @@ public final class Const {
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
 
-    /* This section holds constants that are defined as constants primarily 
-     * because they are repeated in many places.
-     */
-    public static final String EOL = System.getProperty("line.separator");
-    public static final String HTML_BR_TAG = "<br>";
-    
-    public static final String USER_NOBODY_TEXT = "-";
-    public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
-    public static final String REGEXP_TEAM = String.format("^.*%s$", TEAM_OF_EMAIL_OWNER);
-    
-    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
-    public static final String NONE_OF_THE_ABOVE = "None of the above";
-
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
-    
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
-    
-    public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
-    public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
-    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
-    
-    public static final String USER_NAME_FOR_SELF = "Myself";
-    public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
-    
-    public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-    public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
-    
-    //for course sorting in instructorHomePage
-    public static final String SORT_BY_COURSE_ID = "id";
-    public static final String SORT_BY_COURSE_NAME = "name";
-    public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
-    public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
-    
-    // used for instructor details single line form
-    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
-    
-    public static final String DEFAULT_SECTION = "None";
-    
-    public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
-    
-    /* These constants are used as variable values to mean that the variable 
-     * is in a 'special' state.
-     */
-    public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
-    
-    public static final int MAX_POSSIBLE_RECIPIENTS = -100;
-    
-    public static final int POINTS_EQUAL_SHARE = 100;
-    public static final int POINTS_NOT_SURE = -101;
-    public static final int POINTS_NOT_SUBMITTED = -999;
-    
-    public static final int VISIBILITY_TABLE_GIVER = 0;
-    public static final int VISIBILITY_TABLE_RECIPIENT = 1;
-    
-    public static final String GENERAL_QUESTION = "%GENERAL%";
-    public static final String USER_IS_TEAM = "%TEAM%";
-    public static final String USER_IS_NOBODY = "%NOBODY%";
-    public static final String USER_IS_MISSING = "%MISSING%";
-    
-    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
-    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Date TIME_REPRESENTS_NEVER;
-    public static final Date TIME_REPRESENTS_LATER;
-    public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-      
-    static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
-    }
-    
-    /* Other Constants
-     */
-    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
-    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
-    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
-    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-
-    private Const() {
-        // Utility class containing constants
-    }
 }
