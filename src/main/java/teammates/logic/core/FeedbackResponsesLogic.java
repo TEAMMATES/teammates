@@ -344,12 +344,10 @@ public class FeedbackResponsesLogic {
                 || question.recipientType.equals(FeedbackParticipantType.GIVER)  
                    && question.giverType.equals(FeedbackParticipantType.STUDENTS); 
                                         
-        if (isStudentRecipientType
-                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (isStudentRecipientType && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.recipientType.isTeam()
-                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (question.recipientType.isTeam() && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
         if (question.giverType == FeedbackParticipantType.TEAMS

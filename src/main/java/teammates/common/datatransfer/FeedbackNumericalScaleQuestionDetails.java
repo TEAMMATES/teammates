@@ -375,8 +375,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         // Replace general identifier with "General"
-        if (!isHiddenRecipient && !isRecipientCurrentUser 
-                && hasAtLeastTwoResponsesOtherThanCurrentUser) {
+        if (!isHiddenRecipient && !isRecipientCurrentUser && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return isRecipientGeneral ? "General" : recipientName;
         }
         return null;
@@ -393,8 +392,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         // Display other recipients' team name
-        if (!isHiddenRecipient && !isRecipientCurrentUser
-                && hasAtLeastTwoResponsesOtherThanCurrentUser) {
+        if (!isHiddenRecipient && !isRecipientCurrentUser && hasAtLeastTwoResponsesOtherThanCurrentUser) {
             return recipientTeamName;
         }
         return null;

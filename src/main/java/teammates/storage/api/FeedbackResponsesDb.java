@@ -700,8 +700,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackResponseId == feedbackResponseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses =
-                (List<FeedbackResponse>) q.execute(feedbackResponseId);
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(feedbackResponseId);
         
         if (feedbackResponses.isEmpty() || JDOHelper.isDeleted(feedbackResponses.get(0))) {
             return null;
@@ -766,8 +765,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses =
-                (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
         return feedbackResponses;
     }
@@ -781,8 +779,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setRange(0, range + 1);
 
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses =
-                (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
         return feedbackResponses;
     }
@@ -1055,8 +1052,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses =
-                (List<FeedbackResponse>) q.execute(courseId, receiver);
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId, receiver);
         
         return feedbackResponses;
     }
@@ -1069,8 +1065,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponses =
-                (List<FeedbackResponse>) q.execute(courseId, giverEmail);
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId, giverEmail);
         
         return feedbackResponses;
     }

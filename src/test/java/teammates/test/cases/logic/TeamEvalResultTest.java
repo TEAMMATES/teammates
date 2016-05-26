@@ -119,45 +119,45 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { NSU, NSU, NSU, NSU },
                 { NSB, NSB, NSB, NSB },
 
-                { NA, NA, NA, NA }, 
-                { NA, NA, NA, NA },
-                { NA, NA, NA, NA },
-                { NA, NA, NA, NA },
+                {  NA,  NA,  NA,  NA }, 
+                {  NA,  NA,  NA,  NA },
+                {  NA,  NA,  NA,  NA },
+                {  NA,  NA,  NA,  NA },
 
-                { NA, NA, NA, NA },
+                {  NA,  NA,  NA,  NA },
 
-                { NA, NA, NA, NA }, 
-                { NA, NA, NA, NA },
-                { NA, NA, NA, NA },
-                { NA, NA, NA, NA }
+                {  NA,  NA,  NA,  NA }, 
+                {  NA,  NA,  NA,  NA },
+                {  NA,  NA,  NA,  NA },
+                {  NA,  NA,  NA,  NA }
         };
 
         verifyCalculatePoints(input4, expected4);
 
         int[][] input5 = {
-                { 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 }
+                {  0,  0,  0,  0 }, 
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 }
         };
 
         int[][] expected5 = {
-                { 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 },
+                {  0,  0,  0,  0 }, 
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 },
 
                 { NA,  0,  0,  0 }, 
                 {  0, NA,  0,  0 },
                 {  0,  0, NA,  0 },
                 {  0,  0,  0, NA },
 
-                { 0, 0, 0, 0 },
+                {  0,  0,  0,  0 },
 
-                { 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 }
+                {  0,  0,  0,  0 }, 
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 },
+                {  0,  0,  0,  0 }
         };
         verifyCalculatePoints(input5, expected5);
 
@@ -174,17 +174,17 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { NSB, NSB, NSB, NSB },
                 {   0,   0, NSU, NSU },
 
-                { NA,  0,  0, NA }, 
-                {  0, NA,  0, NA },
-                { NA, NA, NA, NA },
-                {  0,  0, NA, NA },
+                {  NA,   0,   0,  NA }, 
+                {   0,  NA,   0,  NA },
+                {  NA,  NA,  NA,  NA },
+                {   0,   0,  NA,  NA },
 
-                { 0, 0, 0, NA },
+                {   0,   0,   0,  NA },
 
-                { 0, 0, 0, NA }, 
-                { 0, 0, 0, NA },
-                { 0, 0, 0, NA },
-                { 0, 0, 0, NA }
+                {   0,   0,   0,  NA }, 
+                {   0,   0,   0,  NA },
+                {   0,   0,   0,  NA },
+                {   0,   0,   0,  NA }
         };
         verifyCalculatePoints(input6, expected6);
         
@@ -207,8 +207,8 @@ public class TeamEvalResultTest extends BaseTestCase {
                 {  NA,  50, 150 },
 
                 {  NA,  25,  75 }, 
-                {  NA,  50,  150 },
-                {  NA,  50,  150 }
+                {  NA,  50, 150 },
+                {  NA,  50, 150 }
         };
 
         verifyCalculatePoints(input7, expected7);
@@ -229,7 +229,7 @@ public class TeamEvalResultTest extends BaseTestCase {
                 {  NA,  NA,  NA },
                 {  NA,  NA,  NA },
 
-                {  NA,  NA, NA },
+                {  NA,  NA,  NA },
 
                 {  NA,  NA,  NA }, 
                 {  NA,  NA,  NA },
@@ -241,7 +241,7 @@ public class TeamEvalResultTest extends BaseTestCase {
         //TODO: special treatment for two-person teams?
         int[][] input9 = {
                 {  50, 150 }, 
-                {  80, 80 }
+                {  80,  80 }
         };
 
         int[][] expected9 = {
@@ -251,9 +251,9 @@ public class TeamEvalResultTest extends BaseTestCase {
                 {  NA, 100 }, 
                 { 100,  NA },
 
-                {  100,  100 },
+                { 100, 100 },
 
-                {  100,  100 }, 
+                { 100, 100 }, 
                 {  80,  80 }
         };
         verifyCalculatePoints(input9, expected9);
@@ -280,7 +280,7 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { 101,  NA,  NA },
                 { 106,  95,  NA },
 
-                { 103,  100,  96 },
+                { 103, 100,  96 },
 
                 { 103, 100,  96 }, 
                 { 101,  99,  94 },
