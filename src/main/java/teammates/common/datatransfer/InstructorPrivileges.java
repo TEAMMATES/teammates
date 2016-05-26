@@ -80,10 +80,6 @@ public final class InstructorPrivileges {
         customPrivileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
     }
 
-    private HashMap<String, Boolean> courseLevel;
-    private HashMap<String, HashMap<String, Boolean>> sectionLevel;
-    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> sessionLevel;
-    
     private static final String[] courseLevelOnlyList = new String[] {
         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
@@ -108,20 +104,9 @@ public final class InstructorPrivileges {
     private static final HashSet<String> SECTION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(sectionLevelOnlyList));
     private static final HashSet<String> SESSION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(sessionLevelOnlyList));
     
-    public static boolean isPrivilegeNameValid(String privilegeName) {
-        return COURSE_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
-                || SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
-                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
-    }
-    
-    public static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
-        return SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
-                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
-    }
-    
-    public static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
-        return SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
-    }
+    private HashMap<String, Boolean> courseLevel;
+    private HashMap<String, HashMap<String, Boolean>> sectionLevel;
+    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> sessionLevel;
     
     public InstructorPrivileges() {
         this.courseLevel = new HashMap<String, Boolean>();
@@ -151,6 +136,21 @@ public final class InstructorPrivileges {
             setDefaultPrivilegesForCustom();
             break;
         }
+    }
+    
+    public static boolean isPrivilegeNameValid(String privilegeName) {
+        return COURSE_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
+    }
+    
+    public static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
+        return SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
+    }
+    
+    public static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
+        return SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
     
     public void setDefaultPrivilegesForCoowner() {

@@ -39,8 +39,6 @@ public class PageData {
     
     protected static final Logger log = Utils.getLogger();
     
-    public static final String DISABLED = " disabled\" onclick=\"return false\"";
-
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;

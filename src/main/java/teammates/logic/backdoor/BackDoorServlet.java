@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -132,7 +134,7 @@ public class BackDoorServlet extends HttpServlet {
     }
 
     private String executeBackendAction(HttpServletRequest req, String action)
-            throws Exception {
+            throws EntityDoesNotExistException, InvalidParametersException, IOException {
         // TODO: reorder in alphabetical order
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
@@ -272,7 +274,7 @@ public class BackDoorServlet extends HttpServlet {
             FeedbackResponseAttributes fr = backDoorLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
             backDoorLogic.deleteFeedbackResponse(fr);
         } else {
-            throw new Exception("Unknown command: " + action);
+            throw new InvalidParametersException("Unknown command: " + action);
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }

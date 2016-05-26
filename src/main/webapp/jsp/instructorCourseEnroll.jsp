@@ -50,7 +50,7 @@
             <li><span class="moreInfoPointTitle">Sample spreadsheet</span>
                 <div class="moreInfoPointDetails">
                     If you are not sure about the format of the spreadsheet, 
-                    <a id ="spreadsheet_download" href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv">here</a> is a sample file.
+                    <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing">here</a> is a sample file.
                 </div>
             </li>
             <li><span class="moreInfoPointTitle">Column headings</span>

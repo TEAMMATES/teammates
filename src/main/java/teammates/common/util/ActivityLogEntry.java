@@ -18,6 +18,19 @@ import com.google.appengine.api.log.AppLogLine;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
+    
+    public static String[] automatedActions = {
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
+
+    };
+    
     // The following constants describe the positions of the attributes
     // in the log message. i.e
     // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
@@ -35,6 +48,10 @@ public class ActivityLogEntry {
     
     private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
 
+    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
+    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
+    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
+    
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -52,26 +69,10 @@ public class ActivityLogEntry {
     
     private boolean isFirstRow;
     
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // used by js
     private String logInfoAsHtml;
     
     private String[] keyStringsToHighlight;
-    
-    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
-    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
-    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
-    
-    public static String[] automatedActions = {
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
-
-    };
     
     /**
      * Constructor that creates a empty ActivityLog
@@ -109,60 +110,6 @@ public class ActivityLogEntry {
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
 
-    private void initUsingAppLogMessage(String[] tokens) {
-        servletName = tokens[POSITION_OF_SERVLETNAME];
-        action = tokens[POSITION_OF_ACTION];
-        toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
-        role = tokens[POSITION_OF_ROLE];
-        name = tokens[POSITION_OF_NAME];
-        googleId = tokens[POSITION_OF_GOOGLEID];            
-        email = tokens[POSITION_OF_EMAIL];
-        message = tokens[POSITION_OF_MESSAGE];
-        url = tokens[POSITION_OF_URL];
-        
-        boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
-        if (isLogWithTimeTakenAndId) {
-            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId) 
-                                 || tokens[POSITION_OF_ID].contains("%"));
-            //TODO the branch for old logs can be removed after V5.64
-            // this branch is needed to support older style logs when we did not have the log id  
-            if (isOldLog) {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
-                timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
-            } else {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
-                id = tokens[POSITION_OF_ID];
-                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim()) 
-                                                : null;
-            }                                           
-        }
-    }
-
-    private void initAsFailure(AppLogLine appLog, Exception e) {
-        servletName = "Unknown";
-        action = "Unknown";
-        role = "Unknown";
-        name = "Unknown";
-        googleId = "Unknown";
-        email = "Unknown";
-        toShow = true;
-        message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
-                + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
-        url = "Unknown";
-        id = "Unknown" + "%" + formatTimeForId(new Date(time));
-        timeTaken = null;
-    }
-
-    private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
-        for (String name : automatedActions) {
-            if (name.toLowerCase().contains(servletName.toLowerCase())) {
-                return "Auto";
-            }
-        }
-        
-        return role;
-    }
-    
     /**
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
@@ -264,6 +211,60 @@ public class ActivityLogEntry {
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
         id = generateLogId(googleId, unregisteredStudent, time);
+    }
+    
+    private void initUsingAppLogMessage(String[] tokens) {
+        servletName = tokens[POSITION_OF_SERVLETNAME];
+        action = tokens[POSITION_OF_ACTION];
+        toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
+        role = tokens[POSITION_OF_ROLE];
+        name = tokens[POSITION_OF_NAME];
+        googleId = tokens[POSITION_OF_GOOGLEID];            
+        email = tokens[POSITION_OF_EMAIL];
+        message = tokens[POSITION_OF_MESSAGE];
+        url = tokens[POSITION_OF_URL];
+        
+        boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
+        if (isLogWithTimeTakenAndId) {
+            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId) 
+                                 || tokens[POSITION_OF_ID].contains("%"));
+            //TODO the branch for old logs can be removed after V5.64
+            // this branch is needed to support older style logs when we did not have the log id  
+            if (isOldLog) {
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+                timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
+            } else {
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                id = tokens[POSITION_OF_ID];
+                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim()) 
+                                                : null;
+            }                                           
+        }
+    }
+
+    private void initAsFailure(AppLogLine appLog, Exception e) {
+        servletName = "Unknown";
+        action = "Unknown";
+        role = "Unknown";
+        name = "Unknown";
+        googleId = "Unknown";
+        email = "Unknown";
+        toShow = true;
+        message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
+                + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+        url = "Unknown";
+        id = "Unknown" + "%" + formatTimeForId(new Date(time));
+        timeTaken = null;
+    }
+
+    private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
+        for (String name : automatedActions) {
+            if (name.toLowerCase().contains(servletName.toLowerCase())) {
+                return "Auto";
+            }
+        }
+        
+        return role;
     }
     
     private String formatTimeForId(Date date) {

@@ -17,6 +17,9 @@ import com.google.gson.JsonParser;
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
+    
+    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
+    
     private static Gson gson = Utils.getTeammatesGson();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
@@ -31,8 +34,6 @@ public class InstructorAttributes extends EntityAttributes {
     public String displayedName;
 
     public InstructorPrivileges privileges;
-    
-    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
     /**
      * Creates a new instructor with default access level and default displayedName
