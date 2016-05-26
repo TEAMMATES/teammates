@@ -32,8 +32,6 @@ import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
     
-    private static final int PERSISTENCE_WAITING_DURATION = 4000;
-    
     @Override
     protected ActionResult execute() {
 
@@ -194,17 +192,15 @@ public class AdminInstructorAccountAddAction extends Action {
             backdoor.persistDataBundle(data);        
         } catch (EntityDoesNotExistException e) {
             int elapsedTime = 0;
-            if (PERSISTENCE_WAITING_DURATION > 0) {
-                while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                    ThreadHelper.waitBriefly();
-                    elapsedTime += ThreadHelper.WAIT_DURATION;
-                }
-                
-                backdoor.persistDataBundle(data);   
-                log.warning("Data Persistence was Checked Twice in This Request");
+            
+            while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                ThreadHelper.waitBriefly();
+                elapsedTime += ThreadHelper.WAIT_DURATION;
             }
+            
+            backdoor.persistDataBundle(data);   
+            log.warning("Data Persistence was Checked Twice in This Request");
         }
-        
         
         //produce searchable documents
         List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
