@@ -228,8 +228,12 @@ $(document).ready(function() {
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
             // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
-            // comment list region row to the giver recipient row  
-            commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().show();
+            // comment list region row to the giver recipient row
+            // The following statement shows the rows between comment list region row and giver recipient row
+            // including the comment list region row and giver recipient row.
+            // See stackoverflow post: http://stackoverflow.com/questions/2770588/jquery-prevuntil-include-start-selector-and-end-selecter
+            commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row')
+                    .addBack().prev('.feedback-response-giver-recipient-row').addBack().show();
             var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
             feedbackQuestion.show();
                     
@@ -251,8 +255,12 @@ $(document).ready(function() {
             if (commentToHide.parent().find('li[style*="display: none"]').length === commentToHide.parent().find('li').length) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
                 // a fbResponse in instructorCommentsPage consists of the 4 table rows from the 
-                // comment list region row to the giver recipient row  
-                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row').addBack().hide();
+                // comment list region row to the giver recipient row 
+                // The following statement hides the rows between comment list region row and giver recipient row
+                // including the comment list region row and giver recipient row.
+                // See stackoverflow post: http://stackoverflow.com/questions/2770588/jquery-prevuntil-include-start-selector-and-end-selecter
+                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row')
+                        .addBack().prev('.feedback-response-giver-recipient-row').addBack().hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
