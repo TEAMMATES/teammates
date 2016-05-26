@@ -51,6 +51,25 @@ import teammates.storage.api.StudentsDb;
 
 public class FeedbackSessionsLogic {
 
+    private static final String ERROR_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
+    private static final String ERROR_SENDING_EMAILS = "Error while sending emails :";
+
+    private static final String SESSION_UNPUBLISH_ALREADY = "Session is already unpublished.";
+    private static final String SESSION_UNPUBLISH_PRIVATE = "Private session can't be unpublished.";
+    private static final String SESSION_UNPUBLISH_NON_EXISTENT = "Trying to unpublish a non-existant session.";
+
+    private static final String SESSION_PUBLISH_ALREADY = "Session is already published.";
+    private static final String SESSION_PUBLISH_PRIVATE = "Private session can't be published.";
+    private static final String SESSION_PUBLISH_NON_EXISTENT = "Trying to publish a non-existant session.";
+
+    private static final String NON_EXISTENT_SESSION_CHECK = "Trying to check a feedback session that does not exist.";
+    private static final String NON_EXISTENT_SESSION_COURSE = "Trying to get feedback sessions for a course that does not exist.";
+    private static final String NON_EXISTENT_SESSION_GET = "Trying to get a feedback session that does not exist.";
+    private static final String NON_EXISTENT_SESSION_REMIND = "Trying to remind non-existent feedback session ";
+    private static final String NON_EXISTENT_SESSION_STUDENT = "Trying to get a feedback session for student that does not exist.";
+    private static final String NON_EXISTENT_SESSION_UPDATE = "Trying to update a feedback session that does not exist.";
+    private static final String NON_EXISTENT_SESSION_VIEW = "Trying to view non-existent feedback session.";
+
     private static FeedbackSessionsLogic instance;
 
     private static final Logger log = Utils.getLogger();
@@ -138,7 +157,7 @@ public class FeedbackSessionsLogic {
 
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to get feedback sessions for a course that does not exist.");
+                    NON_EXISTENT_SESSION_COURSE);
         }
         return getFeedbackSessionsForUserInCourseSkipCheck(courseId, userEmail);
     }
@@ -263,7 +282,7 @@ public class FeedbackSessionsLogic {
 
         if (fsa == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_GET);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -297,7 +316,7 @@ public class FeedbackSessionsLogic {
 
         if (fsa == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_GET);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -376,12 +395,12 @@ public class FeedbackSessionsLogic {
 
         if (fsa == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_GET);
         }
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session for student that does not exist.");
+                    NON_EXISTENT_SESSION_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
@@ -417,13 +436,13 @@ public class FeedbackSessionsLogic {
         
         if (fsa == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_GET);
         }
         
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session for student that does not exist.");
+                    NON_EXISTENT_SESSION_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
@@ -543,7 +562,7 @@ public class FeedbackSessionsLogic {
 
         if (session == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to view non-existent feedback session.");
+                    NON_EXISTENT_SESSION_VIEW);
         }
 
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
@@ -819,7 +838,7 @@ public class FeedbackSessionsLogic {
                 indicatedRange, "question");
         
         if (!results.isComplete) {
-            throw new ExceedingRangeException("Number of responses exceeds the limited range");
+            throw new ExceedingRangeException(ERROR_RESPONSES_EXCEEDS_RANGE);
         }
         // sort responses by giver > recipient > qnNumber
         Collections.sort(results.responses,
@@ -1074,7 +1093,7 @@ public class FeedbackSessionsLogic {
             String courseId) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_CHECK);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -1107,7 +1126,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_CHECK);
         }
         
         if (fsa.respondingInstructorList.contains(userEmail)) {
@@ -1133,7 +1152,7 @@ public class FeedbackSessionsLogic {
 
         if (oldSession == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         // These can't be changed anyway. Copy values to defensively avoid
@@ -1263,7 +1282,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.addInstructorRespondant(email, sessionToUpdate);
@@ -1278,7 +1297,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.addInstructorRespondants(emails, sessionToUpdate);
@@ -1292,7 +1311,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.clearInstructorRespondants(sessionToUpdate);        
@@ -1307,7 +1326,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.addStudentRespondant(email, sessionToUpdate);
@@ -1322,7 +1341,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.addStudentRespondants(emails, sessionToUpdate);
@@ -1336,7 +1355,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.clearStudentRespondants(sessionToUpdate);        
@@ -1351,7 +1370,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.deleteInstructorRespondant(email, sessionToUpdate);
@@ -1366,7 +1385,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to update a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_UPDATE);
         }
 
         fsDb.deleteStudentRespondant(email, sessionToUpdate);
@@ -1386,17 +1405,17 @@ public class FeedbackSessionsLogic {
 
         if (sessionToPublish == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to publish a non-existant session.");
+                    SESSION_PUBLISH_NON_EXISTENT);
         }
 
         if (sessionToPublish.isPrivateSession()) {
             throw new InvalidParametersException(
-                    "Private session can't be published.");
+                    SESSION_PUBLISH_PRIVATE);
         }
 
         if (sessionToPublish.isPublished()) {
             throw new InvalidParametersException(
-                    "Session is already published.");
+                    SESSION_PUBLISH_ALREADY);
         }
 
         sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
@@ -1425,17 +1444,17 @@ public class FeedbackSessionsLogic {
 
         if (sessionToUnpublish == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to unpublish a non-existant session.");
+                    SESSION_UNPUBLISH_NON_EXISTENT);
         }
 
         if (sessionToUnpublish.isPrivateSession()) {
             throw new InvalidParametersException(
-                    "Private session can't be unpublished.");
+                    SESSION_UNPUBLISH_PRIVATE);
         }
 
         if (!sessionToUnpublish.isPublished()) {
             throw new InvalidParametersException(
-                    "Session is already unpublished.");
+                    SESSION_UNPUBLISH_ALREADY);
         }
 
         sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
@@ -1447,7 +1466,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to remind non-existent feedback session "
+                    NON_EXISTENT_SESSION_REMIND
                             + courseId + "/" + feedbackSessionName);
         }
 
@@ -1485,7 +1504,7 @@ public class FeedbackSessionsLogic {
                     instructorList);
             emailMgr.sendEmails(emails);
         } catch (Exception e) {
-            throw new RuntimeException("Error while sending emails :", e);
+            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
 
         return emails;
@@ -1495,7 +1514,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to remind non-existent feedback session "
+                    NON_EXISTENT_SESSION_REMIND
                             + courseId + "/" + feedbackSessionName);
         }
 
@@ -1530,7 +1549,7 @@ public class FeedbackSessionsLogic {
                     instructorList);
             emailMgr.sendEmails(emails);
         } catch (Exception e) {
-            throw new RuntimeException("Error while sending emails :", e);
+            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
 
         return emails;
@@ -1731,7 +1750,7 @@ public class FeedbackSessionsLogic {
 
         if (session == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to view non-existent feedback session.");
+                    NON_EXISTENT_SESSION_VIEW);
         }
 
         // create empty data containers to store results
@@ -1866,7 +1885,7 @@ public class FeedbackSessionsLogic {
 
         if (session == null) {
             throw new EntityDoesNotExistException(
-                    "Trying to view non-existent feedback session.");
+                    NON_EXISTENT_SESSION_VIEW);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2450,7 +2469,7 @@ public class FeedbackSessionsLogic {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_CHECK);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2474,7 +2493,7 @@ public class FeedbackSessionsLogic {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
+                    NON_EXISTENT_SESSION_CHECK);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
