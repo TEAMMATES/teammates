@@ -1037,6 +1037,10 @@ public final class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
+        public static final String COURSE_ENROLL_POSSIBLE_DATA_LOSS = "There are existing feedback responses "
+                + "for this course. Modifying records of enrolled students will result in some existing "
+                + "responses from those modified students to be deleted. You may wish to download the data "
+                + "before you make the changes.";
         public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
         public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
         public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
@@ -1204,6 +1208,9 @@ public final class Const {
         public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
                 + "<span class='text-danger text-bold text-large'>%s</span>. " 
                 + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
+                "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
+                + "Enrollment for Course <span class=\"bold\">[%s]</span>";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
