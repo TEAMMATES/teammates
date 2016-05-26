@@ -180,6 +180,8 @@ task updateLibs {
 }
 
 task setup {
+    description "Sets up the project by obtaining necessary files and configurations points."
+    group "Setup"
     dependsOn updateLibs, createConfigs
 }
 
@@ -265,7 +267,8 @@ tasks.withType(FindBugs) {
 }
 
 task downloadStaticAnalysisTools {
-    // This will simply download all the jars needed by the static analysis tools
+    description "Downloads all static analysis tools."
+    group "Static analysis"
     dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty
 }
 
@@ -278,6 +281,8 @@ task staticAnalysisTest {
 }
 
 task staticAnalysis {
+    description "Runs the entire static analysis tasks."
+    group "Static analysis"
     dependsOn eslint, staticAnalysisMain, staticAnalysisTest
 }
 
@@ -350,6 +355,8 @@ test {
 }
 
 task travisTests {
+    description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
+    group "Test"
     dependsOn "test"
 }
 
@@ -414,6 +421,8 @@ task cleanTestOutputDir {
 }
 
 task downloadFailedXml {
+    description "Downloads testng-failed.xml from a failed run in Travis."
+    group "Test"
     onlyIf {
         project.hasProperty("gist")
     }
@@ -437,6 +446,8 @@ jacoco {
 }
 
 jacocoTestReport {
+    description "Runs coverage session from available test run data."
+    group "Test"
     sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
     classDirectories =  files(sourceSets.main.output, sourceSets.test.output)
     reports {
