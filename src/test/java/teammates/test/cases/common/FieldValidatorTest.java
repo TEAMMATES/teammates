@@ -306,6 +306,24 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForTeamName_invalid_returnSpecificErrorString() {
+        String invalidTeamName = "";
+        String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
+        assertEquals("Invalid team name (empty) should return error message that is specific to team name",
+                     String.format(TEAM_NAME_ERROR_MESSAGE, invalidTeamName, REASON_EMPTY), actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForSectionName_invalid_returnSpecificErrorString() {
+        String invalidSectionName = "Percent Symbol % Section";
+        String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
+        assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
+                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidSectionName, SECTION_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR, SECTION_NAME_FIELD_NAME),
+                     actual);
+    }
+
+    @Test
     public void testGetInvalidityInfoForCourseName_invalid_returnSpecificErrorString() {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
