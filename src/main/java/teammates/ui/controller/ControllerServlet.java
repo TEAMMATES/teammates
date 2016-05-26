@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,17 +34,16 @@ import com.google.apphosting.api.DeadlineExceededException;
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-    protected static final Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         try {
             /* We are using the Template Method Design Pattern here.
@@ -120,7 +118,7 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) { // NOPMD, used as fallback
+        } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));

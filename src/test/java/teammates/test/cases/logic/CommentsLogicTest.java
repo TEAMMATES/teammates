@@ -8,8 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
@@ -23,9 +21,11 @@ import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.datastore.Text;
+
 public class CommentsLogicTest extends BaseComponentTestCase {
 
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -369,7 +369,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteComment() throws Exception {
+    public void testDeleteComment() {
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");
@@ -448,8 +448,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
         try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {

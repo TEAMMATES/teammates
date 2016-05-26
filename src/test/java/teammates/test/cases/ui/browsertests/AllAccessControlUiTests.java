@@ -38,7 +38,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static String instructorUsername = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
     private static String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 
-    static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
+    private static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
 
     private static Browser browser;
     private static DataBundle testData;
@@ -68,7 +68,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     @Test
-    public void testUserNotLoggedIn() throws Exception {
+    public void testUserNotLoggedIn() {
         
         logout(browser);
         AppPage.getNewPageInstance(browser, HomePage.class);
@@ -88,7 +88,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @Test
-    public void testUserNotRegistered() throws Exception {
+    public void testUserNotRegistered() {
         
         ______TS("student pages");
 
@@ -117,7 +117,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @Test
-    public void testStudentAccessToAdminPages() throws Exception {
+    public void testStudentAccessToAdminPages() {
         loginStudent(studentUsername, studentPassword);
         verifyCannotAccessAdminPages();
     }
@@ -258,7 +258,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //delete any data related to real accounts used in testing (to prevent state leakage to other tests)
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         

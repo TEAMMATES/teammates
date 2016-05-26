@@ -18,7 +18,7 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -112,7 +112,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAction getAction(String... params) throws Exception {
+    private InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

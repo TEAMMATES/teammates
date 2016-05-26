@@ -7,8 +7,12 @@
 
 package teammates.logic.core;
 
-import java.net.HttpURLConnection;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -16,17 +20,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
 
 public class Sendgrid {
     
+    protected String domain = "https://sendgrid.com/";
+    protected String endpoint = "api/mail.send.json";
+    protected String username;
+    protected String password;
+
     private String from;
     private String fromName;
     private String replyTo;
@@ -39,11 +44,6 @@ public class Sendgrid {
     private ArrayList<String> toNameList  = new ArrayList<String>();
     private ArrayList<String> bccList = new ArrayList<String>();
     private JSONObject headerList = new JSONObject();
-
-    protected String domain = "https://sendgrid.com/";
-    protected String endpoint = "api/mail.send.json";
-    protected String username;
-    protected String password;
 
     public Sendgrid(String username, String password) throws JSONException {
         this.username = username;
@@ -399,6 +399,7 @@ public class Sendgrid {
      */
     public void send() throws JSONException, UnsupportedEncodingException {
         send(new WarningListener() {
+            @Override
             public void warning(String w, Throwable t) {
                 serverResponse = w;
             }

@@ -28,8 +28,8 @@ import teammates.storage.entity.Course;
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
-    private Logic logic = new Logic();
-    private CoursesDb coursesDb = new CoursesDb();
+    private static final Logic logic = new Logic();
+    private static final CoursesDb coursesDb = new CoursesDb();
     private static final boolean isPreview = true;
     private static final boolean isModifyingOnlyArchivedCourses = true;
     
@@ -116,10 +116,8 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     
     /**
      * For preview mode, prints out the instructors of the course and their isArchived status 
-     * @throws EntityDoesNotExistException 
-     * @throws InvalidParametersException
      */
-    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) {
         Assumption.assertEquals(true, isPreview);
         Assumption.assertTrue(course.isArchived);
         

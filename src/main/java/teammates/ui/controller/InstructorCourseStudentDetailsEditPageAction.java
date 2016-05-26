@@ -5,11 +5,11 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditPageAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsEditPageAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

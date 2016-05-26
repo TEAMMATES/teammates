@@ -17,19 +17,20 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
+    
+    private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
+
     private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
-
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
     
     @Test 
-    public void allTests() throws Exception {    
+    public void allTests() {    
         testCompose();
         testSent();
         testDraft();
@@ -178,7 +179,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

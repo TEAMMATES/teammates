@@ -12,7 +12,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class InstructorPrivilegesTest extends BaseTestCase {
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 

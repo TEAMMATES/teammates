@@ -3,20 +3,17 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
-
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -27,14 +24,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.StudentsDb;
+
+import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -56,10 +55,6 @@ public class StudentsLogic {
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
-    
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
         if (instance == null) {
@@ -404,10 +399,9 @@ public class StudentsLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
@@ -427,10 +421,9 @@ public class StudentsLogic {
      * Validates teams for any team name violations
      * @param studentList
      * @param courseId
-     * @throws EntityDoesNotExistException
      * @throws EnrollException
      */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 

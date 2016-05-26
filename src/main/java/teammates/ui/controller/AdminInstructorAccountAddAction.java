@@ -11,21 +11,20 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -36,7 +35,7 @@ public class AdminInstructorAccountAddAction extends Action {
     private static int PERSISTENCE_WAITING_DURATION = 4000;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
 
@@ -102,7 +101,8 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
             StringBuilder errorMessage = new StringBuilder(100);
-            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            errorMessage.append(retryLink);
             
             statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
             
@@ -155,13 +155,10 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData)
-            throws EntityAlreadyExistsException,
-            InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
         String courseId = generateDemoCourseId(pageData.instructorEmail); 

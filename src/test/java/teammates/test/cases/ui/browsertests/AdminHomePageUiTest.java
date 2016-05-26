@@ -54,7 +54,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     private static InstructorCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();      
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
@@ -316,7 +316,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

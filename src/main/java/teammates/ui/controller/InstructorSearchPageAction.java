@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
@@ -29,7 +28,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorSearchPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if (searchKey == null) {

@@ -38,15 +38,16 @@ import com.google.appengine.api.datastore.Text;
 
 public class AllActionsAccessControlTest extends BaseActionTest {
     
-    private String[] submissionParams = new String[]{};
     private static final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private static final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    
+    private String[] submissionParams = new String[]{};
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -56,7 +57,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
     

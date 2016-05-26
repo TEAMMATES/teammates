@@ -138,10 +138,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        getSubmitButton().click();
     }
 
+    public WebElement getSubmitButton() {
+        return browser.driver.findElement(By.id("response_submit_button"));
+    }
+    
     public void linkOnHomeLink() {
         studentHomeTab.click();
         AppPage.getNewPageInstance(browser, StudentHomePage.class);
