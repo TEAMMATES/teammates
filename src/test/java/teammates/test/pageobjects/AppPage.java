@@ -54,7 +54,7 @@ import teammates.test.driver.TestProperties;
  * provides ways to interact with it. Also contains methods to validate some
  * aspects of the page. .e.g, html page source. <br>
  * 
- * Note: We are using the PageObjects pattern here. 
+ * Note: We are using the PageObjects pattern here.
  * https://code.google.com/p/selenium/wiki/PageObjects
  * 
  */
@@ -174,7 +174,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Simply loads the given URL. 
+     * Simply loads the given URL.
      */
     public AppPage navigateTo(Url url) {
         browser.driver.get(url.toAbsoluteString());
@@ -469,8 +469,8 @@ public abstract class AppPage {
     /**
      * This can be used to save pages which can later be used as the 'expected'
      * in UI test cases. After saving the file, remember to edit it manually and
-     *  replace the version number in the page footer with the string 
-     * "${version}". so that the test can insert the correct version number 
+     *  replace the version number in the page footer with the string
+     * "${version}". so that the test can insert the correct version number
      * before comparing the 'expected' with the 'actual.
      *  e.g., replace "V4.55" in the page footer by "V${version}".
      *  @param filePath If the full path is not given, it will be saved in the
@@ -532,7 +532,7 @@ public abstract class AppPage {
     }
 
     /** 
-     * Selection is based on the value shown to the user. 
+     * Selection is based on the value shown to the user.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
      * instead (i.e., we use the {@code sendKeys()} method). <br>
@@ -549,7 +549,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * Selection is based on the actual value. 
+     * Selection is based on the actual value.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
      * instead (i.e., we use the {@code sendKeys()} method). <br>
@@ -566,7 +566,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the status message in the page. Returns "" if there is no 
+     * @return the status message in the page. Returns "" if there is no
      * status message in the page.
      */
     public String getStatus() {
@@ -574,7 +574,7 @@ public abstract class AppPage {
     }
 
     /** 
-     * @return the value of the cell located at {@code (row,column)} 
+     * @return the value of the cell located at {@code (row,column)}
      * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
@@ -582,7 +582,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the value of the cell located at {@code (row,column)} 
+     * @return the value of the cell located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
@@ -593,7 +593,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the value of the header located at {@code (row,column)} 
+     * @return the value of the header located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
@@ -604,7 +604,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the number of rows from the nth(0-index-based) table 
+     * @return the number of rows from the nth(0-index-based) table
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
@@ -613,7 +613,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the number of columns from the header in the table 
+     * @return the number of columns from the header in the table
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfColumnsFromDataTable(int tableNum) {
@@ -623,7 +623,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the id of the table 
+     * @return the id of the table
      * (which is of type {@code class=table}) in the page.
      */
     public String getDataTableId(int tableNum) {
@@ -632,7 +632,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the element and clicks 'Yes' in the follow up dialog box. 
+     * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -643,7 +643,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box. 
+     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -654,7 +654,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the element and clicks 'No' in the follow up dialog box. 
+     * Clicks the element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -664,7 +664,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'No' in the follow up dialog box. 
+     * Clicks the hidden element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -674,7 +674,7 @@ public abstract class AppPage {
     }
 
     /** @return True if the page contains some basic elements expected in a page of the
-     * specific type. e.g., the top heading. 
+     * specific type. e.g., the top heading.
      */
     protected abstract boolean containsExpectedPageContents();
 
@@ -791,11 +791,11 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that the currently loaded page has the same HTML content as 
+     * Verifies that the currently loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
@@ -832,7 +832,7 @@ public abstract class AppPage {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
-        } 
+        }
         
         return this;
     }
@@ -850,7 +850,7 @@ public abstract class AppPage {
     }
     
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
-        if (content == null || content.isEmpty()) { 
+        if (content == null || content.isEmpty()) {
             return false;
         }
         
@@ -861,11 +861,11 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that element specified in currently loaded page has the same HTML content as 
+     * Verifies that element specified in currently loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
@@ -873,12 +873,12 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that main content specified id "mainContent" in currently 
-     * loaded page has the same HTML content as 
+     * Verifies that main content specified id "mainContent" in currently
+     * loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
@@ -939,7 +939,7 @@ public abstract class AppPage {
      * not verify whether the file content is as expected. To be improved.
      */
     public void verifyDownloadLink(Url url) {
-        //TODO: implement a better way to download a file and check content 
+        //TODO: implement a better way to download a file and check content
         // (may be using HtmlUnit as the Webdriver?)
         String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
         browser.driver.get(url.toAbsoluteString());
@@ -949,7 +949,7 @@ public abstract class AppPage {
     
     /**
      * Verify if a file is downloadable based on the given url. If its downloadable,
-     * download the file and get the SHA-1 hex of it and verify the hex with the given 
+     * download the file and get the SHA-1 hex of it and verify the hex with the given
      * expected hash.
      * 
      * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
@@ -961,10 +961,10 @@ public abstract class AppPage {
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
         
-        if (downloadedFile.exists()) { 
+        if (downloadedFile.exists()) {
             downloadedFile.delete();
         }
-        if (!downloadedFile.canWrite()) { 
+        if (!downloadedFile.canWrite()) {
             downloadedFile.setWritable(true);
         }
         

@@ -37,7 +37,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                                    .withCourseId(student.course)
                                                    .toString();
         
-        registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS, 
+        registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS,
                                             student.name, joinUrl);
         createFeedbackResultsQuestionsWithResponses(questionsWithResponses);
     }
@@ -64,12 +64,12 @@ public class StudentFeedbackResultsPageData extends PageData {
         feedbackResultsQuestionsWithResponses = new ArrayList<StudentFeedbackResultsQuestionWithResponses>();
         int questionIndex = 1;
         
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> 
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
                                    questionWithResponses : questionsWithResponses.entrySet()) {
             
             FeedbackQuestionAttributes question = questionWithResponses.getKey();
             List<FeedbackResponseAttributes> responsesBundle = questionWithResponses.getValue();
-            FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails(); 
+            FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails();
             
             /* Contain only those attributes which will be displayed on the page */
             FeedbackResultsQuestionDetails questionDetails = createQuestionDetails(
@@ -95,8 +95,8 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Only those details which will be displayed on the page are returned
      */
     private FeedbackResultsQuestionDetails createQuestionDetails(
-                                    int questionIndex, FeedbackQuestionAttributes question, 
-                                    FeedbackQuestionDetails questionDetailsBundle, 
+                                    int questionIndex, FeedbackQuestionAttributes question,
+                                    FeedbackQuestionDetails questionDetailsBundle,
                                     List<FeedbackResponseAttributes> responsesBundle) {
         
         String questionText = questionDetailsBundle.questionText;
@@ -108,7 +108,7 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         boolean isIndividualResponsesShownToStudents = questionDetailsBundle.isIndividualResponsesShownToStudents();
         
-        return new FeedbackResultsQuestionDetails(Integer.toString(questionIndex), questionText, additionalInfo, 
+        return new FeedbackResultsQuestionDetails(Integer.toString(questionIndex), questionText, additionalInfo,
                                                       questionResultStatistics, isIndividualResponsesShownToStudents);
     }
     
@@ -121,20 +121,20 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResultsResponseTable> createResponseTables(
                                     FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responsesBundle) {
 
-        List<FeedbackResultsResponseTable> responseTables = new ArrayList<FeedbackResultsResponseTable>();        
+        List<FeedbackResultsResponseTable> responseTables = new ArrayList<FeedbackResultsResponseTable>();
         List<String> recipients = new ArrayList<String>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
             if (!recipients.contains(singleResponse.recipientEmail)) {
                 recipients.add(singleResponse.recipientEmail);
-            }           
+            }
         }
         
         for (String recipient : recipients) {
-            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);            
+            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);
             
             boolean isUserRecipient = student.email.equals(recipient);
-            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS 
+            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS
                                           && student.team.equals(recipient);
             String recipientName;
             if (isUserRecipient) {
@@ -145,7 +145,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                 recipientName = bundle.getNameForEmail(recipient);
             }
             
-            responseTables.add(createResponseTable(question, 
+            responseTables.add(createResponseTable(question,
                                                    responsesForRecipient,
                                                    recipientName));
         }
@@ -155,10 +155,10 @@ public class StudentFeedbackResultsPageData extends PageData {
     /**
      * Creates a feedback results responses table for a recipient
      * @param question  Question for which the responses are generated
-     * @param responsesBundleForRecipient  All responses for the question having a particular recipient 
+     * @param responsesBundleForRecipient  All responses for the question having a particular recipient
      * @return Feedback results responses table for a question and a recipient
      */
-    private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
+    private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question,
                                     List<FeedbackResponseAttributes> responsesBundleForRecipient,
                                     String recipientNameParam) {
         
@@ -186,10 +186,10 @@ public class StudentFeedbackResultsPageData extends PageData {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipientEmail);
-            } else if (!isUserGiver 
+            } else if (!isUserGiver
                        && !bundle.isRecipientVisible(response)) {
-                // Hide anonymous recipient entirely to prevent student from guessing the identity  
-                // based on responses from other response givers 
+                // Hide anonymous recipient entirely to prevent student from guessing the identity
+                // based on responses from other response givers
                 recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
             
@@ -214,10 +214,10 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         
         if (commentsBundle != null) {
-            for (FeedbackResponseCommentAttributes comment : commentsBundle) { 
+            for (FeedbackResponseCommentAttributes comment : commentsBundle) {
                 comments.add(new FeedbackResponseComment(comment, comment.giverEmail));
             }
-        }        
+        }
         return comments;
     }
 
@@ -235,8 +235,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
             if (singleResponse.recipientEmail.equals(recipientEmail)) {
                 responsesForRecipient.add(singleResponse);
-            }           
+            }
         }
         return responsesForRecipient;
-    }    
+    }
 }

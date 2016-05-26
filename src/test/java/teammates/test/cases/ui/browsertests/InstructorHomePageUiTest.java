@@ -25,7 +25,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Home page and login page for instructors. 
+ * Tests Home page and login page for instructors.
  * SUT: {@link InstructorHomePage}.<br>
  * Uses a real account.
  * 
@@ -40,7 +40,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes feedbackSession_CLOSED;
     private static FeedbackSessionAttributes feedbackSession_PUBLISHED;
 
-    // TODO: refactor this test. try to use admin login or create instructors and courses not using json 
+    // TODO: refactor this test. try to use admin login or create instructors and courses not using json
     
     @BeforeClass
     public static void classSetup() {
@@ -303,14 +303,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFeedbackSessionUnpublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertFalse(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+        assertFalse(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId,
                                                 feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
 
         ______TS("publish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionPublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertTrue(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+        assertTrue(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId,
                                                feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
     }
     
@@ -413,7 +413,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
         homePage.getFsCopyModal().verifyStatusMessage(
-                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, 
+                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                                                    invalidFeedbackSessionName,
                                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                    FieldValidator.REASON_CONTAINS_INVALID_CHAR,

@@ -26,7 +26,7 @@ public class Student implements StoreCallback {
     
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to 
+     * Set to true when using scripts to update entities when you want to
      * preserve the lastUpdate time stamp.
      **/
     @NotPersistent

@@ -84,7 +84,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         // adding this for complete coverage
         ______TS("Failure case: repeated required columns");
-        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";            
+        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
         try {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();

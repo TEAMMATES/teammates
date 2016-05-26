@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a course entity. 
+ * Represents a course entity.
  */
 @PersistenceCapable
 public class Course {
@@ -33,7 +33,7 @@ public class Course {
         if (createdAt == null) {
             this.setCreatedAt(new Date());
         } else {
-            this.setCreatedAt(createdAt);            
+            this.setCreatedAt(createdAt);
         }
         this.setArchiveStatus(archiveStatus);
     }

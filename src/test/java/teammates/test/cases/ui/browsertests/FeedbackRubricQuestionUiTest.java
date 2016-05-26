@@ -56,7 +56,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
-        StudentFeedbackResultsPage studentResultsPage = 
+        StudentFeedbackResultsPage studentResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
@@ -141,7 +141,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
 
-        // Submit another feedback response using another student's account 
+        // Submit another feedback response using another student's account
         submitPage = loginToStudentFeedbackSubmitPage("benny.tmms@FRubricQnUiT.CS2104", "openSession2");
 
         submitPage.clickRubricCell(1, 0, 0, 0);
@@ -341,7 +341,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     private void testInputJsValidationForRubricQuestion() {

@@ -214,9 +214,9 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline 
+                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline
                 + "{*}{The student's unique submission url appears here}"
-                + "{*}{The student's unique submission url appears here}", 
+                + "{*}{The student's unique submission url appears here}",
                 emailBody);
 
         printEmail(email);
@@ -233,7 +233,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName 
+                + "{*}" + fsa.feedbackSessionName
                 + "{*}{The student's unique results url appears here}"
                 + "{*}{The student's unique results url appears here}",
                 emailBody);
@@ -374,9 +374,9 @@ public class EmailsTest extends BaseComponentTestCase {
         
         AssertionError error = new AssertionError("invalid parameter");
         StackTraceElement s1 = new StackTraceElement(
-                SystemErrorEmailReportTest.class.getName(), 
-                "testSystemCrashReportEmailContent", 
-                "SystemErrorEmailReportTest.java", 
+                SystemErrorEmailReportTest.class.getName(),
+                "testSystemCrashReportEmailContent",
+                "SystemErrorEmailReportTest.java",
                 89);
         error.setStackTrace(new StackTraceElement[] {s1});
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
@@ -404,11 +404,11 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex(
                 "<b>Error Message</b><br/><pre><code>" + error.getMessage()
                 + "</code></pre>"
-                + "<br/><b>Actual user</b>" + "Not logged in" 
-                + "<br/><b>Request Method</b>" + requestMethod 
-                + "<br/><b>User Agent</b>" + requestUserAgent 
-                + "<br/><b>Request Url</b>" + requestUrl 
-                + "<br/><b>Request Path</b>" + requestPath 
+                + "<br/><b>Actual user</b>" + "Not logged in"
+                + "<br/><b>Request Method</b>" + requestMethod
+                + "<br/><b>User Agent</b>" + requestUserAgent
+                + "<br/><b>Request Url</b>" + requestUrl
+                + "<br/><b>Request Path</b>" + requestPath
                 + "<br/><b>Request Parameters</b>" + requestParam
                 + "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
                 emailBody);

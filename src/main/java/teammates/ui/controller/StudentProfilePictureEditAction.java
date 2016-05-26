@@ -25,7 +25,7 @@ import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
 /**
- * Action: edits the profile picture based on the coordinates of 
+ * Action: edits the profile picture based on the coordinates of
  *         the cropped photograph.
  */
 public class StudentProfilePictureEditAction extends Action {
@@ -73,7 +73,7 @@ public class StudentProfilePictureEditAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
      */
     private void uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
@@ -218,19 +218,19 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private String getTopYString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
     }
 
     private String getLeftXString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }
 
     private String getRotateString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_ROTATE, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_ROTATE,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE);
     }

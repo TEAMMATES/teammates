@@ -45,12 +45,12 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         CommentAttributes c = createNewComment();
 
-        ______TS("fail : invalid params"); 
+        ______TS("fail : invalid params");
         c.courseId = "invalid id with space";
         try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT), 
+            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT),
                     e.getLocalizedMessage());
         }
 
@@ -178,7 +178,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateComment(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT), 
+            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT),
                     e.getLocalizedMessage());
         }
         
@@ -202,7 +202,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testUpdateInstructorEmailAndStudentEmail() 
+    public void testUpdateInstructorEmailAndStudentEmail()
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         String courseId1 = "CDT.upd.courseId1";

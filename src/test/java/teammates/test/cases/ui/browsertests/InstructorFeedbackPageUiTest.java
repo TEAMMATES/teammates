@@ -33,7 +33,7 @@ import teammates.test.util.Priority;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Covers the 'Feedback Session' page for instructors. 
+ * Covers the 'Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbacksPage}.
  */
 @Priority(-1)
@@ -563,10 +563,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     public void testRemindActions() {
-        //TODO implement this        
+        //TODO implement this
     }
     
-    public void testPublishAction() throws Exception {        
+    public void testPublishAction() throws Exception {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -683,7 +683,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         
-        // setup various dates 
+        // setup various dates
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -945,7 +945,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
-                templateSessionName, newSession.courseId, 
+                templateSessionName, newSession.courseId,
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
@@ -1009,7 +1009,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);    
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;

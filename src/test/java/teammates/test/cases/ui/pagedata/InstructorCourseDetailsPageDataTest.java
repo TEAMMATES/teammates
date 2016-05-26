@@ -46,7 +46,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
             }
         }
         
-        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student", 
+        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student",
                                                                       "unregisteredStudentInCourse1@gmail.tmt", "No comment", "idOfTypicalCourse1");
         students.add(unregisteredStudent);
         

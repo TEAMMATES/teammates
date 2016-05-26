@@ -35,7 +35,7 @@ import com.google.gson.Gson;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
- *  
+ * 
  * 
  * Notes:
  * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
@@ -82,7 +82,7 @@ public class PerformanceProfiler extends Thread {
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
-        data = gson.fromJson(jsonString, DataBundle.class);    
+        data = gson.fromJson(jsonString, DataBundle.class);
 
         //Import previous results
         try {
@@ -173,7 +173,7 @@ public class PerformanceProfiler extends Thread {
     /**
      * The results from file stored in filePath
      * @param filePath
-     * @return HashMap<nameOfTest,durations> of the report stored in filePath 
+     * @return HashMap<nameOfTest,durations> of the report stored in filePath
      * @throws IOException
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
@@ -213,7 +213,7 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * Write the results to the file with path filePath
-     * @param filePath 
+     * @param filePath
      * @throws IOException
      */
     private void printResult(String filePath) throws IOException {
@@ -257,12 +257,12 @@ public class PerformanceProfiler extends Thread {
 
     @PerformanceTest(name = "Instructor home page")
     String instructorHomePage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorHome");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorHome");
         return "";
     }
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEval");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEval");
         return "";
     }
     
@@ -281,7 +281,7 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval2() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEval");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEval");
         return "";
     }
     
@@ -296,7 +296,7 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourse");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourse");
         return "";
     }
     
@@ -310,7 +310,7 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse2() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourse");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourse");
         return "";
     }
     
@@ -326,13 +326,13 @@ public class PerformanceProfiler extends Thread {
 
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");
         return "";
     }
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseEnroll() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     
@@ -347,7 +347,7 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseDetails() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     
@@ -361,13 +361,13 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor eval results")
     public String instructorEvalResults() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     
     @PerformanceTest(name = "Instructor view student eval ")
     public String instructorViewStuEval() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");        
+        browser.goToUrl(TestProperties.inst().TEAMMATES_URL + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
         return "";
     }
     

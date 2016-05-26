@@ -58,7 +58,7 @@ public class InstructorFeedbackSessionActions {
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
     }
 

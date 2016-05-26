@@ -3,7 +3,7 @@ package teammates.ui.template;
 import java.util.List;
 
 /**
- * Data model for the panel body for the participant panels 
+ * Data model for the panel body for the participant panels
  * used in Results by Participant > Participant > Question
  * 
  */

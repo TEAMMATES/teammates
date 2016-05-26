@@ -41,8 +41,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         
         CourseAttributes.sortByCreatedDate(coursesToAddToData);
         
-        InstructorFeedbackEditCopyPageData data = 
-            new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, 
+        InstructorFeedbackEditCopyPageData data =
+            new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId,
                                                    feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);

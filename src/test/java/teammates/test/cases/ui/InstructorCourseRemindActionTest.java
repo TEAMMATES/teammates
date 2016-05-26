@@ -52,7 +52,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
              
         String expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + anotherInstructorOfCourse1.name + "<span class=\"bold\"> (" 
+                + anotherInstructorOfCourse1.name + "<span class=\"bold\"> ("
                 + anotherInstructorOfCourse1.email + ")" + "</span>.<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
@@ -74,7 +74,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
              
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + student1InCourse1.name + "<span class=\"bold\"> (" 
+                + student1InCourse1.name + "<span class=\"bold\"> ("
                 + student1InCourse1.email + ")" + "</span>.<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
@@ -103,13 +103,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
              
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + unregisteredStudent1.name + "<span class=\"bold\"> (" 
+                + unregisteredStudent1.name + "<span class=\"bold\"> ("
                 + unregisteredStudent1.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent1.key) 
+                + StringHelper.encrypt(unregisteredStudent1.key)
                 + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br/>"
-                + unregisteredStudent2.name + "<span class=\"bold\"> (" 
+                + unregisteredStudent2.name + "<span class=\"bold\"> ("
                 + unregisteredStudent2.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent2.key) 
+                + StringHelper.encrypt(unregisteredStudent2.key)
                 + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
@@ -124,11 +124,11 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        try { 
+        try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());    
+            assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());
         }
         
     }

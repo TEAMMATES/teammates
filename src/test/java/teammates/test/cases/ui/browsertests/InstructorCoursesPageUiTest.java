@@ -20,20 +20,20 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Covers the 'Courses' page for instructors. 
- * The main SUT is {@link InstructorCoursesPage}. 
+ * Covers the 'Courses' page for instructors.
+ * The main SUT is {@link InstructorCoursesPage}.
  */
 public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private static Browser browser;
-    /* Comments given as 'Explanation:' are extra comments added to train 
-     * developers. They are not meant to be repeated when you write similar 
-     * classes. 
+    /* Comments given as 'Explanation:' are extra comments added to train
+     * developers. They are not meant to be repeated when you write similar
+     * classes.
      * This class is used for training developers. Hence, the high percentage
-     * of explanatory comments, which is contrary to our usual policy of 
-     * 'minimal comments'. 
+     * of explanatory comments, which is contrary to our usual policy of
+     * 'minimal comments'.
      */
     
-    /* Explanation: This is made a static variable for convenience 
+    /* Explanation: This is made a static variable for convenience
      * (i.e. no need to declare it multiple times in multiple methods) */
     private static InstructorCoursesPage coursesPage;
     private static DataBundle testData;
@@ -50,9 +50,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorCoursesPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         
-        /* Explanation: Ideally, there should not be 'state leaks' between 
-         * tests. i.e. Changes to data done by one test should not affect 
-         * another test. To that end, we should make the dataset in the .json 
+        /* Explanation: Ideally, there should not be 'state leaks' between
+         * tests. i.e. Changes to data done by one test should not affect
+         * another test. To that end, we should make the dataset in the .json
          * file independent from other tests. Our approach is to add a unique
          * prefix to identifiers in the json file. e.g., Google IDs, course IDs,
          * etc. This identifier can be based on the name of the test class.
@@ -74,11 +74,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
-         * of having multiple test cases. The advantage is that the time for 
+         * of having multiple test cases. The advantage is that the time for
          * the whole test class will be reduced because we minimize repetitive
-         * per-method setup/tear down. The downside is that it increases the 
+         * per-method setup/tear down. The downside is that it increases the
          * time spent on re-running failed tests as the whole class has to be
-         * re-run. We opt for this approach because we expect tests to pass 
+         * re-run. We opt for this approach because we expect tests to pass
          * more frequently than to fail.
          */
         
@@ -91,7 +91,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         // Explanation: Checks the ajax request for course stats.
         testCourseStats();
         
-        // Explanation: Checks if links going out of the page are correct 
+        // Explanation: Checks if links going out of the page are correct
         testLinks();
         
         // Explanation: Checks if client-side input validation for fields
@@ -106,7 +106,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         testArchiveAction();
         
         /* Explanation: The above categorization of test cases is useful in
-         * identifying test cases. However, do not follow it blindly. 
+         * identifying test cases. However, do not follow it blindly.
          * Some SUTs might require additional test cases. Examining the
          * relevant JSP pages to check if all Java code paths are covered
          *  might help you identify further test cases.
@@ -115,8 +115,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
         
-        /* Explanation: The page rendering is slightly different based on 
-         * whether the table is empty or not. We should test both cases. 
+        /* Explanation: The page rendering is slightly different based on
+         * whether the table is empty or not. We should test both cases.
          * In addition, we should test the sorting.
          */
         
@@ -193,11 +193,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     public void testInputValidation() {
         
-        /* Explanation: If the validation is done through one JS function 
+        /* Explanation: If the validation is done through one JS function
          * (e.g., the entire form is validated in one go), we need to check only
-         * one invalid case here, provided the form validation function is 
-         * thoroughly unit tested elsewhere {@see instructorCourseJsTest.js}. 
-         * If each field is validated as they are keyed in, each field should be 
+         * one invalid case here, provided the form validation function is
+         * thoroughly unit tested elsewhere {@see instructorCourseJsTest.js}.
+         * If each field is validated as they are keyed in, each field should be
          * validated for one invalid case.
          */
         
@@ -303,7 +303,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
                                                                                                 instructor1CS1101.courseId);
                                                                                                          
-        //this is a old instructor whose archive status has no value 
+        //this is a old instructor whose archive status has no value
         assertNull(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
@@ -324,7 +324,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         //so other instructors' archiving actions will not affect his own status
         instructorId = testData.accounts.get("OtherInstructorWithoutCourses").googleId;
         coursesPage = getCoursesPage();
-        coursesPage.verifyHtmlMainContent("/instructorArchiveStatusNotAffected.html");    
+        coursesPage.verifyHtmlMainContent("/instructorArchiveStatusNotAffected.html");
         
         ______TS("unarchive action success");
         
@@ -372,9 +372,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         //Explanation: release the Browser back to be reused by other tests.
         BrowserPool.release(browser);
         
-        /* Explanation: We don't delete leftover data at the end of a test. 
+        /* Explanation: We don't delete leftover data at the end of a test.
          * Instead, we delete such data at the beginning or at the point that
-         * data are accessed. This means there will be leftover data in the 
+         * data are accessed. This means there will be leftover data in the
          * datastore at the end of a test run. Not deleting data at the end
          * saves time and helps in debugging if a test failed.
          * 

@@ -51,8 +51,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateDeleteFeedbackSession() 
-            throws Exception {    
+    public void testCreateDeleteFeedbackSession()
+            throws Exception {
         
         ______TS("standard success case");
         
@@ -85,7 +85,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
         
         try {
-            fsa.startTime = new Date();            
+            fsa.startTime = new Date();
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -142,16 +142,16 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     private void testGetFeedbackSessionsForCourse() {
         
-        ______TS("standard success case");    
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsForCourse("idOfTypicalCourse1");
         
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL 
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : sessions) {
@@ -174,12 +174,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             
         ______TS("no sessions in course");
         
-        assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
+        assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
     
     private void testGetNonPrivateFeedbackSessions() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
         
@@ -192,7 +192,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     private void testGetFeedbackSessionsWithUnsentOpenEmail() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
         
@@ -205,7 +205,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     private void testGetFeedbackSessionsWithUnsentPublishedEmail() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
         
@@ -219,7 +219,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @Test
     public void testUpdateFeedbackSession() throws Exception {
         
-        ______TS("null params");        
+        ______TS("null params");
         try {
             fsDb.updateFeedbackSession(null);
             signalFailureToDetectException();

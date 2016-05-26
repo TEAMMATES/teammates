@@ -122,7 +122,7 @@ public class Emails {
                 Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
     
-    public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
+    public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session)
                     throws MessagingException, IOException {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
@@ -158,11 +158,11 @@ public class Emails {
     }
     
     public List<MimeMessage> generateFeedbackSessionReminderEmails(
-            CourseAttributes course, 
+            CourseAttributes course,
             FeedbackSessionAttributes session,
             List<StudentAttributes> students,
             List<InstructorAttributes> instructorsToRemind,
-            List<InstructorAttributes> instructorsToNotify) 
+            List<InstructorAttributes> instructorsToNotify)
                     throws MessagingException, IOException {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
@@ -226,7 +226,7 @@ public class Emails {
         return emails;
     }
     
-    public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
+    public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients)
             throws MessagingException, UnsupportedEncodingException {
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
@@ -254,7 +254,7 @@ public class Emails {
     }
     
     public MimeMessage generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
-            StudentAttributes student, String template) 
+            StudentAttributes student, String template)
                     throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
 
@@ -317,10 +317,10 @@ public class Emails {
     
     public List<MimeMessage> generateFeedbackSessionEmailBases(
             CourseAttributes course,
-            FeedbackSessionAttributes session, 
+            FeedbackSessionAttributes session,
             List<StudentAttributes> students,
             List<InstructorAttributes> instructors,
-            String template) 
+            String template)
                     throws MessagingException, UnsupportedEncodingException {
         
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
@@ -337,9 +337,9 @@ public class Emails {
     
     public List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course,
-            FeedbackSessionAttributes session, 
+            FeedbackSessionAttributes session,
             List<InstructorAttributes> instructors,
-            String template) 
+            String template)
                     throws MessagingException, UnsupportedEncodingException {
         
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
@@ -352,7 +352,7 @@ public class Emails {
 
     public MimeMessage generateFeedbackSessionEmailBaseForStudents(
             CourseAttributes c,
-            FeedbackSessionAttributes fs, 
+            FeedbackSessionAttributes fs,
             StudentAttributes s,
             String template)
                     throws MessagingException, UnsupportedEncodingException {
@@ -396,7 +396,7 @@ public class Emails {
 
     public MimeMessage generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes c,
-            FeedbackSessionAttributes fs, 
+            FeedbackSessionAttributes fs,
             InstructorAttributes i,
             String template)
                     throws MessagingException, UnsupportedEncodingException {
@@ -432,7 +432,7 @@ public class Emails {
     
     public MimeMessage generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes c,
-            FeedbackSessionAttributes fs, 
+            FeedbackSessionAttributes fs,
             InstructorAttributes i,
             String template)
                     throws MessagingException, UnsupportedEncodingException {
@@ -471,7 +471,7 @@ public class Emails {
     }
     
     public MimeMessage generateStudentCourseJoinEmail(
-            CourseAttributes course, StudentAttributes student) 
+            CourseAttributes course, StudentAttributes student)
                     throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
@@ -497,7 +497,7 @@ public class Emails {
     }
 
     public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
-            CourseAttributes course, StudentAttributes student) 
+            CourseAttributes course, StudentAttributes student)
                     throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
@@ -513,13 +513,13 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute) 
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute)
                              throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
         
-        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));      
+        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
         String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
@@ -551,10 +551,10 @@ public class Emails {
     }
 
     public MimeMessage generateInstructorCourseJoinEmail(
-            CourseAttributes course, InstructorAttributes instructor) 
+            CourseAttributes course, InstructorAttributes instructor)
                     throws AddressException, MessagingException, UnsupportedEncodingException {
         
-        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);    
+        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
                 + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
@@ -563,7 +563,7 @@ public class Emails {
         emailBody = emailBody.replace("${userName}", instructor.name);
         emailBody = emailBody.replace("${courseName}", course.getName());
 
-        message.setContent(emailBody, "text/html");  
+        message.setContent(emailBody, "text/html");
         return message;
     }
     
@@ -682,7 +682,7 @@ public class Emails {
                        + "Email receiver: " + emailReceiver + "\n"
                        + "Email subject: " + emailSubject + "\n"
                        + "Email reply to address: " + emailReplyToAddress);
-        } 
+        }
         
     }
     
@@ -716,12 +716,12 @@ public class Emails {
     }
 
     /**
-     * This method sends the email and has an option to log its receiver, subject and content 
+     * This method sends the email and has an option to log its receiver, subject and content
      * @param message
      * @param isWithLogging
      * @throws MessagingException
-     * @throws IOException 
-     * @throws JSONException 
+     * @throws IOException
+     * @throws JSONException
      */
     private void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
         if (Config.isUsingSendgrid()) {
@@ -729,14 +729,14 @@ public class Emails {
             
             if (isWithLogging) {
                 generateLogReport(parseMimeMessageToSendgrid(message));
-            }           
+            }
         } else {
             sendUsingGae(message);
             
             if (isWithLogging) {
                 generateLogReport(message);
             }
-        }          
+        }
     }
     
     private void sendUsingGae(MimeMessage message) throws MessagingException {
@@ -748,11 +748,11 @@ public class Emails {
         Sendgrid email = parseMimeMessageToSendgrid(message);
         log.info(getEmailInfo(email));
         
-        try {               
+        try {
             email.send();
         } catch (Exception e) {
             log.severe("Sendgrid failed, sending with GAE mail");
-            Transport.send(message);  
+            Transport.send(message);
         }
     }
     
@@ -813,7 +813,7 @@ public class Emails {
     
     private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
         log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
-                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));        
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
@@ -836,7 +836,7 @@ public class Emails {
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
         String joinUrl = instructor == null
-                       ? "" 
+                       ? ""
                        : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                .toAbsoluteString();
@@ -860,7 +860,7 @@ public class Emails {
 
     private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
         
-        mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
+        mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));
         return mail;
     }
     
@@ -883,7 +883,7 @@ public class Emails {
              .setHtml(html)
              .setText(Jsoup.parse(html).text());
         
-        if (message.getRecipients(Message.RecipientType.BCC) != null 
+        if (message.getRecipients(Message.RecipientType.BCC) != null
                                         && message.getRecipients(Message.RecipientType.BCC).length > 0) {
             email.setBcc(message.getRecipients(Message.RecipientType.BCC)[0].toString());
         }

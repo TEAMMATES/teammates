@@ -90,7 +90,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         distributeToRecipients = "true".equals(distributeToRecipientsString);
         pointsPerOption = "true".equals(pointsPerOptionString);
         points = Integer.parseInt(pointsString);
-        forceUnevenDistribution = "on".equals(forceUnevenDistributionString); 
+        forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
         
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
@@ -138,7 +138,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeDisplayName() {
         if (distributeToRecipients) {
-            return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;    
+            return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;
         }
         return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
     }
@@ -154,7 +154,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         if (distributeToRecipients) {
-            String optionFragment = 
+            String optionFragment =
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
@@ -167,7 +167,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
-                String optionFragment = 
+                String optionFragment =
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                                 "${qnIdx}", Integer.toString(qnIdx),
                                 "${responseIdx}", Integer.toString(responseIdx),
@@ -210,7 +210,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         if (distributeToRecipients) {
-            String optionFragment = 
+            String optionFragment =
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
@@ -223,7 +223,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
-                String optionFragment = 
+                String optionFragment =
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                                 "${qnIdx}", Integer.toString(qnIdx),
                                 "${responseIdx}", Integer.toString(responseIdx),
@@ -263,7 +263,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < numOfConstSumOptions; i++) {
-            String optionFragment = 
+            String optionFragment =
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             "${constSumOptionValue}", Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
@@ -299,8 +299,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.constSumOptions.add("");
         this.constSumOptions.add("");
 
-        return "<div id=\"constSumForm\">" 
-                  + this.getQuestionSpecificEditFormHtml(-1) 
+        return "<div id=\"constSumForm\">"
+                  + this.getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -316,7 +316,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else if (numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
-                String optionFragment = 
+                String optionFragment =
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                                 "${msqChoiceValue}", constSumOptions.get(i));
                 
@@ -330,8 +330,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         }
         //Point information
-        additionalInfo.append(pointsPerOption 
-                              ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points 
+        additionalInfo.append(pointsPerOption
+                              ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points
                               : "Total points: " + points);
         
         return FeedbackQuestionFormTemplates.populateTemplate(
@@ -431,15 +431,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points" + Const.EOL 
+               + ", Average Points" + Const.EOL
                + fragments + Const.EOL;
     }
 
     /**
      * From the feedback responses, generate a mapping of the option to a list of points received for that option.
      * The key of the map returned is the option name / recipient's participant identifier.
-     * The values of the map are list of points received by the key.   
-     * @param responses  a list of responses 
+     * The values of the map are list of points received by the key.
+     * @param responses  a list of responses
      */
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
@@ -449,7 +449,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
-                String optionReceivingPoints = 
+                String optionReceivingPoints =
                         distributeToRecipients ? response.recipientEmail : String.valueOf(i);
                 
                 int pointsReceived = frd.getAnswerList().get(i);
@@ -551,7 +551,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" 
+        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>"
                + "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
     }
 

@@ -33,7 +33,7 @@ public class StudentSearchDocument extends SearchDocument {
         
         //produce searchableText for this student document:
         //it contains
-        //courseId, courseName, studentEmail, studentName 
+        //courseId, courseName, studentEmail, studentName
         //studentTeam and studentSection
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(student.course).append(delim)

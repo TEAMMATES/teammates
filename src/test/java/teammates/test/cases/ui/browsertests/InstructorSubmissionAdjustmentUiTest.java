@@ -83,7 +83,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        List<FeedbackResponseAttributes> oldResponsesForSession = 
+        List<FeedbackResponseAttributes> oldResponsesForSession =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName);
         assertFalse(oldResponsesForSession.isEmpty());
         
@@ -95,7 +95,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollPage.enroll(enrollString);
         
         
-        int numberOfNewResponses = 
+        int numberOfNewResponses =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);
         

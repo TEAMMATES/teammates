@@ -98,7 +98,7 @@ public class GaeSimulation {
         helper.setEnvIsAdmin(false);
     }
 
-    /**Logs the current user out of the GAE simulation environment. 
+    /**Logs the current user out of the GAE simulation environment.
      */
     public void logoutUser() {
         helper.setEnvIsLoggedIn(false);
@@ -113,7 +113,7 @@ public class GaeSimulation {
     }
 
     /**Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights). 
+     * (without admin rights).
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
@@ -122,7 +122,7 @@ public class GaeSimulation {
         assertFalse(logic.getCurrentUser().isAdmin);
     }
 
-    /**Logs in the user to the GAE simulation environment as a student 
+    /**Logs in the user to the GAE simulation environment as a student
      * (without admin rights or instructor rights).
      */
     public void loginAsStudent(String userId) {
@@ -134,7 +134,7 @@ public class GaeSimulation {
     }
     
     /** 
-     * @param parameters Parameters that appear in a HttpServletRequest 
+     * @param parameters Parameters that appear in a HttpServletRequest
      * received by the app.
      * @return an {@link Action} object that matches the parameters given.
      */
@@ -185,7 +185,7 @@ public class GaeSimulation {
             return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } 
+        }
     }
 
 }

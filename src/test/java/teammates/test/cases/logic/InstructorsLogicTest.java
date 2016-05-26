@@ -72,7 +72,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         String email = "ILT.instr@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
@@ -109,8 +109,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }    
-    }   
+        }
+    }
     
     public void testGetInstructorForEmail() {
         
@@ -296,7 +296,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
         assertEquals(1, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email); 
+        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email);
         verifySameInstructor(instructor1, instructors.get(0));
         
         ______TS("failure: non-exist email");
@@ -645,7 +645,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: delete a non-existent instructor");
 
-        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt"); 
+        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt");
 
         ______TS("failure: null parameter");
 
@@ -677,7 +677,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
         verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));

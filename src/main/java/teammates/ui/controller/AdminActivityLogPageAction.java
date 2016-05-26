@@ -64,7 +64,7 @@ public class AdminActivityLogPageAction extends Action {
                                          && logTimeInAdminTimeZoneFromAjax != null;
         
         if (isLoadingLocalTimeAjax) {
-            data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax, 
+            data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax,
                                                   logRoleFromAjax,
                                                   logTimeInAdminTimeZoneFromAjax));
             return createAjaxResult(data);
@@ -72,14 +72,14 @@ public class AdminActivityLogPageAction extends Action {
         
 //      This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" in AdminActivityLogPageData
 //      should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-//      logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+//      logs despite any action or change in the page unless the the page is reloaded with "?all=false"
 //      or simply reloaded with this parameter omitted.
         boolean ifShowAll = getRequestParamAsBoolean("all");
         
         
 //      This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
 //      to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-//      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.       
+//      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
         String filterQuery = getRequestParamValue("filterQuery");
@@ -116,7 +116,7 @@ public class AdminActivityLogPageAction extends Action {
     }
     
     /**
-     * Selects versions for query. If versions are not specified, it will return 
+     * Selects versions for query. If versions are not specified, it will return
      * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {
@@ -128,10 +128,10 @@ public class AdminActivityLogPageAction extends Action {
         return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
     }
     
-    private void generateStatusMessage(List<String> versionToQuery, 
-                                       AdminActivityLogPageData data, 
+    private void generateStatusMessage(List<String> versionToQuery,
+                                       AdminActivityLogPageData data,
                                        List<ActivityLogEntry> logs, String courseId) {
-        StringBuilder status = new StringBuilder(500); 
+        StringBuilder status = new StringBuilder(500);
         status.append("Total Logs gone through in last search: " + totalLogsSearched
                     + "<br>Total Relevant Logs found in last search: "
                     + String.format("%s<br>", logs.size()));
@@ -163,7 +163,7 @@ public class AdminActivityLogPageAction extends Action {
         String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
         String timeInUserTimeZone = computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
 
-        status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+        status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
                       + adminTimeZone + ") and ");
         if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
             status.append(timeInUserTimeZone).append(".<br>");
@@ -193,7 +193,7 @@ public class AdminActivityLogPageAction extends Action {
             }
         }
         
-        // the "Search More" button to continue searching from the previous fromDate 
+        // the "Search More" button to continue searching from the previous fromDate
         status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
                       + nextEndTimeToSearch
                       + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
@@ -314,7 +314,7 @@ public class AdminActivityLogPageAction extends Action {
         Logic logic = new Logic();
         
         for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId()); 
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
             if (fsl != null && !fsl.isEmpty()) {
                 return fsl.get(0).timeZone;
             }
@@ -332,7 +332,7 @@ public class AdminActivityLogPageAction extends Action {
         
         Logic logic = new Logic();
         
-        List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId); 
+        List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId);
         if (fsl != null && !fsl.isEmpty()) {
             return fsl.get(0).timeZone;
         }
@@ -343,20 +343,20 @@ public class AdminActivityLogPageAction extends Action {
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
-        } 
+        }
         if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
             String coureseId = logRole.split(":")[1];
             return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
-        } 
+        }
         
-        return Const.DOUBLE_UNINITIALIZED;    
+        return Const.DOUBLE_UNINITIALIZED;
     }
     
     private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
-        } 
+        }
         return computeLocalTime(timeZone, logTimeInAdminTimeZone);
     }
     

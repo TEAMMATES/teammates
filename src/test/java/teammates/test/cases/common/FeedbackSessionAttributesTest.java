@@ -86,11 +86,11 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         List<String> expectedErrorMessage = new ArrayList<String>();
         String[] fieldNames = new String[]{
-                "feedback session name", 
-                "course ID", 
-                "instructions to students", 
-                "time for the session to become visible", 
-                "creator's email", 
+                "feedback session name",
+                "course ID",
+                "instructions to students",
+                "time for the session to become visible",
+                "creator's email",
                 "session creation time"};
         for (String fieldName : fieldNames) {
             expectedErrorMessage.add(String.format(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE, fieldName));

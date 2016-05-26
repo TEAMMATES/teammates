@@ -111,7 +111,7 @@ public class CommentSearchDocument extends SearchDocument {
         
         //produce searchableText for this comment document:
         //it contains
-        //courseId, courseName, giverEmail, giverName, 
+        //courseId, courseName, giverEmail, giverName,
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)

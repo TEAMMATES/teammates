@@ -60,14 +60,14 @@ public abstract class EmailAction {
                 
         } catch (Exception e) {
             isError = true;
-            logActivityFailure(req, e);    
+            logActivityFailure(req, e);
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
         } finally {
             if (isError) {
                 try {
                     doPostProcessingForUnsuccesfulSend();
                 } catch (EntityDoesNotExistException e) {
-                    logActivityFailure(req, e);    
+                    logActivityFailure(req, e);
                     log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
                 }
             }
@@ -95,7 +95,7 @@ public abstract class EmailAction {
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     
-    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {        
+    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
         String url = HttpRequestHelper.getRequestedURL(req);
         String message;
         
@@ -126,7 +126,7 @@ public abstract class EmailAction {
         StringBuilder logMessage = new StringBuilder(100);
         logMessage.append("Emails sent to:<br/>");
         
-        Iterator<Entry<String, EmailData>> extractedEmailIterator = 
+        Iterator<Entry<String, EmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
         
         while (extractedEmailIterator.hasNext()) {

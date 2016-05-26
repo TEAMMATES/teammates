@@ -80,11 +80,11 @@ public final class FeedbackQuestionFormTemplates {
         // utility class
     }
     
-    /** Populates the feedback question form html templates by replacing 
+    /** Populates the feedback question form html templates by replacing
      * variables in the template string with the given value string.
      * @param template The template html to be populated
      * @param values Array of a variable number of variable-value pairs. <br>
-     * * The array is in the form { "var1", "val1", "var2", "val2", ... } 
+     * * The array is in the form { "var1", "val1", "var2", "val2", ... }
      * @return The populated template
      */
     public static String populateTemplate(String template, String... values) {
@@ -93,6 +93,6 @@ public final class FeedbackQuestionFormTemplates {
             populatedTemplate = populatedTemplate.replace(values[i], values[i + 1]);
         }
         
-        return populatedTemplate;    
+        return populatedTemplate;
     }
 }

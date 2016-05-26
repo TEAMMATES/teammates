@@ -18,7 +18,7 @@ public class InstructorCourseEditPageAction extends Action {
     
     //TODO: display privileges in the database properly
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException { 
+    public ActionResult execute() throws EntityDoesNotExistException {
                 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -39,7 +39,7 @@ public class InstructorCourseEditPageAction extends Action {
             instructorList = logic.getInstructorsForCourse(courseId);
         } else {
             instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
-            instructorToShowIndex = Integer.parseInt(index);        
+            instructorToShowIndex = Integer.parseInt(index);
         }
         
         List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
@@ -50,9 +50,9 @@ public class InstructorCourseEditPageAction extends Action {
             feedbackNames.add(feedback.feedbackSessionName);
         }
         
-        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit, 
-                                                                             instructorList, instructor, 
-                                                                             instructorToShowIndex, 
+        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit,
+                                                                             instructorList, instructor,
+                                                                             instructorToShowIndex,
                                                                              sectionNames, feedbackNames);
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"

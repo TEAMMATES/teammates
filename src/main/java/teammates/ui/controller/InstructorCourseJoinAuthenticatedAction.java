@@ -11,7 +11,7 @@ import teammates.logic.api.GateKeeper;
 
 /**
  * This action handles instructors who attempt to join a course after
- * the instructor has been forced to re-authenticate himself by 
+ * the instructor has been forced to re-authenticate himself by
  * {@link InstructorCourseJoinAction}. This action does the actual
  * joining of the instructor to the course.
  */
@@ -27,7 +27,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
-        try {       
+        try {
           
             if (institute == null) {
                 logic.joinCourseForInstructor(regkey, account.googleId);
@@ -38,8 +38,8 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
-            log.info(e.getMessage());            
-        } 
+            log.info(e.getMessage());
+        }
         
         /* Set status to be shown to admin */
         final String joinedCourseMsg = "Action Instructor Joins Course"
@@ -55,7 +55,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor != null) {
-            response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);    
+            response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);
         }
         
         return response;

@@ -47,7 +47,7 @@ public class Sendgrid {
 
     public Sendgrid(String username, String password) throws JSONException {
         this.username = username;
-        this.password = password;      
+        this.password = password;
         this.setCategory("google_sendgrid_java_lib");
     }
 
@@ -90,8 +90,8 @@ public class Sendgrid {
     /**
      * Make the second parameter("name") of "addTo" method optional
      *
-     * @param   email   A single email address 
-     * @return          The SendGrid object.  
+     * @param   email   A single email address
+     * @return          The SendGrid object.
      */
     public Sendgrid addTo(String email) {
         return addTo(email, "");
@@ -334,7 +334,7 @@ public class Sendgrid {
      * @param  array   the array to convert
      * @param  token   the name of parameter
      * @return         a url part that can be concatenated to a url request
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
         StringBuilder urlPart = new StringBuilder();
@@ -349,7 +349,7 @@ public class Sendgrid {
      * Takes the mail message and returns a url friendly querystring
      *
      * @return the data query string to be posted
-     * @throws JSONException 
+     * @throws JSONException
      */
     protected Map<String, String> prepareMessageData() throws JSONException {
         Map<String, String> params = new HashMap<String, String>();
@@ -395,7 +395,7 @@ public class Sendgrid {
      * Send an email
      *
      * @throws JSONException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     public void send() throws JSONException, UnsupportedEncodingException {
         send(new WarningListener() {
@@ -411,7 +411,7 @@ public class Sendgrid {
      *
      * @param w callback that will receive warnings
      * @throws JSONException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     public void send(WarningListener w) throws JSONException, UnsupportedEncodingException {
         Map<String, String> data = this.prepareMessageData();
@@ -423,7 +423,7 @@ public class Sendgrid {
             final String value = data.get(key);
             
             if ("to".equals(key) && this.getTos().size() > 0) {
-                requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
+                requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");
             } else {
                 if ("toname".equals(key) && this.getToNames().size() > 0) {
                     requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
@@ -446,7 +446,7 @@ public class Sendgrid {
             }
         }
         
-        StringBuilder request = new StringBuilder(); 
+        StringBuilder request = new StringBuilder();
         request.append(this.domain).append(this.endpoint);
 
         if (this.getBccs().size() > 0) {
@@ -503,7 +503,7 @@ public class Sendgrid {
         
         for (int i = 0; i < input.length(); i++) {
             int code = Character.codePointAt(input, i);
-            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
+            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code));
         }
         
         return sb.toString();

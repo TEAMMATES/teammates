@@ -116,7 +116,7 @@ public class StudentHomePageData extends PageData {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
-        }        
+        }
         if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }

@@ -68,7 +68,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() == null 
+        this.lastEditorEmail = comment.getLastEditorEmail() == null
                              ? comment.getGiverEmail()
                              : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
@@ -173,18 +173,18 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
 
     @Override
     public String toString() {
-        return "CommentAttributes [commentId = " + commentId 
-               + ", courseId = " + courseId 
-               + ", giverEmail = " + giverEmail 
-               + ", recipientType = " + recipientType 
-               + ", recipient = " + recipients 
-               + ", status = " + status 
-               + ", showCommentTo = " + showCommentTo 
-               + ", showGiverNameTo = " + showGiverNameTo 
-               + ", showRecipientNameTo = " + showRecipientNameTo 
-               + ", commentText = " + commentText.getValue() 
-               + ", createdAt = " + createdAt 
-               + ", lastEditorEmail = " + lastEditorEmail 
+        return "CommentAttributes [commentId = " + commentId
+               + ", courseId = " + courseId
+               + ", giverEmail = " + giverEmail
+               + ", recipientType = " + recipientType
+               + ", recipient = " + recipients
+               + ", status = " + status
+               + ", showCommentTo = " + showCommentTo
+               + ", showGiverNameTo = " + showGiverNameTo
+               + ", showRecipientNameTo = " + showRecipientNameTo
+               + ", commentText = " + commentText.getValue()
+               + ", createdAt = " + createdAt
+               + ", lastEditorEmail = " + lastEditorEmail
                + ", lastEditedAt = " + lastEditedAt + "]";
     }
 
@@ -219,7 +219,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             HashSet<String> sanitizedRecipients = new HashSet<String>();
             for (String recipientId : recipients) {
                 sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
-            }     
+            }
             recipients = sanitizedRecipients;
         }
         
@@ -286,7 +286,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
-    private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
+    private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions,
             CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
@@ -332,8 +332,8 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             return "";
         }
         String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-        return "(last edited " 
-             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") 
+        return "(last edited "
+             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
              + "at " + displayTimeAs + ")";
         
     }

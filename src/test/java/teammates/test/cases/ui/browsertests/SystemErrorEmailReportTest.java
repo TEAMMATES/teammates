@@ -18,7 +18,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 
 /**
  * Triggers various system errors that in turn triggers email error reports
- * to the admin. When run against a production server, this class triggers 
+ * to the admin. When run against a production server, this class triggers
  * three emails to the admin.
  */
 public class SystemErrorEmailReportTest extends BaseUiTestCase {
@@ -72,7 +72,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
         page.navigateTo(url);
-        print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
+        print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
     }
     
     public void testDeadlineExceededException() {
@@ -82,7 +82,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
         page.navigateTo(url);
-        print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
+        print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
         
     }
     

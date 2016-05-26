@@ -32,7 +32,7 @@ public class AdminEmailTrashAction extends Action {
         if (emailId == null || emailId.isEmpty()) {
             statusToAdmin = "Invalid parameter : email id cannot be null or empty";
             statusToUser.add(new StatusMessage("Invalid parameter : email id cannot be null or empty", StatusMessageColor.DANGER));
-            return createRedirectResult(redirect);     
+            return createRedirectResult(redirect);
         }
         
         if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH)) {
@@ -44,7 +44,7 @@ public class AdminEmailTrashAction extends Action {
                 setStatusForException(e, "An error has occurred when moving email to trash bin");
             }
             
-            return createRedirectResult(redirect);   
+            return createRedirectResult(redirect);
             
         } else if (requestUrl.contains(Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH)) {
             try {
@@ -55,10 +55,10 @@ public class AdminEmailTrashAction extends Action {
                 setStatusForException(e, "An error has occurred when moving email out of trash bin");
             }
             
-            return createRedirectResult(Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE);   
+            return createRedirectResult(Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE);
         }
    
-        return createRedirectResult(redirect);     
+        return createRedirectResult(redirect);
             
     }
 

@@ -70,7 +70,7 @@ public class StudentAttributes extends EntityAttributes {
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
-     * Creation and update time stamps. 
+     * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
     private transient Date createdAt;
