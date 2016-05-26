@@ -86,6 +86,10 @@
     <module name="CovariantEquals"/>
     <module name="EqualsAvoidNull"/>
     <module name="MultipleVariableDeclarations"/>
+    <module name="RegexpSinglelineJava">
+      <property name="format" value="((?!\*)\S|\* ) +$"/>
+      <property name="message" value="Line has trailing spaces."/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>
