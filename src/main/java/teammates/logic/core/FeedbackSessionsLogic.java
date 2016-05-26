@@ -56,11 +56,11 @@ public class FeedbackSessionsLogic {
 
     private static final String SESSION_UNPUBLISH_ALREADY = "Session is already unpublished.";
     private static final String SESSION_UNPUBLISH_PRIVATE = "Private session can't be unpublished.";
-    private static final String SESSION_UNPUBLISH_NON_EXISTENT = "Trying to unpublish a non-existant session.";
+    private static final String SESSION_UNPUBLISH_NON_EXISTENT = "Trying to unpublish a non-existent session.";
 
     private static final String SESSION_PUBLISH_ALREADY = "Session is already published.";
     private static final String SESSION_PUBLISH_PRIVATE = "Private session can't be published.";
-    private static final String SESSION_PUBLISH_NON_EXISTENT = "Trying to publish a non-existant session.";
+    private static final String SESSION_PUBLISH_NON_EXISTENT = "Trying to publish a non-existent session.";
 
     private static final String NON_EXISTENT_SESSION_CHECK = "Trying to check a feedback session that does not exist.";
     private static final String NON_EXISTENT_SESSION_COURSE = "Trying to get feedback sessions for a course that does not exist.";
