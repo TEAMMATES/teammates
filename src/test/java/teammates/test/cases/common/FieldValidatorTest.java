@@ -279,137 +279,61 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForSpecificFields() {
-        // behavior tests for the specific field validation methods
-        // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
-        // - ensures error messages are correctly interpolated and returned
-        testGetInvalidityInfo_PersonName();
-        testGetInvalidityInfo_InstituteName();
-        testGetInvalidityInfo_Nationality();
-        testGetInvalidityInfo_CourseName();
-        testGetInvalidityInfo_FeedbackSessionName();
-        testGetInvalidityInfo_Gender();
+    public void testGetInvalidityInfoForPersonName_invalid_returnSpecificErrorString() {
+        String invalidPersonName = "";
+        String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
+        assertEquals("Invalid person name (empty) should return error message that is specific to person name",
+                     String.format(PERSON_NAME_ERROR_MESSAGE, invalidPersonName, REASON_EMPTY), actual);
     }
 
-    private void testGetInvalidityInfo_PersonName() {
-        invalidityInfoFor_validName_returnEmptyString();
-        invalidityInfoFor_emptyName_returnErrorString();
-    }
-
-    private void invalidityInfoFor_emptyName_returnErrorString() {
-        String emptyPersonName = "";
-        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
-        assertEquals("Empty person name should return appropriate error message",
-                     String.format(PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
-                                   REASON_EMPTY),
+    @Test
+    public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
+        String invalidInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForInstituteName(invalidInstituteName);
+        assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
+                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, invalidInstituteName, REASON_TOO_LONG),
                      actual);
     }
 
-    private void invalidityInfoFor_validName_returnEmptyString() {
-        String validPersonName = "Mr Valid Name";
-        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
-        assertEquals("Valid person name should return empty string", "", actual);
-    }
-
-    private void testGetInvalidityInfo_InstituteName() {
-        invalidityInfoFor_validInstituteName_returnEmptyString();
-        invalidityInfoFor_tooLongInstituteName_returnErrorString();
-    }
-
-    private void invalidityInfoFor_validInstituteName_returnEmptyString() {
-        String validInstituteName = "Institute of Valid Name";
-        String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
-        assertEquals("Valid institute name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_tooLongInstituteName_returnErrorString() {
-        String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
-        String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
-        assertEquals("Too long institute name should return appropriate error message",
-                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
-                                   REASON_TOO_LONG),
-                     actual);
-    }
-
-    private void testGetInvalidityInfo_Nationality() {
-        invalidityInfoFor_validNationality_returnEmptyString();
-        invalidityInfoFor_invalidCharNationality_returnErrorString();
-    }
-
-    private void invalidityInfoFor_validNationality_returnEmptyString() {
-        String validNationality = "Martian";
-        String actual = validator.getInvalidityInfoForNationality(validNationality);
-        assertEquals("Valid nationality should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_invalidCharNationality_returnErrorString() {
-        String invalidCharNationality = "{ Invalid Char Nationality";
-        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
-        assertEquals("Nationality with invalid characters should return appropriate error string",
-                      String.format(INVALID_NAME_ERROR_MESSAGE,
-                                    invalidCharNationality,
-                                    NATIONALITY_FIELD_NAME,
-                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                    NATIONALITY_FIELD_NAME),
+    @Test
+    public void testGetInvalidityInfoForNationality_invalid_returnSpecificErrorString() {
+        String invalidNationality = "{ Invalid Char Nationality";
+        String actual = validator.getInvalidityInfoForNationality(invalidNationality);
+        assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
+                      String.format(INVALID_NAME_ERROR_MESSAGE, invalidNationality, NATIONALITY_FIELD_NAME,
+                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR, NATIONALITY_FIELD_NAME),
                       actual);
     }
 
-    private void testGetInvalidityInfo_CourseName() {
-        invalidityInfoFor_validCourseName_returnEmptyString();
-        invalidityInfoFor_invalidCharCourseName_returnErrorString();
-    }
-
-    private void invalidityInfoFor_validCourseName_returnEmptyString() {
-        String validCourseName = "Introduction to Valid Course";
-        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
-        assertEquals("Valid course name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_invalidCharCourseName_returnErrorString() {
-        String invalidCharCourseName = "Vertical Bar | Course";
-        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
-        assertEquals("Course name with invalid character should return appropriate error string",
-                     String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   invalidCharCourseName,
-                                   COURSE_NAME_FIELD_NAME,
-                                   REASON_CONTAINS_INVALID_CHAR,
-                                   COURSE_NAME_FIELD_NAME),
+    @Test
+    public void testGetInvalidityInfoForCourseName_invalid_returnSpecificErrorString() {
+        String invalidCourseName = "Vertical Bar | Course";
+        String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
+        assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
+                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidCourseName, COURSE_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR, COURSE_NAME_FIELD_NAME),
                      actual);
     }
 
-    private void testGetInvalidityInfo_FeedbackSessionName() {
-        invalidityInfoFor_validFeedbackSessionName_returnEmptyString();
-        invalidityInfoFor_tooLongFeedbackSessionName_returnErrorString();
-    }
-
-    private void invalidityInfoFor_validFeedbackSessionName_returnEmptyString() {
-        String validFeedbackSessionName = "Valid feedback session name";
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
-        assertEquals("Valid feedback session name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_tooLongFeedbackSessionName_returnErrorString() {
-        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
-        assertEquals("Feedback session with too long name should return appropriate error message",
-                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
-                                   tooLongFeedbackSessionName,
+    @Test
+    public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
+        String invalidSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
+        assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
+                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, invalidSessionName,
                                    REASON_TOO_LONG),
                      actual);
     }
 
-    private void testGetInvalidityInfo_Gender() {
-        invalidityInfoFor_validGender_returnEmptyString();
-        invalidityInfoFor_invalidGender_returnErrorString();
-    }
-
-    private void invalidityInfoFor_validGender_returnEmptyString() {
+    @Test
+    public void invalidityInfoFor_validGender_returnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_invalidGender_returnErrorString() {
+    @Test
+    public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Invalid gender should return appropriate error stirng",
