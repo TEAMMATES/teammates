@@ -25,10 +25,10 @@ import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private AppUrl enrollUrl;
+    private static AppUrl enrollUrl;
 
     @BeforeClass
     public static void classSetup() {

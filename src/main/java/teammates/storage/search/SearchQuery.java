@@ -17,10 +17,11 @@ import com.google.appengine.api.search.QueryOptions;
  */
 public class SearchQuery {
 
-    private static final Logger log = Utils.getLogger();
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
     protected static final String NOT = " NOT ";
+    
+    private static final Logger log = Utils.getLogger();
     
     //to be defined by the inherited class
     protected String visibilityQueryString;

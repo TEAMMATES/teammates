@@ -16,10 +16,10 @@ import teammates.ui.template.AdminTrashEmailRow;
 import teammates.ui.template.AdminTrashEmailTable;
 
 public abstract class AdminEmailPageData extends PageData {
+    protected AdminEmailPageState state;
     private AdminSentEmailTable sentEmailTable;
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
-    protected AdminEmailPageState state;
 
     protected AdminEmailPageData(AccountAttributes account) {
         super(account);

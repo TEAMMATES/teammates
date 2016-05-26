@@ -145,7 +145,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
 
-    public InstructorCopyFsToModal fsCopyToModal;
+    private InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
@@ -155,6 +155,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
+    }
+    
+    public InstructorCopyFsToModal getFsCopyToModal() {
+        return fsCopyToModal;
     }
     
     public String getCourseId() {

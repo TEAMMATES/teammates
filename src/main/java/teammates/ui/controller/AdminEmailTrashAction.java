@@ -17,7 +17,9 @@ public class AdminEmailTrashAction extends Action {
         String emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         
         String redirect = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT);
-        redirect = redirect == null ? Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE : redirect; // NOPMD
+        if (redirect == null) {
+            redirect = Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE;
+        }
         
         if (redirect.contains("sentpage")) {
             redirect = Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE;
