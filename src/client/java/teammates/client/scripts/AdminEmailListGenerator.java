@@ -215,7 +215,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return instructorEmailSet;
     }
     
-    private  HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
+    private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
         String q = "SELECT FROM " + Student.class.getName();
         List<?> allStudents = (List<?>) pm.newQuery(q).execute();
 

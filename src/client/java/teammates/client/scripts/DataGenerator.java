@@ -257,7 +257,7 @@ public final class DataGenerator {
         for (int i = 0; i < students.size(); i++) {
             String student = students.get(i);
             String index = student.split("Stu")[1].split("Team")[0];
-            String team  = student.split("Team")[1].split("_")[0];
+            String team = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
 
