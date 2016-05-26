@@ -51,17 +51,17 @@ import teammates.storage.api.StudentsDb;
 
 public class FeedbackSessionsLogic {
 
+    private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondant for ";
+    private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response";
+    private static final String ASSUMPTION_FAIL_RESPONSES_ORIGIN = "Client did not indicate the origin of the responses";
     private static final String ERROR_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
     private static final String ERROR_SENDING_EMAILS = "Error while sending emails :";
-
     private static final String SESSION_UNPUBLISH_ALREADY = "Session is already unpublished.";
     private static final String SESSION_UNPUBLISH_PRIVATE = "Private session can't be unpublished.";
     private static final String SESSION_UNPUBLISH_NON_EXISTENT = "Trying to unpublish a non-existent session.";
-
     private static final String SESSION_PUBLISH_ALREADY = "Session is already published.";
     private static final String SESSION_PUBLISH_PRIVATE = "Private session can't be published.";
     private static final String SESSION_PUBLISH_NON_EXISTENT = "Trying to publish a non-existent session.";
-
     private static final String NON_EXISTENT_SESSION_CHECK = "Trying to check a feedback session that does not exist.";
     private static final String NON_EXISTENT_SESSION_COURSE = "Trying to get feedback sessions for a course that does not exist.";
     private static final String NON_EXISTENT_SESSION_GET = "Trying to get a feedback session that does not exist.";
@@ -1252,7 +1252,7 @@ public class FeedbackSessionsLogic {
             try {
                 deleteInstructorRespondant(instructor.email, session.feedbackSessionName, session.courseId);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+                Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.feedbackSessionName);
             }
         }
     }
@@ -1268,7 +1268,7 @@ public class FeedbackSessionsLogic {
             try {
                 deleteStudentRespondant(student.email, session.feedbackSessionName, session.courseId);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+                Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.feedbackSessionName);
             }
         }
     }
@@ -2044,7 +2044,7 @@ public class FeedbackSessionsLogic {
                 allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
                                                                                courseId, section);
             } else {
-                Assumption.fail("Client did not indicate the origin of the response");
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
             long range = Long.parseLong(params.get("range"));
@@ -2058,7 +2058,7 @@ public class FeedbackSessionsLogic {
                 allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
                                                                                           courseId, section, range);
             } else {
-                Assumption.fail("Client did not indicate the origin of the responses");
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSES_ORIGIN);
             }
             if (allResponses.size() <= range) {
                 isComplete = true;
