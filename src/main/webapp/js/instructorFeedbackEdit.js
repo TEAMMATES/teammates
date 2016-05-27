@@ -1,3 +1,5 @@
+var NEW_QUESTION = -1;
+
 var questionsBeforeEdit = [];
 
 $(document).ready(function() {
@@ -265,10 +267,9 @@ function enableQuestion(number) {
 
 function enableNewQuestion() {
     var newQnSuffix = 'New';
-    var number = '-1';
     
     var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
-    var $currentQuestionTableNumber = $('#questionTable' + number);
+    var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
     
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
@@ -277,30 +278,30 @@ function enableNewQuestion() {
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
-    $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + number).show();
-    $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + number).show();
-    $currentQuestionTableSuffix.find('#rubricWeights-' + number).hide();
-    $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
-    $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
+    $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + NEW_QUESTION).show();
+    $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + NEW_QUESTION).show();
+    $currentQuestionTableSuffix.find('#rubricWeights-' + NEW_QUESTION).hide();
+    $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + NEW_QUESTION).show();
+    $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + NEW_QUESTION).show();
 
-    moveAssignWeightsCheckbox($currentQuestionTableSuffix.find('#rubricAssignWeights-' + number));
+    moveAssignWeightsCheckbox($currentQuestionTableSuffix.find('#rubricAssignWeights-' + NEW_QUESTION));
 
-    if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
-        $('#mcqChoiceTable-' + number).hide();
-        $('#msqChoiceTable-' + number).hide();
-        $('#mcqGenerateForSelect-' + number).prop('disabled', false);
-        $('#msqGenerateForSelect-' + number).prop('disabled', false);
+    if ($('#generateOptionsCheckbox-' + NEW_QUESTION).prop('checked')) {
+        $('#mcqChoiceTable-' + NEW_QUESTION).hide();
+        $('#msqChoiceTable-' + NEW_QUESTION).hide();
+        $('#mcqGenerateForSelect-' + NEW_QUESTION).prop('disabled', false);
+        $('#msqGenerateForSelect-' + NEW_QUESTION).prop('disabled', false);
     } else {
-        $('#mcqChoiceTable-' + number).show();
-        $('#msqChoiceTable-' + number).show();
-        $('#mcqGenerateForSelect-' + number).prop('disabled', true);
-        $('#msqGenerateForSelect-' + number).prop('disabled', true);
+        $('#mcqChoiceTable-' + NEW_QUESTION).show();
+        $('#msqChoiceTable-' + NEW_QUESTION).show();
+        $('#mcqGenerateForSelect-' + NEW_QUESTION).prop('disabled', true);
+        $('#msqGenerateForSelect-' + NEW_QUESTION).prop('disabled', true);
     }
     
-    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
-    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
-    $('#button_question_submit-' + number).show();
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + NEW_QUESTION).hide();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + NEW_QUESTION).show();
+    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + NEW_QUESTION).val('edit');
+    $('#button_question_submit-' + NEW_QUESTION).show();
 }
 
 /**
@@ -349,7 +350,7 @@ function disableQuestion(number) {
  * @returns
  */
 function deleteQuestion(number) {
-    if (number === -1) {
+    if (number === NEW_QUESTION) {
         location.reload();
         return false;
     } else if (confirm('Are you sure you want to delete this question?')) {
@@ -364,7 +365,7 @@ function deleteQuestion(number) {
  * Allows users to cancel editing questions
  */
 function cancelEdit(number) {
-    var confirmationMsg = number === -1
+    var confirmationMsg = number === NEW_QUESTION
                         ? 'Are you sure you want to cancel adding this question?'
                         : 'Are you sure you want to cancel your changes?';
     if (confirm(confirmationMsg)) {
@@ -552,7 +553,7 @@ function prepareQuestionForm(type) {
     case 'RANK_RECIPIENTS':
         $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
         $('#rankOption_Option--1').hide();
-        hideRankOptionTable(-1);
+        hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
         
         hideAllNewQuestionForms();
@@ -930,8 +931,7 @@ function formatVisibilityMessageHtml(visibilityMessage) {
  */
 
 function getQuestionIdSuffix(questionNumber) {
-    var newQuestionNumber = -1;
-    var isValidQuestionNumber = questionNumber > 0 || questionNumber === newQuestionNumber;
+    var isValidQuestionNumber = questionNumber > 0 || questionNumber === NEW_QUESTION;
     
     var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
     return idSuffix;
