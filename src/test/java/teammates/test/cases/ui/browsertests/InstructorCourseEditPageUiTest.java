@@ -11,7 +11,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -182,7 +181,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
         
@@ -322,7 +321,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
         
         String invalidName = "";
         

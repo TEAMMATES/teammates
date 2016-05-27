@@ -137,9 +137,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
+        error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            errors.add(error);
+            errors.add("Invalid creator's email: " + error);
         }
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
