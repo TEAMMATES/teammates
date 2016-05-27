@@ -182,10 +182,10 @@ function toggleVisibilityOptions(elem) {
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param number
  */
-function enableEdit(qnNumber, maxQuestions) {
+function enableEdit(questionNum, maxQuestions) {
     var i = maxQuestions;
     while (i) {
-        if (qnNumber === i) {
+        if (questionNum === i) {
             backupQuestion(i);
             enableQuestion(i);
         } else {
@@ -199,20 +199,20 @@ function enableEdit(qnNumber, maxQuestions) {
 
 /**
  * Creates a copy of the original question before any new edits
- * @param qnNumber
+ * @param questionNum
  */
-function backupQuestion(qnNumber) {
-    questionsBeforeEdit[qnNumber] = questionsBeforeEdit[qnNumber]
-                                || $("#questionTable" + qnNumber + " > .panel-body").html();
+function backupQuestion(questionNum) {
+    questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
+                                || $("#questionTable" + questionNum + " > .panel-body").html();
 }
 
 /**
  * Enables question fields and "save changes" button for the given question number,
  * and hides the edit link.
- * @param number
+ * @param questionNum
  */
-function enableQuestion(number) {
-    var $currentQuestionTable = $('#questionTable' + number);
+function enableQuestion(questionNum) {
+    var $currentQuestionTable = $('#questionTable' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
@@ -222,47 +222,47 @@ function enableQuestion(number) {
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
 
-    $currentQuestionTable.find('#rubricAddChoiceLink-' + number).show();
-    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).show();
-    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).show();
-    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).show();
-    
-    if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
-        $('#mcqChoiceTable-' + number).hide();
-        $('#msqChoiceTable-' + number).hide();
-        $('#mcqOtherOptionFlag-' + number).closest('.checkbox').hide();
-        $('#msqOtherOptionFlag-' + number).closest('.checkbox').hide();
-        $('#mcqGenerateForSelect-' + number).prop('disabled', false);
-        $('#msqGenerateForSelect-' + number).prop('disabled', false);
+    $currentQuestionTable.find('#rubricAddChoiceLink-' + questionNum).show();
+    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).show();
+    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).show();
+    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).show();
+
+    if ($('#generateOptionsCheckbox-' + questionNum).prop('checked')) {
+        $('#mcqChoiceTable-' + questionNum).hide();
+        $('#msqChoiceTable-' + questionNum).hide();
+        $('#mcqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
+        $('#msqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
+        $('#mcqGenerateForSelect-' + questionNum).prop('disabled', false);
+        $('#msqGenerateForSelect-' + questionNum).prop('disabled', false);
     } else {
-        $('#mcqChoiceTable-' + number).show();
-        $('#msqChoiceTable-' + number).show();
-        $('#mcqOtherOptionFlag-' + number).closest('.checkbox').show();
-        $('#msqOtherOptionFlag-' + number).closest('.checkbox').show();
-        $('#mcqGenerateForSelect-' + number).prop('disabled', true);
-        $('#msqGenerateForSelect-' + number).prop('disabled', true);
+        $('#mcqChoiceTable-' + questionNum).show();
+        $('#msqChoiceTable-' + questionNum).show();
+        $('#mcqOtherOptionFlag-' + questionNum).closest('.checkbox').show();
+        $('#msqOtherOptionFlag-' + questionNum).closest('.checkbox').show();
+        $('#mcqGenerateForSelect-' + questionNum).prop('disabled', true);
+        $('#msqGenerateForSelect-' + questionNum).prop('disabled', true);
     }
     
-    if ($('#constSumToRecipients-' + number).val() === 'true') {
-        $('#constSumOptionTable-' + number).hide();
-        $('#constSumOption_Option-' + number).hide();
+    if ($('#constSumToRecipients-' + questionNum).val() === 'true') {
+        $('#constSumOptionTable-' + questionNum).hide();
+        $('#constSumOption_Option-' + questionNum).hide();
     } else {
-        $('#constSumOptionTable-' + number).show();
-        $('#constSumOption_Recipient-' + number).hide();
+        $('#constSumOptionTable-' + questionNum).show();
+        $('#constSumOption_Recipient-' + questionNum).hide();
     }
     
-    $('#constSumOption_distributeUnevenly-' + number).prop('disabled', false);
+    $('#constSumOption_distributeUnevenly-' + questionNum).prop('disabled', false);
     
-    if ($('#questionTable' + number).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
-        fixContribQnGiverRecipient(number);
-        setContribQnVisibilityFormat(number);
+    if ($('#questionTable' + questionNum).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
+        fixContribQnGiverRecipient(questionNum);
+        setContribQnVisibilityFormat(questionNum);
     }
     
-    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
-    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
-    $('#button_question_submit-' + number).show();
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).hide();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
+    $('#button_question_submit-' + questionNum).show();
 }
 
 function enableNewQuestion() {
@@ -364,30 +364,30 @@ function deleteQuestion(number) {
 /**
  * Allows users to cancel editing questions
  */
-function cancelEdit(number) {
-    var confirmationMsg = number === NEW_QUESTION
+function cancelEdit(questionNum) {
+    var confirmationMsg = questionNum === NEW_QUESTION
                         ? 'Are you sure you want to cancel adding this question?'
                         : 'Are you sure you want to cancel your changes?';
     if (confirm(confirmationMsg)) {
-        discardChanges(number);
+        discardChanges(questionNum);
     }
 }
 
 /**
  * Discards new changes made and restores the original question
- * @param qnNumber
+ * @param questionNum
  */
-function discardChanges(qnNumber) {
-    if (qnNumber === NEW_QUESTION) {
+function discardChanges(questionNum) {
+    if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $("#questionTable" + qnNumber + " > .panel-body").html(questionsBeforeEdit[qnNumber]);
+        $("#questionTable" + questionNum + " > .panel-body").html(questionsBeforeEdit[questionNum]);
 
-        $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + qnNumber).show();
-        $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + qnNumber).hide();
-        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + qnNumber).hide();
-        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + qnNumber).val('');
-        $('#button_question_submit-' + qnNumber).hide();
+        $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
+        $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
+        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).hide();
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
+        $('#button_question_submit-' + questionNum).hide();
     }
 }
 
@@ -412,12 +412,12 @@ function formatNumberBoxes() {
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     var modifyVisibility = function() {
-        var qnNumber = $(this).prop('id').split('-')[1];
-        qnNumber = qnNumber || '';
+        var questionNum = $(this).prop('id').split('-')[1];
+        questionNum = questionNum || '';
         
         var value = $(this).val();
         
-        formatNumberBox(value, qnNumber);
+        formatNumberBox(value, questionNum);
     };
     $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
                                                              .change(modifyVisibility);
@@ -427,27 +427,27 @@ function formatNumberBoxes() {
 /**
  * Hides/shows the "Number of Recipients Box" of the question
  * depending on the participant type and formats the label text for it.
- * @param value, qnNumber
+ * @param value, questionNum
  */
-function formatNumberBox(value, qnNumber) {
+function formatNumberBox(value, questionNum) {
     if (value === 'STUDENTS' || value === 'TEAMS') {
-        $('div.numberOfEntitiesElements' + qnNumber).show();
+        $('div.numberOfEntitiesElements' + questionNum).show();
         
-        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + qnNumber);
+        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + questionNum);
         $span.html(value === 'STUDENTS' ? 'students' : 'teams');
     } else {
-        $('div.numberOfEntitiesElements' + qnNumber).hide();
+        $('div.numberOfEntitiesElements' + questionNum).hide();
     }
     
-    tallyCheckboxes(qnNumber);
+    tallyCheckboxes(questionNum);
 }
 
 /**
  * Pushes the values of all checked check boxes for the specified question
  * into the appropriate feedback question parameters.
- * @returns qnNumber
+ * @returns questionNum
  */
-function tallyCheckboxes(qnNumber) {
+function tallyCheckboxes(questionNum) {
     // update hidden parameters (the values in checkboxTypes)
     var checkboxTypes = {
         '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
@@ -457,7 +457,7 @@ function tallyCheckboxes(qnNumber) {
     
     $.each(checkboxTypes, function(i, checkboxType) {
         var checked = [];
-        $(i + qnNumber + ':checked').each(function() {
+        $(i + questionNum + ':checked').each(function() {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -748,13 +748,13 @@ function formatQuestionNumbers() {
     });
 }
 
-function getQuestionLink(qnNumber) {
+function getQuestionLink(questionNum) {
     var courseid = $('input[name="courseid"]').val();
     var fsname = encodeURIComponent($('input[name="fsname"]').val());
     
-    var questionId = $('#form_editquestion-' + qnNumber).find('input[name="questionid"]').val();
+    var questionId = $('#form_editquestion-' + questionNum).find('input[name="questionid"]').val();
     
-    var giverType = $('#givertype-' + qnNumber).val();
+    var giverType = $('#givertype-' + questionNum).val();
     
     var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS'
                   ? '/page/studentFeedbackQuestionSubmissionEditPage'
@@ -766,7 +766,7 @@ function getQuestionLink(qnNumber) {
                      + '&fsname=' + fsname
                      + '&questionid=' + questionId;
     
-    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
+    setStatusMessage('Link for question ' + questionNum + ': ' + questionLink, StatusType.WARNING);
 }
 
 function toParameterFormat(str) {
@@ -870,13 +870,13 @@ var previousFormDataMap = {};
  */
 function getVisibilityMessage(buttonElem) {
     var $form = $(buttonElem).closest('form');
-    var qnNumber = $form.find('[name=questionnum]').val();
+    var questionNum = $form.find('[name=questionnum]').val();
     var newQnNumber = $('input[name=questionnum]').last().val();
     
-    if (qnNumber === newQnNumber) {
+    if (questionNum === newQnNumber) {
         tallyCheckboxes('');
     } else {
-        tallyCheckboxes(qnNumber);
+        tallyCheckboxes(questionNum);
     }
     
     var formData = $form.serialize();
@@ -884,7 +884,7 @@ function getVisibilityMessage(buttonElem) {
     var $formOptions = $form.find('.visibilityOptions');
     var $formVisibility = $form.find('.visibilityMessage');
     
-    if (previousFormDataMap[qnNumber] === formData) {
+    if (previousFormDataMap[questionNum] === formData) {
         $formOptions.hide();
         $formVisibility.show();
         return;
@@ -902,7 +902,7 @@ function getVisibilityMessage(buttonElem) {
             updateVisibilityMessageButton($form, true);
             
             // update stored form data
-            previousFormDataMap[qnNumber] = formData;
+            previousFormDataMap[questionNum] = formData;
             
             $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
             $formVisibility.show();
@@ -953,10 +953,10 @@ function formatVisibilityMessageHtml(visibilityMessage) {
  *  ===========================================================================
  */
 
-function getQuestionIdSuffix(questionNumber) {
-    var isValidQuestionNumber = questionNumber > 0 || questionNumber === NEW_QUESTION;
+function getQuestionIdSuffix(questionNum) {
+    var isValidQuestionNumber = questionNum > 0 || questionNum === NEW_QUESTION;
     
-    var idSuffix = isValidQuestionNumber ? '-' + questionNumber : '';
+    var idSuffix = isValidQuestionNumber ? '-' + questionNum : '';
     return idSuffix;
 }
 
@@ -966,9 +966,9 @@ function getQuestionIdSuffix(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function addMcqOption(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addMcqOption(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -982,7 +982,7 @@ function addMcqOption(questionNumber) {
                       + 'id="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control mcqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" '
-                          + 'onclick="removeMcqOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
+                          + 'onclick="removeMcqOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</button>'
               + '</span>'
@@ -997,9 +997,9 @@ function addMcqOption(questionNumber) {
     }
 }
 
-function removeMcqOption(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeMcqOption(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
     
@@ -1017,8 +1017,8 @@ function removeMcqOption(index, questionNumber) {
     }
 }
 
-function toggleMcqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function toggleMcqGeneratedOptions(checkbox, questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
 
     if (checkbox.checked) {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
@@ -1036,17 +1036,17 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     }
 }
 
-function toggleMcqOtherOptionEnabled(checkbox, questionNumber) {
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = getQuestionIdSuffix(questionNumber);
+function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
+    idOfQuestion = '#form_editquestion-' + questionNum;
+    idSuffix = getQuestionIdSuffix(questionNum);
 
     if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
         $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
-function changeMcqGenerateFor(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function changeMcqGenerateFor(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
 
     $('#generatedOptions' + idSuffix).attr('value',
                                            $('#mcqGenerateForSelect' + idSuffix).prop('value'));
@@ -1058,9 +1058,9 @@ function changeMcqGenerateFor(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function addMsqOption(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addMsqOption(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
 
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -1074,7 +1074,7 @@ function addMsqOption(questionNumber) {
                       + 'id="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control msqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" '
-                          + 'onclick="removeMsqOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
+                          + 'onclick="removeMsqOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</button>'
               + '</span>'
@@ -1089,9 +1089,9 @@ function addMsqOption(questionNumber) {
     }
 }
 
-function removeMsqOption(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeMsqOption(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#msqOptionRow-' + index + idSuffix);
     
@@ -1109,8 +1109,8 @@ function removeMsqOption(index, questionNumber) {
     }
 }
 
-function toggleMsqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function toggleMsqGeneratedOptions(checkbox, questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
 
     if (checkbox.checked) {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
@@ -1128,8 +1128,8 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
     }
 }
 
-function changeMsqGenerateFor(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function changeMsqGenerateFor(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
 
     $('#generatedOptions' + idSuffix).attr('value',
                                            $('#msqGenerateForSelect' + idSuffix).prop('value'));
@@ -1145,8 +1145,8 @@ function roundToThreeDp(num) {
     return parseFloat(num.toFixed(3));
 }
 
-function updateNumScalePossibleValues(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function updateNumScalePossibleValues(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var min = parseInt($('#minScaleBox' + idSuffix).val());
     var max = parseInt($('#maxScaleBox' + idSuffix).val());
@@ -1213,17 +1213,17 @@ function updateNumScalePossibleValues(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function updateConstSumPointsValue(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function updateConstSumPointsValue(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val() < 1) {
         $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val(1);
     }
 }
 
-function addConstSumOption(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addConstSumOption(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
@@ -1233,7 +1233,7 @@ function addConstSumOption(questionNumber) {
                       + 'id="' + FEEDBACK_QUESTION_CONSTSUMOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control constSumOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" '
-                          + 'onclick="removeConstSumOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
+                          + 'onclick="removeConstSumOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</button>'
               + '</span>'
@@ -1248,14 +1248,14 @@ function addConstSumOption(questionNumber) {
     }
 }
 
-function hideConstSumOptionTable(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function hideConstSumOptionTable(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     $('#' + FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE + idSuffix).hide();
 }
 
-function removeConstSumOption(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeConstSumOption(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     var $thisRow = $('#constSumOptionRow-' + index + idSuffix);
     
     // count number of child rows the table have and - 1 because of add option button
@@ -1278,9 +1278,9 @@ function removeConstSumOption(index, questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function setDefaultContribQnVisibility(questionNumber) {
-    var idSuffix = questionNumber || 'New';
-    var idSuffix2 = questionNumber || '';
+function setDefaultContribQnVisibility(questionNum) {
+    var idSuffix = questionNum || 'New';
+    var idSuffix2 = questionNum || '';
     
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1300,8 +1300,8 @@ function setDefaultContribQnVisibility(questionNumber) {
 
 }
 
-function setContribQnVisibilityFormat(questionNumber) {
-    var idSuffix = questionNumber || 'New';
+function setContribQnVisibilityFormat(questionNum) {
+    var idSuffix = questionNum || 'New';
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1372,8 +1372,8 @@ function setContribQnVisibilityFormat(questionNumber) {
 
 }
 
-function fixContribQnGiverRecipient(questionNumber) {
-    var idSuffix = questionNumber ? '-' + questionNumber : '';
+function fixContribQnGiverRecipient(questionNum) {
+    var idSuffix = questionNum ? '-' + questionNum : '';
     var $giverType = $('#givertype' + idSuffix);
     var $recipientType = $('#recipienttype' + idSuffix);
 
@@ -1394,9 +1394,9 @@ function fixContribQnGiverRecipient(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function addRubricRow(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addRubricRow(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
     var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
@@ -1429,7 +1429,7 @@ function addRubricRow(questionNumber) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = replaceAll(fragment, '${qnIndex}', questionNum);
         fragment = replaceAll(fragment, '${row}', newRowNumber - 1);
         fragment = replaceAll(fragment, '${col}', cols);
         fragment = replaceAll(fragment, '${description}', '');
@@ -1439,7 +1439,7 @@ function addRubricRow(questionNumber) {
 
     // Create new rubric row
     var newRubricRow = rubricRowTemplate;
-    newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNumber);
+    newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNum);
     newRubricRow = replaceAll(newRubricRow, '${row}', newRowNumber - 1);
     newRubricRow = replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
     newRubricRow = replaceAll(newRubricRow, '${subQuestion}', '');
@@ -1457,9 +1457,9 @@ function addRubricRow(questionNumber) {
     }
 }
 
-function addRubricCol(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addRubricCol(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
     var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
@@ -1479,7 +1479,7 @@ function addRubricCol(questionNumber) {
       + '</th>';
 
     var rubricHeaderFragment = rubricHeaderFragmentTemplate;
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNumber);
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNum);
     rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
     rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
     rubricHeaderFragment = replaceAll(rubricHeaderFragment,
@@ -1497,7 +1497,7 @@ function addRubricCol(questionNumber) {
       + '</th>';
 
     var rubricWeightFragment = rubricWeightFragmentTemplate;
-    rubricWeightFragment = replaceAll(rubricWeightFragment, '${qnIndex}', questionNumber);
+    rubricWeightFragment = replaceAll(rubricWeightFragment, '${qnIndex}', questionNum);
     rubricWeightFragment = replaceAll(rubricWeightFragment, '${col}', newColNumber - 1);
     rubricWeightFragment = replaceAll(rubricWeightFragment, '${rubricWeight}', 0);
     rubricWeightFragment = replaceAll(rubricWeightFragment,
@@ -1505,10 +1505,10 @@ function addRubricCol(questionNumber) {
                                       'rubricWeight');
 
     // Insert after last <th>
-    var lastWeightCell = $('#rubricWeights-' + questionNumber + ' th:last');
+    var lastWeightCell = $('#rubricWeights-' + questionNum + ' th:last');
     $(rubricWeightFragment).insertAfter(lastWeightCell);
     
-    disallowNonNumericEntries($('#rubricWeight-' + questionNumber + '-' + (newColNumber - 1)), true, true);
+    disallowNonNumericEntries($('#rubricWeight-' + questionNum + '-' + (newColNumber - 1)), true, true);
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
@@ -1522,7 +1522,7 @@ function addRubricCol(questionNumber) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = replaceAll(fragment, '${qnIndex}', questionNum);
         fragment = replaceAll(fragment, '${row}', rows);
         fragment = replaceAll(fragment, '${col}', newColNumber - 1);
         fragment = replaceAll(fragment, '${description}', '');
@@ -1543,9 +1543,9 @@ function addRubricCol(questionNumber) {
     }
 }
 
-function removeRubricRow(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeRubricRow(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
     
@@ -1568,9 +1568,9 @@ function removeRubricRow(index, questionNumber) {
     }
 }
 
-function removeRubricCol(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeRubricCol(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
     
@@ -1594,8 +1594,8 @@ function removeRubricCol(index, questionNumber) {
     }
 }
 
-function highlightRubricRow(index, questionNumber, highlight) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function highlightRubricRow(index, questionNum, highlight) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
 
@@ -1607,8 +1607,8 @@ function highlightRubricRow(index, questionNumber, highlight) {
 
 }
 
-function highlightRubricCol(index, questionNumber, highlight) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function highlightRubricCol(index, questionNum, highlight) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
 
@@ -1664,12 +1664,12 @@ function moveAssignWeightsCheckbox(checkbox) {
 }
 
 /**
- * @param questionNumber
+ * @param questionNum
  *            the question number of the feedback question
  * @returns {Boolean} true if the weights are assigned by the user, otherwise false
  */
-function hasAssignedWeights(questionNumber) {
-    return $('#rubricAssignWeights-' + questionNumber).prop('checked');
+function hasAssignedWeights(questionNum) {
+    return $('#rubricAssignWeights-' + questionNum).prop('checked');
 }
 
 /**
@@ -1678,17 +1678,17 @@ function hasAssignedWeights(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function updateRankPointsValue(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function updateRankPointsValue(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     if ($('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val() < 1) {
         $('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val(1);
     }
 }
 
-function addRankOption(questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function addRankOption(questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
@@ -1698,7 +1698,7 @@ function addRankOption(questionNumber) {
                       + 'id="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control rankOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" '
-                          + 'onclick="removeRankOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
+                          + 'onclick="removeRankOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</button>'
               + '</span>'
@@ -1713,14 +1713,14 @@ function addRankOption(questionNumber) {
     }
 }
 
-function hideRankOptionTable(questionNumber) {
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function hideRankOptionTable(questionNum) {
+    var idSuffix = getQuestionIdSuffix(questionNum);
     $('#' + FEEDBACK_QUESTION_RANKOPTIONTABLE + idSuffix).hide();
 }
 
-function removeRankOption(index, questionNumber) {
-    var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = getQuestionIdSuffix(questionNumber);
+function removeRankOption(index, questionNum) {
+    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var idSuffix = getQuestionIdSuffix(questionNum);
     var $thisRow = $('#rankOptionRow-' + index + idSuffix);
     
     // count number of child rows the table have and - 1 because of 'add option' button
