@@ -144,7 +144,8 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum
+                                                         + " input[name=\"instructorisdisplayed\"]"));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
@@ -231,26 +232,26 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
+        String cssSelector = "input[type=\"checkbox\"][name=\"canviewstudentinsectionsectiongroup"
+                             + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
+        String cssSelector = "input[type=\"checkbox\"][name=\"canviewcommentinsectionsectiongroup"
+                             + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
+        String cssSelector = "input[type=\"checkbox\"][name=\"canviewsessioninsectionsectiongroup"
+                             + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
+        String cssSelector = "input[type=\"checkbox\"][name=\"canmodifysessioncommentinsectionsectiongroup"
+                             + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
