@@ -211,7 +211,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                     }
                 }
 
-            } 
+            }
 
             line.append('.');
             message.add(line.toString());
@@ -284,10 +284,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         /**
          * Although question numbers ought to be unique in a feedback session,
-         * eventual consistency can result in duplicate questions numbers. 
+         * eventual consistency can result in duplicate questions numbers.
          * Therefore, to ensure that the question order is always consistent to the user,
          * compare feedbackQuestionId, which is guaranteed to be unique,
-         * when the questionNumbers are the same. 
+         * when the questionNumbers are the same.
          */
         return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
@@ -605,8 +605,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /**
      * Should only be used for testing
      */
-    //CHECKSTYLE:OFF 
-    // Naming violation is so that it will be noticed if it is accidentally included in production code 
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setCreatedAt_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
@@ -615,8 +615,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /**
      * Should only be used for testing
      */
-    //CHECKSTYLE:OFF 
-    // Naming violation is so that it will be noticed if it is accidentally included in production code 
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }

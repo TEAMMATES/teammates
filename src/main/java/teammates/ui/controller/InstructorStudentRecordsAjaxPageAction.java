@@ -67,7 +67,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
-        InstructorStudentRecordsAjaxPageData data = 
+        InstructorStudentRecordsAjaxPageData data =
                                         new InstructorStudentRecordsAjaxPageData(account, student, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);

@@ -115,8 +115,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getNewQuestionSpecificEditFormHtml() {
         this.isNotSureAllowed = true;
         
-        return "<div id=\"contribForm\">" 
-                  + this.getQuestionSpecificEditFormHtml(-1) 
+        return "<div id=\"contribForm\">"
+                  + this.getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -281,7 +281,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragments.append(FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", Sanitizer.sanitizeForHtml(displayTeam),
-                    "${studentName}", Sanitizer.sanitizeForHtml(displayName),                    
+                    "${studentName}", Sanitizer.sanitizeForHtml(displayName),
                     "${CC}", getPointsAsColorizedHtml(summary.claimedToInstructor),
                     "${PC}", getPointsAsColorizedHtml(summary.perceivedToInstructor),
                     "${Diff}", getPointsDiffAsHtml(summary),
@@ -400,7 +400,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragments.append(entry.getValue());
         }
 
-        String csvPointsExplanation = 
+        String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
                 + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL
                 + "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL
@@ -530,7 +530,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, List<FeedbackResponseAttributes>> getTeamResponses(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
-        Map<String, List<FeedbackResponseAttributes>> teamResponses = 
+        Map<String, List<FeedbackResponseAttributes>> teamResponses =
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
@@ -645,7 +645,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" 
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
                    + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
@@ -668,7 +668,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
                 || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE 
+                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
                    + "\">N/A</span>";
         } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" "
@@ -744,7 +744,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         // restrictions on visibility options
         Assumption.assertTrue("Contrib Qn Invalid visibility options",
                 feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) 
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
@@ -784,13 +784,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
-        boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail) 
+        boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail)
                                                && hasPerceivedContribution(recipientEmail, question, bundle);
         
         // in the row for the student's self response,
         // show the perceived contribution if the student has one
         return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>"
-               + (isPerceivedContributionShown ? getPerceivedContributionHtml(question, recipientEmail, bundle) 
+               + (isPerceivedContributionShown ? getPerceivedContributionHtml(question, recipientEmail, bundle)
                                                : "");
     }
 
@@ -800,7 +800,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     
     /**
-     * Returns the options for contribution share in a team. 
+     * Returns the options for contribution share in a team.
      */
     private String getContributionOptionsHtml(int pointsParam) {
         int points = pointsParam;

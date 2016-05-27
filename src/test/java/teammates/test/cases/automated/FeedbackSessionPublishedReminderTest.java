@@ -69,7 +69,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     }
     
     @Test
-    public void testAdditionOfTaskToTaskQueue() throws Exception {        
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
         FeedbackSessionPublishedCallback.resetTaskCount();
         
         ______TS("3 sessions unpublished, 1 published and emails unsent");
@@ -162,7 +162,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
-        int course1StudentCount = 5; 
+        int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
         List<MimeMessage> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();

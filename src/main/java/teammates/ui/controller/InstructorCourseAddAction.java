@@ -43,7 +43,7 @@ public class InstructorCourseAddAction extends Action {
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         
-        // Get list of InstructorAttributes that belong to the user.        
+        // Get list of InstructorAttributes that belong to the user.
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
         for (InstructorAttributes instructor : instructorList) {
             instructorsForCourses.put(instructor.courseId, instructor);

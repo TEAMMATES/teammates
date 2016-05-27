@@ -126,11 +126,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Add instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
-        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), 
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.fillInstructorName(longInstructorName));
         // Edit instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
-        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), 
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.fillInstructorName(longInstructorName));
         
 
@@ -139,11 +139,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Add instructor
         assertEquals(maxLengthEmail, courseEditPage.fillInstructorEmail(maxLengthEmail));
-        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), 
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
                      courseEditPage.fillInstructorEmail(longEmail));
         // Edit instructor
         assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(maxLengthEmail));
-        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), 
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
                      courseEditPage.editInstructorEmail(longEmail));
     }
 
@@ -441,7 +441,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // Create an registered instructor with all privileges except modifying instructors
         InstructorPrivileges privilege = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
-        InstructorAttributes instructor = new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt", 
+        InstructorAttributes instructor = new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt",
                                         Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "Teammates Reg", privilege);
         BackDoor.createInstructor(instructor);
         
@@ -499,7 +499,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editCourseName("");
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY), 
+        assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
                      courseEditPage.getStatus());
     }
     
@@ -533,7 +533,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
     }
     
-    private InstructorCourseEditPage getCourseEditPage() {        
+    private InstructorCourseEditPage getCourseEditPage() {
         AppUrl courseEditPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);

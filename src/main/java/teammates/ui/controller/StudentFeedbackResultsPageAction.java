@@ -65,7 +65,7 @@ public class StudentFeedbackResultsPageAction extends Action {
     protected StudentAttributes getCurrentStudent(String courseId) {
         if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId);
-        } 
+        }
         return student;
     }
 }

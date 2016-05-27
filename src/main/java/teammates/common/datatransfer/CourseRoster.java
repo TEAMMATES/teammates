@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
- * a copy of student and instructor details of a course instead of reading 
+ * a copy of student and instructor details of a course instead of reading
  * them from the database multiple times.
  */
 public class CourseRoster {

@@ -73,7 +73,7 @@ public class InstructorSearchPageAction extends Action {
                 studentSearchResults = logic.searchStudents(searchKey, instructors, "");
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
+            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize()
                                             + studentSearchResults.getResultSize();
             
             Set<String> instructorEmails = new HashSet<String>();
@@ -91,7 +91,7 @@ public class InstructorSearchPageAction extends Action {
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey, 
+        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey,
                       isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
@@ -112,11 +112,11 @@ public class InstructorSearchPageAction extends Action {
                 FeedbackResponseAttributes response = fr.next();
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
                 
-                boolean isVisibleResponse = true;               
-                boolean isNotAllowedForInstructor = instructor == null 
-                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName, 
+                boolean isVisibleResponse = true;
+                boolean isNotAllowedForInstructor = instructor == null
+                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName, 
+                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
                 if (isNotAllowedForInstructor) {
@@ -130,7 +130,7 @@ public class InstructorSearchPageAction extends Action {
                     fr.remove();
                 }
             }
-        }   
+        }
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
         Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn = frCommentSearchResults.questions.entrySet().iterator();
@@ -209,13 +209,13 @@ public class InstructorSearchPageAction extends Action {
         }
     }
 
-    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize, 
-                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {        
+    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize,
+                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         int filteredResultsSize = totalResultsSize;
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
-            if (!commentList.isEmpty() 
+            if (!commentList.isEmpty()
                     && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
                 iter.remove();
                 filteredResultsSize -= commentList.size();
@@ -234,7 +234,7 @@ public class InstructorSearchPageAction extends Action {
         return null;
     }
 
-    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails, 
+    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails,
                                                          List<InstructorAttributes> instructors) {
         if (instructorEmails.contains(commentAttributes.giverEmail)) {
             return true;
@@ -258,7 +258,7 @@ public class InstructorSearchPageAction extends Action {
                         return false;
                     }
                     
-                    section = student.section;              
+                    section = student.section;
                 } else if (commentAttributes.recipientType == CommentParticipantType.TEAM) {
                     List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(recipient, commentAttributes.courseId);
                     if (studentsInTeam.isEmpty()) {
@@ -279,7 +279,7 @@ public class InstructorSearchPageAction extends Action {
                 }
                 return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
             }
-        }      
+        }
         return false;
     }
 }

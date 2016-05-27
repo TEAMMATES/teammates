@@ -25,7 +25,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Home page and login page for instructors. 
+ * Tests Home page and login page for instructors.
  * SUT: {@link InstructorHomePage}.<br>
  * Uses a real account.
  * 
@@ -40,7 +40,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes feedbackSessionClosed;
     private static FeedbackSessionAttributes feedbackSessionPublished;
 
-    // TODO: refactor this test. try to use admin login or create instructors and courses not using json 
+    // TODO: refactor this test. try to use admin login or create instructors and courses not using json
     
     @BeforeClass
     public static void classSetup() {
@@ -213,7 +213,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add session");
-        InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        InstructorFeedbacksPage feedbacksPage = homePage.clickCourseAddEvaluationLink(courseId);
         feedbacksPage.verifyContains("Add New Feedback Session");
         String expectedAddSessionLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                         .withUserId(instructorId)
@@ -303,14 +303,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId, 
+        assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId,
                                                 feedbackSessionPublished.feedbackSessionName).isPublished());
 
         ______TS("publish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionPublishLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId, 
+        assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId,
                                                feedbackSessionPublished.feedbackSessionName).isPublished());
     }
     
@@ -413,7 +413,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
         homePage.getFsCopyModal().verifyStatusMessage(
-                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, 
+                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                                                    invalidFeedbackSessionName,
                                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                    FieldValidator.REASON_CONTAINS_INVALID_CHAR,

@@ -17,8 +17,8 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToDelete);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
-                                          logic.getCourse(idOfCourseToDelete), 
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
+                                          logic.getCourse(idOfCourseToDelete),
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         /* Delete the course and setup status to be shown to user and admin */

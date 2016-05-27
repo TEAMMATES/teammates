@@ -38,7 +38,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
-        String optionFragment = 
+        String optionFragment =
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                         Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -74,7 +74,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
-        String optionFragment = 
+        String optionFragment =
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                         Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -101,18 +101,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             );
     }
 
-    private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {       
+    private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
         
         StringBuilder result = new StringBuilder(100);
   
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
-        result.append("<option" 
+        result.append("<option"
                      + option.getAttributesToString() + ">"
                      + option.getContent()
                      + "</option>");
         for (int i = 1; i <= totalNumRecipients; i++) {
             option = PageData.createOption(String.valueOf(i), String.valueOf(i), rankGiven == i);
-            result.append("<option" 
+            result.append("<option"
                         + option.getAttributesToString() + ">"
                         + option.getContent()
                         + "</option>");
@@ -136,8 +136,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
 
-        return "<div id=\"rankRecipientsForm\">" 
-                + this.getQuestionSpecificEditFormHtml(-1) 
+        return "<div id=\"rankRecipientsForm\">"
+                + this.getQuestionSpecificEditFormHtml(-1)
                 + "</div>";
     }
 
@@ -218,8 +218,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             
             String teamName = bundle.getTeamNameForEmail(entry.getKey());
             String recipientName = bundle.getNameForEmail(entry.getKey());
-            String option = Sanitizer.sanitizeForCsv(teamName) 
-                            + "," 
+            String option = Sanitizer.sanitizeForCsv(teamName)
+                            + ","
                             + Sanitizer.sanitizeForCsv(recipientName);
 
             List<Integer> ranks = entry.getValue();
@@ -231,11 +231,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
-     * From the feedback responses, generate a mapping of the option to a list of 
+     * From the feedback responses, generate a mapping of the option to a list of
      * ranks received for that option.
      * The key of the map returned is the recipient's participant identifier.
-     * The values of the map are list of ranks received by the recipient.   
-     * @param responses  a list of responses 
+     * The values of the map are list of ranks received by the recipient.
+     * @param responses  a list of responses
      */
     private Map<String, List<Integer>> generateOptionRanksMapping(List<FeedbackResponseAttributes> responses) {
         
@@ -295,7 +295,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value=\"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\">" 
+        return "<option value=\"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\">"
               + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</option>";
     }
 

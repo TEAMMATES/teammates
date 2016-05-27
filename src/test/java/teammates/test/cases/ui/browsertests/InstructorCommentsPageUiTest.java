@@ -25,7 +25,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
+    @Test
     public void allTests() throws Exception {
         testContent();
         testScripts();
@@ -102,11 +102,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
                    + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE 
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
                    + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();

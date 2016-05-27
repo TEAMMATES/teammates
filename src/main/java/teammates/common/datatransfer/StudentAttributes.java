@@ -70,7 +70,7 @@ public class StudentAttributes extends EntityAttributes {
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
-     * Creation and update time stamps. 
+     * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
     private transient Date createdAt;
@@ -388,8 +388,8 @@ public class StudentAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      **/
-    //CHECKSTYLE:OFF 
-    // Naming violation is so that it will be noticed if it is accidentally included in production code 
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setCreated_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
@@ -398,7 +398,7 @@ public class StudentAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      **/
-    //CHECKSTYLE:OFF 
+    //CHECKSTYLE:OFF
     // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;

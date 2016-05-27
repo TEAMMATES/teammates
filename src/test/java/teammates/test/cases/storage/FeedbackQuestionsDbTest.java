@@ -388,7 +388,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo =  new ArrayList<FeedbackParticipantType>();
+        fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
 

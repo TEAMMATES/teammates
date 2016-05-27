@@ -39,10 +39,10 @@ public class Comment {
     
     /** The recipient type for this comment. */
     @Persistent
-    private CommentParticipantType recipientType; 
+    private CommentParticipantType recipientType;
 
     /** The recipients' id used for this comment. E.g.
-     * if the recipient type is PERSON, then it stands for 
+     * if the recipient type is PERSON, then it stands for
      * recipients' email; if it's TEAM, it stands for the
      * team id; if it's COURSE, it will store the course
      * id. */
@@ -190,12 +190,12 @@ public class Comment {
         this.showRecipientNameTo = showRecipientNameTo;
     }
     
-    @Deprecated 
+    @Deprecated
     public String getReceiverEmail() {
         return receiverEmail;
     }
 
-    @Deprecated 
+    @Deprecated
     public void setReceiverEmail(String receiverEmail) {
         this.receiverEmail = receiverEmail;
     }

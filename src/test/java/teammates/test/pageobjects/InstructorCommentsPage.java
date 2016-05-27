@@ -222,7 +222,7 @@ public class InstructorCommentsPage extends AppPage {
     public void clickCommentsForStudentsPanelHeading() {
         WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));
 
-        e.findElement(By.cssSelector(".panel-heading")).click();        
+        e.findElement(By.cssSelector(".panel-heading")).click();
     }
     
     /**

@@ -63,7 +63,7 @@ public class InstructorAttributes extends EntityAttributes {
      * @param instructorPrivilegesAsText
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, String instructorPrivilegesAsText) {        
+                                String displayedName, String instructorPrivilegesAsText) {
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
@@ -87,7 +87,7 @@ public class InstructorAttributes extends EntityAttributes {
      * @param privileges
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, InstructorPrivileges privileges) {        
+                                String displayedName, InstructorPrivileges privileges) {
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
@@ -96,7 +96,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.privileges = privileges;    
+        this.privileges = privileges;
     }
     
     /**
@@ -190,7 +190,7 @@ public class InstructorAttributes extends EntityAttributes {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        } 
+        }
         return new Instructor(googleId, courseId, isArchived, name, email, role,
                               isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }

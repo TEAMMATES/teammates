@@ -47,7 +47,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateInstructor() 
+    public void testCreateInstructor()
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         ______TS("Success: create an instructor");
@@ -318,7 +318,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL 
+                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL
                         + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email, FieldValidator.REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }

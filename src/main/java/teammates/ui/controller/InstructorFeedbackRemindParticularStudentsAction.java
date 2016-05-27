@@ -36,7 +36,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         for (String user : usersToRemind) {
             statusToAdmin += "<br>" + user;
         }
-        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName 
+        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
                          + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
         return createRedirectResult(nextUrl);

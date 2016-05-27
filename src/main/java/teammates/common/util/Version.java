@@ -6,10 +6,10 @@ package teammates.common.util;
  * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
  * Those without number will be null.
  * 
- * If the version has more than 3 numbers, the first number will be major, the second number 
+ * If the version has more than 3 numbers, the first number will be major, the second number
  * will be minor and the rest will be patch.
  * 
- * For example: 
+ * For example:
  * version = 15
  * major = "15", minor = null and patch = null
  * 

@@ -32,8 +32,6 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorCourseEnrollPage enrollPage;
     
-    private static String enrollString = "";
-    
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();
@@ -69,8 +67,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         newStudent.name = "someName";
         newStudent.comments = "comments";
         
-        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollString += newStudent.toEnrollmentString();
+        String enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+                            + newStudent.toEnrollmentString();
         
         enrollPage.enroll(enrollString);
         
@@ -85,19 +83,19 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        List<FeedbackResponseAttributes> oldResponsesForSession = 
+        List<FeedbackResponseAttributes> oldResponsesForSession =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName);
         assertFalse(oldResponsesForSession.isEmpty());
         
         String newTeam = "Team 1.2";
         student.team = newTeam;
         
-        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollString += student.toEnrollmentString();
+        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+                     + student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
         
-        int numberOfNewResponses = 
+        int numberOfNewResponses =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);
         

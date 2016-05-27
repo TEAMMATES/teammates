@@ -30,7 +30,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
-        String courseId = instructorToEdit.courseId;    
+        String courseId = instructorToEdit.courseId;
         
         String adminUserId = "admin.user";
         
@@ -158,9 +158,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
         
@@ -180,9 +180,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
         }
         
@@ -202,9 +202,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
         }
     }

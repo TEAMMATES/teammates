@@ -61,7 +61,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         if (status == null) {
             this.isArchived = false;
         } else {
-            this.isArchived = status.booleanValue(); 
+            this.isArchived = status.booleanValue();
         }
     }
 
@@ -81,13 +81,13 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         String error;
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, getId());
-        if (!error.isEmpty()) { 
-            errors.add(error); 
+        if (!error.isEmpty()) {
+            errors.add(error);
         }
         
         error = validator.getInvalidityInfoForCourseName(getName());
-        if (!error.isEmpty()) { 
-            errors.add(error); 
+        if (!error.isEmpty()) {
+            errors.add(error);
         }
         
         return errors;

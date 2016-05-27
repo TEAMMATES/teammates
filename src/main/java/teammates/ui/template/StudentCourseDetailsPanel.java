@@ -14,7 +14,7 @@ public class StudentCourseDetailsPanel {
     private String studentEmail;
     private List<StudentAttributes> teammates;
     
-    public StudentCourseDetailsPanel(String courseId, String courseName, List<InstructorAttributes> instructors, 
+    public StudentCourseDetailsPanel(String courseId, String courseName, List<InstructorAttributes> instructors,
                                        String studentTeam, String studentName, String studentEmail, List<StudentAttributes> teammates) {
         this.courseId = courseId;
         this.courseName = courseName;
