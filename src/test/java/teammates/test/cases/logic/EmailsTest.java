@@ -52,7 +52,7 @@ public class EmailsTest extends BaseComponentTestCase {
     @BeforeMethod
     public void caseSetUp() throws IOException {
         /* For Sendgrid testing */
-        String fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         String fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
         

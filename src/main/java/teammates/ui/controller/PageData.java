@@ -1008,11 +1008,11 @@ public class PageData {
     }
 
     public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
     }
 
     public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }
