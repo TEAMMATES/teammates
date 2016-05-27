@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,7 +38,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static String instructorUsername = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
     private static String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 
-    static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
+    private static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
 
     private static Browser browser;
     private static DataBundle testData;
@@ -70,7 +68,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     @Test
-    public void testUserNotLoggedIn() throws Exception {
+    public void testUserNotLoggedIn() {
         
         logout(browser);
         AppPage.getNewPageInstance(browser, HomePage.class);
@@ -78,29 +76,25 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         ______TS("student pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
-        
 
         ______TS("instructor pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
-        
 
         ______TS("admin pages");
 
         verifyRedirectToLogin(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
-        
-        
+
     }
 
     @Test
-    public void testUserNotRegistered() throws Exception {
+    public void testUserNotRegistered() {
         
         ______TS("student pages");
 
         loginStudent(unregUsername, unregPassword);
 
         verifyRedirectToWelcomeStrangerPage(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), unregUsername);
-
 
         ______TS("instructor pages");
 
@@ -109,7 +103,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         verifyRedirectToNotAuthorized(url);
         verifyCannotMasquerade(url, otherInstructor.googleId);
-
 
         ______TS("admin pages");
         
@@ -124,7 +117,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @Test
-    public void testStudentAccessToAdminPages() throws Exception {
+    public void testStudentAccessToAdminPages() {
         loginStudent(studentUsername, studentPassword);
         verifyCannotAccessAdminPages();
     }
@@ -180,7 +173,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.verifyHtml("/pageNotFound.html");
  
     }
-    
 
     private void loginStudent(String userName, String password) {
         logout(browser);
@@ -266,7 +258,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //delete any data related to real accounts used in testing (to prevent state leakage to other tests)
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         

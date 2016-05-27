@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,7 +49,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                                      Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
@@ -85,9 +81,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         String expected = Const.StatusMessages.COURSE_ADDED
-                  .replace("${courseEnrollLink}", 
+                  .replace("${courseEnrollLink}",
                            "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
-                  .replace("${courseEditLink}", 
+                  .replace("${courseEditLink}",
                            "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
         assertEquals(expected, pageResult.getStatusMessage());
         
@@ -97,7 +93,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
@@ -164,14 +160,14 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         
         expected = Const.StatusMessages.COURSE_ADDED
-                .replace("${courseEnrollLink}", 
+                .replace("${courseEnrollLink}",
                          "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
-                .replace("${courseEditLink}", 
+                .replace("${courseEditLink}",
                          "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 }

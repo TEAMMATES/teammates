@@ -1,9 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
@@ -16,7 +12,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class InstructorPrivilegesTest extends BaseTestCase {
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
@@ -468,7 +464,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
 
         InstructorPrivileges nonDefaultPrivileges = new InstructorPrivileges();
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
-        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,  true);
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, true);
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
 

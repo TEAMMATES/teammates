@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     

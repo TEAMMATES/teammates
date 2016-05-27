@@ -44,28 +44,24 @@ public class StudentHomePage extends AppPage {
         viewTeamLinks.get(0).click();
     }
     
-    public WebElement getViewFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getViewFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
     }
 
-    public WebElement getEditFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getEditFeedbackButton(String feedbackName) {
     
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
-    public WebElement getSubmitFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getSubmitFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("submitFeedback" + rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
-     
-    
+
     private int getEvalRowId(String name) {
         
         int id = 0;
@@ -75,7 +71,7 @@ public class StudentHomePage extends AppPage {
             WebElement text = element.findElement(By.tagName("td"));
 
             if (text.getText().contains(name)) {
-            return id;
+                return id;
             }
             
             id++;

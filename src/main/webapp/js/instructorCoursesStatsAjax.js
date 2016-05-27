@@ -1,6 +1,6 @@
 function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function(e) {
-        var row = $(this).parent().parent();
+        var row = $(this).closest('tr');
         var ajaxCols = $(row).children('td[id^="course-stats"]');
         var hyperlinkObject = $(this);
 
@@ -12,9 +12,9 @@ function linkAjaxForCourseStats() {
                 ajaxCols.html('<img class="course-stats-loader" src="/images/ajax-loader.gif"/>');
             },
             error: function() {
-                for (var i in ajaxCols) {
+                $.each(ajaxCols, function(i, ajaxCol) {
                     var tryAgainLink = hyperlinkObject.clone();
-                    $(ajaxCols[i]).html('Failed. ')
+                    $(ajaxCol).html('Failed. ')
                         .append(tryAgainLink);
                     tryAgainLink
                         .attr('data-toggle', 'tooltip')
@@ -22,7 +22,7 @@ function linkAjaxForCourseStats() {
                         .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
                         .html('Try again?')
                         .click(courseStatsClickHandler);
-                }
+                });
             },
             success: function(data) {
                 $(ajaxCols[0]).text(data.courseDetails.stats.sectionsTotal);

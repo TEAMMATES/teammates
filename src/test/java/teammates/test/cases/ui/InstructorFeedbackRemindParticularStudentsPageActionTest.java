@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,7 +37,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         
         ______TS("Typical case");
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.feedbackSessionName
         };
         
@@ -51,7 +47,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData = 
+        InstructorFeedbackRemindParticularStudentsPageData pageData =
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
         assertEquals(6, pageData.getResponseStatus().noResponse.size());
         
@@ -69,8 +65,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertTrue(pageData.getResponseStatus().noResponse.contains("helper@course1.tmt"));
     }
     
-    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params)
-            throws Exception {
+    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
 
         return (InstructorFeedbackRemindParticularStudentsPageAction) (gaeSimulation
                 .getActionObject(uri, params));

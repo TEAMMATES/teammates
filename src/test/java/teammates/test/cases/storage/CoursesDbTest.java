@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,7 +20,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CoursesDb coursesDb = new CoursesDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
@@ -40,9 +35,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Success: typical case");
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "CDbT.tCC.newCourse";
-        c.name = "Basic Computing";
+        CourseAttributes c = new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing");
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
         
@@ -57,19 +50,19 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a course with invalid parameter");
 
-        c.id = "Invalid id";
+        CourseAttributes invalidIdCourse = new CourseAttributes("Invalid id", "Basic Computing");
         try {
-            coursesDb.createEntity(c);
+            coursesDb.createEntity(invalidIdCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format",
                                         e.getMessage());
         }
 
-        c.id = "CDbT.tCC.newCourse";
-        c.name = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName);
         try {
-            coursesDb.createEntity(c);
+            coursesDb.createEntity(invalidNameCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
@@ -93,7 +86,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Success: get an existent course");
 
-        CourseAttributes retrieved = coursesDb.getCourse(c.id);
+        CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertNotNull(retrieved);
         
         ______TS("Failure: get a non-existent course");
@@ -105,7 +98,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         try {
             coursesDb.getCourse(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
@@ -125,13 +118,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Failure: update course with invalid parameters");
         
-        CourseAttributes course = new CourseAttributes();
-        course.id = "";
-        course.name = "";
-        course.isArchived = true;
+        CourseAttributes invalidCourse = new CourseAttributes("", "");
+        invalidCourse.isArchived = true;
         
         try {
-            coursesDb.updateCourse(course);
+            coursesDb.updateCourse(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
@@ -142,12 +133,10 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("fail: non-exisitng course");
         
-        course = new CourseAttributes();
-        course.id = "CDbT.non-exist-course";
-        course.name = "Non existing course";
+        CourseAttributes nonExistentCourse = new CourseAttributes("CDbT.non-exist-course", "Non existing course");
         
         try {
-            coursesDb.updateCourse(course);
+            coursesDb.updateCourse(nonExistentCourse);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, e.getMessage());
@@ -155,13 +144,13 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("success: typical case");
         
-        course = createNewCourse();
-        course.isArchived = true;
+        CourseAttributes c = createNewCourse();
+        c.isArchived = true;
      
-        coursesDb.updateCourse(course);
+        coursesDb.updateCourse(c);
         
-        CourseAttributes courseRetrieved = coursesDb.getCourse(course.id);
-        assertEquals(course.isArchived, courseRetrieved.isArchived);
+        CourseAttributes courseRetrieved = coursesDb.getCourse(c.getId());
+        assertEquals(c.isArchived, courseRetrieved.isArchived);
     }
     
     @Test
@@ -170,15 +159,15 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Success: delete an existing course");
 
-        coursesDb.deleteCourse(c.id);
+        coursesDb.deleteCourse(c.getId());
         
-        CourseAttributes deleted = coursesDb.getCourse(c.id);
+        CourseAttributes deleted = coursesDb.getCourse(c.getId());
         assertNull(deleted);
         
         ______TS("Failure: delete a non-existent courses");
 
         // Should fail silently
-        coursesDb.deleteCourse(c.id);
+        coursesDb.deleteCourse(c.getId());
 
         ______TS("Failure: null parameter");
 
@@ -192,9 +181,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
     private CourseAttributes createNewCourse() throws InvalidParametersException {
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "Computing101";
-        c.name = "Basic Computing";
+        CourseAttributes c = new CourseAttributes("Computing101", "Basic Computing");
         
         try {
             coursesDb.createEntity(c);

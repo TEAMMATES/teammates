@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -51,18 +48,19 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         InstructorFeedbackPreviewAsStudentAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = (ShowPageResult) paia.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
-                     "?error=false" +
-                     "&user=" + idOfInstructor,
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
+                     + "?error=false"
+                     + "&user=" + idOfInstructor,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsStudent|||instructorFeedbackPreviewAsStudent" +
-                     "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                     "Preview feedback session as student (" + student.email + ")<br>" +
-                     "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||" +
-                     "/page/instructorFeedbackPreviewAsStudent",
-                     paia.getLogMessage());
+        AssertHelper.assertLogMessageEquals(
+                "TEAMMATESLOG|||instructorFeedbackPreviewAsStudent|||instructorFeedbackPreviewAsStudent"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Preview feedback session as student (" + student.email + ")<br>"
+                + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
+                + "/page/instructorFeedbackPreviewAsStudent",
+                paia.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -82,8 +80,8 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
             paia = getAction(submissionParams);
             showPageResult = (ShowPageResult) paia.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                         instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
+                         + instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
         }
         
         gaeSimulation.loginAsInstructor(idOfInstructor);
@@ -103,14 +101,12 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
             showPageResult = (ShowPageResult) paia.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Student Email " +
-                         previewAsEmail + " does not exist in " + courseId +
-                         ".", 
+            assertEquals("Student Email " + previewAsEmail + " does not exist in " + courseId + ".",
                          edne.getMessage());
         }
     }
             
-    private InstructorFeedbackPreviewAsStudentAction getAction(String... params) throws Exception {
+    private InstructorFeedbackPreviewAsStudentAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsStudentAction) gaeSimulation.getActionObject(uri, params);
     }
 }

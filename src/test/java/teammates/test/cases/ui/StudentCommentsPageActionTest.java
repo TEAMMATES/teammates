@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -76,7 +73,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
-    private StudentCommentsPageAction getAction(String... params) throws Exception {
+    private StudentCommentsPageAction getAction(String... params) {
         return (StudentCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -1,9 +1,5 @@
 package teammates.logic.api;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -17,6 +13,10 @@ import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
     private static UserService userService = UserServiceFactory.getUserService();
@@ -40,10 +40,6 @@ public class GateKeeper {
         return instance;
     }
 
-    @SuppressWarnings("unused")
-    private void ____USER_related_methods________________________________() {
-    }
-
     public boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
     }
@@ -51,7 +47,9 @@ public class GateKeeper {
     public UserType getCurrentUser() {
         User user = getCurrentGoogleUser();
         
-        if (user == null) { return null; }
+        if (user == null) {
+            return null;
+        }
 
         UserType userType = new UserType(user);
 
@@ -73,11 +71,10 @@ public class GateKeeper {
     public String getLoginUrl(String redirectPage) {
         User user = userService.getCurrentUser();
 
-        if (user != null) {
-            return redirectPage;
-        } else {
+        if (user == null) {
             return userService.createLoginURL(redirectPage);
         }
+        return redirectPage;
     }
 
     public String getLogoutUrl(String redirectPage) {
@@ -87,13 +84,12 @@ public class GateKeeper {
     /**
      * These methods ensures the logged in user is of a particular type.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_user_type_________________________() {
-    }
 
     /** Verifies the user is logged in */
     public void verifyLoggedInUserPrivileges() {
-        if (isUserLoggedOn()) { return; }
+        if (isUserLoggedOn()) {
+            return;
+        }
         
         throw new UnauthorizedAccessException("User is not logged in");
     }
@@ -104,7 +100,7 @@ public class GateKeeper {
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
         if (isUserLoggedOn() && userService.isUserAdmin()
-            && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
             return;
         }
 
@@ -135,18 +131,15 @@ public class GateKeeper {
      * These methods ensures that the nominal user specified has access to a
      * given entity.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_entity_________________________() {
-    }
 
     public void verifyAccessible(StudentAttributes student, CourseAttributes course) {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
 
-        if (!student.course.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to student ["
+        if (!student.course.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
                                                   + student.email + "]");
         }
     }
@@ -173,10 +166,10 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
     }
@@ -194,15 +187,15 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
         
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName + "]");
         }
     }
@@ -222,16 +215,16 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
-        verifyNotNull(course.id, "course ID");
+        verifyNotNull(course.getId(), "course ID");
         verifyNotNull(sectionName, "section name");
         
-        if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
         
         if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor ["
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName
                                                   + "] on section [" + sectionName + "]");
         }
@@ -321,16 +314,8 @@ public class GateKeeper {
      * These methods ensures that the nominal user specified can perform the
      * specified action on a given entity.
      */
-    @SuppressWarnings("unused")
-    private void ____ACCESS_control_per_entity_per_activity________________() {
-    }
 
     // TODO: to be implemented when we adopt more finer-grain access control.
-
-    @SuppressWarnings("unused")
-    private void ____PRIVATE_methods________________________________() {
-    }
-
     private void verifyNotNull(Object object, String typeName) {
         if (object == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName
@@ -366,8 +351,8 @@ public class GateKeeper {
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
-        } else if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.
-                                                     INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+        } else if (!instructor.isAllowedForPrivilege(section,
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
         }
     }

@@ -1,12 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +33,7 @@ import teammates.test.util.Priority;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Covers the 'Feedback Session' page for instructors. 
+ * Covers the 'Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbacksPage}.
  */
 @Priority(-1)
@@ -53,7 +46,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes newSession;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();
@@ -87,7 +80,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testLinks() throws Exception {
+    public void testLinks() {
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
@@ -95,12 +88,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testButtons() throws Exception {
+    public void testButtons() {
         testCopySessionModalButtons();
     }
 
     @Test
-    public void testMiscellaneous() throws Exception {
+    public void testMiscellaneous() {
         testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
@@ -229,7 +222,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.addFeedbackSession(
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
         
         
@@ -269,7 +262,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 null, null, null, null,
                 null, -1, newSession.timeZone);
         
-        savedSession = BackDoor.getFeedbackSession( newSession.courseId, newSession.feedbackSessionName);
+        savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         newSession.startTime = savedSession.startTime;
         
         assertEquals(newSession.toString(), savedSession.toString());
@@ -397,7 +390,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime,
                 newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
@@ -486,18 +479,18 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
     
-    public void testCopyToAction() throws Exception {
+    public void testCopyToAction() {
         String feedbackSessionName = "Open Session #";
         String courseId = newSession.courseId;
         
         ______TS("Submit empty course list: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.clickSubmitButton();
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
@@ -506,46 +499,46 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Copying fails due to fs with same name in course selected: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, courseId);
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(error);
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(error);
         
-        feedbackPage.fsCopyToModal.clickCloseButton();
+        feedbackPage.getFsCopyToModal().clickCloseButton();
         
         
         ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(
+        feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackPage.getFsCopyToModal().verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
         
-        feedbackPage.fsCopyToModal.clickCloseButton();
+        feedbackPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Successful case: Feedbacks Page");
         
         feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
-        feedbackPage.fsCopyToModal.waitForModalToLoad();
-        feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
+        feedbackPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackPage.getFsCopyToModal().fillFormWithAllCoursesSelected("New name!");
         
-        feedbackPage.fsCopyToModal.clickSubmitButton();
+        feedbackPage.getFsCopyToModal().clickSubmitButton();
    
         feedbackPage.waitForPageToLoad();
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
@@ -570,10 +563,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     public void testRemindActions() {
-        //TODO implement this        
+        //TODO implement this
     }
     
-    public void testPublishAction() throws Exception {        
+    public void testPublishAction() throws Exception {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -654,7 +647,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
     
-    public void testJScripts() throws ParseException {
+    public void testJScripts() {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testDefaultTimeZone();
         testSessionViewableTable();
@@ -685,12 +678,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyDisabled(By.id("publishtime"));
     }
     
-    public void testDatePickerScripts() throws ParseException {
+    public void testDatePickerScripts() {
         
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         
-        // setup various dates 
+        // setup various dates
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -713,7 +706,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(initialCal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
         
         
-        ______TS("decreasing start date affects  visible time, end date range and publish date range");
+        ______TS("decreasing start date affects visible time, end date range and publish date range");
         
         cal.add(Calendar.DATE, -35);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
@@ -952,11 +945,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
-                templateSessionName, newSession.courseId, 
+                templateSessionName, newSession.courseId,
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod);
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
@@ -975,7 +968,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod, -2.0 );
+                newSession.instructions, newSession.gracePeriod, -2.0);
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
@@ -995,7 +988,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions,
-                newSession.gracePeriod );
+                newSession.gracePeriod);
         assertEquals(String.format(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                         "",
@@ -1011,12 +1004,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
     private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);    
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;

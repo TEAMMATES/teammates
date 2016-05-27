@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -43,13 +40,13 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         verifyAssumptionFailure();
 
         ______TS("Typical case: open the course edit page");
-        String[] submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
         };
         
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -63,15 +60,15 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Typical case: open the course edit page with instructor's email");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
-            Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
+                Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
         };
         
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -92,14 +89,14 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin("admin.user");
         
-        submissionParams = new String[]{
-            Const.ParamsNames.USER_ID, instructorId,
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
         };
         
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -116,9 +113,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         
         CoursesLogic.inst().deleteCourseCascade(courseId);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.USER_ID, instructorId,
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
         };
             
         try {
@@ -130,7 +127,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorCourseEditPageAction getAction(String... params) throws Exception {
+    private InstructorCourseEditPageAction getAction(String... params) {
         return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     

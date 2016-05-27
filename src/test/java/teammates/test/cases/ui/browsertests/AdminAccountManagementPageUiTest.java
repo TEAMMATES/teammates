@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +28,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -118,7 +112,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

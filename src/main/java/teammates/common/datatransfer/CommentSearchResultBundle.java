@@ -2,9 +2,9 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.util.Const;
 import teammates.logic.core.CommentsLogic;
@@ -15,7 +15,7 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 /**
- * The search result bundle for {@link CommentAttributes}. 
+ * The search result bundle for {@link CommentAttributes}.
  */
 public class CommentSearchResultBundle extends SearchResultBundle {
     
@@ -32,18 +32,20 @@ public class CommentSearchResultBundle extends SearchResultBundle {
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
-        if (results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults) {
+        for (ScoredDocument doc : filteredResults) {
             CommentAttributes comment = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(),
                     CommentAttributes.class);
             if (commentsLogic.getComment(comment.getCommentId()) == null) {
                 commentsLogic.deleteDocument(comment);
@@ -56,19 +58,19 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             boolean isGiver = giverEmailList.contains(comment.giverEmail);
             String giverAsKey = comment.giverEmail + comment.courseId;
             
-            if (!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
+            if (isGiver) {
+                giverName = "You (" + comment.courseId + ")";
+            } else if (comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
+                giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
+            } else {
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
-            } else if (isGiver) {
-                giverName = "You (" + comment.courseId + ")";
-            } else {
-                giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
             }
             
-            if (!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
-                recipientName = "Anonymous";
-            } else {
+            if (isGiver || comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
                 recipientName = extractContentFromQuotedString(recipientName);
+            } else {
+                recipientName = "Anonymous";
             }
             
             List<CommentAttributes> commentList = giverCommentTable.get(giverAsKey);

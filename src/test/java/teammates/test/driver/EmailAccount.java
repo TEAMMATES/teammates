@@ -16,10 +16,14 @@ import javax.mail.search.FlagTerm;
 
 import teammates.logic.core.Emails;
 
-public class EmailAccount {
+public final class EmailAccount {
+    
+    private EmailAccount() {
+        // utility class
+    }
 
     /**
-     * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
+     * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
      *      * Can be easily modified to support other mail providers
      * 
@@ -78,7 +82,7 @@ public class EmailAccount {
      * 
      */
     public static void markAllEmailsSeen(String username, String password)
-            throws Exception {    
+            throws Exception {
         Folder inbox = getGmailInbox(username, password);
         Message[] messages = getMessages(inbox);
 
@@ -104,8 +108,9 @@ public class EmailAccount {
             System.out.println(message.getSubject());
             Matcher m = pattern.matcher(message.getSubject());
 
-            if (!m.find())
+            if (!m.find()) {
                 continue;
+            }
             count++;
 
         }
@@ -127,7 +132,7 @@ public class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message messages[] = inbox.search(ft);
+        Message[] messages = inbox.search(ft);
                 
         return messages;
     }

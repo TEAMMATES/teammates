@@ -2,8 +2,8 @@
 var xmlhttp = getXMLObject();
 
 // OPERATIONS
-var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
-var OPERATION_STUDENT_LOGIN = "student_login";
+var OPERATION_INSTRUCTORINATOR_LOGIN = 'instructor_login';
+var OPERATION_STUDENT_LOGIN = 'student_login';
 
 // TESTIMONIALS
 var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful and useful tool. I am planning to use for all the subjects I am teaching from now after getting fantastic feedback about this tool from my students. <br>- Faculty user, Australia',
@@ -15,7 +15,7 @@ var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful 
  'These peer evaluations will be perfect for classes.  I can already see that this is going to be an excellent tool as I need the teams to evaluate each other on a weekly basis.  Adding a new evaluation item and the questions/response criteria is so easy through your system. <br>-Faculty user, USA',
  'Thank you for building such a wonderful tool. <br>-Faculty user, Canada'
  ];
-var LOOP_INTERVAL = "5000"; // in milliseconds
+var LOOP_INTERVAL = '5000'; // in milliseconds
 var CURRENT_TESTIMONIAL = 0;
 
 function instructorLogin() {
@@ -27,33 +27,33 @@ function instructorLogin() {
 
 function requestInstructorLogin() {
     if (xmlhttp) {
-        xmlhttp.open("POST", "/teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
+        xmlhttp.open('POST', '/teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_INSTRUCTORINATOR_LOGIN);
     }
 }
 
 function handleInstructorLogin() {
     if (xmlhttp.status === 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function handleStudentLogin() {
     if (xmlhttp.status === 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function studentLogin() {
     if (xmlhttp) {
-        xmlhttp.open("POST", "teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_STUDENT_LOGIN);
+        xmlhttp.open('POST', 'teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_STUDENT_LOGIN);
     }
 
     handleStudentLogin();
@@ -62,10 +62,10 @@ function studentLogin() {
 function getXMLObject() {
     var xmlHttp = false;
     try {
-        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
     } catch (e) {
         try {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (e2) {
             xmlHttp = false;
         }
@@ -77,7 +77,7 @@ function getXMLObject() {
 }
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
-    var errorMsg = "Thousands of";
+    var errorMsg = 'Thousands of';
     if (!currentDate || !baseDate) {
         return errorMsg;
     }
@@ -109,8 +109,8 @@ onload = function() {
 };
 
 // Format large number with commas
-function formatNumber(number) {
-    number += '';
+function formatNumber(n) {
+    var number = String(n);
     var expression = /(\d+)(\d{3})/;
     while (expression.test(number)) {
         number = number.replace(expression, '$1,$2');

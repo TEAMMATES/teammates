@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -49,7 +43,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes editedSession;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -62,7 +56,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
@@ -70,7 +64,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
@@ -149,7 +143,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("overflow-auto alert alert-success statusMessage", 
+        assertEquals("overflow-auto alert alert-success statusMessage",
                 feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, feedbackEditPage.getStatus());
         feedbackEditPage.reloadPage();
@@ -238,7 +232,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("edit question 1 to Team-to-Team");
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");        
+        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
@@ -248,7 +242,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         
-        //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
+        //TODO: use simple element checks instead of html checks after adding names to the checkboxes
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptions.html");
         
@@ -274,12 +268,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityPreviewForNewQuestion();
         
         feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage"), 
+                By.id("visibilityMessage"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
         
         feedbackEditPage.waitForTextContainedInElementAbsence(
-                By.id("visibilityMessage"), 
+                By.id("visibilityMessage"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
@@ -295,7 +289,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test Recipient's Team Members row is hidden");
         feedbackEditPage.clickVisibilityOptionsForQuestion(2);
         
-        // use getAttribute("textContent") instead of getText 
+        // use getAttribute("textContent") instead of getText
         // because of the row of Recipient's Team Members is not displayed
         assertEquals("Recipient's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
         assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
@@ -311,7 +305,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         assertTrue("Expected instructors to be able to see response, but was "
                    + visibilityMessage2.getText(), visibilityMessage2.getText()
-                   .contains("Instructors in this course can see your response, the name of the recipient, and your name.")); 
+                   .contains("Instructors in this course can see your response, the name of the recipient, and your name."));
         
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
     }
@@ -389,24 +383,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("edit question number success");
 
         assertTrue(feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.selectQuestionNumber(2, 1);        
+        feedbackEditPage.selectQuestionNumber(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
         
         ______TS("questions still editable even if questions numbers became inconsistent");
         
-        FeedbackQuestionAttributes firstQuestion = 
-                                        BackDoor.getFeedbackQuestion(courseId, 
-                                                                     feedbackSessionName, 
+        FeedbackQuestionAttributes firstQuestion =
+                                        BackDoor.getFeedbackQuestion(courseId,
+                                                                     feedbackSessionName,
                                                                      1);
         assertEquals(1, firstQuestion.questionNumber);
 
-        FeedbackQuestionAttributes secondQuestion = 
-                                        BackDoor.getFeedbackQuestion(courseId, 
-                                                                     feedbackSessionName, 
+        FeedbackQuestionAttributes secondQuestion =
+                                        BackDoor.getFeedbackQuestion(courseId,
+                                                                     feedbackSessionName,
                                                                      2);
         assertEquals(2, secondQuestion.questionNumber);
-        int originalSecondQuestionNumber = secondQuestion.questionNumber; 
+        int originalSecondQuestionNumber = secondQuestion.questionNumber;
         
         // edit so that both questions have the same question number
         secondQuestion.questionNumber = firstQuestion.questionNumber;
@@ -516,16 +510,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
 
         // Create response for the new question
-        FeedbackResponseAttributes feedbackResponse = 
+        FeedbackResponseAttributes feedbackResponse =
                 new FeedbackResponseAttributes(
                         feedbackSessionName,
-                        courseId, 
-                        "1", 
+                        courseId,
+                        "1",
                         FeedbackQuestionType.TEXT,
-                        "tmms.test@gmail.tmt", 
-                        Const.DEFAULT_SECTION, 
+                        "tmms.test@gmail.tmt",
+                        Const.DEFAULT_SECTION,
                         "alice.b.tmms@gmail.tmt",
-                        Const.DEFAULT_SECTION, 
+                        Const.DEFAULT_SECTION,
                         new Text("Response from instructor to Alice"));
         BackDoor.createFeedbackResponse(feedbackResponse);
 
@@ -538,7 +532,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.clickEditQuestionButton(1);     
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         feedbackEditPage.clickAndConfirmSaveForQuestion1();
         

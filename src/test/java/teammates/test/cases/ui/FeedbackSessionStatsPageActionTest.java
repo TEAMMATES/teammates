@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -75,7 +72,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
+    private FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

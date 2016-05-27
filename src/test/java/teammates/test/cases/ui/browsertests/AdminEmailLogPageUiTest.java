@@ -5,11 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
@@ -17,13 +16,14 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailLogPageUiTest extends BaseUiTestCase {
+    
+    private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
+    
     private static Browser browser;
     private static AdminEmailLogPage emailLogPage;
     
-    public static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
-       
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
@@ -33,8 +33,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         testContent();
         testFilterReference();
     }
-    
-    
+
     private void testFilterReference() {
         emailLogPage.clickReferenceButton();
         assertTrue(emailLogPage.isFilterReferenceVisible());
@@ -51,7 +50,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
@@ -61,11 +60,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailLogDataDisplayCorrect() {
-        if (emailLogPage.isElementPresent(By.className("table"))) {
-            return isEmailLogTableHeaderCorrect();
-        } else {     
-            return false;
-        }
+        return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();
     }
 
     private boolean isEmailLogTableHeaderCorrect() {

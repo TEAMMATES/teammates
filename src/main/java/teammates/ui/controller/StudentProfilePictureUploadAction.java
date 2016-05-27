@@ -6,6 +6,14 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
+import teammates.logic.api.GateKeeper;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -17,14 +25,6 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
-
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: saves the file information of the profile picture
@@ -95,7 +95,7 @@ public class StudentProfilePictureUploadAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
      */
     private String uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
@@ -117,14 +117,13 @@ public class StudentProfilePictureUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService()
                                                                           .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
-            if (blobs != null && blobs.size() > 0) {
-                BlobInfo profilePic = blobs.get(0);
-                return validateProfilePicture(profilePic);
-            } else {
+            if (blobs == null || blobs.isEmpty()) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN, StatusMessageColor.DANGER));
                 isError = true;
                 return null;
             }
+            BlobInfo profilePic = blobs.get(0);
+            return validateProfilePicture(profilePic);
         } catch (IllegalStateException e) {
             /*
              * This means the action was called directly (and not via BlobStore API callback).
@@ -145,13 +144,13 @@ public class StudentProfilePictureUploadAction extends Action {
             isError = true;
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, StatusMessageColor.DANGER));
             return null;
-        } else {
-            return profilePic;
         }
+        
+        return profilePic;
     }
 
     private void deletePicture(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) {
+        if (blobKey.equals(new BlobKey(""))) {
             return;
         }
         try {

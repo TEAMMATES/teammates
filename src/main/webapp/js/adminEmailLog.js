@@ -4,30 +4,30 @@ var numOfEntriesPerPage = 50;
 $(document).ready(function() {
     bindClickAction();
     clickOlderButtonIfNeeded();
-    $("#filterReference").toggle();
+    $('#filterReference').toggle();
 });
 
 function toggleReference() {
-    $("#filterReference").toggle("slow");
+    $('#filterReference').toggle('slow');
     
-    var button = $("#detailButton").attr("class");
+    var button = $('#detailButton').attr('class');
     
-    if (button === "glyphicon glyphicon-chevron-down") {
-        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-up");
-        $("#referenceText").text("Hide Reference");
+    if (button === 'glyphicon glyphicon-chevron-down') {
+        $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
+        $('#referenceText').text('Hide Reference');
     } else {
-        $("#detailButton").attr("class", "glyphicon glyphicon-chevron-down");
-        $("#referenceText").text("Show Reference");
+        $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-down');
+        $('#referenceText').text('Show Reference');
     }
 }
 
 function bindClickAction() {
-    $("body").unbind('click', handler).on("click", ".log", handler);
+    $('body').unbind('click', handler).on('click', '.log', handler);
 }
 
 var handler = function() {
-    $(this).next("#small").toggle();
-    $(this).next("#small").next("#big").toggle();
+    $(this).next('#small').toggle();
+    $(this).next('#small').next('#big').toggle();
 };
 
 function clickOlderButtonIfNeeded() {
@@ -35,11 +35,11 @@ function clickOlderButtonIfNeeded() {
         return;
     }
     
-    var curNumOfEntries = $("#emailLogsTable tbody tr").length;
+    var curNumOfEntries = $('#emailLogsTable tbody tr').length;
     
     if (curNumOfEntries < numOfEntriesPerPage) {
-        if ($("#button_older").length) {
-            $("#button_older").click();
+        if ($('#button_older').length) {
+            $('#button_older').click();
             retryTimes++;
         }
     }
@@ -47,24 +47,26 @@ function clickOlderButtonIfNeeded() {
 
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
-    var formObject = $("#ajaxLoaderDataForm");
+    var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
     var lastLogRow = $('#emailLogsTable tr:last');
     
     $.ajax({
         type: 'POST',
-        url: "/admin/adminEmailLogPage?" + formData,
+        url: '/admin/adminEmailLogPage?' + formData,
         beforeSend: function() {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            setFormErrorMessage(button, "Failed to load older logs. Please try again.");
-            button.html("Retry");
+            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
+            button.html('Retry');
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    setFormErrorMessage(button, data.errorMessage);
+                } else {
                     // Inject new log row
                     var logs = data.logs;
                     $.each(logs, function(i, value) {
@@ -73,9 +75,6 @@ function submitFormAjax(offset) {
                         bindClickAction();
                         clickOlderButtonIfNeeded();
                     });
-                    
-                } else {
-                    setFormErrorMessage(button, data.errorMessage);
                 }
                                
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
@@ -86,6 +85,6 @@ function submitFormAjax(offset) {
 }
 
 function setFormErrorMessage(button, msg) {
-    button.after("&nbsp;&nbsp;&nbsp;" + msg);
+    button.after('&nbsp;&nbsp;&nbsp;' + msg);
 }
 

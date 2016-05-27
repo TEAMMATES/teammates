@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,7 +27,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
-        String courseName = CoursesLogic.inst().getCourse(courseId).name;
+        String courseName = CoursesLogic.inst().getCourse(courseId).getName();
         String statusMessage = "";
         String[] submissionParams;
         InstructorCourseEditSaveAction courseEditSaveAction;
@@ -42,8 +40,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: edit course name with same name");
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
         
         // execute the action
@@ -53,15 +51,15 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=false&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                     + "?error=false&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
 
         ______TS("Typical case: edit course name with valid characters");
-        courseName = courseName + " valid";
+        String courseNameWithValidCharacters = courseName + " valid";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters
         };
 
         // execute the action
@@ -71,15 +69,15 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=false&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                     + "?error=false&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with empty string");
         courseName = "";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action
@@ -89,15 +87,15 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, courseName, FieldValidator.REASON_EMPTY);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
         courseName = "@#$@#$";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action
@@ -105,18 +103,18 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME, 
+        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                                       FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR, FieldValidator.COURSE_NAME_FIELD_NAME);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with name containing | and %");
         courseName = "normal|name%";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action
@@ -124,15 +122,15 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME, 
+        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                                       FieldValidator.REASON_CONTAINS_INVALID_CHAR, FieldValidator.COURSE_NAME_FIELD_NAME);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                     "?error=true&user=" + instructorId + "&courseid=" + courseId, 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                     + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
     }
 
-    private InstructorCourseEditSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseEditSaveAction getAction(String... params) {
         return (InstructorCourseEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

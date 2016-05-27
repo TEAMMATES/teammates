@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.*;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -52,7 +51,7 @@ public class CourseRosterTest extends BaseTestCase {
         
         roster = new CourseRoster(createStudentList("team 1", "s1@gmail.com",
                                                         "team 1", "s2@gmail.com",
-                                                        "team 2", "s3@gmail.com"), 
+                                                        "team 2", "s3@gmail.com"),
                                    createInstructorList("John", "ins1@email.com",
                                                           "Jean", "ins2@email.com"));
         

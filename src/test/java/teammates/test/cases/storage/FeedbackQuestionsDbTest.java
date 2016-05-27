@@ -1,10 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,9 +8,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -30,13 +25,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                              EntityDoesNotExistException {
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
         
@@ -214,9 +208,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackQuestionAttributes> expected = createFeedbackQuestions(numToCreate);
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForSession(expected.get(0).
-                                                                                         feedbackSessionName,
-                                                                                         expected.get(0).courseId);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, expected.get(0).courseId);
 
         for (int i = 0; i < numToCreate; i++) {
             expected.get(i).setId(questions.get(i).getId());
@@ -263,10 +256,9 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                                                                                           "testCourse",
-                                                                                           FeedbackParticipantType.
-                                                                                           INSTRUCTORS);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                      FeedbackParticipantType.INSTRUCTORS);
         assertEquals(questions.size(), numOfQuestions[0]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
@@ -396,7 +388,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo =  new ArrayList<FeedbackParticipantType>();
+        fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
 
@@ -473,7 +465,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

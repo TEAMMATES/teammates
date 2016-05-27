@@ -1,18 +1,16 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction;
 import teammates.ui.controller.ActionResult;
+import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction;
 
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
@@ -193,7 +191,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
         return (InstructorFeedbackQuestionVisibilityMessageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

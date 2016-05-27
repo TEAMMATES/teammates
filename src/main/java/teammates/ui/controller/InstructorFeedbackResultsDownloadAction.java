@@ -6,8 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
@@ -30,7 +30,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileContent = "";
         String fileName = "";
         try {
-            if (section == null || section.equals("All")) {
+            if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
                                                                          instructor.email);
                 fileName = courseId + "_" + feedbackSessionName;

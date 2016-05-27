@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -225,7 +223,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         };
     }
 
-    private StudentProfilePictureEditAction getAction(String... params) throws Exception {
+    private StudentProfilePictureEditAction getAction(String... params) {
         return (StudentProfilePictureEditAction) (gaeSimulation.getActionObject(uri, params));
     }
 

@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,14 +21,14 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackNumScaleQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
@@ -56,6 +51,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
 
@@ -64,6 +60,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty options");
@@ -129,6 +126,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
 
+    @Override
     public void testCustomizeOptions() {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
@@ -148,6 +146,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("NUMSCALE: add question action success");
 
@@ -159,6 +158,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
@@ -175,6 +175,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
@@ -206,7 +207,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

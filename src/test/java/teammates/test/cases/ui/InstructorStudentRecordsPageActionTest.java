@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    Logic logic = new Logic();
+    private final Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -179,7 +176,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         return student;
     }
 
-    private InstructorStudentRecordsPageAction getAction(String... params) throws Exception {
+    private InstructorStudentRecordsPageAction getAction(String... params) {
         return (InstructorStudentRecordsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

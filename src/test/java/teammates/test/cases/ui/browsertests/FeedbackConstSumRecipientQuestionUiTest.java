@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -27,14 +21,14 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackConstSumRecipientQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
@@ -57,6 +51,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("CONSTSUM-recipient: new question (frame) link");
 
@@ -65,6 +60,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("CONST SUM:input validation");
@@ -81,6 +77,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
     }
 
+    @Override
     public void testCustomizeOptions() {
         feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
         feedbackEditPage.clickNewQuestionButton();
@@ -92,6 +89,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
@@ -104,6 +102,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
@@ -118,6 +117,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
 
@@ -128,11 +128,11 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

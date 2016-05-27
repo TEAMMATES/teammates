@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.TimeHelper;
@@ -84,11 +86,10 @@ public class AdminEmailLogPageData extends PageData {
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
-        query = query.toLowerCase();
         
         try {
-            q = parseQuery(query);
-        } catch (Exception e) {
+            q = parseQuery(query.toLowerCase());
+        } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -98,30 +99,30 @@ public class AdminEmailLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception {
+    private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
         setVersions(new ArrayList<String>());
         
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return q;
         }
         
-        query = query.replaceAll(" and ", "|");
-        query = query.replaceAll(", ", ",");
-        query = query.replaceAll(": ", ":");
-        String[] tokens = query.split("\\|", -1); 
+        String[] tokens = query.replaceAll(" and ", "|")
+                               .replaceAll(", ", ",")
+                               .replaceAll(": ", ":")
+                               .split("\\|", -1);
        
-        for (int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
-                throw new Exception("Invalid format");
+                throw new InvalidParametersException("Invalid format");
             }
             
             String[] values = pair[1].split(",", -1);
             String label = pair[0];
             
-            if (label.equals("version")) {
+            if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
@@ -151,15 +152,11 @@ public class AdminEmailLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isToDateInQuery) {
-            if (logEntry.getTime() > q.toDateValue) {
-                return false;
-            }
+        if (q.isToDateInQuery && logEntry.getTime() > q.toDateValue) {
+            return false;
         }
-        if (q.isFromDateInQuery) {
-            if (logEntry.getTime() < q.fromDateValue) {
-                return false;
-            }
+        if (q.isFromDateInQuery && logEntry.getTime() < q.fromDateValue) {
+            return false;
         }
         if (q.isReceiverInQuery) {
             
@@ -192,13 +189,12 @@ public class AdminEmailLogPageData extends PageData {
         return true;
     }
 
-
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {        
+    private class QueryParameters {
         public boolean isToDateInQuery;
         public long toDateValue;
         
@@ -225,39 +221,36 @@ public class AdminEmailLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception {
-            if (label.equals("after")) {
-                isFromDateInQuery = true;                
+        public void add(String label, String[] values) throws ParseException, InvalidParametersException {
+            if ("after".equals(label)) {
+                isFromDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 0:00");                          
+                Date d = sdf.parse(values[0] + " 0:00");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
-            } else if (label.equals("before")) {
+            } else if ("before".equals(label)) {
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");  
+                Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();          
-            } else if (label.equals("receiver")) {
+                toDateValue = cal.getTime().getTime();
+            } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
-            } else if (label.equals("subject")) {
+            } else if ("subject".equals(label)) {
                 isSubjectInQuery = true;
                 subjectValues = values;
-            } else if (label.equals("info")) {
+            } else if ("info".equals(label)) {
                 isInfoInQuery = true;
                 infoValues = values;
             } else {
-                throw new Exception("Invalid label");
+                throw new InvalidParametersException("Invalid label");
             }
         }
     }
-
-    
-    
 }

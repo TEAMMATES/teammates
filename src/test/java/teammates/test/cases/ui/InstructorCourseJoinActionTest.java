@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,7 +18,7 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -49,8 +46,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
         ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
-                + "?error=false&user=idOfInstructor1OfCourse1" 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
+                + "?error=false&user=idOfInstructor1OfCourse1"
                 + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -69,7 +66,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                         + "?key=" + StringHelper.encrypt(instructor.key)
                         + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
@@ -102,10 +99,10 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
-                "?error=false&user=ICJAT.instr" + 
-                "&key=" + StringHelper.encrypt(newInstructor.key),
-                        pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
+                     + "?error=false&user=ICJAT.instr"
+                     + "&key=" + StringHelper.encrypt(newInstructor.key),
+                     pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -115,7 +112,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAction getAction(String... params) throws Exception {
+    private InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

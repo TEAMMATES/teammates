@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -28,14 +22,14 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
@@ -58,6 +52,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
 
         ______TS("MCQ: new question (frame) link");
@@ -67,6 +62,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
 
         ______TS("empty question text");
@@ -113,6 +109,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
+    @Override
     public void testCustomizeOptions() {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
@@ -143,6 +140,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
 
         ______TS("MCQ: add question action success");
@@ -157,6 +155,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MCQ: edit question success");
@@ -216,6 +215,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
+    @Override
     public void testDeleteQuestionAction() {
 
         ______TS("MCQ: qn delete then cancel");
@@ -231,7 +231,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

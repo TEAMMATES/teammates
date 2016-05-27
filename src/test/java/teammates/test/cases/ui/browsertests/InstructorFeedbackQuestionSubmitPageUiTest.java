@@ -1,9 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -24,7 +20,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionAttributes fq;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -98,7 +94,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                     "IFQSubmitUiT.instr@gmail.tmt",
                     "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
         
-        ______TS("edit existing response");        
+        ______TS("edit existing response");
         
         String editedResponse = "Edited self feedback.";
         submitPage.fillResponseTextBox(1, 0, editedResponse);
@@ -118,16 +114,16 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(
             String instructorName, String fsName, String questionId) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE).
-                withUserId(testData.instructors.get(instructorName).googleId).
-                withCourseId(testData.feedbackSessions.get(fsName).courseId).
-                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
-                withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

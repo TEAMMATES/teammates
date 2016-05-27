@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,7 +13,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
         // removeAndRestoreTypicalDataInDatastore();
@@ -29,7 +28,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         final Action a = getAction();
         
         final ShowPageResult result = (ShowPageResult) a.executeAndPostProcess();
-        assertEquals( Const.ViewURIs.ADMIN_HOME, result.destination);
+        assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorDetailsSingleLine);
         assertEquals("", startingPageData.instructorEmail);
@@ -40,9 +39,8 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
-
 
 }

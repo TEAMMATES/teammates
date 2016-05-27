@@ -22,26 +22,38 @@ $(document).ready(function() {
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
-    $('input[type=checkbox]').click(function() {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+    $('input[type=checkbox]').click(function(e) {
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
+        var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
+        
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+        
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
+        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
+        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
+        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
     });
 
     readyStudentRecordsPage();

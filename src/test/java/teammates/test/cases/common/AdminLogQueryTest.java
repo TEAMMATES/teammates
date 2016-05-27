@@ -1,9 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotSame;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,7 +28,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         ______TS("Test setTimePeriod");
         query = new AdminLogQuery(versionList, null, null);
         assertEquals(0, query.getStartTime());
-        assertNotSame(endTime, query.getStartTime());
+        assertTrue(endTime != query.getStartTime());
         
         query.setTimePeriod(startTime, endTime);
         assertEquals(startTime, query.getStartTime());
@@ -49,7 +45,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         Long startTime = cal.getTimeInMillis();
         Long endTime = startTime + 3 * 24 * 60 * 60 * 1000; // 3 days later
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
-        Long fourHours = new Long(4 * 60 * 60 * 1000);
+        Long fourHours = Long.valueOf(4 * 60 * 60 * 1000);
         query.moveTimePeriodBackward(fourHours); // 4 hours before endTime
         long expectedEndTime = startTime - 1;
         long expectedStartTime = expectedEndTime - fourHours;

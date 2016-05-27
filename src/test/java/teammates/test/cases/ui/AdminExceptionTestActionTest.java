@@ -10,17 +10,16 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_EXCEPTION_TEST;
         // removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         
         //TODO: implement this
     }
-    
 
 }

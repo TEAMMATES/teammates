@@ -1,9 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,10 +22,6 @@ public class LogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
-    }
-
-    @SuppressWarnings("unused")
-    private void ____USER_level_methods___________________________________() {
     }
 
     @Test
@@ -58,7 +50,7 @@ public class LogicTest extends BaseComponentTestCase {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.id);
+                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.getId());
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudentWithoutDocument(instructorAsStudent);
 
@@ -91,7 +83,7 @@ public class LogicTest extends BaseComponentTestCase {
      */
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

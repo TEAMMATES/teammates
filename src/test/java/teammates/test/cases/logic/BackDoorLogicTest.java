@@ -1,11 +1,7 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -18,19 +14,14 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.CourseAttributesTest;
-
-import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
-    Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -56,19 +47,18 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         DataBundle nullDataBundle = null;
         try {
             logic.persistDataBundle(nullDataBundle);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
         }
 
         ______TS("invalid parameters in an entity");
-        CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
-        invalidCourse.id = "invalid id";
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "valid course name");
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
         try {
             logic.persistDataBundle(dataBundle);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertTrue(e.getMessage().equals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                                            "invalid id",
@@ -79,7 +69,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
     
-    private void verifyPresentInDatastore(DataBundle data) throws Exception {
+    private void verifyPresentInDatastore(DataBundle data) {
         HashMap<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
@@ -112,11 +102,9 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         editStudentAsJson(String, String)
         createCourse(String, String)
     */
-    
-
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

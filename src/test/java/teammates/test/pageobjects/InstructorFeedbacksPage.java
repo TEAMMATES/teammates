@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,7 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -22,7 +20,6 @@ import teammates.common.util.TimeHelper;
 import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
-    
 
     @FindBy(id = "fstype")
     private WebElement fsType;
@@ -108,8 +105,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "button_sortid")
     private WebElement sortByIdIcon;
     
-    public InstructorCopyFsToModal fsCopyToModal;
-    
+    private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbacksPage(Browser browser) {
         super(browser);
@@ -119,6 +115,10 @@ public class InstructorFeedbacksPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
+    }
+    
+    public InstructorCopyFsToModal getFsCopyToModal() {
+        return fsCopyToModal;
     }
     
     public void selectSessionType(String visibleText) {
@@ -182,8 +182,7 @@ public class InstructorFeedbacksPage extends AppPage {
         copySubmitButton.click();
         waitForPageToLoad();
     }
-    
-    
+
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId, sessionName).click();
         waitForPageToLoad();
@@ -226,7 +225,7 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
-        // fill in time values        
+        // fill in time values
         fillStartTime(startTime);
         fillEndTime(endTime);
         fillVisibleTime(visibleTime);
@@ -248,20 +247,20 @@ public class InstructorFeedbacksPage extends AppPage {
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         String copyButtonId = "button_copy";
         this.waitForTextContainedInElementPresence(
-                By.id(copyButtonId), "Copy from previous feedback sessions");     
-        clickCopyButton();        
-        this.waitForElementVisibility(copiedFsNameTextBox);        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
+                By.id(copyButtonId), "Copy from previous feedback sessions");
+        clickCopyButton();
+        this.waitForElementVisibility(copiedFsNameTextBox);
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);       
+        clickCopyTableAtRow(0);
         clickCopySubmitButton();
     }
     
-    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
-        clickCopyButton();       
-        this.waitForElementVisibility(copiedFsNameTextBox);       
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {
+        clickCopyButton();
+        this.waitForElementVisibility(copiedFsNameTextBox);
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }
 
@@ -304,7 +303,7 @@ public class InstructorFeedbacksPage extends AppPage {
             js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
             
             String timeDropdownId = timeDropdown.getAttribute("id");
-            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
             js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
@@ -314,7 +313,7 @@ public class InstructorFeedbacksPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) throws ParseException {
+    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 
@@ -458,7 +457,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-publish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -468,7 +467,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
-            Assert.fail("This element should be hidden.");
+            fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
         }
@@ -493,8 +492,7 @@ public class InstructorFeedbacksPage extends AppPage {
     public boolean isContainingCssClass(By locator, String className) {
         return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
     }
-    
-    
+
     public InstructorFeedbackResultsPage loadViewResultsLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";

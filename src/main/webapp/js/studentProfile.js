@@ -7,7 +7,7 @@ $(function() {
     
     $(window).load(function() {
         $('#studentPhoto').change(function() {
-            if ($(this).val() === "") {
+            if ($(this).val() === '') {
                 $('#profileUploadPictureSubmit').prop('disabled', true);
                 $('.filename-preview').val('No File Selected');
             } else {
@@ -60,7 +60,7 @@ $(function() {
             /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
-            if ($('#profilePic').attr('data-edit') === "true") {
+            if ($('#profilePic').attr('data-edit') === 'true') {
                 $('#studentPhotoUploader').modal({
                     show: true
                 });
@@ -86,13 +86,13 @@ function finaliseEditPictureForm() {
 }
 
 function finaliseUploadPictureForm() {
-    if ($('#studentPhoto').val() === "") {
+    if ($('#studentPhoto').val() === '') {
         return;
     }
 
     initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
-        url: "/page/studentProfileCreateFormUrl?user=" + $("input[name='user']").val(),
+        url: '/page/studentProfileCreateFormUrl?user=' + $("input[name='user']").val(),
         beforeSend: function() {
             $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },
@@ -102,16 +102,16 @@ function finaliseUploadPictureForm() {
             scrollToTop({ duration: '' });
         },
         success: function(data) {
-            if (!data.isError) {
+            if (data.isError) {
+                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
+                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
+                scrollToTop({ duration: '' });
+            } else {
                 $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');
                 // for IE compatibility
                 $('#profilePictureUploadForm').attr('encoding', 'multipart/form-data');
                 $('#profilePictureUploadForm').attr('action', data.formUrl);
                 $('#profilePictureUploadForm').submit();
-            } else {
-                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
-                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-                scrollToTop({ duration: '' });
             }
         }
     });

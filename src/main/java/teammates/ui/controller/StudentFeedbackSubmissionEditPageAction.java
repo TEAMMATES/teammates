@@ -10,11 +10,10 @@ import teammates.logic.api.GateKeeper;
 public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        if (student != null) {
-            return student.course.equals(courseId);
-        } else {
+        if (student == null) {
             return isJoinedCourse(courseId);
         }
+        return student.course.equals(courseId);
     }
 
     @Override
@@ -24,14 +23,13 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected String getUserEmailForCourse() {
-        if (student != null) {
-            return student.email;
-        } else {
+        if (student == null) {
             // Not covered as this shouldn't happen since verifyAccesibleForSpecific user is always
             // called before this, calling getStudent() and making student not null in any case
             // This still acts as a safety net, however, and should stay
             return getStudent().email;
         }
+        return student.email;
     }
 
     @Override
@@ -59,11 +57,10 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException {
-        if (isRegisteredStudent()) {
-            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        } else {
+        if (!isRegisteredStudent()) {
             throw new EntityDoesNotExistException("unregistered student trying to access non-existent session");
         }
+        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
     protected StudentAttributes getStudent() {

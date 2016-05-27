@@ -1,24 +1,20 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
-
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.FileHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
-public class HtmlHelperTest {
+public class HtmlHelperTest extends BaseTestCase {
     
     @Test
-    public void testComparison() throws SAXException, IOException, TransformerException {
+    public void testComparison() throws IOException {
         String expected = "<html></html>";
         String actual = expected;
         HtmlHelper.assertSameHtml(expected, actual, false);

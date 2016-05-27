@@ -35,15 +35,15 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
             courseIdInstructorMap.put(ins.courseId, ins);
         }
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for (ScoredDocument doc:filteredResults) {
+        for (ScoredDocument doc : filteredResults) {
             StudentAttributes student = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                     StudentAttributes.class);
             if (student.key == null) {
                 studentsLogic.deleteDocument(student);
@@ -62,17 +62,15 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
-    
+
     /**
-     * This method should be used by admin only since the previous searching does not restrict the 
-     * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
+     * This method should be used by admin only since the previous searching does not restrict the
+     * visibility according to the logged-in user's google ID. Therefore,This fromResults method
      * does not require a googleID as a parameter. Returned results bundle will contain information
      * related to matched students only.
      * @param results
      * @return studentResultBundle containing information related to matched students only.
-     */   
+     */
     public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results) {
         if (results == null) {
             return this;
@@ -80,8 +78,8 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         
-        for (ScoredDocument doc:results) {
-            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
+        for (ScoredDocument doc : results) {
+            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                                                                              StudentAttributes.class);
             
             if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
@@ -97,8 +95,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         return this;
     }
-    
-    
+
     private void sortStudentResultList() {
         
         Collections.sort(studentList, new Comparator<StudentAttributes>() {
@@ -128,8 +125,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             }
         });
     }
-    
-    
+
     @Override
     public int getResultSize() {
         return numberOfResults;

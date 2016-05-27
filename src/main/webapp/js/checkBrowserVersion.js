@@ -1,11 +1,11 @@
 // Browser Compatibility and support
-var MICROSOFT_INTERNET_EXPLORER = "Microsoft Internet Explorer";
+var MICROSOFT_INTERNET_EXPLORER = 'Microsoft Internet Explorer';
 var MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION = 9;
-var CHROME = "Chrome";
+var CHROME = 'Chrome';
 var CHROME_LOWEST_VERSION = 15;
-var FIREFOX = "Firefox";
+var FIREFOX = 'Firefox';
 var FIREFOX_LOWEST_VERSION = 12;
-var SAFARI = "Safari";
+var SAFARI = 'Safari';
 var SAFARI_LOWEST_VERSION = 4;
 
 /**
@@ -22,15 +22,16 @@ function checkBrowserVersion() {
     var verOffset;
     var supported = true;
 
+    /* eslint-disable no-negated-condition */ // usage of .contains() equivalent requires !==
     // In MSIE, the true version is after "MSIE" in userAgent
-    if ((verOffset = nAgt.indexOf("MSIE")) !== -1) {
+    if ((verOffset = nAgt.indexOf('MSIE')) !== -1) {
         browserName = MICROSOFT_INTERNET_EXPLORER;
         fullVersion = nAgt.substring(verOffset + 5);
         majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION) {
             supported = false;
         }
-    } else if ((verOffset = nAgt.indexOf("Chrome")) !== -1) {
+    } else if ((verOffset = nAgt.indexOf('Chrome')) !== -1) {
         // In Chrome, the true version is after "Chrome"
         browserName = CHROME;
         fullVersion = nAgt.substring(verOffset + 7);
@@ -38,18 +39,18 @@ function checkBrowserVersion() {
         if (majorVersion < CHROME_LOWEST_VERSION) {
             supported = false;
         }
-    } else if ((verOffset = nAgt.indexOf("Safari")) !== -1) {
+    } else if ((verOffset = nAgt.indexOf('Safari')) !== -1) {
         // In Safari, the true version is after "Safari" or after "Version"
         browserName = SAFARI;
         fullVersion = nAgt.substring(verOffset + 7);
-        if ((verOffset = nAgt.indexOf("Version")) !== -1) {
+        if ((verOffset = nAgt.indexOf('Version')) !== -1) {
             fullVersion = nAgt.substring(verOffset + 8);
         }
         majorVersion = parseInt(fullVersion, 10);
         if (majorVersion < SAFARI_LOWEST_VERSION) {
             supported = false;
         }
-    } else if ((verOffset = nAgt.indexOf("Firefox")) !== -1) {
+    } else if ((verOffset = nAgt.indexOf('Firefox')) !== -1) {
         // In Firefox, the true version is after "Firefox"
         browserName = FIREFOX;
         fullVersion = nAgt.substring(verOffset + 8);
@@ -59,20 +60,21 @@ function checkBrowserVersion() {
         }
     } else {
         // In most other browsers, "name/version" is at the end of userAgent
-        browserName = "Unsupported";
+        browserName = 'Unsupported';
         fullVersion = 0;
         supported = false;
     }
+    /* eslint-enable no-negated-condition */
     
     if (!supported) {
-        var message = document.getElementById("browserMessage");
-        message.style.display = "block";
-        message.innerHTML = "You are currently using " + browserName + " v." + majorVersion + ". This web browser is not officially supported by TEAMMATES. "
-                          + "In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers: <br>"
-                          + "<table><tr><td width=\"50%\"> - " + MICROSOFT_INTERNET_EXPLORER + " " + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + "+</td>"
-                          + "<td> - " + CHROME + " " + CHROME_LOWEST_VERSION + "+</td></tr>"
-                          + "<tr><td> - " + FIREFOX + " " + FIREFOX_LOWEST_VERSION + "+</td> "
-                          + "<td> - " + SAFARI + " " + SAFARI_LOWEST_VERSION + "+</td></tr></table>";
+        var message = document.getElementById('browserMessage');
+        message.style.display = 'block';
+        message.innerHTML = 'You are currently using ' + browserName + ' v.' + majorVersion + '. This web browser is not officially supported by TEAMMATES. '
+                          + 'In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers: <br>'
+                          + '<table><tr><td width="50%"> - ' + MICROSOFT_INTERNET_EXPLORER + ' ' + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + '+</td>'
+                          + '<td> - ' + CHROME + ' ' + CHROME_LOWEST_VERSION + '+</td></tr>'
+                          + '<tr><td> - ' + FIREFOX + ' ' + FIREFOX_LOWEST_VERSION + '+</td> '
+                          + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td></tr></table>';
     }
     
 }

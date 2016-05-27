@@ -1,11 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +26,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private ProfilesDb profilesDb = new ProfilesDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -197,7 +191,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a, true);
         
-        actualAccount = accountsDb.getAccount(a.googleId, true);        
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
         
         ______TS("success: profile not modified in the default case");
@@ -305,7 +299,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         return a;
     }
     
-    private AccountAttributes getNewAccountAttributes() throws Exception {
+    private AccountAttributes getNewAccountAttributes() {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";
         a.name = "Valid Fresh Account";

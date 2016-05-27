@@ -21,7 +21,7 @@
     <c:otherwise>
         <c:set var="fsIndex" value="${data.feedbackSessionIndex}" />
         <c:forEach items="${data.questionCommentsMap}" var="questionCommentsEntry" varStatus="responseEntriesStatus">
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
                 <div class="panel-heading">
                     <c:set var="question" value="${questionCommentsEntry.key}"/>
                     <b>Question ${question.questionNumber}</b>:

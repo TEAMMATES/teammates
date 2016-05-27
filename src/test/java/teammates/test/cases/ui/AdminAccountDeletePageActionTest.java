@@ -3,8 +3,6 @@ package teammates.test.cases.ui;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -23,7 +21,6 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataInDatastore();
     }
 
-    
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         
@@ -48,9 +45,8 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
                 
     }
-    
 
-    private AdminAccountDeleteAction getAction(String... params) throws Exception {
+    private AdminAccountDeleteAction getAction(String... params) {
         return (AdminAccountDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

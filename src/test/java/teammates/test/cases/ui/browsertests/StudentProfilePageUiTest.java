@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -34,7 +32,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         
@@ -62,7 +60,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testAjaxPictureUrl();
     }
 
-    private void testJsFunctions() throws Exception {
+    private void testJsFunctions() {
         ______TS("Test disabling and enabling of upload button");
         // initial disabled state
         profilePage.verifyUploadButtonState(false);
@@ -118,8 +116,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.closeEditPictureModal();
     }
 
-    private void testActions() throws Exception {
-        // assumes it is run after NavLinks Test 
+    private void testActions() {
+        // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithExistingProfile
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
 
@@ -224,7 +222,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         verifyPictureIsPresent(currentPictureKey);
     }
 
-    private void testAjaxPictureUrl() throws Exception {
+    private void testAjaxPictureUrl() {
         String studentId = "studentWithExistingProfile";
         String instructorId = "SHomeUiT.instr";
         String helperId = "SHomeUiT.helper";
@@ -291,7 +289,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

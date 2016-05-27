@@ -44,13 +44,13 @@ function submitFormAjax() {
         },
         success: function(data) {
             setTimeout(function() {
-                if (!data.isError) {
+                if (data.isError) {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                } else {
                     var table = data.sessionResultsHtmlTableAsString;
                     content.html('<small>' + table + '</small>');
                     ajaxStatus.html(data.ajaxStatus);
-                } else {
-                    ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
                 setStatusMessage(data.statusForAjax);
             }, 500);
@@ -75,9 +75,9 @@ function showHideStats() {
 //
 // When at least one of the nested panels in a panel is found to contain the search text in its title,
 // the panel will be shown
-function filterResults(searchText) {
+function filterResults(rawSearchText) {
     // Reduce white spaces to only 1 white space
-    searchText = (searchText.split('\\s+')).join(' ');
+    var searchText = rawSearchText.split('\\s+').join(' ');
 
     // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
@@ -128,13 +128,13 @@ function filterResults(searchText) {
                 // increment counter to skip child panels that have been shown
                 p += childrenSize;
             }
-        } else if (!hasChild) {
-            // current panel text does not match with search text & current panel has no child panels
-            $(panel).hide();
-        } else {
+        } else if (hasChild) {
             // current panel text does not match with search text & current panel has child panels
             // add current panel to pending parent panel stack
             showStack.push(panel);
+        } else {
+            // current panel text does not match with search text & current panel has no child panels
+            $(panel).hide();
         }
 
         if (hasChild) {
@@ -153,12 +153,12 @@ function updateResultsFilter() {
     filterResults($('#results-search-box').val());
 }
 
-function toggleCollapse(e, panels) {
+function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
+    var panels = pans || $('div.panel-collapse');
     
     if ($(e).html().trim().startsWith(expand)) {
-        panels = panels || $('div.panel-collapse');
         isExpandingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
@@ -177,7 +177,6 @@ function toggleCollapse(e, panels) {
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        panels = panels || $('div.panel-collapse');
         isCollapsingAll = true;
         var j = 0;
         for (var k = 0; k < panels.length; k++) {
@@ -200,7 +199,8 @@ function getNextId(e) {
     return nextId;
 }
 
-function bindCollapseEvents(panels, numPanels) {
+function bindCollapseEvents(panels, nPanels) {
+    var numPanels = nPanels;
     for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');

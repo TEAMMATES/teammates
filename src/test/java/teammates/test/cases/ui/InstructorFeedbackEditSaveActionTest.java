@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,9 +9,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
-import teammates.ui.controller.AjaxResult;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
@@ -184,7 +180,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditSaveAction getAction(String... params) {
         return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 }

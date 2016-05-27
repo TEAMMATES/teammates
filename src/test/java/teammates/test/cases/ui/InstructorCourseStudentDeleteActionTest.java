@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,12 +11,10 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
-
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -56,7 +51,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseStudentDeleteAction getAction(String... params) throws Exception {
+    private InstructorCourseStudentDeleteAction getAction(String... params) {
         return (InstructorCourseStudentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
     

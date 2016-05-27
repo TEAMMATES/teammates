@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
+//CHECKSTYLE:ON
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -8,13 +10,14 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Utils;
 
 /**
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-    protected static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     
@@ -160,7 +163,8 @@ public class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Could not create the action for :" + uri);
+            throw new RuntimeException("Could not create the action for " + uri + ": "
+                                       + TeammatesException.toStringWithStackTrace(e));
         }
         
     }

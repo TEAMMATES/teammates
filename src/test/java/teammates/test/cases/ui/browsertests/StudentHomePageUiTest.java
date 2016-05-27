@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
@@ -19,19 +18,18 @@ import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * Covers Homepage and Login page for students. Some part of it is using a 
- * real Google account alice.tmms. <br> 
+ * Covers Homepage and Login page for students. Some part of it is using a
+ * real Google account alice.tmms. <br>
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentHomePage studentHome;
+    private static StudentHomePage studentHome;
     private static FeedbackSessionAttributes gracedFeedbackSession;
-    
-    
+
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         
@@ -58,14 +56,12 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
 
-
-    @Test    
+    @Test
     public void allTests() throws Exception {
-        testContentAndLogin();        
+        testContentAndLogin();
         testLinks();
         testLinkAndContentAfterDelete();
     }
-
 
     private void testContentAndLogin() throws Exception {
         
@@ -94,7 +90,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         studentHome = getHomePage(browser)
                               .clickStudentLogin()
-                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
+                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                               TestProperties.inst().TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
@@ -110,22 +106,19 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
            
     }
-    
-    
+
     private void testLinks() {
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
-        
-        
+
         ______TS("link: help page");
         
         StudentHelpPage helpPage = studentHomePage.clickHelpLink();
         helpPage.closeCurrentWindowAndSwitchToParentWindow();
-        
-        
+
         ______TS("link: view team link");
         
         studentHomePage.clickViewTeam();
@@ -134,8 +127,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHomePage.clickHomeTab();
         
         ______TS("link: link of published feedback");
-        
-        
+
         studentHomePage.getViewFeedbackButton("Closed Feedback Session").click();
         studentHomePage.reloadPage();
         String pageSource = browser.driver.getPageSource();
@@ -143,18 +135,16 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));
         studentHomePage.clickHomeTab();
-        
-        
+
         studentHomePage.getSubmitFeedbackButton("Closed Feedback Session").click();
         studentHomePage.reloadPage();
         pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Submit Feedback"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));
-        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
         studentHomePage.clickHomeTab();
-        
-        
+
         ______TS("link: link of Grace period feedback");
         
         assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled")));
@@ -165,10 +155,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Submit Feedback"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Graced Feedback Session"));
-        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
         studentHomePage.clickHomeTab();
-        
-        
+
         ______TS("link: link of pending feedback");
         
         assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled")));
@@ -181,19 +170,17 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("First Feedback Session"));
         studentHomePage.clickHomeTab();
     }
-    
-    
+
     private void testLinkAndContentAfterDelete() throws Exception {
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
-        
-        
+
         ______TS("access the feedback session exactly after it is deleted");
         
-        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
+        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         studentHomePage.waitForPageToLoad();
         studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
@@ -210,7 +197,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

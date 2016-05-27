@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -141,7 +138,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

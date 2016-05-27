@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -22,7 +21,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
@@ -40,8 +38,6 @@ public class StudentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
     
-    private static final Logger log = Utils.getLogger();
-
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
@@ -52,36 +48,34 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
                                             String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
                 new StudentSearchQuery(instructors, queryString, cursorString));
         
         return new StudentSearchResultBundle().fromResults(results, instructors);
     }
-    
-    
-    
-    
+
     /**
-     * This method should be used by admin only since the searching does not restrict the 
+     * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
      * @param queryString
      * @param cursorString
      * @return null if no result found
-     */ 
+     */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        if (queryString.trim().isEmpty())
+        if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
+        }
         
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
                 new StudentSearchQuery(queryString, cursorString));
         
         return new StudentSearchResultBundle().getStudentsfromResults(results);
     }
-    
 
     public void deleteDocument(StudentAttributes studentToDelete) {
         if (studentToDelete.key == null) {
@@ -105,10 +99,10 @@ public class StudentsDb extends EntitiesDb {
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
         for (EntityAttributes entity : studentsToUpdate) {
             StudentAttributes student = (StudentAttributes) entity;
-            try {          
+            try {
                 updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
+             // This situation is not tested as replicating such a situation is
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -156,9 +150,9 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * All parameters are non-null.
-     * @return null if no such student is found. 
+     * @return null if no such student is found.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -173,13 +167,12 @@ public class StudentsDb extends EntitiesDb {
         
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
-        } else {
-            return new StudentAttributes(studentList.get(0));
         }
+        return new StudentAttributes(studentList.get(0));
     }
     
     /**
-     * Works for both encrypted keys and unencrypted keys 
+     * Works for both encrypted keys and unencrypted keys
      *   (sent out before we started encrypting keys). <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -188,21 +181,19 @@ public class StudentsDb extends EntitiesDb {
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
         StudentAttributes studentAttributes;
-        registrationKey = registrationKey.trim();
-        String originalKey = registrationKey;
         try {
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
-            registrationKey = StringHelper.decrypt(registrationKey);
+            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             Student student = getPM().getObjectById(Student.class,
-                    KeyFactory.stringToKey(registrationKey));
-            studentAttributes = new StudentAttributes(student); 
+                    KeyFactory.stringToKey(decryptedKey));
+            studentAttributes = new StudentAttributes(student);
         } catch (Exception e) {
             try {
-                //Failing that, we try to retrieve assuming the given registrationKey is unencrypted 
+                //Failing that, we try to retrieve assuming the given registrationKey is unencrypted
                 //  (early versions of the system sent unencrypted keys).
                 //TODO: This branch can be removed after Dec 2013
                 Student student = getPM().getObjectById(Student.class,
-                        KeyFactory.stringToKey(originalKey));
+                        KeyFactory.stringToKey(registrationKey.trim()));
                 studentAttributes = new StudentAttributes(student);
             } catch (Exception e2) {
                 //Failing both, we assume there is no such student
@@ -213,9 +204,8 @@ public class StudentsDb extends EntitiesDb {
         return studentAttributes;
     }
 
-
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * All parameters are non-null.
      * @return an empty list if no such students are found.
      */
@@ -292,7 +282,7 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s: studentList) {
+        for (Student s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -312,7 +302,7 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
         
-        for (StudentAttributes s: allStudents) {
+        for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
                 unregistered.add(s);
             }
@@ -322,10 +312,10 @@ public class StudentsDb extends EntitiesDb {
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all students in the database. 
+     * @return the list of all students in the database.
      */
     @Deprecated
-    public List<StudentAttributes> getAllStudents() { 
+    public List<StudentAttributes> getAllStudents() {
         List<StudentAttributes> list = new LinkedList<StudentAttributes>();
         List<Student> entities = getStudentEntities();
         Iterator<Student> it = entities.iterator();
@@ -340,14 +330,14 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Updates the student identified by {@code courseId} and {@code email}. 
-     * For the remaining parameters, the existing value is preserved 
-     *   if the parameter is null (due to 'keep existing' policy)<br> 
+     * Updates the student identified by {@code courseId} and {@code email}.
+     * For the remaining parameters, the existing value is preserved
+     *   if the parameter is null (due to 'keep existing' policy)<br>
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
      * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
-     * @throws EntityDoesNotExistException 
-     * @throws InvalidParametersException 
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
      */
     public void updateStudent(String courseId, String email, String newName,
                                     String newTeamName, String newSectionName, String newEmail,
@@ -358,6 +348,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                 newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
     }
+    
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
@@ -369,7 +360,7 @@ public class StudentsDb extends EntitiesDb {
 
     /**
      * Update student's record without searchability
-     * This function is only used for testing, its purpose is to not create document if not necessary.    
+     * This function is only used for testing, its purpose is to not create document if not necessary.
      * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
      */
     public void updateStudentWithoutSearchability(String courseId, String email,
@@ -382,6 +373,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                                         newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
     }
+    
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
@@ -419,7 +411,7 @@ public class StudentsDb extends EntitiesDb {
         student.setSectionName(newSectionName);
         
         if (hasDocument) {
-            putDocument(new StudentAttributes(student));   
+            putDocument(new StudentAttributes(student));
         }
     
         // Set true to prevent changes to last update timestamp
@@ -435,7 +427,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     *  
+     * 
      */
 
     public void deleteStudent(String courseId, String email) {
@@ -485,7 +477,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     *  
+     * 
      */
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -514,7 +506,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student or no such course. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     *  
+     * 
      */
 
     public void deleteStudentsForCourse(String courseId) {
@@ -548,12 +540,11 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     }
     
-    public void verifyStudentExists(String courseId, String email) 
+    public void verifyStudentExists(String courseId, String email)
             throws EntityDoesNotExistException {
         
         if (getStudentForEmail(courseId, email) == null) {
-            String error = ERROR_UPDATE_NON_EXISTENT_STUDENT +
-                    courseId + "/" + email;
+            String error = ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId + "/" + email;
             throw new EntityDoesNotExistException(error);
         }
         
@@ -575,14 +566,13 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
     
     private List<Student> getStudentEntitiesForCourses(List<String> courseIds) {
@@ -595,7 +585,6 @@ public class StudentsDb extends EntitiesDb {
         return studentList;
     }
 
-    
     private List<Student> getStudentEntitiesForGoogleId(String googleId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String googleIdParam");
@@ -633,7 +622,7 @@ public class StudentsDb extends EntitiesDb {
     /**
      * Retrieves all student entities. This function is not scalable.
      */
-    public List<Student> getStudentEntities() { 
+    public List<Student> getStudentEntities() {
         
         Query q = getPM().newQuery(Student.class);
         
@@ -648,7 +637,6 @@ public class StudentsDb extends EntitiesDb {
         StudentAttributes studentToGet = (StudentAttributes) entity;
         return getStudentForEmail(studentToGet.course, studentToGet.email);
     }
-    
 
 }
 

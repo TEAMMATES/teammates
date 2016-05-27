@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
@@ -77,7 +77,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement publishedSessionEmailReminderButton;
     
     @FindBy(id = "fsEditLink")
-    private WebElement fsEditLink;    
+    private WebElement fsEditLink;
     
     @FindBy(id = "fsSaveLink")
     private WebElement fsSaveLink;
@@ -129,8 +129,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
- 
-    
+
     @FindBy(id = "button_copy")
     private WebElement copyButton;
     
@@ -145,9 +144,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
-    
-    
-    public InstructorCopyFsToModal fsCopyToModal;
+
+    private InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
@@ -157,6 +155,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
+    }
+    
+    public InstructorCopyFsToModal getFsCopyToModal() {
+        return fsCopyToModal;
     }
     
     public String getCourseId() {
@@ -189,8 +191,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQuestionNumber;
-        String idSuffix = isValid ? "-" + qnNumber : "";
-        return idSuffix;
+        return isValid ? "-" + qnNumber : "";
     }
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
@@ -298,7 +299,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, choice);
     }
-    
+
+    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+        String idSuffix = getIdSuffix(qnNumber);
+        
+        String elemid = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        
+        WebElement weightBox = browser.driver.findElement(By.id(elemid));
+        fillTextBox(weightBox, weight);
+    }
+
     public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
         
@@ -415,6 +425,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickVisibilityPreviewForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
     }
+    
     public void clickVisibilityOptionsForNewQuestion() {
         browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
     }
@@ -425,11 +436,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean clickEditQuestionButton(int qnNumber) {
-        WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));    
+        WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
         qnEditLink.click();
         
         // Check if links toggle properly.
-        WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));    
+        WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));
         return qnSaveLink.isDisplayed();
     }
     
@@ -447,7 +458,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     /**
      * 
      * @return {@code True} if all elements expected to be enabled
-     * in the edit session frame are enabled after edit link is clicked. 
+     * in the edit session frame are enabled after edit link is clicked.
      * {@code False} if not.
      */
     public boolean verifyEditSessionBoxIsEnabled() {
@@ -519,7 +530,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
-        return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
+        return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox)
                && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
     }
 
@@ -539,7 +550,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             fail("Cannot navigate to the previous month");
         }
 
-        // Check if the dates of previous, current and next month are enabled 
+        // Check if the dates of previous, current and next month are enabled
         for (int i = 0; i < 3; i++) {
 
             List<WebElement> dates = browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
@@ -590,9 +601,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
                 if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    previousButton.click();
                 }
+                previousButton.click();
             }
 
         } else {
@@ -602,9 +612,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
                 if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
                     return false;
-                } else {
-                    nextButton.click();
                 }
+                nextButton.click();
             }
         }
 
@@ -704,7 +713,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(instructionsTextBox, instructions.getValue());
     
         // Select grace period
-        selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");        
+        selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
     
         fsSaveLink.click();
         waitForElementVisibility(statusMessage);
@@ -790,6 +799,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
+    public void clickAssignWeightsCheckbox(int qnIndex) {
+        By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
+        WebElement assignWeightsCheckbox = browser.driver.findElement(by);
+        assignWeightsCheckbox.click();
+    }
+
     public void clickAddRubricRowLink(int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricAddSubQuestionLink" + idSuffix));
@@ -816,8 +831,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
         clickAndConfirm(removeRubricColLink);
     }
-    
-    
+
     public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
         assertFalse(optionBox.isDisplayed());
@@ -846,6 +860,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
+    
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         checkBox.click();
@@ -934,7 +949,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getPreviewLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));   
+        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));
     }
     
     public WebElement getEditLabel(int questionNumber) {
@@ -972,7 +987,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue 
+        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);

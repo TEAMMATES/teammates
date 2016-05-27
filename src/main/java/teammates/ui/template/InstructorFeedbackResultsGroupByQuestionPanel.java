@@ -4,7 +4,6 @@ import java.util.List;
 
 import teammates.common.util.FieldValidator;
 
-
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Question > Recipient,
  * and for the recipient panel in Recipient > Question > Giver
@@ -16,7 +15,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
     private List<InstructorFeedbackResultsQuestionTable> questionTables;
     
     public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorFeedbackResultsQuestionTable> questionTables,
-                                    String profilePictureLink, 
+                                    String profilePictureLink,
                                     boolean isGiver, String participantIdentifier, String participantName,
                                     InstructorFeedbackResultsModerationButton moderationButton) {
         this.participantIdentifier = participantIdentifier;
@@ -24,8 +23,8 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.isGiver = isGiver;
         
         this.isEmailValid = new FieldValidator()
-                                    .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier)
-                                    .isEmpty(); 
+                                    .getInvalidityInfoForEmail(participantIdentifier)
+                                    .isEmpty();
         this.profilePictureLink = profilePictureLink;
         
         this.questionTables = questionTables;
@@ -40,9 +39,9 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
      */
     public InstructorFeedbackResultsGroupByQuestionPanel(
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
-                                    String profilePictureLink, 
+                                    String profilePictureLink,
                                     boolean isGroupedByGiver, String participantIdentifier, String participantName) {
-        this(questionTables, profilePictureLink, isGroupedByGiver, 
+        this(questionTables, profilePictureLink, isGroupedByGiver,
              participantIdentifier, participantName, null);
     }
     
@@ -50,15 +49,14 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
      * Constructs a GroupByQuestionPanel with a moderation button
      */
     public InstructorFeedbackResultsGroupByQuestionPanel(
-                                    String participantIdentifier, String participantName, 
+                                    String participantIdentifier, String participantName,
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
-                                    String profilePictureLink, 
+                                    String profilePictureLink,
                                     boolean isGroupedByGiver,
                                     InstructorFeedbackResultsModerationButton moderationButton) {
-        this(questionTables, profilePictureLink, isGroupedByGiver, participantIdentifier, 
+        this(questionTables, profilePictureLink, isGroupedByGiver, participantIdentifier,
              participantName, moderationButton);
     }
-    
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionTables() {
         return questionTables;
@@ -68,5 +66,4 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.questionTables = questionTables;
     }
 
-    
 }

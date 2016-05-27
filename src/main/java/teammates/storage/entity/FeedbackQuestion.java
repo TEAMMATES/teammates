@@ -1,7 +1,7 @@
 package teammates.storage.entity;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -11,15 +11,23 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Const;
 
+import com.google.appengine.api.datastore.Text;
+
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
-    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
+    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
+    
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp. Set
+     * to true when using scripts to update entities when you want to preserve
+     * the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp;
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -72,14 +80,6 @@ public class FeedbackQuestion implements StoreCallback {
     @Persistent
     private Date updatedAt;
     
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
-    @NotPersistent
-    public boolean keepUpdateTimestamp;
-
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
             Text questionText, int questionNumber, FeedbackQuestionType questionType,
@@ -235,6 +235,7 @@ public class FeedbackQuestion implements StoreCallback {
     /**
      * Called by jdo before storing takes place.
      */
+    @Override
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
     }

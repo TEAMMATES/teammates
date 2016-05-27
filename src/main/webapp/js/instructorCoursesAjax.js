@@ -44,7 +44,7 @@ $(document).ready(function() {
                 $('#coursesList')
                     .removeClass('align-center')
                     .html(appendedCoursesTable);
-                toggleSort($("#button_sortcourseid"));
+                toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
             }
         });

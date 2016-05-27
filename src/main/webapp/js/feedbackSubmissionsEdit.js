@@ -1,6 +1,17 @@
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
+var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+
+// selectors for warning modal prompt and the various fields within
+var WARNING_MODAL = '#warning-modal';
+var WARNING_MODAL_TITLE = '#warning-modal-title';
+var WARNING_MODAL_MESSAGE = '#warning-modal-message';
+var WARNING_MODAL_OK = '#warning-modal-ok';
+
+// text displayed to user
+var SESSION_NOT_OPEN = 'Feedback Session Not Open';
+var OKAY = 'Okay';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -34,17 +45,17 @@ $(document).ready(function() {
     });
     
     $("input[type='radio']").change(function() {
-        idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
-        idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
+        idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
+        idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
     
-        if ($(this).data('text') === "otherOptionText") {
+        if ($(this).data('text') === 'otherOptionText') {
             // Other option is selected by the student
             $('#' + idOfOtherOptionText).prop('disabled', false);
-            $('#' + idOfOtherOptionFlag).val("1");
+            $('#' + idOfOtherOptionFlag).val('1');
         } else {
             // Any option except the other option is selected
             $('#' + idOfOtherOptionText).prop('disabled', true);
-            $('#' + idOfOtherOptionFlag).val("0");
+            $('#' + idOfOtherOptionFlag).val('0');
         }
     });
                    
@@ -74,6 +85,8 @@ $(document).ready(function() {
     prepareRankQuestions();
 
     focusModeratedQuestion();
+
+    showModalWarningIfSessionClosed();
 });
 
 // Saves the value in the other option textbox for MCQ questions
@@ -136,24 +149,24 @@ function prepareMCQQuestions() {
             radioButtons[id].click(function(event) {
                 var val = $(this).val();
                 var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf("-"));
+                var indexSuffix = name.substring(name.indexOf('-'));
           
                 // toggle the radio button checked state
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
                 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') === "otherOptionText") {
+                if ($(this).data('text') === 'otherOptionText') {
                     if ($(this).is(':checked')) {
                         $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('1');
                     } else {
                         $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
                     }
                 } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
                     // If other option is enabled for the question
                     $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
                 }
 
                 $.each(radioButtons[name], function(index, radio) {
@@ -208,7 +221,7 @@ function prepareMSQQuestions() {
             // checkbox corresponding to 'other' is clicked
             otherOption.click(function() {
                 var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf("-"));
+                var indexSuffix = name.substring(name.indexOf('-'));
                 updateOtherOptionAttributes($(this), indexSuffix);
             });
         }
@@ -218,7 +231,7 @@ function prepareMSQQuestions() {
             var $options = $(this).closest('table').find(
                            'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
             var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf("-"));
+            var indexSuffix = name.substring(name.indexOf('-'));
             
             $options.each(function() {
                 $(this).prop('checked', false);
@@ -239,7 +252,7 @@ function prepareMSQQuestions() {
             var noneOfTheAboveOption = $(this).closest('table').find(
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
             var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf("-"));
+            var indexSuffix = name.substring(name.indexOf('-'));
             
             noneOfTheAboveOption.prop('checked', false);
             
@@ -255,10 +268,10 @@ function prepareMSQQuestions() {
 function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val('1');
     } else {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val('0');
     }
 }
 
@@ -487,9 +500,9 @@ function updateConstSumMessageQn(qnNum) {
     var numOptions = 0;
     var points = parseInt($('#constSumPoints-' + qnNum).val());
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
-    var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true' ? true : false;
-    var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true' ? true : false;
-    var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true' ? true : false;
+    var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true';
+    var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true';
+    var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true';
 
     if (distributeToRecipients) {
         numOptions = numRecipients;
@@ -543,11 +556,12 @@ function updateConstSumMessageQn(qnNum) {
         messageElement.text(message);
     }
 
-    function updateSumBasedOn(pointsAllocated) {
-        if (!isNumber(pointsAllocated)) {
-            pointsAllocated = 0;
-        } else {
+    function updateSumBasedOn(ptsAllocatedParam) {
+        var pointsAllocated = ptsAllocatedParam;
+        if (isNumber(pointsAllocated)) {
             allNotNumbers = false;
+        } else {
+            pointsAllocated = 0;
         }
 
         sum += pointsAllocated;
@@ -914,3 +928,25 @@ function updateRankMessageQn(qnNum) {
         }
     }
 }
+
+function showModalWarningIfSessionClosed() {
+    if (hasWarningMessage()) {
+        showWarningModal(SESSION_NOT_OPEN, getWarningMessage(), OKAY);
+    }
+}
+
+function showWarningModal(title, message, okButtonText) {
+    $(WARNING_MODAL_TITLE).html(title);
+    $(WARNING_MODAL_MESSAGE).html(message);
+    $(WARNING_MODAL_OK).html(okButtonText);
+    $(WARNING_MODAL).modal('show');
+}
+
+function hasWarningMessage() {
+    return $(WARNING_STATUS_MESSAGE).length;
+}
+
+function getWarningMessage() {
+    return $(WARNING_STATUS_MESSAGE).html().trim();
+}
+

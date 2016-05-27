@@ -3,6 +3,13 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
+import teammates.logic.api.GateKeeper;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
@@ -17,31 +24,23 @@ import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-
 /**
- * Action: edits the profile picture based on the coordinates of 
+ * Action: edits the profile picture based on the coordinates of
  *         the cropped photograph.
  */
 public class StudentProfilePictureEditAction extends Action {
 
-    private BlobKey _blobKey;
-    private String _widthString;
-    private String _heightString;
-    private String _bottomYString;
-    private String _rightXString;
-    private String _topYString;
-    private String _leftXString;
-    private String _rotateString;
+    private BlobKey blobKey;
+    private String widthString;
+    private String heightString;
+    private String bottomYString;
+    private String rightXString;
+    private String topYString;
+    private String leftXString;
+    private String rotateString;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {
@@ -74,7 +73,7 @@ public class StudentProfilePictureEditAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
      */
     private void uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
@@ -104,13 +103,13 @@ public class StudentProfilePictureEditAction extends Action {
                           + re.getMessage();
         }
 
-        return null;
+        return new byte[0];
     }
 
     private Image getTransformedImage() {
-        Assumption.assertNotNull(_blobKey);
+        Assumption.assertNotNull(blobKey);
 
-        Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
+        Image oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
         CompositeTransform finalTransform = getCompositeTransformToApply();
         OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
 
@@ -118,23 +117,23 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private Transform getScaleTransform() {
-        Double width = Double.parseDouble(_widthString);
-        Double height = Double.parseDouble(_heightString);
+        Double width = Double.parseDouble(widthString);
+        Double height = Double.parseDouble(heightString);
         return ImagesServiceFactory.makeResize((int) Math.round(width), (int) Math.round(height));
     }
 
     private Transform getRotateTransform() {
-        Double rotate = Double.parseDouble(_rotateString);
+        Double rotate = Double.parseDouble(rotateString);
         return ImagesServiceFactory.makeRotate((int) Math.round(rotate));
     }
 
     private Transform getCropTransform() {
-        Double height = Double.parseDouble(_heightString);
-        Double width = Double.parseDouble(_widthString);
-        Double leftX = Double.parseDouble(_leftXString) / width;
-        Double topY = Double.parseDouble(_topYString) / height;
-        Double rightX = Double.parseDouble(_rightXString) / width;
-        Double bottomY = Double.parseDouble(_bottomYString) / height;
+        Double height = Double.parseDouble(heightString);
+        Double width = Double.parseDouble(widthString);
+        Double leftX = Double.parseDouble(leftXString) / width;
+        Double topY = Double.parseDouble(topYString) / height;
+        Double rightX = Double.parseDouble(rightXString) / width;
+        Double bottomY = Double.parseDouble(bottomYString) / height;
         return ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
     }
 
@@ -152,19 +151,19 @@ public class StudentProfilePictureEditAction extends Action {
      * Checks that the information given via POST is valid
      */
     private boolean validatePostParameters() {
-        if (_leftXString.isEmpty() || _topYString.isEmpty()
-         || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
+        if (leftXString.isEmpty() || topYString.isEmpty()
+                || rightXString.isEmpty() || bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";
             return false;
-        } else if (_heightString.isEmpty() || _widthString.isEmpty()) {
+        } else if (heightString.isEmpty() || widthString.isEmpty()) {
             isError = true;
             statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were empty.";
             return false;
-        } else if (Double.parseDouble(_widthString) == 0
-                || Double.parseDouble(_heightString) == 0) {
+        } else if (Double.parseDouble(widthString) == 0
+                || Double.parseDouble(heightString) == 0) {
             isError = true;
             statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were zero.";
@@ -178,14 +177,14 @@ public class StudentProfilePictureEditAction extends Action {
      * they are not null
      */
     private void readAllPostParamterValuesToFields() {
-        _leftXString = getLeftXString();
-        _topYString = getTopYString();
-        _rightXString = getRightXString();
-        _bottomYString = getBottomYString();
-        _heightString = getPictureHeight();
-        _widthString = getPictureWidth();
-        _blobKey = getBlobKey();
-        _rotateString = getRotateString();
+        leftXString = getLeftXString();
+        topYString = getTopYString();
+        rightXString = getRightXString();
+        bottomYString = getBottomYString();
+        heightString = getPictureHeight();
+        widthString = getPictureWidth();
+        blobKey = getBlobKey();
+        rotateString = getRotateString();
     }
 
     private BlobKey getBlobKey() {
@@ -219,19 +218,19 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private String getTopYString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
     }
 
     private String getLeftXString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }
 
     private String getRotateString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_ROTATE, 
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_ROTATE,
                                           getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE);
     }

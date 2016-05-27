@@ -28,8 +28,8 @@ import teammates.storage.entity.FeedbackSession;
 /**
  * Script to go through either:
  * <ul>
- * <li> every feedback session, </li> 
- * <li> feedback sessions with start date within a specified range, </li> 
+ * <li> every feedback session, </li>
+ * <li> feedback sessions with start date within a specified range, </li>
  * <li> or a specified feedback session, </li>
  * </ul>
  * and verifies that the non-respondents do not have a response in the feedback session. <br/>
@@ -43,10 +43,9 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     
-    // if isPreview is true, then no writes will be done 
+    // if isPreview is true, then no writes will be done
     private boolean isPreview = true;
-    
-    
+
     // if numDays is set to > 0,
     // then feedback sessions with start date from (now - numDays) days to the current time
     // will be retrieved and checked
@@ -59,8 +58,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     // then all feedback sessions will be checked
     private String courseId;
     private String feedbackSessionName;
-    
-    
+
     private Map<String, Set<String>> emailsInCourse = new HashMap<>();
     
     public static void main(String[] args) throws IOException {
@@ -100,14 +98,14 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         boolean isRepairRequired = false;
         for (String nonRespondentEmail : nonRespondants) {
             boolean isRespondentWithResponses = logic.hasGiverRespondedForSession(
-                                                        nonRespondentEmail, 
-                                                        feedbackSession.feedbackSessionName, 
+                                                        nonRespondentEmail,
+                                                        feedbackSession.feedbackSessionName,
                                                         feedbackSession.courseId);
             if (isRespondentWithResponses) {
-                System.out.println("Inconsistent data for " + feedbackSession.getIdentificationString() 
+                System.out.println("Inconsistent data for " + feedbackSession.getIdentificationString()
                                  + nonRespondentEmail);
                 isRepairRequired = true;
-            } 
+            }
         }
         
         if (!isPreview && isRepairRequired) {
@@ -116,26 +114,23 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         }
     }
 
-    
-    private Set<String> getNonRespondentsForFeedbackSession(
-                                    FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException {
+    private Set<String> getNonRespondentsForFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         
         // obtain the respondents first
-        Set<String> respondingStudentsEmail = feedbackSession.respondingStudentList;                
+        Set<String> respondingStudentsEmail = feedbackSession.respondingStudentList;
         Set<String> respondingInstructorsEmail = feedbackSession.respondingInstructorList;
         
         Set<String> respondents = new HashSet<>(respondingInstructorsEmail);
         respondents.addAll(respondingStudentsEmail);
-        
-        
+
         Set<String> nonRespondentsEmails;
         // obtain emails of every student and instructor in the course
         if (emailsInCourse.containsKey(feedbackSession.courseId)) {
             nonRespondentsEmails = emailsInCourse.get(feedbackSession.courseId);
         } else {
-            List<InstructorAttributes> allInstructors = 
+            List<InstructorAttributes> allInstructors =
                                             logic.getInstructorsForCourse(feedbackSession.courseId);
-            List<StudentAttributes> allStudents = 
+            List<StudentAttributes> allStudents =
                                             logic.getStudentsForCourse(feedbackSession.courseId);
             List<EntityAttributes> allPossibleRespondents = new ArrayList<>();
             allPossibleRespondents.addAll(allInstructors);
@@ -166,7 +161,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     }
     
     /**
-     * Return a list of feedback sessions with start time from (now - numDays) and now 
+     * Return a list of feedback sessions with start time from (now - numDays) and now
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
         Calendar startCal = Calendar.getInstance();

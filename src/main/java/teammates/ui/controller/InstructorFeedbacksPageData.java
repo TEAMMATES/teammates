@@ -10,18 +10,17 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackSessionActions;
-import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
-import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackSessionsTable;
+import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.InstructorFeedbackSessionActions;
 
 public class InstructorFeedbacksPageData extends PageData {
 
     private static final int MAX_CLOSED_SESSION_STATS = 5;
-    
 
     // Flag for deciding if loading the sessions table, or the new sessions form.
     // if true -> loads the sessions table, else load the form
@@ -39,40 +38,37 @@ public class InstructorFeedbacksPageData extends PageData {
         return isUsingAjax;
     }
 
-
     /**
      * Initializes the PageData
-     * @param courses                    courses that the user is an instructor of 
+     * @param courses                    courses that the user is an instructor of
      * @param courseIdForNewSession      the course id to automatically select in the dropdown
-     * @param existingFeedbackSessions   list of existing feedback sessions 
+     * @param existingFeedbackSessions   list of existing feedback sessions
      * @param instructors                a map of courseId to the instructorAttributes for the current user
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
      * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
-     * @param courseIdToSectionNameMap   map of course id to names of sections in the course 
+     * @param courseIdToSectionNameMap   map of course id to names of sections in the course
      */
-    public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
+    public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
-                     FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
+                     FeedbackSessionAttributes defaultFormValues, String feedbackSessionType,
                      String highlightedFeedbackSession) {
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
         
-        buildNewForm(courses, courseIdForNewSession, 
-                     instructors, defaultFormValues, 
+        buildNewForm(courses, courseIdForNewSession,
+                     instructors, defaultFormValues,
                      feedbackSessionType);
-        
-        
-        buildFsList(courseIdForNewSession, existingFeedbackSessions, 
+
+        buildFsList(courseIdForNewSession, existingFeedbackSessions,
                     instructors, highlightedFeedbackSession);
-        
-        
+
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
                            defaultFormValues, highlightedFeedbackSession);
     }
     
-    public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession, 
+    public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
                                           FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
@@ -80,16 +76,13 @@ public class InstructorFeedbacksPageData extends PageData {
         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
     }
     
-    public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
+    public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession,
                                              List<FeedbackSessionAttributes> existingFeedbackSessions,
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
-    
-    
-    
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -104,20 +97,19 @@ public class InstructorFeedbacksPageData extends PageData {
                 filteredFeedbackSessions.add(existingFeedbackSession);
             }
         }
-            
 
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                         filteredFeedbackSessions,
                                                                         instructors, feedbackSessionNameForSessionList,
                                                                         courseIdForNewSession);
         
-        String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        String fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
         addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
         
-        copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
+        copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow,
                                                           fsName, courseIdOptions);
     }
 
@@ -125,10 +117,10 @@ public class InstructorFeedbacksPageData extends PageData {
                              Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
-                                                                             existingFeedbackSessions, instructors, 
+                                                                             existingFeedbackSessions, instructors,
                                                                              feedbackSessionNameToHighlight, courseIdToHighlight);
-        fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow, 
-                                           feedbackSessionNameToHighlight, 
+        fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow,
+                                           feedbackSessionNameToHighlight,
                                            courseIdToHighlight);
     }
 
@@ -137,11 +129,11 @@ public class InstructorFeedbacksPageData extends PageData {
                               FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
-            courseIds.add(course.id);
+            courseIds.add(course.getId());
         }
         
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
-        newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
+        newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors,
                                    newFeedbackSession, feedbackSessionType,
                                    courseIds,
                                    additionalSettings);
@@ -162,7 +154,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                         newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
                                         courseIdForNewSession,
-                                        courseIds, courseIdOptions, 
+                                        courseIds, courseIdOptions,
                                         instructors,
                                         additionalSettings, isSubmitButtonDisabled);
     }
@@ -170,20 +162,17 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();            
-        } else {
-            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
+            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment();
         }
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
 
     }
-    
-    
+
     private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
-                                                 List<FeedbackSessionAttributes> sessions, 
-                                                 Map<String, InstructorAttributes> instructors, 
+                                                 List<FeedbackSessionAttributes> sessions,
+                                                 Map<String, InstructorAttributes> instructors,
                                          String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
-        
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
         int displayedStatsCount = 0;
         
@@ -203,7 +192,7 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, 
+            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session,
                                                                                            Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                                                            instructors.get(courseId));
             
@@ -240,10 +229,10 @@ public class InstructorFeedbacksPageData extends PageData {
     private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
-        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD", 
-                                                          defaultSessionType != null && defaultSessionType.equals("STANDARD"));
-        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION", 
-                                                            defaultSessionType == null || defaultSessionType.equals("TEAMEVALUATION")); 
+        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD",
+                                                          "STANDARD".equals(defaultSessionType));
+        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION",
+                                                            defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
         
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);
@@ -251,7 +240,7 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
 
-    private List<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,
+    private List<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String courseIdForNewSession,
                                                      Map<String, InstructorAttributes> instructors,
                                                      FeedbackSessionAttributes newFeedbackSession) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -261,17 +250,16 @@ public class InstructorFeedbacksPageData extends PageData {
             // True if this is a submission of the filled 'new session' form
             // for this course:
             boolean isFilledFormForSessionInThisCourse =
-                    newFeedbackSession != null && course.id.equals(newFeedbackSession.courseId);
+                    newFeedbackSession != null && course.getId().equals(newFeedbackSession.courseId);
 
             // True if this is for displaying an empty form for creating a
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse =
-                                            course.id.equals(courseIdForNewSession);
-            
+                                            course.getId().equals(courseIdForNewSession);
 
-            if (instructors.get(course.id).isAllowedForPrivilege(
+            if (instructors.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                ElementTag option = createOption(course.id, course.id,  
+                ElementTag option = createOption(course.getId(), course.getId(),
                                                  isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse);
                 result.add(option);
             }
@@ -314,7 +302,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     /**
-     * Retrieves the link to submit the request for copy of session. 
+     * Retrieves the link to submit the request for copy of session.
      * Also contains feedback page link to return after the action.
      * @return form submit action link
      */
@@ -325,6 +313,5 @@ public class InstructorFeedbacksPageData extends PageData {
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }
-
 
 }

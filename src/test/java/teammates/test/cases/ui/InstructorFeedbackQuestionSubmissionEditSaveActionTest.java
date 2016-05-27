@@ -1,11 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -440,7 +434,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
         
@@ -461,12 +455,12 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
     }
     
-    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

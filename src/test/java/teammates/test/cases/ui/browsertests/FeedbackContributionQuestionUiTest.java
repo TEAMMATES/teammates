@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,20 +21,19 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
-    
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
@@ -57,9 +51,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
         testAddContributionQuestionAsSecondQuestion();
     }
-    
-    
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
 
@@ -68,6 +61,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
@@ -76,8 +70,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
         
     }
-    
 
+    @Override
     public void testCustomizeOptions() {
 
         //no question specific options to test
@@ -91,6 +85,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
@@ -102,6 +97,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
@@ -119,6 +115,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
 
@@ -129,7 +126,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     /**
@@ -155,7 +152,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

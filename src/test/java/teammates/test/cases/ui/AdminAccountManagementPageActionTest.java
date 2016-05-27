@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -15,7 +12,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     // private static final DataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
         // removeAndRestoreTypicalDataInDatastore();
@@ -36,14 +33,13 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user", 
+        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user",
                      result.getDestinationWithParams());
-        assertFalse(result.isError);      
+        assertFalse(result.isError);
                 
     }
-    
 
-    private AdminAccountManagementPageAction getAction(String... params) throws Exception {
+    private AdminAccountManagementPageAction getAction(String... params) {
         return (AdminAccountManagementPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
