@@ -491,7 +491,7 @@ public class TeamEvalResultTest extends BaseTestCase {
                 Arrays.toString(TeamEvalResult.normalizeValues(input)));
     }
     
-    private static void showCalculationSteps(int[][] input) {
+    /*private static void showCalculationSteps(int[][] input) {
         TeamEvalResult t = new TeamEvalResult(input);
         print(t.toString());
     }
@@ -530,6 +530,6 @@ public class TeamEvalResultTest extends BaseTestCase {
             
         showCalculationSteps(input4);
         
-    }
+    }*/
 
 }
