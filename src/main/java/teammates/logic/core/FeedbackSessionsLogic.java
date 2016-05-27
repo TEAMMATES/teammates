@@ -166,8 +166,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!coursesLogic.isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION_COURSE);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION_COURSE);
         }
         return getFeedbackSessionsForUserInCourseSkipCheck(courseId, userEmail);
     }
@@ -291,8 +290,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -325,8 +323,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -404,13 +401,11 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION);
         }
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION_STUDENT);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
@@ -445,14 +440,12 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
         
         if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION);
         }
         
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_GET_NON_EXISTENT_SESSION_STUDENT);
+            throw new EntityDoesNotExistException(ERROR_GET_NON_EXISTENT_SESSION_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
@@ -571,8 +564,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_VIEW_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_VIEW_NON_EXISTENT_SESSION);
         }
 
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
@@ -1102,8 +1094,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName,
             String courseId) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(
-                    ERROR_CHECK_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_CHECK_NON_EXISTENT_SESSION);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -1135,8 +1126,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_CHECK_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_CHECK_NON_EXISTENT_SESSION);
         }
         
         if (fsa.respondingInstructorList.contains(userEmail)) {
@@ -1161,8 +1151,7 @@ public class FeedbackSessionsLogic {
                         newSession.feedbackSessionName);
 
         if (oldSession == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         // These can't be changed anyway. Copy values to defensively avoid
@@ -1291,8 +1280,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.addInstructorRespondant(email, sessionToUpdate);
@@ -1306,8 +1294,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.addInstructorRespondants(emails, sessionToUpdate);
@@ -1320,8 +1307,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.clearInstructorRespondants(sessionToUpdate);        
@@ -1335,8 +1321,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.addStudentRespondant(email, sessionToUpdate);
@@ -1350,8 +1335,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.addStudentRespondants(emails, sessionToUpdate);
@@ -1364,8 +1348,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.clearStudentRespondants(sessionToUpdate);        
@@ -1379,8 +1362,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.deleteInstructorRespondant(email, sessionToUpdate);
@@ -1394,8 +1376,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_SESSION);
         }
 
         fsDb.deleteStudentRespondant(email, sessionToUpdate);
@@ -1414,18 +1395,15 @@ public class FeedbackSessionsLogic {
                 getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_SESSION_PUBLISH_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_SESSION_PUBLISH_NON_EXISTENT);
         }
 
         if (sessionToPublish.isPrivateSession()) {
-            throw new InvalidParametersException(
-                    ERROR_SESSION_PUBLISH_PRIVATE);
+            throw new InvalidParametersException(ERROR_SESSION_PUBLISH_PRIVATE);
         }
 
         if (sessionToPublish.isPublished()) {
-            throw new InvalidParametersException(
-                    ERROR_SESSION_PUBLISH_ALREADY);
+            throw new InvalidParametersException(ERROR_SESSION_PUBLISH_ALREADY);
         }
 
         sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
@@ -1453,18 +1431,15 @@ public class FeedbackSessionsLogic {
                 getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_SESSION_UNPUBLISH_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_SESSION_UNPUBLISH_NON_EXISTENT);
         }
 
         if (sessionToUnpublish.isPrivateSession()) {
-            throw new InvalidParametersException(
-                    ERROR_SESSION_UNPUBLISH_PRIVATE);
+            throw new InvalidParametersException(ERROR_SESSION_UNPUBLISH_PRIVATE);
         }
 
         if (!sessionToUnpublish.isPublished()) {
-            throw new InvalidParametersException(
-                    ERROR_SESSION_UNPUBLISH_ALREADY);
+            throw new InvalidParametersException(ERROR_SESSION_UNPUBLISH_ALREADY);
         }
 
         sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
@@ -1476,8 +1451,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    ERROR_REMIND_NON_EXISTENT_SESSION
-                            + courseId + "/" + feedbackSessionName);
+                    ERROR_REMIND_NON_EXISTENT_SESSION + courseId + "/" + feedbackSessionName);
         }
 
         FeedbackSessionAttributes session = getFeedbackSession(
@@ -1524,8 +1498,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
-                    ERROR_REMIND_NON_EXISTENT_SESSION
-                            + courseId + "/" + feedbackSessionName);
+                    ERROR_REMIND_NON_EXISTENT_SESSION + courseId + "/" + feedbackSessionName);
         }
 
         FeedbackSessionAttributes session = getFeedbackSession(
@@ -1759,8 +1732,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_VIEW_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_VIEW_NON_EXISTENT_SESSION);
         }
 
         // create empty data containers to store results
@@ -1894,8 +1866,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_VIEW_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_VIEW_NON_EXISTENT_SESSION);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2478,8 +2449,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(
-                    ERROR_CHECK_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_CHECK_NON_EXISTENT_SESSION);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2502,8 +2472,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(
-                    ERROR_CHECK_NON_EXISTENT_SESSION);
+            throw new EntityDoesNotExistException(ERROR_CHECK_NON_EXISTENT_SESSION);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
