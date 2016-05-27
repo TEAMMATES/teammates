@@ -15,11 +15,11 @@ import teammates.common.util.Utils;
 public class TeamEvalResult {
     
     /** submitted value is uninitialized */
-    public static int NA = Const.INT_UNINITIALIZED;
+    public static final int NA = Const.INT_UNINITIALIZED;
     /** submitted 'Not SUre' */
-    public static int NSU = Const.POINTS_NOT_SURE;
+    public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
-    public static int NSB = Const.POINTS_NOT_SUBMITTED;
+    public static final int NSB = Const.POINTS_NOT_SUBMITTED;
     private static final Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */
@@ -296,12 +296,10 @@ public class TeamEvalResult {
         return factor;
     }
 
-    // Suppress PMD.AvoidArrayLoops since the arrays are of different types
-    @SuppressWarnings("PMD.AvoidArrayLoops")
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];  
+            converted[i] = (double) input[i];  
         }
         return converted;
     }
