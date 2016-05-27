@@ -271,7 +271,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        gaeSimulation.loginAsStudent(student4InCourse1.googleId);
 //
 //        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
-//        
+//
 //        gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 //        feedbackSessionDb.updateFeedbackSession(gracePeriodSession);
 //
@@ -279,7 +279,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //                .getFeedbackQuestion(gracePeriodSession.feedbackSessionName, gracePeriodSession.courseId, 2);
 //
 //        feedbackResponse = feedbackResponsesDb
-//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email, 
+//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email,
 //                                     "Team 1.2");
 //
 //        submissionParams = new String[]{
@@ -306,7 +306,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
     }
 
-    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (StudentFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

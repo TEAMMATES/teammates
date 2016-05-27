@@ -22,12 +22,12 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
-import teammates.ui.template.FeedbackQuestionVisibilitySettings;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
+import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
@@ -37,7 +37,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     private static final int NUM_RECIPIENT_OPTIONS = 8;
     
     private static DataBundle dataBundle = getTypicalDataBundle();
-
 
     @Test
     public void allTests() {
@@ -79,7 +78,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertNull(fsForm.getFeedbackSessionTypeOptions());
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
         
-        assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE), 
+        assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE),
                      fsForm.getFsDeleteLink());
         assertEquals(TimeHelper.formatDate(fs.endTime), fsForm.getFsEndDate());
         
@@ -122,7 +121,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         String questionTextOfFirstQuestion = dataBundle.feedbackQuestions
                                                        .get("qn1InSession1InCourse1")
                                                        .getQuestionDetails().questionText;
-        assertEquals(questionTextOfFirstQuestion, 
+        assertEquals(questionTextOfFirstQuestion,
                      questionForms.get(0).getQuestionText());
         assertEquals(3, questionForms.get(0).getQuestionNumberOptions().size());
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
@@ -160,19 +159,19 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(NUM_RECIPIENT_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
         assertEquals(NUM_GIVER_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
                 
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
@@ -221,7 +220,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
-                           .withUserId(instructor.googleId).toString(), 
+                           .withUserId(instructor.googleId).toString(),
                       fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
@@ -303,8 +302,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
-        InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
-        return instructorAttributes;
+        return dataBundle.instructors.get(instructor);
     }
 
     public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
@@ -316,7 +314,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         for (FeedbackParticipantType nonParticipant : nonParticipants) {
             assertFalse(map.containsKey(nonParticipant.name()));
-        }        
+        }
     }
 
 }

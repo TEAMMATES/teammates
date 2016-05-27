@@ -5,8 +5,8 @@ function isInCommentsPage() {
 var addCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var addFormRow = $(this).parent().parent().parent();
+    var formObject = $(this).closest('form');
+    var addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
@@ -32,32 +32,30 @@ var addCommentHandler = function(e) {
             submitButton.text('Add');
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    // Inject new comment row
-                    addFormRow.parent().attr('class', 'list-group');
-                    addFormRow.before(data);
-                    removeUnwantedVisibilityOptions(commentId);
-
-                    // Reset add comment form
-                    formObject.find('textarea').prop('disabled', false);
-                    formObject.find('textarea').val('');
-                    submitButton.text('Add');
-                    submitButton.prop('disabled', false);
-                    cancelButton.prop('disabled', false);
-                    removeFormErrorMessage(submitButton);
-                    addFormRow.prev().find('div[id^=plainCommentText]').css('margin-left', '15px');
-                    addFormRow.prev().show();
-                    addFormRow.hide();
-                }
-            } else {
+            if (data.isError) {
                 formObject.find('textarea').prop('disabled', false);
                 setFormErrorMessage(submitButton, data.errorMessage);
                 submitButton.text('Add');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                // Inject new comment row
+                addFormRow.parent().attr('class', 'list-group');
+                addFormRow.before(data);
+                removeUnwantedVisibilityOptions(commentId);
+
+                // Reset add comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val('');
+                submitButton.text('Add');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                addFormRow.prev().find('div[id^=plainCommentText]').css('margin-left', '15px');
+                addFormRow.prev().show();
+                addFormRow.hide();
             }
         }
     });
@@ -66,8 +64,8 @@ var addCommentHandler = function(e) {
 var editCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var displayedText = $(this).parent().parent().prev();
+    var formObject = $(this).closest('form');
+    var displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     var commentBar = displayedText.parent().find('div[id^=commentBar]');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
@@ -91,31 +89,29 @@ var editCommentHandler = function(e) {
             cancelButton.prop('disabled', false);
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    // Update editted comment
-                    displayedText.html(data.comment.commentText.value);
-                    updateVisibilityOptionsForResponseComment(formObject, data);
-                    commentBar.show();
-                    
-                    // Reset edit comment form
-                    formObject.find('textarea').prop('disabled', false);
-                    formObject.find('textarea').val(data.comment.commentText.value);
-                    submitButton.text('Save');
-                    submitButton.prop('disabled', false);
-                    cancelButton.prop('disabled', false);
-                    removeFormErrorMessage(submitButton);
-                    formObject.hide();
-                    displayedText.show();
-                }
-            } else {
+            if (data.isError) {
                 formObject.find('textarea').prop('disabled', false);
                 setFormErrorMessage(submitButton, data.errorMessage);
                 submitButton.text('Save');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                // Update editted comment
+                displayedText.html(data.comment.commentText.value);
+                updateVisibilityOptionsForResponseComment(formObject, data);
+                commentBar.show();
+                
+                // Reset edit comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val(data.comment.commentText.value);
+                submitButton.text('Save');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                formObject.hide();
+                displayedText.show();
             }
         }
     });
@@ -124,10 +120,10 @@ var editCommentHandler = function(e) {
 var deleteCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent();
-    var deletedCommentRow = $(this).parent().parent().parent();
+    var deletedCommentRow = $(this).closest('li');
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
-    var frCommentList = submitButton.parent().parent().parent().parent();
+    var frCommentList = submitButton.closest('.comments');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
     
     e.preventDefault();
@@ -147,27 +143,25 @@ var deleteCommentHandler = function(e) {
             submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
         },
         success: function(data) {
-            if (!data.isError) {
-                if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
-                } else {
-                    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-                    if (numberOfItemInFrCommentList.length <= 2) {
-                        deletedCommentRow.parent().hide();
-                    }
-                    if (frCommentList.find('li').length <= 1) {
-                        frCommentList.hide();
-                    }
-                    deletedCommentRow.remove();
-                    frCommentList.parent().find('div.delete_error_msg').remove();
-                }
-            } else {
+            if (data.isError) {
                 if (editForm.is(':visible')) {
                     setFormErrorMessage(editForm.find('div > a'), data.errorMessage);
                 } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
                     frCommentList.after('<div class="delete_error_msg alert alert-danger">' + data.errorMessage + '</div>');
                 }
                 submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
+            } else if (isInCommentsPage()) {
+                reloadFeedbackResponseComments(formObject, panelHeading);
+            } else {
+                var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                if (numberOfItemInFrCommentList.length <= 2) {
+                    deletedCommentRow.parent().hide();
+                }
+                if (frCommentList.find('li').length <= 1) {
+                    frCommentList.hide();
+                }
+                deletedCommentRow.remove();
+                frCommentList.parent().find('div.delete_error_msg').remove();
             }
         }
     });
@@ -183,30 +177,31 @@ function registerResponseCommentsEvent() {
 
 function registerResponseCommentCheckboxEvent() {
     $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
+        form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
+        form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
     });
 }
 
@@ -396,13 +391,13 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     
     panelBody.load(url, function(response, status) {
-        if (status !== 'success') {
-            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
-        } else {
+        if (status === 'success') {
             updateBadgeForPendingComments(parseInt(panelBody.children(':first').text()));
             panelBody.children(':first').remove();
 
             $clickedElement.addClass('loaded');
+        } else {
+            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
         }
 
         if (isClicked) {
@@ -426,9 +421,9 @@ function toggleCollapsiblePanel(collapsiblePanel) {
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
     if (numberOfPendingComments === 0) {
-        $('.badge').parent().parent().hide();
+        $('.badge').closest('.btn-group').hide();
     } else {
-        $('.badge').parent().parent().show();
+        $('.badge').closest('.btn-group').show();
     }
     $('.badge').text(numberOfPendingComments);
     $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments + ' recipient(s) of comments pending notification');
@@ -436,35 +431,36 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
 
 function registerCheckboxEventForVisibilityOptions() {
     $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     });
 }

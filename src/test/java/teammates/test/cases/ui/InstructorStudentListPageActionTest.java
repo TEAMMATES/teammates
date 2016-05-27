@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.test.util.Priority;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.ui.controller.InstructorStudentListPageAction;
 import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -130,7 +130,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     }
 
-    private InstructorStudentListPageAction getAction(String... params) throws Exception {
+    private InstructorStudentListPageAction getAction(String... params) {
         return (InstructorStudentListPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

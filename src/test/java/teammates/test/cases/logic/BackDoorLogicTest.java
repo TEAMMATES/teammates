@@ -14,18 +14,14 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
-import com.google.gson.Gson;
-
 public class BackDoorLogicTest extends BaseComponentTestCase {
-    Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -73,7 +69,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
     
-    private void verifyPresentInDatastore(DataBundle data) throws Exception {
+    private void verifyPresentInDatastore(DataBundle data) {
         HashMap<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
@@ -106,11 +102,9 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         editStudentAsJson(String, String)
         createCourse(String, String)
     */
-    
-
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

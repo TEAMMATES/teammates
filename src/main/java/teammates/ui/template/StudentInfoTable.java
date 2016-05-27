@@ -27,7 +27,7 @@ public class StudentInfoTable {
         return name;
     }
 
-    public String getEmail() { 
+    public String getEmail() {
         return email;
     }
 

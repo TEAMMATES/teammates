@@ -56,30 +56,33 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
 
     @Override
     protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
-        List<MimeMessage> preparedEmails = null;
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         log.info("Fetching feedback session object for feedback session name : "
-                + feedbackSessionName + " and course : " + courseId);
+                 + feedbackSessionName + " and course : " + courseId);
         
-        if (feedbackObject != null) {
-             /*
-              * Check if feedback session was deleted between scheduling
-              * and the actual sending of emails
-              */
-            preparedEmails = emailManager
-                            .generateFeedbackSessionClosingEmails(feedbackObject);
-        } else {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+        if (feedbackObject == null) {
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
+            return null;
         }
-        return preparedEmails;
+        
+        /*
+         * Check if feedback session was deleted between scheduling
+         * and the actual sending of emails
+         */
+        return new Emails().generateFeedbackSessionClosingEmails(feedbackObject);
+
     }
     
     private void initializeNameAndDescription() {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION;
         actionDescription = "send closing reminders";
+    }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO
     }
 }

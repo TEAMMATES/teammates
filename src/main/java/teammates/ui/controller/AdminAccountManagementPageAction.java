@@ -7,14 +7,13 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountManagementPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
         
         String instructorGoogleId = this.getRequestParamValue("googleId");
@@ -47,7 +46,7 @@ public class AdminAccountManagementPageAction extends Action {
         AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, instructorAccountsTable,
                                                                                  instructorCoursesTable, isToShowAll);
         
-        statusToAdmin = "Admin Account Management Page Load<br>" 
+        statusToAdmin = "Admin Account Management Page Load<br>"
                         + "<span class=\"bold\">Total Instructors:</span> " + instructorAccountsTable.size();
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);

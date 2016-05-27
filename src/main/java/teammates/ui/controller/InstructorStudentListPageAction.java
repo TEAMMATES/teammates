@@ -9,20 +9,17 @@ import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
 
-    private InstructorStudentListPageData data;
-
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
 
         new GateKeeper().verifyInstructorPrivileges(account);
 
@@ -46,14 +43,14 @@ public class InstructorStudentListPageAction extends Action {
             instructors.put(instructor.courseId, instructor);
         }
         
-        if (courses.size() == 0) {
+        if (courses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
         
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
-        for (CourseAttributes course: courses) {
+        for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
@@ -65,11 +62,10 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        data = new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
+        InstructorStudentListPageData data =
+                new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
-        return response;
-
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
     }
 
 }

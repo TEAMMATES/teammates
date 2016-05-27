@@ -21,7 +21,6 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataInDatastore();
     }
 
-    
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         
@@ -46,9 +45,8 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
                 
     }
-    
 
-    private AdminAccountDeleteAction getAction(String... params) throws Exception {
+    private AdminAccountDeleteAction getAction(String... params) {
         return (AdminAccountDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

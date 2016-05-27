@@ -10,10 +10,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyData;
-
 
 public class InstructorFeedbackEditCopyActionTest extends
         BaseActionTest {
@@ -134,7 +133,7 @@ public class InstructorFeedbackEditCopyActionTest extends
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
         
@@ -192,7 +191,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedbacks page");
@@ -212,7 +211,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback copy page");
@@ -233,7 +232,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback edit page");
@@ -254,7 +253,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: empty name, instructor home page");
@@ -412,7 +411,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
     }
     
-    private InstructorFeedbackEditCopyAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditCopyAction getAction(String... params) {
         return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

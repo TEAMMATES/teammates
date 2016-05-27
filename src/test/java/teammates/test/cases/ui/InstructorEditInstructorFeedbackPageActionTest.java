@@ -53,10 +53,10 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" 
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" 
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" 
-                + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||" 
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
+                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||"
                 + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFPAction.getLogMessage());
         
@@ -74,10 +74,10 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage" 
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||" 
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>" 
-                + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||" 
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
+                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
                 + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFPAction.getLogMessage());
         
@@ -95,8 +95,8 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFPAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible " 
-                         + "to instructor [" + moderatedInstructor.email + "] " 
+            assertEquals("Feedback session [First feedback session] is not accessible "
+                         + "to instructor [" + moderatedInstructor.email + "] "
                          + "for privilege [canmodifysession]", e.getMessage());
         }
 
@@ -114,12 +114,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFPAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Instructor Email " + moderatedInstructorEmail 
+            assertEquals("Instructor Email " + moderatedInstructorEmail
                          + " does not exist in " + courseId + ".", edne.getMessage());
         }
     }
 
-    private InstructorEditInstructorFeedbackPageAction getAction(String... params) throws Exception {
+    private InstructorEditInstructorFeedbackPageAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

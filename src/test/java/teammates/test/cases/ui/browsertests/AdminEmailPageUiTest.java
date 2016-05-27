@@ -17,19 +17,20 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
+    
+    private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
+
     private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
-
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() throws Exception {    
+    @Test
+    public void allTests() {
         testCompose();
         testSent();
         testDraft();
@@ -46,7 +47,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
         
         emailPage.clickSendButton();
-        assertTrue(hasStatusMessageNoRecipient());
+        emailPage.verifyStatus("Error : No reciver address or file given");
         
         ______TS("send email - recipient email format error");
         
@@ -76,7 +77,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.inputSubject("Email Subject");
         emailPage.inputContent("Email to save");
         emailPage.clickSaveButton();
-        assertTrue(hasStatusMessageSaveSuccess());
+        emailPage.verifyStatus("Email draft has been saved");
     }
 
     private void testSent() {
@@ -103,10 +104,6 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
             && emailPage.isElementPresent(By.id("composeSaveButton"));
     }
     
-    private boolean hasStatusMessageNoRecipient() {
-        return emailPage.getStatus().equals("Error : No reciver address or file given");
-    }
-    
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
         return emailPage.getStatus().contains(
                 String.format(FieldValidator.EMAIL_ERROR_MESSAGE, recipientName, FieldValidator.REASON_INCORRECT_FORMAT));
@@ -119,10 +116,6 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private boolean hasErrorMessage() {
         return emailPage.isElementPresent(By.className("alert-danger"));
-    }
-    
-    private boolean hasStatusMessageSaveSuccess() {
-        return emailPage.getStatus().equals("Email draft has been saved");
     }
     
     /**
@@ -149,8 +142,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailTrashDataDisplayCorrect() {
-        return emailPage.isElementPresent(By.className("table")) 
-            && isEmptyTrashButtonPresent() 
+        return emailPage.isElementPresent(By.className("table"))
+            && isEmptyTrashButtonPresent()
             && isEmailTableHeaderCorrect();
     }
 
@@ -186,7 +179,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

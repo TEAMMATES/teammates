@@ -6,13 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
@@ -24,10 +20,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
+
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD Operations for {@link FeedbackResponseComment}.
@@ -35,8 +33,6 @@ import teammates.storage.search.FeedbackResponseCommentSearchQuery;
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
-    private static final Logger log = Utils.getLogger();
-    
     /**
      * This method is for testing only
      * @param commentsToAdd
@@ -50,7 +46,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             try {
                 updateFeedbackResponseComment(comment);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
+             // This situation is not tested as replicating such a situation is
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -58,20 +54,18 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
     @Override
-    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
+    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
         if (createdEntity == null) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
-        } else {
-            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            return createdComment;
         }
+        return new FeedbackResponseCommentAttributes(createdEntity);
     }
     
     /*
@@ -89,7 +83,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
@@ -102,12 +96,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackResponseCommentAttributes(frc);    
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
@@ -125,12 +119,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackResponseCommentAttributes(frc);    
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
@@ -148,12 +142,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackResponseCommentAttributes(frc);    
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(
@@ -176,7 +170,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             }
         }
         
-        return resultList;    
+        return resultList;
     }
     
     /*
@@ -194,7 +188,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             }
         }
         
-        return resultList; 
+        return resultList;
     }
     
     /*
@@ -270,7 +264,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         
-        List<FeedbackResponseComment> frcList = 
+        List<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName);
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
@@ -280,7 +274,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             }
         }
         
-        return resultList;    
+        return resultList;
     }
 
     /**
@@ -293,7 +287,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
         
-        Collection<FeedbackResponseComment> frcList = 
+        Collection<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section);
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
@@ -303,17 +297,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             }
         }
         
-        return resultList;    
+        return resultList;
     }
     
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException 
-     * @throws EntityDoesNotExistException 
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-                                                     FeedbackResponseCommentAttributes newAttributes) 
+                                                     FeedbackResponseCommentAttributes newAttributes)
                                                      throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
@@ -345,8 +339,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        return updatedComment;
+        return new FeedbackResponseCommentAttributes(frc);
     }
     
     /*
@@ -361,7 +354,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return;
         }
         
-        List<FeedbackResponseComment> responseComments = 
+        List<FeedbackResponseComment> responseComments =
                 this.getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
         
         for (FeedbackResponseComment responseComment : responseComments) {
@@ -390,7 +383,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             }
         }
         
-        return resultList;  
+        return resultList;
     }
     
     /*
@@ -429,7 +422,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return new FeedbackResponseCommentSearchResultBundle();
         }
         
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
                 new FeedbackResponseCommentSearchQuery(instructors, queryString, cursorString));
         
         return new FeedbackResponseCommentSearchResultBundle().fromResults(results, instructors);
@@ -456,7 +449,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         String query = "select from " + FeedbackResponseComment.class.getName();
             
         @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseCommentList = 
+        List<FeedbackResponseComment> feedbackResponseCommentList =
                 (List<FeedbackResponseComment>) getPM().newQuery(query).execute();
     
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
@@ -481,12 +474,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         if (feedbackResponseCommentToGet.getId() != null) {
             return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
-        } else { 
-            return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.courseId,
-                feedbackResponseCommentToGet.createdAt,
-                feedbackResponseCommentToGet.giverEmail);
         }
+        
+        return getFeedbackResponseCommentEntity(
+            feedbackResponseCommentToGet.courseId,
+            feedbackResponseCommentToGet.createdAt,
+            feedbackResponseCommentToGet.giverEmail);
     }
     
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
@@ -539,7 +532,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> feedbackResponseCommentList =
-               (List<FeedbackResponseComment>) q.execute(feedbackResponseCommentId);
+                (List<FeedbackResponseComment>) q.execute(feedbackResponseCommentId);
         
         if (feedbackResponseCommentList.isEmpty() || JDOHelper.isDeleted(feedbackResponseCommentList.get(0))) {
             return null;
@@ -629,7 +622,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
-        q.setFilter("courseId == courseIdParam && " 
+        q.setFilter("courseId == courseIdParam && "
                     + "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")

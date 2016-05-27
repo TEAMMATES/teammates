@@ -20,7 +20,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -34,19 +34,19 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
-            if (instructor.courseId.equals("idOfTypicalCourse1")) {
+            if ("idOfTypicalCourse1".equals(instructor.courseId)) {
                 instructors.add(instructor);
             }
         }
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         for (StudentAttributes student : dataBundle.students.values()) {
-            if (student.course.equals("idOfTypicalCourse1")) {
+            if ("idOfTypicalCourse1".equals(student.course)) {
                 students.add(student);
             }
         }
         
-        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student", 
+        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student",
                                                                       "unregisteredStudentInCourse1@gmail.tmt", "No comment", "idOfTypicalCourse1");
         students.add(unregisteredStudent);
         

@@ -15,8 +15,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -49,8 +48,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         verifyAssumptionFailure(invalidParams);
-        
-        
+
         ______TS("Typical case, edit student detail page");
 
         String[] submissionParams = new String[]{
@@ -75,20 +73,18 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
         assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourse());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" 
-                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
-                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " 
-                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " 
-                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>" 
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit"
+                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
+                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student "
+                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course "
+                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                   + "|||/page/instructorCourseStudentDetailsEdit";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception {
+    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

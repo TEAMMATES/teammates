@@ -3,7 +3,6 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -15,12 +14,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-    private static final Logger log = Utils.getLogger();
     
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd) throws InvalidParametersException {
         List<EntityAttributes> questionsToUpdate = createEntities(questionsToAdd);
@@ -29,7 +26,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
             try {
                 updateFeedbackQuestion(question);
             } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is 
+                // This situation is not tested as replicating such a situation is
                 // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -38,7 +35,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
@@ -51,10 +48,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackQuestionAttributes(fq);        
+        return new FeedbackQuestionAttributes(fq);
     }
-    
-    
+
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
             EntityAttributes entityToAdd) throws InvalidParametersException {
         Object obj = this.createEntityWithoutExistenceCheck(entityToAdd);
@@ -64,7 +60,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
@@ -84,12 +80,12 @@ public class FeedbackQuestionsDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackQuestionAttributes(fq);        
+        return new FeedbackQuestionAttributes(fq);
     }
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no such questions are found.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
@@ -112,7 +108,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no such questions are found.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
@@ -136,7 +132,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no such questions are found.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCourse(String courseId) {
@@ -155,10 +151,10 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
     
     /**
-     * Updates the feedback question identified by `{@code newAttributes.getId()} 
+     * Updates the feedback question identified by `{@code newAttributes.getId()}
      *   and changes the {@code updatedAt} timestamp to be the time of update.
-     * For the remaining parameters, the existing value is preserved 
-     *   if the parameter is null (due to 'keep existing' policy).<br> 
+     * For the remaining parameters, the existing value is preserved
+     *   if the parameter is null (due to 'keep existing' policy).<br>
      * 
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and
@@ -170,9 +166,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
     
     /**
-     * Updates the feedback question identified by `{@code newAttributes.getId()} 
-     * For the remaining parameters, the existing value is preserved 
-     *   if the parameter is null (due to 'keep existing' policy).<br> 
+     * Updates the feedback question identified by `{@code newAttributes.getId()}
+     * For the remaining parameters, the existing value is preserved
+     *   if the parameter is null (due to 'keep existing' policy).<br>
      * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}
      *   and depends on the value of {@code keepUpdateTimestamp}
      * Preconditions: <br>
@@ -266,13 +262,13 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         Query q = getPM().newQuery(FeedbackQuestion.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " 
-                    + "courseId == courseIdParam && " 
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                    + "courseId == courseIdParam && "
                     + "questionNumber == questionNumberParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList =
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, questionNumber);
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, questionNumber);
         
         if (feedbackQuestionList.isEmpty() || JDOHelper.isDeleted(feedbackQuestionList.get(0))) {
             return null;
@@ -288,8 +284,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = 
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId);
+        List<FeedbackQuestion> feedbackQuestionList =
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId);
         
         return feedbackQuestionList;
     }
@@ -300,8 +296,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = 
-            (List<FeedbackQuestion>) q.execute(courseId);
+        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseId);
         
         return feedbackQuestionList;
     }
@@ -309,17 +304,17 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
         Query q = getPM().newQuery(FeedbackQuestion.class);
-        q.declareParameters("String feedbackSessionNameParam, " 
-                            + "String courseIdParam, " 
+        q.declareParameters("String feedbackSessionNameParam, "
+                            + "String courseIdParam, "
                             + "FeedbackParticipantType giverTypeParam");
         q.declareImports("import teammates.common.datatransfer.FeedbackParticipantType");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && " 
-                    + "courseId == courseIdParam && " 
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                    + "courseId == courseIdParam && "
                     + "giverType == giverTypeParam ");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = 
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, giverType);
+        List<FeedbackQuestion> feedbackQuestionList =
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, giverType);
         
         return feedbackQuestionList;
     }
@@ -330,11 +325,11 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         if (feedbackQuestionToGet.getId() != null) {
             return getFeedbackQuestionEntity(feedbackQuestionToGet.getId());
-        } else {
-            return getFeedbackQuestionEntity(
-                    feedbackQuestionToGet.feedbackSessionName,
-                    feedbackQuestionToGet.courseId,
-                    feedbackQuestionToGet.questionNumber);
         }
+        
+        return getFeedbackQuestionEntity(
+                feedbackQuestionToGet.feedbackSessionName,
+                feedbackQuestionToGet.courseId,
+                feedbackQuestionToGet.questionNumber);
     }
 }

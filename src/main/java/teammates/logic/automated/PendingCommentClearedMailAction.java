@@ -13,8 +13,8 @@ import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -50,6 +50,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
         commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
     }
 
+    @Override
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
         //recover the pending state when it fails
         frcLogic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
@@ -59,21 +60,15 @@ public class PendingCommentClearedMailAction extends EmailAction {
     @Override
     protected List<MimeMessage> prepareMailToBeSent()
             throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
-        List<MimeMessage> preparedEmails = null;
-        
         log.info("Fetching recipient emails for pending comments in course : "
                 + courseId);
         Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
         
-        if (recipients != null) {
-            preparedEmails = emailManager
-                            .generatePendingCommentsClearedEmails(courseId, recipients);
-        } else {
-            log.severe("Recipient emails for pending comments in course : " + courseId 
+        if (recipients == null) {
+            log.severe("Recipient emails for pending comments in course : " + courseId
                        + " could not be fetched");
         }
-        return preparedEmails;
+        return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);
     }
 
     private void initializeNameAndDescription() {

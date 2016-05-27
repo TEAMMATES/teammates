@@ -71,7 +71,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
             // Always remains at student feedback submission edit page if user is unregistered
             // Link given to unregistered student already contains course id & session name
             return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
-        } else if (isError) {
+        }
+        if (isError) {
             // Return to student feedback submission edit page if there is an error and user is registered
             RedirectResult result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
 
@@ -81,10 +82,10 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
                                       getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
 
             return result;
-        } else {
-            // Return to student home page if there is no error and user is registered
-            return  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-       }
+        }
+        
+        // Return to student home page if there is no error and user is registered
+        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
     protected StudentAttributes getStudent() {
@@ -103,10 +104,12 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected void setAdditionalParameters() throws EntityDoesNotExistException {
+    protected void setAdditionalParameters() {
+        // no additional parameters to set for the standard student submit page
     }
 
     @Override
     protected void checkAdditionalConstraints() {
+        // no additional constraints to check for the standard student submit page
     }
 }

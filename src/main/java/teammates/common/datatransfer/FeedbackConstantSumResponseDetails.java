@@ -47,20 +47,19 @@ public class FeedbackConstantSumResponseDetails extends
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
         if (csQd.distributeToRecipients) {
             return getAnswerString();
-        } else {
-            StringBuilder htmlBuilder = new StringBuilder();
-            htmlBuilder.append("<ul>");
-            for (int i = 0; i < answers.size(); i++) {
-                String answerString = answers.get(i).toString();
-                String optionString = csQd.constSumOptions.get(i);
-                
-                htmlBuilder.append("<li>");
-                htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
-                htmlBuilder.append("</li>");
-            }
-            htmlBuilder.append("</ul>");
-            return htmlBuilder.toString();
         }
+        StringBuilder htmlBuilder = new StringBuilder(100);
+        htmlBuilder.append("<ul>");
+        for (int i = 0; i < answers.size(); i++) {
+            String answerString = answers.get(i).toString();
+            String optionString = csQd.constSumOptions.get(i);
+            
+            htmlBuilder.append("<li>");
+            htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
+            htmlBuilder.append("</li>");
+        }
+        htmlBuilder.append("</ul>");
+        return htmlBuilder.toString();
     }
 
     @Override

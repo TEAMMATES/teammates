@@ -18,8 +18,7 @@ public class AdminSessionsPage extends AppPage {
         this.getDetailButton().click();
         this.waitForPageToLoad();
     }
-    
-    
+
     private WebElement getDetailButton() {
         return browser.driver.findElement(By.id("detailButton"));
     }

@@ -10,14 +10,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class CommentAttributesTest extends BaseTestCase {
     private static String courseId;
@@ -28,7 +28,7 @@ public class CommentAttributesTest extends BaseTestCase {
     private static Date createdAt;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         courseId = "test-course-id";
         giverEmail = "email from giver";
@@ -43,7 +43,7 @@ public class CommentAttributesTest extends BaseTestCase {
     
     @Test
     public void testBasicGetters() {
-       CommentAttributes comment = new CommentAttributes(
+        CommentAttributes comment = new CommentAttributes(
                 courseId,
                 giverEmail,
                 recipientType,
@@ -129,7 +129,7 @@ public class CommentAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

@@ -9,16 +9,12 @@ import teammates.common.exception.TeammatesException;
 import com.google.appengine.api.utils.SystemProperty;
 
 /**
- * A singleton class that represents the deployment-specific configuration 
- * values of the system. 
+ * A singleton class that represents the deployment-specific configuration
+ * values of the system.
  * This can be used to access values in the build.properties file too.
  */
 public class Config {
 
-    private static Logger log = Utils.getLogger();
-    private static Config instance = inst();
-    private static Properties props;
-    
     /** The value of the "app.url" in build.properties file */
     public static String APP_URL;
     
@@ -32,7 +28,7 @@ public class Config {
     public static String ENCRYPTION_KEY;
     
     /** The value of the "app.persistence.checkduration" in build.properties file */
-    public static int    PERSISTENCE_CHECK_DURATION;
+    public static int PERSISTENCE_CHECK_DURATION;
     
     /** The value of the "app.crashreport.email" in build.properties file */
     public static String SUPPORT_EMAIL;
@@ -46,6 +42,10 @@ public class Config {
     /** The value of the "app.sendgrid.password" in build.properties file */
     public static String SENDGRID_PASSWORD;
 
+    private static final Logger log = Utils.getLogger();
+    private static Config instance = inst();
+    private static Properties props;
+    
     public static Config inst() {
         if (instance == null) {
             Properties prop = new Properties();
@@ -71,7 +71,7 @@ public class Config {
     }
 
     /**
-     * @return The app version specifed in appengine-web.xml but with '.' 
+     * @return The app version specifed in appengine-web.xml but with '.'
      * instead of '-' e.g., "4.53"
      */
     public String getAppVersion() {

@@ -3,8 +3,8 @@ package teammates.ui.template;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseComment {
@@ -42,7 +42,7 @@ public class FeedbackResponseComment {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
 
@@ -114,7 +114,7 @@ public class FeedbackResponseComment {
     }
 
     public String getFeedbackResponseId() {
-        return feedbackResponseId;   
+        return feedbackResponseId;
     }
 
     public String getCourseId() {

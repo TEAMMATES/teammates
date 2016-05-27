@@ -9,9 +9,9 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -28,24 +28,22 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
-    
     /**URI that matches with the action being tested */
     protected static String uri;
 
+    private DataBundle data = getTypicalDataBundle();
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
-    protected ShowPageResult getShowPageResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected ShowPageResult getShowPageResult(Action a) throws EntityDoesNotExistException {
         return (ShowPageResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
-    protected RedirectResult getRedirectResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected RedirectResult getRedirectResult(Action a) throws EntityDoesNotExistException {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
@@ -53,13 +51,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /** Executes the action and returns the result.
      * Assumption: The action returns a AjaxResult.
      */
-    protected AjaxResult getAjaxResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected AjaxResult getAjaxResult(Action a) throws EntityDoesNotExistException {
         return (AjaxResult) a.executeAndPostProcess();
     }
 
     /**
-     * @return The {@code params} array with the {@code userId} 
+     * @return The {@code params} array with the {@code userId}
      * (together with the parameter name) inserted at the beginning.
      */
     protected String[] addUserIdToParams(String userId, String[] params) {
@@ -109,12 +106,13 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
-        if (order == 0) return typicalCase;
+        if (order == 0) {
+            return typicalCase;
+        }
         
-        List<String> paramList = Arrays.asList(typicalCase); 
+        List<String> paramList = Arrays.asList(typicalCase);
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
         int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
@@ -125,29 +123,32 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
-        switch(order) {
-            case 1:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-                typicalCase[indexOfSessionPublishDate] = "08/05/2014";
-                typicalCase[indexOfSessionPublishTime] = "2";
-                break;
-            case 2:
-                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-                typicalCase[indexOfSessionVisibleDate] = "";
-                typicalCase[indexOfSessionVisibleTime] = "0";
-                
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-                
-                typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
-                break;
-            case 3:
-                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-                typicalCase[indexOfSessionInstructionsValue] = "";
-                break;
+        switch (order) {
+        case 1:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
+            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishTime] = "2";
+            break;
+        case 2:
+            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+            typicalCase[indexOfSessionVisibleDate] = "";
+            typicalCase[indexOfSessionVisibleTime] = "0";
+            
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+            
+            typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
+            break;
+        case 3:
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
+            typicalCase[indexOfSessionInstructionsValue] = "";
+            break;
+        default:
+            Assumption.fail("Incorrect order");
+            break;
         }
         
         return typicalCase;
@@ -167,7 +168,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
-                Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",                
+                Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
@@ -196,7 +197,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /**
      * Modifies the value of a key in a parameter list.
      * Assumes Key is present. Use for testing.
-     * @param params An array of Strings in the form {key1, value1, key2, value2,....} 
+     * @param params An array of Strings in the form {key1, value1, key2, value2,....}
      * @param key Key to modify
      * @param value Value to set
      */
@@ -215,7 +216,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     /**
-     * Verifies that the {@code parameters} violates an assumption of the 
+     * Verifies that the {@code parameters} violates an assumption of the
      * matching {@link Action}. e.g., missing a compulsory parameter.
      */
     protected void verifyAssumptionFailure(String... parameters) throws Exception {
@@ -229,11 +230,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'high-level' here means it tests access control of an action for the 
+     * 'high-level' tests here means it tests access control of an action for the
      * full range of user types.
      */
-    @SuppressWarnings("unused")
-    private void __________high_level_access_controll_checks() {};
     
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -288,12 +287,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'mid-level' here means it tests access control of an action for 
+     * 'mid-level' tests here tests access control of an action for
      * one user types.
      */
-    @SuppressWarnings("unused")
-    private void __________mid_level_access_controll_checks() {};
-    
     protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
@@ -346,7 +342,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             String[] submissionParams) throws Exception {
         
         gaeSimulation.logoutUser();
-        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));        
+        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
     }
 
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) throws Exception {
@@ -399,7 +395,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
         
         ______TS("not-logged-in users cannot access");
         
@@ -429,7 +425,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("non-registered users cannot access");
         
-        String    unregUserId = "unreg.user";
+        String unregUserId = "unreg.user";
         
         InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
@@ -608,15 +604,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     /*
-     * 'low-level' here means it tests an action once with the given parameters.
+     * 'low-level' tests here it tests an action once with the given parameters.
      * These methods are not aware of the user type.
      */
-    @SuppressWarnings("unused")
-    private void __________low_level_access_controll_checks() {};
-    
     /**
-     * Verifies that the {@link Action} matching the {@code params} is 
-     * accessible to the logged in user. 
+     * Verifies that the {@link Action} matching the {@code params} is
+     * accessible to the logged in user.
      */
     protected void verifyCanAccess(String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
@@ -626,7 +619,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is
-     * accessible to the logged in user masquerading as another user. 
+     * accessible to the logged in user masquerading as another user.
      */
     protected void verifyCanMasquerade(String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
@@ -636,10 +629,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
-     * accessible to the logged in user. 
+     * accessible to the logged in user.
      * This could be one of the following ways:
      * -> Unauthorised Access Exception
-     * -> 
+     * ->
      */
     protected void verifyCannotAccess(String... params) throws Exception {
         try {
@@ -648,7 +641,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             
             String classNameOfResult = result.getClass().getName();
             assertEquals(classNameOfResult, result.getClass().getName());
-            AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage()); 
+            AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());
         } catch (UnauthorizedAccessException e) {
             ignoreExpectedException();
         }
@@ -656,7 +649,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
-     * accessible to the logged in user masquerading as another user. 
+     * accessible to the logged in user masquerading as another user.
      */
     protected void verifyCannotMasquerade(String... params) throws Exception {
         try {
@@ -669,12 +662,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /**
-     * Verifies that the {@link Action} matching the {@code params} is 
-     * redirected to {@code expectedRedirectUrl}. Note that only the base 
-     * URI is matched and parameters are ignored. E.g. "/page/studentHome" 
-     * matches "/page/studentHome?user=abc". 
+     * Verifies that the {@link Action} matching the {@code params} is
+     * redirected to {@code expectedRedirectUrl}. Note that only the base
+     * URI is matched and parameters are ignored. E.g. "/page/studentHome"
+     * matches "/page/studentHome?user=abc".
      */
-    protected void verifyRedirectTo(String expectedRedirectUrl,    String... params) throws Exception {
+    protected void verifyRedirectTo(String expectedRedirectUrl, String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
         RedirectResult r = (RedirectResult) c.executeAndPostProcess();
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);

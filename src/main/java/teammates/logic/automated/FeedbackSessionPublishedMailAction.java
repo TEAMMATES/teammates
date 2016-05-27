@@ -56,32 +56,33 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
-        List<MimeMessage> preparedEmails = null;
+    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         log.info("Fetching feedback session object for feedback session name : "
                 + feedbackSessionName + " and course : " + courseId);
         
-        if (feedbackObject != null) {
-             /*
-              * Check if feedback session was deleted between scheduling
-              * and the actual sending of emails
-              */
-            preparedEmails = emailManager
-                            .generateFeedbackSessionPublishedEmails(feedbackObject);
-        } else {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+        if (feedbackObject == null) {
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
+            return null;
         }
-        return preparedEmails;
-        
+         /*
+          * Check if feedback session was deleted between scheduling
+          * and the actual sending of emails
+          */
+        Emails emailManager = new Emails();
+        return emailManager.generateFeedbackSessionPublishedEmails(feedbackObject);
     }
     
     private void initializeNameAndDescription() {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION;
         actionDescription = "send published alert";
+    }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO fix this
     }
 }

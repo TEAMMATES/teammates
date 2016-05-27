@@ -49,7 +49,7 @@
             <div class="well well-plain" id="more-options" style="display: block;">
               <form class="form-horizontal" role="form">
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments for:
@@ -78,7 +78,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4" style="display: block;">
+                  <div class="col-sm-4 filter-options" style="display: block;">
                     <div class="text-color-primary">
                       <strong>
                         Show comments from:
@@ -107,7 +107,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4" style="display: block;">
+                  <div class="col-sm-4 filter-options" style="display: block;">
                     <div class="text-color-primary">
                       <strong>
                         Show comments with status:
@@ -197,7 +197,7 @@
     </div>
     <div id="panel_display-1" style="display: block;">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary student-comments-panel">
         <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
           <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1838,7 +1838,7 @@
     </div>
     <div id="panel_display-2" style="display: block;">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary feedback-session-panel">
         <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfInstructor1OfCourse1','comments.idOfTypicalCourse1','comments.First feedback session', '1', this, true);" style="cursor: pointer;">
           <strong>
             Comments in session: comments.First feedback session
@@ -1854,7 +1854,7 @@
         </div>
         <div class="panel-collapse collapse in" style="height: auto;">
           <div class="panel-body">
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
               <div class="panel-heading">
                 <b>
                   Question 1
@@ -2082,8 +2082,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                             <input name="fsname" type="hidden" value="comments.First feedback session">
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                           </form>
                         </li>
                       </ul>
@@ -2092,7 +2092,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
               <div class="panel-heading">
                 <b>
                   Question 2
@@ -2696,8 +2696,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                             <input name="fsname" type="hidden" value="comments.First feedback session">
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
                           </form>
                         </li>
                       </ul>

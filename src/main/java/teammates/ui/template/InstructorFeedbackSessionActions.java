@@ -7,6 +7,8 @@ import teammates.ui.controller.PageData;
 
 public class InstructorFeedbackSessionActions {
     
+    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
+
     private boolean privateSession;
 
     private String courseId;
@@ -26,8 +28,6 @@ public class InstructorFeedbackSessionActions {
     private boolean allowedToRemind;
 
     private FeedbackSessionPublishButton publishButton;
-
-    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
@@ -58,7 +58,7 @@ public class InstructorFeedbackSessionActions {
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
     }
 

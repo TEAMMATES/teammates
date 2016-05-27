@@ -6,7 +6,7 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
-import teammates.client.remoteapi.RemoteApiClient;  
+import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
 /**
@@ -15,7 +15,7 @@ import teammates.storage.entity.Account;
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
     
   //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
+    protected final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
@@ -24,6 +24,7 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         String q = "SELECT FROM " + Account.class.getName() + " WHERE isInstructor == true";

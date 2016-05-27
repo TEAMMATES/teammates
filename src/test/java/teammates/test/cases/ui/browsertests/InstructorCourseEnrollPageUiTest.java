@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.net.MalformedURLException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,13 +23,13 @@ import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private AppUrl enrollUrl;
+    private static AppUrl enrollUrl;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -63,23 +61,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private void testSampleLink() throws Exception {
         
         ______TS("link for the sample spreadsheet");
-        String expectedShaHexForWindows = "98df8d0e8285a8192ed88183380947ca1c36ca68";
-        String expectedShaHexForUnix = "e02099ef19b16a5d30e8d09e6d22f179fa123272";
-        String spreadsheetLinkString = enrollPage.getSpreadsheetLink();
-        AppUrl spreadsheetLink;
-        try {
-            // the link returned here might be absolute; make it relative first
-            spreadsheetLink = createUrl(AppUrl.getRelativePath(spreadsheetLinkString));
-        } catch (MalformedURLException e) {
-            // the link is already relative
-            spreadsheetLink = createUrl(spreadsheetLinkString);
-        }
-
-        try {
-            enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForWindows);
-        } catch (AssertionError e) {
-            enrollPage.verifyDownloadableFile(spreadsheetLink, expectedShaHexForUnix);
-        }
+        enrollPage.clickSpreadsheetLink();
+        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
+        enrollPage.verifyTitle(expectedTitle);
     }
 
     private void testEnrollAction() throws Exception {
@@ -119,8 +103,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         // Ensure students were actually enrolled
         AppUrl coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(courseId);
+                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                .withCourseId(courseId);
         InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 
@@ -234,7 +218,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() throws Exception {
-            BrowserPool.release(browser);
-        }
+    public static void classTearDown() {
+        BrowserPool.release(browser);
+    }
 }

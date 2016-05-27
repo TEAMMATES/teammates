@@ -14,7 +14,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -27,7 +27,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
-        String courseId = loginInstructor.courseId;    
+        String courseId = loginInstructor.courseId;
         String adminUserId = "admin.user";
 
         gaeSimulation.loginAsInstructor(loginInstructorId);
@@ -68,7 +68,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(submissionParams);
         redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                         redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
@@ -83,7 +83,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         instructorToDelete = dataBundle.instructors.get("instructor4");
         instructorEmailToDelete = instructorToDelete.email;
-        courseId = instructorToDelete.courseId;    
+        courseId = instructorToDelete.courseId;
         
         gaeSimulation.loginAsAdmin(adminUserId);
         
@@ -95,7 +95,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
         redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());
@@ -108,7 +108,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
-    private Action getAction(String... params) throws Exception {
-            return gaeSimulation.getActionObject(uri, params);
+    private Action getAction(String... params) {
+        return gaeSimulation.getActionObject(uri, params);
     }
 }

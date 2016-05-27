@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,25 +25,25 @@ import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+
 /**
- * Receives requests from the Browser, executes the matching action and sends 
+ * Receives requests from the Browser, executes the matching action and sends
  * the result back to the Browser. The result can be a page to view or instructions
- * for the Browser to send another request for a different follow up Action.   
+ * for the Browser to send another request for a different follow up Action.
  */
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-    protected static final Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         try {
             /* We are using the Template Method Design Pattern here.
@@ -92,8 +91,8 @@ public class ControllerServlet extends HttpServlet {
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
-            /*This exception may not be caught because GAE kills 
-              the request soon after throwing it. In that case, the error 
+            /*This exception may not be caught because GAE kills
+              the request soon after throwing it. In that case, the error
               message in the log will be emailed to the admin by a separate
               cron job.*/
             cleanUpStatusMessageInSession(req);
@@ -119,14 +118,14 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) { // NOPMD, used as fallback
+        } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(req, e);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
             }
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
-        }  
+        }
         
     }
     

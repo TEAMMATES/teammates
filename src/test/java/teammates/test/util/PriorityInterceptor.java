@@ -1,7 +1,7 @@
 package teammates.test.util;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -10,29 +10,33 @@ import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
+import teammates.common.util.FileHelper;
+
 /**
  * By default, testng runs all methods in a test in lexical order.
  * by default, testng allows "@(priority = 1)" to order methods.
  * 
- * This class prioritizes methods based on the following: 
+ * This class prioritizes methods based on the following:
  *      1) Orders methods based on package name as ordered/found in testng.xml
  *      2) Orders methods based on package name in lexical order
  *      3) Orders methods by class priority e.g. Add "@Priority(1)" to class
  *      4) Orders methods by class name in lexical order
  *      5) Orders methods by priority e.g. Add "@Priority(1)" to method
- *      
+ * 
  */
 
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
+    
     static {
         try {
-            packageOrder = FileHelper.readFile("src\\test\\testng-travis.xml", Charset.defaultCharset());
-        } catch (Exception e) {
-            packageOrder = FileHelper.readFile("src/test/testng-travis.xml", Charset.defaultCharset());
+            packageOrder = FileHelper.readFile("src/test/testng-travis.xml");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     
+    @Override
     @SuppressWarnings("deprecation")
     public List<IMethodInstance> intercept(List<IMethodInstance> methods,
             ITestContext context) {
@@ -79,15 +83,16 @@ public class PriorityInterceptor implements IMethodInterceptor {
                     return -1000000;
                 }
 
+
                 int index = packageOrder.indexOf(packageName);
 
-                if (index != -1) {
-                    return -index;
-                } else {
+                if (index == -1) {
                     return 0;
                 }
+                return -index;
             }
 
+            @Override
             public int compare(IMethodInstance m1, IMethodInstance m2) {
                 int val = 0;
                 

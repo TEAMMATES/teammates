@@ -35,7 +35,7 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        isInUse = false; 
+        isInUse = false;
         isAdminLoggedIn = false;
     }
     
@@ -66,7 +66,7 @@ public class Browser {
         System.out.print("Initializing Selenium: ");
 
         String browser = TestProperties.inst().BROWSER;
-        if (browser.equals("firefox")) {
+        if ("firefox".equals(browser)) {
             System.out.println("Using Firefox.");
             String firefoxPath = TestProperties.inst().FIREFOX_PATH;
             if (!firefoxPath.isEmpty()) {
@@ -85,10 +85,9 @@ public class Browser {
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
-        } else {
-            System.out.println("Using " + browser + " is not supported!");
-            return null;
         }
+        System.out.println("Using " + browser + " is not supported!");
+        return null;
 
     }
     

@@ -22,10 +22,9 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     private static String courseId;
-    
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -33,8 +32,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").getId();
     }
-    
-    
+
     @Test
     public void testAll() throws Exception {
 
@@ -66,19 +64,17 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         // TODO: add test for the comment box in this page
     }
 
-
     private InstructorCourseStudentDetailsViewPage getCourseStudentDetailsPage(String studentStr) {
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
-            .withUserId(instructorId)
-            .withCourseId(courseId)
-            .withStudentEmail(testData.students.get(studentStr).email);
+                .withUserId(instructorId)
+                .withCourseId(courseId)
+                .withStudentEmail(testData.students.get(studentStr).email);
         
         return loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
     }
-    
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

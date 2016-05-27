@@ -16,15 +16,14 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    
-    
+
     // modify this value to choose to update respondants for all sessions or a specific session
-    boolean isForAllSession = true; 
+    private boolean isForAllSession = true;
     // if modifying all sessions, modify this value to only update sessions with no respondants
-    boolean isOnlyModifyingZeroResponseRate = true; 
+    private boolean isOnlyModifyingZeroResponseRate = true;
 
     // modify for preview
-    boolean isPreview = true;
+    private boolean isPreview = true;
     
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
@@ -47,18 +46,17 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         }
     }
 
-    
     @SuppressWarnings("deprecation")
     private void updateRespondantsForAllSessions() {
         List<FeedbackSessionAttributes> feedbackSessions;
         
-        feedbackSessions = isOnlyModifyingZeroResponseRate 
-                         ? getFeedbackSessionsWithZeroResponseRate() 
+        feedbackSessions = isOnlyModifyingZeroResponseRate
+                         ? getFeedbackSessionsWithZeroResponseRate()
                          : fsDb.getAllFeedbackSessions();
         
-       for (FeedbackSessionAttributes session : feedbackSessions) {
-           updateRespondantsForSession(session.feedbackSessionName, session.courseId);
-       }   
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            updateRespondantsForSession(session.feedbackSessionName, session.courseId);
+        }
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
@@ -81,7 +79,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     /* Operation for a specific session */
     private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
         if (isPreview) {
-            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]"); 
+            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]");
             return;
         }
         

@@ -1,6 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
@@ -15,8 +14,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
@@ -35,7 +32,7 @@ public class BackDoorTest extends BaseTestCase {
     private static String jsonString = gson.toJson(dataBundle);
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         printTestClassHeader();
         dataBundle = getTypicalDataBundle();
         int retryLimit = 5;
@@ -47,10 +44,6 @@ public class BackDoorTest extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
     }
 
-    @SuppressWarnings("unused")
-    private void ____SYSTEM_level_methods_________________________________() {
-    }
-    
     @Priority(-2)
     @Test
     public void testPersistence() {
@@ -114,8 +107,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         verifyAbsentInDatastore(student1InCourse1);
-        
-        
+
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
@@ -129,12 +121,8 @@ public class BackDoorTest extends BaseTestCase {
 
     }
     
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods_________________________________() {
-    }
-    
     @Test
-    public void testAccounts() throws Exception {
+    public void testAccounts() {
         
         testCreateAccount();
         testGetAccountAsJson();
@@ -174,10 +162,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyPresentInDatastore(testAccount);
         BackDoor.deleteAccount(testAccount.googleId);
         verifyAbsentInDatastore(testAccount);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTOR_level_methods_________________________________() {
     }
 
     public void testDeleteInstructors() {
@@ -222,59 +206,8 @@ public class BackDoorTest extends BaseTestCase {
         // method not implemented
     }
 
-    
-
-    @SuppressWarnings("deprecation")
-    // decrepated methods are used correctly
     @Test
-    public void testGetCoursesByInstructorId() throws InvalidParametersException {
-
-        // testing for non-existent instructor
-        String[] courses = BackDoor.getCoursesByInstructorId("nonExistentInstructor");
-        assertEquals("[]", Arrays.toString(courses));
-        
-        // Create 2 courses for a new instructor
-        String course1 = "AST.TGCBCI.course1";
-        String course2 = "AST.TGCBCI.course2";
-        BackDoor.deleteCourse(course1);
-        BackDoor.deleteCourse(course2);
-        String status = BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        status = BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        
-        // create a fresh instructor with relations for the 2 courses
-        String instructor1Id = "AST.TGCBCI.instructor1";
-        String instructor1name = "AST TGCBCI Instructor";
-        String instructor1email = "instructor1@ast.tmt";
-        BackDoor.deleteAccount(instructor1Id);
-        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course2, instructor1name, instructor1email));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        //============================================================================
-        // Don't be confused by the following: it has no relation with the above instructor/course(s)
-        
-        // add a course that belongs to a different instructor
-        String course3 = "AST.TGCBCI.course3";
-        BackDoor.deleteCourse(course3);
-        status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2"));
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        courses = BackDoor.getCoursesByInstructorId(instructor1Id);
-        assertEquals("[" + course1 + ", " + course2 + "]", Arrays.toString(courses));
-
-        BackDoor.deleteInstructor(instructor1email, course1);
-        BackDoor.deleteInstructor(instructor1email, course2);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____COURSE_level_methods_________________________________() {
-    }
-
-    @Test
-    public void testCreateCourse() throws InvalidParametersException {
+    public void testCreateCourse() {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
@@ -295,7 +228,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(course);
     }
 
-    
     public void testGetCourseAsJson() {
         // already tested by testPersistenceAndDeletion
     }
@@ -304,17 +236,12 @@ public class BackDoorTest extends BaseTestCase {
         // not implemented
     }
 
-    
     public void testDeleteCourse() {
         // already tested by testPersistenceAndDeletion
     }
 
-    @SuppressWarnings("unused")
-    private void ____STUDENT_level_methods_________________________________() {
-    }
-
     @Test
-    public void testCreateStudent() throws EnrollException {
+    public void testCreateStudent() {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
@@ -330,7 +257,7 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetKeyForStudent() throws EnrollException {
+    public void testGetKeyForStudent() {
 
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
@@ -343,11 +270,11 @@ public class BackDoorTest extends BaseTestCase {
         // keys.
         //
         // A key can be converted to a string by passing the Key object to
-        // str(). The string is "urlsafe"—it uses only characters valid for use in URLs. 
+        // str(). The string is "urlsafe"—it uses only characters valid for use in URLs.
         //
         // RFC3986 definition of a safe url pattern
         // Characters that are allowed in a URI but do not have a reserved
-        // purpose are called unreserved. 
+        // purpose are called unreserved.
         // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
         String pattern = "(\\w|-|~|\\.)*";
 
@@ -367,7 +294,7 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testEditStudent() {
 
-        // check for successful edit        
+        // check for successful edit
         StudentAttributes student = dataBundle.students.get("student4InCourse1");
         // try to create the entity in case it does not exist
         BackDoor.createStudent(student);
@@ -399,10 +326,6 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
     
-    @SuppressWarnings("unused")
-    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
-    }
-
     @Test
     public void testCreateFeedbackResponse() {
 
@@ -435,18 +358,7 @@ public class BackDoorTest extends BaseTestCase {
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
         verifyAbsentInDatastore(fr);
     }
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
     
-
-    @SuppressWarnings("unused")
-    private void ____helper_methods_________________________________() {
-    }
-
-    
-
     private void verifyAbsentInDatastore(AccountAttributes account) {
         assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
     }
@@ -498,10 +410,9 @@ public class BackDoorTest extends BaseTestCase {
 
     }
 
-
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = "null";
-        while (studentJsonString.equals("null")) {
+        while ("null".equals(studentJsonString)) {
             studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
         }
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
@@ -513,7 +424,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
         String courseJsonString = "null";
-        while (courseJsonString.equals("null")) {
+        while ("null".equals(courseJsonString)) {
             courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
         }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
@@ -525,7 +436,7 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
         String instructorJsonString = "null";
-        while (instructorJsonString.equals("null")) {
+        while ("null".equals(instructorJsonString)) {
             instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
         }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);

@@ -29,7 +29,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -37,10 +37,10 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() throws Exception {    
+    @Test
+    public void allTests() {
         testContent();
-        testSearch();        
+        testSearch();
     }
     
     private void testContent() {
@@ -63,7 +63,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         assertTrue(isPageTitleCorrect());
         assertTrue(isSearchPanelPresent());
-        assertTrue(isEmptyKeyErrorMessageShown());
+        searchPage.verifyStatus("Search key cannot be empty");
         
         ______TS("search for student1");
         
@@ -88,7 +88,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
-        assertTrue(isOnlyOneResultVisible());
+        searchPage.verifyStatus("Total results found: 1");
         
         ______TS("search for student name with special characters");
         
@@ -108,25 +108,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
     
     private boolean isPageTitleCorrect() {
-        return searchPage.getPageTitle().equals("Admin Search");
+        return "Admin Search".equals(searchPage.getPageTitle());
     }
     
     private boolean isSearchPanelPresent() {
         return searchPage.isElementPresent(By.id("filterQuery"))
             && searchPage.isElementPresent(By.id("searchButton"));
     }
-    
-    private boolean isEmptyKeyErrorMessageShown() {
-        String statusMessage = searchPage.getStatus();
-        
-        return statusMessage.equals("Search key cannot be empty");
-    }
-    
-    private boolean isOnlyOneResultVisible() {
-        return searchPage.getStatus().equals("Total results found: 1");
-    }
-        
-    
     
     /**
      * This method only checks if the search data tables are displayed correctly
@@ -143,16 +131,15 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                 }
             }
             return true;
-        } else {     
-            String statusMessage = searchPage.getStatus();
-            return statusMessage.equals("No result found, please try again");
         }
+        searchPage.verifyStatus("No result found, please try again");
+        return true;
         
     }
     
     private boolean isSearchTableHeaderCorrect(int tableNum) {
         List<String> expectedSearchTableHeaders;
-        List<String> actualSessionTableHeaders;       
+        List<String> actualSessionTableHeaders;
 
         int numColumns = searchPage.getNumberOfColumnsFromDataTable(tableNum);
         
@@ -266,8 +253,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      * @return true if the links associated with the {@code student}'s name and
      *         googleId (if he/she is registered) are correct, otherwise false
      */
-    private boolean isStudentLinkCorrect(WebElement studentRow, 
-                                         StudentAttributes student, 
+    private boolean isStudentLinkCorrect(WebElement studentRow,
+                                         StudentAttributes student,
                                          InstructorAttributes instructorToMasquaradeAs) {
 
         String actualNameLink = studentRow.findElement(By.xpath("td[3]/a")).getAttribute("href");
@@ -284,16 +271,15 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                           .withUserId(student.googleId)
                                           .toAbsoluteString();
 
-            return actualNameLink.equals(expectedNameLink) 
+            return actualNameLink.equals(expectedNameLink)
                    && actualGoogleIdLink.equals(expectedGoogleIdLink);
 
-        } else {
-            return actualNameLink.equals(expectedNameLink);
         }
+        return actualNameLink.equals(expectedNameLink);
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

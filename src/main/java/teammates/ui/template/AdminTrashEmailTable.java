@@ -24,7 +24,7 @@ public class AdminTrashEmailTable {
     
     public ElementTag getEmptyTrashButton() {
         return emptyTrashButton;
-    }  
+    }
     
     private ElementTag createEmptyTrashButton(String emptyTrashBinActionUrl) {
         return new ElementTag("", "class", "btn btn-danger btn-xs", "href", emptyTrashBinActionUrl);

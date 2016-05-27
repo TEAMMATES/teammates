@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 /**
- * Data model for adding/editing a single question 
+ * Data model for adding/editing a single question
  *
  */
 public class FeedbackQuestionEditForm {
@@ -31,7 +32,6 @@ public class FeedbackQuestionEditForm {
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
-    
 
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
@@ -43,8 +43,8 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions,  List<ElementTag> giverOptions,
-                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, 
+                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
+                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions,
                                                         String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
@@ -60,10 +60,8 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionNumberOptions = qnNumOptions;
       
         FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
-        FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings();
         
         newQnForm.feedbackPathSettings = feedbackPathSettings;
-        newQnForm.visibilitySettings = visibilitySettings;
         
         feedbackPathSettings.setGiverParticipantOptions(giverOptions);
         feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
@@ -72,33 +70,32 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
         newQnForm.isEditable = true;
         
-        setDefaultVisibilityOptions(visibilitySettings);
+        FeedbackQuestionVisibilitySettings visibilitySettings =
+                                        getDefaultVisibilityOptions();
+        newQnForm.visibilitySettings = visibilitySettings;
         
         return newQnForm;
     }
     
-    private static void setDefaultVisibilityOptions(FeedbackQuestionVisibilitySettings visibilityOptions) {
+    private static FeedbackQuestionVisibilitySettings getDefaultVisibilityOptions() {
         Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
         
-        FeedbackParticipantType[] participantTypes = { FeedbackParticipantType.INSTRUCTORS,
-                                                       FeedbackParticipantType.RECEIVER    };
+        FeedbackParticipantType[] participantTypes = {
+                FeedbackParticipantType.INSTRUCTORS,
+                FeedbackParticipantType.RECEIVER
+        };
         
         for (FeedbackParticipantType participant : participantTypes) {
-           isGiverNameVisible.put(participant.name(), true);
-           isRecipientNameVisible.put(participant.name(), true);
-           isResponsesVisible.put(participant.name(), true);
+            isGiverNameVisible.put(participant.name(), true);
+            isRecipientNameVisible.put(participant.name(), true);
+            isResponsesVisible.put(participant.name(), true);
         }
         
-        visibilityOptions.setGiverNameVisibleFor(isGiverNameVisible);
-        visibilityOptions.setRecipientNameVisibleFor(isRecipientNameVisible);
-        visibilityOptions.setResponseVisibleFor(isResponsesVisible);
+        return new FeedbackQuestionVisibilitySettings(new ArrayList<String>(), isResponsesVisible,
+                                                       isGiverNameVisible, isRecipientNameVisible);
     }
-    
-    public FeedbackQuestionEditForm() {
-    }
-    
     
     public String getCourseId() {
         return courseId;
@@ -161,8 +158,8 @@ public class FeedbackQuestionEditForm {
     
     /**
      * @return empty string if questionIndex is 0 (uninitialised), otherwise the value of the questionIndex
-     * @see {@link #getQuestionIndex}. An example of use of this will be if 
-     *      the html id of elements in the form of a new question is not suffixed by question index  
+     * @see {@link #getQuestionIndex}. An example of use of this will be if
+     *      the html id of elements in the form of a new question is not suffixed by question index
      */
     public String getQuestionIndexIfNonZero() {
         return questionIndex == 0 ? "" : String.valueOf(questionIndex);

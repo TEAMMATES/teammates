@@ -50,10 +50,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
     }
 
-
     @Test
-    public void testCreateDeleteFeedbackSession() 
-            throws Exception {    
+    public void testCreateDeleteFeedbackSession()
+            throws Exception {
         
         ______TS("standard success case");
         
@@ -66,9 +65,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackSessionsDb.
-                    ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
-                    + fsa.getIdentificationString(), e.getMessage());
+            AssertHelper.assertContains(String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      fsa.getEntityTypeAsString())
+                                            + fsa.getIdentificationString(),
+                                        e.getMessage());
         }
         
         fsDb.deleteEntity(fsa);
@@ -86,7 +86,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
         
         try {
-            fsa.startTime = new Date();            
+            fsa.startTime = new Date();
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -97,7 +97,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAllGetFeedbackSessions() throws Exception {
+    public void testAllGetFeedbackSessions() {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
@@ -106,7 +106,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         testGetFeedbackSessionsWithUnsentPublishedEmail();
     }
     
-    private void testGetFeedbackSessions() throws Exception {
+    private void testGetFeedbackSessions() {
         
         ______TS("standard success case");
         
@@ -141,18 +141,18 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsForCourse() throws Exception {
+    private void testGetFeedbackSessionsForCourse() {
         
-        ______TS("standard success case");    
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsForCourse("idOfTypicalCourse1");
         
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL 
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : sessions) {
@@ -175,12 +175,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             
         ______TS("no sessions in course");
         
-        assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
+        assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
     
-    private void testGetNonPrivateFeedbackSessions() throws Exception {
+    private void testGetNonPrivateFeedbackSessions() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
         
@@ -191,9 +191,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
+    private void testGetFeedbackSessionsWithUnsentOpenEmail() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
         
@@ -204,9 +204,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
+    private void testGetFeedbackSessionsWithUnsentPublishedEmail() {
         
-        ______TS("standard success case"); 
+        ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
         
@@ -220,7 +220,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @Test
     public void testUpdateFeedbackSession() throws Exception {
         
-        ______TS("null params");        
+        ______TS("null params");
         try {
             fsDb.updateFeedbackSession(null);
             signalFailureToDetectException();
@@ -285,12 +285,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         deleteSessionsFromDb();
         printTestClassFooter();
     }
     
-    private static void deleteSessionsFromDb() throws Exception {
+    private static void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));

@@ -76,7 +76,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -273,7 +273,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
     }
     
-    private InstructorFeedbackResponseCommentAddAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentAddAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -67,8 +67,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
         WebElement element = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" 
-                      + qnNumber + "-" + responseNumber 
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
+                      + qnNumber + "-" + responseNumber
                       + "-" + responseSubNumber));
         Select dropdown = new Select(element);
         dropdown.selectByVisibleText(text);
@@ -83,16 +83,16 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
-        choiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
+        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
-        choiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
+        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -122,23 +122,13 @@ public class FeedbackSubmitPage extends AppPage {
     public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
         WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
-        // getAttributes can return null when attribute does'nt exist
-        if (isChecked != null && isChecked.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        return "true".equals(isChecked);
     }
 
     public boolean isRubricRadioChecked(int qnIndex, int respIndex, int row, int col) {
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
-        // getAttributes can return null when attribute does'nt exist
-        if (isChecked != null && isChecked.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        return "true".equals(isChecked);
     }
 
     public String getRankMessage(int qnNumber, int responseNumber) {
@@ -148,10 +138,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        getSubmitButton().click();
     }
 
+    public WebElement getSubmitButton() {
+        return browser.driver.findElement(By.id("response_submit_button"));
+    }
+    
     public void linkOnHomeLink() {
         studentHomeTab.click();
         AppPage.getNewPageInstance(browser, StudentHomePage.class);
@@ -171,5 +164,14 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
+    }
+
+    public void waitForAndDismissWarningModal() {
+        WebElement okayButton = browser.driver.findElement(By.id("warning-modal-ok"));
+        waitForElementToBeClickable(okayButton);
+        okayButton.click();
+
+        By warningModalOverlay = By.id("warning-modal");
+        waitForElementToDisappear(warningModalOverlay);
     }
 }

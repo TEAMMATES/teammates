@@ -14,7 +14,6 @@ import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageData;
 import teammates.ui.controller.ShowPageResult;
 
-
 public class InstructorFeedbackEditCopyPageActionTest extends
         BaseActionTest {
     private static DataBundle dataBundle;
@@ -54,7 +53,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
         List<String> idOfCourses = new ArrayList<String>();
         
-        for (CourseAttributes course: pageData.getCourses()) {
+        for (CourseAttributes course : pageData.getCourses()) {
             idOfCourses.add(course.getId());
         }
         
@@ -68,7 +67,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
     }
     
-    private InstructorFeedbackEditCopyPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditCopyPageAction getAction(String... params) {
         return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

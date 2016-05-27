@@ -1,7 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -29,20 +28,19 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-    protected static Logger log = Utils.getLogger();
 
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
 
     @BeforeMethod
-    public void refreshTestData() throws Exception {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -104,17 +102,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         FeedbackQuestionAttributes firstQuestion = testData.feedbackQuestions.get("qn1InSession4");
         assertEquals(1, firstQuestion.questionNumber);
-        FeedbackQuestionAttributes firstQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId, 
-                                                                     firstQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes firstQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId,
+                                                                     firstQuestion.feedbackSessionName,
                                                                      firstQuestion.questionNumber);
         
         FeedbackQuestionAttributes secondQuestion = testData.feedbackQuestions.get("qn2InSession4");
         assertEquals(2, secondQuestion.questionNumber);
         // need to retrieve question from datastore to get its questionId
-        FeedbackQuestionAttributes secondQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId, 
-                                                                     secondQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes secondQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId,
+                                                                     secondQuestion.feedbackSessionName,
                                                                      secondQuestion.questionNumber);
         assertEquals(secondQuestion, secondQuestionFromDatastore);
         // make both questions have the same question number
@@ -127,16 +125,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // compare html for each question panel
         // to verify that the right responses are showing for each question
-        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                             + firstQuestionFromDatastore.getId() + "']]" 
+        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                             + firstQuestionFromDatastore.getId() + "']]"
                                              + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(firstQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(firstQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
         
-        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                              + secondQuestionFromDatastore.getId() + "']]"  
+        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                              + secondQuestionFromDatastore.getId() + "']]"
                                               + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(secondQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
         
         
@@ -247,34 +245,34 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: test in-table sort");
 
-        verifySortingOrder(By.id("button_sortFeedback"), 
-                           "1 Response to Danny.", 
-                           "2 Response to Benny.", 
-                           "3 Response to Emily.", 
+        verifySortingOrder(By.id("button_sortFeedback"),
+                           "1 Response to Danny.",
+                           "2 Response to Benny.",
+                           "3 Response to Emily.",
                            "4 Response to Charlie.");
 
-        verifySortingOrder(By.id("button_sortFromName"), 
+        verifySortingOrder(By.id("button_sortFromName"),
                            "Alice Betsy",
                            "Benny Charles",
                            "Benny Charles",
                             "Charlie Dávis");
         
-        verifySortingOrder(By.id("button_sortFromTeam"), 
+        verifySortingOrder(By.id("button_sortFromTeam"),
                            "Team 1",
                            "Team 1",
                            "Team 2",
                            "Team 2");
 
-        verifySortingOrder(By.id("button_sortToName"), 
-                           "Benny Charles", 
-                           "Charlie Dávis", 
+        verifySortingOrder(By.id("button_sortToName"),
+                           "Benny Charles",
+                           "Charlie Dávis",
                            "Danny Engrid",
                            "Emily");
 
         /*
          * Omitted as unable to check both forward and reverse order in one go
          * TODO: split up verifySortingOrder to enable this test
-        verifySortingOrder(By.id("button_sortToTeam"), 
+        verifySortingOrder(By.id("button_sortToTeam"),
                 "Team 2{*}Team 3",
                 "Team 1</td></div>'\"{*}Team 2",
                 "Team 1</td></div>'\"{*}Team 2",
@@ -632,7 +630,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // If admin is an instructor, expected url is InstructorHomePage
         //                 otherwise, expected url is unauthorised.jsp
         assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                    || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         // return to the previous page
@@ -650,14 +648,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData));
     }
 
@@ -701,19 +699,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void verifySortingOrder(By sortIcon, String... values) {
         // check if the rows match the given order of values
         resultsPage.click(sortIcon);
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i] + "{*}";
+            searchString.append(values[i]).append("{*}");
         }
-        resultsPage.verifyContains(searchString);
+        resultsPage.verifyContains(searchString.toString());
 
         // click the sort icon again and check for the reverse order
         resultsPage.click(sortIcon);
-        searchString = "";
+        searchString.setLength(0);
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i - 1] + "{*}";
+            searchString.append(values[i - 1]).append("{*}");
         }
-        resultsPage.verifyContains(searchString);
+        resultsPage.verifyContains(searchString.toString());
     }
 
     private void verifyModerateResponsesButton(int qnNumber, String... emails) {
