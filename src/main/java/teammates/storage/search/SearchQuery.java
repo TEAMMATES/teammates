@@ -31,8 +31,8 @@ public class SearchQuery {
     private List<String> dateQueryStrings = new ArrayList<String>();
     
     protected SearchQuery() {
-        // Prevents instantiation of the base SearchQuery. 
-        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead 
+        // Prevents instantiation of the base SearchQuery.
+        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead
     }
     
     protected void setOptions(QueryOptions options) {
@@ -56,7 +56,7 @@ public class SearchQuery {
         if (FieldValidator.isValidEmailAddress(queryString)) {
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
-            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
+            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
         }
         
         if (!sanitizedQueryString.isEmpty()) {

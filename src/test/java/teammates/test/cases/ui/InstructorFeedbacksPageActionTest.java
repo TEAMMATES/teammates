@@ -70,7 +70,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertFalse(r.isError);

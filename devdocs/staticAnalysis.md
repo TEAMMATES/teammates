@@ -113,24 +113,24 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `travis.gradle` is using. 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `build.gradle` is using. 
 
 Alternatively, run the tools via Gradle:
 ```
-./gradlew -b travis.gradle {toolType}{sourceCodeType}
+./gradlew {toolType}{sourceCodeType}
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
-./gradlew -b travis.gradle eslint
+./gradlew eslint
 ```
 The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
-./gradlew -b travis.gradle staticAnalysis --continue
+./gradlew staticAnalysis --continue
 ```
 
 ## Running code coverage session
@@ -147,8 +147,8 @@ The coverage will be reported in Eclipse after the test run is over.
 
 Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoTestReport` task, i.e:
 ```
-./gradlew -b travis.gradle travisTests
-./gradlew -b travis.gradle jacocoTestReport
+./gradlew travisTests
+./gradlew jacocoTestReport
 ```
 The report can be found in the `build/reports/jacoco/test/` directory.
 

@@ -186,7 +186,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return json string presenting the databundle 
+     * @return json string presenting the databundle
      */
     public static String output() {
         System.out.println("Start writing to file !");
@@ -215,14 +215,14 @@ public final class DataGenerator {
      * @return Json string presentation for all instructors
      */
     public static String allInstructors() {
-        StringBuilder outputBuilder = new StringBuilder(100); 
+        StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
         for (String instructor : instructors.keySet()) {
             String course = PREFIX + instructors.get(instructor);
             String instructorWithPrefix = PREFIX + instructor;
             outputBuilder.append('\t')
-                         .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix, 
-                                            "courseIdOf_" + course, "nameOf_" + instructorWithPrefix, 
+                         .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix,
+                                            "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,
                                             "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
         }
@@ -235,7 +235,7 @@ public final class DataGenerator {
      * @return Json string presentation for all courses
      */
     public static String allCourses() {
-        StringBuilder output = new StringBuilder(100); 
+        StringBuilder output = new StringBuilder(100);
         output.append("\"courses\":{\n");
         for (int i = 0; i < courses.size(); i++) {
             String course = PREFIX + courses.get(i);
@@ -252,18 +252,18 @@ public final class DataGenerator {
      * @return Json string presentation for all students
      */
     public static String allStudents() {
-        StringBuilder outputBuilder = new StringBuilder(100); 
+        StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"students\":{\n");
         for (int i = 0; i < students.size(); i++) {
             String student = students.get(i);
             String index = student.split("Stu")[1].split("Team")[0];
-            String team  = student.split("Team")[1].split("_")[0];
+            String team = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
             String email = studentEmails.get(Integer.parseInt(index));
 
             outputBuilder.append('\t')
                          .append(student(student, email, "Student " + index + " in " + course,
-                                        "Team " + team, email.split("@")[0], "comment", 
+                                        "Team " + team, email.split("@")[0], "comment",
                                         "courseIdOf_" + course, "profile"));
             if (i != students.size() - 1) {
                 outputBuilder.append(",\n");
@@ -283,7 +283,7 @@ public final class DataGenerator {
      * @return Json string presentation for a instructor entity
      */
     public static String instructor(String objName, String googleId, String courseId, String name, String email) {
-        return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\"" 
+        return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\""
                + courseId + "\",\"name\":\"" + name + "\",\"email\":\"" + email + "\"}";
     }
     
@@ -297,7 +297,7 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for a student entity
      */
-    public static String student(String objName, String email, String name, 
+    public static String student(String objName, String email, String name,
                                   String team, String id, String comments, String course, String profile) {
         return "\"" + objName + "\":{"
                + "\"email\":\"" + email + "\","

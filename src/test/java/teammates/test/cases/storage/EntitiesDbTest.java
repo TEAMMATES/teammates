@@ -51,7 +51,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                     String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
                     e.getMessage());
-        } 
+        }
         
         ______TS("fails: null parameter");
         try {

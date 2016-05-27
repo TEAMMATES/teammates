@@ -86,7 +86,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 newSession.timeZone = Double.parseDouble(paramTimeZone);
             } catch (NumberFormatException nfe) {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
-            } 
+            }
         }
         
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);

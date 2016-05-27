@@ -73,7 +73,7 @@ public class GateKeeper {
 
         if (user == null) {
             return userService.createLoginURL(redirectPage);
-        } 
+        }
         return redirectPage;
     }
 
@@ -100,7 +100,7 @@ public class GateKeeper {
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
         if (isUserLoggedOn() && userService.isUserAdmin()
-            && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
             return;
         }
 

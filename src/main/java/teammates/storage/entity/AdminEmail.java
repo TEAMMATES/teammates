@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents emails composed by Admin 
+ * Represents emails composed by Admin
  */
 
 @PersistenceCapable

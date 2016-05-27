@@ -42,7 +42,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCourses();
 
-        duplicateEmailCount = 0;        
+        duplicateEmailCount = 0;
         for (CourseAttributes course : allCourses) {
             repairCourseStudents(course);
         }

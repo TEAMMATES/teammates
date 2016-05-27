@@ -11,7 +11,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * The search result bundle object. 
+ * The search result bundle object.
  */
 public abstract class SearchResultBundle {
     protected String extractContentFromQuotedString(String quotedString) {

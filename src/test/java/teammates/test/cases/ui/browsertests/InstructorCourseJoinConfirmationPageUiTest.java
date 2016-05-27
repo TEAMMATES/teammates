@@ -34,11 +34,11 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         // use the instructor account injected for this test
         
-        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").googleId = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").googleId =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").email = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").email =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
-        testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreTestDataOnServer(testData);
@@ -56,7 +56,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     private void testContent() {
         
-        /*covered in testJoinConfirmation() 
+        /*covered in testJoinConfirmation()
          *case: Click join link then confirm: success: valid key
          */
     }

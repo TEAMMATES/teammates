@@ -9,14 +9,16 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a course entity. 
+ * Represents a course entity.
  */
 @PersistenceCapable
 public class Course {
     @PrimaryKey
     @Persistent
     @SerializedName("id")
+    //CHECKSTYLE:OFF the database uses ID
     private String ID;
+    //CHECKSTYLE:ON
 
     @Persistent
     private String name;
@@ -33,7 +35,7 @@ public class Course {
         if (createdAt == null) {
             this.setCreatedAt(new Date());
         } else {
-            this.setCreatedAt(createdAt);            
+            this.setCreatedAt(createdAt);
         }
         this.setArchiveStatus(archiveStatus);
     }
