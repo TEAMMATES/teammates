@@ -369,8 +369,31 @@ function cancelEdit(number) {
                         ? 'Are you sure you want to cancel adding this question?'
                         : 'Are you sure you want to cancel your changes?';
     if (confirm(confirmationMsg)) {
-        location.reload();
+        discardChanges(number);
     }
+}
+
+/**
+ * Discards new changes made and restores the original question
+ * @param qnNumber
+ */
+function discardChanges(qnNumber) {
+    if (qnNumber === NEW_QUESTION) {
+        hideNewQuestionAndShowNewQuestionForm();
+    } else {
+        $("#questionTable" + qnNumber + " > .panel-body").html(questionsBeforeEdit[qnNumber]);
+
+        $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + qnNumber).show();
+        $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + qnNumber).hide();
+        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + qnNumber).hide();
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + qnNumber).val('');
+        $('#button_question_submit-' + qnNumber).hide();
+    }
+}
+
+function hideNewQuestionAndShowNewQuestionForm() {
+    $('#questionTableNew').hide();
+    $('#addNewQuestionTable').show();
 }
 
 /**
@@ -471,13 +494,13 @@ function hideAllNewQuestionForms() {
 function prepareQuestionForm(type) {
     switch (type) {
     case 'TEXT':
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
         
         hideAllNewQuestionForms();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MCQ);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
         
         hideAllNewQuestionForms();
         
@@ -485,14 +508,14 @@ function prepareQuestionForm(type) {
         break;
     case 'MSQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MSQ);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
         hideAllNewQuestionForms();
         
         $('#msqForm').show();
         break;
     case 'NUMSCALE':
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
         
         hideAllNewQuestionForms();
         
@@ -503,7 +526,7 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
         $('#constSumOption_Recipient--1').hide();
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
         hideAllNewQuestionForms();
         
@@ -512,8 +535,8 @@ function prepareQuestionForm(type) {
     case 'CONSTSUM_RECIPIENT':
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
         $('#constSumOption_Option--1').hide();
-        hideConstSumOptionTable(-1);
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+        hideConstSumOptionTable(NEW_QUESTION);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
         hideAllNewQuestionForms();
         
@@ -524,7 +547,7 @@ function prepareQuestionForm(type) {
         $('#constSum_tooltipText--1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
     case 'CONTRIB':
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         
         hideAllNewQuestionForms();
         
@@ -534,7 +557,7 @@ function prepareQuestionForm(type) {
         setContribQnVisibilityFormat();
         break;
     case 'RUBRIC':
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
         
         hideAllNewQuestionForms();
         
@@ -544,7 +567,7 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
         $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
         $('#rankOption_Recipient--1').hide();
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
         hideAllNewQuestionForms();
         
@@ -554,7 +577,7 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
         $('#rankOption_Option--1').hide();
         hideRankOptionTable(NEW_QUESTION);
-        $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
+        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
         
         hideAllNewQuestionForms();
         
