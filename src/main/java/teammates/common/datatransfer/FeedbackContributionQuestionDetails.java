@@ -23,7 +23,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static final Logger log = Utils.getLogger();
     
-    public boolean isNotSureAllowed;
+    private boolean isNotSureAllowed;
     
     private static final String QUESTION_NUMBER = "${questionNumber}"; 
     
@@ -421,7 +421,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * @return A Map with student email as key and StudentResultSummary as value for the specified question.
      */
-    public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
+    Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
@@ -444,7 +444,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * @return A Map with student email as key and TeamEvalResult as value for the specified question.
      */
-    public Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
+    Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
@@ -487,7 +487,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return studentResults;
     }
 
-    protected Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
+    private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
         for (String team : teamNames) {
@@ -751,14 +751,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
 
-    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+    static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
                 + "Perceived Contribution: "
                 + convertToEqualShareFormatHtml(i)
                 + "]</span>";
     }
     
-    public String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
+    private String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
             String targetEmail, FeedbackSessionResultsBundle bundle) {
         
         if (hasPerceivedContribution(targetEmail, question, bundle)) {
@@ -855,7 +855,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @param i
      * @return points in text form "Equal Share..."
      */
-    public static String convertToEqualShareFormat(int i) {
+    static String convertToEqualShareFormat(int i) {
         if (i > 100) {
             return "Equal share + " + (i - 100) + "%"; // Do more
         } else if (i == 100) {
@@ -876,7 +876,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @param i
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
-    public static String convertToEqualShareFormatHtml(int i) {
+    static String convertToEqualShareFormatHtml(int i) {
         if (i == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\">N/A</span>";
         } else if (i == Const.POINTS_NOT_SUBMITTED) {

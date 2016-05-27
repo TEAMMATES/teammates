@@ -22,10 +22,10 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     public int numOfConstSumOptions;
-    public List<String> constSumOptions;
+    List<String> constSumOptions;
     public boolean distributeToRecipients;
     public boolean pointsPerOption;
-    public boolean forceUnevenDistribution;
+    private boolean forceUnevenDistribution;
     public int points;
 
     public FeedbackConstantSumQuestionDetails() {

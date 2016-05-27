@@ -25,8 +25,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
     public List<String> msqChoices;
-    public boolean otherEnabled;
-    FeedbackParticipantType generateOptionsFor;
+    private boolean otherEnabled;
+    private FeedbackParticipantType generateOptionsFor;
     
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);

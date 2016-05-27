@@ -472,7 +472,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
     }
     
-    public void setDescription(int row, int col, String description) {
+    private void setDescription(int row, int col, String description) {
         this.rubricDescriptions.get(row).set(col, description);
     }
     
@@ -481,7 +481,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * @param subQuestion
      * @param choice
      */
-    public String getDescription(int subQuestion, int choice) {
+    private String getDescription(int subQuestion, int choice) {
         return this.rubricDescriptions.get(subQuestion).get(choice);
     }
 

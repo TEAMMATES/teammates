@@ -12,9 +12,9 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     
-    public boolean areDuplicatesAllowed;
+    boolean areDuplicatesAllowed;
 
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
+    FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
     }
 

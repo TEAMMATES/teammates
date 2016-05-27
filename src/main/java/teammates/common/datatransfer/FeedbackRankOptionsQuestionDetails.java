@@ -25,7 +25,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION 
             + ". Minimum number of options is: ";
     
-    public List<String> options;
+    List<String> options;
     
     public FeedbackRankOptionsQuestionDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
