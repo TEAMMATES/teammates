@@ -40,8 +40,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: edit course name with same name");
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
         
         // execute the action
@@ -58,8 +58,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         ______TS("Typical case: edit course name with valid characters");
         String courseNameWithValidCharacters = courseName + " valid";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters
         };
 
         // execute the action
@@ -76,8 +76,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: edit course name with empty string");
         courseName = "";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action
@@ -94,8 +94,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: edit course name with non-alphanumeric start character");
         courseName = "@#$@#$";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action
@@ -113,8 +113,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: edit course name with name containing | and %");
         courseName = "normal|name%";
         submissionParams = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName
         };
 
         // execute the action

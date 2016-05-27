@@ -81,6 +81,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
+    
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
@@ -284,8 +285,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels for the previous team
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses);
+                    buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
                     teamMembersWithResponses.clear(); 
                 }
                 
@@ -387,8 +387,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels for the previous team
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses);
+                    buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
                     teamMembersWithResponses.clear(); 
                 }
                 
@@ -565,9 +564,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<FeedbackResponseComment> comments = buildResponseComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection = 
                     instructor.isAllowedForPrivilege(response.giverSection,
-                          response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                  && instructor.isAllowedForPrivilege(response.recipientSection,
-                          response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                                                     response.feedbackSessionName,
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                    && instructor.isAllowedForPrivilege(response.recipientSection,
+                                                        response.feedbackSessionName,
+                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             
             InstructorFeedbackResultsResponsePanel responsePanel = 
                     new InstructorFeedbackResultsResponsePanel(

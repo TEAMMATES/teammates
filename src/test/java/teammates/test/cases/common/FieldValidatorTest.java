@@ -440,7 +440,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void TestGetValidityInfo_INSTRUCTOR_ROLE() {
+    public void testGetValidityInfo_INSTRUCTOR_ROLE() {
         
         verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
         

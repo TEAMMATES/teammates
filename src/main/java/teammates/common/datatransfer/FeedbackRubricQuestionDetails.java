@@ -204,8 +204,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-            || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
-            || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
+                || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+                || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
@@ -327,21 +327,19 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
             for (int j = 0; j < numOfRubricChoices; j++) {
-                String panelBodyFragment = 
-                        FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
-                                "${qnIndex}", questionNumberString,
-                                "${respIndex}", responseNumberString,
-                                "${col}", Integer.toString(j),
-                                "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled",
-                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
-                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+                String panelBodyFragment = FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
+                        "${qnIndex}", questionNumberString,
+                        "${respIndex}", responseNumberString,
+                        "${col}", Integer.toString(j),
+                        "${row}", Integer.toString(i),
+                        "${disabled}", sessionIsOpen ? "" : "disabled",
+                        "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
+                        "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
+                        "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
+                        "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
-            String panel = 
-                FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
+            String panel = FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
                     "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
@@ -816,18 +814,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             
             detailedResponsesRow
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
-                        + Const.EOL);
+                    .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                            + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
+                            + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
+                            + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                            + Const.EOL);
         }
         
         return detailedResponsesRow.toString();

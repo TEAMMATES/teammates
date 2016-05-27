@@ -269,8 +269,8 @@ public class AdminSearchPageAction extends Action {
 
         for (InstructorAttributes instructor : instructorList) {
 
-            if (instructor.isRegistered() 
-                && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+            if (instructor.isRegistered()
+                    && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
 
                 tempCourseIdToInstructorGoogleIdMap.put(courseId, instructor.googleId);
                 return instructor.googleId;

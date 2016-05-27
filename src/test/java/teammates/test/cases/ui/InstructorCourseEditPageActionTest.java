@@ -40,8 +40,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         verifyAssumptionFailure();
 
         ______TS("Typical case: open the course edit page");
-        String[] submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
         };
         
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
@@ -60,10 +60,10 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Typical case: open the course edit page with instructor's email");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
-            Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
+                Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
         };
         
         editAction = getAction(submissionParams);
@@ -89,9 +89,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin("admin.user");
         
-        submissionParams = new String[]{
-            Const.ParamsNames.USER_ID, instructorId,
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
         };
         
         editAction = getAction(submissionParams);
@@ -113,9 +113,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         
         CoursesLogic.inst().deleteCourseCascade(courseId);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.USER_ID, instructorId,
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
         };
             
         try {

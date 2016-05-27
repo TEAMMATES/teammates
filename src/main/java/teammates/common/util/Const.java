@@ -106,8 +106,14 @@ public final class Const {
     /* 
      * Other Constants
      */
-    public static enum AdminEmailPageState { COMPOSE, SENT, TRASH, DRAFT };
-    public static enum StatusMessageColor { INFO, SUCCESS, WARNING, DANGER };
+    
+    public static enum AdminEmailPageState {
+        COMPOSE, SENT, TRASH, DRAFT
+    }
+    
+    public static enum StatusMessageColor {
+        INFO, SUCCESS, WARNING, DANGER
+    }
 
     private Const() {
         // Utility class containing constants
@@ -155,20 +161,20 @@ public final class Const {
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN,
-            ActionURIs.STUDENT_COURSE_JOIN_NEW,
-            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
-            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+                ActionURIs.STUDENT_COURSE_JOIN,
+                ActionURIs.STUDENT_COURSE_JOIN_NEW,
+                ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
         );
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
-            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-            ActionURIs.STUDENT_HOME_PAGE,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN,
-            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+                ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                ActionURIs.STUDENT_HOME_PAGE,
+                ActionURIs.INSTRUCTOR_COURSE_JOIN,
+                ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
         );
         
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
@@ -259,14 +265,12 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
 
-        
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED = "The list of points that this student received from others";
 
         public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
         public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
 
-        
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
@@ -872,7 +876,6 @@ public final class Const {
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
-        
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
@@ -1037,6 +1040,10 @@ public final class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
+        public static final String COURSE_ENROLL_POSSIBLE_DATA_LOSS = "There are existing feedback responses "
+                + "for this course. Modifying records of enrolled students will result in some existing "
+                + "responses from those modified students to be deleted. You may wish to download the data "
+                + "before you make the changes.";
         public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
         public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
         public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
@@ -1204,6 +1211,9 @@ public final class Const {
         public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
                 + "<span class='text-danger text-bold text-large'>%s</span>. " 
                 + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
+                "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
+                + "Enrollment for Course <span class=\"bold\">[%s]</span>";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
