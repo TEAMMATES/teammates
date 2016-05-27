@@ -14,7 +14,7 @@ import teammates.common.util.Utils;
 /**
 * This class is the parent class for all *WorkerServlets. This class provides logging
 * of exceptions that are uncaught by child *WorkerServlet classes. Child classes should
-* also perform their own logging of exceptions that could occur during the execution of 
+* also perform their own logging of exceptions that could occur during the execution of
 * the servlet.
 */
 @SuppressWarnings("serial")

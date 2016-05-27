@@ -57,11 +57,11 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                   .getFeedbackQuestion(session1.feedbackSessionName,
                                                                         session1.courseId, 1);
         FeedbackQuestionAttributes question2 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                   .getFeedbackQuestion(session1.feedbackSessionName,
                                                                         session1.courseId, 2);
 
         String[] params = new String[]{
@@ -120,7 +120,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
         FeedbackQuestionAttributes question3 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                   .getFeedbackQuestion(session1.feedbackSessionName,
                                                                         session1.courseId, 3);
         gaeSimulation.loginAsAdmin("admin.user");
 

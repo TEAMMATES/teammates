@@ -95,7 +95,7 @@ public class StudentProfilePictureUploadAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
      */
     private String uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
@@ -121,7 +121,7 @@ public class StudentProfilePictureUploadAction extends Action {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN, StatusMessageColor.DANGER));
                 isError = true;
                 return null;
-            } 
+            }
             BlobInfo profilePic = blobs.get(0);
             return validateProfilePicture(profilePic);
         } catch (IllegalStateException e) {

@@ -28,7 +28,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
-     * To get the answer text use {@code getResponseDetails().getAnswerString()} 
+     * To get the answer text use {@code getResponseDetails().getAnswerString()}
      * 
      * This is set to null to represent a missing response.
      */
@@ -227,7 +227,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-        return responseMetaData == null; 
+        return responseMetaData == null;
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
@@ -242,15 +242,21 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setCreatedAt_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
+    //CHECKSTYLE:ON
 
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+    //CHECKSTYLE:ON
     
 }

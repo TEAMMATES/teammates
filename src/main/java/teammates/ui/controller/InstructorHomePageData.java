@@ -46,7 +46,7 @@ public class InstructorHomePageData extends PageData {
     }
 
     /**
-     * Retrieves the link to submit the request for copy of session. 
+     * Retrieves the link to submit the request for copy of session.
      * Also contains home page link to return after the action.
      * @return form submit action link
      */
@@ -55,7 +55,7 @@ public class InstructorHomePageData extends PageData {
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {
-        courseTables = new ArrayList<CourseTable>(); 
+        courseTables = new ArrayList<CourseTable>();
         for (CourseSummaryBundle courseDetails : courses) {
             courseTables.add(new CourseTable(courseDetails.course, null, null));
         }

@@ -280,7 +280,7 @@ public final class BackDoor {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL);
         params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
-        return makePOSTRequest(params);        
+        return makePOSTRequest(params);
     }
     
     public static InstructorAttributes getInstructorByGoogleId(String instructorId, String courseId) {
@@ -533,7 +533,7 @@ public final class BackDoor {
     }
     
     public static String deleteFeedbackResponse(String feedbackQuestionId,
-                                              String giverEmail, 
+                                              String giverEmail,
                                               String recipient) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_RESPONSE);
         params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);

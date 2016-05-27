@@ -89,7 +89,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
 
     protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
     }
     
     protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
@@ -138,7 +138,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
@@ -201,7 +201,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         // and cannot be anticipated
         if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }    
+        }
     }
     
     @AfterTest

@@ -38,7 +38,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.isInTrashBin = ae.getIsInTrashBin();
     }
     
-    public AdminEmailAttributes(String subject, 
+    public AdminEmailAttributes(String subject,
                                 List<String> addressReceiver,
                                 List<String> groupReceiver,
                                 Text content,

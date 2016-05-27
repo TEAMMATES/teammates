@@ -36,7 +36,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertNotEmpty(courseId);
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(
                 instructor,
@@ -69,15 +69,15 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " 
-                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
-                    + "<span class=\"bold\">From:</span> " + fs.startTime 
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course "
+                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.startTime
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
                     + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
-            //TODO: add a condition to include the status due to inconsistency problem of database 
+            //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
                     new PageData(account).getInstructorFeedbackEditLink(
@@ -102,7 +102,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
                                        feedbackSessionType);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
@@ -114,7 +114,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             return;
         }
         
-        List<FeedbackQuestionAttributes> questions = 
+        List<FeedbackQuestionAttributes> questions =
                 FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                         feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
         int questionNumber = 1;
@@ -139,7 +139,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
         newSession.endTime = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));        
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             newSession.timeZone = Double.parseDouble(paramTimeZone);

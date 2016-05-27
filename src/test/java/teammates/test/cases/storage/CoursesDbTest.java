@@ -55,7 +55,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(invalidIdCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format",
                                         e.getMessage());
         }
 

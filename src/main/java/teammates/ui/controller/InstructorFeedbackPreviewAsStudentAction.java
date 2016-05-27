@@ -14,18 +14,18 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewStudentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.COURSE_ID), 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                               Const.ParamsNames.COURSE_ID),
                                                courseId);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
                                                feedbackSessionName);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.PREVIEWAS),
                                                previewStudentEmail);
 
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
+                logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
@@ -55,8 +55,8 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         data.setSubmitAction(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE);
         data.bundle.resetAllResponses();
 
-        statusToAdmin = "Preview feedback session as student (" + previewStudent.email + ")<br>" 
-                      + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Preview feedback session as student (" + previewStudent.email + ")<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
         
         data.init("", "", courseId);

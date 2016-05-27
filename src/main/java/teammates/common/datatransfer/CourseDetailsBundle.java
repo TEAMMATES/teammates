@@ -52,7 +52,7 @@ public class CourseDetailsBundle {
     
     /**
      * Sorts courses based on course ID
-     */ 
+     */
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             @Override
