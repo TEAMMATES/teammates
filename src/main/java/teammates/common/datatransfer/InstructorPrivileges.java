@@ -80,29 +80,29 @@ public final class InstructorPrivileges {
         PRIVILEGES_CUSTOM.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
     }
 
-    private static final String[] LIST_COURSE_LEVEL_ONLY = new String[] {
+    private static final String[] COURSE_LEVEL_ONLY_LIST = new String[] {
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT
     };
     
-    private static final String[] LIST_SECTION_LEVEL_ONLY = new String[] {
+    private static final String[] SECTION_LEVEL_ONLY_LIST = new String[] {
             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS
     };
     
-    private static final String[] LIST_SESSION_LEVEL_ONLY = new String[] {
+    private static final String[] SESSION_LEVEL_ONLY_LIST = new String[] {
             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
     };
     
-    private static final HashSet<String> COURSE_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(LIST_COURSE_LEVEL_ONLY));
-    private static final HashSet<String> SECTION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(LIST_SECTION_LEVEL_ONLY));
-    private static final HashSet<String> SESSION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(LIST_SESSION_LEVEL_ONLY));
+    private static final HashSet<String> COURSE_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(COURSE_LEVEL_ONLY_LIST));
+    private static final HashSet<String> SECTION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(SECTION_LEVEL_ONLY_LIST));
+    private static final HashSet<String> SESSION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(SESSION_LEVEL_ONLY_LIST));
     
     private HashMap<String, Boolean> courseLevel;
     private HashMap<String, HashMap<String, Boolean>> sectionLevel;
