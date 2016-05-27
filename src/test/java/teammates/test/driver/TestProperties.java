@@ -133,9 +133,11 @@ public final class TestProperties {
         if (uniqueId.isEmpty()) {
             return false;
         }
-        return TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
-            && TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
-            && TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
+        
+        boolean isSecondStudentAccountReady = ("charlie.tmms." + uniqueId).equals(TEST_STUDENT2_ACCOUNT);
+        boolean isInstructorAccountReady = ("teammates.coord." + uniqueId).equals(TEST_INSTRUCTOR_ACCOUNT);
+        boolean isAdminAccountReady = ("yourGoogleId." + uniqueId).equals(TEST_ADMIN_ACCOUNT);
+        return isSecondStudentAccountReady && isInstructorAccountReady && isAdminAccountReady;
     }
 
     private static boolean isStudentMotdUrlEmpty() {
