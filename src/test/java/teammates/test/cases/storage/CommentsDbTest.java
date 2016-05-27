@@ -1,8 +1,8 @@
 package teammates.test.cases.storage;
 
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -24,6 +22,8 @@ import teammates.common.util.Const;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class CommentsDbTest extends BaseComponentTestCase {
     
@@ -93,8 +93,10 @@ public class CommentsDbTest extends BaseComponentTestCase {
         anotherRetrievedComment = commentsDb.getComment(retrievedComment);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.status).get(0);
+        anotherRetrievedComment =
+                commentsDb.getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail,
+                                                        retrievedComment.status)
+                          .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         retrievedComment.status = CommentStatus.DRAFT;
@@ -105,24 +107,27 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.showCommentTo.add(CommentParticipantType.COURSE);
         commentsDb.updateComment(retrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentDrafts(retrievedComment.giverEmail).get(0);
+        anotherRetrievedComment = commentsDb.getCommentDrafts(retrievedComment.giverEmail).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.PERSON).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.PERSON)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.TEAM).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.TEAM)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.SECTION).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.SECTION)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
-        anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.COURSE).get(0);
+        anotherRetrievedComment = commentsDb.getCommentsForCommentViewer(retrievedComment.courseId,
+                                                                         CommentParticipantType.COURSE)
+                                            .get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         ______TS("non existant comment case");

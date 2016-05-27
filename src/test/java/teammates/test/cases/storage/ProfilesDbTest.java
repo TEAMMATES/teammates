@@ -11,12 +11,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.common.util.GoogleCloudStorageHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
     
@@ -87,8 +87,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException edne) {
             AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
-                edne.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
+                    edne.getMessage());
             a.studentProfile.googleId = a.googleId;
         }
     }

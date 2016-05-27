@@ -26,7 +26,7 @@ import teammates.storage.entity.Student;
  */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
     
-    private Logic logic = new Logic();
+    private static final Logic logic = new Logic();
     
     // modify this to modify only a specific course or all courses
     private static final boolean isForAllCourses = false;
@@ -213,7 +213,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         for (FeedbackResponse response : responses) {
             if (response.getRecipientEmail().equals(studentEmail) 
-                || response.getRecipientEmail().equals(studentTeam)) {
+                    || response.getRecipientEmail().equals(studentTeam)) {
                 
                 response.setRecipientSection(sectionName);
             } 

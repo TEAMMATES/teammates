@@ -25,7 +25,7 @@ import teammates.test.pageobjects.StudentHomePage;
 public class StudentHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentHomePage studentHome;
+    private static StudentHomePage studentHome;
     private static FeedbackSessionAttributes gracedFeedbackSession;
 
     @BeforeClass

@@ -15,6 +15,11 @@ import teammates.common.util.Url;
  */
 public final class TestProperties {
     
+    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
+    
+    private static TestProperties instance;
+    
     public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
     public int TEAMMATES_REMOTEAPI_APP_PORT;
     
@@ -42,13 +47,6 @@ public final class TestProperties {
     public String FIREFOX_PATH;
     
     public int TEST_TIMEOUT;
-    
-    private static TestProperties instance;
-    
-    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
-    /// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
-    // functions to that sub class. It should be in util package.
-    public static final String TEST_DATA_FOLDER = "src/test/resources/data";
     
     private TestProperties() {
         Properties prop = new Properties();
@@ -126,12 +124,12 @@ public final class TestProperties {
         }
         if (!areTestAccountsReadyForGodMode()) {
             fail("Please append a unique id (e.g your name) to each of the default account in"
-                 + "test.properties in order to use God mode, e.g change alice.tmms to "
-                 + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
+                    + "test.properties in order to use God mode, e.g change alice.tmms to "
+                    + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }
         if (isStudentMotdUrlEmpty()) {
             fail("Student MOTD URL defined in app.student.motd.url in build.properties "
-                 + "must not be empty. It is advised to use test-student-motd.html to test it.");
+                    + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }
 

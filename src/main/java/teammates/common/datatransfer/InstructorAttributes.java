@@ -3,20 +3,23 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 /**
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
+    
+    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
+    
     private static Gson gson = Utils.getTeammatesGson();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
@@ -31,8 +34,6 @@ public class InstructorAttributes extends EntityAttributes {
     public String displayedName;
 
     public InstructorPrivileges privileges;
-    
-    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
     /**
      * Creates a new instructor with default access level and default displayedName
@@ -201,7 +202,7 @@ public class InstructorAttributes extends EntityAttributes {
         String error;
         
         if (googleId != null) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
@@ -217,7 +218,7 @@ public class InstructorAttributes extends EntityAttributes {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) {
             errors.add(error);
         }

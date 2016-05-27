@@ -23,7 +23,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.isGiver = isGiver;
         
         this.isEmailValid = new FieldValidator()
-                                    .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier)
+                                    .getInvalidityInfoForEmail(participantIdentifier)
                                     .isEmpty(); 
         this.profilePictureLink = profilePictureLink;
         

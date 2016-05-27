@@ -17,7 +17,7 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -49,8 +49,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                 + "&key=" + invalidEncryptedKey,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals("You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
-            + "?key=" + invalidEncryptedKey, redirectResult.getStatusMessage());
+        assertEquals("You have used an invalid join link: "
+                             + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + invalidEncryptedKey,
+                     redirectResult.getStatusMessage());
 
         String expectedLogSegment = "Servlet Action Failure : You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
                                     + "?key=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
@@ -167,7 +168,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId), 
-            redirectResult.getStatusMessage());
+                     redirectResult.getStatusMessage());
 
         expectedLogSegment = "Servlet Action Failure : " + String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId)
                             + "<br/><br/>Action Instructor Joins Course<br/>Google ID: "

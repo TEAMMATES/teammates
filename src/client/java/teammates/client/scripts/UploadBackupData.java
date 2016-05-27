@@ -13,18 +13,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gson.Gson;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -43,6 +41,8 @@ import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 
+import com.google.gson.Gson;
+
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
@@ -55,7 +55,7 @@ import teammates.storage.datastore.Datastore;
  */
 public class UploadBackupData extends RemoteApiClient {
 
-    private static String BACKUP_FOLDER = "BackupFiles/Backup";
+    private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -179,8 +179,8 @@ public class UploadBackupData extends RemoteApiClient {
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values()) {
-                logic.createAccount(accountData.googleId, accountData.name, 
-                    accountData.isInstructor, accountData.email, accountData.institute);
+                logic.createAccount(accountData.googleId, accountData.name, accountData.isInstructor,
+                                    accountData.email, accountData.institute);
             }
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());

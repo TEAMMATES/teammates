@@ -32,8 +32,6 @@ import teammates.logic.api.Logic;
 public abstract class Action {
     protected static final Logger log = Utils.getLogger();
     
-    protected Logic logic;
-    
     /** This is used to ensure unregistered users don't access certain pages in the system */
     public String regkey;
     
@@ -45,6 +43,8 @@ public abstract class Action {
     
     /** This is the unregistered and not loggedin student's attributes. */
     public StudentAttributes student;
+    
+    protected Logic logic;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -214,7 +214,6 @@ public abstract class Action {
         return false;
     }
 
-    @SuppressWarnings("PMD.EmptyIfStmt")
     protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         

@@ -30,7 +30,7 @@ import teammates.test.util.Priority;
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
+    private static InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
     
@@ -132,7 +132,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
             FeedbackQuestionAttributes question = BackDoor
                     .getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }

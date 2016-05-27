@@ -8,7 +8,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
@@ -18,7 +17,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -97,7 +96,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        String expectedErrorMessage = new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail);
+        String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
         AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());

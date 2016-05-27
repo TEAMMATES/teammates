@@ -9,32 +9,31 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.Const.SystemParams;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StatusMessage;
+import teammates.logic.api.GateKeeper;
+import teammates.logic.core.TaskQueuesLogic;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.common.util.Const.SystemParams;
-import teammates.common.util.FieldValidator.FieldType;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.core.TaskQueuesLogic;
-
 public class AdminEmailComposeSendAction extends Action {
+    
+    private static final int MAX_READING_LENGTH = 900000; 
     
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
-    
-    private static final int MAX_READING_LENGTH = 900000; 
     
     private boolean addressModeOn;
     private boolean groupModeOn;
@@ -122,7 +121,7 @@ public class AdminEmailComposeSendAction extends Action {
        
         String[] emails = addressReceiverString.split(",");
         for (String email : emails) {
-            String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+            String error = validator.getInvalidityInfoForEmail(email);
             if (error != null && !error.isEmpty()) {
                 isError = true;
                 statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));

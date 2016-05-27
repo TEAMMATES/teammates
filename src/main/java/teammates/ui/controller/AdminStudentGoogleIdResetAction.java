@@ -4,8 +4,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -85,7 +85,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         Logic logic = new Logic();
         
         if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
-             && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
+                && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccount(wrongGoogleId);
         }
     }

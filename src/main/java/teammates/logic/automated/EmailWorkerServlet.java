@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.seleniumhq.jetty7.server.Response;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.Emails;
 
 @SuppressWarnings("serial")
@@ -25,7 +25,7 @@ public class EmailWorkerServlet extends WorkerServlet {
         
         log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
-        switch(typeOfMail) {
+        switch (typeOfMail) {
         case FEEDBACK_CLOSING:
             emailObj = new FeedbackSessionClosingMailAction(req);
             break;

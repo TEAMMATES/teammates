@@ -13,8 +13,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsAjaxPageAction extends Action {
@@ -79,7 +79,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
             if (!tempFs.courseId.equals(courseId)
-                 || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }

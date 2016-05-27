@@ -8,8 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -22,6 +20,8 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
@@ -214,9 +214,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("typical success case");
         
-        ArrayList<FeedbackResponseCommentAttributes> frcas =
-            (ArrayList<FeedbackResponseCommentAttributes>) frcDb
-                    .getFeedbackResponseCommentsForResponse(responseId);
+        List<FeedbackResponseCommentAttributes> frcas =
+                frcDb.getFeedbackResponseCommentsForResponse(responseId);
         verifyListsContainSameResponseCommentAttributes(
                 new ArrayList<FeedbackResponseCommentAttributes>(frcasExpected), frcas);
     }

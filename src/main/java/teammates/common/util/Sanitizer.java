@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -7,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import com.google.appengine.api.datastore.Text;
 

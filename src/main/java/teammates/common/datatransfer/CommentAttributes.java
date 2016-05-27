@@ -11,10 +11,10 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
@@ -22,10 +22,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes> {
+public class CommentAttributes extends EntityAttributes implements Comparable<CommentAttributes> {
 
-    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -39,6 +37,7 @@ public class CommentAttributes extends EntityAttributes
     public Date createdAt;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long commentId;
 
     public CommentAttributes() {
         // attributes to be set after construction
@@ -112,7 +111,7 @@ public class CommentAttributes extends EntityAttributes
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -121,7 +120,7 @@ public class CommentAttributes extends EntityAttributes
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    error = validator.getInvalidityInfoForEmail(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -129,7 +128,7 @@ public class CommentAttributes extends EntityAttributes
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    error = validator.getInvalidityInfoForTeamName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -137,7 +136,7 @@ public class CommentAttributes extends EntityAttributes
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    error = validator.getInvalidityInfoForSectionName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }

@@ -6,16 +6,14 @@ import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -26,14 +24,15 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.StudentsDb;
+
+import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -44,8 +43,8 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
-    private static int SECTION_SIZE_LIMIT = 100;
-    private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    private static final int SECTION_SIZE_LIMIT = 100;
+    private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance;
     private StudentsDb studentsDb = new StudentsDb();
@@ -231,7 +230,7 @@ public class StudentsLogic {
         //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
         //       Reason: Difficult to reproduce a persistence delay during testing
         String finalEmail = student.email == null 
-                                || !validator.getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty() 
+                                || !validator.getInvalidityInfoForEmail(student.email).isEmpty()
                             ? originalEmail 
                             : student.email;
         
@@ -666,13 +665,13 @@ public class StudentsLogic {
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
-            if (enrollment.updateStatus == UpdateStatus.MODIFIED 
-                && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+            if (enrollment.updateStatus == UpdateStatus.MODIFIED
+                    && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
             if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED
-                && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
+                    && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }

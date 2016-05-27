@@ -344,16 +344,14 @@ public class FeedbackResponsesLogic {
                 || question.recipientType.equals(FeedbackParticipantType.GIVER)  
                    && question.giverType.equals(FeedbackParticipantType.STUDENTS); 
                                         
-        if (isStudentRecipientType
-            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (isStudentRecipientType && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.recipientType.isTeam() 
-            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (question.recipientType.isTeam() && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.giverType == FeedbackParticipantType.TEAMS 
-            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+        if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
         return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
@@ -779,8 +777,8 @@ public class FeedbackResponsesLogic {
         }
 
         StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, studentEmail);
-        if (question.recipientType.isTeam() 
-            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (question.recipientType.isTeam()
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(

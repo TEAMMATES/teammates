@@ -23,21 +23,21 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.FeedbackResponseComment;
-import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
-import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
-import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
-import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
-import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
-import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
-import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
-import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
-import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
-import teammates.ui.template.FeedbackSessionPublishButton;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
+import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackSessionPublishButton;
+import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
 import teammates.ui.template.InstructorFeedbackResultsModerationButton;
+import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
+import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
+import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
+import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
+import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
+import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
@@ -81,6 +81,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
+    
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
@@ -284,8 +285,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels for the previous team
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses);
+                    buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
                     teamMembersWithResponses.clear(); 
                 }
                 
@@ -387,8 +387,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels for the previous team
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses);
+                    buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
                     teamMembersWithResponses.clear(); 
                 }
                 
@@ -492,7 +491,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             secondaryParticipantIndex += 1;
             String secondaryParticipantIdentifier = secondaryParticipantResponses.getKey();
             
-            boolean isEmail = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, secondaryParticipantIdentifier).isEmpty();
+            boolean isEmail = validator.getInvalidityInfoForEmail(secondaryParticipantIdentifier).isEmpty();
             String secondaryParticipantDisplayableName; 
             if (isEmail && !bundle.getTeamNameForEmail(secondaryParticipantIdentifier).isEmpty()) {
                 secondaryParticipantDisplayableName = bundle.getNameForEmail(secondaryParticipantIdentifier) 
@@ -565,9 +564,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<FeedbackResponseComment> comments = buildResponseComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection = 
                     instructor.isAllowedForPrivilege(response.giverSection,
-                          response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                  && instructor.isAllowedForPrivilege(response.recipientSection,
-                          response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                                                     response.feedbackSessionName,
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                    && instructor.isAllowedForPrivilege(response.recipientSection,
+                                                        response.feedbackSessionName,
+                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             
             InstructorFeedbackResultsResponsePanel responsePanel = 
                     new InstructorFeedbackResultsResponsePanel(
@@ -1315,7 +1316,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String getProfilePictureIfEmailValid(String email) {
         // TODO the check for determining whether to show a profile picture 
         // can be improved to use isStudent
-        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
+        boolean isEmailValid = validator.getInvalidityInfoForEmail(email).isEmpty();
         return isEmailValid ? getStudentProfilePictureLink(email, instructor.courseId)
                             : null;
     }
@@ -1501,7 +1502,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         bySecondaryParticipantPanel.setName(participantName);
         bySecondaryParticipantPanel.setIsGiver(viewType.isPrimaryGroupingOfGiverType());
         
-        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
+        boolean isEmailValid = validator.getInvalidityInfoForEmail(participantIdentifier).isEmpty();
         bySecondaryParticipantPanel.setEmailValid(isEmailValid);
 
         bySecondaryParticipantPanel.setProfilePictureLink(getProfilePictureIfEmailValid(participantIdentifier));

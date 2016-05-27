@@ -12,13 +12,14 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
+    
+    private static final Logger log = Utils.getLogger();
+    
     /**
      * List of integers, the size of the list corresponds to the number of sub-questions
      * Each integer at index i, represents the choice chosen for sub-question i
      */
     public List<Integer> answer;
-    
-    private static final Logger log = Utils.getLogger();
 
     public FeedbackRubricResponseDetails() {
         super(FeedbackQuestionType.RUBRIC);
@@ -53,8 +54,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             try {
                 int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                 int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions 
-                    && subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
+                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.numOfRubricSubQuestions
+                        && subQuestionChoice >= 0 && subQuestionChoice < fqd.numOfRubricChoices) {
                     setAnswer(subQuestionIndex, subQuestionChoice);
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {

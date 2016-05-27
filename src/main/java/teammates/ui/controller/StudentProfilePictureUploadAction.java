@@ -6,6 +6,14 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
+import teammates.logic.api.GateKeeper;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -17,14 +25,6 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
-
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: saves the file information of the profile picture
