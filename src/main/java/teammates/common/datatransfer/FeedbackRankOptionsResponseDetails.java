@@ -20,8 +20,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
     
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType, 
-                                       FeedbackQuestionDetails questionDetails, 
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+                                       FeedbackQuestionDetails questionDetails,
                                        String[] answer) {
         List<Integer> rankAnswer = new ArrayList<Integer>();
         for (int i = 0; i < answer.length; i++) {
@@ -133,8 +133,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     private void setRankResponseDetails(List<Integer> answers, List<String> options) {
         this.answers = answers;
     
-        Assumption.assertEquals("Rank question: number of responses does not match number of options. " 
-                                        + answers.size() + "/" + options.size(), 
+        Assumption.assertEquals("Rank question: number of responses does not match number of options. "
+                                        + answers.size() + "/" + options.size(),
                                 answers.size(), options.size());
         
     }

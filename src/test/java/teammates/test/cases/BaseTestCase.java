@@ -90,7 +90,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

@@ -60,7 +60,7 @@ public final class TestProperties {
             String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL
                     .indexOf("://") + 3); // remove "http\://" and "https\://"
             TEAMMATES_REMOTEAPI_APP_DOMAIN = remoteApiDomain.split(":")[0];
-            TEAMMATES_REMOTEAPI_APP_PORT = 
+            TEAMMATES_REMOTEAPI_APP_PORT =
                     remoteApiDomain.contains(":") ? Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
         
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
@@ -114,8 +114,8 @@ public final class TestProperties {
     
     /**
      * Verifies that the test properties specified in test.properties file allows for HTML
-     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated, 
-     * strings that need to be replaced with placeholders are correctly replaced, and 
+     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated,
+     * strings that need to be replaced with placeholders are correctly replaced, and
      * strings that are not supposed to be replaced with placeholders are not replaced).
      */
     public void verifyReadyForGodMode() {

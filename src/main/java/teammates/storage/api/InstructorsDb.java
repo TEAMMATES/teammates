@@ -64,13 +64,13 @@ public class InstructorsDb extends EntitiesDb {
     }
     
     /**
-     * This method should be used by admin only since the searching does not restrict the 
+     * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
      * @param queryString
      * @param cursorString
      * @return null if no result found
-     */ 
+     */
     
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
         
@@ -78,7 +78,7 @@ public class InstructorsDb extends EntitiesDb {
             return new InstructorSearchResultBundle();
         }
         
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR, 
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
                                                           new InstructorSearchQuery(queryString, cursorString));
         
         return new InstructorSearchResultBundle().getInstructorsfromResults(results);
@@ -103,10 +103,10 @@ public class InstructorsDb extends EntitiesDb {
             try {
                 updateInstructorByEmail(instructor);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
+             // This situation is not tested as replicating such a situation is
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }           
+            }
             putDocument(instructor);
         }
     }
@@ -125,7 +125,7 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException {  
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
         Instructor instructor = (Instructor) createEntity(instructorToAdd);
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
@@ -136,7 +136,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects. 
+     * @return null if no matching objects.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
         
@@ -154,7 +154,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects. 
+     * @return null if no matching objects.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
         
@@ -191,7 +191,7 @@ public class InstructorsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * @return empty list if no matching objects. 
+     * @return empty list if no matching objects.
      */
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
         
@@ -212,8 +212,8 @@ public class InstructorsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
-     *  
-     * @return empty list if no matching objects. 
+     * 
+     * @return empty list if no matching objects.
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         
@@ -234,7 +234,7 @@ public class InstructorsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * @return empty list if no matching objects. 
+     * @return empty list if no matching objects.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         
@@ -254,7 +254,7 @@ public class InstructorsDb extends EntitiesDb {
     
     /**
      * Not scalable. Don't use unless for admin features.
-     * @return {@code InstructorAttributes} objects for all instructor 
+     * @return {@code InstructorAttributes} objects for all instructor
      * roles in the system.
      */
     @Deprecated
@@ -269,14 +269,14 @@ public class InstructorsDb extends EntitiesDb {
             if (!JDOHelper.isDeleted(instructor)) {
                 list.add(new InstructorAttributes(instructor));
             }
-        }    
+        }
         return list;
     }
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
-     * @throws InvalidParametersException 
-     * @throws EntityDoesNotExistException 
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -288,7 +288,7 @@ public class InstructorsDb extends EntitiesDb {
         instructorAttributesToUpdate.sanitizeForSaving();
         
         Instructor instructorToUpdate = getInstructorEntityForGoogleId(
-                instructorAttributesToUpdate.courseId, 
+                instructorAttributesToUpdate.courseId,
                 instructorAttributesToUpdate.googleId);
         
         if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)) {
@@ -313,10 +313,10 @@ public class InstructorsDb extends EntitiesDb {
     
     /**
      * Updates the instructor. Cannot modify Course ID or email.
-     * @throws InvalidParametersException 
+     * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) 
+    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
@@ -327,7 +327,7 @@ public class InstructorsDb extends EntitiesDb {
         instructorAttributesToUpdate.sanitizeForSaving();
         
         Instructor instructorToUpdate = getInstructorEntityForEmail(
-                instructorAttributesToUpdate.courseId, 
+                instructorAttributesToUpdate.courseId,
                 instructorAttributesToUpdate.email);
         
         if (instructorToUpdate == null) {
@@ -400,12 +400,12 @@ public class InstructorsDb extends EntitiesDb {
         
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
         
-        for (Instructor instructor : instructorsToDelete) {        
-            deleteDocument(new InstructorAttributes(instructor)); 
+        for (Instructor instructor : instructorsToDelete) {
+            deleteDocument(new InstructorAttributes(instructor));
         }
         
         getPM().deletePersistentAll(instructorsToDelete);
-        getPM().flush();       
+        getPM().flush();
     }
     
     /**
@@ -418,9 +418,9 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
         
-        for (Instructor instructor : instructorList) {        
-            deleteDocument(new InstructorAttributes(instructor)); 
-        } 
+        for (Instructor instructor : instructorList) {
+            deleteDocument(new InstructorAttributes(instructor));
+        }
         
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
@@ -437,9 +437,9 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
         
-        for (Instructor instructor : instructorList) {        
-            deleteDocument(new InstructorAttributes(instructor)); 
-        }        
+        for (Instructor instructor : instructorList) {
+            deleteDocument(new InstructorAttributes(instructor));
+        }
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
 
@@ -574,7 +574,7 @@ public class InstructorsDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         
-        InstructorAttributes instructorToGet = (InstructorAttributes) attributes;    
+        InstructorAttributes instructorToGet = (InstructorAttributes) attributes;
             
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }

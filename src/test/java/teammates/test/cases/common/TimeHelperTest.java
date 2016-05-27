@@ -39,7 +39,7 @@ public class TimeHelperTest extends BaseTestCase {
         String testTime = "0";
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
-        cal.set(2013, 1, 1, 0, 0, 0);        
+        cal.set(2013, 1, 1, 0, 0, 0);
         Date expectedOutput = cal.getTime();
         
         testTime = "0";

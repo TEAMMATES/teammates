@@ -27,7 +27,7 @@ import com.google.gson.Gson;
  * 
  */
 public final class ImportData {
-    //  
+    //
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
     
@@ -63,7 +63,7 @@ public final class ImportData {
                 status = persist(data.courses);
             } else if (hasStudents) {    //Students
                 status = persist(data.students);
-            } else {    
+            } else {
                 // No more data, break the loop
                 System.out.print("\n Finish!");
                 break;
@@ -79,9 +79,9 @@ public final class ImportData {
     }
     
     /**
-     * This method will persist a number of entity and remove them from the source, return the 
+     * This method will persist a number of entity and remove them from the source, return the
      * status of the operation.
-     *  
+     * 
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
@@ -114,7 +114,7 @@ public final class ImportData {
                 type = "StudentData";
                 StudentAttributes studentData = (StudentAttributes) obj;
                 bundle.students.put(key, studentData);
-            } 
+            }
             count++;
             itr.remove();
             System.out.print(key + "\n");

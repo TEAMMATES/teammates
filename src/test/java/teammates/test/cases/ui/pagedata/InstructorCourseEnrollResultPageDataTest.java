@@ -41,7 +41,7 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         boolean hasSection = true;
         String enrollStudents = "enrollString";
         
-        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, 
+        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
                                                                 courseId, students, hasSection, enrollStudents);
         
         assertNotNull(pageData.getCourseId());

@@ -25,7 +25,7 @@ public class AdminEmailTrashDeleteAction extends Action {
                 statusToAdmin = "Blobstore connection failure";
                 statusToUser.add(new StatusMessage("Blobstore connection failure", StatusMessageColor.DANGER));
             }
-        }     
+        }
         
         return createRedirectResult(Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE);
     }

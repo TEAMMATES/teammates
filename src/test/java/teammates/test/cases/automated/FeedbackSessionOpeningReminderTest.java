@@ -145,7 +145,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session2);
         
-        int course1StudentCount = 5; 
+        int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
         prepareAndSendOpeningMailForSession(session1, course1StudentCount, course1InstructorCount);

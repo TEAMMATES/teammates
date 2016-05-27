@@ -57,8 +57,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
         
-        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
-                                                                                          statsBundle.numOfUniqueStudentEmails);
+        String statsForUniqueStudentEmail = generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
+                                                                                         statsBundle.numOfUniqueStudentEmails);
         String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
                                                                                                statsBundle.numOfUniqueInstructorEmails);
         
@@ -84,12 +84,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (instructor.getEmail() != null && instructor.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
-        }       
+        }
         
         String instituteForInstructor = getInstituteForInstructor(instructor);
         if (instituteForInstructor == null || instituteForInstructor.contains("TEAMMATES Test Institute")) {
             isTestingData = true;
-        } 
+        }
         
         return isTestingData;
     }
@@ -108,11 +108,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (student.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
-        }       
+        }
         
         if (getInstituteForStudent(student).contains("TEAMMATES Test Institute")) {
             isTestingData = true;
-        } 
+        }
         
         return isTestingData;
     }
@@ -127,13 +127,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         for (Instructor instructor : allInstructors) {
             
-            if (isTestingInstructorData(instructor) || instructor.getEmail() == null) {               
+            if (isTestingInstructorData(instructor) || instructor.getEmail() == null) {
                 continue;
             }
             
             String institute = getInstituteForInstructor(instructor);
             
-            if (!institutes.containsKey(institute)) {               
+            if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
@@ -152,7 +152,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
             String institute = getInstituteForStudent(student);
             
-            if (!institutes.containsKey(institute)) {               
+            if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
                 
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
@@ -160,7 +160,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
             
             institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
-            allStudentEmailSet.add(student.getEmail().toLowerCase());  
+            allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
             updateProgressIndicator();
         }
@@ -183,12 +183,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());
-        } 
+        }
 
         Query q = pm.newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
-        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());        
+        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());
         
         String institute = getInstituteForInstructors(instructorList);
         
@@ -235,12 +235,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
-            } 
+            }
             
             return account;
             
         } catch (IllegalArgumentException iae) {
-            return null;            
+            return null;
         } catch (JDOObjectNotFoundException je) {
             return null;
         }
@@ -257,10 +257,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             int numInstructors = stats.instructorTotal;
             int numStudents = stats.studentTotal;
             int total = numInstructors + numStudents;
-            runningTotal += total; 
+            runningTotal += total;
             System.out.println(
-                    "[" + i + "]" + numInstructors + " + " + numStudents + "=" 
-                            + total    + "{" + runningTotal + "}\t[" + stats.name + "]");
+                    "[" + i + "]" + numInstructors + " + " + numStudents + "="
+                            + total + "{" + runningTotal + "}\t[" + stats.name + "]");
         }
         
     }
@@ -289,9 +289,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     private void updateProgressIndicator() {
-        iterationCounter++;       
-        if (iterationCounter % 1000 == 0) {           
-            System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
+        iterationCounter++;
+        if (iterationCounter % 1000 == 0) {
+            System.out.print("------------------ iterations count:" + iterationCounter + " ------------------------\n");
         }
     }
     

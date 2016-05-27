@@ -218,7 +218,7 @@ public class InstructorCourseInstructorAddAction extends Action {
     private void updateInstructorPrivilegesForSectionInSessionLevel(String sectionParam,
             List<String> sectionNames, List<String> feedbackNames, InstructorAttributes instructorToAdd) {
         for (String feedbackName : feedbackNames) {
-            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
+            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;
             boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;

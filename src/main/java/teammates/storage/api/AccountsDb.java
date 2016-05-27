@@ -32,10 +32,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class AccountsDb extends EntitiesDb {
     
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void createAccount(AccountAttributes accountToAdd) 
+    public void createAccount(AccountAttributes accountToAdd)
             throws InvalidParametersException {
         // TODO: use createEntity once there is a proper way to add instructor accounts.
         try {
@@ -51,7 +51,7 @@ public class AccountsDb extends EntitiesDb {
             try {
                 updateAccount(accountToAdd, true);
             } catch (EntityDoesNotExistException edne) {
-                // This situation is not tested as replicating such a situation is 
+                // This situation is not tested as replicating such a situation is
                 // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -68,7 +68,7 @@ public class AccountsDb extends EntitiesDb {
                 try {
                     updateAccount(account, true);
                 } catch (EntityDoesNotExistException e) {
-                 // This situation is not tested as replicating such a situation is 
+                 // This situation is not tested as replicating such a situation is
                  // difficult during testing
                     Assumption.fail("Entity found be already existing and not existing simultaneously");
                 }
@@ -79,8 +79,8 @@ public class AccountsDb extends EntitiesDb {
     /**
      * Gets the data transfer version of the account. Does not retrieve the profile
      * if the given parameter is false<br>
-     * Preconditions: 
-     * <br> * All parameters are non-null. 
+     * Preconditions:
+     * <br> * All parameters are non-null.
      * @return Null if not found.
      */
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
@@ -123,10 +123,10 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void updateAccount(AccountAttributes a, boolean updateStudentProfile) 
+    public void updateAccount(AccountAttributes a, boolean updateStudentProfile)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
         
@@ -161,7 +161,7 @@ public class AccountsDb extends EntitiesDb {
         closePM();
     }
     
-    public void updateAccount(AccountAttributes a) 
+    public void updateAccount(AccountAttributes a)
             throws InvalidParametersException, EntityDoesNotExistException {
         if (a != null && a.studentProfile == null) {
             a.studentProfile = new StudentProfileAttributes();
@@ -173,7 +173,7 @@ public class AccountsDb extends EntitiesDb {
     /**
      * Note: This is a non-cascade delete. <br>
      *   <br> Fails silently if there is no such account.
-     * <br> Preconditions: 
+     * <br> Preconditions:
      * <br> * {@code googleId} is not null.
      */
     public void deleteAccount(String googleId) {
@@ -213,13 +213,13 @@ public class AccountsDb extends EntitiesDb {
                 return null;
             } else if (retrieveStudentProfile && account.getStudentProfile() == null) {
                 // This situation cannot be reproduced and hence not tested
-                // This only happens when existing data in the store do not have a profile 
+                // This only happens when existing data in the store do not have a profile
                 account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             }
             
             return account;
         } catch (IllegalArgumentException iae) {
-            return null;            
+            return null;
         } catch (JDOObjectNotFoundException je) {
             return null;
         }

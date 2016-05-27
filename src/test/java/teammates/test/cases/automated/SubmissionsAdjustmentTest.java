@@ -84,7 +84,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     
     @Test
     public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception {
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
@@ -151,7 +151,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());     
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());
         
         
         ______TS("change an existing students email and verify update "
@@ -167,7 +167,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
 
         verifyPresentInDatastore(updatedAttributes);
 
-        //Verify no tasks sent to task queue 
+        //Verify no tasks sent to task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
@@ -240,7 +240,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        List<FeedbackResponseAttributes> oldResponsesForSession = 
+        List<FeedbackResponseAttributes> oldResponsesForSession =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName);
         assertFalse(oldResponsesForSession.isEmpty());
         
@@ -252,8 +252,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         student.section = newSection;
         
         
-        StudentEnrollDetails enrollDetails = 
-                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email, 
+        StudentEnrollDetails enrollDetails =
+                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email,
                                          oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
@@ -270,9 +270,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        int numberOfNewResponses = 
+        int numberOfNewResponses =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertEquals(0, numberOfNewResponses);        
+        assertEquals(0, numberOfNewResponses);
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
@@ -322,7 +322,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     private void verifyResponsesDoNotExistForEmailInCourse(String email,
             String courseId) {
         List<FeedbackSessionAttributes> allSessions = fsLogic
-                .getFeedbackSessionsForCourse(courseId); 
+                .getFeedbackSessionsForCourse(courseId);
         
         for (FeedbackSessionAttributes eachSession : allSessions) {
             List<FeedbackResponseAttributes> allResponses = frLogic

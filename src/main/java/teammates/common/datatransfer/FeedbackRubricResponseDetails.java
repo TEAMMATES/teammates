@@ -61,7 +61,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             } catch (NumberFormatException e) {
                 // Failed to parse, ignore response.
                 log.warning(TeammatesException.toStringWithStackTrace(e));
-            } 
+            }
         }
     }
     
@@ -90,8 +90,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>" 
-                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE 
+                chosenChoice = "<span class=\"color_neutral\"><i>"
+                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
                              + "</i></span>";
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
             } else {

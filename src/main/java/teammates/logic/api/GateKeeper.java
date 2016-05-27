@@ -73,7 +73,7 @@ public class GateKeeper {
 
         if (user == null) {
             return userService.createLoginURL(redirectPage);
-        } 
+        }
         return redirectPage;
     }
 

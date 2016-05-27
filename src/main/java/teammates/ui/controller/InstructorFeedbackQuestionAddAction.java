@@ -39,7 +39,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
         
-        RedirectResult redirectResult = 
+        RedirectResult redirectResult =
                 createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
         
         if (!questionDetailsErrors.isEmpty()) {
@@ -47,7 +47,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             isError = true;
             
             return redirectResult;
-        } 
+        }
         
         String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
 

@@ -42,7 +42,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
                 + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
         return createAjaxResult(data);
@@ -59,9 +59,9 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 
