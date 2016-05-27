@@ -435,15 +435,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public boolean clickEditQuestionButton(int qnNumber) {
+    public void clickEditQuestionButton(int qnNumber) {
         WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));    
         qnEditLink.click();
-        
-        // Check if links toggle properly.
-        WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));    
-        return qnSaveLink.isDisplayed();
     }
     
+    public boolean isQuestionEnabled(int qnNumber) {
+        WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
+        return questionTextArea.isEnabled();
+    }
+
     public void clickSaveExistingQuestionButton(int qnNumber) {
         WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();

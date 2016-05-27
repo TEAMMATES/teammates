@@ -160,7 +160,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 1);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickRemoveMcqOptionLink(0, 1);
@@ -172,7 +172,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: edit to generated options");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 1);
         assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
@@ -201,7 +201,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: change generated type");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));

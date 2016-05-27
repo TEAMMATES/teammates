@@ -67,7 +67,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     public static void classTearDown() {
         BrowserPool.release(browser);
     }
-
     @Test
     public void allTests() throws Exception {
         testContent();
@@ -224,7 +223,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question link");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isQuestionEnabled(1));
     }
 
     private void testEditQuestionAction() throws Exception {
@@ -365,10 +365,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
-        assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
+        feedbackEditPage.checkCancelEditQuestionButtonVisibility(1);
         
         
         ______TS("MCQ: click and confirm 'editing question'");
@@ -382,7 +382,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.clickEditQuestionButton(2);
         feedbackEditPage.selectQuestionNumber(2, 1);        
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -408,8 +408,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         // verify both can be edited
         feedbackEditPage = getFeedbackEditPage();
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
-        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isQuestionEnabled(1));
+        feedbackEditPage.clickEditQuestionButton(2);
+        assertTrue(feedbackEditPage.isQuestionEnabled(2));
         
         // fix inconsistent state
         secondQuestion.questionNumber = originalSecondQuestionNumber;
@@ -532,7 +534,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.clickEditQuestionButton(1);     
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         feedbackEditPage.clickAndConfirmSaveForQuestion1();
         

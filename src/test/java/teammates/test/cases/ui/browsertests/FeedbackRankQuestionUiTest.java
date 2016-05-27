@@ -369,7 +369,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Verify that fields are editable
         feedbackEditPage.verifyHtmlPart(By.id("questionTable1"),
@@ -397,7 +397,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionEditSuccess.html");
 
         ______TS("rank edit: edit rank recipients question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.clickEditQuestionButton(2);
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
