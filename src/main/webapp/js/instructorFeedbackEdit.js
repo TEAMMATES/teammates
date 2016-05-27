@@ -1,3 +1,5 @@
+var questionsBeforeEdit = [];
+
 $(document).ready(function() {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
@@ -182,6 +184,7 @@ function enableEdit(qnNumber, maxQuestions) {
     var i = maxQuestions;
     while (i) {
         if (qnNumber === i) {
+            backupQuestion(i);
             enableQuestion(i);
         } else {
             disableQuestion(i);
@@ -190,6 +193,15 @@ function enableEdit(qnNumber, maxQuestions) {
     }
     
     return false;
+}
+
+/**
+ * Creates a copy of the original question before any new edits
+ * @param qnNumber
+ */
+function backupQuestion(qnNumber) {
+    questionsBeforeEdit[qnNumber] = questionsBeforeEdit[qnNumber]
+                                || $("#questionTable" + qnNumber + " > .panel-body").html();
 }
 
 /**
