@@ -53,7 +53,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
                         Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        "${rankOptionValue}", "");
+                        Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -89,7 +89,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
                         Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        "${rankOptionValue}", "");
+                        Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return FeedbackQuestionFormTemplates.populateTemplate(
@@ -192,7 +192,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        "${rankOptionValue}",  Sanitizer.sanitizeForHtml(name),
+                                                                        Const.FeedbackQuestion.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));
