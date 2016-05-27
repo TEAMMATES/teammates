@@ -11,8 +11,9 @@ public class InstructorFeedbackResponseComment {
     private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public InstructorFeedbackResponseComment(String giverName, String recipientName,
-            List<FeedbackResponseCommentRow> feedbackResponseComments, String answerHtml,
-            boolean isInstructorAllowedToSubmit, FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+                                             List<FeedbackResponseCommentRow> feedbackResponseComments,
+                                             String answerHtml, boolean isInstructorAllowedToSubmit,
+                                             FeedbackResponseCommentRow feedbackResponseCommentAdd) {
         this.giverName = giverName;
         this.recipientName = recipientName;
         this.feedbackResponseComments = feedbackResponseComments;

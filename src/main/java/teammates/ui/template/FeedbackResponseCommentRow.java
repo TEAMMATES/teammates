@@ -48,8 +48,9 @@ public class FeedbackResponseCommentRow {
 
     // for editing / deleting comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            String giverName, String recipientName, String showCommentToString,
-            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      String giverName, String recipientName, String showCommentToString,
+                                      String showGiverNameToString,
+                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);
@@ -57,17 +58,18 @@ public class FeedbackResponseCommentRow {
     
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName, String showCommentToString,
-            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      String giverName, String recipientName, String showCommentToString,
+                                      String showGiverNameToString,
+                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);
         this.questionId = frc.feedbackQuestionId;
     }
     
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,
-            String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                         String giverName, String recipientName,
+                                         String showCommentToString, String showGiverNameToString,
+                                         Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
         
