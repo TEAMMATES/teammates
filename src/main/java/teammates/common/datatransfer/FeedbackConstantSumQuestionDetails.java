@@ -551,7 +551,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<li data-questiontype = \"CONSTSUM_OPTION\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a></li>" 
+        return "<li data-questiontype = \"CONSTSUM_OPTION\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a></li>"
                + "<li data-questiontype = \"CONSTSUM_RECIPIENT\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a></li>";
     }
     

@@ -143,7 +143,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 
-        feedbackEditPage.clickNewQuestionButton();  
+        feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillQuestionBox("q2, contribution qn");
         feedbackEditPage.clickAddQuestionButton();
