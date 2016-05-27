@@ -196,7 +196,7 @@ public class StudentAttributes extends EntityAttributes {
         String error;
 
         if (isRegistered()) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
 
             if (!error.isEmpty()) {
                 errors.add(error);
@@ -209,25 +209,25 @@ public class StudentAttributes extends EntityAttributes {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        error = validator.getInvalidityInfoForTeamName(team);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        error = validator.getInvalidityInfoForSectionName(section);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
         if (!error.isEmpty()) {
             errors.add(error);

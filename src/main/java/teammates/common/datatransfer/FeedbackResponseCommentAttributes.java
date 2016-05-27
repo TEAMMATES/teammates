@@ -152,7 +152,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }

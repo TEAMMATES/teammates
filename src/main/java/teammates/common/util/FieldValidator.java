@@ -16,22 +16,7 @@ public class FieldValidator {
         
     public enum FieldType {
         COURSE_ID,
-        COURSE_NAME,
-        NATIONALITY,
-        EMAIL,
-        FEEDBACK_SESSION_NAME,
-        GENDER,
-        /** This can be a Google username e.g. david.lo
-         * or an email address e.g. david.lo@yahoo.com
-         */
-        GOOGLE_ID,
-        INSTITUTE_NAME,
-        PERSON_NAME,
         INTRUCTOR_ROLE,
-        /** Comments entered when enrolling a student in a course */
-        STUDENT_ROLE_COMMENTS,
-        TEAM_NAME,
-        SECTION_NAME,
         START_TIME,
         END_TIME,
         SESSION_VISIBLE_TIME,
@@ -49,6 +34,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Email
      */
+    public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "
@@ -177,6 +163,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Google ID
      */
+    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "
@@ -375,26 +362,8 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case STUDENT_ROLE_COMMENTS:
-            returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-                    STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String) value);
-            break;
-        case TEAM_NAME:
-            returnValue = getValidityInfoForAllowedName(
-            TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String) value);
-            break;
-        case SECTION_NAME:
-            returnValue = getValidityInfoForAllowedName(
-            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String) value);
-            break;
-        case GOOGLE_ID:
-            returnValue = getInvalidInfoForGoogleId((String) value);
-            break;
         case COURSE_ID:
             returnValue = getValidityInfoForCourseId((String) value);
-            break;
-        case EMAIL:
-            returnValue = getValidityInfoForEmail((String) value);
             break;
         case INTRUCTOR_ROLE:
             returnValue = getValidityInfoForInstructorRole((String) value);
@@ -413,6 +382,95 @@ public class FieldValidator {
             return returnValue;
         }
         return "Invalid " + fieldName + ": " + returnValue;
+    }
+
+    /**
+     * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a
+     * valid email address according to {@code REGEX_EMAIL}
+     * @param email
+     * @return An explanation of why the {@code email} is not acceptable.
+     *         Returns an empty string if the {@code email} is acceptable.
+     */
+    public String getInvalidityInfoForEmail(String email) {
+
+        Assumption.assertTrue("Non-null value expected", email != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(email);
+
+        if (email.isEmpty()) {
+            return String.format(EMAIL_ERROR_MESSAGE, email, REASON_EMPTY);
+        } else if (isUntrimmed(email)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME);
+        } else if (email.length() > EMAIL_MAX_LENGTH) {
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
+     * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
+     * or a valid email address that does not end in "@gmail.com"
+     * @param googleId
+     * @return An explanation of why the {@code googleId} is not acceptable.
+     *         Returns an empty string if the {@code googleId} is acceptable.
+     */
+    public String getInvalidityInfoForGoogleId(String googleId) {
+
+        Assumption.assertTrue("Non-null value expected", googleId != null);
+        Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
+                !googleId.toLowerCase().endsWith("@gmail.com"));
+        String sanitizedValue = Sanitizer.sanitizeForHtml(googleId);
+
+        boolean isValidFullEmail = StringHelper.isMatching(googleId, REGEX_EMAIL);
+        boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
+
+        if (googleId.isEmpty()) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, googleId, REASON_EMPTY);
+        } else if (isUntrimmed(googleId)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME);
+        } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
+    }
+    
+    /**
+     * Checks if {@code sectionName} is a non-null non-empty string no longer than the specified length
+     * {@code SECTION_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param sectionName
+     * @return An explanation of why the {@code sectionName} is not acceptable.
+     *         Returns an empty string if the {@code sectionName} is acceptable.
+     */
+    public String getInvalidityInfoForSectionName(String sectionName) {
+        return getValidityInfoForAllowedName(SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, sectionName);
+    }
+    
+    /**
+     * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
+     * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param teamName
+     * @return An explanation of why the {@code teamName} is not acceptable.
+     *         Returns an empty string if the {@code teamName} is acceptable.
+     */
+    public String getInvalidityInfoForTeamName(String teamName) {
+        return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
+    }
+    
+    /**
+     * Checks if the given studentRoleComments is a non-null string no longer than
+     * the specified length {@code STUDENT_ROLE_COMMENTS_MAX_LENGTH}. However, this string can be empty.
+     * @param studentRoleComments
+     * @return An explanation of why the {@code studentRoleComments} is not acceptable.
+     *         Returns an empty string "" if the {@code studentRoleComments} is acceptable.
+     */
+    public String getInvalidityInfoForStudentRoleComments(String studentRoleComments) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
+                                                               STUDENT_ROLE_COMMENTS_MAX_LENGTH,
+                                                               studentRoleComments);
     }
 
     /**
@@ -499,40 +557,6 @@ public class FieldValidator {
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
-    
-    /**
-     * Checks if the given string is a non-null non-empty string no longer than
-     * the specified length {@code maxLength}.
-     * 
-     * @param fieldName
-     *            A descriptive name of the field e.g., "student name", to be
-     *            used in the return value to make the explanation more
-     *            descriptive.
-     * @param maxLength
-     * @param value
-     *            The string to be checked.
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
-     */
-    public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
-        
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-        }
-        if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        if (value.length() > maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        }
-        if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")) {
-            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
-        }
-        return "";
-    }
 
     /**
      * Checks if the given string is a non-null non-empty string no longer than
@@ -555,7 +579,7 @@ public class FieldValidator {
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         }
-        if (!isTrimmed(value)) {
+        if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
@@ -587,7 +611,7 @@ public class FieldValidator {
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         }
-        if (!isTrimmed(value)) {
+        if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
@@ -627,7 +651,7 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
-        if (!isTrimmed(value)) {
+        if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         }
         if (value.length() > maxLength) {
@@ -791,28 +815,6 @@ public class FieldValidator {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
     }
 
-    private String getInvalidInfoForGoogleId(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        Assumption.assertTrue("\"" + value + "\"" + "is not expected to be a gmail address.",
-                !value.toLowerCase().endsWith("@gmail.com"));
-        
-        if (value.isEmpty()) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
-        }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        if (value.length() > GOOGLE_ID_MAX_LENGTH) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }
-        if (!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
@@ -820,7 +822,7 @@ public class FieldValidator {
         if (value.isEmpty()) {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         }
-        if (!isTrimmed(value)) {
+        if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
@@ -829,26 +831,6 @@ public class FieldValidator {
         }
         if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
             return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForEmail(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (!isTrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
-        }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        if (value.length() > EMAIL_MAX_LENGTH) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }
-        if (!StringHelper.isMatching(value, REGEX_EMAIL)) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -882,13 +864,8 @@ public class FieldValidator {
         return "";
     }
 
-    private boolean isTrimmed(String value) {
-        return value.length() == value.trim().length();
-    }
-
-    public boolean isLegitimateRedirectUrl(String redirectUrl) {
-        // TODO do better validation
-        return redirectUrl.startsWith("/page/");
+    private boolean isUntrimmed(String value) {
+        return value.length() != value.trim().length();
     }
     
     /**

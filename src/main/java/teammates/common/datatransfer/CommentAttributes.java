@@ -111,7 +111,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -120,7 +120,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    error = validator.getInvalidityInfoForEmail(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -128,7 +128,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    error = validator.getInvalidityInfoForTeamName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -136,7 +136,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    error = validator.getInvalidityInfoForSectionName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }

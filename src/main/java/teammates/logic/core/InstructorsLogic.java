@@ -334,7 +334,7 @@ public class InstructorsLogic {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) {
             errors.add(error);
         }

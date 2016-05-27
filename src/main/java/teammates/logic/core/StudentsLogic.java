@@ -27,7 +27,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
@@ -231,7 +230,7 @@ public class StudentsLogic {
         //Untested case: The deletion is not persisted immediately (i.e. persistence delay)
         //       Reason: Difficult to reproduce a persistence delay during testing
         String finalEmail = student.email == null
-                                || !validator.getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()
+                                || !validator.getInvalidityInfoForEmail(student.email).isEmpty()
                             ? originalEmail
                             : student.email;
         
