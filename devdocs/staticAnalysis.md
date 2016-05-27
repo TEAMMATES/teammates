@@ -52,9 +52,8 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 
 
 #####Suppressing PMD warnings
-To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
-the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
-The suppression should be as specific as possible, and the reason for violating the rule should be explained.      
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs
 

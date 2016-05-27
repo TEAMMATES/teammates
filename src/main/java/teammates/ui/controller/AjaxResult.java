@@ -6,11 +6,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
+
+import com.google.gson.Gson;
 
 public class AjaxResult extends ActionResult {
 

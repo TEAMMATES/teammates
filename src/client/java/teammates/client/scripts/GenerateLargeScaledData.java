@@ -6,12 +6,12 @@ import java.io.IOException;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
-import teammates.common.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
     
@@ -58,7 +58,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                 FeedbackQuestionsLogic.inst().getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
                         qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         

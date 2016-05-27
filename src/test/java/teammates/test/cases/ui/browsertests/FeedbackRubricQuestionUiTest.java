@@ -380,8 +380,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                .withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     

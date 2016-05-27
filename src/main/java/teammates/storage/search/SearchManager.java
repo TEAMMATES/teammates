@@ -9,8 +9,8 @@ import teammates.common.util.Config;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 
-import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;

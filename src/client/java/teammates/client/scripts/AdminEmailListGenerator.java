@@ -18,18 +18,18 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.repackaged.org.joda.time.DateTime;
-
 import teammates.client.remoteapi.RemoteApiClient;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.common.exception.InvalidParametersException;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.repackaged.org.joda.time.DateTime;
 
 /**
  * Generates txt file which contains a list of receiver emails.<br>
@@ -37,32 +37,32 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
-    private int iterationCounter;
-    
-    //handle test data
-    public boolean includeTestData = true;
-    
-    //admin email configuration
-    public boolean student;
-    public boolean instructor = true;
-    public StudentStatus studentStatus = StudentStatus.ALL;
-    public InstructorStatus instructorStatus = InstructorStatus.ALL;
-    public String studentCreatedDateRangeStart = "02/03/2013";
-    public String studentCreatedDateRangeEnd = "06/03/2015";
-    public String instructorCreatedDateRangeStart;
-    public String instructorCreatedDateRangeEnd = "31/12/2015";
-    public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
-
     private static enum StudentStatus { REG, UNREG, ALL }
     
     private static enum InstructorStatus { REG, UNREG, ALL }
     
-    private EmailListConfig emailListConfig = new EmailListConfig();
-    private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
-    
-    protected static final PersistenceManager pm = JDOHelper
+    private static final PersistenceManager pm = JDOHelper
                                                    .getPersistenceManagerFactory("transactions-optional")
                                                    .getPersistenceManager();
+    
+    private int iterationCounter;
+    
+    //handle test data
+    private boolean includeTestData = true;
+    
+    //admin email configuration
+    private boolean student;
+    private boolean instructor = true;
+    private StudentStatus studentStatus = StudentStatus.ALL;
+    private InstructorStatus instructorStatus = InstructorStatus.ALL;
+    private String studentCreatedDateRangeStart = "02/03/2013";
+    private String studentCreatedDateRangeEnd = "06/03/2015";
+    private String instructorCreatedDateRangeStart;
+    private String instructorCreatedDateRangeEnd = "31/12/2015";
+    private String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
+
+    private EmailListConfig emailListConfig = new EmailListConfig();
+    private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<String, Date>();
     
     public static void main(String[] args) throws IOException {
         AdminEmailListGenerator adminEmailListGenerator = new AdminEmailListGenerator();
@@ -315,14 +315,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(instructor.getCourseId());
+        if (courseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(instructor.getCourseId());
         }
         
         Course course = getCourseEntity(instructor.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         
@@ -370,14 +370,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(student.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(student.getCourseId());
+        if (courseIdToCreatedDateMap.get(student.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(student.getCourseId());
         }
         
         Course course = getCourseEntity(student.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         

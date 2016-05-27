@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -33,6 +32,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackQuestionId;
     private transient Date createdAt;
     private transient Date updatedAt;
 
@@ -605,15 +605,21 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF 
+    // Naming violation is so that it will be noticed if it is accidentally included in production code 
     public void setCreatedAt_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
+    //CHECKSTYLE:ON
     
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF 
+    // Naming violation is so that it will be noticed if it is accidentally included in production code 
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+    //CHECKSTYLE:ON
     
 }

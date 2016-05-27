@@ -11,12 +11,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.common.util.GoogleCloudStorageHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
     

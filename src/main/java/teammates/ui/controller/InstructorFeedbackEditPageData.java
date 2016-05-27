@@ -16,7 +16,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -24,6 +23,7 @@ import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
 import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {

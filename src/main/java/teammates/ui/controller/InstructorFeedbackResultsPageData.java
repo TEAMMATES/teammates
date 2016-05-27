@@ -23,21 +23,21 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.FeedbackResponseComment;
-import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
-import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
-import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
-import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
-import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
-import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
-import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
-import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
-import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
-import teammates.ui.template.FeedbackSessionPublishButton;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
+import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackSessionPublishButton;
+import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
 import teammates.ui.template.InstructorFeedbackResultsModerationButton;
+import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
+import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
+import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
+import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
+import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
+import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
@@ -81,6 +81,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
+    
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         

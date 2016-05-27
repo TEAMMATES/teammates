@@ -18,7 +18,7 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @BeforeClass
     public static void classSetUp() throws Exception {

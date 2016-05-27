@@ -12,11 +12,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
-import teammates.common.util.GaeVersionApi;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.GaeLogApi;
+import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Version;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -38,7 +38,6 @@ public class AdminActivityLogPageAction extends Action {
      * Maximum number of versions to query.
      */
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
-    
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;

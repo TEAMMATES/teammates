@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +30,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -63,8 +63,6 @@ public abstract class AppPage {
     private static final By MAIN_CONTENT = By.id("mainContent");
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    
-    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
@@ -268,7 +266,8 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
+                    } catch (Exception e) {
+                        // empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -886,6 +885,14 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
+    /**
+     * Verifies that the title of the loaded page is the same as {@code expectedTitle}
+     * @param expectedTitle
+     */
+    public void verifyTitle(String expectedTitle) {
+        assertEquals(expectedTitle, browser.driver.getTitle());
+    }
+
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
