@@ -413,9 +413,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
             return account;
             
-        } catch (IllegalArgumentException iae) {
-            return null;
-        } catch (JDOObjectNotFoundException je) {
+        } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
             return null;
         }
     }

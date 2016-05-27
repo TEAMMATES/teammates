@@ -269,16 +269,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         try {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
-        } catch (Exception a) {
-            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", a.getMessage());
+        } catch (Exception e) {
+            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", e.getMessage());
         }
 
         fs.feedbackSessionName = "test %| test";
         try {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
-        } catch (Exception a) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
+        } catch (Exception e) {
+            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", e.getMessage());
         }
         
         ______TS("test delete");

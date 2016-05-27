@@ -195,7 +195,7 @@ public class StudentsDb extends EntitiesDb {
                 Student student = getPM().getObjectById(Student.class,
                         KeyFactory.stringToKey(registrationKey.trim()));
                 studentAttributes = new StudentAttributes(student);
-            } catch (Exception e2) {
+            } catch (Exception ex) {
                 //Failing both, we assume there is no such student
                 studentAttributes = null;
             }

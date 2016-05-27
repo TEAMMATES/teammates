@@ -140,8 +140,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.createEntity(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
     }
@@ -184,14 +184,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.getStudentForEmail(null, "valid@email.com");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         try {
             studentsDb.getStudentForEmail("any-course-id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         studentsDb.deleteStudent(s.course, s.email);
@@ -218,16 +218,16 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("null email case");
         try {
             studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("duplicate email case");
@@ -282,15 +282,15 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.deleteStudentWithoutDocument(null, s.email);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         try {
             studentsDb.deleteStudentWithoutDocument(s.course, null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         studentsDb.deleteStudent(s.course, s.email);

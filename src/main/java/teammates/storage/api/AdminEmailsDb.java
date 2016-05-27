@@ -31,7 +31,7 @@ public class AdminEmailsDb extends EntitiesDb {
             try {
                 updateAdminEmail(adminEmailToAdd);
                 return adminEmailToAdd.getCreateDate();
-            } catch (EntityDoesNotExistException e1) {
+            } catch (EntityDoesNotExistException ednee) {
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
                 return null;
             }
