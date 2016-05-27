@@ -185,7 +185,7 @@ this section.
 * Build the project in Eclipse (`Project -> Clean`).
 * Start the dev server in Eclipse.
 * Run the following command in the project root folder:<br>
-  `./gradlew -b travis.gradle travisTests`<br>
+  `./gradlew travisTests`<br>
   This will run the full test suite once and retry the failed tests several times.<br>
 * The final result can be viewed by opening `{project folder}/build/test-try-{n}/index.html`,
   where `{n}` is the sequence number of the test run.
