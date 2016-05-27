@@ -33,9 +33,7 @@
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
     <module name="ModifierOrder"/>
-    <module name="RedundantModifier">
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,INTERFACE_DEF,METHOD_DEF,VARIABLE_DEF"/>
-    </module>
+    <module name="RedundantModifier"/>
     <module name="NeedBraces">
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
     </module>
@@ -99,6 +97,20 @@
     <module name="SeparatorWrap">
       <property name="option" value="nl"/>
       <property name="tokens" value="DOT"/>
+    </module>
+    <module name="UpperEll"/>
+    <module name="OuterTypeFilename"/>
+    <module name="OneTopLevelClass"/>
+    <module name="UncommentedMain"/>
+    <module name="CatchParameterName">
+      <property name="format" value="^(e|t|[a-z][a-zA-Z]+)$"/>
+    </module>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
+      <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
+    </module>
+    <module name="ConstantName">
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle)$"/>
     </module>
     <module name="RegexpSinglelineJava">
       <property name="format" value="((?!\*)\S|\* ) +$"/>

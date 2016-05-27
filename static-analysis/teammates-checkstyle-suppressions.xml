@@ -4,5 +4,8 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
     <suppress checks="MethodName" files="test[/\\].*\.java"/>
+    <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
+    <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
     <suppress checks="MemberName|StaticVariableName" files="(TestProperties|Config).java"/>
+    <suppress checks="AbbreviationAsWordInName" files="TestProperties.java"/>
 </suppressions>
