@@ -25,45 +25,44 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;
     
-    private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes question;
     private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
     
-    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = 
+    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle =
                                     new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
     private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
-    public void createData(StudentAttributes student) {        
-        feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");      
+    public void createData(StudentAttributes student) {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));
-        responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));      
+        responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));
         
-        questionResponseBundle.put(question, responses);      
+        questionResponseBundle.put(question, responses);
         
         recipients.put(student.email, Const.USER_NAME_FOR_SELF);
         recipientList.put(question.getId(), recipients);
         
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
         pageData.bundle.questionResponseBundle.put(question, responses);
-    }   
+    }
     
     @Test
     public void testAll() {
-        ______TS("test typical case"); 
+        ______TS("test typical case");
         AccountAttributes studentAccount = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
-        createData(student);         
+        createData(student);
         
         pageData.init(student.key, student.email, student.course);
         
@@ -132,11 +131,11 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         testQuestionAttributes();
         
-        ______TS("student submission open"); 
+        ______TS("student submission open");
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
-        createData(student);         
+        createData(student);
         
         pageData.setSessionOpenForSubmission(true);
         pageData.init(student.key, student.email, student.course);
@@ -161,7 +160,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setModeration(true);
         pageData.init("", student.email, student.course);
@@ -179,7 +178,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setModeration(true);
         pageData.setSessionOpenForSubmission(true);
@@ -194,9 +193,9 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         testQuestionAttributes();
         
-        ______TS("instructor previewing a response");       
+        ______TS("instructor previewing a response");
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setPreview(true);
         pageData.setPreviewInstructor(instructor);

@@ -47,18 +47,17 @@ public class StudentHomePageData extends PageData {
     
     private List<ElementTag> createCourseTableLinks(String courseId) {
         List<ElementTag> links = new ArrayList<ElementTag>();
-        links.add(new ElementTag(
-            "View Team",
-            "href", getStudentCourseDetailsLink(courseId),
-            "title", Const.Tooltips.STUDENT_COURSE_DETAILS
-        ));
+        links.add(new ElementTag("View Team",
+                                 "href", getStudentCourseDetailsLink(courseId),
+                                 "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
         return links;
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
-            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
+            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int startingSessionIdx) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
+        int sessionIdx = startingSessionIdx;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;
@@ -105,24 +104,24 @@ public class StudentHomePageData extends PageData {
      * @return The hover message to explain feedback session submission status.
      */
     private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
         
         Boolean isAwaiting = session.isWaitingToOpen();
         
         if (isAwaiting) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (hasSubmitted) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING;
-        }        
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
+        }
         if (session.isClosed()) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
         if (session.isPublished()) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
-        return msg;
+        return msg.toString();
     }
     
     /**

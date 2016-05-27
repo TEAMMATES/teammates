@@ -5,12 +5,6 @@ import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Const.AdminEmailPageState;
 
 public class AdminEmailComposePageData extends AdminEmailPageData {
-
-    public AdminEmailComposePageData(AccountAttributes account) {     
-        super(account);
-        state = AdminEmailPageState.COMPOSE;
-    }
-
     public boolean isFileUploaded;
     public String fileSrcUrl;
     public String ajaxStatus;
@@ -19,6 +13,11 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
     
     public AdminEmailAttributes emailToEdit;
     
+    public AdminEmailComposePageData(AccountAttributes account) {
+        super(account);
+        state = AdminEmailPageState.COMPOSE;
+    }
+
     public AdminEmailAttributes getEmailToEdit() {
         return emailToEdit;
     }

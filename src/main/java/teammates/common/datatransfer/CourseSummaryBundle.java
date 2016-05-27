@@ -7,20 +7,21 @@ import java.util.List;
 
 public class CourseSummaryBundle {
     
-    public CourseSummaryBundle(CourseAttributes courseData) {
-        this.course = courseData;
-    }
-
     public CourseAttributes course;
     public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
+    public CourseSummaryBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
+    
     /**
      * Sorts courses based on course ID
-     */ 
+     */
     public static void sortSummarizedCoursesByCourseId(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }
@@ -29,9 +30,10 @@ public class CourseSummaryBundle {
     
     /**
      * Sorts courses based on course name
-     */ 
+     */
     public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
                 return obj1.course.getName().compareTo(obj2.course.getName());
             }
@@ -40,9 +42,10 @@ public class CourseSummaryBundle {
     
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
-     */ 
+     */
     public static void sortSummarizedCoursesByCreationDate(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
                 return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
             }
@@ -51,6 +54,7 @@ public class CourseSummaryBundle {
     
     public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }

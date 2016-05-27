@@ -71,14 +71,14 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         //create another course for sorting
         Logic logic = new Logic();
         String newCourseIdForSorting = "idOfTypicalCourse"; // should be 1st if sort by course id
-        String newCourseNameForSorting = "Typical Course 3"; //should be 3rd if sort by course name 
-        logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting, 
+        String newCourseNameForSorting = "Typical Course 3"; //should be 3rd if sort by course name
+        logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting,
                                         newCourseNameForSorting);
         
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
                       r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -113,7 +113,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -155,7 +155,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses, 
+        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -177,8 +177,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
-    private InstructorHomePageAction getAction(String... params) throws Exception {
-            return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
+    private InstructorHomePageAction getAction(String... params) {
+        return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
 }

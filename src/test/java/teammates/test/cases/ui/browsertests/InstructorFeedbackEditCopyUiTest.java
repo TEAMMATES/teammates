@@ -21,7 +21,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private static String feedbackSessionName;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -38,63 +38,63 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
         
-        feedbackEditPage.fsCopyToModal.clickSubmitButton();
-        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackEditPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        feedbackEditPage.getFsCopyToModal().clickSubmitButton();
+        feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.getFsCopyToModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
-        feedbackEditPage.fsCopyToModal.clickCloseButton();
+        feedbackEditPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
-        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
+        feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        feedbackEditPage.fsCopyToModal.clickSubmitButton();
-        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.getFsCopyToModal().clickSubmitButton();
+        feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         
-        feedbackEditPage.fsCopyToModal
+        feedbackEditPage.getFsCopyToModal()
                         .verifyStatusMessage(
-                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
-                                               feedbackSessionName, 
+                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                                               feedbackSessionName,
                                                testData.courses.get("course").getId()));
         
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
         
-        feedbackEditPage.fsCopyToModal.clickCloseButton();
+        feedbackEditPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
-        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
-        feedbackEditPage.fsCopyToModal.clickSubmitButton();
+        feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         
-        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
-        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackEditPage.fsCopyToModal.verifyStatusMessage(
+        feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
         
         
-        feedbackEditPage.fsCopyToModal.clickCloseButton();
+        feedbackEditPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
-        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
+        feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
+        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected("New name!");
         
-        feedbackEditPage.fsCopyToModal.clickSubmitButton();
+        feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         feedbackEditPage.waitForPageToLoad();
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
@@ -105,9 +105,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
     }
 
-
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
@@ -118,6 +117,5 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                                              .withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
-
 
 }

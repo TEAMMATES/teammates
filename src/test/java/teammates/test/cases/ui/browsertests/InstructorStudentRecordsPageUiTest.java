@@ -19,14 +19,15 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal, testDataQuestionType;
+    private static DataBundle testDataNormal;
+    private static DataBundle testDataQuestionType;
 
     private static String instructorId;
     private static String courseId;
     private static String studentEmail;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
         testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
@@ -39,6 +40,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testContent();
         testLinks();
         testScript();
+        testVisibilityCheckboxScript();
         testAction();
         testPanelsCollapseExpand();
     }
@@ -113,11 +115,11 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testLinks() throws Exception {
+    private void testLinks() {
         // TODO add link to a feedback session
     }
 
-    private void testScript() throws Exception {
+    private void testScript() {
         InstructorAttributes instructor = testDataNormal.instructors.get("teammates.test.CS2104");
         StudentAttributes student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
 
@@ -133,6 +135,40 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("edit comment button");
         viewPage.verifyEditCommentButtonClick(1);
     }
+    
+    private void testVisibilityCheckboxScript() {
+        viewPage.clickVisibilityOptionsButton(1);
+        
+        ______TS("check giver when answer is unchecked");
+        
+        viewPage.clickGiverCheckboxForCourse(1);
+        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertTrue(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("uncheck answer when giver is checked");
+        
+        viewPage.clickAnswerCheckboxForCourse(1);
+        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("check recipient when answer is unchecked");
+        
+        viewPage.clickRecipientCheckboxForCourse(1);
+        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertTrue(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        ______TS("uncheck answer when recipient is checked");
+        
+        viewPage.clickAnswerCheckboxForCourse(1);
+        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
+        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
+        
+        viewPage.clickVisibilityOptionsButton(1);
+    }
 
     private void testAction() throws Exception {
         
@@ -144,6 +180,11 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         viewPage.addComment("New comment from teammates.test for Benny C")
                 .verifyStatus("New comment has been added");
+
+        ______TS("add comment with custom visibility: success");
+        
+        viewPage.addCommentWithVisibility("New comment from teammates.test for Benny C, viewable by everyone", 4);
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageAddComment.html");
 
         ______TS("delete comment: cancel");
 
@@ -190,7 +231,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

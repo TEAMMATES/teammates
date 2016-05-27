@@ -5,12 +5,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 
 /**
- * Action: saves the new profile details given by a student. 
+ * Action: saves the new profile details given by a student.
  *         A purely Action based URI as it redirects back to
  *         StudentProfilePageAction once completed
  */

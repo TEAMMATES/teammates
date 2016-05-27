@@ -10,22 +10,19 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class StudentHomePageAction extends Action { 
-    private StudentHomePageData data;
+public class StudentHomePageAction extends Action {
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException { 
+    public ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
-        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         
         List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
@@ -48,15 +45,15 @@ public class StudentHomePageAction extends Action {
             }
         
         } catch (EntityDoesNotExistException e) {
-            if (recentlyJoinedCourseId != null) {
-                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
-            } else {
+            if (recentlyJoinedCourseId == null) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_FIRST_TIME, StatusMessageColor.WARNING));
                 statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
+            } else {
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, sessionSubmissionStatusMap);
             }
         }
         
-        data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
+        StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
         
@@ -82,13 +79,7 @@ public class StudentHomePageAction extends Action {
 
         String studentEmail = student.email;
         
-        try {
-            return logic.hasStudentSubmittedFeedback(fs, studentEmail);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Parameters are expected to be valid at this point :"
-                             + TeammatesException.toStringWithStackTrace(e));
-            return false;
-        }
+        return logic.hasStudentSubmittedFeedback(fs, studentEmail);
     }
     
     private boolean isCourseIncluded(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {
@@ -125,12 +116,12 @@ public class StudentHomePageAction extends Action {
         } catch (EntityDoesNotExistException e) {
             showEventualConsistencyMessage(courseId);
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
-        } 
-    } 
+        }
+    }
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
                                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions) {
+        for (FeedbackSessionDetailsBundle fsb : course.feedbackSessions) {
             sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
         }
     }

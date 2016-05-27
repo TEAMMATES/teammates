@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -9,32 +8,30 @@ import teammates.logic.api.Logic;
 
 /**
  * This action handles students that attempts to join a course.
- * It asks the student for confirmation that the logged in account 
- * belongs to him before redirecting him to the actual join action, 
+ * It asks the student for confirmation that the logged in account
+ * belongs to him before redirecting him to the actual join action,
  * {@link StudentCourseJoinAuthenticatedAction}.
  * <br/><br/>
- * This is done to prevent students from accidentally linking 
+ * This is done to prevent students from accidentally linking
  * his registration key with another student's google account.
  */
 public class StudentCourseJoinAction extends Action {
     
-    private StudentCourseJoinConfirmationPageData data;
-    
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
         String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
-                        + (account.googleId == null ? "<br/>Email: " + account.email   
+                        + (account.googleId == null ? "<br/>Email: " + account.email
                                                     : "<br/>Google ID: " + account.googleId + "<br/>Key: " + regkey);
         
         if (logic.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
         }
         
-        String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
-                + "?" + Const.ParamsNames.REGKEY + "=" + regkey 
+        String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
+                + "?" + Const.ParamsNames.REGKEY + "=" + regkey
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + Sanitizer.sanitizeForNextUrl(nextUrl);
         String nextUrlType = getPageTypeOfUrl(nextUrl);
         // the student is redirected to join page because he/she is not registered in the course
@@ -42,7 +39,7 @@ public class StudentCourseJoinAction extends Action {
         boolean isNextUrlAccessibleWithoutLogin =
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
-        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
+        StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
                                                          Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
                                                          isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
@@ -73,7 +70,7 @@ public class StudentCourseJoinAction extends Action {
     }
     
     /**
-     * Gets the page type out of a URL, e.g the type of 
+     * Gets the page type out of a URL, e.g the type of
      * <code>/page/xyz?param1=value1&amp;param2=value2</code> is <code>/page/xyz</code>.
      * The page type is assumed to be in the form of /page/ followed by alphabets
      * (case-insensitive) only, as per the design of {@link Const.ActionURIs}.

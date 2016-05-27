@@ -6,11 +6,11 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsPageAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -45,7 +45,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail
-                        + "</span> in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+                        + "</span> in Course <span class=\"bold\">[" + courseId + "]</span>";
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS, data);
@@ -54,25 +54,27 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
     
     private StudentProfileAttributes loadStudentProfile(StudentAttributes student, InstructorAttributes currentInstructor) {
         StudentProfileAttributes studentProfile = null;
-
-        // this means that the user is returning to the page and is not the first time
-        boolean hasExistingStatus = !statusToUser.isEmpty()
-                                    || session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
-        
-        if (student.googleId.isEmpty()) {
-            if (!hasExistingStatus) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
-            }
-        } else if (!currentInstructor.isAllowedForPrivilege(student.section, 
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            if (!hasExistingStatus) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
-            }
-        } else {
+        boolean isInstructorAllowedToViewStudent = currentInstructor.isAllowedForPrivilege(student.section,
+                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        boolean isStudentWithProfile = !student.googleId.isEmpty();
+        if (isInstructorAllowedToViewStudent && isStudentWithProfile) {
             studentProfile = logic.getStudentProfile(student.googleId);
             Assumption.assertNotNull(studentProfile);
+            
+            return studentProfile;
         }
         
-        return studentProfile;
+        // this means that the user is returning to the page and is not the first time
+        boolean hasExistingStatus = !statusToUser.isEmpty()
+                                        || session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
+        if (!isStudentWithProfile && !hasExistingStatus) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS,
+                                               StatusMessageColor.WARNING));
+        }
+        if (!isInstructorAllowedToViewStudent && !hasExistingStatus) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
+                                               StatusMessageColor.WARNING));
+        }
+        return null;
     }
 }

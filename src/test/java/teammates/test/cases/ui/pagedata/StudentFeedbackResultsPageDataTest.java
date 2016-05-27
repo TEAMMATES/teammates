@@ -14,7 +14,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -31,7 +30,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAll() throws UnauthorizedAccessException, EntityDoesNotExistException {
+    public void testAll() throws EntityDoesNotExistException {
         ______TS("typical success case");
         
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
@@ -43,7 +42,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
         
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -81,20 +80,20 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
                       + "key=" + StringHelper.encrypt(dummyKey)
                       + "&studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
-                      + "to login using a Google account</a> (recommended).", 
-                      pageData.getRegisterMessage()); 
+                      + "to login using a Google account</a> (recommended).",
+                      pageData.getRegisterMessage());
         
         assertNotNull(questionBundle1.getQuestionDetails());
-        assertNotNull(questionBundle2.getQuestionDetails()); 
+        assertNotNull(questionBundle2.getQuestionDetails());
         
         assertEquals("1", questionBundle1.getQuestionDetails().getQuestionIndex());
-        assertEquals("2", questionBundle2.getQuestionDetails().getQuestionIndex()); 
+        assertEquals("2", questionBundle2.getQuestionDetails().getQuestionIndex());
         
         assertEquals("", questionBundle1.getQuestionDetails().getAdditionalInfo());
         assertEquals("", questionBundle2.getQuestionDetails().getAdditionalInfo());
         
         assertNotNull(questionBundle1.getResponseTables());
-        assertNotNull(questionBundle2.getResponseTables());      
+        assertNotNull(questionBundle2.getResponseTables());
         
         assertEquals("You", questionBundle1.getResponseTables().get(0).getRecipientName());
         
@@ -111,7 +110,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         student = dataBundle.students.get("student1InUnregisteredCourse");
         
         pageData = new StudentFeedbackResultsPageData(account, student);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered = 
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         pageData.init(questionsWithResponsesUnregistered);
@@ -129,14 +128,14 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "<a href='/page/studentCourseJoinAuthentication?key="
                       + StringHelper.encrypt("regKeyForStuNotYetJoinCourse")
                       + "&studentemail=student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
-                      + "class='link'>to login using a Google account</a> (recommended).", 
-                      pageData.getRegisterMessage());       
+                      + "class='link'>to login using a Google account</a> (recommended).",
+                      pageData.getRegisterMessage());
     }
 
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getActualQuestionsAndResponsesWithId(
                                     Logic logic,
                                     Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses = 
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionsWithResponses.entrySet()) {
             FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
@@ -151,8 +150,8 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
             List<FeedbackResponseAttributes> actualResponses = new ArrayList<>();
             for (FeedbackResponseAttributes dataBundleResponse : dataBundleResponses) {
                 FeedbackResponseAttributes actualResponse = logic.getFeedbackResponse(
-                                                                    actualQuestion.getId(), 
-                                                                    dataBundleResponse.giverEmail, 
+                                                                    actualQuestion.getId(),
+                                                                    dataBundleResponse.giverEmail,
                                                                     dataBundleResponse.recipientEmail);
                 actualResponses.add(actualResponse);
                 

@@ -4,28 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursesPageAction extends Action {
-    /* Explanation: Get a logger to be used for any logging */
-    protected static final Logger log = Utils.getLogger();
-    
-    
+
     @Override
-    public ActionResult execute() 
-            throws EntityDoesNotExistException {
+    public ActionResult execute() {
         /* Explanation: First, we extract any parameters from the request object.
          * e.g., idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
          * After that, we may verify parameters.
@@ -35,9 +28,9 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: Next, check if the user has rights to execute the action.*/
         new GateKeeper().verifyInstructorPrivileges(account);
         
-        /* Explanation: This is a 'show page' type action. Therefore, we 
-         * prepare the matching PageData object, accessing the Logic 
-         * component if necessary.*/    
+        /* Explanation: This is a 'show page' type action. Therefore, we
+         * prepare the matching PageData object, accessing the Logic
+         * component if necessary.*/
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         data.setUsingAjax(isUsingAjax != null);
@@ -48,7 +41,7 @@ public class InstructorCoursesPageAction extends Action {
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
 
         if (data.isUsingAjax()) {
-            // Get list of InstructorAttributes that belong to the user.        
+            // Get list of InstructorAttributes that belong to the user.
             List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
             for (InstructorAttributes instructor : instructorList) {
                 instructorsForCourses.put(instructor.courseId, instructor);
@@ -74,17 +67,16 @@ public class InstructorCoursesPageAction extends Action {
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (data.isUsingAjax() && allCourses.size() == 0) {
+        if (data.isUsingAjax() && allCourses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
-        /* Explanation: We must set this variable. It is the text that will 
+        /* Explanation: We must set this variable. It is the text that will
          * represent this particular execution of this action in the
          * 'admin activity log' page.*/
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
-        return response;
-    }  
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+    }
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package teammates.test.cases.common;
 
 import java.text.SimpleDateFormat;
@@ -27,7 +24,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     private static StudentProfileAttributes profile;
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
         profile = new StudentProfileAttributes();
         profile.googleId = "valid.googleId";

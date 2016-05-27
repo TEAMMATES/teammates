@@ -17,8 +17,8 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> instructorCourseListTable;
     private List<AdminAccountDetailsStudentCourseListTableRow> studentCourseListTable;
     
-    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation, 
-                                       List<CourseDetailsBundle> instructorCourseList, 
+    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation,
+                                       List<CourseDetailsBundle> instructorCourseList,
                                        List<CourseAttributes> studentCourseList) {
         super(account);
         this.accountInformation = accountInformation;
@@ -28,12 +28,12 @@ public class AdminAccountDetailsPageData extends PageData {
     
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
                                     List<CourseAttributes> studentCourseList) {
-        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = 
+        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable =
                         new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
         
         if (studentCourseList != null) {
             for (CourseAttributes courseDetails : studentCourseList) {
-                AdminAccountDetailsStudentCourseListTableRow row = 
+                AdminAccountDetailsStudentCourseListTableRow row =
                         new AdminAccountDetailsStudentCourseListTableRow(
                                                         accountInformation.googleId, courseDetails);
                 courseListTable.add(row);

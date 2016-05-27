@@ -14,7 +14,7 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private List<String> emails;
     private Map<String, String> names;
     private Map<String, String> teams;
-    private Map<String, InstructorFeedbackResultsModerationButton> moderationButtons; 
+    private Map<String, InstructorFeedbackResultsModerationButton> moderationButtons;
     
     public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus,
                                     Map<String, InstructorFeedbackResultsModerationButton> moderationButtons) {
@@ -65,11 +65,10 @@ public class InstructorFeedbackResultsNoResponsePanel {
         }
         
         return Collections.unmodifiableMap(teams);
-    } 
+    }
     
     public Map<String, InstructorFeedbackResultsModerationButton> getModerationButtons() {
         return moderationButtons;
     }
-    
 
 }

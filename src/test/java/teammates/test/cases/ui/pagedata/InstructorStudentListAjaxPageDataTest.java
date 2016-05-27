@@ -21,8 +21,6 @@ import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
 public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
-
-    private InstructorStudentListAjaxPageData islapd;
     
     private AccountAttributes acct;
     private SectionDetailsBundle sampleSection;
@@ -30,13 +28,12 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     private StudentAttributes sampleStudent;
 
     private Map<String, Map<String, Boolean>> sectionPrivileges;
-    private Map<String, String> emailPhotoUrlMapping;
     
     private String photoUrl;
     
     @Test
     public void allTests() {
-        islapd = initializeData();
+        InstructorStudentListAjaxPageData islapd = initializeData();
         for (StudentListSectionData section : islapd.getSections()) {
             testSectionContent(section);
         }
@@ -114,7 +111,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, true);
         sectionPrivileges.put(sampleSection.name, sectionPrivilege);
 
-        emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         emailPhotoUrlMapping.put(sampleStudent.email, photoUrl);
         
         return new InstructorStudentListAjaxPageData(acct, "valid course id", 1, true, sections,
@@ -141,8 +138,9 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
                                                    course, email, googleId);
     }
 
-    private String furnishLinkWithCourseEmailAndUserId(String link, String course, String studentEmail,
+    private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
                                                        String googleId) {
+        String link = rawLink;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

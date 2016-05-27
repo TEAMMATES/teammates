@@ -1,7 +1,6 @@
 package teammates.test.cases.common;
 
 import static teammates.common.util.Const.EOL;
-import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.test.cases.BaseTestCase;
@@ -17,7 +17,7 @@ import teammates.test.cases.BaseTestCase;
 public class InstructorAttributesTest extends BaseTestCase {
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -77,11 +77,11 @@ public class InstructorAttributesTest extends BaseTestCase {
     @Test
     public void testIsRegistered() {
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");       
+        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         assertTrue(instructor.isRegistered());
         
         instructor.googleId = null;
-        assertFalse(instructor.isRegistered());     
+        assertFalse(instructor.isRegistered());
     }
     
     @Test
@@ -115,21 +115,21 @@ public class InstructorAttributesTest extends BaseTestCase {
         i.courseId = "";
         
         assertFalse("invalid value", i.isValid());
-        String errorMessage = 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
-                + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY) + EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+        String errorMessage =
+                String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId, FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
+                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
+                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
         
         assertFalse("invalid value", i.isValid());
-        errorMessage = 
-                String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY) + EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
-        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));      
+        errorMessage =
+                String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
+                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
+                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT);
+        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
     
     @Test

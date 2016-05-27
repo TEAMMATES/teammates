@@ -23,8 +23,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private boolean isAbleToAddComment;
     private boolean hasSection;
     private String commentRecipient;
-    
-    
+
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();
@@ -131,9 +130,9 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         if (pictureKey == null || pictureKey.isEmpty()) {
             this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         } else {
-            this.pictureUrl =  Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                               + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                               + Const.ParamsNames.USER_ID + "=null";
+            this.pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+                            + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+                            + Const.ParamsNames.USER_ID + "=null";
         }
         
         inputStudentProfile = new StudentProfileAttributes(

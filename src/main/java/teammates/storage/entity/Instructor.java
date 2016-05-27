@@ -9,7 +9,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
-
 /**
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
@@ -60,13 +59,12 @@ public class Instructor {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
-   
-    
+
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, 
-                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName, 
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
@@ -85,8 +83,8 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-                      String key, String role, boolean isDisplayedToStudents, String displayedName, 
+    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
+                      String key, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
@@ -131,8 +129,7 @@ public class Instructor {
     public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
-    
-    
+
     public Boolean getIsArchived() {
         return isArchived;
     }
@@ -172,7 +169,7 @@ public class Instructor {
     }
     
     /**
-     * Generate unique registration key for the instructor. 
+     * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
      * @return
      */
@@ -215,9 +212,8 @@ public class Instructor {
     public String getInstructorPrivilegesAsText() {
         if (instructorPrivilegesAsText == null) {
             return null;
-        } else {
-            return instructorPrivilegesAsText.getValue();
         }
+        return instructorPrivilegesAsText.getValue();
     }
 
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {

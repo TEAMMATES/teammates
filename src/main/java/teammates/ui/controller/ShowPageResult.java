@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 
 /**
- * A result that shows a page in the Browser. These are usually implemented as 
+ * A result that shows a page in the Browser. These are usually implemented as
  * JSP pages.
  */
 public class ShowPageResult extends ActionResult {
@@ -21,14 +21,14 @@ public class ShowPageResult extends ActionResult {
     public PageData data;
     
     public ShowPageResult(
-            String destination, 
+            String destination,
             AccountAttributes account,
             List<StatusMessage> status) {
         super(destination, account, status);
     }
     
     public ShowPageResult(
-            String destination, 
+            String destination,
             AccountAttributes account,
             PageData data,
             List<StatusMessage> status) {
@@ -36,20 +36,19 @@ public class ShowPageResult extends ActionResult {
         this.data = data;
     }
 
-
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
         addStatusMessagesToPageData(req);
-        req.setAttribute("data", data); 
+        req.setAttribute("data", data);
         
         /* These two are required for the 'status message' section of the page
          * Although these two are also sent as parameters in the URL,
          *  they should be set as attributes too, because the status message
-         *  section is a {@code jsp:include} and cannot see parameters encoded 
+         *  section is a {@code jsp:include} and cannot see parameters encoded
          *  in the URL
-         */ 
+         */
         req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
         
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);

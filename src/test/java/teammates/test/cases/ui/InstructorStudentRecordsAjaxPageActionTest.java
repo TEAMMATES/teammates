@@ -7,7 +7,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 import teammates.ui.controller.InstructorStudentRecordsAjaxPageAction;
 import teammates.ui.controller.InstructorStudentRecordsAjaxPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -15,7 +14,6 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -75,7 +73,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         
     }
 
-    private InstructorStudentRecordsAjaxPageAction getAction(String... params) throws Exception {
+    private InstructorStudentRecordsAjaxPageAction getAction(String... params) {
         return (InstructorStudentRecordsAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

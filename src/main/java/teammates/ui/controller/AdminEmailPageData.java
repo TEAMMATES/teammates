@@ -16,6 +16,7 @@ import teammates.ui.template.AdminTrashEmailRow;
 import teammates.ui.template.AdminTrashEmailTable;
 
 public abstract class AdminEmailPageData extends PageData {
+    protected AdminEmailPageState state;
     private AdminSentEmailTable sentEmailTable;
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
@@ -29,8 +30,6 @@ public abstract class AdminEmailPageData extends PageData {
         draftEmailTable = createAdminDraftEmailTable();
         trashEmailTable = createAdminTrashEmailTable();
     }
-    
-    protected AdminEmailPageState state;
     
     public AdminSentEmailTable getSentEmailTable() {
         return sentEmailTable;
@@ -91,7 +90,7 @@ public abstract class AdminEmailPageData extends PageData {
             for (AdminEmailAttributes ae : sentPageData.adminSentEmailList) {
                 rows.add(createAdminSentEmailRow(ae));
             }
-        }  
+        }
         
         return new AdminSentEmailTable(getNumEmailsSent(), rows);
     }
@@ -109,7 +108,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
         
-        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage"), addressReceiver, 
+        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage"), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
     
@@ -124,7 +123,7 @@ public abstract class AdminEmailPageData extends PageData {
             for (AdminEmailAttributes ae : draftPageData.draftEmailList) {
                 rows.add(createAdminDraftEmailRow(ae));
             }
-        } 
+        }
         
         return new AdminDraftEmailTable(getNumEmailsDraft(), rows);
     }
@@ -142,7 +141,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
         
-        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage"), addressReceiver, 
+        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage"), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
     }
     
@@ -157,7 +156,7 @@ public abstract class AdminEmailPageData extends PageData {
             for (AdminEmailAttributes ae : trashPageData.adminTrashEmailList) {
                 rows.add(createAdminTrashEmailRow(ae));
             }
-        } 
+        }
         
         return new AdminTrashEmailTable(getNumEmailsTrash(), rows, getEmptyTrashActionUrl());
     }
@@ -183,7 +182,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
         
-        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId), addressReceiver, 
+        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 }

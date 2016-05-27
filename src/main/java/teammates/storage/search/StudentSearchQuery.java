@@ -2,13 +2,13 @@ package teammates.storage.search;
 
 import java.util.List;
 
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
+
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.MatchScorer;
 import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.SortOptions;
-
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Const;
 
 public class StudentSearchQuery extends SearchQuery {
     
@@ -30,7 +30,7 @@ public class StudentSearchQuery extends SearchQuery {
     }
     
     /**
-     * This constructor should be used by admin only since the searching does not restrict the 
+     * This constructor should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
      * @param queryString
@@ -53,7 +53,7 @@ public class StudentSearchQuery extends SearchQuery {
     private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }

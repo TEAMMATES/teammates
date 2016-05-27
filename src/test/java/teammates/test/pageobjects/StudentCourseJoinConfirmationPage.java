@@ -42,8 +42,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
         waitForPageToLoad();
         if (TestProperties.inst().isDevServer()) {
             return changePageType(DevServerLoginPage.class);
-        } else {
-            return changePageType(GoogleLoginPage.class);
         }
+        return changePageType(GoogleLoginPage.class);
     }
 }

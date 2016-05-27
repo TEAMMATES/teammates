@@ -70,32 +70,33 @@ $(document).ready(function() {
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         $('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showcommentsto']").val(visibilityOptions.toString());
+        $("input[name='showcommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         $('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showgiverto']").val(visibilityOptions.toString());
+        $("input[name='showgiverto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         $('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        $("input[name='showrecipientto']").val(visibilityOptions.toString());
+        $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     }
     
     if (isShowCommentBox) {

@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -18,7 +17,11 @@ import com.google.appengine.api.datastore.Text;
  * parameters so that they conform to our data format
  * and possible threats can be removed first.
  */
-public class Sanitizer {
+public final class Sanitizer {
+    
+    private Sanitizer() {
+        // utility class
+    }
     
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace
@@ -143,7 +146,7 @@ public class Sanitizer {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) { 
+    public static List<String> sanitizeForHtml(List<String> list) {
         List<String> sanitizedList = new ArrayList<String>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
@@ -154,7 +157,7 @@ public class Sanitizer {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set) { 
+    public static Set<String> sanitizeForHtml(Set<String> set) {
         Set<String> sanitizedSet = new TreeSet<String>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
@@ -197,7 +200,7 @@ public class Sanitizer {
     
     /**
      * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
-     * In addition, any un-encoded whitespace (they may be there due to Google's 
+     * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      */
     public static String desanitizeFromNextUrl(String url) {
@@ -213,7 +216,7 @@ public class Sanitizer {
     }
     
     /**
-     * Sanitize the string for searching. 
+     * Sanitize the string for searching.
      */
     public static String sanitizeForSearch(String str) {
         if (str == null) {
@@ -257,7 +260,7 @@ public class Sanitizer {
     }
 
     /**
-     * Trims the string if it is not null. 
+     * Trims the string if it is not null.
      * 
      * @param string
      * @return the trimmed string or null (if the parameter was null).
@@ -279,27 +282,28 @@ public class Sanitizer {
      * @return safer version of the text for XPath
      */
     public static String convertStringForXPath(String text) {
-        String result = "";
-        int startPos = 0, i = 0;
+        StringBuilder result = new StringBuilder();
+        int startPos = 0;
+        int i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "'" + text.substring(startPos, i) + "',";
+                result.append('\'').append(text.substring(startPos, i)).append("',");
                 startPos = i;
             }
             while (i < text.length() && text.charAt(i) == '\'') {
                 i++;
             }
             if (startPos < i) {
-                result += "\"" + text.substring(startPos, i) + "\",";
+                result.append('\"').append(text.substring(startPos, i)).append("\",");
                 startPos = i;
             }
         }
-        if (result.isEmpty()) {
+        if (result.length() == 0) {
             return "''";
         }
-        return "concat(" + result + "'')";
+        return "concat(" + result.toString() + "'')";
     }
 }

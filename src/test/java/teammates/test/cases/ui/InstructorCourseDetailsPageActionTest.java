@@ -28,17 +28,17 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
-         ______TS("Not enough parameters");
+        ______TS("Not enough parameters");
         verifyAssumptionFailure();
 
         ______TS("Typical Case, Course with at least one student");
-        String[] submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         InstructorCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -63,13 +63,13 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         ______TS("Masquerade mode, Course with no student");
         gaeSimulation.loginAsAdmin("admin.user");
         InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor4.courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor4.courseId
         };
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)), pageResult.getStatusMessage());
@@ -95,9 +95,9 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-            Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
         };
         pageAction = getAction(submissionParams);
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
@@ -165,11 +165,11 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "<td>Joined</td>\n"
                              + "<td>student5InCourse1@gmail.tmt</td>\n"
                          + "</tr>"
-                     + "</table>", 
+                     + "</table>",
                      pageData.getStudentListHtmlTableAsString());
     }
 
-    private InstructorCourseDetailsPageAction getAction(String... params) throws Exception {
-            return (InstructorCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+    private InstructorCourseDetailsPageAction getAction(String... params) {
+        return (InstructorCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }
