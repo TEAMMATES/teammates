@@ -967,7 +967,7 @@ function getQuestionIdSuffix(questionNum) {
  */
 
 function addMcqOption(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated =
@@ -992,13 +992,13 @@ function addMcqOption(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function removeMcqOption(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
@@ -1011,8 +1011,8 @@ function removeMcqOption(index, questionNum) {
     } else {
         $thisRow.remove();
         
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
@@ -1037,11 +1037,11 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 }
 
 function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
-    idOfQuestion = '#form_editquestion-' + questionNum;
+    questionId = '#form_editquestion-' + questionNum;
     idSuffix = getQuestionIdSuffix(questionNum);
 
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
@@ -1059,7 +1059,7 @@ function changeMcqGenerateFor(questionNum) {
  */
 
 function addMsqOption(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
 
     var curNumberOfChoiceCreated =
@@ -1084,13 +1084,13 @@ function addMsqOption(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function removeMsqOption(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#msqOptionRow-' + index + idSuffix);
@@ -1103,8 +1103,8 @@ function removeMsqOption(index, questionNum) {
     } else {
         $thisRow.remove();
     
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
@@ -1222,7 +1222,7 @@ function updateConstSumPointsValue(questionNum) {
 }
 
 function addConstSumOption(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -1243,8 +1243,8 @@ function addConstSumOption(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
@@ -1254,7 +1254,7 @@ function hideConstSumOptionTable(questionNum) {
 }
 
 function removeConstSumOption(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     var $thisRow = $('#constSumOptionRow-' + index + idSuffix);
     
@@ -1266,8 +1266,8 @@ function removeConstSumOption(index, questionNum) {
     } else {
         $thisRow.remove();
     
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
@@ -1395,7 +1395,7 @@ function fixContribQnGiverRecipient(questionNum) {
  */
 
 function addRubricRow(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
@@ -1452,13 +1452,13 @@ function addRubricRow(questionNum) {
     // Increment
     $('#rubricNumRows' + idSuffix).val(newRowNumber);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function addRubricCol(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
@@ -1538,13 +1538,13 @@ function addRubricCol(questionNum) {
     // Increment
     $('#rubricNumCols' + idSuffix).val(newColNumber);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function removeRubricRow(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
@@ -1562,14 +1562,14 @@ function removeRubricRow(index, questionNum) {
     } else {
         $thisRow.remove();
     
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
 
 function removeRubricCol(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
@@ -1588,8 +1588,8 @@ function removeRubricCol(index, questionNum) {
     } else {
         $thisCol.remove();
     
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
@@ -1687,7 +1687,7 @@ function updateRankPointsValue(questionNum) {
 }
 
 function addRankOption(questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -1708,8 +1708,8 @@ function addRankOption(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
@@ -1719,7 +1719,7 @@ function hideRankOptionTable(questionNum) {
 }
 
 function removeRankOption(index, questionNum) {
-    var idOfQuestion = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
     var idSuffix = getQuestionIdSuffix(questionNum);
     var $thisRow = $('#rankOptionRow-' + index + idSuffix);
     
@@ -1731,8 +1731,8 @@ function removeRankOption(index, questionNum) {
     } else {
         $thisRow.remove();
     
-        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        if ($(questionId).attr('editStatus') === 'hasResponses') {
+            $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
