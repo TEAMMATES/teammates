@@ -69,11 +69,6 @@ public class PageData {
     public boolean isUnregisteredStudent() {
         return account.googleId == null || student != null && !student.isRegistered();
     }
-
-    @SuppressWarnings("unused")
-    private void _________general_util_methods() {
-    //========================================================================    
-    }
     
     /* These util methods simply delegate the work to the matching *Helper
      * class. We keep them here so that JSP pages do not have to import
@@ -264,11 +259,6 @@ public class PageData {
         }
         return result;
     }
-
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_student_links() {
-    //========================================================================    
-    }
     
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
@@ -378,11 +368,6 @@ public class PageData {
         return link;
     }
 
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_instructor_links() {
-    //========================================================================    
-    }
-    
     /**
      * @return The relative path to the instructor home page. 
      * The user Id is encoded in the url as a parameter.
@@ -704,11 +689,6 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    @SuppressWarnings("unused")
-    private void _________other_util_methods_for_instructor_pages() {
-    //========================================================================    
-    }
 
     public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
@@ -914,11 +894,6 @@ public class PageData {
         return Logic.isCourseArchived(courseId, googleId);
     }
     
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_feedback_response_comments() {
-    //========================================================================    
-    }
-    
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
@@ -954,7 +929,8 @@ public class PageData {
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        return StringHelper.isWhiteSpace(visibilityString) ? "GIVER" : "GIVER, " + visibilityString;
     }
     
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
@@ -986,11 +962,6 @@ public class PageData {
                + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
     
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_comments() {
-    //========================================================================    
-    }
-    
     public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
@@ -1018,11 +989,6 @@ public class PageData {
             i++;
         }
         return namesStringBuilder.toString();
-    }
-    
-    @SuppressWarnings("unused")
-    private void ___________methods_to_serve_local_files() {
-    //========================================================================    
     }
     
     /**

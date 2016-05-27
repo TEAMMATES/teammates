@@ -378,7 +378,7 @@ public class Sendgrid {
         JSONArray tosJson = new JSONArray(this.getTos());
         headers.put("to", tosJson);
         this.setHeaders(headers);
-        params.put("x-smtpapi", _escapeUnicode(this.getHeaders().toString()));
+        params.put("x-smtpapi", escapeUnicode(this.getHeaders().toString()));
         
         return params;
     }
@@ -498,7 +498,7 @@ public class Sendgrid {
         }
     }
 
-    private String _escapeUnicode(String input) {
+    private String escapeUnicode(String input) {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < input.length(); i++) {
