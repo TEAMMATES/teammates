@@ -85,7 +85,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         Logic logic = new Logic();
         
         if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
-             && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
+                && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccount(wrongGoogleId);
         }
     }

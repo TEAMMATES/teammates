@@ -104,7 +104,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             return false;
         }
         if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0
-            || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
+                || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
             return false;
         } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0
                    || s.indexOf("&#x2f;") >= 0 || s.indexOf("&#39;") >= 0 || s.indexOf("&amp;") >= 0) {

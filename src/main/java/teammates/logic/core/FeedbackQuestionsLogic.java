@@ -285,7 +285,7 @@ public class FeedbackQuestionsLogic {
         
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.INSTRUCTORS
-                || question.giverType == FeedbackParticipantType.SELF && isCreator) {
+                    || question.giverType == FeedbackParticipantType.SELF && isCreator) {
                 questions.add(question);
             }
         }
@@ -329,7 +329,7 @@ public class FeedbackQuestionsLogic {
         
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.STUDENTS
-                || question.giverType == FeedbackParticipantType.TEAMS) {
+                    || question.giverType == FeedbackParticipantType.TEAMS) {
                 questions.add(question);
             }
         }
@@ -376,8 +376,7 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case STUDENTS:
-            List<StudentAttributes> studentsInCourse =
-                studentsLogic.getStudentsForCourse(question.courseId);
+            List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(question.courseId);
             for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
                 if (!giver.equals(student.email)) {
@@ -386,8 +385,7 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case INSTRUCTORS:
-            List<InstructorAttributes> instructorsInCourse =
-                instructorsLogic.getInstructorsForCourse(question.courseId);
+            List<InstructorAttributes> instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.courseId);
             for (InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
                 if (!giver.equals(instr.email)) {
@@ -396,8 +394,7 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams =
-                coursesLogic.getTeamsForCourse(question.courseId);
+            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(question.courseId);
             for (TeamDetailsBundle team : teams) {
                 // Ensure student('s team) does not evaluate own team.
                 if (!giverTeam.equals(team.name)) {
@@ -410,8 +407,7 @@ public class FeedbackQuestionsLogic {
             recipients.put(giverTeam, giverTeam);
             break;
         case OWN_TEAM_MEMBERS:
-            List<StudentAttributes> students =
-                studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+            List<StudentAttributes> students = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : students) {
                 if (!student.email.equals(giver)) {
                     recipients.put(student.email, student.name);
@@ -419,8 +415,7 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> teamMembers =
-                studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+            List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
                 recipients.put(student.email, student.name);

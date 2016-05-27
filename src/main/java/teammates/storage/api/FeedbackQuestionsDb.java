@@ -268,7 +268,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList =
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, questionNumber);
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, questionNumber);
         
         if (feedbackQuestionList.isEmpty() || JDOHelper.isDeleted(feedbackQuestionList.get(0))) {
             return null;
@@ -285,7 +285,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList =
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId);
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId);
         
         return feedbackQuestionList;
     }
@@ -296,8 +296,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList =
-            (List<FeedbackQuestion>) q.execute(courseId);
+        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseId);
         
         return feedbackQuestionList;
     }
@@ -315,7 +314,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList =
-            (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, giverType);
+                (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, giverType);
         
         return feedbackQuestionList;
     }

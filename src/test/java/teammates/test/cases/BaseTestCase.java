@@ -22,9 +22,12 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    //CHECKSTYLE:OFF
+    // The weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    //CHECKSTYLE:ON
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());

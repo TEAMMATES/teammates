@@ -236,7 +236,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
         if (recipientType != FeedbackParticipantType.STUDENTS
-            && recipientType != FeedbackParticipantType.TEAMS) {
+                && recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
         

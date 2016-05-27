@@ -91,8 +91,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
         unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) remindAction.executeAndPostProcess();

@@ -2,6 +2,8 @@ package teammates.test.cases.logic;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -853,7 +855,14 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // check the content from first list (we assume the content of the
         // second list is similar.
     
-        StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(0);
+        Collections.sort(listReceivedUsingStudentInCourse1, new Comparator<StudentAttributes>() {
+            @Override
+            public int compare(StudentAttributes o1, StudentAttributes o2) {
+                return o1.course.compareTo(o2.course);
+            }
+        });
+        
+        StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
         assertEquals(studentInTwoCoursesInCourse2.email,
                 firstStudentReceived.email);
@@ -864,7 +873,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     
         // then the second student received must be from course 1
         StudentAttributes secondStudentReceived = listReceivedUsingStudentInCourse1
-                .get(1);
+                .get(0);
         assertEquals(studentInTwoCoursesInCourse1.email,
                 secondStudentReceived.email);
         assertEquals(studentInTwoCoursesInCourse1.name,

@@ -55,7 +55,7 @@ import com.google.gson.Gson;
  */
 public class UploadBackupData extends RemoteApiClient {
 
-    private static String BACKUP_FOLDER = "BackupFiles/Backup";
+    private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -179,8 +179,8 @@ public class UploadBackupData extends RemoteApiClient {
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values()) {
-                logic.createAccount(accountData.googleId, accountData.name,
-                    accountData.isInstructor, accountData.email, accountData.institute);
+                logic.createAccount(accountData.googleId, accountData.name, accountData.isInstructor,
+                                    accountData.email, accountData.institute);
             }
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());

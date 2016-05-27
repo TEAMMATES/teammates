@@ -214,9 +214,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("typical success case");
         
-        ArrayList<FeedbackResponseCommentAttributes> frcas =
-            (ArrayList<FeedbackResponseCommentAttributes>) frcDb
-                    .getFeedbackResponseCommentsForResponse(responseId);
+        List<FeedbackResponseCommentAttributes> frcas =
+                frcDb.getFeedbackResponseCommentsForResponse(responseId);
         verifyListsContainSameResponseCommentAttributes(
                 new ArrayList<FeedbackResponseCommentAttributes>(frcasExpected), frcas);
     }

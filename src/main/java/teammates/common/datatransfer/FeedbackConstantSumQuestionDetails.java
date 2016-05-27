@@ -324,9 +324,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
             optionListHtml.append("</ul>");
             additionalInfo.append(FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
-                "${questionTypeName}", this.getQuestionTypeDisplayName(),
-                "${msqAdditionalInfoFragments}", optionListHtml.toString()));
+                    FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
+                    "${questionTypeName}", this.getQuestionTypeDisplayName(),
+                    "${msqAdditionalInfoFragments}", optionListHtml.toString()));
         
         }
         //Point information
@@ -519,8 +519,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
         if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
-            || !this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
-            || !newConstSumDetails.constSumOptions.containsAll(this.constSumOptions)) {
+                || !this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
+                || !newConstSumDetails.constSumOptions.containsAll(this.constSumOptions)) {
             return true;
         }
         
@@ -587,7 +587,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         int numOfResponseSpecific = fqa.numberOfEntitiesToGiveFeedbackTo;
         int maxResponsesPossible = numRecipients;
         if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS
-            || numOfResponseSpecific > maxResponsesPossible) {
+                || numOfResponseSpecific > maxResponsesPossible) {
             numOfResponseSpecific = maxResponsesPossible;
         }
         

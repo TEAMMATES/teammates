@@ -1039,7 +1039,7 @@ public class FeedbackSessionsLogic {
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
             if (session.isPublished() && session.isPublishedEmailEnabled
-                  && !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
+                    && !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1945,12 +1945,12 @@ public class FeedbackSessionsLogic {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
                             boolean isVisibleResponse = false;
                             if (response.giverEmail.equals(userEmail)
-                                || response.recipientEmail.equals(userEmail) && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                || role == Role.INSTRUCTOR && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                                || role == Role.STUDENT && question
-                                            .isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+                                    || response.recipientEmail.equals(userEmail)
+                                            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    || role == Role.INSTRUCTOR
+                                            && question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                    || role == Role.STUDENT
+                                            && question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
                                 isVisibleResponse = true;
                             }
                             InstructorAttributes instructor = null;
@@ -1965,10 +1965,10 @@ public class FeedbackSessionsLogic {
                                 // If instructors are not restricted to view the giver's section,
                                 // they are allowed to view responses to GENERAL, subject to visibility options
                                 boolean isRecipientSectionRestricted =
-                                       question.recipientType != FeedbackParticipantType.NONE
-                                       && !instructor.isAllowedForPrivilege(response.recipientSection,
-                                                                            response.feedbackSessionName,
-                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                        question.recipientType != FeedbackParticipantType.NONE
+                                        && !instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                             response.feedbackSessionName,
+                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
                                 if (isNotAllowedForInstructor) {
                                     isVisibleResponse = false;
@@ -2183,14 +2183,15 @@ public class FeedbackSessionsLogic {
         
         boolean isVisibleResponse = false;
         if (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-            || response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-            || response.giverEmail.equals(userEmail)
-            || role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+                || response.recipientEmail.equals(userEmail)
+                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                || response.giverEmail.equals(userEmail)
+                || role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (role == Role.STUDENT) {
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                && response.recipientEmail.equals(student.team)) {
+                    && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                    && response.recipientEmail.equals(student.team)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                        && studentsEmailInTeam.contains(response.giverEmail)) {
@@ -2277,7 +2278,7 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes question, CourseRoster roster,
             int pairType) {
         if (question.giverType == FeedbackParticipantType.TEAMS
-            && roster.isStudentInCourse(response.giverEmail)) {
+                && roster.isStudentInCourse(response.giverEmail)) {
             if (!emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER)) {
                 emailNameTable.put(
                         response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,

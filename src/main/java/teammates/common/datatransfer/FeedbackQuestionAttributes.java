@@ -161,7 +161,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
             // Exceptional case: self feedback
             if (participant == FeedbackParticipantType.RECEIVER
-                && recipientType == FeedbackParticipantType.SELF) {
+                    && recipientType == FeedbackParticipantType.SELF) {
                 message.add("You can see your own feedback in the results page later on.");
                 continue;
             }
@@ -185,7 +185,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             // Visibility fragment: e.g. can see your name, but not...
             if (showRecipientNameTo.contains(participant)) {
                 if (participant != FeedbackParticipantType.RECEIVER
-                    && recipientType != FeedbackParticipantType.NONE) {
+                        && recipientType != FeedbackParticipantType.NONE) {
                     line.append(", the name of the recipient");
                 }
 
@@ -260,13 +260,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      */
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)
-            || !newAttributes.recipientType.equals(this.recipientType)) {
+                || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
         }
 
         if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
-            || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
-            || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
+                || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
+                || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
             return true;
         }
 
@@ -605,15 +605,21 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setCreatedAt_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
+    //CHECKSTYLE:ON
     
     /**
      * Should only be used for testing
      */
+    //CHECKSTYLE:OFF
+    // Naming violation is so that it will be noticed if it is accidentally included in production code
     public void setUpdatedAt_NonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+    //CHECKSTYLE:ON
     
 }

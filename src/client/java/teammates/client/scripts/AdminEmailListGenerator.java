@@ -62,7 +62,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
 
     private EmailListConfig emailListConfig = new EmailListConfig();
-    private HashMap<String, Date> CourseIdToCreatedDateMap = new HashMap<String, Date>();
+    private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<String, Date>();
     
     public static void main(String[] args) throws IOException {
         AdminEmailListGenerator adminEmailListGenerator = new AdminEmailListGenerator();
@@ -204,9 +204,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             Instructor instructor = (Instructor) object;
             // intended casting of ? to remove unchecked casting
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
-                     || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
-                     || emailListConfig.instructorStatus == InstructorStatus.ALL)
-                 && isInstructorCreatedInRange(instructor)) {
+                        || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
+                        || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                    && isInstructorCreatedInRange(instructor)) {
                 instructorEmailSet.add(instructor.getEmail());
             }
             updateProgressIndicator();
@@ -223,9 +223,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             Student student = (Student) object;
             // intended casting from ? due to unchecked casting
             if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG
-                     || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG
-                     || emailListConfig.studentStatus == StudentStatus.ALL)
-                 && isStudentCreatedInRange(student)) {
+                        || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG
+                        || emailListConfig.studentStatus == StudentStatus.ALL)
+                    && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
             }
             updateProgressIndicator();
@@ -283,7 +283,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.instructorCreatedDateRangeEnd == null
-            && emailListConfig.instructorCreatedDateRangeStart == null) {
+                && emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
@@ -315,14 +315,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(instructor.getCourseId());
+        if (courseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(instructor.getCourseId());
         }
         
         Course course = getCourseEntity(instructor.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         
@@ -339,7 +339,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         
         if (emailListConfig.studentCreatedDateRangeEnd == null
-            && emailListConfig.studentCreatedDateRangeStart == null) {
+                && emailListConfig.studentCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.studentCreatedDateRangeStart != null
@@ -370,14 +370,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
         }
         
-        if (CourseIdToCreatedDateMap.get(student.getCourseId()) != null) {
-            return CourseIdToCreatedDateMap.get(student.getCourseId());
+        if (courseIdToCreatedDateMap.get(student.getCourseId()) != null) {
+            return courseIdToCreatedDateMap.get(student.getCourseId());
         }
         
         Course course = getCourseEntity(student.getCourseId());
         
         if (course != null) {
-            CourseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
+            courseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
         

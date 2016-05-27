@@ -23,11 +23,11 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         new GateKeeper().verifyAccessible(instructor, fsa, false);
         
         FeedbackSessionResponseStatus fsResponseStatus =
-            logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
+                logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
         
         InstructorFeedbackRemindParticularStudentsPageData data =
-            new InstructorFeedbackRemindParticularStudentsPageData(account, fsResponseStatus,
-                                                                   courseId, feedbackSessionName);
+                new InstructorFeedbackRemindParticularStudentsPageData(account, fsResponseStatus,
+                                                                       courseId, feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);
     }

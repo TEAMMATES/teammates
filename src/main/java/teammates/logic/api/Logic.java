@@ -1424,8 +1424,8 @@ public class Logic {
      * @return Details of Instructor's feedback sessions. <br>
      * Returns an empty list if none found.
      */
-    public List<FeedbackSessionDetailsBundle>
-        getFeedbackSessionDetailsForInstructor(String googleId) throws EntityDoesNotExistException {
+    public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
+            String googleId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
     }
@@ -1437,8 +1437,7 @@ public class Logic {
      * @return List(without details) of Instructor's feedback sessions. <br>
      * Returns an empty list if none found.
      */
-    public List<FeedbackSessionAttributes>
-        getFeedbackSessionsListForInstructor(String googleId) {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId) {
         return getFeedbackSessionsListForInstructor(googleId, false);
     }
     

@@ -124,12 +124,12 @@ public final class TestProperties {
         }
         if (!areTestAccountsReadyForGodMode()) {
             fail("Please append a unique id (e.g your name) to each of the default account in"
-                 + "test.properties in order to use God mode, e.g change alice.tmms to "
-                 + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
+                    + "test.properties in order to use God mode, e.g change alice.tmms to "
+                    + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }
         if (isStudentMotdUrlEmpty()) {
             fail("Student MOTD URL defined in app.student.motd.url in build.properties "
-                 + "must not be empty. It is advised to use test-student-motd.html to test it.");
+                    + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }
 

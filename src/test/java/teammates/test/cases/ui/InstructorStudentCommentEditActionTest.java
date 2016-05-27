@@ -303,7 +303,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
             if (!commentAttributes.giverEmail.equals(anotherInstructor.email)
-                || !commentAttributes.recipientType.equals(CommentParticipantType.COURSE)) {
+                    || !commentAttributes.recipientType.equals(CommentParticipantType.COURSE)) {
                 iterator.remove();
             }
         }
@@ -350,7 +350,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
             if (!commentAttributes.giverEmail.equals(anotherInstructor.email)
-                || !commentAttributes.recipientType.equals(CommentParticipantType.SECTION)) {
+                    || !commentAttributes.recipientType.equals(CommentParticipantType.SECTION)) {
                 iterator.remove();
             }
         }
@@ -397,7 +397,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
             if (!commentAttributes.giverEmail.equals(anotherInstructor.email)
-                || !commentAttributes.recipientType.equals(CommentParticipantType.TEAM)) {
+                    || !commentAttributes.recipientType.equals(CommentParticipantType.TEAM)) {
                 iterator.remove();
             }
         }

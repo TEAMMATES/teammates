@@ -32,8 +32,8 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         verifyAssumptionFailure();
 
         ______TS("Typical Case, Course with at least one student");
-        String[] submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         InstructorCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
@@ -63,8 +63,8 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         ______TS("Masquerade mode, Course with no student");
         gaeSimulation.loginAsAdmin("admin.user");
         InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor4.courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor4.courseId
         };
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         pageResult = getShowPageResult(pageAction);
@@ -95,9 +95,9 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-            Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
         };
         pageAction = getAction(submissionParams);
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);

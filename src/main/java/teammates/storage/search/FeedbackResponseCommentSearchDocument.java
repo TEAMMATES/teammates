@@ -61,7 +61,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<String>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
-            || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
+                || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
             InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giverEmail);
             if (ins == null || addedEmailSet.contains(ins.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
@@ -171,35 +171,53 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                       ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                                       : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
+        String displayedName = giverAsInstructor == null
+                             ? comment.giverEmail
+                             : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
         Document doc = Document.newBuilder()
-            //these are used to filter documents visible to certain instructor
-            //TODO: some of the following fields are not used anymore (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION).setText(relatedResponse.giverSection))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER).setText(
-                    Boolean.toString(isVisibleToGiver)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
-                    Boolean.toString(isVisibleToReceiver)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.toString(isVisibleToInstructor)))
-            //searchableText and createdDate are used to match the query string
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
-            //attribute field is used to convert a doc back to attribute
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).setText(new Gson().toJson(relatedResponse)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).setText(new Gson().toJson(responseGiverName)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).setText(new Gson().toJson(responseRecipientName)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor == null ? comment.giverEmail : giverAsInstructor.displayedName + " " + giverAsInstructor.name)))
-            .setId(comment.getId().toString())
-            .build();
+                // these are used to filter documents visible to certain instructor
+                // TODO: some of the following fields are not used anymore
+                // (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
+                                            .setText(comment.courseId))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL)
+                                            .setText(comment.giverEmail))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
+                                            .setText(relatedResponse.giverEmail))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
+                                            .setText(relatedResponse.giverSection))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL)
+                                            .setText(relatedResponse.recipientEmail))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION)
+                                            .setText(relatedResponse.recipientSection))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER)
+                                            .setText(Boolean.toString(isVisibleToGiver)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER)
+                                            .setText(Boolean.toString(isVisibleToReceiver)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR)
+                                            .setText(Boolean.toString(isVisibleToInstructor)))
+                // searchableText and createdDate are used to match the query string
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                                            .setText(searchableTextBuilder.toString()))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
+                                            .setDate(comment.createdAt))
+                // attribute field is used to convert a doc back to attribute
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE)
+                                            .setText(new Gson().toJson(comment)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE)
+                                            .setText(new Gson().toJson(relatedResponse)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME)
+                                            .setText(new Gson().toJson(responseGiverName)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME)
+                                            .setText(new Gson().toJson(responseRecipientName)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE)
+                                            .setText(new Gson().toJson(relatedQuestion)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE)
+                                            .setText(new Gson().toJson(relatedSession)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
+                                            .setText(new Gson().toJson(displayedName)))
+                .setId(comment.getId().toString())
+                .build();
         return doc;
     }
 

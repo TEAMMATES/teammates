@@ -48,6 +48,7 @@
     <module name="Indentation">
       <property name="caseIndent" value="0"/>
       <property name="arrayInitIndent" value="8"/>
+      <property name="lineWrappingIndentation" value="8"/>
     </module>
     <module name="LeftCurly">
       <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
@@ -76,6 +77,13 @@
     <module name="PackageDeclaration"/>
     <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
+    <module name="InterfaceTypeParameterName"/>
+    <module name="PackageName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="StaticVariableName"/>
+    <module name="TypeName"/>
+    <module name="MemberName"/>
+    <module name="MethodName"/>
     <module name="DeclarationOrder"/>
     <module name="RedundantImport"/>
     <module name="SimplifyBooleanExpression"/>
@@ -96,6 +104,9 @@
       <property name="format" value="((?!\*)\S|\* ) +$"/>
       <property name="message" value="Line has trailing spaces."/>
     </module>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter"/>

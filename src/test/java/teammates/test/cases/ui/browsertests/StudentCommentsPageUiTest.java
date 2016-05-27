@@ -34,7 +34,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         ______TS("content: typical case");
         
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("student1InCourse1").googleId);
+                .withUserId(testData.accounts.get("student1InCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);
 

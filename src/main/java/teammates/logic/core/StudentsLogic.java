@@ -44,8 +44,8 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header
     //  comments.
     
-    private static int SECTION_SIZE_LIMIT = 100;
-    private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    private static final int SECTION_SIZE_LIMIT = 100;
+    private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance;
     private StudentsDb studentsDb = new StudentsDb();
@@ -667,12 +667,12 @@ public class StudentsLogic {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
             if (enrollment.updateStatus == UpdateStatus.MODIFIED
-                && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+                    && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
             if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED
-                && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
+                    && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
