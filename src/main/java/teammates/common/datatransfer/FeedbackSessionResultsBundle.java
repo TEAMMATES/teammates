@@ -575,7 +575,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
             if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS
-                && roster.isStudentInCourse(response.giverEmail)) {
+                    && roster.isStudentInCourse(response.giverEmail)) {
                 // for TEAMS giver type, for older responses, 
                 // the giverEmail is stored as the student giver's email in the database
                 // so we convert it to the team name for use in FeedbackSessionResultsBundle
@@ -1480,7 +1480,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
         if (name.contains("Anonymous") || name.equals(Const.USER_UNKNOWN_TEXT)
-             || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
+                || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
             outputName = name;
         } else {
             outputName = name + " (" + teamName + ")";
@@ -1572,12 +1572,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         String questionId = null;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (recipientTeam == null 
-                || !(getTeamNameForEmail(response.recipientEmail).isEmpty()
-                   ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
-                   : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
+            if (recipientTeam == null
+                    || !(getTeamNameForEmail(response.recipientEmail).isEmpty()
+                            ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
+                            : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
-                     && responsesForOneRecipient != null) {
+                        && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),
                                                  responsesForOneRecipientOneQuestion);
                 }
@@ -1602,7 +1602,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesForOneRecipientOneQuestion.add(response);
         }
         if (questionId != null && responsesForOneRecipientOneQuestion != null
-             && responsesForOneRecipient != null) {
+                && responsesForOneRecipient != null) {
             responsesForOneRecipient.put(questions.get(questionId),
                                          responsesForOneRecipientOneQuestion);
         }
@@ -1631,7 +1631,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                             ? getNameForEmail(response.giverEmail).equals(giverTeam)
                             : getTeamNameForEmail(response.giverEmail).equals(giverTeam))) {
                 if (questionId != null && responsesFromOneGiverOneQuestion != null
-                     && responsesFromOneGiver != null) {
+                        && responsesFromOneGiver != null) {
                     responsesFromOneGiver.put(questions.get(questionId),
                                               responsesFromOneGiverOneQuestion);
                 }
@@ -1656,7 +1656,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesFromOneGiverOneQuestion.add(response);
         }
         if (questionId != null && responsesFromOneGiverOneQuestion != null
-             && responsesFromOneGiver != null) {
+                && responsesFromOneGiver != null) {
             responsesFromOneGiver.put(questions.get(questionId),
                                       responsesFromOneGiverOneQuestion);
         }
@@ -1693,7 +1693,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             if (recipient == null || !response.recipientEmail.equals(recipient)) {
                 if (questionId != null && responsesForOneRecipientOneQuestion != null
-                     && responsesForOneRecipient != null) {
+                        && responsesForOneRecipient != null) {
                     responsesForOneRecipient.put(questions.get(questionId),
                                                  responsesForOneRecipientOneQuestion);
                 }
@@ -1716,7 +1716,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesForOneRecipientOneQuestion.add(response);
         }
         if (questionId != null && responsesForOneRecipientOneQuestion != null
-             && responsesForOneRecipient != null) {
+                && responsesForOneRecipient != null) {
             responsesForOneRecipient.put(questions.get(questionId),
                                          responsesForOneRecipientOneQuestion);
         }
@@ -1898,7 +1898,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             if (giver == null || !response.giverEmail.equals(giver)) {
                 if (questionId != null && responsesFromOneGiverOneQuestion != null
-                     && responsesFromOneGiver != null) {
+                        && responsesFromOneGiver != null) {
                     responsesFromOneGiver.put(questions.get(questionId),
                                               responsesFromOneGiverOneQuestion);
                 }
@@ -1921,7 +1921,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             responsesFromOneGiverOneQuestion.add(response);
         }
         if (questionId != null && responsesFromOneGiverOneQuestion != null
-             && responsesFromOneGiver != null) {
+                && responsesFromOneGiver != null) {
             responsesFromOneGiver.put(questions.get(questionId),
                                       responsesFromOneGiverOneQuestion);
         }

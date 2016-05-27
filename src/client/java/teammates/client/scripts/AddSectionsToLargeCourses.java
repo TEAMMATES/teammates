@@ -213,7 +213,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         for (FeedbackResponse response : responses) {
             if (response.getRecipientEmail().equals(studentEmail) 
-                || response.getRecipientEmail().equals(studentTeam)) {
+                    || response.getRecipientEmail().equals(studentTeam)) {
                 
                 response.setRecipientSection(sectionName);
             } 

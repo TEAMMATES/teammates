@@ -279,8 +279,7 @@ public class ActivityLogEntry {
         if (role.contains("Instructor")) {
             iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>");
             if (role.contains("(M)")) {
-                iconRole.append(
-                    "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
+                iconRole.append("-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ");
             }
         } else if (role.contains("Student")) {
             iconRole.append("<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>");
@@ -352,7 +351,7 @@ public class ActivityLogEntry {
         String style = "";
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
-             || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
+                || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             style = "text-danger";
         } else {
             style = "text-success bold";

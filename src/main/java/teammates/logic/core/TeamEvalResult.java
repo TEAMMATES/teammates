@@ -385,8 +385,7 @@ public class TeamEvalResult {
             if (isSquareArray) {
                 continue;
             }
-            if (i == firstDividerLocation || i == secondDividerLocation
-                || i == thirdDividerLocation) {
+            if (i == firstDividerLocation || i == secondDividerLocation || i == thirdDividerLocation) {
                 returnValue.append("=======================")
                            .append(Const.EOL);
             }
