@@ -78,7 +78,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String optionFragment =
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Const.FeedbackQuestion.RESPONSE_INDEX , Integer.toString(responseIdx),
+                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
                             Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "",

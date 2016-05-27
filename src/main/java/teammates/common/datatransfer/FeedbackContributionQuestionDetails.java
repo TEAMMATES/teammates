@@ -22,10 +22,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
     private static final Logger log = Utils.getLogger();
-    
+   
     private boolean isNotSureAllowed;
-    
-    private static final String QUESTION_NUMBER = "${questionNumber}"; 
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
@@ -105,7 +103,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
-                QUESTION_NUMBER, Integer.toString(questionNumber),
+                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
@@ -128,7 +126,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
-                QUESTION_NUMBER, Integer.toString(questionNumber),
+                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
     }
@@ -198,7 +196,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
-                QUESTION_NUMBER, Integer.toString(question.questionNumber),
+                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
@@ -248,9 +246,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : actualResponses) {
-            if (!bundle.visibilityTable.get(response.getId())[1] 
-                && type != FeedbackParticipantType.SELF 
-                && type != FeedbackParticipantType.NONE) {
+            if (!bundle.visibilityTable.get(response.getId())[1]
+                    && type != FeedbackParticipantType.SELF
+                    && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -339,9 +337,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : actualResponses) {
-            if (!bundle.visibilityTable.get(response.getId())[1] 
-                && type != FeedbackParticipantType.SELF
-                && type != FeedbackParticipantType.NONE) {
+            if (!bundle.visibilityTable.get(response.getId())[1]
+                    && type != FeedbackParticipantType.SELF
+                    && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -486,7 +484,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         return studentResults;
     }
-
+    
+    // added SUppress warning to avoid false positive by PMD.
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();

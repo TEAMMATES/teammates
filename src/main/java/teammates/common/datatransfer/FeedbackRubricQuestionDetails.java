@@ -204,8 +204,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-            || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
-            || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
+                || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+                || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
@@ -325,7 +325,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
             for (int j = 0; j < numOfRubricChoices; j++) {
-                String panelBodyFragment = 
+                String panelBodyFragment =
                         FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
                                 Const.FeedbackQuestion.RUBRIC_QUESTION_INDEX, questionNumberString,
                                 Const.FeedbackQuestion.RUBRIC_RESPONSE_INDEX, responseNumberString,
@@ -338,10 +338,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
-            String panel = 
-                FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
-                    "${panelBody}", panelBody.toString(),
-                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
+            String panel =
+                    FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
+                            "${panelBody}", panelBody.toString(),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
@@ -807,19 +807,19 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
-            detailedResponsesRow
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
-                        + Const.EOL);
+            detailedResponsesRow.append(
+                    Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                    + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
+                    + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
+                    + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                    + Const.EOL);
         }
         
         return detailedResponsesRow.toString();

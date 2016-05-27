@@ -381,13 +381,14 @@ public final class Const {
     
     public static class FeedbackQuestion {
 
-        public static final String QUESTION_INDEX = "${qnIdx}"; 
+        public static final String QUESTION_INDEX = "${qnIdx}";
         public static final String RESPONSE_INDEX = "${responseIdx}";
         public static final String DISABLED = "${disabled}";
         public static final String FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
         public static final String CHECKED = "${checked}";
         public static final String OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
-    
+        public static final String QUESTION_NUMBER = "${questionNumber}";
+        
         // Mcq
         public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -396,7 +397,7 @@ public final class Const {
         public static final String MCQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
         
         // Msq
-        public static final String MSQ_CHOICE_VALUE= "${msqChoiceValue}";
+        public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";
         public static final String MSQ_CHOICE_TEXT = "${msqChoiceText}";
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
@@ -433,7 +434,6 @@ public final class Const {
         public static final String CONST_SUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
         public static final String CONST_SUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
         
-        
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
         public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
@@ -449,9 +449,9 @@ public final class Const {
         // Rubric
         public static final String RUBRIC_QUESTION_INDEX = "${qnIndex}";
         public static final String RUBRIC_RESPONSE_INDEX = "${respIndex}";
-        public static final String CURRENT_ROWS ="${currRows}";
+        public static final String CURRENT_ROWS = "${currRows}";
         public static final String CURRENT_COLS = "${currCols}";
-        public static final String TABLE_HEADER_ROW_FRAGMENT_HTML= "${tableHeaderRowFragmentHtml}";
+        public static final String TABLE_HEADER_ROW_FRAGMENT_HTML = "${tableHeaderRowFragmentHtml}";
         public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
         public static final String ROW = "${row}";
         public static final String COL = "${col}";
