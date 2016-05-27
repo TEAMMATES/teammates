@@ -37,9 +37,9 @@ import com.google.appengine.repackaged.org.joda.time.DateTime;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
-    private static enum StudentStatus { REG, UNREG, ALL }
+    private enum StudentStatus { REG, UNREG, ALL }
     
-    private static enum InstructorStatus { REG, UNREG, ALL }
+    private enum InstructorStatus { REG, UNREG, ALL }
     
     private static final PersistenceManager pm = JDOHelper
                                                    .getPersistenceManagerFactory("transactions-optional")

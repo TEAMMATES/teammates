@@ -32,7 +32,7 @@ public class StudentAttributes extends EntityAttributes {
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
-        private UpdateStatus(int numericRepresentation) {
+        UpdateStatus(int numericRepresentation) {
             this.numericRepresentation = numericRepresentation;
         }
 

@@ -426,7 +426,7 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isIdInQuery;
         public String[] idValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isRequestInQuery = false;
             isResponseInQuery = false;
             isPersonInQuery = false;

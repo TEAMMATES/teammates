@@ -177,7 +177,7 @@ public abstract class EmailAction {
         String userName;
         String regKey;
         
-        public EmailData(String studentName, String regKey) {
+        EmailData(String studentName, String regKey) {
             this.userName = studentName;
             this.regKey = regKey;
         }
