@@ -43,7 +43,7 @@ public class AdminEmailLogPageAction extends Action {
             endTimeToSearch = Long.parseLong(timeOffset);
         }
         
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
@@ -73,7 +73,7 @@ public class AdminEmailLogPageAction extends Action {
     }
     
     /**
-     * Selects versions for query. If versions are not specified, it will return 
+     * Selects versions for query. If versions are not specified, it will return
      * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {

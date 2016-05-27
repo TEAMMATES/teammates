@@ -25,7 +25,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public FeedbackContributionResponseDetails(int answer) {
         super(FeedbackQuestionType.CONTRIB);
         this.answer = answer;
-    }    
+    }
     
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
@@ -121,7 +121,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             
             //For CONTRIB qns, We want to show PC if giver == recipient.
             int pc = studentResult.perceivedToInstructor;
-            return responseAnswerHtml 
+            return responseAnswerHtml
                  + FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
         }
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(

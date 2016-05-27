@@ -24,5 +24,5 @@ public class FeedbackResultsResponse {
 
     public List<FeedbackResponseCommentRow> getComments() {
         return comments;
-    }   
+    }
 }

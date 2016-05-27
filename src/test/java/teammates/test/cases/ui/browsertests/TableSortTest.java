@@ -18,7 +18,7 @@ public class TableSortTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
     }
     

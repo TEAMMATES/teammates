@@ -77,7 +77,7 @@ public class FeedbackResponse implements StoreCallback {
         this.receiverSection = recipientSection;
         this.answer = answer;
                 
-        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver; 
+        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
         
         this.setCreatedAt(new Date());
     }

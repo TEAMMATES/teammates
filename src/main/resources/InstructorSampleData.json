@@ -2822,6 +2822,22 @@
                 "value":"Benny, Thanks for helping Alice in her project work. Keep up the good work!"
             }
             
+        },
+        "comment1FromI1C1toS3C1":{
+            "courseId":"demo.course",
+            "giverEmail":"teammates.demo.instructor@demo.course",
+            "recipientType":"PERSON",
+            "recipients":["danny.e.tmms@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM, COURSE],
+            "showGiverNameTo": [TEAM, COURSE],
+            "showRecipientNameTo": [TEAM, COURSE],
+            "receiverEmail":"danny.e.tmms@gmail.tmt",
+            "createdAt":"2016-04-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Danny great job, you've topped the course this month!"
+            }
+            
         }
         
     }

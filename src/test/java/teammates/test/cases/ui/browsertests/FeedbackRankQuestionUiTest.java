@@ -61,7 +61,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                 "alice.b.tmms@gmail.tmt",
                                                 "tmms.helper1@gmail.tmt"));
         FeedbackQuestionSubmitPage rankOptionsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage(
-                                                                        "alice.tmms@FRankUiT.CS4221", 
+                                                                        "alice.tmms@FRankUiT.CS4221",
                                                                         "student", singleRankOptionsFq.getId());
 
         rankOptionsQuestionSubmitPage.selectResponseTextDropdown(1, 0, 0, "2");
@@ -205,7 +205,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" 
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-"
                                                      + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("Rank submission: test submission page if some students are not visible to the instructor");
@@ -325,8 +325,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         // try to submit with insufficient non-blank option
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS 
-                     + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".", 
+        assertEquals(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
+                     + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".",
                      feedbackEditPage.getStatus());
 
         feedbackEditPage.selectNewQuestionType("Rank (options) question");
@@ -338,7 +338,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
         feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn(); 
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
         assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();

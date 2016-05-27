@@ -20,16 +20,16 @@ public class InstructorFeedbackResultsResponsePanel {
     private FeedbackResponseCommentRow frcForAdding;
     private boolean isAllowedToAddComment;
     
-    // The indexes are used for the parameters of js functions for handling response comments 
+    // The indexes are used for the parameters of js functions for handling response comments
     private int recipientIndex;
     private int giverIndex;
     private int qnIndex; // TODO  investigate using question number instead of tracking an index
     
     public InstructorFeedbackResultsResponsePanel(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-                                                  String questionText, String additionalInfoText, 
-                                                  ElementTag rowAttributes, 
-                                                  String displayableResponse, 
-                                                  List<FeedbackResponseCommentRow> comments, 
+                                                  String questionText, String additionalInfoText,
+                                                  ElementTag rowAttributes,
+                                                  String displayableResponse,
+                                                  List<FeedbackResponseCommentRow> comments,
                                                   boolean isAllowedToAddComment) {
         this.question = question;
         this.response = response;

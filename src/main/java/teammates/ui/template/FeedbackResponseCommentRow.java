@@ -114,7 +114,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public String getFeedbackResponseId() {
-        return feedbackResponseId;   
+        return feedbackResponseId;
     }
 
     public String getCourseId() {

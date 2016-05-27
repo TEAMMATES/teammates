@@ -89,7 +89,7 @@ public class InstructorCourseRemindAction extends Action {
                      .append(courseId)
                      .append("]</span>:<br/>");
         
-        Iterator<Entry<String, JoinEmailData>> extractedEmailIterator = 
+        Iterator<Entry<String, JoinEmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
         
         while (extractedEmailIterator.hasNext()) {

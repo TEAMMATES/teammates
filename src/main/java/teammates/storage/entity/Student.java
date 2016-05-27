@@ -26,7 +26,7 @@ public class Student implements StoreCallback {
     
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to 
+     * Set to true when using scripts to update entities when you want to
      * preserve the lastUpdate time stamp.
      **/
     @NotPersistent
@@ -48,7 +48,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
+    //CHECKSTYLE:OFF the database uses ID
     private String ID;
+    //CHECKSTYLE:ON
 
     /**
      * The email used to contact the student regarding this course.

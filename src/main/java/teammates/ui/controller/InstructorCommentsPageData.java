@@ -37,7 +37,7 @@ public class InstructorCommentsPageData extends PageData {
     
     public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
-                     Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster, 
+                     Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster,
                      List<FeedbackSessionAttributes> feedbackSessions, int numberOfPendingComments) {
         this.isViewingDraft = isViewingDraft;
         this.isDisplayArchive = isDisplayArchive;
@@ -97,13 +97,13 @@ public class InstructorCommentsPageData extends PageData {
             Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions,
             CourseRoster roster) {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
-        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            CommentsForStudentsTable table = 
+            CommentsForStudentsTable table =
                     new CommentsForStudentsTable(
-                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail), 
+                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail),
                                                          commentModifyPermissions, roster));
             String extraClass;
             if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
@@ -122,7 +122,7 @@ public class InstructorCommentsPageData extends PageData {
         String unsanitizedGiverName = StringHelper.recoverFromSanitizedText(giverName);
         
         List<CommentRow> rows = new ArrayList<CommentRow>();
-        for (int i = 0; i < commentsForGiver.size(); i++) {            
+        for (int i = 0; i < commentsForGiver.size(); i++) {
             CommentAttributes comment = commentsForGiver.get(i);
             String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
@@ -146,7 +146,7 @@ public class InstructorCommentsPageData extends PageData {
             }
             
             rows.add(commentDiv);
-        }       
+        }
         return rows;
     }
     

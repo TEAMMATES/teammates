@@ -114,7 +114,7 @@ public class InstructorStudentListPage extends AppPage {
         int id = 0;
         while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
-                 .startsWith("[" + courseId + "]")) {
+                    .startsWith("[" + courseId + "]")) {
                 return id;
             }
             id++;

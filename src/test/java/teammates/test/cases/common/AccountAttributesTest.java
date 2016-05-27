@@ -164,7 +164,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;

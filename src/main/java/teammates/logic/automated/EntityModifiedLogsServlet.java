@@ -20,7 +20,7 @@ import com.google.appengine.api.log.RequestLogs;
 public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {  
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         servletName = "entityModifiedLogs";
         action = "extracts entities that were modified from logs";
 
@@ -58,7 +58,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                     }
                 }
             }
-        } catch (IOException e) {  
+        } catch (IOException e) {
             log.severe(TeammatesException.toStringWithStackTrace(e));
         }
     }

@@ -70,7 +70,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         //      => It saves time during tests
         
         ______TS("get SP");
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com",
                 "institute", "countryName", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
                 true, "test@email.com", "dev", expectedSpa);
@@ -78,7 +78,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.createAccount(accountWithStudentProfile);
         
         StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
         ______TS("update SP");
@@ -88,7 +88,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
         
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
         ______TS("update picture");
@@ -453,7 +453,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         instructor = dataBundle.instructors.get("instructor4");
         newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
         
-        instructorsLogic.createInstructor(newIns);  
+        instructorsLogic.createInstructor(newIns);
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
@@ -522,7 +522,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                     "You have used an invalid join link: "
                     + "/page/instructorCourseJoin?key=" + invalidKey,
                     e.getMessage());
-        }        
+        }
     }
 
     @Test

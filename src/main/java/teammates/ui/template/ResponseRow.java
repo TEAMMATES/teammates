@@ -8,7 +8,7 @@ public class ResponseRow {
     private String response;
     private List<FeedbackResponseCommentRow> feedbackResponseComments;
     
-    public ResponseRow(String giverName, String recipientName, 
+    public ResponseRow(String giverName, String recipientName,
                        String response, List<FeedbackResponseCommentRow> feedbackResponseComments) {
         this.giverName = giverName;
         this.recipientName = recipientName;
