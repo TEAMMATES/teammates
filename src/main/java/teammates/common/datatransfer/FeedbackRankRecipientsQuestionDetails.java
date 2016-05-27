@@ -24,12 +24,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                          FeedbackQuestionType questionType) {
-        return super.extractQuestionDetails(requestParameters, questionType);
-    }
-
-    @Override
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.RANK_RECIPIENT;
     }
