@@ -1,12 +1,12 @@
 package teammates.ui.controller;
 
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.UploadOptions;
-
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.UploadOptions;
 
 public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
 
@@ -36,12 +36,12 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
         
     }
 
-    public String getNewUploadUrl() {     
+    public String getNewUploadUrl() {
         try {
             return generateNewUploadUrl();
         } catch (BlobstoreFailureException e) {
             return null;
-        } 
+        }
     }
 
     private String generateNewUploadUrl() {

@@ -10,9 +10,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails.EmailType;
 
@@ -86,7 +86,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 newSession.timeZone = Double.parseDouble(paramTimeZone);
             } catch (NumberFormatException nfe) {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
-            } 
+            }
         }
         
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);

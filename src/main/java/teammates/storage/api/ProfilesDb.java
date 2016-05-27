@@ -5,11 +5,6 @@ import java.util.Date;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -19,6 +14,11 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles CRUD Operations for profiles.
@@ -34,7 +34,7 @@ public class ProfilesDb extends EntitiesDb {
      * 
      * @param accountGoogleId
      */
-    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
+    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
         StudentProfile sp = getStudentProfileEntityFromDb(accountGoogleId);
         if (sp == null) {
             return null;
@@ -48,14 +48,14 @@ public class ProfilesDb extends EntitiesDb {
      * Assumes that the googleId remains the same and so updates the profile
      * with the given googleId.
      * 
-     * TODO: update the profile with whatever given values are valid and 
+     * TODO: update the profile with whatever given values are valid and
      * ignore those that are not valid.
      * @param newSpa
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateStudentProfile(StudentProfileAttributes newSpa) 
-            throws InvalidParametersException, EntityDoesNotExistException {        
+    public void updateStudentProfile(StudentProfileAttributes newSpa)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         validateNewProfile(newSpa);
         
@@ -140,12 +140,12 @@ public class ProfilesDb extends EntitiesDb {
     }
     
     /**
-     * Deletes the profile picture from GCS and 
-     * updates the profile entity: 
-     *     empties the key and updates the modifiedDate 
+     * Deletes the profile picture from GCS and
+     * updates the profile entity:
+     *     empties the key and updates the modifiedDate
      * 
      * @param googleId
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
     public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
@@ -192,7 +192,7 @@ public class ProfilesDb extends EntitiesDb {
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
-            // This method is not testable as loading legacy data into 
+            // This method is not testable as loading legacy data into
             // current database is restricted by new validity checks
             Account account = getPM().getObjectById(Account.class, key);
             if (account == null
@@ -211,7 +211,7 @@ public class ProfilesDb extends EntitiesDb {
     /**
      * Gets the profile entity associated with given googleId.
      * If the profile does not exist, it tries to get the
-     * profile from the function 
+     * profile from the function
      * 'getStudentProfileEntityForLegacyData'.
      * 
      * TODO: update this function once legacy data have been ported over

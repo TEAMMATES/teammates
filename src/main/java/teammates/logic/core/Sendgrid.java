@@ -7,8 +7,12 @@
 
 package teammates.logic.core;
 
-import java.net.HttpURLConnection;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -16,17 +20,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
 
 public class Sendgrid {
     
+    protected String domain = "https://sendgrid.com/";
+    protected String endpoint = "api/mail.send.json";
+    protected String username;
+    protected String password;
+
     private String from;
     private String fromName;
     private String replyTo;
@@ -35,19 +40,14 @@ public class Sendgrid {
     private String html;
     
     private String serverResponse = "";
-    private ArrayList<String> toList  = new ArrayList<String>();
-    private ArrayList<String> toNameList  = new ArrayList<String>();
+    private ArrayList<String> toList = new ArrayList<String>();
+    private ArrayList<String> toNameList = new ArrayList<String>();
     private ArrayList<String> bccList = new ArrayList<String>();
     private JSONObject headerList = new JSONObject();
 
-    protected String domain = "https://sendgrid.com/";
-    protected String endpoint = "api/mail.send.json";
-    protected String username;
-    protected String password;
-
     public Sendgrid(String username, String password) throws JSONException {
         this.username = username;
-        this.password = password;      
+        this.password = password;
         this.setCategory("google_sendgrid_java_lib");
     }
 
@@ -90,8 +90,8 @@ public class Sendgrid {
     /**
      * Make the second parameter("name") of "addTo" method optional
      *
-     * @param   email   A single email address 
-     * @return          The SendGrid object.  
+     * @param   email   A single email address
+     * @return          The SendGrid object.
      */
     public Sendgrid addTo(String email) {
         return addTo(email, "");
@@ -334,7 +334,7 @@ public class Sendgrid {
      * @param  array   the array to convert
      * @param  token   the name of parameter
      * @return         a url part that can be concatenated to a url request
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     protected String arrayToUrlPart(ArrayList<String> array, String token) throws UnsupportedEncodingException {
         StringBuilder urlPart = new StringBuilder();
@@ -349,7 +349,7 @@ public class Sendgrid {
      * Takes the mail message and returns a url friendly querystring
      *
      * @return the data query string to be posted
-     * @throws JSONException 
+     * @throws JSONException
      */
     protected Map<String, String> prepareMessageData() throws JSONException {
         Map<String, String> params = new HashMap<String, String>();
@@ -378,7 +378,7 @@ public class Sendgrid {
         JSONArray tosJson = new JSONArray(this.getTos());
         headers.put("to", tosJson);
         this.setHeaders(headers);
-        params.put("x-smtpapi", _escapeUnicode(this.getHeaders().toString()));
+        params.put("x-smtpapi", escapeUnicode(this.getHeaders().toString()));
         
         return params;
     }
@@ -395,7 +395,7 @@ public class Sendgrid {
      * Send an email
      *
      * @throws JSONException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     public void send() throws JSONException, UnsupportedEncodingException {
         send(new WarningListener() {
@@ -411,7 +411,7 @@ public class Sendgrid {
      *
      * @param w callback that will receive warnings
      * @throws JSONException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     public void send(WarningListener w) throws JSONException, UnsupportedEncodingException {
         Map<String, String> data = this.prepareMessageData();
@@ -423,7 +423,7 @@ public class Sendgrid {
             final String value = data.get(key);
             
             if ("to".equals(key) && this.getTos().size() > 0) {
-                requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");               
+                requestParams.append("to=" + URLEncoder.encode(value, "UTF-8") + "&");
             } else {
                 if ("toname".equals(key) && this.getToNames().size() > 0) {
                     requestParams.append(this.arrayToUrlPart(this.getToNames(), "toname").substring(1) + "&");
@@ -446,7 +446,7 @@ public class Sendgrid {
             }
         }
         
-        StringBuilder request = new StringBuilder(); 
+        StringBuilder request = new StringBuilder();
         request.append(this.domain).append(this.endpoint);
 
         if (this.getBccs().size() > 0) {
@@ -498,12 +498,12 @@ public class Sendgrid {
         }
     }
 
-    private String _escapeUnicode(String input) {
+    private String escapeUnicode(String input) {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < input.length(); i++) {
             int code = Character.codePointAt(input, i);
-            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code)); 
+            sb.append(String.format(code > 127 ? "\\u%x" : "%c", code));
         }
         
         return sb.toString();

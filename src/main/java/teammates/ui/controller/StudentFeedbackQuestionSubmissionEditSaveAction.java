@@ -58,7 +58,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
     protected void setStatusToAdmin() {
         statusToAdmin = "Save question feedback and show student feedback question submission edit page<br>"
                         + "Question ID: " + feedbackQuestionId + "<br>"
-                        + "Session Name: " + feedbackSessionName + "<br>" 
+                        + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
     }
 
@@ -87,6 +87,6 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
 
     @Override
     protected void checkAdditionalConstraints() {
-        // no additional constraints to check 
+        // no additional constraints to check
     }
 }

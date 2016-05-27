@@ -126,7 +126,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     /**

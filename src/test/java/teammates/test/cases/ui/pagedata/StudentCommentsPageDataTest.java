@@ -31,9 +31,9 @@ import teammates.ui.controller.StudentCommentsPageData;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
+import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
-import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.ResponseRow;
 
 public class StudentCommentsPageDataTest extends BaseTestCase {
@@ -70,7 +70,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<InstructorAttributes> instructors = Arrays.asList(sampleInstructor);
         CourseRoster roster = new CourseRoster(students, instructors);
         String studentEmail = sampleStudent.email;
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
                 new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = getSingleFeedbackSessionResultsBundle(roster);
         feedbackResultBundles.put(bundle.feedbackSession.feedbackSessionName, bundle);
@@ -85,7 +85,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         assertEquals(1, data.getCommentsForStudentsTables().size());
         String expectedGiverDetails = sampleInstructor.displayedName + " " + sampleInstructor.name;
-        CommentsForStudentsTable expectedCommentsForStudentsTable = 
+        CommentsForStudentsTable expectedCommentsForStudentsTable =
                 getCommentsForStudentsTable(expectedGiverDetails, studentEmail, comments, roster);
         CommentsForStudentsTable actualCommentsForStudentsTable = actualCommentsForStudentsTables.get(0);
         checkCommentsForStudentsTablesEqual(expectedCommentsForStudentsTable, actualCommentsForStudentsTable);
@@ -108,7 +108,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             commentRows.add(new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
-        CommentsForStudentsTable commentsForStudentsTable = 
+        CommentsForStudentsTable commentsForStudentsTable =
                 new CommentsForStudentsTable(unsanitizedGiverDetails, commentRows);
         return commentsForStudentsTable;
     }
@@ -123,10 +123,10 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             List<FeedbackResponseAttributes> responses = questionToResponsesMap.get(question);
             for (FeedbackResponseAttributes response : responses) {
                 List<FeedbackResponseComment> feedbackResponseCommentRows = new ArrayList<FeedbackResponseComment>();
-                List<FeedbackResponseCommentAttributes> responseComments = 
+                List<FeedbackResponseCommentAttributes> responseComments =
                         bundle.responseComments.get(response.getId());
                 for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-                    FeedbackResponseComment feedbackResponseCommentRow = 
+                    FeedbackResponseComment feedbackResponseCommentRow =
                             new FeedbackResponseComment(responseComment, responseComment.giverEmail);
                     feedbackResponseCommentRows.add(feedbackResponseCommentRow);
                 }
@@ -140,30 +140,30 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
                 
                 String responseText = response.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
                 
-                ResponseRow responseRow = 
+                ResponseRow responseRow =
                         new ResponseRow(giverName, recipientName, responseText, feedbackResponseCommentRows);
                 responseRows.add(responseRow);
             }
             int questionNumber = question.questionNumber;
             String questionText = bundle.getQuestionText(question.getId());
-            String additionalInfo = 
+            String additionalInfo =
                     question.getQuestionDetails().getQuestionAdditionalInfoHtml(question.questionNumber, "");
-            QuestionTable questionTable = 
+            QuestionTable questionTable =
                     new QuestionTable(questionNumber, questionText, additionalInfo, responseRows);
             questionTables.add(questionTable);
         }
         
-        FeedbackSessionRow sessionRow = 
+        FeedbackSessionRow sessionRow =
                 new FeedbackSessionRow(session.feedbackSessionName, session.courseId, questionTables);
     
         return sessionRow;
     }
     
-    /** Creates a single FeedbackSessionResultsBundle object which comprises 
+    /** Creates a single FeedbackSessionResultsBundle object which comprises
       * a single feedback session, a single question, a single response and a single response comment */
     private static FeedbackSessionResultsBundle getSingleFeedbackSessionResultsBundle(CourseRoster roster) {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1"); 
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         response.setId("1");
         List<FeedbackResponseAttributes> responses = Arrays.asList(response);
         Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<String, FeedbackQuestionAttributes>();
@@ -185,13 +185,13 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         responseStatus.emailNameTable.put(sampleStudent.email, sampleStudent.name);
         responseStatus.emailTeamNameTable.put(sampleStudent.email, sampleStudent.team);
-        FeedbackResponseCommentAttributes responseComment = 
+        FeedbackResponseCommentAttributes responseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         List<FeedbackResponseCommentAttributes> responseCommentsList = Arrays.asList(responseComment);
         responseComments.put(response.getId(), responseCommentsList);
         boolean isComplete = true;
         return new FeedbackSessionResultsBundle(
-                session, responses, relevantQuestions, emailNameTable, 
+                session, responses, relevantQuestions, emailNameTable,
                 emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
     }
@@ -208,7 +208,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         
         int index = coursePaginationList.indexOf(courseId);
         String expectedPreviousPageLink = index > 0 ? coursePaginationList.get(index - 1) : "javascript:;";
-        String expectedNextPageLink = 
+        String expectedNextPageLink =
                 index < coursePaginationList.size() - 1 ? coursePaginationList.get(index + 1) : "javascript:;";
         List<String> expectedCoursePaginationList = coursePaginationList;
         String expectedActiveCourseClass = "active";
@@ -240,7 +240,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
 
     private static void checkFeedbackSessionRowsEqual(
             FeedbackSessionRow expectedFeedbackSessionRow, FeedbackSessionRow actualFeedbackSessionRow) {
-        assertEquals(expectedFeedbackSessionRow.getFeedbackSessionName(), 
+        assertEquals(expectedFeedbackSessionRow.getFeedbackSessionName(),
                      actualFeedbackSessionRow.getFeedbackSessionName());
         assertEquals(expectedFeedbackSessionRow.getCourseId(), actualFeedbackSessionRow.getCourseId());
         List<QuestionTable> actualQuestionTables = actualFeedbackSessionRow.getQuestionTables();
@@ -256,7 +256,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             QuestionTable expectedQuestionTable, QuestionTable actualQuestionTable) {
         assertEquals(expectedQuestionTable.getQuestionNumber(), actualQuestionTable.getQuestionNumber());
         assertEquals(expectedQuestionTable.getQuestionText(), actualQuestionTable.getQuestionText());
-        assertEquals(expectedQuestionTable.getAdditionalInfo(), actualQuestionTable.getAdditionalInfo());        
+        assertEquals(expectedQuestionTable.getAdditionalInfo(), actualQuestionTable.getAdditionalInfo());
         List<ResponseRow> actualResponseRows = actualQuestionTable.getResponseRows();
         List<ResponseRow> expectedResponseRows = expectedQuestionTable.getResponseRows();
         assertEquals(expectedResponseRows.size(), actualResponseRows.size());
@@ -270,21 +270,21 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         assertEquals(expectedResponseRow.getGiverName(), actualResponseRow.getGiverName());
         assertEquals(expectedResponseRow.getRecipientName(), actualResponseRow.getRecipientName());
         assertEquals(expectedResponseRow.getResponse(), actualResponseRow.getResponse());
-        List<FeedbackResponseComment> actualFeedbackResponseCommentRows = 
+        List<FeedbackResponseComment> actualFeedbackResponseCommentRows =
                 actualResponseRow.getFeedbackResponseComments();
-        List<FeedbackResponseComment> expectedFeedbackResponseCommentRows = 
+        List<FeedbackResponseComment> expectedFeedbackResponseCommentRows =
                 expectedResponseRow.getFeedbackResponseComments();
-        assertEquals(expectedFeedbackResponseCommentRows.size(), 
+        assertEquals(expectedFeedbackResponseCommentRows.size(),
                      actualFeedbackResponseCommentRows.size());
         
         for (int i = 0; i < expectedFeedbackResponseCommentRows.size(); i++) {
-            checkFeedbackResponseCommentRowsEqual(expectedFeedbackResponseCommentRows.get(i), 
+            checkFeedbackResponseCommentRowsEqual(expectedFeedbackResponseCommentRows.get(i),
                                                   actualFeedbackResponseCommentRows.get(i));
         }
     }
     
-    /** The methods below check if the data structures are equal 
-     *  Only asserts the attributes that are used in the respective comment tags 
+    /** The methods below check if the data structures are equal
+     *  Only asserts the attributes that are used in the respective comment tags
      *  when accessing from StudentComments page*/
     private static void checkCommentRowsEqual(Comment expected, Comment actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());

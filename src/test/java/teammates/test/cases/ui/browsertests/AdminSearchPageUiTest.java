@@ -37,10 +37,10 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() {    
+    @Test
+    public void allTests() {
         testContent();
-        testSearch();        
+        testSearch();
     }
     
     private void testContent() {
@@ -139,7 +139,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     
     private boolean isSearchTableHeaderCorrect(int tableNum) {
         List<String> expectedSearchTableHeaders;
-        List<String> actualSessionTableHeaders;       
+        List<String> actualSessionTableHeaders;
 
         int numColumns = searchPage.getNumberOfColumnsFromDataTable(tableNum);
         
@@ -253,8 +253,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      * @return true if the links associated with the {@code student}'s name and
      *         googleId (if he/she is registered) are correct, otherwise false
      */
-    private boolean isStudentLinkCorrect(WebElement studentRow, 
-                                         StudentAttributes student, 
+    private boolean isStudentLinkCorrect(WebElement studentRow,
+                                         StudentAttributes student,
                                          InstructorAttributes instructorToMasquaradeAs) {
 
         String actualNameLink = studentRow.findElement(By.xpath("td[3]/a")).getAttribute("href");
@@ -271,7 +271,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                           .withUserId(student.googleId)
                                           .toAbsoluteString();
 
-            return actualNameLink.equals(expectedNameLink) 
+            return actualNameLink.equals(expectedNameLink)
                    && actualGoogleIdLink.equals(expectedGoogleIdLink);
 
         }

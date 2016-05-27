@@ -8,9 +8,6 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -20,6 +17,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailsDb extends EntitiesDb {
     
@@ -49,7 +49,7 @@ public class AdminEmailsDb extends EntitiesDb {
         if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject()
-                    + "/" + ae.getSendDate() 
+                    + "/" + ae.getSendDate()
                     + ThreadHelper.getCurrentThreadStack());
         }
         
@@ -80,7 +80,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * deletes all emails in trash bin, related group receiver text file will be removed from 
+     * deletes all emails in trash bin, related group receiver text file will be removed from
      * Google Cloud Storage
      */
     public void deleteAllEmailsInTrashBin() {
@@ -126,7 +126,7 @@ public class AdminEmailsDb extends EntitiesDb {
     
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
@@ -306,7 +306,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         if (adminEmailToGet.getEmailId() != null) {
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
-        } 
+        }
         
         return getAdminEmailEntity(adminEmailToGet.getSubject(),
                                    adminEmailToGet.getCreateDate());

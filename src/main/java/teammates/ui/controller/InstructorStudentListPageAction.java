@@ -10,8 +10,8 @@ import java.util.Map;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
@@ -62,7 +62,7 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        InstructorStudentListPageData data = 
+        InstructorStudentListPageData data =
                 new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);

@@ -47,7 +47,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData = 
+        InstructorFeedbackRemindParticularStudentsPageData pageData =
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
         assertEquals(6, pageData.getResponseStatus().noResponse.size());
         

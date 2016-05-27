@@ -46,19 +46,19 @@ public class StudentHomePage extends AppPage {
     
     public WebElement getViewFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
     }
 
     public WebElement getEditFeedbackButton(String feedbackName) {
     
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
     public WebElement getSubmitFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
 

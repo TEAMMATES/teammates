@@ -110,7 +110,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             result = (FileDownloadResult) action.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
     }
@@ -130,26 +130,26 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
         ...
         ==================================
-        full testing of file content is 
+        full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
         System.out.println(fileContent);
 
         String[] expected = {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"What is the best selling point of your product?\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "Course,\"" + session.courseId + "\"",
+                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
         };
         
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
         
-    }    
+    }
 
     private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent,
                                                                       FeedbackSessionAttributes session) {
@@ -166,21 +166,21 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","I'm cool'"
         ...
         ==================================
-        full testing of file content is 
+        full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
         System.out.println(fileContent);
         
         String[] expected = {
-            "Course,\"" + session.courseId + "\"", 
-            "Session Name,\"" + session.feedbackSessionName + "\"", 
-            "", 
-            "", 
-            "Question 1,\"What is the best selling point of your product?\"",
-            "", 
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "Course,\"" + session.courseId + "\"",
+                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
         };
         
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
@@ -203,23 +203,23 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","I'm cool'"
         ...
         ==================================
-        full testing of file content is 
+        full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
         System.out.println(fileContent);
         
         
         String[] expected = {
-            "Course,\"" + session.courseId + "\"", 
-            "Session Name,\"" + session.feedbackSessionName + "\"", 
-            "Section Name,\"Section 1\"",
-            "", 
-            "", 
-            "Question 1,\"What is the best selling point of your product?\"",
-            "", 
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "Course,\"" + session.courseId + "\"",
+                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "Section Name,\"Section 1\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
         };
         
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));

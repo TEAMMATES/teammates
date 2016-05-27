@@ -22,9 +22,12 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    //CHECKSTYLE:OFF
+    // The weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    //CHECKSTYLE:ON
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -87,7 +90,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

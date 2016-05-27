@@ -19,7 +19,8 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal, testDataQuestionType;
+    private static DataBundle testDataNormal;
+    private static DataBundle testDataQuestionType;
 
     private static String instructorId;
     private static String courseId;
@@ -169,7 +170,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.clickVisibilityOptionsButton(1);
     }
 
-    private void testAction() {
+    private void testAction() throws Exception {
         
         ______TS("add comment: failure (empty comment)");
 
@@ -179,6 +180,11 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         viewPage.addComment("New comment from teammates.test for Benny C")
                 .verifyStatus("New comment has been added");
+
+        ______TS("add comment with custom visibility: success");
+        
+        viewPage.addCommentWithVisibility("New comment from teammates.test for Benny C, viewable by everyone", 4);
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageAddComment.html");
 
         ______TS("delete comment: cancel");
 
