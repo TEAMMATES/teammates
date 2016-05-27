@@ -887,11 +887,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "<span class=\"color-negative\">0%</span>";
         } else if (i > 100) {
             return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
-        } else if (i < 100) {
-            return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">Equal Share</span>";
-        }
+            return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
+        } 
     }
 
     @Override
