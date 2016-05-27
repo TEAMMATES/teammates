@@ -48,9 +48,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
-    //CHECKSTYLE:OFF the database uses ID
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
     private String ID;
-    //CHECKSTYLE:ON
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 
     /**
      * The email used to contact the student regarding this course.
@@ -65,9 +65,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("coursename")
-    //CHECKSTYLE:OFF the database uses courseID
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName the database uses courseID
     private String courseID;
-    //CHECKSTYLE:ON
+    // CHECKSTYLE.ON:AbbreviationAsWordInName
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")

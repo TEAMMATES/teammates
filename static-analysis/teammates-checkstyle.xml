@@ -123,7 +123,11 @@
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
   </module>
   <module name="FileTabCharacter"/>
-  <module name="SuppressionCommentFilter"/>
+  <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\.OFF:([A-Za-z\|]+)"/>
+      <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
+      <property name="checkFormat" value="$1"/>
+  </module>
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf_cr_crlf"/>
   </module>

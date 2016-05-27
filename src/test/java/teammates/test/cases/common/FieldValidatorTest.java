@@ -1,8 +1,8 @@
 package teammates.test.cases.common;
 
-//CHECKSTYLE:OFF as we want to perform tests on everything from FieldValidator
+// CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
-//CHECKSTYLE:ON
+// CHECKSTYLE.ON:AvoidStarImport
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
