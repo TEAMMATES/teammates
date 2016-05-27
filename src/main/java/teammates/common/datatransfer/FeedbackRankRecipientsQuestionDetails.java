@@ -92,7 +92,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -105,8 +105,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                             "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                             );
-        
-        return html;
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {       

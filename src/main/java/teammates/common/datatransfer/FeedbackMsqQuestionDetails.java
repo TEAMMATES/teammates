@@ -172,11 +172,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
-        
-        return html;
     }
 
     @Override
@@ -228,11 +226,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
-        
-        return html;
     }
     
     private List<String> generateOptionList(String courseId) {
@@ -299,7 +295,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_EDIT_FORM,
                 "${msqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -317,7 +313,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString(),
                 "${instructorSelected}", generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 "${FeedbackParticipantType.INSTRUCTORS.toString()}", FeedbackParticipantType.INSTRUCTORS.toString());
-        return html;
     }
     
     @Override
@@ -368,15 +363,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${msqAdditionalInfoFragments}", optionListHtml.toString());
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        return html;
     }
 
     @Override

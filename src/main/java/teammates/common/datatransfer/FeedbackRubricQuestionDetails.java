@@ -228,7 +228,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
 
         // Create submission form
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, questionNumberString,
                 Const.FeedbackQuestion.RESPONSE_INDEX, responseNumberString,
@@ -238,7 +238,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Const.FeedbackQuestion.TABLE_BODY_HTML, tableBodyHtml,
                 "${mobileHtml}", mobileHtml,
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
-        return html;
     }
 
     @Override
@@ -253,7 +252,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
 
         // Create submission form
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, questionNumberString,
                 Const.FeedbackQuestion.RESPONSE_INDEX, responseNumberString,
@@ -263,7 +262,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Const.FeedbackQuestion.TABLE_BODY_HTML, tableBodyHtml,
                 "${mobileHtml}", mobileHtml,
                 Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
-        return html;
     }
 
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
@@ -411,7 +409,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         // Create edit form
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, questionNumberString,
                 Const.FeedbackQuestion.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
@@ -424,8 +422,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 "${checkAssignWeights}", hasAssignedWeights ? "checked" : "",
                 "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}", Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
-        
-        return html;
     }
 
     @Override
@@ -506,15 +502,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${rubricAdditionalInfoFragments}", subQuestionListHtml.toString());
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        return html;
     }
     
     @Override
@@ -587,13 +581,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", "student".equals(view) ? "Response Summary (of visible responses)" : "Response Summary",
                 Const.FeedbackQuestion.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Const.FeedbackQuestion.TABLE_BODY_HTML, tableBodyHtml.toString());
-        
-        return html;
     }
     
     /**

@@ -160,7 +160,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
-                            "${checked}", isOtherSelected ? "checked" : "",
+                            Const.FeedbackQuestion.CHECKED, isOtherSelected ? "checked" : "",
                             Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Const.FeedbackQuestion.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
@@ -186,7 +186,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                             Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
-                            "${checked}", "",
+                            Const.FeedbackQuestion.CHECKED, "",
                             Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Const.FeedbackQuestion.MCQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -200,7 +200,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", "disabled",
-                            "${checked}", "",
+                            Const.FeedbackQuestion.CHECKED, "",
                             Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Const.FeedbackQuestion.MCQ_CHOICE_VALUE, "",
@@ -208,11 +208,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         } 
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM,
                 "${mcqSubmissionFormOptionFragments}", optionListHtml.toString());
-        
-        return html;
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -277,7 +275,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MCQ_EDIT_FORM,
                 "${mcqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -295,8 +293,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString(),
                 "${instructorSelected}", generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 "${FeedbackParticipantType.INSTRUCTORS.toString()}", FeedbackParticipantType.INSTRUCTORS.toString());
-        
-        return html;
     }
 
     @Override
@@ -345,15 +341,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${mcqAdditionalInfoFragments}", optionListHtml.toString());
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-        
-        return html;
     }
     
     @Override

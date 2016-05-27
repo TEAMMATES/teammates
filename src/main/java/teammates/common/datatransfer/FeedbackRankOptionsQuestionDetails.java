@@ -89,7 +89,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
         }
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -102,8 +102,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                 );
-        
-        return html;
     }
 
     @Override
@@ -127,7 +125,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -140,8 +138,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                             "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                             );
-        
-        return html;
     }
     
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
@@ -223,15 +219,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             "${questionTypeName}", this.getQuestionTypeDisplayName(),
             "${msqAdditionalInfoFragments}", optionListHtml.toString());
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
-
-        return html;
     }
 
     @Override

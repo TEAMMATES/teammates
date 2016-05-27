@@ -225,12 +225,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf 
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE 
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
                         "${statsFragments}", fragmentHtml.toString());
-            
-        return html;
     }
 
     private String getStudentQuestionResultsStatisticsHtml(
