@@ -1198,12 +1198,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
     
     @SuppressWarnings("unchecked")
-    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseID)
+    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseId)
             throws Exception {
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
                                     new Class[] { String.class, String.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { lines, courseID };
+        Object[] params = new Object[] { lines, courseId };
         return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
     }
         

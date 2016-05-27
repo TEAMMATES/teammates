@@ -91,7 +91,7 @@ public class AccountsDb extends EntitiesDb {
         if (a == null) {
             return null;
         }
-        closePM();
+        closePm();
         
         return new AccountAttributes(a);
     }
@@ -105,7 +105,7 @@ public class AccountsDb extends EntitiesDb {
      *   Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        Query q = getPM().newQuery(Account.class);
+        Query q = getPm().newQuery(Account.class);
         q.setFilter("isInstructor == true");
         
         @SuppressWarnings("unchecked")
@@ -158,7 +158,7 @@ public class AccountsDb extends EntitiesDb {
             }
         }
         log.info(a.getBackupIdentifier());
-        closePM();
+        closePm();
     }
     
     public void updateAccount(AccountAttributes a)
@@ -189,7 +189,7 @@ public class AccountsDb extends EntitiesDb {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
-        closePM();
+        closePm();
     }
     
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
@@ -200,14 +200,14 @@ public class AccountsDb extends EntitiesDb {
             }
         }
         deleteEntities(accounts);
-        closePM();
+        closePm();
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = getPM().getObjectById(Account.class, key);
+            Account account = getPm().getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
                 return null;

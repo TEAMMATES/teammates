@@ -63,7 +63,7 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setSendDate(ae.sendDate);
         
         log.info(ae.getBackupIdentifier());
-        closePM();
+        closePm();
         
     }
 
@@ -120,7 +120,7 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setSendDate(newAdminEmail.sendDate);
         
         log.info(newAdminEmail.getBackupIdentifier());
-        closePM();
+        closePm();
         
     }
     
@@ -177,7 +177,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam && sendDate == null");
         
@@ -207,7 +207,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getSentAdminEmails() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam && sendDate != null");
         
@@ -237,7 +237,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam");
         
@@ -261,7 +261,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     private List<AdminEmail> getAdminEmailEntities() {
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute();
@@ -272,7 +272,7 @@ public class AdminEmailsDb extends EntitiesDb {
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("String adminEmailIdParam");
         q.setFilter("emailId == adminEmailIdParam");
         
@@ -287,7 +287,7 @@ public class AdminEmailsDb extends EntitiesDb {
     
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
 
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("String subjectParam, java.util.Date createDateParam");
         q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
         

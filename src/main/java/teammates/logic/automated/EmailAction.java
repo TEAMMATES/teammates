@@ -96,7 +96,7 @@ public abstract class EmailAction {
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     
     protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
-        String url = HttpRequestHelper.getRequestedURL(req);
+        String url = HttpRequestHelper.getRequestedUrl(req);
         String message;
         
         try {
@@ -112,7 +112,7 @@ public abstract class EmailAction {
 
     protected void logActivityFailure(HttpServletRequest req, Throwable e) {
                 
-        String url = HttpRequestHelper.getRequestedURL(req);
+        String url = HttpRequestHelper.getRequestedUrl(req);
     
         String message = "<span class=\"color_red\">Servlet Action failure in " + actionName + "<br>"
                        + e.getMessage() + "</span>";

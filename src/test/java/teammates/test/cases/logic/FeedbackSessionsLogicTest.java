@@ -1981,14 +1981,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure: non-existent Feedback session");
         
-        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
         
         try {
-            fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFSName);
+            fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFsName);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to remind non-existent feedback session "
-                            + fs.courseId + "/" + nonExistentFSName,
+                            + fs.courseId + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         
@@ -2050,15 +2050,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure: non-existent Feedback session");
         
-        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
         
         try {
             fsLogic.sendReminderForFeedbackSessionParticularUsers(
-                    fs.courseId, nonExistentFSName, usersToRemind);
+                    fs.courseId, nonExistentFsName, usersToRemind);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to remind non-existent feedback session "
-                            + fs.courseId + "/" + nonExistentFSName,
+                            + fs.courseId + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         

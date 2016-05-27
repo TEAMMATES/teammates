@@ -440,7 +440,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_INSTRUCTOR_ROLE() {
+    public void testGetValidityInfoInstructorRole() {
         
         verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
         
@@ -521,7 +521,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_COURSE_ID() {
+    public void testGetValidityInfoCourseId() {
         
         verifyAssertError("null value", FieldType.COURSE_ID, null);
         
@@ -580,7 +580,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_NAME() {
+    public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
@@ -599,7 +599,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_EMAIL() {
+    public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
@@ -630,7 +630,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_COURSE_ID() {
+    public void testRegexCourseId() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
@@ -645,7 +645,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_SAMPLE_COURSE_ID() {
+    public void testRegexSampleCourseId() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
         assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
@@ -656,7 +656,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_GOOGLE_ID_NON_EMAIL() {
+    public void testRegexGoogleIdNonEmail() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));

@@ -65,7 +65,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("coursename")
+    //CHECKSTYLE:OFF the database uses courseID
     private String courseID;
+    //CHECKSTYLE:ON
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
