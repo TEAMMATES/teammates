@@ -548,7 +548,7 @@ public final class BackDoor {
 
         // For Authentication
         map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY,
-                TestProperties.inst().BACKDOOR_KEY);
+                TestProperties.BACKDOOR_KEY);
 
         return map;
     }
@@ -556,7 +556,7 @@ public final class BackDoor {
     private static String makePOSTRequest(HashMap<String, Object> map) {
         try {
             String paramString = encodeParameters(map);
-            String urlString = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.BACKDOOR;
+            String urlString = TestProperties.TEAMMATES_URL + Const.ActionURIs.BACKDOOR;
             URLConnection conn = getConnectionToUrl(urlString);
             sendRequest(paramString, conn);
             return readResponse(conn);

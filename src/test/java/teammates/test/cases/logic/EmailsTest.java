@@ -389,7 +389,7 @@ public class EmailsTest extends BaseComponentTestCase {
         MimeMessage email = new Emails().generateSystemErrorEmail(
                                         error, requestMethod, requestUserAgent,
                                         requestPath, requestUrl, requestParam,
-                                        TestProperties.inst().TEAMMATES_VERSION);
+                                        TestProperties.TEAMMATES_VERSION);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -483,7 +483,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         email = new Emails().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
                                                       requestPath, requestUrl, requestParam,
-                                                      TestProperties.inst().TEAMMATES_VERSION);
+                                                      TestProperties.TEAMMATES_VERSION);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);

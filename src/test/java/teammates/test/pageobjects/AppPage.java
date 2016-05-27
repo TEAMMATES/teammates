@@ -193,7 +193,7 @@ public abstract class AppPage {
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
@@ -208,7 +208,7 @@ public abstract class AppPage {
      * Waits until the element is not covered by any other element.
      */
     public void waitForElementNotCovered(final WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
@@ -218,17 +218,17 @@ public abstract class AppPage {
     }
     
     public void waitForElementVisibility(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
     public void waitForElementToBeClickable(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void waitForElementsVisibility(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
@@ -236,7 +236,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
@@ -244,7 +244,7 @@ public abstract class AppPage {
      * Waits for a list of elements to be invisible or not present, or timeout.
      */
     public void waitForElementsToDisappear(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(invisibilityOfAllElements(elements));
     }
     
@@ -284,7 +284,7 @@ public abstract class AppPage {
      * Waits for an alert to appear on the page, up to the timeout specified.
      */
     public void waitForAlertPresence() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
@@ -292,7 +292,7 @@ public abstract class AppPage {
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -311,7 +311,7 @@ public abstract class AppPage {
      * Waits for text contained in the element to appear in the page, or timeout
      */
     public void waitForTextContainedInElementPresence(By by, String text) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
     }
     
@@ -319,7 +319,7 @@ public abstract class AppPage {
      * Waits for text contained in the element to disappear from the page, or timeout
      */
     public void waitForTextContainedInElementAbsence(By by, String text) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
@@ -444,7 +444,7 @@ public abstract class AppPage {
         WebElement loginButton = browser.driver.findElement(By.id("btnStudentLogin"));
         loginButton.click();
         waitForPageToLoad();
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             return changePageType(DevServerLoginPage.class);
         }
         return changePageType(GoogleLoginPage.class);
@@ -854,7 +854,7 @@ public abstract class AppPage {
             return false;
         }
         
-        TestProperties.inst().verifyReadyForGodMode();
+        TestProperties.verifyReadyForGodMode();
         String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
         saveCurrentPage(filePath, processedPageSource);
         return true;
