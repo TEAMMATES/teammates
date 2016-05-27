@@ -139,7 +139,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
                             Const.FeedbackQuestion.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
                             Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Const.FeedbackQuestion.MCQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Const.FeedbackQuestion.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
                             Const.FeedbackQuestion.MSQ_CHOICE_TEXT,  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }

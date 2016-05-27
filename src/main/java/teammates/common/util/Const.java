@@ -447,6 +447,8 @@ public final class Const {
         public static final String RANK_OPTION_VALUE = "${rankOptionValue}";
         
         // Rubric
+        public static final String RUBRIC_QUESTION_INDEX = "${qnIndex}";
+        public static final String RUBRIC_RESPONSE_INDEX = "${respIndex}";
         public static final String CURRENT_ROWS ="${currRows}";
         public static final String CURRENT_COLS = "${currCols}";
         public static final String TABLE_HEADER_ROW_FRAGMENT_HTML= "${tableHeaderRowFragmentHtml}";

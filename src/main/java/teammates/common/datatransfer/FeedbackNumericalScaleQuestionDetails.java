@@ -82,7 +82,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
                 Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
                 Const.FeedbackQuestion.CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 

@@ -248,9 +248,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : actualResponses) {
-            if (!bundle.visibilityTable.get(response.getId())[1]
-                    && type != FeedbackParticipantType.SELF
-                    && type != FeedbackParticipantType.NONE) {
+            if (!bundle.visibilityTable.get(response.getId())[1] 
+                && type != FeedbackParticipantType.SELF 
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -339,9 +339,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : actualResponses) {
-            if (!bundle.visibilityTable.get(response.getId())[1]
-                    && type != FeedbackParticipantType.SELF
-                    && type != FeedbackParticipantType.NONE) {
+            if (!bundle.visibilityTable.get(response.getId())[1] 
+                && type != FeedbackParticipantType.SELF
+                && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
@@ -887,9 +887,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "<span class=\"color-negative\">0%</span>";
         } else if (i > 100) {
             return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
-        } else {
+        } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
-        } 
+        } else {
+            return "<span class=\"color_neutral\">Equal Share</span>";
+        }
     }
 
     @Override
