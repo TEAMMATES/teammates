@@ -929,7 +929,8 @@ public class PageData {
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        return StringHelper.isWhiteSpace(visibilityString) ? "GIVER" : "GIVER, " + visibilityString;
     }
     
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
