@@ -388,22 +388,16 @@ public class StudentAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      **/
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setCreated_NonProduction(Date createdAt) {
+    public void setCreated_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
-    //CHECKSTYLE:ON
 
     /**
      * Should only be used for testing
      **/
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    //CHECKSTYLE:ON
 
     /**
      * Checks whether the edit form of student has changed the section value.

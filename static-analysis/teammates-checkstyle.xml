@@ -81,7 +81,9 @@
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
     <module name="MemberName"/>
-    <module name="MethodName"/>
+    <module name="MethodName">
+      <property name="format" value="^([a-z][a-zA-Z0-9]*)(_[a-z][a-zA-Z0-9]*){0,2}$"/>
+    </module>
     <module name="DeclarationOrder"/>
     <module name="RedundantImport"/>
     <module name="SimplifyBooleanExpression"/>

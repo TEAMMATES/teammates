@@ -35,8 +35,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertNotNull(student);
         
-        student.setCreated_NonProduction(null);
-        student.setUpdatedAt_NonProduction(null);
+        student.setCreated_nonProduction(null);
+        student.setUpdatedAt_nonProduction(null);
         
         Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         
