@@ -152,7 +152,7 @@ public class StudentProfilePictureEditAction extends Action {
      */
     private boolean validatePostParameters() {
         if (leftXString.isEmpty() || topYString.isEmpty()
-             || rightXString.isEmpty() || bottomYString.isEmpty()) {
+                || rightXString.isEmpty() || bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";

@@ -87,8 +87,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException edne) {
             AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
-                edne.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
+                    edne.getMessage());
             a.studentProfile.googleId = a.googleId;
         }
     }

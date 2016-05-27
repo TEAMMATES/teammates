@@ -156,8 +156,8 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
-                     || isPopoverAttribute(attribute)
-                     || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
+                        || isPopoverAttribute(attribute)
+                        || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {

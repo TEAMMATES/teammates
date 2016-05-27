@@ -364,7 +364,7 @@ public class CommentsLogic {
         for (CommentAttributes c : commentsForSection) {
             //for teammates
             if (c.recipientType == CommentParticipantType.PERSON
-                && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)) {
+                    && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)) {
                 if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
@@ -617,7 +617,7 @@ public class CommentsLogic {
         }
         
         if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-            || frc.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                || frc.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
                                       frc.getId().toString(), giver.team);
         }
