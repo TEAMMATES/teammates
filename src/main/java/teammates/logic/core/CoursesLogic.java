@@ -413,14 +413,14 @@ public class CoursesLogic {
         return teams;
     }
 
-    public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
-        List<String> sectionNameList = getSectionsNameForCourse(courseID);
+    public int getNumberOfSections(String courseId) throws EntityDoesNotExistException {
+        List<String> sectionNameList = getSectionsNameForCourse(courseId);
         return sectionNameList.size();
     }
 
-    public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseID);
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseID);
+    public int getNumberOfTeams(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
         List<String> teamNameList = new ArrayList<String>();
 

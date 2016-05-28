@@ -3,5 +3,9 @@
     "-//Puppy Crawl//DTD Suppressions 1.1//EN"
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
-    <suppress checks="MethodName" files="test[/\\].*\.java"/>
+    <!-- Most variables in scripts are constants -->
+    <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
+
+    <!-- Scripts inherently need main method to run -->
+    <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
 </suppressions>

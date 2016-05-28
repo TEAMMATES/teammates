@@ -48,7 +48,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertNotNull("Feedback response not found in database", fr);
 
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
-        InstructorEditInstructorFeedbackSaveAction editInstructorFSAction;
+        InstructorEditInstructorFeedbackSaveAction editInstructorFsAction;
         RedirectResult redirectResult;
         String moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
         String[] submissionParams;
@@ -68,8 +68,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
         
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -92,8 +92,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
         
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -115,8 +115,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -138,8 +138,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -161,7 +161,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertNotNull("Feedback response not found in database", fr);
 
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
-        InstructorEditInstructorFeedbackSaveAction editInstructorFSAction;
+        InstructorEditInstructorFeedbackSaveAction editInstructorFsAction;
         String moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
         String[] submissionParams;
 
@@ -174,8 +174,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_NAME),
@@ -189,8 +189,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
@@ -210,8 +210,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -229,7 +229,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         FeedbackResponseAttributes fr;
 
         InstructorAttributes instructor;
-        InstructorEditInstructorFeedbackSaveAction editInstructorFSAction;
+        InstructorEditInstructorFeedbackSaveAction editInstructorFsAction;
         RedirectResult redirectResult;
         String moderatedInstructorEmail;
         String[] submissionParams;
@@ -257,8 +257,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to "
@@ -287,8 +287,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
         
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -307,7 +307,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         FeedbackResponseAttributes fr;
 
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
-        InstructorEditInstructorFeedbackSaveAction editInstructorFSAction;
+        InstructorEditInstructorFeedbackSaveAction editInstructorFsAction;
         String moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
         String[] submissionParams;
 
@@ -334,8 +334,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
@@ -363,8 +363,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         try {
-            editInstructorFSAction = getAction(submissionParams);
-            editInstructorFSAction.executeAndPostProcess();
+            editInstructorFsAction = getAction(submissionParams);
+            editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
@@ -383,7 +383,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertNotNull("Feedback response not found in database", fr);
 
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
-        InstructorEditInstructorFeedbackSaveAction editInstructorFSAction;
+        InstructorEditInstructorFeedbackSaveAction editInstructorFsAction;
         RedirectResult redirectResult;
         String moderatedInstructorEmail = "IEIFPTCourseintr@gmail.tmt";
         String[] submissionParams;
@@ -403,8 +403,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
-        editInstructorFSAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFSAction.executeAndPostProcess();
+        editInstructorFsAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());

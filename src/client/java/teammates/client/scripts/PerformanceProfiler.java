@@ -79,16 +79,16 @@ public class PerformanceProfiler extends Thread {
         String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         data = gson.fromJson(jsonString, DataBundle.class);
 
         //Import previous results
         try {
             results = importReportFile(reportFilePath);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         Browser browser;
         for (int i = 0; i < NUM_OF_RUNS; i++) {

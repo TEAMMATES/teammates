@@ -39,7 +39,7 @@ import com.google.appengine.api.datastore.Text;
 public class AllActionsAccessControlTest extends BaseActionTest {
     
     private static final DataBundle dataBundle = getTypicalDataBundle();
-    private static final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private static String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
