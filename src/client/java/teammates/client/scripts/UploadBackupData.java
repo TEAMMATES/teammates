@@ -55,7 +55,7 @@ import com.google.gson.Gson;
  */
 public class UploadBackupData extends RemoteApiClient {
 
-    private static String BACKUP_FOLDER = "BackupFiles/Backup";
+    private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
     private static Gson gson = Utils.getTeammatesGson();
@@ -119,7 +119,7 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static String[] getBackupFilesInFolder(String folder) {
         String folderName = BACKUP_FOLDER + "/" + folder;
-        File currentFolder = new File(folderName);   
+        File currentFolder = new File(folderName);
         return currentFolder.list();
     }
     
@@ -133,35 +133,35 @@ public class UploadBackupData extends RemoteApiClient {
                 String folderName = BACKUP_FOLDER + "/" + folder;
                 
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
-                data = gson.fromJson(jsonString, DataBundle.class);  
+                data = gson.fromJson(jsonString, DataBundle.class);
                 
                 feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
                 feedbackQuestionIds = new HashMap<String, String>();
                 
                 if (!data.accounts.isEmpty()) {                  // Accounts
                     persistAccounts(data.accounts);
-                }                      
+                }
                 if (!data.courses.isEmpty()) {                    // Courses
                     persistCourses(data.courses);
-                } 
+                }
                 if (!data.instructors.isEmpty()) {                // Instructors
                     persistInstructors(data.instructors);
-                } 
+                }
                 if (!data.students.isEmpty()) {                   // Students
                     persistStudents(data.students);
-                } 
+                }
                 if (!data.feedbackSessions.isEmpty()) {           // Feedback sessions
                     persistFeedbackSessions(data.feedbackSessions);
-                } 
+                }
                 if (!data.feedbackQuestions.isEmpty()) {          // Feedback questions
                     persistFeedbackQuestions(data.feedbackQuestions);
-                } 
+                }
                 if (!data.feedbackResponses.isEmpty()) {          // Feedback responses
                     persistFeedbackResponses(data.feedbackResponses);
-                } 
+                }
                 if (!data.feedbackResponseComments.isEmpty()) {   // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
-                } 
+                }
                 if (!data.comments.isEmpty()) {                   // Comments
                     persistComments(data.comments);
                 }
@@ -179,8 +179,8 @@ public class UploadBackupData extends RemoteApiClient {
     private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values()) {
-                logic.createAccount(accountData.googleId, accountData.name, 
-                    accountData.isInstructor, accountData.email, accountData.institute);
+                logic.createAccount(accountData.googleId, accountData.name, accountData.isInstructor,
+                                    accountData.email, accountData.institute);
             }
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading accounts: " + e.getMessage());
@@ -242,7 +242,7 @@ public class UploadBackupData extends RemoteApiClient {
                 response = adjustFeedbackResponseId(response);
             }
             
-            frDb.createFeedbackResponses(responses.values());  
+            frDb.createFeedbackResponses(responses.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback responses: " + e.getMessage());
         }

@@ -66,7 +66,7 @@ public class Url {
      */
     public static String addParamToUrl(String url, String key, String value) {
         if (key == null || key.isEmpty() || value == null || value.isEmpty()
-             || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+                || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
             // return the url if any of the key or the value is null or empty
             // or if the key is already included in the url
             return url;

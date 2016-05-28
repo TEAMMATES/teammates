@@ -24,7 +24,7 @@ public final class TimeHelper {
     
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
-     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets 
+     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets
      *The map was verified by comparing with world clock from http://www.timeanddate.com/worldclock/
      *Note: No DST is handled here.
      */
@@ -166,7 +166,7 @@ public final class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    public static int convertToOptionValueInTimeDropDown(Date date) { 
+    public static int convertToOptionValueInTimeDropDown(Date date) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
@@ -312,7 +312,7 @@ public final class TimeHelper {
             return false;
         }
         
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) 
+        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                || date.equals(Const.TIME_REPRESENTS_LATER)
                || date.equals(Const.TIME_REPRESENTS_NEVER)
@@ -344,7 +344,7 @@ public final class TimeHelper {
      * @param isEndInclusive true to allow time to fall on end time
      * @return true if the time falls between the start and end time
      */
-    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time, 
+    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time,
                                              boolean isStartInclusive, boolean isEndInclusive) {
         if (startTime == null || endTime == null || time == null) {
             return false;
@@ -395,8 +395,8 @@ public final class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds) {
      
-        return timeInMilliseconds == null 
-             ? "" 
+        return timeInMilliseconds == null
+             ? ""
              : String.format("%d:%d:%d",
                              timeInMilliseconds / 60000,
                              timeInMilliseconds / 1000,

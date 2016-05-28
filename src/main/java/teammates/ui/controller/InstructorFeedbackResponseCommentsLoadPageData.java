@@ -126,8 +126,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             }
             
             FeedbackResponseComment frc = new FeedbackResponseComment(
-                frca, frca.giverEmail, giverName, recipientName, showCommentToString,
-                showGiverNameToString, responseVisibilities);
+                    frca, frca.giverEmail, giverName, recipientName, showCommentToString,
+                    showGiverNameToString, responseVisibilities);
             
             frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
             

@@ -17,7 +17,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackEditCopyAction extends Action {    
+public class InstructorFeedbackEditCopyAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -39,7 +39,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId);
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
         
         GateKeeper gk = new GateKeeper();
@@ -50,11 +50,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
         gk.verifyAccessible(instructor, fsa, false);
         
         try {
-            // Check if there are no conflicting feedback sessions in all the courses 
+            // Check if there are no conflicting feedback sessions in all the courses
             List<String> conflictCourses =
                     filterConflictsInCourses(newFeedbackSessionName, coursesIdToCopyTo);
             
-            if (!conflictCourses.isEmpty()) {                
+            if (!conflictCourses.isEmpty()) {
                 String commaSeparatedListOfCourses = StringHelper.toString(conflictCourses, ",");
                 String errorToUser = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                                    newFeedbackSessionName,
@@ -99,10 +99,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
                                                           Config.getAppUrl(nextUrl)
-                                                                .withParam(Const.ParamsNames.ERROR, 
+                                                                .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
-                                                                .withParam(Const.ParamsNames.USER_ID, 
-                                                                           account.googleId) 
+                                                                .withParam(Const.ParamsNames.USER_ID,
+                                                                           account.googleId)
                                                           ));
             
         } catch (EntityAlreadyExistsException e) {
@@ -117,7 +117,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     }
 
     /**
-     * Given an array of Course Ids, return only the Ids of Courses which has 
+     * Given an array of Course Ids, return only the Ids of Courses which has
      * an existing feedback session with a name conflicting with feedbackSessionName
      * @param feedbackSessionName
      * @param coursesIdToCopyTo
@@ -136,7 +136,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         }
         
         return courses;
-    }    
+    }
     
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;

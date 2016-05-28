@@ -31,7 +31,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId), 
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                           logic.getFeedbackSession(feedbackSessionName, courseId),
                                           false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
@@ -73,7 +73,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
-    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException, 
+    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
                                                                                  EntityDoesNotExistException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
@@ -94,11 +94,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber 
+            statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber
                           + " for session:<span class=\"bold\">("
                           + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                           + updatedQuestion.courseId + "]</span> edited.<br>"
-                          + "<span class=\"bold\">" 
+                          + "<span class=\"bold\">"
                           + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
                           + updatedQuestionDetails.getQuestionText();
         } else {
@@ -125,7 +125,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         try {
             questionDetailsClassConstructor = questionDetailsClass.getConstructor();
             questionDetails = questionDetailsClassConstructor.newInstance();
-            Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", 
+            Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility",
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
             
@@ -143,16 +143,16 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
         
-        newQuestion.setId(HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        newQuestion.setId(HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                  Const.ParamsNames.FEEDBACK_QUESTION_ID));
         Assumption.assertNotNull("Null question id", newQuestion.getId());
         
-        newQuestion.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        newQuestion.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                       Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null course id", newQuestion.courseId);
         
-        newQuestion.feedbackSessionName = 
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        newQuestion.feedbackSessionName =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", newQuestion.feedbackSessionName);
         
@@ -171,21 +171,21 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         // givertype
         
         // Can be null
-        String giverType = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String giverType = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                   Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
         if (giverType != null) {
             newQuestion.giverType = FeedbackParticipantType.valueOf(giverType);
         }
         
         // Can be null
-        String recipientType = 
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String recipientType =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         if (recipientType != null) {
             newQuestion.recipientType = FeedbackParticipantType.valueOf(recipientType);
         }
 
-        String questionNumber = 
+        String questionNumber =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", questionNumber);
@@ -193,13 +193,13 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
         
         // Can be null
-        String nEntityTypes = 
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String nEntityTypes =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
             String nEntities;
-            nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+            nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull(nEntities);
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(nEntities);
@@ -208,22 +208,22 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         newQuestion.showResponsesTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));                
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));        
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
         newQuestion.showRecipientNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));    
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
         
-        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         
         // Can be null
-        String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         if (questionText != null && !questionText.isEmpty()) {
             FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(
@@ -236,7 +236,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
         if (recipientType != FeedbackParticipantType.STUDENTS
-            && recipientType != FeedbackParticipantType.TEAMS) {
+                && recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
         

@@ -31,24 +31,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public FeedbackRubricQuestionDetails() {
         super(FeedbackQuestionType.RUBRIC);
         
-        this.setHasAssignedWeights(false);
-        this.setRubricWeights(new ArrayList<Double>());
-        this.setNumOfRubricChoices(0);
-        this.setRubricChoices(new ArrayList<String>());
-        this.setNumOfRubricSubQuestions(0);
-        this.setRubricSubQuestions(new ArrayList<String>());
+        this.hasAssignedWeights = false;
+        this.rubricWeights = new ArrayList<Double>();
+        this.numOfRubricChoices = 0;
+        this.rubricChoices = new ArrayList<String>();
+        this.numOfRubricSubQuestions = 0;
+        this.rubricSubQuestions = new ArrayList<String>();
         this.initializeRubricDescriptions();
     }
     
     public FeedbackRubricQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RUBRIC, questionText);
         
-        this.setHasAssignedWeights(false);
-        this.setRubricWeights(new ArrayList<Double>());
-        this.setNumOfRubricChoices(0);
-        this.setRubricChoices(new ArrayList<String>());
-        this.setNumOfRubricSubQuestions(0);
-        this.setRubricSubQuestions(new ArrayList<String>());
+        this.hasAssignedWeights = false;
+        this.rubricWeights = new ArrayList<Double>();
+        this.numOfRubricChoices = 0;
+        this.rubricChoices = new ArrayList<String>();
+        this.numOfRubricSubQuestions = 0;
+        this.rubricSubQuestions = new ArrayList<String>();
         this.initializeRubricDescriptions();
     }
 
@@ -56,16 +56,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
-        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
 
         if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
             return false;
         }
         
-        String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+        String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
         
         boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
@@ -74,8 +74,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<Double> rubricWeights = getRubricWeights(requestParameters, numOfRubricChoices, hasAssignedWeights);
         List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
         List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
-        List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters, 
-                                                                              numOfRubricChoices, 
+        List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters,
+                                                                              numOfRubricChoices,
                                                                               numOfRubricSubQuestions);
         
         // Set details
@@ -119,7 +119,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private List<String> getRubricChoices(Map<String, String[]> requestParameters, int numOfRubricChoices) {
         List<String> rubricChoices = new ArrayList<String>();
         for (int i = 0; i < numOfRubricChoices; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                   Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
             if (choice != null) {
                 rubricChoices.add(choice);
@@ -131,7 +131,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private List<String> getSubQuestions(Map<String, String[]> requestParameters, int numOfRubricSubQuestions) {
         List<String> rubricSubQuestions = new ArrayList<String>();
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
             if (subQuestion != null) {
                 rubricSubQuestions.add(subQuestion);
@@ -147,7 +147,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             boolean rowAdded = false;
             for (int j = 0; j < numOfRubricChoices; j++) {
-                String description = HttpRequestHelper.getValueFromParamMap(requestParameters, 
+                String description = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                            Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if (description != null) {
                     if (!rowAdded) {
@@ -167,11 +167,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * to numOfRubricSubQuestions and numOfRubricChoices.
      */
     private boolean isValidDescriptionSize() {
-        if (this.getRubricDescriptions().size() != this.getNumOfRubricSubQuestions()) {
+        if (this.rubricDescriptions.size() != this.numOfRubricSubQuestions) {
             return false;
         }
-        for (int i = 0; i < this.getRubricDescriptions().size(); i++) {
-            if (this.getRubricDescriptions().get(i).size() != this.getNumOfRubricChoices()) {
+        for (int i = 0; i < this.rubricDescriptions.size(); i++) {
+            if (this.rubricDescriptions.get(i).size() != this.numOfRubricChoices) {
                 return false;
             }
         }
@@ -183,13 +183,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                           List<String> rubricChoices,
                                           List<String> rubricSubQuestions,
                                           List<List<String>> rubricDescriptions) {
-        this.setHasAssignedWeights(hasAssignedWeights);
-        this.setRubricWeights(rubricWeights);
-        this.setNumOfRubricChoices(rubricChoices.size());
-        this.setRubricChoices(rubricChoices);
-        this.setNumOfRubricSubQuestions(rubricSubQuestions.size());
-        this.setRubricSubQuestions(rubricSubQuestions);
-        this.setRubricDescriptions(rubricDescriptions);
+        this.hasAssignedWeights = hasAssignedWeights;
+        this.rubricWeights = rubricWeights;
+        this.numOfRubricChoices = rubricChoices.size();
+        this.rubricChoices = rubricChoices;
+        this.numOfRubricSubQuestions = rubricSubQuestions.size();
+        this.rubricSubQuestions = rubricSubQuestions;
+        this.rubricDescriptions = rubricDescriptions;
     }
 
     @Override
@@ -203,16 +203,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // TODO: need to check for exact match.
         
         // Responses require deletion if choices change
-        if (this.getNumOfRubricChoices() != newRubricDetails.getNumOfRubricChoices()
-            || !this.getRubricChoices().containsAll(newRubricDetails.getRubricChoices())
-            || !newRubricDetails.getRubricChoices().containsAll(this.getRubricChoices())) {
+        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
+                || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
+                || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
             return true;
         }
         
         // Responses require deletion if sub-questions change
-        return this.getNumOfRubricSubQuestions() != newRubricDetails.getNumOfRubricSubQuestions()
-            || !this.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions())
-            || !newRubricDetails.getRubricSubQuestions().containsAll(this.getRubricSubQuestions());
+        return this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+            || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
+            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
 
     @Override
@@ -232,8 +232,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
                 "${respIndex}", responseNumberString,
-                "${currRows}", Integer.toString(this.getNumOfRubricSubQuestions()),
-                "${currCols}", Integer.toString(this.getNumOfRubricChoices()),
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml,
                 "${tableBodyHtml}", tableBodyHtml,
                 "${mobileHtml}", mobileHtml,
@@ -257,8 +257,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
                 "${respIndex}", responseNumberString,
-                "${currRows}", Integer.toString(this.getNumOfRubricSubQuestions()),
-                "${currCols}", Integer.toString(this.getNumOfRubricChoices()),
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml,
                 "${tableBodyHtml}", tableBodyHtml,
                 "${mobileHtml}", mobileHtml,
@@ -270,30 +270,30 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
 
-        for (int i = 0; i < getNumOfRubricChoices(); i++) {
-            String tableHeaderCell = 
+        for (int i = 0; i < numOfRubricChoices; i++) {
+            String tableHeaderCell =
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(getRubricChoices().get(i)));
-            // TODO display numerical value of option 
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+            // TODO display numerical value of option
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
     }
 
     private String getSubmissionFormTableBodyHtml(String questionNumberString, String responseNumberString,
-                                                  boolean sessionIsOpen, boolean isExistingResponse, 
+                                                  boolean sessionIsOpen, boolean isExistingResponse,
                                                   FeedbackRubricResponseDetails frd) {
         StringBuilder tableBodyHtml = new StringBuilder();
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
 
-        for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            for (int j = 0; j < getNumOfRubricChoices(); j++) {
-                String tableBodyCell = 
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String tableBodyCell =
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
@@ -306,13 +306,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
             // Get entire row
-            String tableRow = 
+            String tableRow =
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(i),
-                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(getRubricSubQuestions().get(i)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         return tableBodyHtml.toString();
@@ -324,26 +324,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
         String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
 
-        for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
-            for (int j = 0; j < getNumOfRubricChoices(); j++) {
-                String panelBodyFragment = 
-                        FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
-                                "${qnIndex}", questionNumberString,
-                                "${respIndex}", responseNumberString,
-                                "${col}", Integer.toString(j),
-                                "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled",
-                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
-                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(getRubricChoices().get(j)),
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String panelBodyFragment = FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
+                        "${qnIndex}", questionNumberString,
+                        "${respIndex}", responseNumberString,
+                        "${col}", Integer.toString(j),
+                        "${row}", Integer.toString(i),
+                        "${disabled}", sessionIsOpen ? "" : "disabled",
+                        "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
+                        "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
+                        "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
+                        "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
-            String panel = 
-                FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
+            String panel = FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
-                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(getRubricSubQuestions().get(i)));
+                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
@@ -357,12 +355,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_HEADER_FRAGMENT;
-        for (int i = 0; i < getNumOfRubricChoices(); i++) {
-            String tableHeaderCell = 
+        for (int i = 0; i < numOfRubricChoices; i++) {
+            String tableHeaderCell =
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(getRubricChoices().get(i)),
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
@@ -370,12 +368,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create rubric weights row
         StringBuilder tableWeightFragmentHtml = new StringBuilder();
         String tableWeightFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
-        for (int i = 0; i < getNumOfRubricChoices(); i++) {
-            String tableWeightCell = 
+        for (int i = 0; i < numOfRubricChoices; i++) {
+            String tableWeightCell =
                     FeedbackQuestionFormTemplates.populateTemplate(tableWeightFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricWeight}", isHasAssignedWeights() ? weightFormat.format(getRubricWeights().get(i)) : "0",
+                            "${rubricWeight}", hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
             tableWeightFragmentHtml.append(tableWeightCell).append(Const.EOL);
         }
@@ -386,10 +384,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_BODY;
         
-        for (int j = 0; j < getNumOfRubricSubQuestions(); j++) {
+        for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                String tableBodyCell = 
+            for (int i = 0; i < numOfRubricChoices; i++) {
+                String tableBodyCell =
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${col}", Integer.toString(i),
@@ -400,12 +398,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             
             // Get entire row
-            String tableRow = 
+            String tableRow =
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", Sanitizer.sanitizeForHtml(getRubricSubQuestions().get(j)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
+                            "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString(),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -414,14 +412,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM,
                 "${qnIndex}", questionNumberString,
-                "${currRows}", Integer.toString(this.getNumOfRubricSubQuestions()),
-                "${currCols}", Integer.toString(this.getNumOfRubricChoices()),
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableWeightRowFragmentHtml}", tableWeightFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString(),
                 "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
                 "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,
-                "${checkAssignWeights}", isHasAssignedWeights() ? "checked" : "",
+                "${checkAssignWeights}", hasAssignedWeights ? "checked" : "",
                 "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}", Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
         
@@ -431,18 +429,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add some choices by default
-        this.setNumOfRubricChoices(4);
-        this.getRubricChoices().add("Strongly Disagree");
-        this.getRubricChoices().add("Disagree");
-        this.getRubricChoices().add("Agree");
-        this.getRubricChoices().add("Strongly Agree");
+        this.numOfRubricChoices = 4;
+        this.rubricChoices.add("Strongly Disagree");
+        this.rubricChoices.add("Disagree");
+        this.rubricChoices.add("Agree");
+        this.rubricChoices.add("Strongly Agree");
 
-        this.setHasAssignedWeights(false);
+        this.hasAssignedWeights = false;
         
         // Add some sub-questions by default
-        this.setNumOfRubricSubQuestions(2);
-        this.getRubricSubQuestions().add("This student participates well in online discussions.");
-        this.getRubricSubQuestions().add("This student completes assigned tasks on time.");
+        this.numOfRubricSubQuestions = 2;
+        this.rubricSubQuestions.add("This student participates well in online discussions.");
+        this.rubricSubQuestions.add("This student completes assigned tasks on time.");
         
         this.initializeRubricDescriptions();
         
@@ -456,24 +454,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setDescription(1, 2, "Occasionally misses deadlines.");
         setDescription(1, 3, "Tasks are always completed before the deadline.");
         
-        return "<div id=\"rubricForm\">" 
+        return "<div id=\"rubricForm\">"
                   + this.getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
     
     private void initializeRubricDescriptions() {
-        this.setRubricDescriptions(new ArrayList<List<String>>());
-        for (int subQns = 0; subQns < this.getNumOfRubricSubQuestions(); subQns++) {
+        this.rubricDescriptions = new ArrayList<List<String>>();
+        for (int subQns = 0; subQns < this.numOfRubricSubQuestions; subQns++) {
             List<String> descList = new ArrayList<String>();
-            for (int ch = 0; ch < this.getNumOfRubricChoices(); ch++) {
+            for (int ch = 0; ch < this.numOfRubricChoices; ch++) {
                 descList.add("");
             }
-            getRubricDescriptions().add(descList);
+            rubricDescriptions.add(descList);
         }
     }
     
     public void setDescription(int row, int col, String description) {
-        this.getRubricDescriptions().get(row).set(col, description);
+        this.rubricDescriptions.get(row).set(col, description);
     }
     
     /**
@@ -482,18 +480,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * @param choice
      */
     public String getDescription(int subQuestion, int choice) {
-        return this.getRubricDescriptions().get(subQuestion).get(choice);
+        return this.rubricDescriptions.get(subQuestion).get(choice);
     }
 
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder subQuestionListHtml = new StringBuilder();
         
-        if (getNumOfRubricSubQuestions() > 0) {
+        if (numOfRubricSubQuestions > 0) {
             subQuestionListHtml.append("<p>");
-            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
-                String subQuestionFragment = 
-                        StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(getRubricSubQuestions().get(i));
+            for (int i = 0; i < numOfRubricSubQuestions; i++) {
+                String subQuestionFragment =
+                        StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
                 subQuestionListHtml.append(subQuestionFragment);
                 subQuestionListHtml.append("<br>");
             }
@@ -532,21 +530,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
-        for (int i = 0; i < getNumOfRubricChoices(); i++) {
+        for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = Sanitizer.sanitizeForHtml(getRubricChoices().get(i))
-                          + (fqd.isHasAssignedWeights()
-                            ? "<span style=\"font-weight:normal;\"> (Weight: " 
-                              + weightFormat.format(getRubricWeights().get(i)) + ")</span>"
+            String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i))
+                          + (fqd.hasAssignedWeights
+                            ? "<span style=\"font-weight:normal;\"> (Weight: "
+                              + weightFormat.format(rubricWeights.get(i)) + ")</span>"
                             : "");
 
-            String tableHeaderCell = 
+            String tableHeaderCell =
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${rubricChoiceValue}", header);
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
 
-        if (fqd.isHasAssignedWeights()) {
+        if (fqd.hasAssignedWeights) {
             String tableHeaderAverageCell =
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${rubricChoiceValue}", "Average");
@@ -558,31 +556,31 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
-        DecimalFormat df = new DecimalFormat("#"); 
+        DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
-        for (int j = 0; j < getNumOfRubricSubQuestions(); j++) {
+        for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                String tableBodyCell = 
+            for (int i = 0; i < numOfRubricChoices; i++) {
+                String tableBodyCell =
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
+                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%"
                                                                    + " (" + responseFrequency[j][i] + ")");
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
 
-            if (fqd.isHasAssignedWeights()) {
-                String tableBodyAverageCell = 
+            if (fqd.hasAssignedWeights) {
+                String tableBodyAverageCell =
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][getNumOfRubricChoices()]));
+                                "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
                 tableBodyFragmentHtml.append(tableBodyAverageCell).append(Const.EOL);
             }
 
             // Get entire row
-            String tableRow = 
+            String tableRow =
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
-                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") " + Sanitizer.sanitizeForHtml(getRubricSubQuestions().get(j)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
         
@@ -620,7 +618,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * gets the result of the percentage frequency for each choice and average value for each subquestion
      */
-    private float[][] getPercentageFrequencyAndAverage(int[][] responseFrequency, 
+    private float[][] getPercentageFrequencyAndAverage(int[][] responseFrequency,
                                                        FeedbackRubricQuestionDetails fqd) {
         float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(responseFrequency, fqd);
         return calculatePercentageFrequencyAndAverageValue(responseFrequency, fqd, percentageFrequencyOrAverage);
@@ -629,11 +627,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Calculates the response frequency for each choice
      */
-    private int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses, 
+    private int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses,
                                                FeedbackRubricQuestionDetails fqd) {
-        int[][] responseFrequency = new int[fqd.getNumOfRubricSubQuestions()][];
+        int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
         for (int i = 0; i < responseFrequency.length; i++) {
-            responseFrequency[i] = new int[fqd.getNumOfRubricChoices()];
+            responseFrequency[i] = new int[fqd.numOfRubricChoices];
             for (int j = 0; j < responseFrequency[i].length; j++) {
                 responseFrequency[i][j] = 0;
             }
@@ -642,7 +640,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Count frequencies
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
-            for (int i = 0; i < fqd.getNumOfRubricSubQuestions(); i++) {
+            for (int i = 0; i < fqd.numOfRubricSubQuestions; i++) {
                 int chosenChoice = frd.getAnswer(i);
                 if (chosenChoice != -1) {
                     responseFrequency[i][chosenChoice] += 1;
@@ -655,18 +653,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Initializes a 2D float array percentageFrequencyOrAverage using response frequency statistics
      */
-    private float[][] initializePercentageFrequenciesAndAverageValue(int[][] responseFrequency, 
+    private float[][] initializePercentageFrequenciesAndAverageValue(int[][] responseFrequency,
                                                                      FeedbackRubricQuestionDetails fqd) {
         
-        float[][] percentageFrequencyOrAverage = new float[fqd.getNumOfRubricSubQuestions()][];
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
         for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
             //+ 1 is the position for average value
-            percentageFrequencyOrAverage[i] = new float[fqd.getNumOfRubricChoices() + 1];
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
             for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 // Initialize to be number of responses
                 percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
             }
-            percentageFrequencyOrAverage[i][fqd.getNumOfRubricChoices()] = 0;
+            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
         }
         return percentageFrequencyOrAverage;
     }
@@ -676,7 +674,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * using the response frequency statistics
      */
     private float[][] calculatePercentageFrequencyAndAverageValue(int[][] responseFrequency,
-                                                                  FeedbackRubricQuestionDetails fqd, 
+                                                                  FeedbackRubricQuestionDetails fqd,
                                                                   float[][] percentageFrequencyOrAverage) {
         float[][] percentageFrequencyAndAverageValue = percentageFrequencyOrAverage;
         for (int i = 0; i < percentageFrequencyAndAverageValue.length; i++) {
@@ -692,14 +690,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // Calculate the average for each sub-question
-            if (fqd.isHasAssignedWeights()) {
+            if (fqd.hasAssignedWeights) {
 
                 for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                    float choiceWeight = (float) (fqd.getRubricWeights().get(j) * responseFrequency[i][j]);
-                    percentageFrequencyOrAverage[i][fqd.getNumOfRubricChoices()] += choiceWeight;
+                    float choiceWeight = (float) (fqd.rubricWeights.get(j) * responseFrequency[i][j]);
+                    percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
                 }
 
-                percentageFrequencyOrAverage[i][fqd.getNumOfRubricChoices()] /= totalForSubQuestion;
+                percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] /= totalForSubQuestion;
             }
         }
         
@@ -719,17 +717,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat dfWeight = new DecimalFormat("#.##");
 
         // table header
-        for (int i = 0; i < getRubricChoices().size(); i++) {
+        for (int i = 0; i < rubricChoices.size(); i++) {
 
-            String header = getRubricChoices().get(i)
-                          + (isHasAssignedWeights() 
-                            ? " (Weight: " + dfWeight.format(getRubricWeights().get(i)) + ")"
+            String header = rubricChoices.get(i)
+                          + (hasAssignedWeights
+                            ? " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")"
                             : "");
 
             csv.append(',').append(Sanitizer.sanitizeForCsv(header));
         }
 
-        if (isHasAssignedWeights()) {
+        if (hasAssignedWeights) {
             csv.append(",Average");
         }
 
@@ -742,16 +740,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
         
-        for (int i = 0; i < getRubricSubQuestions().size(); i++) {
+        for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
-            csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + getRubricSubQuestions().get(i)));
-            for (int j = 0; j < getRubricChoices().size(); j++) {
+            csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
+            for (int j = 0; j < rubricChoices.size(); j++) {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
 
-            if (isHasAssignedWeights()) {
-                csv.append(',').append(dfAverage.format(rubricStats[i][getRubricWeights().size()]));
+            if (hasAssignedWeights) {
+                csv.append(',').append(dfAverage.format(rubricStats[i][rubricWeights.size()]));
             }
 
             csv.append(Const.EOL);
@@ -775,10 +773,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getCsvDetailedResponsesHeader() {
-        return    "Team" + "," + "Giver's Full Name" + "," 
-                + "Giver's Last Name" + "," + "Giver's Email" + ","  
-                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
-                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+        return "Team" + "," + "Giver's Full Name" + ","
+                + "Giver's Last Name" + "," + "Giver's Email" + ","
+                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + this.getCsvHeader() + ","
                 + "Choice Number" + Const.EOL;
     }
@@ -812,22 +810,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 chosenChoiceValue = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
             } else {
                 chosenChoiceNumber = Integer.toString(chosenIndex + 1);
-                chosenChoiceValue = this.getRubricChoices().get(frd.answer.get(i));
+                chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
             detailedResponsesRow
-                .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
-                        + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
-                        + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
-                        + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
-                        + Const.EOL);
+                    .append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                            + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
+                            + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
+                            + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                            + Const.EOL);
         }
         
         return detailedResponsesRow.toString();
@@ -835,7 +833,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"RUBRIC\">" + Const.FeedbackQuestionTypeNames.RUBRIC + "</option>";
+        return "<li data-questiontype = \"RUBRIC\"><a>" + Const.FeedbackQuestionTypeNames.RUBRIC + "</a></li>";
     }
 
     /**
@@ -856,11 +854,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_DESC_INVALID_SIZE);
         }
         
-        if (this.getNumOfRubricChoices() < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES) {
+        if (this.numOfRubricChoices < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES);
         }
         
-        if (this.getNumOfRubricSubQuestions() < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
+        if (this.numOfRubricSubQuestions < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS);
         }
         
@@ -874,14 +872,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         */
         
-        for (String subQn : this.getRubricSubQuestions()) {
+        for (String subQn : this.rubricSubQuestions) {
             if (subQn.trim().isEmpty()) {
                 errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_EMPTY_SUB_QUESTION);
                 break;
             }
         }
 
-        if (isHasAssignedWeights() && getRubricChoices().size() != getRubricWeights().size()) {
+        if (hasAssignedWeights && rubricChoices.size() != rubricWeights.size()) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
         }
 
@@ -905,22 +903,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    public boolean isHasAssignedWeights() {
-        return hasAssignedWeights;
-    }
-
-    public void setHasAssignedWeights(boolean hasAssignedWeights) {
-        this.hasAssignedWeights = hasAssignedWeights;
-    }
-
-    public List<Double> getRubricWeights() {
-        return rubricWeights;
-    }
-
-    public void setRubricWeights(List<Double> rubricWeights) {
-        this.rubricWeights = rubricWeights;
-    }
-
     public int getNumOfRubricChoices() {
         return numOfRubricChoices;
     }
@@ -932,11 +914,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public List<String> getRubricChoices() {
         return rubricChoices;
     }
-
-    public void setRubricChoices(List<String> rubricChoices) {
-        this.rubricChoices = rubricChoices;
-    }
-
+    
     public int getNumOfRubricSubQuestions() {
         return numOfRubricSubQuestions;
     }
@@ -949,16 +927,4 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return rubricSubQuestions;
     }
 
-    public void setRubricSubQuestions(List<String> rubricSubQuestions) {
-        this.rubricSubQuestions = rubricSubQuestions;
-    }
-
-    public List<List<String>> getRubricDescriptions() {
-        return rubricDescriptions;
-    }
-
-    public void setRubricDescriptions(List<List<String>> rubricDescriptions) {
-        this.rubricDescriptions = rubricDescriptions;
-    }
-    
 }

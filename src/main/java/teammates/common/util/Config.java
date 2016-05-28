@@ -9,8 +9,8 @@ import teammates.common.exception.TeammatesException;
 import com.google.appengine.api.utils.SystemProperty;
 
 /**
- * A singleton class that represents the deployment-specific configuration 
- * values of the system. 
+ * A singleton class that represents the deployment-specific configuration
+ * values of the system.
  * This can be used to access values in the build.properties file too.
  */
 public class Config {
@@ -28,7 +28,7 @@ public class Config {
     public static String ENCRYPTION_KEY;
     
     /** The value of the "app.persistence.checkduration" in build.properties file */
-    public static int    PERSISTENCE_CHECK_DURATION;
+    public static int PERSISTENCE_CHECK_DURATION;
     
     /** The value of the "app.crashreport.email" in build.properties file */
     public static String SUPPORT_EMAIL;
@@ -71,7 +71,7 @@ public class Config {
     }
 
     /**
-     * @return The app version specifed in appengine-web.xml but with '.' 
+     * @return The app version specifed in appengine-web.xml but with '.'
      * instead of '-' e.g., "4.53"
      */
     public String getAppVersion() {

@@ -33,7 +33,7 @@ public class EmailLogEntry {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();
-        this.content = msg.getHtml(); 
+        this.content = msg.getHtml();
     }
     
     public EmailLogEntry(AppLogLine appLog) {
@@ -133,8 +133,8 @@ public class EmailLogEntry {
             if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
                 int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();                         
-                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);               
+                int endIndex = startIndex + stringToHighlight.length();
+                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
                 highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
             }
         }
