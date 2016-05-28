@@ -127,14 +127,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         return TimeHelper.formatTime12H(getStartTime());
     }
     
-    public String getEndTimeString() {
-        return TimeHelper.formatTime12H(getEndTime());
-    }
-    
-    public String getInstructionsString() {
-        return Sanitizer.sanitizeForHtml(getInstructions().getValue());
-    }
-
     @Override
     public FeedbackSession toEntity() {
         return new FeedbackSession(getFeedbackSessionName(), getCourseId(), getCreatorEmail(), getInstructions(), getCreatedTime(), 
