@@ -67,10 +67,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instrCanModifyInstructor = instructor;
             }
         }
-        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1 
-                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null 
-                                             || instrCanModifyInstructor != null 
-                                                && instrCanModifyInstructor.googleId != null 
+        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1
+                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null
+                                             || instrCanModifyInstructor != null
+                                                && instrCanModifyInstructor.googleId != null
                                                 && instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId));
         if (lastCanModifyInstructor) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
@@ -168,7 +168,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.getFeedbackSessionName());
+            feedbackNames.add(feedback.feedbackSessionName);
         }
         HashMap<String, List<String>> sectionNamesMap = extractSectionNames(instructorToEdit, sectionNames, sectionNamesTable);
         for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
@@ -240,7 +240,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     private void updateInstructorPrivilegesForSectionInSessionLevel(String sectionParam,
             List<String> sectionNames, List<String> feedbackNames, InstructorAttributes instructorToEdit) {
         for (String feedbackName : feedbackNames) {
-            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
+            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;
             boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;

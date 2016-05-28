@@ -44,7 +44,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: Typical case");
         
         String[] params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                                session.getFeedbackSessionName());
+                                                                session.feedbackSessionName);
         
         InstructorFeedbackEditSaveAction a = getAction(params);
         AjaxResult ar = (AjaxResult) a.executeAndPostProcess();
@@ -84,7 +84,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
         
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.getFeedbackSessionName());
+                                                       session.feedbackSessionName);
         params[25] = "5.75";
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
@@ -116,7 +116,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
         
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
+                         instructor1ofCourse1.courseId, session.feedbackSessionName, 1);
         
         //remove grace period (first) and then time zone
         params = ArrayUtils.remove(params, 26);
@@ -151,7 +151,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.getFeedbackSessionName());
+                                                       session.feedbackSessionName);
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
         params[25] = " ";
         params[27] = "12dsf";

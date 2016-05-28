@@ -132,18 +132,18 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             
             boolean isRecent = session.isOpened() || session.isWaitingToOpen();
             if (!isRecent && statsToDisplayLeft > 0
-                          && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
+                          && !TimeHelper.isOlderThanAYear(session.createdTime)) {
                 isRecent = true;
                 --statsToDisplayLeft;
             }
             
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
-                    sanitizeForHtml(session.getFeedbackSessionName()),
+                    sanitizeForHtml(session.feedbackSessionName),
                     getInstructorHoverMessageForFeedbackSession(session),
                     getInstructorStatusForFeedbackSession(session),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTime()),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
-                    getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.startTime),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.endTime),
+                    getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
                     isRecent,
                     getInstructorFeedbackSessionActions(
                             session, Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor));

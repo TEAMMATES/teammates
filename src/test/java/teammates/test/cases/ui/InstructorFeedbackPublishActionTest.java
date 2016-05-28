@@ -30,17 +30,17 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session.getFeedbackSessionName()
+                session.feedbackSessionName
         };
         String[] paramsWithNullCourseId = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session.getFeedbackSessionName()
+                session.feedbackSessionName
         };
         String[] paramsWithNullFeedbackSessionName = {
                 Const.ParamsNames.COURSE_ID,
-                session.getCourseId()
+                session.courseId
         };
         
         ______TS("Typical successful case: session publishable");
@@ -109,18 +109,18 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
         
-        session.setStartTime(startTime);
-        session.setEndTime(endTime);
+        session.startTime = startTime;
+        session.endTime = endTime;
         
         if (isPublished) {
-            session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
+            session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
             assertTrue(session.isPublished());
         } else {
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
             assertFalse(session.isPublished());
         }
         
-        session.setSentPublishedEmail(false);
+        session.sentPublishedEmail = false;
         
         new FeedbackSessionsDb().updateFeedbackSession(session);
     }

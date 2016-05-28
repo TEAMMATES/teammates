@@ -62,7 +62,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         String giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
         
-        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
+        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
@@ -70,7 +70,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseName, data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
         assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.getId(), 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.getId(),
                      actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
         assertEquals(courseId, actualCoursePagination.getActiveCourse());
@@ -138,14 +138,14 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
         
-        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
+        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.getId(), 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.getId(),
                      actualCoursePagination.getPreviousPageLink());
         assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
@@ -178,7 +178,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         List<FeedbackSessionAttributes> feedbackSessionsInCourse = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
-            if (feedbackSession.getCourseId().equals(courseId)) {
+            if (feedbackSession.courseId.equals(courseId)) {
                 feedbackSessionsInCourse.add(feedbackSession);
             }
         }
@@ -259,7 +259,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     }
 
     private void setInstructorComments(
-            String giverEmail, String currentInstructorEmail, String courseId, 
+            String giverEmail, String currentInstructorEmail, String courseId,
             Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions) {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
@@ -272,6 +272,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
             key = COMMENT_GIVER_NAME_THAT_COMES_FIRST;
         }
         commentModifyPermissions.put(key, canModifyCommentList);
-        comments.put(key, commentsForGiverList);   
+        comments.put(key, commentsForGiverList);
     }
 }

@@ -51,7 +51,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.setSentOpenEmail(true);
+        feedbackObject.sentOpenEmail = true;
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 
@@ -64,7 +64,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
                 + feedbackSessionName + " and course : " + courseId);
         
         if (feedbackObject == null) {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
         }

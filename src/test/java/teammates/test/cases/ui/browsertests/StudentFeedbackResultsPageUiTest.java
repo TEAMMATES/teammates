@@ -42,7 +42,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        StudentFeedbackResultsPage resultsPage = 
+        StudentFeedbackResultsPage resultsPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
@@ -121,14 +121,14 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student logged in as a student in another course: registered after logging out");
         
-        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
+        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
         String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
         logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        StudentCourseJoinConfirmationPage confirmationPage = 
+        StudentCourseJoinConfirmationPage confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         loginPage = confirmationPage.clickCancelButton();
@@ -144,7 +144,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        confirmationPage = 
+        confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         resultsPage = confirmationPage.clickConfirmButton(StudentFeedbackResultsPage.class);
@@ -162,8 +162,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
-                                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
     }
 
@@ -172,7 +172,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
-                                            .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
+                                            .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }

@@ -16,13 +16,13 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class StudentHomePageAction extends Action { 
+public class StudentHomePageAction extends Action {
 
     @Override
-    public ActionResult execute() { 
+    public ActionResult execute() {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
-        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         
         List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
@@ -74,7 +74,7 @@ public class StudentHomePageAction extends Action {
     }
 
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId) {
-        StudentAttributes student = logic.getStudentForGoogleId(fs.getCourseId(), googleId);
+        StudentAttributes student = logic.getStudentForGoogleId(fs.courseId, googleId);
         Assumption.assertNotNull(student);
 
         String studentEmail = student.email;
@@ -116,8 +116,8 @@ public class StudentHomePageAction extends Action {
         } catch (EntityDoesNotExistException e) {
             showEventualConsistencyMessage(courseId);
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
-        } 
-    } 
+        }
+    }
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
                                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {

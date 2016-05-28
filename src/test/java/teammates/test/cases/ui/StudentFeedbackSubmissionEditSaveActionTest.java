@@ -694,7 +694,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
-        assertTrue(r.isError);  
+        assertTrue(r.isError);
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
                                 r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
@@ -727,7 +727,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
-        assertTrue(r.isError);        
+        assertTrue(r.isError);
 
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
                         r.getDestinationWithParams());
@@ -750,7 +750,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("unregisteredStudentSession");
-        fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.getFeedbackSessionName());
+        fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.feedbackSessionName);
         assertNotNull("Feedback session not found in database", fsa);
 
         // Setting uri for unregistered student which contains the key of the student
@@ -758,7 +758,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                                                                            unregisteredStudent.email);
         uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
+                                          .withSessionName(fsa.feedbackSessionName)
                                           .withRegistrationKey(studentKey)
                                           .withStudentEmail(unregisteredStudent.email)
                                           .toString();
@@ -796,7 +796,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
         uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
+                                          .withSessionName(fsa.feedbackSessionName)
                                           .withRegistrationKey(studentKey)
                                           .withStudentEmail(unregisteredStudent.email)
                                           .toString();
@@ -840,13 +840,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
         };
 
         ______TS("opened");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -862,7 +862,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("during grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -877,7 +877,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("after grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
+        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());

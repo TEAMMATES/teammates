@@ -22,8 +22,8 @@ public class InstructorFeedbackResultsFilterPanel {
                                     String selectedSection, boolean isGroupedByTeam, String sortType,
                                     String resultsLink, List<String> sections) {
         this.isStatsShown = isStatsShown;
-        this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
+        this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
         this.isAllSectionsSelected = isAllSectionsSelected;
         this.selectedSection = selectedSection;
         this.isGroupedByTeam = isGroupedByTeam;

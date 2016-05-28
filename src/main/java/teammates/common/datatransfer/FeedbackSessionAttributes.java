@@ -21,32 +21,32 @@ import teammates.storage.entity.FeedbackSession;
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
-    private String feedbackSessionName;
-    private String courseId;
-    private String creatorEmail;
-    private Text instructions;
-    private Date createdTime;
-    private Date startTime;
-    private Date endTime;
-    private Date sessionVisibleFromTime;
-    private Date resultsVisibleFromTime;
-    private double timeZone;
-    private int gracePeriod;
-    private FeedbackSessionType feedbackSessionType;
-    private boolean sentOpenEmail;
-    private boolean sentPublishedEmail;
-    private boolean isOpeningEmailEnabled;
-    private boolean isClosingEmailEnabled;
-    private boolean isPublishedEmailEnabled;
-    private Set<String> respondingInstructorList;
-    private Set<String> respondingStudentList;
+    public String feedbackSessionName;
+    public String courseId;
+    public String creatorEmail;
+    public Text instructions;
+    public Date createdTime;
+    public Date startTime;
+    public Date endTime;
+    public Date sessionVisibleFromTime;
+    public Date resultsVisibleFromTime;
+    public double timeZone;
+    public int gracePeriod;
+    public FeedbackSessionType feedbackSessionType;
+    public boolean sentOpenEmail;
+    public boolean sentPublishedEmail;
+    public boolean isOpeningEmailEnabled;
+    public boolean isClosingEmailEnabled;
+    public boolean isPublishedEmailEnabled;
+    public Set<String> respondingInstructorList;
+    public Set<String> respondingStudentList;
 
     public FeedbackSessionAttributes() {
-        this.setOpeningEmailEnabled(true);
-        this.setClosingEmailEnabled(true);
-        this.setPublishedEmailEnabled(true);
-        this.setRespondingInstructorList(new HashSet<String>());
-        this.setRespondingStudentList(new HashSet<String>());
+        this.isOpeningEmailEnabled = true;
+        this.isClosingEmailEnabled = true;
+        this.isPublishedEmailEnabled = true;
+        this.respondingInstructorList = new HashSet<String>();
+        this.respondingStudentList = new HashSet<String>();
     }
 
     public FeedbackSessionAttributes(FeedbackSession fs) {
@@ -73,12 +73,12 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                                                            : fs.getRespondingStudentList();
     }
 
-    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId, 
+    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
                                      boolean sentOpenEmail, boolean sentPublishedEmail,
-                                     boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, 
+                                     boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime,
              sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
@@ -86,33 +86,33 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
              new HashSet<String>(), new HashSet<String>());
     }
 
-    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId, 
+    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
                                      boolean sentOpenEmail, boolean sentPublishedEmail,
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
-                                     boolean isPublishedEmailEnabled, Set<String> instructorList, 
+                                     boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
-        this.setFeedbackSessionName(Sanitizer.sanitizeTitle(feedbackSessionName));
-        this.setCourseId(Sanitizer.sanitizeTitle(courseId));
-        this.setCreatorEmail(Sanitizer.sanitizeEmail(creatorId));
-        this.setInstructions(Sanitizer.sanitizeTextField(instructions));
-        this.setCreatedTime(createdTime);
-        this.setStartTime(startTime);
-        this.setEndTime(endTime);
-        this.setSessionVisibleFromTime(sessionVisibleFromTime);
-        this.setResultsVisibleFromTime(resultsVisibleFromTime);
-        this.setTimeZone(timeZone);
-        this.setGracePeriod(gracePeriod);
-        this.setFeedbackSessionType(feedbackSessionType);
-        this.setSentOpenEmail(sentOpenEmail);
-        this.setSentPublishedEmail(sentPublishedEmail);
-        this.setOpeningEmailEnabled(isOpeningEmailEnabled);
-        this.setClosingEmailEnabled(isClosingEmailEnabled);
-        this.setPublishedEmailEnabled(isPublishedEmailEnabled);
-        this.setRespondingInstructorList(instructorList);
-        this.setRespondingStudentList(studentList);
+        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
+        this.instructions = Sanitizer.sanitizeTextField(instructions);
+        this.createdTime = createdTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
+        this.timeZone = timeZone;
+        this.gracePeriod = gracePeriod;
+        this.feedbackSessionType = feedbackSessionType;
+        this.sentOpenEmail = sentOpenEmail;
+        this.sentPublishedEmail = sentPublishedEmail;
+        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+        this.isClosingEmailEnabled = isClosingEmailEnabled;
+        this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+        this.respondingInstructorList = instructorList;
+        this.respondingStudentList = studentList;
     }
     
     public String getCourseId() {
@@ -124,21 +124,29 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getStartTimeString() {
-        return TimeHelper.formatTime12H(getStartTime());
+        return TimeHelper.formatTime12H(startTime);
     }
     
+    public String getEndTimeString() {
+        return TimeHelper.formatTime12H(endTime);
+    }
+    
+    public String getInstructionsString() {
+        return Sanitizer.sanitizeForHtml(instructions.getValue());
+    }
+
     @Override
     public FeedbackSession toEntity() {
-        return new FeedbackSession(getFeedbackSessionName(), getCourseId(), getCreatorEmail(), getInstructions(), getCreatedTime(), 
-                                   getStartTime(), getEndTime(), getSessionVisibleFromTime(), getResultsVisibleFromTime(),
-                                   getTimeZone(), getGracePeriod(), getFeedbackSessionType(), isSentOpenEmail(), isSentPublishedEmail(),
-                                   isOpeningEmailEnabled(), isClosingEmailEnabled(), isPublishedEmailEnabled(), 
-                                   getRespondingInstructorList(), getRespondingStudentList());
+        return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
+                                   startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+                                   isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+                                   respondingInstructorList, respondingStudentList);
     }
 
     @Override
     public String getIdentificationString() {
-        return this.getFeedbackSessionName() + "/" + this.getCourseId();
+        return this.feedbackSessionName + "/" + this.courseId;
     }
 
     @Override
@@ -148,7 +156,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getCourseId();
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
 
     @Override
@@ -164,32 +172,32 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         // Check for null fields.
 
-        error = validator.getValidityInfoForNonNullField("feedback session name", getFeedbackSessionName());
+        error = validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("course ID", getCourseId());
+        error = validator.getValidityInfoForNonNullField("course ID", courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("instructions to students", getInstructions());
+        error = validator.getValidityInfoForNonNullField("instructions to students", instructions);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("time for the session to become visible", getSessionVisibleFromTime());
+        error = validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("creator's email", getCreatorEmail());
+        error = validator.getValidityInfoForNonNullField("creator's email", creatorEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("session creation time", getCreatedTime());
+        error = validator.getValidityInfoForNonNullField("session creation time", createdTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -199,19 +207,19 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return errors;
         }
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(getFeedbackSessionName());
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, getCourseId());
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", getCreatorEmail());
+        error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            errors.add(error);
+            errors.add("Invalid creator's email: " + error);
         }
 
         // Skip time frame checks if session type is private.
@@ -219,17 +227,17 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return errors;
         }
 
-        error = validator.getValidityInfoForNonNullField("submission opening time", getStartTime());
+        error = validator.getValidityInfoForNonNullField("submission opening time", startTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("submission closing time", getEndTime());
+        error = validator.getValidityInfoForNonNullField("submission closing time", endTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForNonNullField("time for the responses to become visible", getResultsVisibleFromTime());
+        error = validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -241,27 +249,27 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
                                                       FieldType.START_TIME, FieldType.END_TIME,
-                                                      getStartTime(), getEndTime());
+                                                      startTime, endTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
         error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
                                                       FieldType.SESSION_VISIBLE_TIME, FieldType.START_TIME,
-                                                      getSessionVisibleFromTime(), getStartTime());
+                                                      sessionVisibleFromTime, startTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        Date actualSessionVisibleFromTime = getSessionVisibleFromTime();
+        Date actualSessionVisibleFromTime = sessionVisibleFromTime;
 
         if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            actualSessionVisibleFromTime = getStartTime();
+            actualSessionVisibleFromTime = startTime;
         }
 
         error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
                                                       FieldType.SESSION_VISIBLE_TIME, FieldType.RESULTS_VISIBLE_TIME,
-                                                      actualSessionVisibleFromTime, getResultsVisibleFromTime());
+                                                      actualSessionVisibleFromTime, resultsVisibleFromTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -278,13 +286,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
         now.add(Calendar.MILLISECOND,
-                (int) (60 * 60 * 1000 * getTimeZone()));
+                (int) (60 * 60 * 1000 * timeZone));
 
         Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(getStartTime());
+        start.setTime(startTime);
 
         Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        deadline.setTime(getEndTime());
+        deadline.setTime(endTime);
 
         long nowMillis = now.getTimeInMillis();
         long deadlineMillis = deadline.getTimeInMillis();
@@ -302,9 +310,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
-        Calendar now = TimeHelper.now(getTimeZone());
-        Calendar end = TimeHelper.dateToCalendar(getEndTime());
-        end.add(Calendar.MINUTE, getGracePeriod());
+        Calendar now = TimeHelper.now(timeZone);
+        Calendar end = TimeHelper.dateToCalendar(endTime);
+        end.add(Calendar.MINUTE, gracePeriod);
 
         return now.after(end);
     }
@@ -313,9 +321,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * @return {@code true} is currently open and accepting responses
      */
     public boolean isOpened() {
-        Calendar now = TimeHelper.now(getTimeZone());
-        Calendar start = TimeHelper.dateToCalendar(getStartTime());
-        Calendar end = TimeHelper.dateToCalendar(getEndTime());
+        Calendar now = TimeHelper.now(timeZone);
+        Calendar start = TimeHelper.dateToCalendar(startTime);
+        Calendar end = TimeHelper.dateToCalendar(endTime);
 
         return now.after(start) && now.before(end);
     }
@@ -324,10 +332,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * @return {@code true} is currently close but is still accept responses
      */
     public boolean isInGracePeriod() {
-        Calendar now = TimeHelper.now(getTimeZone());
-        Calendar end = TimeHelper.dateToCalendar(getEndTime());
-        Calendar gracedEnd = TimeHelper.dateToCalendar(getEndTime());
-        gracedEnd.add(Calendar.MINUTE, getGracePeriod());
+        Calendar now = TimeHelper.now(timeZone);
+        Calendar end = TimeHelper.dateToCalendar(endTime);
+        Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
+        gracedEnd.add(Calendar.MINUTE, gracePeriod);
 
         return now.after(end) && now.before(gracedEnd);
     }
@@ -337,8 +345,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
-        Calendar now = TimeHelper.now(getTimeZone());
-        Calendar start = TimeHelper.dateToCalendar(getStartTime());
+        Calendar now = TimeHelper.now(timeZone);
+        Calendar start = TimeHelper.dateToCalendar(startTime);
 
         return now.before(start);
     }
@@ -348,15 +356,15 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date visibleTime = this.getSessionVisibleFromTime();
+        Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            visibleTime = this.getStartTime();
+            visibleTime = this.startTime;
         } else if (visibleTime.equals(Const.TIME_REPRESENTS_NEVER)) {
             return false;
         }
 
-        Date now = TimeHelper.now(getTimeZone()).getTime();
+        Date now = TimeHelper.now(timeZone).getTime();
         return visibleTime.before(now);
     }
 
@@ -365,8 +373,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Does not care if the session has ended or not.
      */
     public boolean isPublished() {
-        Date now = TimeHelper.now(getTimeZone()).getTime();
-        Date publishTime = this.getResultsVisibleFromTime();
+        Date now = TimeHelper.now(timeZone).getTime();
+        Date publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             return isVisible();
@@ -385,8 +393,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * @return {@code true} if the session has been set by the creator to be manually published.
      */
     public boolean isManuallyPublished() {
-        return getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)
-               || getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NOW);
+        return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
+               || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }
 
     /**
@@ -394,39 +402,39 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      *  {@code false} if not.
      */
     public boolean isPrivateSession() {
-        return getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER) 
-               || getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE);
+        return sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)
+               || feedbackSessionType.equals(FeedbackSessionType.PRIVATE);
     }
 
     public boolean isCreator(String instructorEmail) {
-        return getCreatorEmail().equals(instructorEmail);
+        return creatorEmail.equals(instructorEmail);
     }
 
     @Override
     public void sanitizeForSaving() {
-        this.setCourseId(Sanitizer.sanitizeForHtml(getCourseId()));
-        this.setCreatorEmail(Sanitizer.sanitizeForHtml(getCreatorEmail()));
+        this.courseId = Sanitizer.sanitizeForHtml(courseId);
+        this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
-        if (getInstructions() != null) {
-            this.setInstructions(new Text(Sanitizer.sanitizeForHtml(getInstructions().getValue())));
+        if (instructions != null) {
+            this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
         }
     }
 
     @Override
     public String toString() {
         return "FeedbackSessionAttributes [feedbackSessionName="
-               + getFeedbackSessionName() + ", courseId=" + getCourseId()
-               + ", creatorEmail=" + getCreatorEmail() + ", instructions=" + getInstructions()
-               + ", startTime=" + getStartTime()
-               + ", endTime=" + getEndTime() + ", sessionVisibleFromTime="
-               + getSessionVisibleFromTime() + ", resultsVisibleFromTime="
-               + getResultsVisibleFromTime() + ", timeZone=" + getTimeZone()
-               + ", gracePeriod=" + getGracePeriod() + ", feedbackSessionType="
-               + getFeedbackSessionType() + ", sentOpenEmail=" + isSentOpenEmail()
-               + ", sentPublishedEmail=" + isSentPublishedEmail()
-               + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled()
-               + ", isClosingEmailEnabled=" + isClosingEmailEnabled()
-               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled() + "]";
+               + feedbackSessionName + ", courseId=" + courseId
+               + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
+               + ", startTime=" + startTime
+               + ", endTime=" + endTime + ", sessionVisibleFromTime="
+               + sessionVisibleFromTime + ", resultsVisibleFromTime="
+               + resultsVisibleFromTime + ", timeZone=" + timeZone
+               + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
+               + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
+               + ", sentPublishedEmail=" + sentPublishedEmail
+               + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
+               + ", isClosingEmailEnabled=" + isClosingEmailEnabled
+               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
     /**
@@ -441,22 +449,22 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
             @Override
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
-                int result = session1.getCourseId().compareTo(session2.getCourseId());
+                int result = session1.courseId.compareTo(session2.courseId);
 
                 if (result == 0) {
-                    result = session1.getCreatedTime().compareTo(session2.getCreatedTime());
+                    result = session1.createdTime.compareTo(session2.createdTime);
                 }
 
                 if (result == 0) {
-                    result = session1.getEndTime().compareTo(session2.getEndTime());
+                    result = session1.endTime.compareTo(session2.endTime);
                 }
 
                 if (result == 0) {
-                    result = session1.getStartTime().compareTo(session2.getStartTime());
+                    result = session1.startTime.compareTo(session2.startTime);
                 }
 
                 if (result == 0) {
-                    result = session1.getFeedbackSessionName().compareTo(session2.getFeedbackSessionName());
+                    result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
                 }
 
                 return result;
@@ -476,29 +484,29 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
             @Override
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
-                int result = session2.getCreatedTime().compareTo(session1.getCreatedTime());
+                int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {
-                    if (session1.getEndTime() == null || session2.getEndTime() == null) {
-                        if (session1.getEndTime() == null) {
+                    if (session1.endTime == null || session2.endTime == null) {
+                        if (session1.endTime == null) {
                             --result;
                         }
-                        if (session2.getEndTime() == null) {
+                        if (session2.endTime == null) {
                             ++result;
                         }
                     } else {
-                        result = session2.getEndTime().compareTo(session1.getEndTime());
+                        result = session2.endTime.compareTo(session1.endTime);
                     }
                 }
 
                 if (result == 0) {
-                    result = session2.getStartTime().compareTo(session1.getStartTime());
+                    result = session2.startTime.compareTo(session1.startTime);
                 }
                 if (result == 0) {
-                    result = session1.getCourseId().compareTo(session2.getCourseId());
+                    result = session1.courseId.compareTo(session2.courseId);
                 }
 
                 if (result == 0) {
-                    result = session1.getFeedbackSessionName().compareTo(session2.getFeedbackSessionName());
+                    result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
                 }
                 
                 return result;
@@ -508,160 +516,16 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public Date getSessionStartTime() {
-        return this.getStartTime();
+        return this.startTime;
     }
 
     @Override
     public Date getSessionEndTime() {
-        return this.getEndTime();
+        return this.endTime;
     }
 
     @Override
     public String getSessionName() {
-        return this.getFeedbackSessionName();
-    }
-
-    public void setFeedbackSessionName(String feedbackSessionName) {
-        this.feedbackSessionName = feedbackSessionName;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getCreatorEmail() {
-        return creatorEmail;
-    }
-
-    public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = creatorEmail;
-    }
-
-    public Text getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(Text instructions) {
-        this.instructions = instructions;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Date getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
-    }
-
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-    }
-
-    public Date getResultsVisibleFromTime() {
-        return resultsVisibleFromTime;
-    }
-
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
-    }
-
-    public double getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(double timeZone) {
-        this.timeZone = timeZone;
-    }
-
-    public int getGracePeriod() {
-        return gracePeriod;
-    }
-
-    public void setGracePeriod(int gracePeriod) {
-        this.gracePeriod = gracePeriod;
-    }
-
-    public FeedbackSessionType getFeedbackSessionType() {
-        return feedbackSessionType;
-    }
-
-    public void setFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-        this.feedbackSessionType = feedbackSessionType;
-    }
-
-    public boolean isSentOpenEmail() {
-        return sentOpenEmail;
-    }
-
-    public void setSentOpenEmail(boolean sentOpenEmail) {
-        this.sentOpenEmail = sentOpenEmail;
-    }
-
-    public boolean isSentPublishedEmail() {
-        return sentPublishedEmail;
-    }
-
-    public void setSentPublishedEmail(boolean sentPublishedEmail) {
-        this.sentPublishedEmail = sentPublishedEmail;
-    }
-
-    public boolean isOpeningEmailEnabled() {
-        return isOpeningEmailEnabled;
-    }
-
-    public void setOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
-        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
-    }
-
-    public boolean isClosingEmailEnabled() {
-        return isClosingEmailEnabled;
-    }
-
-    public void setClosingEmailEnabled(boolean isClosingEmailEnabled) {
-        this.isClosingEmailEnabled = isClosingEmailEnabled;
-    }
-
-    public boolean isPublishedEmailEnabled() {
-        return isPublishedEmailEnabled;
-    }
-
-    public void setPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
-        this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-    }
-
-    public Set<String> getRespondingInstructorList() {
-        return respondingInstructorList;
-    }
-
-    public void setRespondingInstructorList(Set<String> respondingInstructorList) {
-        this.respondingInstructorList = respondingInstructorList;
-    }
-
-    public Set<String> getRespondingStudentList() {
-        return respondingStudentList;
-    }
-
-    public void setRespondingStudentList(Set<String> respondingStudentList) {
-        this.respondingStudentList = respondingStudentList;
+        return this.feedbackSessionName;
     }
 }

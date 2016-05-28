@@ -33,7 +33,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
-        fsOriginalEndTime = testData.feedbackSessions.get("Open Session").getEndTime();
+        fsOriginalEndTime = testData.feedbackSessions.get("Open Session").endTime;
         
         browser = BrowserPool.getBrowser();
     }
@@ -84,10 +84,10 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
 
         Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
-        fs.setTimeZone(0);
+        fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -1);
-        fs.setEndTime(endDate.getTime());
-        fs.setGracePeriod(10);
+        fs.endTime = endDate.getTime();
+        fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
@@ -102,7 +102,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private void testSubmitAction() throws Exception {
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
-        fs.setEndTime(fsOriginalEndTime);
+        fs.endTime = fsOriginalEndTime;
         BackDoor.editFeedbackSession(fs);
         
         ______TS("create new responses");
@@ -123,8 +123,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                                                    "SFQSubmitUiT.alice.b@gmail.tmt",
                                                    "SFQSubmitUiT.alice.b@gmail.tmt"));
         
-        assertEquals("Test Self Feedback", 
-                     BackDoor.getFeedbackResponse(fq.getId(), 
+        assertEquals("Test Self Feedback",
+                     BackDoor.getFeedbackResponse(fq.getId(),
                                                   "SFQSubmitUiT.alice.b@gmail.tmt",
                                                   "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
 
@@ -135,13 +135,13 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), 
+        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                    "SFQSubmitUiT.alice.b@gmail.tmt",
                                                    "SFQSubmitUiT.alice.b@gmail.tmt"));
         
         assertEquals(editedResponse,
                      BackDoor.getFeedbackResponse(fq.getId(),
-                                                  "SFQSubmitUiT.alice.b@gmail.tmt", 
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt",
                                                   "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
         
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageFilled.html");
@@ -152,10 +152,10 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 
-        fs.setTimeZone(0);
+        fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -1);
-        fs.setEndTime(endDate.getTime());
-        fs.setGracePeriod(10);
+        fs.endTime = endDate.getTime();
+        fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
         submitPage.fillResponseTextBox(1, 0, "this is a response edited during grace period");
@@ -171,16 +171,16 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
         
-        assertEquals("this is a response edited during grace period", 
-                     BackDoor.getFeedbackResponse(fq.getId(), 
-                                                  "SFQSubmitUiT.alice.b@gmail.tmt", 
+        assertEquals("this is a response edited during grace period",
+                     BackDoor.getFeedbackResponse(fq.getId(),
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt",
                                                   "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
         
         assertEquals("this is a response edited during grace period", submitPage.getTextArea(1, 0).getText());
 
         logout(browser);
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
-        fs.setEndTime(fsOriginalEndTime);
+        fs.endTime = fsOriginalEndTime;
         BackDoor.editFeedbackSession(fs);
 
         ______TS("Grace period session,submission failure after grace period");
@@ -192,10 +192,10 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        fs.setTimeZone(0);
+        fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -20);
-        fs.setEndTime(endDate.getTime());
-        fs.setGracePeriod(10);
+        fs.endTime = endDate.getTime();
+        fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
         submitPage.fillResponseTextBox(1, 0, "this is a response edited during grace period,but submitted after grace period");
@@ -208,8 +208,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
             String studentName, String fsName, String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
@@ -221,7 +221,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return AppPage.getNewPageInstance(browser, editUrl, FeedbackQuestionSubmitPage.class);

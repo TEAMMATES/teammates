@@ -75,7 +75,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
@@ -99,7 +99,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,

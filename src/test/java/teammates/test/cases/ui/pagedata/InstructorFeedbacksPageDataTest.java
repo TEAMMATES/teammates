@@ -140,7 +140,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
@@ -169,7 +169,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
@@ -352,10 +352,10 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         while (iter.hasNext()) {
             InstructorAttributes instructor = iter.next();
 
-            boolean isGoogleIdSame = instructor.googleId != null 
+            boolean isGoogleIdSame = instructor.googleId != null
                                      && instructor.googleId.equals(googleId);
-            boolean isOmittedDueToArchiveStatus = isOmitArchived 
-                                                  && instructor.isArchived != null 
+            boolean isOmittedDueToArchiveStatus = isOmitArchived
+                                                  && instructor.isArchived != null
                                                   && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
@@ -389,7 +389,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
         while (iter.hasNext()) {
             FeedbackSessionAttributes fs = iter.next();
-            if (!courseIdsOfUser.contains(fs.getCourseId())) {
+            if (!courseIdsOfUser.contains(fs.courseId)) {
                 iter.remove();
             }
         }

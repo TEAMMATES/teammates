@@ -63,8 +63,8 @@ public class Instructor {
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, 
-                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName, 
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
@@ -83,8 +83,8 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-                      String key, String role, boolean isDisplayedToStudents, String displayedName, 
+    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
+                      String key, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
@@ -169,7 +169,7 @@ public class Instructor {
     }
     
     /**
-     * Generate unique registration key for the instructor. 
+     * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
      * @return
      */

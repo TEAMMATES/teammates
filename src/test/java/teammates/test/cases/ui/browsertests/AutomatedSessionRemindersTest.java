@@ -31,21 +31,21 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
          * In this test, we set the email address of the accounts to be the same as the
          * support email address. When running the test against a production server,
          * email alerts will be sent to the specified support email address.
-         * The tester should manually check the email box after running the test suite. 
+         * The tester should manually check the email box after running the test suite.
          */
         
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
         testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
         testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
+        testData.feedbackSessions.get("closingSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("openingSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("publishedSession").creatorEmail = Config.SUPPORT_EMAIL;
         testData.feedbackQuestions.get("question").creatorEmail = Config.SUPPORT_EMAIL;
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
         int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
-        closingFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes));
+        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes);
 
         //Opening time for one feedback session already set to some time in the past.
         

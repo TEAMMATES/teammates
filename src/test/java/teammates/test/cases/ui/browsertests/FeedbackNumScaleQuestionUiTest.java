@@ -29,7 +29,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
+        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -55,8 +55,9 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     public void testNewQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Numerical-scale question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
     

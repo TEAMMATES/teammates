@@ -96,7 +96,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     }
     
     public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment() {
-        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment(); 
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment();
         
         additionalSettings.isSessionVisibleAtOpenChecked = true;
         additionalSettings.isSessionVisibleDateButtonChecked = false;
@@ -134,58 +134,58 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     private static void setEmailSettings(FeedbackSessionAttributes feedbackSession,
                                          FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         
-        additionalSettings.isSendClosingEmailChecked = feedbackSession.isClosingEmailEnabled();
-        additionalSettings.isSendOpeningEmailChecked = feedbackSession.isOpeningEmailEnabled();
-        additionalSettings.isSendPublishedEmailChecked = feedbackSession.isPublishedEmailEnabled();
+        additionalSettings.isSendClosingEmailChecked = feedbackSession.isClosingEmailEnabled;
+        additionalSettings.isSendOpeningEmailChecked = feedbackSession.isOpeningEmailEnabled;
+        additionalSettings.isSendPublishedEmailChecked = feedbackSession.isPublishedEmailEnabled;
     }
 
     private static void setResponseVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getResultsVisibleFromTime());
+        boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.resultsVisibleFromTime);
         
         additionalSettings.isResponseVisibleDateChecked = hasResultVisibleDate;
         
-        additionalSettings.responseVisibleDateValue = hasResultVisibleDate 
-                                                    ? TimeHelper.formatDate(feedbackSession.getResultsVisibleFromTime()) 
+        additionalSettings.responseVisibleDateValue = hasResultVisibleDate
+                                                    ? TimeHelper.formatDate(feedbackSession.resultsVisibleFromTime)
                                                     : "";
         additionalSettings.responseVisibleTimeOptions =
                                         PageData.getTimeOptionsAsElementTags(
-                                                  hasResultVisibleDate 
-                                                ? feedbackSession.getResultsVisibleFromTime() 
+                                                  hasResultVisibleDate
+                                                ? feedbackSession.resultsVisibleFromTime
                                                 : null);
         additionalSettings.isResponseVisibleDateDisabled = !hasResultVisibleDate;
         
         additionalSettings.isResponseVisibleImmediatelyChecked =
                                       Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(
-                                                                      feedbackSession.getResultsVisibleFromTime());
+                                                                      feedbackSession.resultsVisibleFromTime);
         
-        additionalSettings.isResponseVisiblePublishManuallyChecked = 
-                                          Const.TIME_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTime()) 
-                                       || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTime());
+        additionalSettings.isResponseVisiblePublishManuallyChecked =
+                                          Const.TIME_REPRESENTS_LATER.equals(feedbackSession.resultsVisibleFromTime)
+                                       || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.resultsVisibleFromTime);
         
         additionalSettings.isResponseVisibleNeverChecked = Const.TIME_REPRESENTS_NEVER.equals(
-                                                                   feedbackSession.getResultsVisibleFromTime());
+                                                                   feedbackSession.resultsVisibleFromTime);
     }
 
     private static void setSessionVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getSessionVisibleFromTime());
+        boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.sessionVisibleFromTime);
         
-        additionalSettings.isSessionVisibleAtOpenChecked = 
+        additionalSettings.isSessionVisibleAtOpenChecked =
                                         Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
-                                             feedbackSession.getSessionVisibleFromTime());
-        additionalSettings.isSessionVisiblePrivateChecked =  
+                                             feedbackSession.sessionVisibleFromTime);
+        additionalSettings.isSessionVisiblePrivateChecked =
                                         Const.TIME_REPRESENTS_NEVER.equals(
-                                            feedbackSession.getSessionVisibleFromTime());
+                                            feedbackSession.sessionVisibleFromTime);
         
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
-        additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate 
-                                                   ? TimeHelper.formatDate(feedbackSession.getSessionVisibleFromTime()) 
+        additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate
+                                                   ? TimeHelper.formatDate(feedbackSession.sessionVisibleFromTime)
                                                    : "";
         additionalSettings.isSessionVisibleDateDisabled = !hasSessionVisibleDate;
         additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(
-                                                            hasSessionVisibleDate 
-                                                            ? feedbackSession.getSessionVisibleFromTime() 
+                                                            hasSessionVisibleDate
+                                                            ? feedbackSession.sessionVisibleFromTime
                                                             : null);
     }
     

@@ -119,8 +119,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
-        assertEquals(session.getFeedbackSessionName(), studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
+        assertEquals(session.feedbackSessionName, studentRow.getName());
+        assertEquals(TimeHelper.formatTime12H(session.endTime), studentRow.getEndTime());
         assertEquals(expectedTooltip, studentRow.getTooltip());
         assertEquals(expectedStatus, studentRow.getStatus());
         assertEquals(index, studentRow.getIndex());
@@ -189,11 +189,11 @@ public class StudentHomePageDataTest extends BaseTestCase {
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
         FeedbackSessionAttributes session = new FeedbackSessionAttributes();
-        session.setFeedbackSessionName(name);
-        session.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(offsetStart));
-        session.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(offsetEnd));
-        session.setResultsVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(offsetPublish));
-        session.setSessionVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(-1));
+        session.feedbackSessionName = name;
+        session.startTime = TimeHelper.getHoursOffsetToCurrentTime(offsetStart);
+        session.endTime = TimeHelper.getHoursOffsetToCurrentTime(offsetEnd);
+        session.resultsVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(offsetPublish);
+        session.sessionVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(-1);
         return session;
     }
 

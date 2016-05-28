@@ -70,7 +70,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
-        assertEquals(fs.getCourseId(), fsForm.getCourseId());
+        assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
@@ -78,14 +78,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertNull(fsForm.getFeedbackSessionTypeOptions());
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
         
-        assertEquals(data.getInstructorFeedbackDeleteLink(fs.getCourseId(), fs.getFeedbackSessionName(), Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE), 
+        assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE),
                      fsForm.getFsDeleteLink());
-        assertEquals(TimeHelper.formatDate(fs.getEndTime()), fsForm.getFsEndDate());
+        assertEquals(TimeHelper.formatDate(fs.endTime), fsForm.getFsEndDate());
         
-        assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
-        assertEquals(TimeHelper.formatDate(fs.getStartTime()), fsForm.getFsStartDate());
+        assertEquals(fs.feedbackSessionName, fsForm.getFsName());
+        assertEquals(TimeHelper.formatDate(fs.startTime), fsForm.getFsStartDate());
         
-        assertEquals(Sanitizer.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
+        assertEquals(Sanitizer.sanitizeForHtml(fs.instructions.getValue()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
         
         assertFalse(fsForm.isCourseIdEditable());
@@ -94,8 +94,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(fsForm.isSubmitButtonDisabled());
         
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()), additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()), additionalSettings.getSessionVisibleDateValue());
+        assertEquals(TimeHelper.formatDate(fs.resultsVisibleFromTime), additionalSettings.getResponseVisibleDateValue());
+        assertEquals(TimeHelper.formatDate(fs.sessionVisibleFromTime), additionalSettings.getSessionVisibleDateValue());
         
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
@@ -115,13 +115,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         List<FeedbackQuestionEditForm> questionForms = data.getQnForms();
         assertEquals(3, questionForms.size());
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT, questionForms.get(0).getAction());
-        assertEquals(fs.getCourseId(), questionForms.get(0).getCourseId());
-        assertEquals(fs.getFeedbackSessionName(), questionForms.get(0).getFeedbackSessionName());
+        assertEquals(fs.courseId, questionForms.get(0).getCourseId());
+        assertEquals(fs.feedbackSessionName, questionForms.get(0).getFeedbackSessionName());
 
         String questionTextOfFirstQuestion = dataBundle.feedbackQuestions
                                                        .get("qn1InSession1InCourse1")
                                                        .getQuestionDetails().questionText;
-        assertEquals(questionTextOfFirstQuestion, 
+        assertEquals(questionTextOfFirstQuestion,
                      questionForms.get(0).getQuestionText());
         assertEquals(3, questionForms.get(0).getQuestionNumberOptions().size());
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
@@ -159,19 +159,19 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(NUM_RECIPIENT_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
         assertEquals(NUM_GIVER_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
                 
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
-        verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(), 
-                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
-                                        FeedbackParticipantType.RECEIVER, 
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                                        FeedbackParticipantType.RECEIVER,
                                         FeedbackParticipantType.STUDENTS,
                                         FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
@@ -181,15 +181,15 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         FeedbackQuestionEditForm newQuestionForm = data.getNewQnForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                         .withUserId(instructor.googleId)
-                        .withCourseId(fs.getCourseId())
-                        .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
+                        .withCourseId(fs.courseId)
+                        .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertTrue(newQuestionForm.getQuestionNumberSuffix().isEmpty());
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)
-                            .withCourseId(fs.getCourseId())
-                            .withSessionName(fs.getFeedbackSessionName()).toString(),
+                            .withCourseId(fs.courseId)
+                            .withSessionName(fs.feedbackSessionName).toString(),
                      newQuestionForm.getDoneEditingLink());
         
         // preview form
@@ -207,8 +207,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
         
         fs = dataBundle.feedbackSessions.get("empty.session");
-        fs.setPublishedEmailEnabled(false);
-        fs.setClosingEmailEnabled(false);
+        fs.isPublishedEmailEnabled = false;
+        fs.isClosingEmailEnabled = false;
         
         questions = new ArrayList<FeedbackQuestionAttributes>();
         copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
@@ -220,9 +220,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
-                           .withUserId(instructor.googleId).toString(), 
+                           .withUserId(instructor.googleId).toString(),
                       fsForm.getCopyToLink());
-        assertEquals(fs.getCourseId(), fsForm.getCourseId());
+        assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
@@ -230,8 +230,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertNull(fsForm.getFeedbackSessionTypeOptions());
         
         additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()), additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()), additionalSettings.getSessionVisibleDateValue());
+        assertEquals(TimeHelper.formatDate(fs.resultsVisibleFromTime), additionalSettings.getResponseVisibleDateValue());
+        assertEquals(TimeHelper.formatDate(fs.sessionVisibleFromTime), additionalSettings.getSessionVisibleDateValue());
         
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
@@ -258,14 +258,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         newQuestionForm = data.getNewQnForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                         .withUserId(instructor.googleId)
-                        .withCourseId(fs.getCourseId())
-                        .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
+                        .withCourseId(fs.courseId)
+                        .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                          .withUserId(instructor.googleId)
-                         .withCourseId(fs.getCourseId())
-                         .withSessionName(fs.getFeedbackSessionName()).toString(),
+                         .withCourseId(fs.courseId)
+                         .withSessionName(fs.feedbackSessionName).toString(),
                      newQuestionForm.getDoneEditingLink());
         
         copyForm = data.getCopyQnForm();
@@ -276,8 +276,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         // setup
         data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("helperOfCourse1"));
         fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        fs.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        fs.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        fs.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+        fs.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         
         questions = new ArrayList<FeedbackQuestionAttributes>();
         questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
@@ -314,7 +314,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         for (FeedbackParticipantType nonParticipant : nonParticipants) {
             assertFalse(map.containsKey(nonParticipant.name()));
-        }        
+        }
     }
 
 }

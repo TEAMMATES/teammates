@@ -27,7 +27,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
+        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
     }
@@ -61,8 +61,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.getFsCopyToModal()
                         .verifyStatusMessage(
-                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
-                                               feedbackSessionName, 
+                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                                               feedbackSessionName,
                                                testData.courses.get("course").getId()));
         
 

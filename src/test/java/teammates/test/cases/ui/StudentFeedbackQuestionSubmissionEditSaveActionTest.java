@@ -35,7 +35,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
+                .getFeedbackQuestion(session1InCourse1.feedbackSessionName, session1InCourse1.courseId, 1);
 
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb
@@ -50,24 +50,24 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         verifyAssumptionFailure();
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
         };
 
         verifyAssumptionFailure(submissionParams);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
 
         verifyAssumptionFailure(submissionParams);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
@@ -77,7 +77,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
@@ -93,7 +93,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -121,9 +121,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         ______TS("delete answer");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -149,9 +149,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         ______TS("skip question");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -175,9 +175,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         ______TS("new response");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -213,9 +213,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         ______TS("invalid feedback recipient");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -237,13 +237,13 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 
         ______TS("Closed Session");
         
-        session1InCourse1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        session1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         feedbackSessionDb.updateFeedbackSession(session1InCourse1);
 
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -271,7 +271,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        gaeSimulation.loginAsStudent(student4InCourse1.googleId);
 //
 //        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
-//        
+//
 //        gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 //        feedbackSessionDb.updateFeedbackSession(gracePeriodSession);
 //
@@ -279,7 +279,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //                .getFeedbackQuestion(gracePeriodSession.feedbackSessionName, gracePeriodSession.courseId, 2);
 //
 //        feedbackResponse = feedbackResponsesDb
-//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email, 
+//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email,
 //                                     "Team 1.2");
 //
 //        submissionParams = new String[]{

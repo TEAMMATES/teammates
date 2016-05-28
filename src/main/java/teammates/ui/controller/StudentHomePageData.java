@@ -47,11 +47,9 @@ public class StudentHomePageData extends PageData {
     
     private List<ElementTag> createCourseTableLinks(String courseId) {
         List<ElementTag> links = new ArrayList<ElementTag>();
-        links.add(new ElementTag(
-            "View Team",
-            "href", getStudentCourseDetailsLink(courseId),
-            "title", Const.Tooltips.STUDENT_COURSE_DETAILS
-        ));
+        links.add(new ElementTag("View Team",
+                                 "href", getStudentCourseDetailsLink(courseId),
+                                 "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
         return links;
     }
     
@@ -62,14 +60,14 @@ public class StudentHomePageData extends PageData {
         int sessionIdx = startingSessionIdx;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
-            String sessionName = feedbackSession.getFeedbackSessionName();
+            String sessionName = feedbackSession.feedbackSessionName;
             boolean hasSubmitted = sessionSubmissionStatusMap.get(feedbackSession);
             
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
                     getStudentStatusForSession(feedbackSession, hasSubmitted),
-                    TimeHelper.formatTime12H(feedbackSession.getEndTime()),
+                    TimeHelper.formatTime12H(feedbackSession.endTime),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
             
@@ -116,7 +114,7 @@ public class StudentHomePageData extends PageData {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
-        }        
+        }
         if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
@@ -134,8 +132,8 @@ public class StudentHomePageData extends PageData {
      */
     private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
             FeedbackSessionAttributes fs, boolean hasSubmitted) {
-        String resultsLink = getStudentFeedbackResultsLink(fs.getCourseId(), fs.getFeedbackSessionName());
-        String responseEditLink = getStudentFeedbackSubmissionEditLink(fs.getCourseId(), fs.getFeedbackSessionName());
+        String resultsLink = getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
+        String responseEditLink = getStudentFeedbackSubmissionEditLink(fs.courseId, fs.feedbackSessionName);
         return new StudentFeedbackSessionActions(fs, resultsLink, responseEditLink, hasSubmitted);
     }
 }

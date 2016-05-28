@@ -38,7 +38,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         ______TS("Typical case");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.feedbackSessionName
         };
         
         InstructorFeedbackRemindParticularStudentsPageAction a = getAction(submissionParams);
@@ -47,7 +47,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData = 
+        InstructorFeedbackRemindParticularStudentsPageData pageData =
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
         assertEquals(6, pageData.getResponseStatus().noResponse.size());
         

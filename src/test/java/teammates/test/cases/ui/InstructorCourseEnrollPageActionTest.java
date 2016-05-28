@@ -46,7 +46,9 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor.getGoogleId());
 
         String courseId = instructor.getCourseId();
-        String[] submissionParams = new String[]{Const.ParamsNames.COURSE_ID, courseId};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
+        };
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
         
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
@@ -71,7 +73,9 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor.getGoogleId());
 
         String courseId = instructor.getCourseId();
-        String[] submissionParams = new String[]{Const.ParamsNames.COURSE_ID, courseId};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
+        };
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
@@ -98,8 +102,10 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         String instructorId = instructorToMasquerade.googleId;
         String courseId = instructorToMasquerade.courseId;
 
-        String[] submissionParams = new String[]{Const.ParamsNames.USER_ID, instructorId,
-                                                 Const.ParamsNames.COURSE_ID, courseId};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
+        };
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);

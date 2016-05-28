@@ -38,7 +38,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
+        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage();
 
     }
@@ -56,7 +56,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
-        StudentFeedbackResultsPage studentResultsPage = 
+        StudentFeedbackResultsPage studentResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
@@ -141,7 +141,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
 
-        // Submit another feedback response using another student's account 
+        // Submit another feedback response using another student's account
         submitPage = loginToStudentFeedbackSubmitPage("benny.tmms@FRubricQnUiT.CS2104", "openSession2");
 
         submitPage.clickRubricCell(1, 0, 0, 0);
@@ -189,8 +189,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
@@ -223,8 +223,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -341,7 +341,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     private void testInputJsValidationForRubricQuestion() {
@@ -350,8 +350,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("JS validation test");
 
         // add a new question
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
@@ -389,8 +389,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
@@ -398,8 +398,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
@@ -407,8 +407,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl,
                 StudentFeedbackResultsPage.class);
     }
@@ -417,8 +417,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName, boolean needAjax, String viewType) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                    .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
         if (needAjax) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
@@ -437,8 +437,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         StudentAttributes s = testData.students.get(studentName);
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(s.googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);

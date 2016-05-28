@@ -73,7 +73,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
             } else if (!isInstructorAllowedToViewStudent) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
-            } 
+            }
         }
 
         if (sessions.isEmpty() && comments.isEmpty()) {
@@ -82,11 +82,11 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         List<String> sessionNames = new ArrayList<String>();
         for (FeedbackSessionAttributes fsa : sessions) {
-            sessionNames.add(fsa.getFeedbackSessionName());
+            sessionNames.add(fsa.feedbackSessionName);
         }
         
-        InstructorStudentRecordsPageData data = 
-                                        new InstructorStudentRecordsPageData(account, student, courseId, 
+        InstructorStudentRecordsPageData data =
+                                        new InstructorStudentRecordsPageData(account, student, courseId,
                                                                              showCommentBox, studentProfile,
                                                                              comments, sessionNames, instructor);
 
@@ -105,9 +105,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.getCourseId().equals(courseId)
-                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+            if (!tempFs.courseId.equals(courseId)
+                    || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
         }

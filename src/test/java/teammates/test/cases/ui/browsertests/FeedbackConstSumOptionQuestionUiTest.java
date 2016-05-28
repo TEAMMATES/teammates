@@ -29,7 +29,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
+        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -55,8 +55,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testNewQuestionFrame() {
         ______TS("CONSTSUM-option: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
@@ -76,8 +76,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionBox("Test const sum question");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
@@ -94,8 +94,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         
         feedbackEditPage.fillConstSumOption(0, "Option 1");
         feedbackEditPage.fillConstSumOption(1, "Option 2");
@@ -161,7 +161,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @AfterClass

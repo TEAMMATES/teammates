@@ -28,23 +28,23 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
         };
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
         
         Action a = gaeSimulation.getActionObject(uri, submissionParams);
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
-        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=false&user=idOfInstructor1OfCourse1", 
+                         + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
-    }    
+    }
 }

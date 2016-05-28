@@ -20,7 +20,7 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 /**
- * The search result bundle for {@link FeedbackResponseCommentAttributes}. 
+ * The search result bundle for {@link FeedbackResponseCommentAttributes}.
  */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
@@ -72,7 +72,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         for (ScoredDocument doc : filteredResults) {
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
                     FeedbackResponseCommentAttributes.class);
             if (frcLogic.getFeedbackResponseComment(comment.getId()) == null) {
                 frcLogic.deleteDocument(comment);
@@ -88,7 +88,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             //get related response from results
             FeedbackResponseAttributes response = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(),
                     FeedbackResponseAttributes.class);
             if (frLogic.getFeedbackResponse(response.getId()) == null) {
                 frcLogic.deleteDocument(comment);
@@ -106,7 +106,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             //get related question from results
             FeedbackQuestionAttributes question = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(),
                     FeedbackQuestionAttributes.class);
             if (fqLogic.getFeedbackQuestion(question.getId()) == null) {
                 frcLogic.deleteDocument(comment);
@@ -124,14 +124,14 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             //get related session from results
             FeedbackSessionAttributes session = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
                     FeedbackSessionAttributes.class);
-            if (fsLogic.getFeedbackSession(session.getSessionName(), session.getCourseId()) == null) {
+            if (fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
-            if (!isAdded.contains(session.getFeedbackSessionName())) {
-                isAdded.add(session.getFeedbackSessionName());
+            if (!isAdded.contains(session.feedbackSessionName)) {
+                isAdded.add(session.feedbackSessionName);
                 sessions.put(session.getSessionName(), session);
             }
             
@@ -171,7 +171,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     private String getFilteredGiverName(FeedbackResponseAttributes response, String name) {
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
-        if (!isNameVisibleToInstructor(response, question.showGiverNameTo) 
+        if (!isNameVisibleToInstructor(response, question.showGiverNameTo)
                 && question.giverType != FeedbackParticipantType.SELF) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
             return "Anonymous " + question.giverType.toSingularFormString() + " " + hash;
@@ -181,8 +181,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     private String getFilteredRecipientName(FeedbackResponseAttributes response, String name) {
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
-        if (!isNameVisibleToInstructor(response, question.showRecipientNameTo) 
-                && question.recipientType != FeedbackParticipantType.SELF 
+        if (!isNameVisibleToInstructor(response, question.showRecipientNameTo)
+                && question.recipientType != FeedbackParticipantType.SELF
                 && question.recipientType != FeedbackParticipantType.NONE) {
             String hash = Integer.toString(Math.abs(name.hashCode()));
             return "Anonymous " + question.recipientType.toSingularFormString() + " " + hash;
@@ -202,7 +202,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return question;
     }
     
-    private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response, 
+    private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response,
                                                           FeedbackResponseCommentAttributes comment) {
         //in the old ver, name is always visible
         if (comment.isVisibilityFollowingFeedbackQuestion) {
@@ -225,7 +225,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     && instructorEmails.contains(response.recipientEmail)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
     
@@ -242,7 +242,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     && instructorEmails.contains(response.recipientEmail)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
 

@@ -34,7 +34,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         
