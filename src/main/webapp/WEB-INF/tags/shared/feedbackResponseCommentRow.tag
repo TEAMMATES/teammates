@@ -4,7 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
-<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
+<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
