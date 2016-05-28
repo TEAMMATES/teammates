@@ -45,7 +45,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {

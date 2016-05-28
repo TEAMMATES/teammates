@@ -107,11 +107,11 @@ public final class Const {
      * Other Constants
      */
     
-    public static enum AdminEmailPageState {
+    public enum AdminEmailPageState {
         COMPOSE, SENT, TRASH, DRAFT
     }
     
-    public static enum StatusMessageColor {
+    public enum StatusMessageColor {
         INFO, SUCCESS, WARNING, DANGER
     }
 

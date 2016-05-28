@@ -26,14 +26,21 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 
 #####Suppressing Checkstyle warnings
 
-To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+To introduce code that violates Checkstyle rules, wrap the violating code with `// CHECKSTYLE.OFF:RuleName` and re-enable it afterwards with `// CHECKSTYLE.ON:RuleName` (note the absence of space around `.` and `:`). Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 An example for suppressing the `Avoid star imports` rule is as follows:
-```
-//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+```java
+// CHECKSTYLE.OFF:AvoidStarImports as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
-//CHECKSTYLE:ON
+// CHECKSTYLE.ON:AvoidStarImports
+```
+
+To suppress multiple violations at once, separate the rules with vertical bar `|`:
+```java
+// CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
+private String ID;
+// CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 ```
 
 ### PMD

@@ -174,10 +174,10 @@ public final class DataGenerator {
                 
                 //add to team, add to students;
                 String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-                String studentID = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
+                String studentId = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
                 
-                students.add(studentID);
-                team.add(studentID);
+                students.add(studentId);
+                team.add(studentId);
             }
 
             teamCount++;

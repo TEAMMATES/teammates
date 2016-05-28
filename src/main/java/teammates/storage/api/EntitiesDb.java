@@ -69,8 +69,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         int elapsedTime = 0;
@@ -121,8 +121,8 @@ public abstract class EntitiesDb {
             log.info(entityToAdd.getBackupIdentifier());
         }
        
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entitiesToUpdate;
 
@@ -152,8 +152,8 @@ public abstract class EntitiesDb {
             log.info(entityToAdd.getBackupIdentifier());
         }
         
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entities;
 
@@ -178,8 +178,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -221,8 +221,8 @@ public abstract class EntitiesDb {
             return;
         }
 
-        getPM().deletePersistent(entity);
-        getPM().flush();
+        getPm().deletePersistent(entity);
+        getPm().flush();
         
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -258,17 +258,17 @@ public abstract class EntitiesDb {
             }
         }
         
-        getPM().deletePersistentAll(entities);
-        getPM().flush();
+        getPm().deletePersistentAll(entities);
+        getPm().flush();
     }
     
     public void commitOutstandingChanges() {
-        closePM();
+        closePm();
     }
     
-    protected void closePM() {
-        if (!getPM().isClosed()) {
-            getPM().close();
+    protected void closePm() {
+        if (!getPm().isClosed()) {
+            getPm().close();
         }
     }
     
@@ -297,7 +297,7 @@ public abstract class EntitiesDb {
      */
     protected abstract Object getEntity(EntityAttributes attributes);
     
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
     

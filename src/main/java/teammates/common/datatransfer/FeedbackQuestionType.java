@@ -27,8 +27,8 @@ public enum FeedbackQuestionType {
      * @param questionDetailsClass
      * @param responseDetailsClass
      */
-    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
-                                 Class<? extends FeedbackResponseDetails> responseDetailsClass) {
+    FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
+                         Class<? extends FeedbackResponseDetails> responseDetailsClass) {
         this.questionDetailsClass = questionDetailsClass;
         this.responseDetailsClass = responseDetailsClass;
     }

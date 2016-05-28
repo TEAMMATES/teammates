@@ -59,10 +59,10 @@ public class AdminActivityLogPageData extends PageData {
         setDefaultLogSearchPeriod();
     }
     
-    public List<String> getExcludedLogRequestURIs() {
+    public List<String> getExcludedLogRequestUris() {
         List<String> excludedList = new ArrayList<String>();
-        for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
+        for (String excludedLogRequestUri : excludedLogRequestURIs) {
+            excludedList.add(excludedLogRequestUri.substring(excludedLogRequestUri.lastIndexOf('/') + 1));
         }
         return excludedList;
     }
@@ -426,7 +426,7 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isIdInQuery;
         public String[] idValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isRequestInQuery = false;
             isResponseInQuery = false;
             isPersonInQuery = false;
