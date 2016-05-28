@@ -829,13 +829,13 @@ public class CoursesLogic {
     
     /**
      * @param courseId
-     * @param instructorGoogleId
+     * @param googleId
      * @return a CSV for the details(name, email, status) of all students belonging to a given course
      * @throws EntityDoesNotExistException
      */
-    public String getCourseStudentListAsCsv(String courseId, String instructorGoogleId) throws EntityDoesNotExistException {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
-        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(instructorGoogleId, false);
+        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
