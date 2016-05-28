@@ -22,6 +22,18 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentsDb studentsDb = new StudentsDb();
     
+    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
     public static void setupClass() {
         printTestClassHeader();
@@ -30,23 +42,20 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException {
         
-        StudentAttributes s = createNewStudent();
+        StudentAttributesWithModifiableTimestamp s = new StudentAttributesWithModifiableTimestamp();
         
-        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-        assertNotNull(student);
-        
-        student.setCreated_NonProduction(null);
-        student.setUpdatedAt_NonProduction(null);
+        s.setCreatedAt(null);
+        s.setUpdatedAt(null);
         
         Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         
         ______TS("success : defaultTimeStamp for createdAt date");
         
-        assertEquals(defaultStudentCreationTimeStamp, student.getCreatedAt());
+        assertEquals(defaultStudentCreationTimeStamp, s.getCreatedAt());
         
         ______TS("success : defaultTimeStamp for updatedAt date");
         
-        assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
+        assertEquals(defaultStudentCreationTimeStamp, s.getUpdatedAt());
     }
     
     @Test

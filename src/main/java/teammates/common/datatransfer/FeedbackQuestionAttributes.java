@@ -32,9 +32,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
     private String feedbackQuestionId;
-    private transient Date createdAt;
-    private transient Date updatedAt;
 
     public FeedbackQuestionAttributes() {
         // attributes to be set after construction
@@ -601,25 +601,5 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
-    
-    /**
-     * Should only be used for testing
-     */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setCreatedAt_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    //CHECKSTYLE:ON
-    
-    /**
-     * Should only be used for testing
-     */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    //CHECKSTYLE:ON
     
 }

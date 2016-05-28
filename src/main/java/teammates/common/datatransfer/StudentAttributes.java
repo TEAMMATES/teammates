@@ -73,8 +73,8 @@ public class StudentAttributes extends EntityAttributes {
      * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private transient Date createdAt;
-    private transient Date updatedAt;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -385,26 +385,6 @@ public class StudentAttributes extends EntityAttributes {
         return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
-    /**
-     * Should only be used for testing
-     **/
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setCreated_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    //CHECKSTYLE:ON
-
-    /**
-     * Should only be used for testing
-     **/
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    //CHECKSTYLE:ON
-
     /**
      * Checks whether the edit form of student has changed the section value.
      * 

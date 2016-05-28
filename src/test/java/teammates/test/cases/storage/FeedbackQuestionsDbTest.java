@@ -24,6 +24,18 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
+    private class FeedbackQuestionAttributesWithModifiableAttributes extends FeedbackQuestionAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();
@@ -32,16 +44,11 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         
-        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributesWithModifiableAttributes fq =
+                new FeedbackQuestionAttributesWithModifiableAttributes();
         
-        // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fq);
-        
-        fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
-        
-        fq.setCreatedAt_NonProduction(null);
-        fq.setUpdatedAt_NonProduction(null);
+        fq.setCreatedAt(null);
+        fq.setUpdatedAt(null);
         
         Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         

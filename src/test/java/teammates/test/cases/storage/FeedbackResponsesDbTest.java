@@ -29,6 +29,18 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static HashMap<String, FeedbackResponseAttributes> fras;
     
+    private class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
@@ -45,16 +57,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        FeedbackResponseAttributesWithModifiableTimestamp fra =
+                new FeedbackResponseAttributesWithModifiableTimestamp();
         
-        // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
-        
-        frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
-        
-        fra.setCreatedAt_NonProduction(null);
-        fra.setUpdatedAt_NonProduction(null);
+        fra.setCreatedAt(null);
+        fra.setUpdatedAt(null);
         
         Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         
