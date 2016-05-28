@@ -67,9 +67,9 @@ public class FeedbackResponseCommentRow {
     }
     
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
-                                         String giverName, String recipientName,
-                                         String showCommentToString, String showGiverNameToString,
-                                         Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+            String giverName, String recipientName,
+            String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
         
