@@ -14,18 +14,18 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.COURSE_ID), 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                               Const.ParamsNames.COURSE_ID),
                                                courseId);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
                                                feedbackSessionName);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.PREVIEWAS),
                                                previewInstructorEmail);
 
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
+                logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
@@ -39,8 +39,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
-                feedbackSessionName, 
-                courseId, 
+                feedbackSessionName,
+                courseId,
                 previewInstructor.email);
         
         // the following condition is not tested as typically the GateKeeper above handles
@@ -57,8 +57,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
         data.bundle.resetAllResponses();
         
-        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" 
-                      + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
         
         data.init("", "", courseId);

@@ -43,10 +43,10 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         Assumption.assertNotNull(enrollmentDetails);
     }
 
-    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {    
+    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {
         super(null);
         
-        this.courseId = paramMap.get(ParamsNames.COURSE_ID); 
+        this.courseId = paramMap.get(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
         this.sessionName = paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME);
@@ -60,13 +60,13 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     public boolean execute() {
         
 
-        log.info("Adjusting submissions for feedback session :" + sessionName 
+        log.info("Adjusting submissions for feedback session :" + sessionName
                  + "in course : " + courseId);
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
         
-        String errorString = 
+        String errorString =
                 "Error encountered while adjusting feedback session responses of %s in course : %s : %s\n%s";
         
         if (feedbackSession == null) {
@@ -74,7 +74,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             return false;
         }
         
-        List<FeedbackResponseAttributes> allResponses = 
+        List<FeedbackResponseAttributes> allResponses =
                                         FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
                                                                         feedbackSession.feedbackSessionName,
                                                                         feedbackSession.courseId);
@@ -90,7 +90,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                                                 ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
                 return false;
             }
-        } 
+        }
         return true;
            
     }

@@ -35,7 +35,7 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        isInUse = false; 
+        isInUse = false;
         isAdminLoggedIn = false;
     }
     

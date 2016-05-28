@@ -18,9 +18,9 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
     // modify this value to choose to update respondants for all sessions or a specific session
-    private boolean isForAllSession = true; 
+    private boolean isForAllSession = true;
     // if modifying all sessions, modify this value to only update sessions with no respondants
-    private boolean isOnlyModifyingZeroResponseRate = true; 
+    private boolean isOnlyModifyingZeroResponseRate = true;
 
     // modify for preview
     private boolean isPreview = true;
@@ -50,8 +50,8 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     private void updateRespondantsForAllSessions() {
         List<FeedbackSessionAttributes> feedbackSessions;
         
-        feedbackSessions = isOnlyModifyingZeroResponseRate 
-                         ? getFeedbackSessionsWithZeroResponseRate() 
+        feedbackSessions = isOnlyModifyingZeroResponseRate
+                         ? getFeedbackSessionsWithZeroResponseRate()
                          : fsDb.getAllFeedbackSessions();
         
         for (FeedbackSessionAttributes session : feedbackSessions) {
@@ -79,7 +79,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     /* Operation for a specific session */
     private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
         if (isPreview) {
-            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]"); 
+            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]");
             return;
         }
         

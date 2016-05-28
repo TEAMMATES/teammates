@@ -39,7 +39,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user", 
+        assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user",
                      result.getDestinationWithParams());
         assertFalse(result.isError);
 

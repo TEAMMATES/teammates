@@ -87,7 +87,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         // Only the following loop does the appending
         // *******************************************************************
         //======================================================================
-        // Student Accounts append Institute from Student-Institute pair        
+        // Student Accounts append Institute from Student-Institute pair
         int count = 0;
         for (String id : studentInstitutions.keySet()) {
             query = "select from " + Account.class.getName()

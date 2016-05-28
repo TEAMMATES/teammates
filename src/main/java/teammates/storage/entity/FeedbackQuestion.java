@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
-    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
+    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
     
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set

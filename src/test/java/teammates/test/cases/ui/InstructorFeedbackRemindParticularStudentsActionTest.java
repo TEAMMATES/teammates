@@ -15,7 +15,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
     
     @Test
     public void testExecuteAndPostProcess() {
-        // This test case was omitted as the action is executed in the background task queue 
+        // This test case was omitted as the action is executed in the background task queue
         // so we cannot determine its result.
         
         // The logic under the action is covered with test case to ensure the action works.

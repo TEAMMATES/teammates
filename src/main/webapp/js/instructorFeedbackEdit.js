@@ -52,6 +52,10 @@ function readyFeedbackEditPage() {
         }
     });
     
+    $('.dropdown-menu li').click(function() {
+        showNewQuestionFrame($(this).data('questiontype'));
+    });
+    
     // Copy Binding
     bindCopyButton();
     bindCopyEvents();
@@ -442,6 +446,8 @@ function tallyCheckboxes(qnNumber) {
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type) {
+    $('#questiontype').val(type);
+	
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();

@@ -18,16 +18,16 @@ public class AdminAccountManagementPageData extends PageData {
      */
     private boolean isToShowAll;
     
-    public AdminAccountManagementPageData(AccountAttributes account, 
-                                          Map<String, AccountAttributes> instructorAccountsTable, 
-                                          Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable, 
+    public AdminAccountManagementPageData(AccountAttributes account,
+                                          Map<String, AccountAttributes> instructorAccountsTable,
+                                          Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable,
                                           boolean isToShowAll) {
         super(account);
         this.isToShowAll = isToShowAll;
         accountTable = createAccountTable(instructorAccountsTable, instructorCoursesTable);
     }
     
-    private List<AdminAccountManagementAccountTableRow> createAccountTable(Map<String, AccountAttributes> instructorAccountsTable, 
+    private List<AdminAccountManagementAccountTableRow> createAccountTable(Map<String, AccountAttributes> instructorAccountsTable,
                                                             Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable) {
         List<AdminAccountManagementAccountTableRow> table = new ArrayList<AdminAccountManagementAccountTableRow>();
         
