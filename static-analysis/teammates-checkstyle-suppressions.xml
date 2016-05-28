@@ -4,5 +4,4 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
     <suppress checks="MethodName" files="test[/\\].*\.java"/>
-    <suppress checks="MemberName|StaticVariableName" files="(TestProperties|Config).java"/>
 </suppressions>
