@@ -291,11 +291,11 @@ public class CoursesLogic {
     
     /**
      * @param course {@link CourseAttributes}
-     * @param courseDetails {@link CourseDetailsBundle}
+     * @param cdd {@link CourseDetailsBundle}
      * @return a list of {@link SectionDetailsBundle section details} for a
      *         given course using course attributes and course details bundle.
      */
-    public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle courseDetails) {
+    public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle cdd) {
         Assumption.assertNotNull("Course is null", course);
         
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.getId());
@@ -309,16 +309,16 @@ public class CoursesLogic {
         for (int i = 0; i < students.size(); i++) {
             
             StudentAttributes s = students.get(i);
-            courseDetails.stats.studentsTotal++;
+            cdd.stats.studentsTotal++;
             if (!s.isRegistered()) {
-                courseDetails.stats.unregisteredTotal++;
+                cdd.stats.unregisteredTotal++;
             }
             
             if (section == null) {   // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
-                courseDetails.stats.teamsTotal++;
+                cdd.stats.teamsTotal++;
                 section.teams.get(teamIndexWithinSection).name = s.team;
                 section.teams.get(teamIndexWithinSection).students.add(s);
             } else if (s.section.equals(section.name)) {
@@ -327,20 +327,20 @@ public class CoursesLogic {
                 } else {
                     teamIndexWithinSection++;
                     section.teams.add(new TeamDetailsBundle());
-                    courseDetails.stats.teamsTotal++;
+                    cdd.stats.teamsTotal++;
                     section.teams.get(teamIndexWithinSection).name = s.team;
                     section.teams.get(teamIndexWithinSection).students.add(s);
                 }
             } else { // first student of subsequent section
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
-                    courseDetails.stats.sectionsTotal++;
+                    cdd.stats.sectionsTotal++;
                 }
                 teamIndexWithinSection = 0;
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
-                courseDetails.stats.teamsTotal++;
+                cdd.stats.teamsTotal++;
                 section.teams.get(teamIndexWithinSection).name = s.team;
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
@@ -349,7 +349,7 @@ public class CoursesLogic {
             if (isLastStudent) {
                 sections.add(section);
                 if (!section.name.equals(Const.DEFAULT_SECTION)) {
-                    courseDetails.stats.sectionsTotal++;
+                    cdd.stats.sectionsTotal++;
                 }
             }
         }
@@ -490,15 +490,15 @@ public class CoursesLogic {
     }
 
     /**
-     * @param courseAttributes
+     * @param cd
      * @return the {@link CourseDetailsBundle course details} for a course using {@link CourseAttributes}
      * @throws EntityDoesNotExistException
      */
-    public CourseDetailsBundle getCourseSummary(CourseAttributes courseAttributes) {
-        Assumption.assertNotNull("Supplied parameter was null\n", courseAttributes);
+    public CourseDetailsBundle getCourseSummary(CourseAttributes cd) {
+        Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
-        CourseDetailsBundle cdd = new CourseDetailsBundle(courseAttributes);
-        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseAttributes, cdd);
+        CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
@@ -520,15 +520,15 @@ public class CoursesLogic {
     }
     
     /**
-     * @param instructorAttributes
+     * @param instructor
      * @return the {@link CourseSummaryBundle course summary}, including
      *         its feedback sessions using the given {@link InstructorAttributes}.
      * @throws EntityDoesNotExistException
      */
     public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
-            InstructorAttributes instructorAttributes) throws EntityDoesNotExistException {
-        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructorAttributes.courseId);
-        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructorAttributes));
+            InstructorAttributes instructor) throws EntityDoesNotExistException {
+        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructor.courseId);
+        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructor));
         return courseSummary;
     }
 
