@@ -24,7 +24,7 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    private class FeedbackQuestionAttributesWithModifiableAttributes extends FeedbackQuestionAttributes {
+    private class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
@@ -44,8 +44,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         
-        FeedbackQuestionAttributesWithModifiableAttributes fq =
-                new FeedbackQuestionAttributesWithModifiableAttributes();
+        FeedbackQuestionAttributesWithModifiableTimestamp fq =
+                new FeedbackQuestionAttributesWithModifiableTimestamp();
         
         fq.setCreatedAt(null);
         fq.setUpdatedAt(null);
