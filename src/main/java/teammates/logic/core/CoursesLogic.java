@@ -144,7 +144,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Used to trigger an {@link EntityDoesNotExistException} if the course is not present. 
+     * Used to trigger an {@link EntityDoesNotExistException} if the course is not present.
      * @param courseId
      * @throws EntityDoesNotExistException
      */
