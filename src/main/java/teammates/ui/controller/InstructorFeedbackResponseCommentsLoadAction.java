@@ -58,7 +58,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private FeedbackSessionResultsBundle getFeedbackResultBundle(String courseId, String fsname,
             CourseRoster roster) throws EntityDoesNotExistException {
-        FeedbackSessionResultsBundle bundle = 
+        FeedbackSessionResultsBundle bundle =
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
         if (bundle != null) {
@@ -73,7 +73,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
         while (iter.hasNext()) {
             FeedbackResponseAttributes fdr = iter.next();
-            boolean canInstructorViewSessionInGiverSection = 
+            boolean canInstructorViewSessionInGiverSection =
                     instructor.isAllowedForPrivilege(fdr.giverSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             boolean canInstructorViewSessionInRecipientSection =

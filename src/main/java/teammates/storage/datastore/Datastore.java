@@ -16,7 +16,8 @@ import teammates.common.util.Utils;
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
  */
 public final class Datastore {
-    private static PersistenceManagerFactory PMF;
+
+    private static PersistenceManagerFactory pmf;
     private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
     
@@ -25,8 +26,8 @@ public final class Datastore {
     }
 
     public static void initialize() {
-        if (PMF == null) {
-            PMF = JDOHelper
+        if (pmf == null) {
+            pmf = JDOHelper
                     .getPersistenceManagerFactory("transactions-optional");
         } else {
             log.warning("Trying to initialize Datastore again");
@@ -37,13 +38,13 @@ public final class Datastore {
 
         PersistenceManager pm = PER_THREAD_PM.get();
         if (pm == null) {
-            pm = PMF.getPersistenceManager();
+            pm = pmf.getPersistenceManager();
             PER_THREAD_PM.set(pm);
 
         } else if (pm.isClosed()) {
 
             PER_THREAD_PM.remove();
-            pm = PMF.getPersistenceManager();
+            pm = pmf.getPersistenceManager();
             PER_THREAD_PM.set(pm);
 
         }

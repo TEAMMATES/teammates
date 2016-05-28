@@ -29,8 +29,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() {    
+    @Test
+    public void allTests() {
         testCompose();
         testSent();
         testDraft();
@@ -142,8 +142,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailTrashDataDisplayCorrect() {
-        return emailPage.isElementPresent(By.className("table")) 
-            && isEmptyTrashButtonPresent() 
+        return emailPage.isElementPresent(By.className("table"))
+            && isEmptyTrashButtonPresent()
             && isEmailTableHeaderCorrect();
     }
 

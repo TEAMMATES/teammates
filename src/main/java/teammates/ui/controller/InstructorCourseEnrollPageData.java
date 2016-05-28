@@ -11,7 +11,7 @@ public class InstructorCourseEnrollPageData extends PageData {
     
     public InstructorCourseEnrollPageData(AccountAttributes account, String courseId, String enrollStudents) {
         super(account);
-        this.courseId =  courseId;
+        this.courseId = courseId;
         this.enrollStudents = enrollStudents;
     }
     

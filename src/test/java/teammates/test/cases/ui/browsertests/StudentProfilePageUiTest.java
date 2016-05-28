@@ -117,7 +117,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testActions() {
-        // assumes it is run after NavLinks Test 
+        // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithExistingProfile
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
 

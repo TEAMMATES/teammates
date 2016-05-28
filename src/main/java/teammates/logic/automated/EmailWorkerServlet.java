@@ -25,7 +25,7 @@ public class EmailWorkerServlet extends WorkerServlet {
         
         log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
-        switch(typeOfMail) {
+        switch (typeOfMail) {
         case FEEDBACK_CLOSING:
             emailObj = new FeedbackSessionClosingMailAction(req);
             break;
@@ -53,4 +53,4 @@ public class EmailWorkerServlet extends WorkerServlet {
         
         resp.setStatus(responseCode);
     }
-}    
+}

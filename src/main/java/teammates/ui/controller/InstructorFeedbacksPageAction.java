@@ -19,7 +19,7 @@ public class InstructorFeedbacksPageAction extends Action {
     
     @Override
     protected ActionResult execute() {
-        // This can be null. Non-null value indicates the page is being loaded 
+        // This can be null. Non-null value indicates the page is being loaded
         // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -29,7 +29,7 @@ public class InstructorFeedbacksPageAction extends Action {
                 
         if (courseIdForNewSession != null) {
             new GateKeeper().verifyAccessible(
-                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
+                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId),
                     logic.getCourse(courseIdForNewSession),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }

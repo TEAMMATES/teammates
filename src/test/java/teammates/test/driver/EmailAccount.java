@@ -23,7 +23,7 @@ public final class EmailAccount {
     }
 
     /**
-     * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
+     * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
      *      * Can be easily modified to support other mail providers
      * 
@@ -82,7 +82,7 @@ public final class EmailAccount {
      * 
      */
     public static void markAllEmailsSeen(String username, String password)
-            throws Exception {    
+            throws Exception {
         Folder inbox = getGmailInbox(username, password);
         Message[] messages = getMessages(inbox);
 

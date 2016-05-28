@@ -72,7 +72,7 @@ public class StudentAttributesFactory {
             if (!hasEmail) {
                 missingField.append(" <mark>Email</mark>");
             }
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField.toString());
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ":" + missingField.toString());
         }
     }
 
@@ -155,7 +155,7 @@ public class StudentAttributesFactory {
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
-                fieldCount = hasComment ?  fieldCount : fieldCount + 1;
+                fieldCount = hasComment ? fieldCount : fieldCount + 1;
                 hasComment = true;
             }
         }

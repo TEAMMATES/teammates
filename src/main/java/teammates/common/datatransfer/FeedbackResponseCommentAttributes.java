@@ -59,7 +59,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
             String giverEmail, String feedbackResponseId, Date createdAt, Text commentText) {
-        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail, 
+        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
                 feedbackResponseId, createdAt, commentText, "None", "None");
     }
 
@@ -106,7 +106,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                                                                     : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
         
-        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null 
+        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null
                                         || comment.getIsVisibilityFollowingFeedbackQuestion()) {
             setDefaultVisibilityOptions();
         } else {
@@ -152,7 +152,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -210,13 +210,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String toString() {
         //TODO: print visibilityOptions also
         return "FeedbackResponseCommentAttributes ["
-                + "feedbackResponseCommentId = " + feedbackResponseCommentId 
-                + ", courseId = " + courseId 
+                + "feedbackResponseCommentId = " + feedbackResponseCommentId
+                + ", courseId = " + courseId
                 + ", feedbackSessionName = " + feedbackSessionName
                 + ", feedbackQuestionId = " + feedbackQuestionId
-                + ", giverEmail = " + giverEmail 
+                + ", giverEmail = " + giverEmail
                 + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText.getValue() 
+                + ", commentText = " + commentText.getValue()
                 + ", createdAt = " + createdAt
                 + ", lastEditorEmail = " + lastEditorEmail
                 + ", lastEditedAt = " + lastEditedAt + "]";
@@ -234,7 +234,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
             return "";
-        } 
+        }
         return "(last edited "
              + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
              + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";

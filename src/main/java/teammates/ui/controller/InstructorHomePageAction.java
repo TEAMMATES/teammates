@@ -101,5 +101,5 @@ public class InstructorHomePageAction extends Action {
         default:
             throw new RuntimeException("Invalid course sorting criteria.");
         }
-    }    
+    }
 }

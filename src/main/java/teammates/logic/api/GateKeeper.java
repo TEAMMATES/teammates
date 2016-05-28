@@ -73,7 +73,7 @@ public class GateKeeper {
 
         if (user == null) {
             return userService.createLoginURL(redirectPage);
-        } 
+        }
         return redirectPage;
     }
 
@@ -100,7 +100,7 @@ public class GateKeeper {
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
         if (isUserLoggedOn() && userService.isUserAdmin()
-            && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
             return;
         }
 
@@ -351,8 +351,8 @@ public class GateKeeper {
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
-        } else if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.
-                                                     INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+        } else if (!instructor.isAllowedForPrivilege(section,
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
         }
     }

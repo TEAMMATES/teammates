@@ -78,9 +78,9 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
             
             if (needUpdateResponse) {
-                System.out.println("Repairing giver section:" 
+                System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
-                        + " receiver section:" 
+                        + " receiver section:"
                         + originalRecipientSection + "-->" + response.recipientSection);
                 logic.updateFeedbackResponse(response);
             }

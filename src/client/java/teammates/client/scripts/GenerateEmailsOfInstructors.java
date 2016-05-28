@@ -6,7 +6,7 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
-import teammates.client.remoteapi.RemoteApiClient;  
+import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
 /**

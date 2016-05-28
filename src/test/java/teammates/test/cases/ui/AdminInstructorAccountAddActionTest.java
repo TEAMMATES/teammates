@@ -108,7 +108,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         // delete the comment that was created
-        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON,  "alice.b.tmms@gmail.tmt").get(0);
+        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON, "alice.b.tmms@gmail.tmt").get(0);
         CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
@@ -124,7 +124,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String strShortWithWordDemo = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
         final String strWayShorterThanMaximum = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
         final String strOneCharShorterThanMaximum = StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
-        final String strOneCharLongerThanMaximum = StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1); 
+        final String strOneCharLongerThanMaximum = StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
         assertEquals("Case email input: normal short email with word 'demo' with maximumIdLength:" + maximumIdLength, strShortWithWordDemo + normalIdSuffix, (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + atEmail, maximumIdLength));
         assertEquals("Case courseId input: normal short email with word 'demo', no index with maximumIdLength:" + maximumIdLength, strShortWithWordDemo + normalIdSuffix + "0", (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + normalIdSuffix, maximumIdLength));
         assertEquals("Case courseId input: normal short email with word 'demo', index is '0' with maximumIdLength:" + maximumIdLength, strShortWithWordDemo + normalIdSuffix + "1", (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + normalIdSuffix + "0", maximumIdLength));
