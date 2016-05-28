@@ -20,8 +20,8 @@ public class InstructorCourseEnrollResultPageData extends PageData {
     private String enrollStudents;
     private List<EnrollResultPanel> enrollResultPanelList;
     
-    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId, 
-                                                List<StudentAttributes>[] students, boolean hasSection, 
+    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId,
+                                                List<StudentAttributes>[] students, boolean hasSection,
                                                 String enrollStudents) {
         super(account);
         this.courseId = courseId;

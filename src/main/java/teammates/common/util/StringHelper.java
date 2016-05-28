@@ -60,7 +60,7 @@ public final class StringHelper {
             if (isMatching(input.trim().toLowerCase(), regex)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
 
@@ -153,7 +153,7 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static String toString(List<String> strings) {
-        return toString(strings, Const.EOL);    
+        return toString(strings, Const.EOL);
     }
 
     /**
@@ -229,13 +229,13 @@ public final class StringHelper {
      * <br>
      * 2.If single word, this will be last name and first name will be an empty string
      * <br>
-     * 3.If more than two words, the last word will be last name and 
+     * 3.If more than two words, the last word will be last name and
      * the rest will be first name.
      * <br>
      * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
      * the last name will be the String inside the braces
      * <br>
-     * Example: 
+     * Example:
      * <br><br>
      * full name "Danny Tim Lin"<br>
      * first name: "Danny Tim" <br>
@@ -251,7 +251,7 @@ public final class StringHelper {
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
-    public static String[] splitName(String fullName) {  
+    public static String[] splitName(String fullName) {
         
         if (fullName == null) {
             return null;
@@ -267,9 +267,9 @@ public final class StringHelper {
             firstName = fullName.replace("{", "")
                                 .replace("}", "")
                                 .replace(lastName, "")
-                                .trim();           
+                                .trim();
             
-        } else {         
+        } else {
             lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
@@ -277,7 +277,7 @@ public final class StringHelper {
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
         
-        return new String[] {firstName, lastName, processedfullName}; 
+        return new String[] {firstName, lastName, processedfullName};
     }
     
     
@@ -286,7 +286,7 @@ public final class StringHelper {
      * Example: " a   a  " --> "a a"
      * @return processed string, returns null if parameter is null
      */
-    public static String removeExtraSpace(String str) {       
+    public static String removeExtraSpace(String str) {
         if (str == null) {
             return null;
         }
@@ -296,7 +296,7 @@ public final class StringHelper {
     /**
      * trims all strings in the set and reduces consecutive white spaces to only one space
      */
-    public static Set<String> removeExtraSpace(Set<String> strSet) {       
+    public static Set<String> removeExtraSpace(Set<String> strSet) {
         if (strSet == null) {
             return null;
         }
@@ -334,10 +334,10 @@ public final class StringHelper {
     /**
      * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string 
-     * @return recovered string  
+     * @param sanitized string
+     * @return recovered string
      */
-    public static String recoverFromSanitizedText(String str) {  
+    public static String recoverFromSanitizedText(String str) {
         
         if (str == null) {
             return null;
@@ -433,15 +433,15 @@ public final class StringHelper {
                 }
             }
             
-            if (chars[i] == ',') {    
+            if (chars[i] == ',') {
                 if (inquote) {
-                    buffer.append(chars[i]);                   
+                    buffer.append(chars[i]);
                 } else {
                     data.add(buffer.toString());
                     buffer.delete(0, buffer.length());
                 }
             } else {
-                buffer.append(chars[i]);             
+                buffer.append(chars[i]);
             }
             
         }
@@ -531,7 +531,7 @@ public final class StringHelper {
      * 
      * @param str
      * @return the string without the outermost enclosing square brackets
-     *         if the given string is enclosed by square brackets <br/> 
+     *         if the given string is enclosed by square brackets <br/>
      *         the string itself if the given string is not enclosed by square brackets <br/>
      *         null if the given string is null
      */

@@ -77,9 +77,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE, 
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE,
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
         

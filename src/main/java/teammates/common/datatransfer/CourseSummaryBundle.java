@@ -18,7 +18,7 @@ public class CourseSummaryBundle {
     
     /**
      * Sorts courses based on course ID
-     */ 
+     */
     public static void sortSummarizedCoursesByCourseId(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             @Override
@@ -30,7 +30,7 @@ public class CourseSummaryBundle {
     
     /**
      * Sorts courses based on course name
-     */ 
+     */
     public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             @Override
@@ -42,7 +42,7 @@ public class CourseSummaryBundle {
     
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
-     */ 
+     */
     public static void sortSummarizedCoursesByCreationDate(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             @Override

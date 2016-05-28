@@ -130,7 +130,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"TEXT\">" + Const.FeedbackQuestionTypeNames.TEXT + "</option>";
+        return "<li data-questiontype = \"TEXT\"><a>" + Const.FeedbackQuestionTypeNames.TEXT + "</a></li>";
     }
 
     @Override

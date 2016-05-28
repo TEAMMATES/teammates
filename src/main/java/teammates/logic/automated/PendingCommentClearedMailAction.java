@@ -65,7 +65,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
         Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
         
         if (recipients == null) {
-            log.severe("Recipient emails for pending comments in course : " + courseId 
+            log.severe("Recipient emails for pending comments in course : " + courseId
                        + " could not be fetched");
         }
         return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);

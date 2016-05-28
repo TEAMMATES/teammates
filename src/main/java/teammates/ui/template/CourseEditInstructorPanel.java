@@ -20,10 +20,10 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> sectionRows;
     private int firstBlankSectionRowIndex;
     
-    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, 
-                                     InstructorAttributes instructor, List<String> sectionNames, 
+    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex,
+                                     InstructorAttributes instructor, List<String> sectionNames,
                                      List<String> feedbackNames) {
-        if (instructorToShowIndex == -1) { 
+        if (instructorToShowIndex == -1) {
             index = instructorIndex;
             isAccessControlDisplayed = false;
         } else {
@@ -42,7 +42,7 @@ public class CourseEditInstructorPanel {
             if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
                 style = "display: none;";
             }
-            String onClick = "showTuneSectionPermissionsDiv(" + index + ", " 
+            String onClick = "showTuneSectionPermissionsDiv(" + index + ", "
                              + firstBlankSectionRowIndex + ")";
             String content = "Give different permissions for a specific section";
             String id = "addSectionLevelForInstructor" + index;
@@ -51,16 +51,16 @@ public class CourseEditInstructorPanel {
         }
     }
 
-    private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames, 
+    private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames,
                                    List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
         List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
         List<CourseEditSectionRow> blankRows = new ArrayList<CourseEditSectionRow>();
-        int sectionIndex = -1; 
+        int sectionIndex = -1;
         for (String sectionName : sectionNames) {
             sectionIndex++;
-            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, 
-                                                                       sectionIndex, instructor, 
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames,
+                                                                       sectionIndex, instructor,
                                                                        instructorIndex, feedbackNames);
             
             // break section rows into special and blank lists
@@ -147,7 +147,7 @@ public class CourseEditInstructorPanel {
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         
         permissionInputGroup.add(createCheckBox(
-                                    "Sessions: Edit/Delete Responses/Comments by Others", 
+                                    "Sessions: Edit/Delete Responses/Comments by Others",
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
@@ -156,10 +156,10 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup2ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        permissionInputGroup.add(createCheckBox("View Students' Details", 
+        permissionInputGroup.add(createCheckBox("View Students' Details",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("Give Comments for Students", 
+        permissionInputGroup.add(createCheckBox("Give Comments for Students",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
         permissionInputGroup.add(createCheckBox("View Others' Comments on Students",

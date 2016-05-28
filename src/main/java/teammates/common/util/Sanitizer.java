@@ -146,7 +146,7 @@ public final class Sanitizer {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) { 
+    public static List<String> sanitizeForHtml(List<String> list) {
         List<String> sanitizedList = new ArrayList<String>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
@@ -157,7 +157,7 @@ public final class Sanitizer {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set) { 
+    public static Set<String> sanitizeForHtml(Set<String> set) {
         Set<String> sanitizedSet = new TreeSet<String>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
@@ -200,7 +200,7 @@ public final class Sanitizer {
     
     /**
      * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
-     * In addition, any un-encoded whitespace (they may be there due to Google's 
+     * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      */
     public static String desanitizeFromNextUrl(String url) {
@@ -216,7 +216,7 @@ public final class Sanitizer {
     }
     
     /**
-     * Sanitize the string for searching. 
+     * Sanitize the string for searching.
      */
     public static String sanitizeForSearch(String str) {
         if (str == null) {
@@ -260,7 +260,7 @@ public final class Sanitizer {
     }
 
     /**
-     * Trims the string if it is not null. 
+     * Trims the string if it is not null.
      * 
      * @param string
      * @return the trimmed string or null (if the parameter was null).

@@ -9,7 +9,7 @@ public class FeedbackResultsQuestionDetails {
     
     public FeedbackResultsQuestionDetails(String questionIndex, String questionText, String additionalInfo,
                                           String questionResultStatistics,
-                                          boolean isIndividualResponsesShownToStudents) {        
+                                          boolean isIndividualResponsesShownToStudents) {
         this.questionIndex = questionIndex;
         this.questionText = questionText;
         this.additionalInfo = additionalInfo;

@@ -47,11 +47,9 @@ public class StudentHomePageData extends PageData {
     
     private List<ElementTag> createCourseTableLinks(String courseId) {
         List<ElementTag> links = new ArrayList<ElementTag>();
-        links.add(new ElementTag(
-            "View Team",
-            "href", getStudentCourseDetailsLink(courseId),
-            "title", Const.Tooltips.STUDENT_COURSE_DETAILS
-        ));
+        links.add(new ElementTag("View Team",
+                                 "href", getStudentCourseDetailsLink(courseId),
+                                 "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
         return links;
     }
     
@@ -116,7 +114,7 @@ public class StudentHomePageData extends PageData {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
-        }        
+        }
         if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
