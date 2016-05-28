@@ -144,7 +144,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Used to trigger an {@link EntityDoesNotExistException} if the course is not present. 
+     * Used to trigger an {@link EntityDoesNotExistException} if the course is not present.
      * @param courseId
      * @throws EntityDoesNotExistException
      */
@@ -896,9 +896,9 @@ public class CoursesLogic {
     }
     
     /**
-     * Maps sections to relevant course id. 
+     * Maps sections to relevant course id.
      * @param courses
-     * @return a hash map containing a list of sections as the value and relevant courseId as the key. 
+     * @return a hash map containing a list of sections as the value and relevant courseId as the key.
      * @throws EntityDoesNotExistException
      */
     public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
