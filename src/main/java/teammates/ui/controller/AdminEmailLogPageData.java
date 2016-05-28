@@ -210,7 +210,7 @@ public class AdminEmailLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isToDateInQuery = false;
             isFromDateInQuery = false;
             isReceiverInQuery = false;

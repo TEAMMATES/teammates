@@ -633,7 +633,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void selectNewQuestionType(String questionType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
+        browser.driver.findElement(By.cssSelector("[data-questionType=" + questionType + "]")).click();
     }
     
     public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber) {
@@ -732,7 +732,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     public InstructorFeedbacksPage clickDoneEditingLink() {
         WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
                                                    .findElements(By.tagName("a"))
-                                                   .get(3);
+                                                   .get(12);
+       
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

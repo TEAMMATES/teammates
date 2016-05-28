@@ -65,7 +65,7 @@ public class ProfilesDb extends EntitiesDb {
         }
 
         updateProfileWithNewValues(newSpa, profileToUpdate);
-        closePM();
+        closePm();
     }
 
     private void validateNewProfile(StudentProfileAttributes newSpa)
@@ -128,7 +128,7 @@ public class ProfilesDb extends EntitiesDb {
             profileToUpdate.setModifiedDate(new Date());
         }
         
-        closePM();
+        closePm();
     }
 
     private void validateParametersForUpdatePicture(String googleId,
@@ -156,7 +156,7 @@ public class ProfilesDb extends EntitiesDb {
             sp.setModifiedDate(new Date());
         }
         
-        closePM();
+        closePm();
     }
     
     
@@ -194,7 +194,7 @@ public class ProfilesDb extends EntitiesDb {
         try {
             // This method is not testable as loading legacy data into
             // current database is restricted by new validity checks
-            Account account = getPM().getObjectById(Account.class, key);
+            Account account = getPm().getObjectById(Account.class, key);
             if (account == null
                     || JDOHelper.isDeleted(account)) {
                 return null;
@@ -222,7 +222,7 @@ public class ProfilesDb extends EntitiesDb {
                                  .getChild(StudentProfile.class.getSimpleName(), googleId);
         
         try {
-            StudentProfile profile = getPM().getObjectById(StudentProfile.class, childKey);
+            StudentProfile profile = getPm().getObjectById(StudentProfile.class, childKey);
             if (profile == null
                     || JDOHelper.isDeleted(profile)) {
                 return null;
