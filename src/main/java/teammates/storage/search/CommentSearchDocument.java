@@ -110,7 +110,7 @@ public class CommentSearchDocument extends SearchDocument {
         
         //produce searchableText for this comment document:
         //it contains
-        //courseId, courseName, giverEmail, giverName, 
+        //courseId, courseName, giverEmail, giverName,
         //recipientEmails/Teams/Sections, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
@@ -120,23 +120,31 @@ public class CommentSearchDocument extends SearchDocument {
                              .append(recipientsBuilder.toString()).append(delim)
                              .append(comment.commentText.getValue());
         
+        String displayedName = giverAsInstructor == null
+                             ? comment.giverEmail
+                             : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
         Document doc = Document.newBuilder()
-            //this is used to filter documents visible to certain instructor
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(comment.giverEmail))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    comment.isVisibleTo(CommentParticipantType.INSTRUCTOR).toString()))
-            //searchableText and createdDate are used to match the query string
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
-            //attribute field is used to convert a doc back to attribute
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor == null ? comment.giverEmail : giverAsInstructor.displayedName + " " + giverAsInstructor.name)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
-                    new Gson().toJson(commentRecipientName)))
-            .setId(comment.getCommentId().toString())
-            .build();
+                // this is used to filter documents visible to certain instructor
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
+                                            .setText(comment.courseId))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
+                                            .setText(comment.giverEmail))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR)
+                                            .setText(comment.isVisibleTo(CommentParticipantType.INSTRUCTOR).toString()))
+                // searchableText and createdDate are used to match the query string
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                                            .setText(searchableTextBuilder.toString()))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
+                                            .setDate(comment.createdAt))
+                // attribute field is used to convert a doc back to attribute
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE)
+                                            .setText(new Gson().toJson(comment)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME)
+                                            .setText(new Gson().toJson(displayedName)))
+                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME)
+                                            .setText(new Gson().toJson(commentRecipientName)))
+                .setId(comment.getCommentId().toString())
+                .build();
         return doc;
     }
 

@@ -17,9 +17,9 @@ public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
     }
     
     public WebElement getTextArea(int questionNum, int responseNum) {
-        String textAreaName = "responsetext-" + questionNum + "-" + responseNum; 
+        String textAreaName = "responsetext-" + questionNum + "-" + responseNum;
         return browser.driver.findElement(By.name(textAreaName));
-    }   
+    }
     
     public void clickRubricCell(int respIndex, int row, int col) {
         int qnIndex = 1;

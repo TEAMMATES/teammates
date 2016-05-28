@@ -17,9 +17,6 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
-    private static final String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-    private static final String adminUserId = "admin.user";
-    
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -29,6 +26,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        String adminUserId = "admin.user";
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -70,7 +69,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertFalse(r.isError);

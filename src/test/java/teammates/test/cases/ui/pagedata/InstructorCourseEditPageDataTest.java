@@ -54,10 +54,10 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         feedbackSessionNames.add("Empty session");
         feedbackSessionNames.add("non visible session");
         
-        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, course, 
-                                                                                 instructorList, 
-                                                                                 currentInstructor, 
-                                                                                 offset, sectionNames, 
+        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, course,
+                                                                                 instructorList,
+                                                                                 currentInstructor,
+                                                                                 offset, sectionNames,
                                                                                  feedbackSessionNames);
         
         assertEquals("idOfTypicalCourse1", pageData.getCourse().getId());

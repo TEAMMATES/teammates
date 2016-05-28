@@ -464,7 +464,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
 
         InstructorPrivileges nonDefaultPrivileges = new InstructorPrivileges();
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
-        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,  true);
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, true);
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
         nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
 

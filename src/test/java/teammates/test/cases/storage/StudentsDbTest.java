@@ -28,15 +28,15 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException {        
+    public void testDefaultTimestamp() throws InvalidParametersException {
         
         StudentAttributes s = createNewStudent();
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertNotNull(student);
         
-        student.setCreated_NonProduction(null);
-        student.setUpdatedAt_NonProduction(null);
+        student.setCreated_nonProduction(null);
+        student.setUpdatedAt_nonProduction(null);
         
         Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         
@@ -50,7 +50,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityDoesNotExistException {        
+    public void testTimestamp() throws InvalidParametersException, EntityDoesNotExistException {
         ______TS("success : created");
         
         StudentAttributes s = createNewStudent();
@@ -97,7 +97,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.comments = "";
         s.googleId = "validGoogleId";
 
-        ______TS("fail : invalid params"); 
+        ______TS("fail : invalid params");
         s.course = "invalid id space";
         try {
             studentsDb.createEntity(s);
@@ -140,8 +140,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.createEntity(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
     }
@@ -184,14 +184,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.getStudentForEmail(null, "valid@email.com");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
-        }        
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
         try {
             studentsDb.getStudentForEmail("any-course-id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         studentsDb.deleteStudent(s.course, s.email);
@@ -218,16 +218,16 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("null email case");
         try {
             studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("duplicate email case");
@@ -238,7 +238,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email, 
+            assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email,
                          e.getMessage());
         }
 
@@ -282,20 +282,20 @@ public class StudentsDbTest extends BaseComponentTestCase {
         try {
             studentsDb.deleteStudentWithoutDocument(null, s.email);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         try {
             studentsDb.deleteStudentWithoutDocument(s.course, null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         studentsDb.deleteStudent(s.course, s.email);
 
-      //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
+      //Untested case: The deletion is not persisted immediately (i.e. persistence delay)
       //       Reason: Difficult to reproduce a persistence delay during testing
     }
     

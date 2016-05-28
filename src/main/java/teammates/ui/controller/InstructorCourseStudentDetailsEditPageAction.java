@@ -40,7 +40,7 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
                         + "Editing Student <span class=\"bold\">" + studentEmail + "'s</span> details "
-                        + "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+                        + "in Course <span class=\"bold\">[" + courseId + "]</span>";
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);

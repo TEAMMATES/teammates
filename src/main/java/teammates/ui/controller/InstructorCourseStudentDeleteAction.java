@@ -24,7 +24,7 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
         
         logic.deleteStudent(courseId, studentEmail);
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Student <span class=\"bold\">" + studentEmail 
+        statusToAdmin = "Student <span class=\"bold\">" + studentEmail
                       + "</span> in Course <span class=\"bold\">[" + courseId + "]</span> deleted.";
         
 

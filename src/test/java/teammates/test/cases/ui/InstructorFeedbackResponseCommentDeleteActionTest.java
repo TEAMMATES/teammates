@@ -79,7 +79,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);

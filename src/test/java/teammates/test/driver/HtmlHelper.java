@@ -103,7 +103,7 @@ public final class HtmlHelper {
     }
 
     /**
-     * Transform the HTML text to follow a standard format. 
+     * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
      * @param rawHtml the raw HTML string to be converted
@@ -156,8 +156,8 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
-                     || isPopoverAttribute(attribute)
-                     || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
+                        || isPopoverAttribute(attribute)
+                        || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
@@ -361,7 +361,7 @@ public final class HtmlHelper {
                       // student profile picture link
                       .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=" + REGEX_ENCRYPTED_STUDENT_EMAIL
-                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID, 
+                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID,
                                   Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}"
                                   + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")

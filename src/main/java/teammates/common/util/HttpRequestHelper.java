@@ -86,7 +86,7 @@ public final class HttpRequestHelper {
 
     //TODO: rename to a better name
     public static String printRequestParameters(HttpServletRequest request) {
-        StringBuilder requestParameters = new StringBuilder(); 
+        StringBuilder requestParameters = new StringBuilder();
         requestParameters.append('{');
         for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
             String param = new String(f.nextElement().toString());
@@ -106,9 +106,9 @@ public final class HttpRequestHelper {
 
     /**
      * @return  the URL used for the HTTP request but without the domain.
-     * e.g. "/page/studentHome?user=james" 
+     * e.g. "/page/studentHome?user=james"
      */
-    public static String getRequestedURL(HttpServletRequest req) {
+    public static String getRequestedUrl(HttpServletRequest req) {
         String link = req.getRequestURI();
         String query = req.getQueryString();
 

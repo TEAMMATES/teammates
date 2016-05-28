@@ -36,12 +36,12 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
         
     }
 
-    public String getNewUploadUrl() {     
+    public String getNewUploadUrl() {
         try {
             return generateNewUploadUrl();
         } catch (BlobstoreFailureException e) {
             return null;
-        } 
+        }
     }
 
     private String generateNewUploadUrl() {

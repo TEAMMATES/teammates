@@ -43,7 +43,7 @@ public abstract class EntityAttributes {
     public abstract String getEntityTypeAsString();
 
     /**
-     * @return the identifier used for logging to perform backup 
+     * @return the identifier used for logging to perform backup
      */
     public abstract String getBackupIdentifier();
     
@@ -53,7 +53,7 @@ public abstract class EntityAttributes {
     public abstract String getJsonString();
     
     /**
-     * Perform any sanitization that needs to be done before saving. 
+     * Perform any sanitization that needs to be done before saving.
      * e.g. trim strings
      */
     public abstract void sanitizeForSaving();
