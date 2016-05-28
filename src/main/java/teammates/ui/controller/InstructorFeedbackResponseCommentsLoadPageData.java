@@ -27,9 +27,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     private Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> questionCommentsMap;
     
     public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, int feedbackSessionIndex,
-                                                          int numberOfPendingComments,
-                                                          InstructorAttributes currentInstructor,
-                                                          FeedbackSessionResultsBundle bundle) {
+            int numberOfPendingComments, InstructorAttributes currentInstructor, FeedbackSessionResultsBundle bundle) {
         super(account);
         this.feedbackSessionIndex = feedbackSessionIndex;
         this.numberOfPendingComments = numberOfPendingComments;

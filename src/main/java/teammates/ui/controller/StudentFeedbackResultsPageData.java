@@ -108,8 +108,8 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         boolean isIndividualResponsesShownToStudents = questionDetailsBundle.isIndividualResponsesShownToStudents();
         
+                                                      questionResultStatistics, isIndividualResponsesShownToStudents);
         return new FeedbackResultsQuestionDetails(Integer.toString(questionIndex), questionText, additionalInfo,
-                                                  questionResultStatistics, isIndividualResponsesShownToStudents);
     }
     
     /**

@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
-                                     String showStats, String groupByTeam) {
+                                    String showStats, String groupByTeam) {
         Assumption.assertNotNull(bundle);
         
         this.instructor = instructor;
@@ -196,9 +196,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * {@code bundle} should be set before this method
      * TODO: simplify the logic in this method
      */
-    public void initForSectionPanelViews(InstructorAttributes instructor,
-                                         String selectedSection, String showStats,
-                                         String groupByTeam, ViewType view) {
+    public void initForSectionPanelViews(InstructorAttributes instructor, 
+                                    String selectedSection, String showStats, 
+                                    String groupByTeam, ViewType view) {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
         this.sortType = view.toString();
@@ -890,8 +890,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsParticipantPanel giverPanel;
             
             if (viewType.isSecondaryGroupingOfParticipantType()) {
+                                                + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
                 String teamMemberWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember)
-                                                      + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
                 giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                  teamMember, teamMemberWithTeamNameAppended,
                                  new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(),
