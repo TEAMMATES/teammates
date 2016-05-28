@@ -257,7 +257,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if (!TestProperties.TEAMMATES_URL.contains("local")) {
+        if (!TestProperties.isDevServer()) {
             
             BackDoor.deleteCourse(demoCourseId);
             BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);

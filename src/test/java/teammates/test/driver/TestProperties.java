@@ -89,6 +89,7 @@ public final class TestProperties {
     }
     
     private TestProperties() {
+        // access static fields directly
     }
 
     public static boolean isDevServer() {
