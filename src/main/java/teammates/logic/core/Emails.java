@@ -62,7 +62,7 @@ public class Emails {
     
     private static final Logger log = Utils.getLogger();
     
-    public static enum EmailType {
+    public enum EmailType {
         FEEDBACK_CLOSING,
         FEEDBACK_OPENING,
         FEEDBACK_PUBLISHED,

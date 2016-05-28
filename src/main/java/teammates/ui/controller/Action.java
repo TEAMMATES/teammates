@@ -85,7 +85,7 @@ public abstract class Action {
     @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
-        requestUrl = HttpRequestHelper.getRequestedURL(request);
+        requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
         requestParameters = request.getParameterMap();
         session = request.getSession();
@@ -276,16 +276,16 @@ public abstract class Action {
     }
 
     private boolean isPageNotCourseJoinRelated() {
-        String currentURI = request.getRequestURI();
-        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN)
-               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-               && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+        String currentUri = request.getRequestURI();
+        return !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN)
+               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
     }
 
     private boolean isHomePage() {
-        String currentURI = request.getRequestURI();
-        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE)
-               || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        String currentUri = request.getRequestURI();
+        return currentUri.equals(Const.ActionURIs.STUDENT_HOME_PAGE)
+               || currentUri.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {

@@ -108,9 +108,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
 
             try {
                 courseDetails = logic.getCourseDetails(courseId);
-            } catch (EntityDoesNotExistException e1) {
+            } catch (EntityDoesNotExistException e) {
                 System.out.println("Course not found" + courseId);
-                e1.printStackTrace();
+                e.printStackTrace();
                 continue;
             }
             
@@ -130,9 +130,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         List<TeamDetailsBundle> teams;
         try {
             teams = logic.getTeamsForCourse(courseId);
-        } catch (EntityDoesNotExistException e1) {
+        } catch (EntityDoesNotExistException e) {
             System.out.println("ERROR Course not found" + courseId);
-            e1.printStackTrace();
+            e.printStackTrace();
             return;
         }
 
