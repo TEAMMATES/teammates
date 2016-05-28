@@ -3,16 +3,17 @@ package teammates.ui.template;
 import java.util.List;
 
 public class InstructorFeedbackResponseComment {
-    private List<FeedbackResponseComment> feedbackResponseComments;
+    private List<FeedbackResponseCommentRow> feedbackResponseComments;
     private String answerHtml;
     private String giverName;
     private String recipientName;
     private boolean isInstructorAllowedToSubmit;
-    private FeedbackResponseComment feedbackResponseCommentAdd;
+    private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public InstructorFeedbackResponseComment(String giverName, String recipientName,
-            List<FeedbackResponseComment> feedbackResponseComments, String answerHtml,
-            boolean isInstructorAllowedToSubmit, FeedbackResponseComment feedbackResponseCommentAdd) {
+                                             List<FeedbackResponseCommentRow> feedbackResponseComments,
+                                             String answerHtml, boolean isInstructorAllowedToSubmit,
+                                             FeedbackResponseCommentRow feedbackResponseCommentAdd) {
         this.giverName = giverName;
         this.recipientName = recipientName;
         this.feedbackResponseComments = feedbackResponseComments;
@@ -21,7 +22,7 @@ public class InstructorFeedbackResponseComment {
         this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 
-    public List<FeedbackResponseComment> getFeedbackResponseComments() {
+    public List<FeedbackResponseCommentRow> getFeedbackResponseComments() {
         return feedbackResponseComments;
     }
 
@@ -41,7 +42,7 @@ public class InstructorFeedbackResponseComment {
         return isInstructorAllowedToSubmit;
     }
 
-    public FeedbackResponseComment getFeedbackResponseCommentAdd() {
+    public FeedbackResponseCommentRow getFeedbackResponseCommentAdd() {
         return feedbackResponseCommentAdd;
     }
 }

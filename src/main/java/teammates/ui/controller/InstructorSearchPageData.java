@@ -19,9 +19,9 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.Comment;
+import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
@@ -201,11 +201,11 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
     
-    private List<Comment> createCommentRows(
+    private List<CommentRow> createCommentRows(
                                     String giverEmailPlusCourseId,
                                     CommentSearchResultBundle commentSearchResultBundle) {
         
-        List<Comment> rows = new ArrayList<Comment>();
+        List<CommentRow> rows = new ArrayList<CommentRow>();
         String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
         String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
         String instructorCommentsLink = getInstructorCommentsLink();
@@ -216,7 +216,7 @@ public class InstructorSearchPageData extends PageData {
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID
                                             + "=" + comment.courseId + "#" + comment.getCommentId();
-            Comment commentRow = new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
+            CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
             commentRow.withLinkToCommentsPage(link);
             
             rows.add(commentRow);
@@ -224,11 +224,11 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
     
-    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
         
-        List<FeedbackResponseComment> rows = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
         
@@ -241,7 +241,7 @@ public class InstructorSearchPageData extends PageData {
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "="
                               + frc.courseId + "#" + frc.getId();
             
-            FeedbackResponseComment frcDiv = new FeedbackResponseComment(frc, frCommentGiver);
+            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
             frcDiv.setLinkToCommentsPage(link);
             
             rows.add(frcDiv);

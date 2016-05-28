@@ -5,6 +5,18 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
+var CONFIRMATION_MODAL = '#confirmation-modal';
+var CONFIRMATION_MODAL_TITLE = '#confirmation-modal-title';
+var CONFIRMATION_MODAL_BODY = '#confirmation-modal-body';
+var CONFIRMATION_MODAL_CANCEL = '#confirmation-modal-cancel';
+var CONFIRMATION_MODAL_OK = '#confirmation-modal-ok';
+
+var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
+var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
+var CONFIRMATION_BODY = '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+                        + '<p>Are you sure you want to continue?</p>';
+var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
+
 /**
  * This function is called on edit page load.
  */
@@ -23,11 +35,9 @@ function readyFeedbackEditPage() {
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
-            if (!confirm('Editing these fields will result in all existing responses for'
-                         + ' this question to be deleted. Are you sure you want to continue?')) {
-                event.stopImmediatePropagation();
-                return false;
-            }
+            event.preventDefault();
+            showConfirmationModal(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, DEFAULT_CANCEL_BUTTON_TEXT, CONFIRM_DELETE);
+            checkForConfirmation(event);
         }
     });
     $('form.form_question').submit(function() {
@@ -1706,4 +1716,18 @@ function removeRankOption(index, questionNumber) {
             $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
         }
     }
+}
+
+function showConfirmationModal(title, body, cancelButtonText, confirmButtonText) {
+    $(CONFIRMATION_MODAL_TITLE).html(title);
+    $(CONFIRMATION_MODAL_BODY).html(body);
+    $(CONFIRMATION_MODAL_CANCEL).html(cancelButtonText);
+    $(CONFIRMATION_MODAL_OK).html(confirmButtonText);
+    $(CONFIRMATION_MODAL).modal('show');
+}
+
+function checkForConfirmation(event) {
+    $(CONFIRMATION_MODAL_OK).on('click', function() {
+        event.currentTarget.submit();
+    });
 }

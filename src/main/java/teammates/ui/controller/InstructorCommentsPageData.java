@@ -11,7 +11,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.Comment;
+import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 
@@ -116,12 +116,12 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
     
-    private List<Comment> createCommentRows(
+    private List<CommentRow> createCommentRows(
             String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
             Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
         String unsanitizedGiverName = StringHelper.recoverFromSanitizedText(giverName);
         
-        List<Comment> rows = new ArrayList<Comment>();
+        List<CommentRow> rows = new ArrayList<CommentRow>();
         for (int i = 0; i < commentsForGiver.size(); i++) {
             CommentAttributes comment = commentsForGiver.get(i);
             String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
@@ -129,7 +129,7 @@ public class InstructorCommentsPageData extends PageData {
             
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
-            Comment commentDiv = new Comment(comment, unsanitizedGiverName, unsanitizedRecipientDetails);
+            CommentRow commentDiv = new CommentRow(comment, unsanitizedGiverName, unsanitizedRecipientDetails);
             String extraClass;
             if (comment.showCommentTo.isEmpty()) {
                 extraClass = "status_display-private";
