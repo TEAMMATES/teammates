@@ -46,11 +46,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
         // Set creator email as instructors' email
-        fs.creatorEmail = instructor.email;
+        fs.setCreatorEmail(instructor.email);
         
         // A session opening reminder email is always sent as students
         // without accounts need to receive the email to be able to respond
-        fs.isOpeningEmailEnabled = true;
+        fs.setOpeningEmailEnabled(true);
         
      
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
@@ -59,8 +59,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             logic.createFeedbackSession(fs);
             
             try {
-                createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName,
-                                                fs.creatorEmail, feedbackSessionType);
+                createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
+                                                fs.getCreatorEmail(), feedbackSessionType);
             } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -69,19 +69,19 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course "
-                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>"
-                    + "<span class=\"bold\">From:</span> " + fs.startTime
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
-                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+                    "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> for Course "
+                    + "<span class=\"bold\">[" + fs.getCourseId() + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.getStartTime()
+                    + "<span class=\"bold\"> to</span> " + fs.getEndTime() + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.getSessionVisibleFromTime() + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTime() + "<br><br>"
+                    + "<span class=\"bold\">Instructions:</span> " + fs.getInstructions();
             
             //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
                     new PageData(account).getInstructorFeedbackEditLink(
-                            fs.courseId, fs.feedbackSessionName));
+                            fs.getCourseId(), fs.getFeedbackSessionName()));
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
@@ -129,47 +129,47 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         //TODO make this method stateless
         
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-        newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        newSession.feedbackSessionName = Sanitizer.sanitizeTextField(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+        newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
+        newSession.setFeedbackSessionName(Sanitizer.sanitizeTextField(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         
-        newSession.createdTime = new Date();
-        newSession.startTime = TimeHelper.combineDateTime(
+        newSession.setCreatedTime(new Date());
+        newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        newSession.endTime = TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
+        newSession.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
-            newSession.timeZone = Double.parseDouble(paramTimeZone);
+            newSession.setTimeZone(Double.parseDouble(paramTimeZone));
         }
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         if (paramGracePeriod != null) {
-            newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
+            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
         }
         
-        newSession.sentOpenEmail = false;
-        newSession.sentPublishedEmail = false;
+        newSession.setSentOpenEmail(false);
+        newSession.setSentPublishedEmail(false);
         
-        newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
-        newSession.instructions = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
+        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
         
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
+            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             break;
         default:
             log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
@@ -179,18 +179,18 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             // overwrite if private
-            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-            newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
@@ -202,10 +202,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                                                 : Arrays.asList(sendReminderEmailsArray);
-        newSession.isClosingEmailEnabled =
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
-        newSession.isPublishedEmailEnabled =
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
+        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
         
         return newSession;
     }

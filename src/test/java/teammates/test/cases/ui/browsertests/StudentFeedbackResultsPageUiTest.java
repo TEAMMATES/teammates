@@ -162,8 +162,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
-                                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
     }
 
@@ -172,7 +172,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
-                                            .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
+                                            .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }

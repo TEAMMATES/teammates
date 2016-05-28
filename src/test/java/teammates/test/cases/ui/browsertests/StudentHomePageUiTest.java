@@ -50,7 +50,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         
         gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        gracedFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         BackDoor.editFeedbackSession(gracedFeedbackSession);
 
         browser = BrowserPool.getBrowser(true);

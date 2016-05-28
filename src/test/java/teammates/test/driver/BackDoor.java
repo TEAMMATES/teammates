@@ -190,8 +190,8 @@ public final class BackDoor {
         HashMap<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
             deleteFeedbackSession(
-                    feedbackSession.feedbackSessionName,
-                    feedbackSession.courseId);
+                    feedbackSession.getFeedbackSessionName(),
+                    feedbackSession.getCourseId());
         }
     }
     

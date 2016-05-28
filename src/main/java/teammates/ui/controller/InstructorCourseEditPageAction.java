@@ -47,7 +47,7 @@ public class InstructorCourseEditPageAction extends Action {
         
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.feedbackSessionName);
+            feedbackNames.add(feedback.getFeedbackSessionName());
         }
         
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit,
