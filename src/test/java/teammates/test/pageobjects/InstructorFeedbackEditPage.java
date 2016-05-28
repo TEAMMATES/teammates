@@ -145,6 +145,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
 
+    @FindBy(id = "confirmation-modal-ok")
+    private WebElement confirmationModalOkButton;
+    
     private InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
@@ -400,10 +403,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickquestionSaveForQuestion1() {
         questionSaveForQuestion1.click();
         waitForPageToLoad();
-    }
-    
-    public void clickAndConfirmSaveForQuestion1() {
-        clickAndConfirm(questionSaveForQuestion1);
     }
     
     public void clickVisibilityPreviewForQuestion1() {
@@ -993,5 +992,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         checkbox.click();
+    }
+    
+    public void clickAndConfirmSaveForQuestion1WithConfirmationModal() {
+        questionSaveForQuestion1.click();
+        waitForElementToBeClickable(confirmationModalOkButton);
+        confirmationModalOkButton.click();
+        
+        By confirmationModal = By.id("confirmation-modal");
+        waitForElementToDisappear(confirmationModal);
     }
 }

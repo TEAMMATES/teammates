@@ -537,7 +537,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
-        feedbackEditPage.clickAndConfirmSaveForQuestion1();
+        feedbackEditPage.clickAndConfirmSaveForQuestion1WithConfirmationModal();
         
         ______TS("check response rate after editing question");
 
