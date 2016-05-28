@@ -125,8 +125,8 @@ public class InstructorSearchPageData extends PageData {
         for (String giverEmailPlusCourseId : commentSearchResultBundle.giverCommentTable.keySet()) {
             String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
             searchCommentsForStudentsTables.add(new CommentsForStudentsTable(
-                                                                            commentSearchResultBundle)));
                                                   giverDetails, createCommentRows(giverEmailPlusCourseId,
+                                                                            commentSearchResultBundle)));
         }
     }
     
@@ -177,8 +177,8 @@ public class InstructorSearchPageData extends PageData {
             String additionalInfo = question.getQuestionDetails()
                                             .getQuestionAdditionalInfoHtml(questionNumber, "");
             
-                                            createResponseRows(question, frcSearchResultBundle)));
             questionTables.add(new QuestionTable(questionNumber, questionText, additionalInfo,
+                                            createResponseRows(question, frcSearchResultBundle)));
         }
         return questionTables;
     }
@@ -195,8 +195,8 @@ public class InstructorSearchPageData extends PageData {
             String recipientName = frcSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
             String response = responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
             
-                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));
             rows.add(new ResponseRow(giverName, recipientName, response,
+                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));
         }
         return rows;
     }
@@ -214,8 +214,8 @@ public class InstructorSearchPageData extends PageData {
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-                                            + "=" + comment.courseId + "#" + comment.getCommentId();           
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID
+                                            + "=" + comment.courseId + "#" + comment.getCommentId();
             CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
             commentRow.withLinkToCommentsPage(link);
             
@@ -233,12 +233,13 @@ public class InstructorSearchPageData extends PageData {
                                                               .comments.get(responseEntry.getId());
         
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            String frCommentGiver = frcSearchResultBundle.commentGiverTable.get(frc.getId().toString());
+            String frCommentGiver = frcSearchResultBundle
+                                            .commentGiverTable.get(frc.getId().toString());
             if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
-            String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
-                              + frc.courseId + "#" + frc.getId();         
+            String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "="
+                              + frc.courseId + "#" + frc.getId();
             
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
             frcDiv.setLinkToCommentsPage(link);
