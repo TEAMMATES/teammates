@@ -39,8 +39,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         // use the instructor account injected for this test
         
-        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testData.accounts.get("instructor1OfCourse1").email = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
+        testData.accounts.get("instructor1OfCourse1").email = TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreTestDataOnServer(testData);
         

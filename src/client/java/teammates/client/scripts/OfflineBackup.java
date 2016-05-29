@@ -62,10 +62,9 @@ public class OfflineBackup extends RemoteApiClient {
      */
     private List<String> getModifiedLogs() {
         List<String> modifiedLogs = new ArrayList<String>();
-        TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
-            URL url = new URL(testProperties.TEAMMATES_URL + "/entityModifiedLogs");
+            URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
             
             URLConnection urlConn = url.openConnection();
         

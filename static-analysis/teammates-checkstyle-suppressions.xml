@@ -8,8 +8,4 @@
 
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
-
-    <!-- To be removed when the properties become static final -->
-    <suppress checks="MemberName|StaticVariableName" files="(TestProperties|Config).java"/>
-    <suppress checks="AbbreviationAsWordInName" files="TestProperties.java"/>
 </suppressions>
