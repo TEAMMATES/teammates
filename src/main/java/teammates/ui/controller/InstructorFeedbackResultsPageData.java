@@ -24,7 +24,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionPublishButton;
 import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
@@ -561,7 +561,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             giverName = bundle.appendTeamNameToName(giverName, giverTeam);
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
             
-            List<FeedbackResponseComment> comments = buildResponseComments(giverName, recipientName, question, response);
+            List<FeedbackResponseCommentRow> comments = buildResponseComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,
                                                      response.feedbackSessionName,
@@ -577,7 +577,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            FeedbackResponseComment frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
+            FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);
             
             responsePanel.setFrcForAdding(frcForAdding);
@@ -1526,9 +1526,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 "btn-primary btn-block");
     }
     
-    private List<FeedbackResponseComment> buildResponseComments(String giverName, String recipientName,
+    private List<FeedbackResponseCommentRow> buildResponseComments(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
-        List<FeedbackResponseComment> comments = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
@@ -1538,7 +1538,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return comments;
     }
     
-    private FeedbackResponseComment buildResponseComment(String giverName, String recipientName,
+    private FeedbackResponseCommentRow buildResponseComment(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             FeedbackResponseCommentAttributes frcAttributes) {
         boolean isInstructorGiver = instructor.email.equals(frcAttributes.giverEmail);
@@ -1553,11 +1553,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
         
-        FeedbackResponseComment frc = new FeedbackResponseComment(
-                                        frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
-                                        getResponseCommentVisibilityString(frcAttributes, question),
-                                        getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                        responseVisibilityMap);
+        FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
+                                           frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
+                                           getResponseCommentVisibilityString(frcAttributes, question),
+                                           getResponseCommentGiverNameVisibilityString(frcAttributes, question),
+                                           responseVisibilityMap);
                                     
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
@@ -1567,7 +1567,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return frc;
     }
 
-    private FeedbackResponseComment buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
+    private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
@@ -1593,9 +1593,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-        return new FeedbackResponseComment(frca, giverName, recipientName,
-                                           getResponseCommentVisibilityString(question),
-                                           getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
+        return new FeedbackResponseCommentRow(frca, giverName, recipientName,
+                                              getResponseCommentVisibilityString(question),
+                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
     }
     
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
