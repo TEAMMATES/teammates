@@ -65,9 +65,9 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," + "Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-               + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
+               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                + this.getCsvHeader() + Const.EOL;
     }
 
@@ -117,13 +117,13 @@ public abstract class FeedbackQuestionDetails {
      * @return boolean indicating if individual responses are to be shown to students.
      */
     public boolean isIndividualResponsesShownToStudents() {
-       return true;
+        return true;
     }
 
     /**
      * Validates the question details
      *
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
@@ -132,7 +132,7 @@ public abstract class FeedbackQuestionDetails {
      * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
@@ -185,14 +185,14 @@ public abstract class FeedbackQuestionDetails {
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
                                             FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        return question.recipientType != FeedbackParticipantType.STUDENTS 
+        return question.recipientType != FeedbackParticipantType.STUDENTS
             && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
                                          FeedbackSessionResultsBundle bundle,
                                          FeedbackQuestionAttributes question) {
-       return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
 
     /**
@@ -213,7 +213,9 @@ public abstract class FeedbackQuestionDetails {
 
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) { return true; }
+        if (answer == null) {
+            return true;
+        }
 
         boolean allAnswersEmpty = true;
 

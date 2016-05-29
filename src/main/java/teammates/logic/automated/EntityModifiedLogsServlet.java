@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.exception.TeammatesException;
+
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
@@ -18,7 +20,7 @@ import com.google.appengine.api.log.RequestLogs;
 public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {  
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         servletName = "entityModifiedLogs";
         action = "extracts entities that were modified from logs";
 
@@ -56,8 +58,8 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                     }
                 }
             }
-        } catch (IOException e) {  
-            e.printStackTrace();
+        } catch (IOException e) {
+            log.severe(TeammatesException.toStringWithStackTrace(e));
         }
     }
 }

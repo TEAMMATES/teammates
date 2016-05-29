@@ -19,7 +19,7 @@
         <c:set var="bodyTitle" value="Comments for students" />
     </c:otherwise>
 </c:choose>
-<div class="panel panel-primary">
+<div class="panel panel-primary student-comments-panel">
     <div class="panel-heading cursor-pointer"  data-toggle="collapse"
         data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
         <div class="display-icon pull-right">
@@ -52,7 +52,7 @@
                 <ul class="list-group comments"> 
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="commentIndex" value="${commentIndex + 1}" />
-                        <shared:comment comment="${commentRow}" commentIndex="${commentIndex}" />
+                        <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
                         <c:if test="${empty commentsForStudentsTable.rows}">
@@ -60,7 +60,7 @@
                                 <i>You don't have any comments on this student.</i>
                             </li>
                         </c:if>
-                        <c:set var="newCommentIndex" value="${fn:length(commentsForStudentsTable.rows)}" />
+                        <c:set var="newCommentIndex" value="${fn:length(commentsForStudentsTable.rows) + 1}" />
                         <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
                             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form_commentadd" class="form_comment">
                                 <div class="form-group form-inline">

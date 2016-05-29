@@ -3,7 +3,7 @@ package teammates.ui.template;
 public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel> {
     protected boolean isGiver; // if false, then participant is a recipient
     protected String participantIdentifier; // email, team name, or %GENERAL%
-    protected String name; 
+    protected String name;
     
     protected boolean isHasResponses;
     protected boolean isEmailValid;
@@ -73,7 +73,7 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         // Shift panels for representing missing responses to the bottom
         if (isHasResponses != o.isHasResponses) {
             return isHasResponses ? -1 : 1;
-        } 
+        }
         return 0;
     }
     

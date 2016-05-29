@@ -34,7 +34,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
@@ -57,7 +57,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
+    @Test
     public void allTests() throws Exception {
         testContent();
         testCommentToWholeCourse();
@@ -215,7 +215,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     public void testDeleteAction() throws Exception {
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();        
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
         StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
         
@@ -224,12 +224,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndCancel(benny.name);
         assertNotNull(BackDoor.getStudent(courseId, benny.email));
 
-        //Use ${test.student1} etc. 
+        //Use ${test.student1} etc.
         detailsPage.clickDeleteAndConfirm(benny.name)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
                 
         detailsPage.clickDeleteAndCancel(danny.name);
-        assertNotNull(BackDoor.getStudent(courseId, danny.email));        
+        assertNotNull(BackDoor.getStudent(courseId, danny.email));
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
@@ -240,7 +240,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
-    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) 
+    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword)
                                             throws Exception {
         String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
     
@@ -250,7 +250,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }

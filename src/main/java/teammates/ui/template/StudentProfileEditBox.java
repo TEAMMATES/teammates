@@ -16,7 +16,7 @@ public class StudentProfileEditBox {
     private String googleId;
     private String pictureUrl;
 
-    public StudentProfileEditBox(String name, String isEditingPhoto, StudentProfileAttributes profile, 
+    public StudentProfileEditBox(String name, String isEditingPhoto, StudentProfileAttributes profile,
                                  String googleId, String pictureUrl) {
         this.name = name;
         this.editingPhoto = isEditingPhoto;

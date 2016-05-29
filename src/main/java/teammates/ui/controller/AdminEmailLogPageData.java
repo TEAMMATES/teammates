@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.TimeHelper;
@@ -87,7 +89,7 @@ public class AdminEmailLogPageData extends PageData {
         
         try {
             q = parseQuery(query.toLowerCase());
-        } catch (Exception e) {
+        } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -97,7 +99,7 @@ public class AdminEmailLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception {
+    private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
         setVersions(new ArrayList<String>());
         
@@ -108,13 +110,13 @@ public class AdminEmailLogPageData extends PageData {
         String[] tokens = query.replaceAll(" and ", "|")
                                .replaceAll(", ", ",")
                                .replaceAll(": ", ":")
-                               .split("\\|", -1); 
+                               .split("\\|", -1);
        
-        for (int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
-                throw new Exception("Invalid format");
+                throw new InvalidParametersException("Invalid format");
             }
             
             String[] values = pair[1].split(",", -1);
@@ -192,7 +194,7 @@ public class AdminEmailLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {        
+    private class QueryParameters {
         public boolean isToDateInQuery;
         public long toDateValue;
         
@@ -208,7 +210,7 @@ public class AdminEmailLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isToDateInQuery = false;
             isFromDateInQuery = false;
             isReceiverInQuery = false;
@@ -219,11 +221,11 @@ public class AdminEmailLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception {
+        public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
-                isFromDateInQuery = true;                
+                isFromDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 0:00");                          
+                Date d = sdf.parse(values[0] + " 0:00");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
@@ -232,11 +234,11 @@ public class AdminEmailLogPageData extends PageData {
             } else if ("before".equals(label)) {
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");  
+                Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
                 cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();          
+                toDateValue = cal.getTime().getTime();
             } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
@@ -247,8 +249,8 @@ public class AdminEmailLogPageData extends PageData {
                 isInfoInQuery = true;
                 infoValues = values;
             } else {
-                throw new Exception("Invalid label");
+                throw new InvalidParametersException("Invalid label");
             }
         }
-    }   
+    }
 }

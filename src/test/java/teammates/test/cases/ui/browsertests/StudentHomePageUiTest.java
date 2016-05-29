@@ -18,18 +18,18 @@ import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * Covers Homepage and Login page for students. Some part of it is using a 
- * real Google account alice.tmms. <br> 
+ * Covers Homepage and Login page for students. Some part of it is using a
+ * real Google account alice.tmms. <br>
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentHomePage studentHome;
+    private static StudentHomePage studentHome;
     private static FeedbackSessionAttributes gracedFeedbackSession;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         
@@ -56,9 +56,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
 
-    @Test    
+    @Test
     public void allTests() throws Exception {
-        testContentAndLogin();        
+        testContentAndLogin();
         testLinks();
         testLinkAndContentAfterDelete();
     }
@@ -90,7 +90,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         studentHome = getHomePage(browser)
                               .clickStudentLogin()
-                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
+                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                               TestProperties.inst().TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
@@ -180,7 +180,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("access the feedback session exactly after it is deleted");
         
-        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
+        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         studentHomePage.waitForPageToLoad();
         studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
@@ -197,7 +197,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

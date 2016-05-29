@@ -28,17 +28,17 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
         
         // use the instructor account injected for this test
         
-        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").googleId = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").googleId =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").email = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").email =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
-        testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email = 
+        testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email =
                                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreTestDataOnServer(testData);
@@ -54,9 +54,9 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testJoinConfirmation();
     }
 
-    private void testContent(){
+    private void testContent() {
         
-        /*covered in testJoinConfirmation() 
+        /*covered in testJoinConfirmation()
          *case: Click join link then confirm: success: valid key
          */
     }
@@ -117,7 +117,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

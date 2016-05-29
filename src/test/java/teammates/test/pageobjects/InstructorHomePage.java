@@ -35,13 +35,17 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    public InstructorCopyFsToModal fsCopyModal;
+    private InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
         super(browser);
         if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
         }
+    }
+    
+    public InstructorCopyFsToModal getFsCopyModal() {
+        return fsCopyModal;
     }
 
     @Override
@@ -120,7 +124,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
         getViewResultsLink(courseId, fsName).click();
@@ -129,7 +133,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbackEditPage clickFeedbackSessionEditLink(String courseId, String fsName) {
         getEditLink(courseId, fsName).click();
@@ -138,7 +142,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
         clickAndConfirm(getDeleteEvalLink(courseId, fsName));
@@ -148,7 +152,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
         this.getSubmitLink(courseId, fsName).click();
@@ -158,7 +162,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
         clickAndConfirm(getRemindLink(courseId, fsName));
@@ -168,7 +172,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         clickAndConfirm(getUnpublishLink(courseId, fsName));
@@ -178,7 +182,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
@@ -208,7 +212,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("arguments[0].href=arguments[1]", element, newValue);
     }
 
@@ -316,15 +320,15 @@ public class InstructorHomePage extends AppPage {
     }
 
     private int getEvaluationRowId(String courseId, String evalName) {
-        int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1) {
+        int courseRowId = getCourseRowId(courseId);
+        if (courseRowId == -1) {
             return -2;
         }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {
             if (getElementText(
-                    By.xpath(String.format(template + "//td[1]", courseRowID,
+                    By.xpath(String.format(template + "//td[1]", courseRowId,
                             id))).equals(evalName)) {
                 return id;
             }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
- * a copy of student and instructor details of a course instead of reading 
+ * a copy of student and instructor details of a course instead of reading
  * them from the database multiple times.
  */
 public class CourseRoster {
@@ -67,7 +67,7 @@ public class CourseRoster {
             return;
         }
         
-        for (StudentAttributes s: students) {
+        for (StudentAttributes s : students) {
             studentListByEmail.put(s.email, s);
         }
     }
@@ -78,7 +78,7 @@ public class CourseRoster {
             return;
         }
         
-        for (InstructorAttributes i: instructors) {
+        for (InstructorAttributes i : instructors) {
             instructorListByEmail.put(i.email, i);
         }
     }

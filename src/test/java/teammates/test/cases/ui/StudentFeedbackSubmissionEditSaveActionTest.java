@@ -694,7 +694,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
-        assertTrue(r.isError);  
+        assertTrue(r.isError);
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
                                 r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
@@ -727,7 +727,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
-        assertTrue(r.isError);        
+        assertTrue(r.isError);
 
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
                         r.getDestinationWithParams());
@@ -889,7 +889,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }
 
-    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (StudentFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

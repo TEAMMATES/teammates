@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -16,6 +18,16 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
+    
+    /**
+     * this array stores the requests to be excluded from being shown in admin activity logs page
+     */
+    private static String[] excludedLogRequestURIs = {
+            Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
+            // this servlet name is set in CompileLogsServlet
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION
+    };
+    
     private String filterQuery;
     private String queryMessage;
     private List<ActivityLogEntry> logs;
@@ -25,9 +37,9 @@ public class AdminActivityLogPageData extends PageData {
     private String logLocalTime;
     private boolean isFromDateSpecifiedInQuery;
     /**
-     * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
+     * This determines whether the logs with requests contained in "excludedLogRequestURIs" below
      * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-     * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+     * logs despite any action or change in the page unless the the page is reloaded with "?all=false"
      * or simply reloaded with this parameter omitted.
      */
     private boolean ifShowAll;
@@ -42,24 +54,17 @@ public class AdminActivityLogPageData extends PageData {
     private String statusForAjax;
     private QueryParameters q;
     
-    /**
-     * this array stores the requests to be excluded from being shown in admin activity logs page
-     */
-    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
-                                                      //this servlet name is set in CompileLogsServlet
-                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
-    
-    public List<String> getExcludedLogRequestURIs() {
-        List<String> excludedList = new ArrayList<String>();
-        for (String excludedLogRequestURI : excludedLogRequestURIs) {
-            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf('/') + 1));
-        }
-        return excludedList;
-    }
-    
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
         setDefaultLogSearchPeriod();
+    }
+    
+    public List<String> getExcludedLogRequestUris() {
+        List<String> excludedList = new ArrayList<String>();
+        for (String excludedLogRequestUri : excludedLogRequestURIs) {
+            excludedList.add(excludedLogRequestUri.substring(excludedLogRequestUri.lastIndexOf('/') + 1));
+        }
+        return excludedList;
     }
     
     private void setDefaultLogSearchPeriod() {
@@ -138,29 +143,29 @@ public class AdminActivityLogPageData extends PageData {
         
         try {
             q = parseQuery(filterQuery.toLowerCase());
-        } catch (Exception e) {
+        } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
     
     /**
-     * check current log entry should be excluded as rubbish logs 
+     * check current log entry should be excluded as rubbish logs
      * returns false if the logEntry is regarded as rubbish
-     */   
+     */
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if (ifShowAll) {        
+        if (ifShowAll) {
             return false;
         }
         
-        for (String uri: excludedLogRequestURIs) {
+        for (String uri : excludedLogRequestURIs) {
             
             if (uri.contains(logEntry.getServletName())) {
                 return true;
             }
         }
         
-        return false;        
+        return false;
     }
     
     /**
@@ -190,7 +195,7 @@ public class AdminActivityLogPageData extends PageData {
             return logEntry;
         }
         if (q.isPersonInQuery
-                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) 
+                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase())
                 && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
                 && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
             logEntry.setToShow(false);
@@ -210,7 +215,7 @@ public class AdminActivityLogPageData extends PageData {
                 logEntry.setToShow(false);
                 return logEntry;
             }
-        } 
+        }
         if (q.isInfoInQuery) {
             
             for (String keyString : q.infoValues) {
@@ -243,7 +248,7 @@ public class AdminActivityLogPageData extends PageData {
      * Converts the query string into a QueryParameters object
      * 
      */
-    private QueryParameters parseQuery(String query) throws Exception {
+    private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
@@ -254,13 +259,13 @@ public class AdminActivityLogPageData extends PageData {
         String[] tokens = query.replaceAll(" and ", "|")
                                .replaceAll(", ", ",")
                                .replaceAll(": ", ":")
-                               .split("\\|", -1); 
+                               .split("\\|", -1);
          
-        for (int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
-                throw new Exception("Invalid format");
+                throw new InvalidParametersException("Invalid format");
             }
             
             String[] values = pair[1].split(",", -1);
@@ -278,7 +283,7 @@ public class AdminActivityLogPageData extends PageData {
             } else if ("from".equals(label)) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
-                Date d = sdf.parse(values[0] + " 00:00");                
+                Date d = sdf.parse(values[0] + " 00:00");
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
@@ -291,7 +296,7 @@ public class AdminActivityLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
-                toDateValue = cal.getTime().getTime(); 
+                toDateValue = cal.getTime().getTime();
             } else {
                 q.add(label, values);
             }
@@ -300,10 +305,10 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     /** 
-     * @return possible servlet requests list as html 
+     * @return possible servlet requests list as html
      */
-    public String getActionListAsHtml() {       
-        List<String> allActionNames = getAllActionNames();         
+    public String getActionListAsHtml() {
+        List<String> allActionNames = getAllActionNames();
         int totalColumns = 4;
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
         return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
@@ -313,7 +318,7 @@ public class AdminActivityLogPageData extends PageData {
         
         StringBuilder outputHtml = new StringBuilder(100);
         outputHtml.append("<tr>");
-        int count = 0;      
+        int count = 0;
         for (int i = 0; i < totalColumns; i++) {
             
             outputHtml.append("<td><ul class=\"list-group\">");
@@ -371,10 +376,10 @@ public class AdminActivityLogPageData extends PageData {
         for (Field field : Const.ActionURIs.class.getFields()) {
 
             String actionString = getActionNameStringFromField(field);
-            actionNameList.add(actionString);        
+            actionNameList.add(actionString);
         }
         
-        return actionNameList;            
+        return actionNameList;
     }
 
     private String getActionNameStringFromField(Field field) {
@@ -398,7 +403,7 @@ public class AdminActivityLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {        
+    private class QueryParameters {
                 
         public boolean isRequestInQuery;
         public String[] requestValues;
@@ -421,7 +426,7 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isIdInQuery;
         public String[] idValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isRequestInQuery = false;
             isResponseInQuery = false;
             isPersonInQuery = false;
@@ -434,7 +439,7 @@ public class AdminActivityLogPageData extends PageData {
         /**
          * add a label and values in
          */
-        public void add(String label, String[] values) throws Exception {
+        public void add(String label, String[] values) throws InvalidParametersException {
             switch (label) {
             case "request":
                 isRequestInQuery = true;
@@ -465,7 +470,7 @@ public class AdminActivityLogPageData extends PageData {
                 idValues = values;
                 break;
             default:
-                throw new Exception("Invalid label");
+                throw new InvalidParametersException("Invalid label");
             }
         }
     }

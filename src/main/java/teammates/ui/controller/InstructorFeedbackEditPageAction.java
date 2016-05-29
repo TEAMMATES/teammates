@@ -27,7 +27,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
+                logic.getInstructorForGoogleId(courseId, account.googleId),
                 feedbackSession,
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -40,7 +40,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.isQuestionHasResponses(question.getId());
-            questionHasResponses.put(question.getId(), hasResponse); 
+            questionHasResponses.put(question.getId(), hasResponse);
         }
         
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
@@ -51,7 +51,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
+        statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                         + "Editing information for Feedback Session "
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
@@ -79,4 +79,3 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
     }
 }
- 

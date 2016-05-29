@@ -141,7 +141,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3", 
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "Pizza",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "Pasta",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "Chicken rice",
@@ -282,7 +282,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4", 
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The content",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "Teaching style",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "Tutorial questions",
@@ -469,7 +469,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "(First feedback session)</span> for Course "
                                     + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + " created.<br><span class=\"bold\">Distribute points "
-                                    + "(among recipients) question:</span> Split points among students." 
+                                    + "(among recipients) question:</span> Split points among students."
                                     + "|||/page/instructorFeedbackQuestionAdd";
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
@@ -885,7 +885,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionAddAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionAddAction getAction(String... params) {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

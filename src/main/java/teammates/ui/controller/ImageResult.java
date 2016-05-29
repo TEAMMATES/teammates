@@ -3,16 +3,15 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.StatusMessage;
 
 public class ImageResult extends ActionResult {
 
@@ -25,8 +24,7 @@ public class ImageResult extends ActionResult {
     }
 
     @Override
-    public void send(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         
         if (blobKey.isEmpty()) {
             resp.sendError(1, "No image found");

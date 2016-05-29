@@ -24,59 +24,106 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor.googleId;
-        String courseId = instructor.courseId;
+        visitEnrollPage_withInvalidRequestParams_throwsException();
+        visitEnrollPage_forCourseWithoutResponses_noWarningMessage();
+        visitEnrollPage_forCourseWithResponses_hasWarningMessage();
+        visitEnrollPage_inMasqueradeMode();
+    }
 
-        gaeSimulation.loginAsInstructor(instructorId);
-        
+    private void visitEnrollPage_withInvalidRequestParams_throwsException() throws Exception {
         ______TS("Not enough parameters");
-        verifyAssumptionFailure();
 
-        ______TS("Typical case: open the enroll page");
-        String[] submissionParams = new String[]{
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
+        gaeSimulation.loginAsInstructor(instructor.getGoogleId());
+
+        verifyAssumptionFailure();
+    }
+
+    private void visitEnrollPage_forCourseWithoutResponses_noWarningMessage() throws Exception {
+        ______TS("Typical case 1: open the enroll page of a course without existing feedback responses");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
+        gaeSimulation.loginAsInstructor(instructor.getGoogleId());
+
+        String courseId = instructor.getCourseId();
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
         
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
+                     pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
+
+        InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.getCourseId());
+        assertEquals(null, pageData.getEnrollStudents());
+
+        String expectedLogSegment = String.format(
+                Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
+    }
+
+    private void visitEnrollPage_forCourseWithResponses_hasWarningMessage() throws Exception {
+        ______TS("Typical case 2: open the enroll page of a course with existing feedback responses");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.getGoogleId());
+
+        String courseId = instructor.getCourseId();
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
+        };
+        InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
+
+        ShowPageResult pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1",
+                     pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS, pageResult.getStatusMessage());
+
+        InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.getCourseId());
+        assertEquals(null, pageData.getEnrollStudents());
+
+        String expectedLogSegment = String.format(
+                Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
+    }
+
+    private void visitEnrollPage_inMasqueradeMode() throws Exception {
+        ______TS("Masquerade mode");
+
+        gaeSimulation.loginAsAdmin("admin.user");
+
+        InstructorAttributes instructorToMasquerade = dataBundle.instructors.get("instructor4");
+        String instructorId = instructorToMasquerade.googleId;
+        String courseId = instructorToMasquerade.courseId;
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
+        };
+        InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
+
+        ShowPageResult pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
+                     pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         assertEquals(null, pageData.getEnrollStudents());
-        
-        String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
-        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
 
-        ______TS("Masquerade mode");
-        instructor = dataBundle.instructors.get("instructor4");
-        instructorId = instructor.googleId;
-        courseId = instructor.courseId;
-
-        gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
-        };
-        enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
-        assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
-        
-        pageData = (InstructorCourseEnrollPageData) pageResult.data;
-        assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
-        
-        expectedLogSegment = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
+        String expectedLogSegment = String.format(
+                Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
-    private InstructorCourseEnrollPageAction getAction(String... params) throws Exception {
+    private InstructorCourseEnrollPageAction getAction(String... params) {
         return (InstructorCourseEnrollPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

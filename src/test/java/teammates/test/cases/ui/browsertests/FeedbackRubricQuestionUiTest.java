@@ -30,7 +30,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -56,7 +56,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
-        StudentFeedbackResultsPage studentResultsPage = 
+        StudentFeedbackResultsPage studentResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
@@ -141,7 +141,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
 
-        // Submit another feedback response using another student's account 
+        // Submit another feedback response using another student's account
         submitPage = loginToStudentFeedbackSubmitPage("benny.tmms@FRubricQnUiT.CS2104", "openSession2");
 
         submitPage.clickRubricCell(1, 0, 0, 0);
@@ -185,14 +185,16 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testInputJsValidationForRubricQuestion();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
@@ -210,17 +212,19 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, feedbackEditPage.getStatus());
     }
     
+    @Override
     public void testCustomizeOptions() {
         
         // TODO somebody do this?
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -229,6 +233,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("RUBRIC: edit question success");
         
@@ -325,6 +330,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
@@ -335,7 +341,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     private void testInputJsValidationForRubricQuestion() {
@@ -344,8 +350,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("JS validation test");
 
         // add a new question
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
@@ -374,8 +380,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                .withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     
@@ -439,7 +445,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

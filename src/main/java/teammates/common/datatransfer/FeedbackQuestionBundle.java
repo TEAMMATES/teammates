@@ -26,7 +26,7 @@ public class FeedbackQuestionBundle {
 
         List<Map.Entry<String, String>> sortedRecipientList = new ArrayList<Map.Entry<String, String>>(recipientList.entrySet());
 
-        Collections.sort(sortedRecipientList, new recipientComparator());
+        Collections.sort(sortedRecipientList, new RecipientComparator());
         this.recipientList = new LinkedHashMap<String, String>();
 
         for (Map.Entry<String, String> entry : sortedRecipientList) {
@@ -34,7 +34,8 @@ public class FeedbackQuestionBundle {
         }
     }
 
-    private class recipientComparator implements Comparator<Map.Entry<String, String>> {
+    private class RecipientComparator implements Comparator<Map.Entry<String, String>> {
+        @Override
         public int compare(Map.Entry<String, String> recipient1, Map.Entry<String, String> recipient2) {
             // Sort by value (name) first.
             if (!recipient1.getValue().equals(recipient2.getValue())) {

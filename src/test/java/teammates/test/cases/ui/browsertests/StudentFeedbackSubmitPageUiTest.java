@@ -39,7 +39,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -308,7 +308,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                   aliceTeam, 
+                                                   aliceTeam,
                                                    "Team 2"));
 
         //check edited
@@ -340,13 +340,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("70, 30", frConstSum.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum1 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 2").getResponseDetails();
         assertEquals("90", frConstSum1.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum2 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 3").getResponseDetails();
         assertEquals("110", frConstSum2.getAnswerString());
@@ -410,7 +410,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
     }
 
-    private void testInputValidation() throws Exception {
+    private void testInputValidation() {
         ______TS("Test InputValidation lower than Min value");
 
         // this should not give any error since the value will be automatically adjusted before the form is submitted
@@ -612,7 +612,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import javax.jdo.PersistenceManager;
@@ -14,7 +13,6 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
@@ -23,12 +21,12 @@ import teammates.storage.entity.Student;
 
 /**
  * Adds sections to large courses without sections. For use after migrating evaluations
- * to feedback sessions. Handles updating sections in responses, but not comments. 
+ * to feedback sessions. Handles updating sections in responses, but not comments.
  * 
  */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
     
-    private Logic logic = new Logic();
+    private static final Logic logic = new Logic();
     
     // modify this to modify only a specific course or all courses
     private static final boolean isForAllCourses = false;
@@ -41,7 +39,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     // if not modifying all courses, specify which course to modify here
     private static final String courseToAddSectionsTo = "demo-course";
     
-    // when adding teams to a section, when this value is reached or exceeded,  
+    // when adding teams to a section, when this value is reached or exceeded,
     // change the section for the next team
     private static final int numOfStudentsInSection = 100;
     
@@ -100,7 +98,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;
-   }
+    }
 
     public Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
         Set<String> largeCoursesWithoutSections = new HashSet<String>();
@@ -110,9 +108,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
 
             try {
                 courseDetails = logic.getCourseDetails(courseId);
-            } catch (EntityDoesNotExistException e1) {
+            } catch (EntityDoesNotExistException e) {
                 System.out.println("Course not found" + courseId);
-                e1.printStackTrace();
+                e.printStackTrace();
                 continue;
             }
             
@@ -132,14 +130,14 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         List<TeamDetailsBundle> teams;
         try {
             teams = logic.getTeamsForCourse(courseId);
-        } catch (EntityDoesNotExistException e1) {
+        } catch (EntityDoesNotExistException e) {
             System.out.println("ERROR Course not found" + courseId);
-            e1.printStackTrace();
+            e.printStackTrace();
             return;
         }
 
         int numSections = 1;
-        String sectionPrefix = "Section "; 
+        String sectionPrefix = "Section ";
         String currentSection = sectionPrefix + numSections;
         
         int currentSectionSize = 0;
@@ -159,7 +157,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             if (currentSectionSize >= numOfStudentsInSection) {
                 // increment section
                 numSections++;
-                currentSection = sectionPrefix + numSections; 
+                currentSection = sectionPrefix + numSections;
                 currentSectionSize = 0;
             }
         }
@@ -169,28 +167,21 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
 
     private void updateStudentSection(String currentSection, StudentAttributes student) {
          
-        try {
-            System.out.println("Update " + student.email + " to section " + currentSection);
-            if (isPreview) {
-                return;
-            } 
+        System.out.println("Update " + student.email + " to section " + currentSection);
+        if (isPreview) {
+            return;
+        }
+        
+        PersistenceManager pm = Datastore.getPersistenceManager();
+        
+        Student studentEntity = getStudent(student.email, student.course, pm);
+        updateStudentToBeInSection(studentEntity, currentSection);
+        
+        List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student, pm);
+        updateFeedbackResponsesToBeInSection(responsesForStudent, student, currentSection);
+        
+        pm.close();
             
-            PersistenceManager pm = Datastore.getPersistenceManager();
-            
-            Student studentEntity = getStudent(student.email, student.course, pm);
-            updateStudentToBeInSection(studentEntity, currentSection);
-            
-            List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student, pm);
-            updateFeedbackResponsesToBeInSection(responsesForStudent, student, currentSection);
-            
-            pm.close();
-            
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            System.out.println("ERROR failed to update student " + student.email);
-            e.printStackTrace();
-            
-            confirmToContinue();
-        }        
     }
     
     private Student getStudent(String email, String courseId, PersistenceManager pm) {
@@ -204,7 +195,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return studentList.get(0);
     }
     
-    private void updateStudentToBeInSection(Student student, String sectionToChangeTo) throws InvalidParametersException, EntityDoesNotExistException {
+    private void updateStudentToBeInSection(Student student, String sectionToChangeTo) {
         if (isPreview) {
             return;
         }
@@ -221,11 +212,11 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         String studentTeam = student.team;
         
         for (FeedbackResponse response : responses) {
-            if (response.getRecipientEmail().equals(studentEmail) 
-                || response.getRecipientEmail().equals(studentTeam)) {
+            if (response.getRecipientEmail().equals(studentEmail)
+                    || response.getRecipientEmail().equals(studentTeam)) {
                 
                 response.setRecipientSection(sectionName);
-            } 
+            }
             
             if (response.getGiverEmail().equals(studentEmail)) {
                 response.setGiverSection(sectionName);
@@ -257,18 +248,11 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail, studentTeam, course);
         
-        List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>(); 
+        List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>();
         responses.addAll(responsesAsGiver);
         responses.addAll(responsesAsReceiver);
         
         return responses;
-    }
-    
-    private void confirmToContinue() {
-        System.out.println("An error occurred, continue?");
-        Scanner s = new Scanner(System.in);
-        s.next();
-        s.close();
     }
     
 }

@@ -37,16 +37,16 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
         ______TS("Typical case, 2 courses, redirect to homepage");
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
-        String[] submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-            Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
         };
         
         assertTrue(CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
         InstructorCourseDeleteAction deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(deleteAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
@@ -64,14 +64,14 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         ______TS("Masquerade mode, delete last course, redirect to Courses page");
         
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
-            Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(deleteAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());
@@ -86,13 +86,13 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course");
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
         };
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(deleteAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id2 has been deleted.", redirectResult.getStatusMessage());
@@ -109,7 +109,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseDeleteAction getAction(String... params) throws Exception {
+    private InstructorCourseDeleteAction getAction(String... params) {
         return (InstructorCourseDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

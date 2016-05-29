@@ -16,6 +16,14 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackResponse implements StoreCallback {
     
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp. Set
+     * to true when using scripts to update entities when you want to preserve
+     * the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp;
+    
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
     //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
@@ -56,16 +64,24 @@ public class FeedbackResponse implements StoreCallback {
     @Persistent
     private Date updatedAt;
     
-    
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
+    public FeedbackResponse(String feedbackSessionName, String courseId,
+            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
+            String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
+        this.feedbackQuestionId = feedbackQuestionId;
+        this.feedbackQuestionType = feedbackQuestionType;
+        this.giverEmail = giverEmail;
+        this.giverSection = giverSection;
+        this.receiver = recipient;
+        this.receiverSection = recipientSection;
+        this.answer = answer;
+                
+        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
+        
+        this.setCreatedAt(new Date());
+    }
 
-    @NotPersistent
-    public boolean keepUpdateTimestamp;
-    
     public String getId() {
         return feedbackResponseId;
     }
@@ -147,24 +163,6 @@ public class FeedbackResponse implements StoreCallback {
         this.answer = answer;
     }
 
-    public FeedbackResponse(String feedbackSessionName, String courseId,
-            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
-            String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
-        this.feedbackSessionName = feedbackSessionName;
-        this.courseId = courseId;
-        this.feedbackQuestionId = feedbackQuestionId;
-        this.feedbackQuestionType = feedbackQuestionType;
-        this.giverEmail = giverEmail;
-        this.giverSection = giverSection;
-        this.receiver = recipient;
-        this.receiverSection = recipientSection;
-        this.answer = answer;
-                
-        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver; 
-        
-        this.setCreatedAt(new Date());
-    }
-
     public Date getCreatedAt() {
         return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
@@ -187,6 +185,7 @@ public class FeedbackResponse implements StoreCallback {
     /**
      * Called by jdo before storing takes place.
      */
+    @Override
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
     }

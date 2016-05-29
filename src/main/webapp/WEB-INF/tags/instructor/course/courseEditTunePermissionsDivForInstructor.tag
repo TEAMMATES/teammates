@@ -37,10 +37,10 @@
             </div>
             
             <c:if test="${not empty instructorPanel.sectionRows}" >
-                <c:forEach items="${instructorPanel.sectionRows}" var="sectionRow" varStatus="i">
+                <c:forEach items="${instructorPanel.sectionRows}" var="sectionRow">
                     <course:courseEditTuneSectionPermissionsDiv 
                             instructorIndex="${instructorPanel.index}"
-                            sectionIndex="${i.index}"
+                            sectionIndex="${sectionRow.sectionIndex}"
                             sectionRow="${sectionRow}"
                     />
                 </c:forEach>

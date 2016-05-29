@@ -85,7 +85,7 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setParticipantPanels(
                                     Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels) {
-        this.participantPanels = participantPanels; 
+        this.participantPanels = participantPanels;
     }
 
     public Map<String, List<InstructorFeedbackResultsQuestionTable>> getTeamStatisticsTable() {

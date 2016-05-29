@@ -1,9 +1,5 @@
 package teammates.logic.api;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -17,6 +13,10 @@ import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
     private static UserService userService = UserServiceFactory.getUserService();
@@ -47,7 +47,9 @@ public class GateKeeper {
     public UserType getCurrentUser() {
         User user = getCurrentGoogleUser();
         
-        if (user == null) { return null; }
+        if (user == null) {
+            return null;
+        }
 
         UserType userType = new UserType(user);
 
@@ -71,7 +73,7 @@ public class GateKeeper {
 
         if (user == null) {
             return userService.createLoginURL(redirectPage);
-        } 
+        }
         return redirectPage;
     }
 
@@ -85,7 +87,9 @@ public class GateKeeper {
 
     /** Verifies the user is logged in */
     public void verifyLoggedInUserPrivileges() {
-        if (isUserLoggedOn()) { return; }
+        if (isUserLoggedOn()) {
+            return;
+        }
         
         throw new UnauthorizedAccessException("User is not logged in");
     }
@@ -96,7 +100,7 @@ public class GateKeeper {
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
         if (isUserLoggedOn() && userService.isUserAdmin()
-            && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
             return;
         }
 
@@ -347,8 +351,8 @@ public class GateKeeper {
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
-        } else if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.
-                                                     INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+        } else if (!instructor.isAllowedForPrivilege(section,
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
         }
     }

@@ -22,9 +22,11 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -78,7 +80,7 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
-    protected static void removeTypicalDataInDatastore() throws Exception {
+    protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.deleteExistingData(dataBundle);
@@ -87,7 +89,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

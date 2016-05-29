@@ -434,7 +434,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
         
@@ -455,12 +455,12 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
     }
     
-    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

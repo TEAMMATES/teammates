@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
 /**
@@ -9,7 +8,7 @@ import teammates.common.util.Const;
 public class StudentProfilePageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         account.studentProfile = logic.getStudentProfile(account.googleId);
         String isEditingPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
         if (isEditingPhoto == null) {
