@@ -18,7 +18,6 @@ import com.google.appengine.api.log.AppLogLine;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
-
     public static String[] automatedActions = {
             Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
