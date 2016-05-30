@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -113,9 +113,9 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFpAction = getAction(submissionParams);
             editInstructorFpAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
+        } catch (EntityNotFoundException enfe) {
             assertEquals("Instructor Email " + moderatedInstructorEmail
-                         + " does not exist in " + courseId + ".", edne.getMessage());
+                         + " does not exist in " + courseId + ".", enfe.getMessage());
         }
     }
 

@@ -7,7 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -147,8 +147,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Entity Does not exist");
-        } catch (EntityDoesNotExistException uae) {
-            assertEquals("student with " + student.course + "/random-email", uae.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            assertEquals("student with " + student.course + "/random-email", enfe.getMessage());
         }
     }
 
