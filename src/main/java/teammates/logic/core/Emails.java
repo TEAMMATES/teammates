@@ -74,7 +74,7 @@ public class Emails {
     private String replyTo;
 
     public Emails() {
-        senderEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
     }
@@ -789,7 +789,7 @@ public class Emails {
                                             requestPath,
                                             requestUrl,
                                             requestParam,
-                                            Config.inst().getAppVersion());
+                                            Config.getAppVersion());
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
