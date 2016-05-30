@@ -1,10 +1,11 @@
 package teammates.test.cases.common;
 
+import static teammates.common.util.Const.EOL;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
@@ -163,7 +164,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;

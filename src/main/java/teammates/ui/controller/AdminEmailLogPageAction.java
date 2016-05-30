@@ -3,17 +3,17 @@ package teammates.ui.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.log.AppLogLine;
-
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.log.AppLogLine;
 
 public class AdminEmailLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;
@@ -43,7 +43,7 @@ public class AdminEmailLogPageAction extends Action {
             endTimeToSearch = Long.parseLong(timeOffset);
         }
         
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
@@ -73,7 +73,7 @@ public class AdminEmailLogPageAction extends Action {
     }
     
     /**
-     * Selects versions for query. If versions are not specified, it will return 
+     * Selects versions for query. If versions are not specified, it will return
      * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {

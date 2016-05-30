@@ -4,7 +4,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="fsIndex" required="true" %>
-<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
+<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="divId" required="true" %>
 <%@ attribute name="divIdAsJsParams" required="true" %>
 <%@ attribute name="formType" required="true" %>

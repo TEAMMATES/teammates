@@ -2,19 +2,18 @@ package teammates.client.remoteapi;
 
 import java.io.IOException;
 
+import teammates.test.driver.TestProperties;
+
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
-
-import teammates.test.driver.TestProperties;
 
 public abstract class RemoteApiClient {
     private static final String LOCALHOST = "localhost";
     
     protected void doOperationRemotely() throws IOException {
-        TestProperties testProperties = TestProperties.inst();
 
-        String appDomain = testProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN;
-        int appPort = testProperties.TEAMMATES_REMOTEAPI_APP_PORT;
+        String appDomain = TestProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN;
+        int appPort = TestProperties.TEAMMATES_REMOTEAPI_APP_PORT;
         
         System.out.println("--- Starting remote operation ---");
         System.out.println("Going to connect to:" + appDomain + ":" + appPort);

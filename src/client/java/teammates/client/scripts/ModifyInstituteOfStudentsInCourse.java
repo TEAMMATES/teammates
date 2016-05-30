@@ -26,7 +26,7 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
         System.out.println("Enter course to edit: ");
         String courseId = scanner.nextLine();
         System.out.println("Enter new institute name: ");
-        String institute = scanner.nextLine(); 
+        String institute = scanner.nextLine();
         
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);

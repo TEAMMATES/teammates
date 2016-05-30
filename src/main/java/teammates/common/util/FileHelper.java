@@ -32,7 +32,7 @@ public final class FileHelper {
         stream.read(buffer);
         stream.close();
         
-        return buffer;        
+        return buffer;
     }
 
     /**

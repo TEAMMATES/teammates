@@ -36,7 +36,7 @@ public class StringHelperTest extends BaseTestCase {
         assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
 
-    @Test 
+    @Test
     public void testIsAnyMatching() {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
@@ -92,7 +92,7 @@ public class StringHelperTest extends BaseTestCase {
 
     }
     
-    @Test 
+    @Test
     public void testToStringForStringLists() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
@@ -164,7 +164,7 @@ public class StringHelperTest extends BaseTestCase {
         
     }
     
-    @Test 
+    @Test
     public void testRemoveExtraSpace() {
         
         String str = "";
@@ -187,7 +187,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testRecoverFromSanitizedText() {        
+    public void testRecoverFromSanitizedText() {
         String str = null;
         assertEquals(null, StringHelper.recoverFromSanitizedText(str));
         
@@ -254,8 +254,8 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
         assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
         
-        // input unmatched brackets, expected same input string 
-        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));        
+        // input unmatched brackets, expected same input string
+        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));
         assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
         
         // input empty string, expected empty string
@@ -273,7 +273,7 @@ public class StringHelperTest extends BaseTestCase {
     
     @Test
     public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL 
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
                          + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
                          + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;

@@ -2,8 +2,8 @@ package teammates.ui.controller;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
@@ -18,7 +18,9 @@ public class InstructorFeedbackDeleteAction extends Action {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl; // NOPMD
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),

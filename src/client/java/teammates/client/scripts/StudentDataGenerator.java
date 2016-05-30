@@ -7,8 +7,8 @@ import java.util.Random;
 
 public final class StudentDataGenerator {
 
-    private static int LENGTH_OF_STUDENT_NAME = 8;
-    private static int LENGTH_OF_TEAM_SUFFIX = 3;
+    private static final int LENGTH_OF_STUDENT_NAME = 8;
+    private static final int LENGTH_OF_TEAM_SUFFIX = 3;
     private static final String RANDOM_ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
     
     private static int numberOfStudents;

@@ -13,8 +13,8 @@ import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -65,7 +65,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
         Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
         
         if (recipients == null) {
-            log.severe("Recipient emails for pending comments in course : " + courseId 
+            log.severe("Recipient emails for pending comments in course : " + courseId
                        + " could not be fetched");
         }
         return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);
