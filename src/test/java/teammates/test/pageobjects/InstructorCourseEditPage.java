@@ -223,7 +223,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     private WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " input[name='sectiongroup" + sectionLevelNum + "section" + sectionNum + "']";
+                             + " input[name='sectiongroup" + sectionLevelNum + "section" + sectionNum + "']";
         return browser.driver.findElement(By.cssSelector(cssSelector));
     }
     
@@ -364,7 +364,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
         By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='" 
-                        + privilege + "']");
+                                     + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
