@@ -283,7 +283,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_ENDDATE =
                 "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
-                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
+                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br>"
                 + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
                 + "the responses for this feedback session will become visible.";
@@ -334,7 +334,7 @@ public final class Const {
                 + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
-                "Please select the amount of time that the system will continue accepting "
+                "Please select the amount of time that the system will continue accepting <br>"
                 + "submissions after the specified deadline.";
 
         public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
@@ -1113,10 +1113,10 @@ public final class Const {
 
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "
-                + "The team ID should be unique across the entire course and a team cannot be spread across multiple sections.";
+                + "The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED =
                 "You are trying enroll more than 100 students in section \"%s\". "
-                + "To avoid performance problems, please do not enroll more than 100 students in a single section.";
+                + "To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
         public static final String QUOTA_PER_ENROLLMENT_EXCEED =
                 "You are trying to enroll more than 100 students. "
                 + "To avoid performance problems, please enroll no more than 100 students at a time.";
