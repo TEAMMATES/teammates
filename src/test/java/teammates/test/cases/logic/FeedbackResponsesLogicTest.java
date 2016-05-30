@@ -54,6 +54,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
         testUpdateFeedbackResponsesForChangingTeam();
+        testUpdateFeedbackResponsesForChangingWholeTeam();
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
@@ -278,6 +279,42 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
     }
     
+    public void testUpdateFeedbackResponsesForChangingWholeTeam() throws Exception {
+        
+        ______TS("standard update team name for whole team case");
+        
+        StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
+        
+        // Student 1 has 1 response to him from team members,
+        // 1 response from him to a team member, and
+        // 1 team response from his team to another team.
+        FeedbackQuestionAttributes teamQuestion = getQuestionFromDatastore("team.members.feedback");
+        assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
+        
+        teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.getTeam()).size(), 1);
+        
+        // All these responses should be preserved after his team name is changed
+        
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(
+                studentToUpdate.course, studentToUpdate.team, "Team 1.3");
+        
+        teamQuestion = getQuestionFromDatastore("team.members.feedback");
+        assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
+        
+        teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.getTeam()).size(), 1);
+
+    }
+    
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
@@ -298,8 +335,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
-        assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 3);
+        assertEquals(responsesFromGiver.size(), 3);
         assertEquals(responseCommentsForStudent.size(), 2);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -329,8 +366,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
-        assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 3);
+        assertEquals(responsesFromGiver.size(), 3);
         assertEquals(responseCommentsForStudent.size(), 2);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
