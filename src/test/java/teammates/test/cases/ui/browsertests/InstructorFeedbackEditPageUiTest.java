@@ -84,7 +84,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
     
     private void testGeneralQuestionOperations() throws Exception {
-        testCancelNewOrEditQuestion();
+        testCancelAddingNewQuestion();
+        testCancelEditQuestion();
         
         testNewQuestionLink();
         testInputValidationForQuestion();
@@ -336,26 +337,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
     }
 
-    private void testCancelNewOrEditQuestion() {
-        ______TS("Testing cancelling adding or editing questions");
+    private void testCancelAddingNewQuestion() {
+        ______TS("Cancelling the adding of a new question");
         
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         
         
-        ______TS("MCQ: click and cancel 'cancel new question'");
-        
+        ______TS("Click cancel but click no to confirmation prompt");
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         
         
-        ______TS("MCQ: click and confirm 'cancel new question'");
+        ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-        
-        
-        ______TS("MCQ: click and cancel 'editing question'");
-        
+    }
+
+    private void testCancelEditQuestion() {
+        ______TS("Canceling the edit of an existing question");
+
         // Add question 2 first
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
@@ -367,11 +368,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Enable edit mode before testing canceling
         feedbackEditPage.clickEditQuestionButton(1);
         
+
+        ______TS("Click cancel but click no to confirmation prompt");
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
         feedbackEditPage.checkCancelEditQuestionButtonVisibility(1);
         
         
-        ______TS("MCQ: click and confirm 'editing question'");
+        ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
         assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
         
