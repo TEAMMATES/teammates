@@ -109,8 +109,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             for (int i = 0; i < numConstSumOptionsCreated; i++) {
                 String constSumOption =
-                        HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                               Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
+                        HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
                 if (constSumOption != null && !constSumOption.trim().isEmpty()) {
                     constSumOptions.add(constSumOption);
                     numOfConstSumOptions++;

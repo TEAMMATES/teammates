@@ -130,7 +130,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
                     
             List<String> questionSpecificErrors =
-                    questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+                    questionDetails.validateResponseAttributes(responsesForQuestion,
+                                                               data.bundle.recipientList.get(qnId).size());
             errors.addAll(questionSpecificErrors);
             
             if (!emailSet.containsAll(responsesRecipients)) {

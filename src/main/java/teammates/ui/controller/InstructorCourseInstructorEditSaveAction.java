@@ -44,7 +44,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             }
             
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
-                             StatusMessageColor.SUCCESS));
+                                               StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                     + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;

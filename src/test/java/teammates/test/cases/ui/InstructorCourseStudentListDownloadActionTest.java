@@ -58,11 +58,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\""
+                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                ""
                 // CHECKSTYLE.ON:LineLength
         };
         
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
         assertEquals("", r.getStatusMessage());
         
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
@@ -90,11 +91,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\""
+                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                ""
                 // CHECKSTYLE.ON:LineLength
         };
         
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
         assertEquals("", r.getStatusMessage());
         
         removeAndRestoreTypicalDataInDatastore();
@@ -125,11 +127,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\""
+                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                ""
                 // CHECKSTYLE.ON:LineLength
         };
         
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
         assertEquals("", r.getStatusMessage());
         
     }

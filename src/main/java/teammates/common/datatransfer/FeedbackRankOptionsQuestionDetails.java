@@ -46,7 +46,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         List<String> options = new ArrayList<>();
       
         String numOptionsCreatedString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+                HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
         Assumption.assertNotNull("Null number of choice for Rank", numOptionsCreatedString);
         int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
         

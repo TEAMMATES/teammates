@@ -247,7 +247,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
      
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responsesAsReceiver =
-                (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail, studentTeam, course);
+                (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q)
+                                                  .execute(studentEmail, studentTeam, course);
         
         List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>();
         responses.addAll(responsesAsGiver);
