@@ -145,7 +145,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
         return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum
-                                                         + " input[name=\"instructorisdisplayed\"]"));
+                                                         + " input[name='instructorisdisplayed']"));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
@@ -208,7 +208,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
         WebElement coursePanel = this.courseLevelPanel(instrNum);
-        coursePanel.findElements(By.cssSelector("input[type=checkbox]")).get(linkNum - 1).click();
+        coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum - 1).click();
     }
     
     public WebElement addSectionLevelPrivilegesLink(int instrNum) {
@@ -223,7 +223,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     private WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
+                + " input[name='sectiongroup" + sectionLevelNum + "section" + sectionNum + "']";
         return browser.driver.findElement(By.cssSelector(cssSelector));
     }
     
@@ -233,29 +233,29 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                             + " input[type=\"checkbox\"][name=\"canviewstudentinsectionsectiongroup"
-                             + sectionLevelNum + "\"]";
+                             + " input[type='checkbox'][name='canviewstudentinsectionsectiongroup"
+                             + sectionLevelNum + "']";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                             + " input[type=\"checkbox\"][name=\"canviewcommentinsectionsectiongroup"
-                             + sectionLevelNum + "\"]";
+                             + " input[type='checkbox'][name='canviewcommentinsectionsectiongroup"
+                             + sectionLevelNum + "']";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                             + " input[type=\"checkbox\"][name=\"canviewsessioninsectionsectiongroup"
-                             + sectionLevelNum + "\"]";
+                             + " input[type='checkbox'][name='canviewsessioninsectionsectiongroup"
+                             + sectionLevelNum + "']";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                             + " input[type=\"checkbox\"][name=\"canmodifysessioncommentinsectionsectiongroup"
-                             + sectionLevelNum + "\"]";
+                             + " input[type='checkbox'][name='canmodifysessioncommentinsectionsectiongroup"
+                             + sectionLevelNum + "']";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
@@ -281,7 +281,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public boolean clickOnAccessLevelViewDetails(String role) {
         WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
-                                            "a[onclick=\"showInstructorRoleModal(\'" + role + "\')\"]"));
+                                            "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
         viewDetailsLink.click();
         
         WebElement viewDetailsModal = browser.driver.findElement(By.cssSelector(
