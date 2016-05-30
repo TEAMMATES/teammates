@@ -2,6 +2,8 @@ package teammates.common.util;
 
 public final class Templates {
     
+    public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourseFile("InstructorSampleData.json");
+    
     private Templates() {
         // utility class
     }
