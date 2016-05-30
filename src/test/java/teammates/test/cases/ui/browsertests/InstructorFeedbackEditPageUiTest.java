@@ -356,6 +356,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testCancelEditQuestion() {
         ______TS("Canceling the edit of an existing question");
+        int qnIndex = 1;
         String qnTextOriginal = "mcq qn";
 
         // Add question 2 first
@@ -367,26 +368,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
-        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickEditQuestionButton(qnIndex);
         
 
         ______TS("Click cancel but click no to confirmation prompt");
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
-        assertTrue(feedbackEditPage.isCancelEditButtonVisible(1));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(qnIndex));
+        assertTrue(feedbackEditPage.isCancelEditButtonVisible(qnIndex));
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
-        feedbackEditPage.fillEditQuestionBox("new edits to question text", 1);
-        String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(1);
+        feedbackEditPage.fillEditQuestionBox("new edits to question text", qnIndex);
+        String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
-        assertFalse(feedbackEditPage.isCancelEditButtonVisible(1));
-        String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(1);
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(qnIndex));
+        assertFalse(feedbackEditPage.isCancelEditButtonVisible(qnIndex));
+        String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
         
         // Delete it to reset the status for the following tests
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(qnIndex));
     }
     
     private void testEditQuestionNumberAction() {
