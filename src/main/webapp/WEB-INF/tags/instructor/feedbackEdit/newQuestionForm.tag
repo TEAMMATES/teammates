@@ -34,7 +34,7 @@
                     </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px">
                         Copy Question
                     </a>
-                    <a class="btn btn-primary margin-bottom-7px"
+                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
                         href="${fqForm.doneEditingLink}">
                         Done Editing
                     </a>

@@ -35,7 +35,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         // use the 1st student account injected for this test
        
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
@@ -67,8 +67,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         ______TS("content: no courses, 'welcome stranger' message");
         
-        String unregUserId = TestProperties.inst().TEST_UNREG_ACCOUNT;
-        String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
+        String unregUserId = TestProperties.TEST_UNREG_ACCOUNT;
+        String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
         BackDoor.deleteAccount(unregUserId); //delete account if it exists
         
         logout(browser);
@@ -90,8 +90,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         studentHome = getHomePage(browser)
                               .clickStudentLogin()
-                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                              TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                              .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                              TestProperties.TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
         

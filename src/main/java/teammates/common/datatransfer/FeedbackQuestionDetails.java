@@ -86,7 +86,7 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+        return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
@@ -96,8 +96,6 @@ public abstract class FeedbackQuestionDetails {
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                       + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                                       + Const.EOL;
-
-        return detailedResponsesRow;
     }
     
     public String getQuestionText() {
@@ -165,10 +163,7 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
 
-        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText,
-                                                                                                  requestParameters);
-
-        return questionDetails;
+        return questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
     }
 
     // The following function handle the display of rows between possible givers
@@ -181,9 +176,11 @@ public abstract class FeedbackQuestionDetails {
                + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
-
-    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
-                                            FeedbackQuestionAttributes question) {
+    
+    /**
+     * @return true if 'No Response' is to be displayed in the Response rows.
+     */
+    public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
         return question.recipientType != FeedbackParticipantType.STUDENTS
             && question.recipientType != FeedbackParticipantType.TEAMS;

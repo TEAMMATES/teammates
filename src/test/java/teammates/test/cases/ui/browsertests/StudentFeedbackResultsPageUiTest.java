@@ -121,8 +121,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student logged in as a student in another course: registered after logging out");
         
-        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        String student1Username = TestProperties.TEST_STUDENT1_ACCOUNT;
+        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
         logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
