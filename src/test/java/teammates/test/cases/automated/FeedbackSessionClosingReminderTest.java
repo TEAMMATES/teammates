@@ -67,7 +67,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
     }
     
     @Test
-    public void testAdditionOfTaskToTaskQueue() throws Exception {        
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
         FeedbackSessionClosingCallback.resetTaskCount();
         
         ______TS("typical case, 0 sessions closing soon");
@@ -140,7 +140,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
-        int course1StudentCount = 5 - 2; // 2 students have already completed the session 
+        int course1StudentCount = 5 - 2; // 2 students have already completed the session
         int course1InstructorCount = 5;
         
         List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();

@@ -21,10 +21,10 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean creatorOnly = false;
         new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
-        boolean shouldEnableSubmit = 
+        boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
-        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName, 
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName,
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }

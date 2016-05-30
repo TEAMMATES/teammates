@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents emails composed by Admin 
+ * Represents emails composed by Admin
  */
 
 @PersistenceCapable
@@ -26,7 +26,6 @@ public class AdminEmail {
     @Persistent
     //this stores the address string eg."example1@test.com,example2@test.com...."
     private List<String> addressReceiver;
-   
     
     @Persistent
     //this stores the blobkey string of the email list file uploaded to Google Cloud Storage

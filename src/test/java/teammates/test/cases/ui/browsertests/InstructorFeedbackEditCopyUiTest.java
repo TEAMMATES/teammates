@@ -61,8 +61,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.getFsCopyToModal()
                         .verifyStatusMessage(
-                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
-                                               feedbackSessionName, 
+                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                                               feedbackSessionName,
                                                testData.courses.get("course").getId()));
         
 

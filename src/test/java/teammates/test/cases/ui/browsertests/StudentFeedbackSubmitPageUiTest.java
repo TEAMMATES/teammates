@@ -308,7 +308,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                   aliceTeam, 
+                                                   aliceTeam,
                                                    "Team 2"));
 
         //check edited
@@ -340,13 +340,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("70, 30", frConstSum.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum1 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 2").getResponseDetails();
         assertEquals("90", frConstSum1.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum2 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 3").getResponseDetails();
         assertEquals("110", frConstSum2.getAnswerString());

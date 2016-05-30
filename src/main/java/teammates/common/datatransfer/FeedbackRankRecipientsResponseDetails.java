@@ -8,8 +8,8 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
     
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType, 
-                                       FeedbackQuestionDetails questionDetails, 
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+                                       FeedbackQuestionDetails questionDetails,
                                        String[] answer) {
         this.setRankResponseDetails(Integer.parseInt(answer[0]));
     }

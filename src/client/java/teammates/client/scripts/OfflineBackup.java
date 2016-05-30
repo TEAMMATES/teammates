@@ -62,30 +62,28 @@ public class OfflineBackup extends RemoteApiClient {
      */
     private List<String> getModifiedLogs() {
         List<String> modifiedLogs = new ArrayList<String>();
-        TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
-            URL myURL = new URL(testProperties.TEAMMATES_URL + "/entityModifiedLogs");
+            URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
             
-            URLConnection myURLConnection = myURL.openConnection();        
+            URLConnection urlConn = url.openConnection();
         
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    myURLConnection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
             String logMessage;
             while ((logMessage = in.readLine()) != null) {
                 modifiedLogs.add(logMessage);
             }
             in.close();
-        } catch (IOException e) { 
+        } catch (IOException e) {
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
-        } 
+        }
         
         return modifiedLogs;
     }
     
    
     /**
-     * Look through the logs and extracts all recently modified courses. 
+     * Look through the logs and extracts all recently modified courses.
      */
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
         
@@ -121,7 +119,7 @@ public class OfflineBackup extends RemoteApiClient {
             directory.mkdirs();
         } catch (SecurityException se) {
             System.out.println("Error making directory: " + directoryName);
-        }        
+        }
        
     }
     
@@ -148,8 +146,8 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveStudentsByCourse(courseId);
             retrieveAndSaveStudentProfilesByCourse(courseId);
             
-            appendToFile(currentFileName, "\n}"); 
-        }              
+            appendToFile(currentFileName, "\n}");
+        }
     }
     
     /** 
@@ -169,7 +167,7 @@ public class OfflineBackup extends RemoteApiClient {
         
         for (InstructorAttributes instructor : instructors) {
             saveInstructorAccount(instructor);
-        } 
+        }
         
         appendToFile(currentFileName, "\n\t},\n");
         hasPreviousEntity = false;
@@ -390,9 +388,9 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void saveComment(CommentAttributes comment) {
         appendToFile(currentFileName, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
-    }   
+    }
     
-    protected void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
+    protected void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         appendToFile(currentFileName, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
     }
     

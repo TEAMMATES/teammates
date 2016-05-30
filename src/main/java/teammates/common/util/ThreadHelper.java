@@ -23,7 +23,7 @@ public final class ThreadHelper {
     }
 
     /**
-     * Makes the thread sleep for the specified time. 
+     * Makes the thread sleep for the specified time.
      */
     public static void waitFor(int timeInMilliSeconds) {
         try {

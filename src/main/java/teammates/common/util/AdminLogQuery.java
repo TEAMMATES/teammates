@@ -63,7 +63,7 @@ public class AdminLogQuery {
      * @param endTime
      */
     public void setTimePeriod(Long startTimeParam, Long endTimeParam) {
-        Long startTime = startTimeParam == null ? 0l : startTimeParam;
+        Long startTime = startTimeParam == null ? 0L : startTimeParam;
         Long endTime = endTimeParam == null ? TimeHelper.now(0.0).getTimeInMillis() : endTimeParam;
         query.startTimeMillis(startTime);
         query.endTimeMillis(endTime);

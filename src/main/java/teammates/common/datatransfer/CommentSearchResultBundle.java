@@ -15,7 +15,7 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 /**
- * The search result bundle for {@link CommentAttributes}. 
+ * The search result bundle for {@link CommentAttributes}.
  */
 public class CommentSearchResultBundle extends SearchResultBundle {
     
@@ -45,7 +45,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             CommentAttributes comment = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(),
                     CommentAttributes.class);
             if (commentsLogic.getComment(comment.getCommentId()) == null) {
                 commentsLogic.deleteDocument(comment);

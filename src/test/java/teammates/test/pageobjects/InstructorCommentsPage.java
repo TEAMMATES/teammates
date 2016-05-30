@@ -148,6 +148,15 @@ public class InstructorCommentsPage extends AppPage {
             checkbox.click();
         }
     }
+    
+    public void clickAllGiverCheckboxes(int row) {
+        List<WebElement> giverCheckboxes = browser.driver
+                                           .findElement(By.id("visibility-options" + row))
+                                           .findElements(By.className("giverCheckbox"));
+        for (WebElement checkbox : giverCheckboxes) {
+            checkbox.click();
+        }
+    }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
@@ -213,7 +222,7 @@ public class InstructorCommentsPage extends AppPage {
     public void clickCommentsForStudentsPanelHeading() {
         WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));
 
-        e.findElement(By.cssSelector(".panel-heading")).click();        
+        e.findElement(By.cssSelector(".panel-heading")).click();
     }
     
     /**

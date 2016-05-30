@@ -57,8 +57,9 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
     
@@ -78,8 +79,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillNewQuestionBox("Test question text");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
@@ -95,8 +96,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("remove when 1 left and select Add Other Option");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillNewQuestionBox("Test question text");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
@@ -112,8 +113,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     public void testCustomizeOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
         
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
