@@ -1432,7 +1432,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         
         for (String possibleRecipient : possibleReceivers) {
-            if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
+            if (questionDetails.shouldShowNoResponseText(question)) {
                 String textToDisplay = questionDetails.getNoResponseTextInHtml(
                                                giverIdentifier, possibleRecipient, bundle, question);
                 String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
@@ -1476,7 +1476,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String textToDisplay = questionDetails.getNoResponseTextInHtml(recipientIdentifier, possibleGiver,
                                                                            bundle, question);
             
-            if (questionDetails.shouldShowNoResponseText(possibleGiver, recipientIdentifier, question)) {
+            if (questionDetails.shouldShowNoResponseText(question)) {
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
                                                                                  question, possibleGiver,
                                                                                  "btn btn-default btn-xs",
