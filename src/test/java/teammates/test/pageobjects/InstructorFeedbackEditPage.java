@@ -92,7 +92,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement addNewQuestionButton;
     
     @FindBy(id = "button_done_editing")
-    private WebElement doneEditingLink;
+    private WebElement doneEditingButton;
     
     @FindBy(id = "questiontext")
     private WebElement questionTextBox;
@@ -732,7 +732,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        doneEditingLink.click();
+        doneEditingButton.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
     }
