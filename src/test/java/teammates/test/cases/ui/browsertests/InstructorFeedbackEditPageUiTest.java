@@ -371,12 +371,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("Click cancel but click no to confirmation prompt");
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
-        feedbackEditPage.checkCancelEditQuestionButtonVisibility(1);
+        assertTrue(feedbackEditPage.isCancelEditButtonVisible(1));
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
-        assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
+        assertFalse(feedbackEditPage.isCancelEditButtonVisible(1));
         
         // Delete it to reset the status for the following tests
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
