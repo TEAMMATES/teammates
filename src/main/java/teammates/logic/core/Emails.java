@@ -62,7 +62,7 @@ public class Emails {
     
     private static final Logger log = Utils.getLogger();
     
-    public static enum EmailType {
+    public enum EmailType {
         FEEDBACK_CLOSING,
         FEEDBACK_OPENING,
         FEEDBACK_PUBLISHED,
@@ -74,7 +74,7 @@ public class Emails {
     private String replyTo;
 
     public Emails() {
-        senderEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
     }
@@ -789,7 +789,7 @@ public class Emails {
                                             requestPath,
                                             requestUrl,
                                             requestParam,
-                                            Config.inst().getAppVersion());
+                                            Config.getAppVersion());
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {

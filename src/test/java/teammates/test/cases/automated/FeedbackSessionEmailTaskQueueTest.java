@@ -139,8 +139,8 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         try {
             logic.sendReminderForFeedbackSession(fsa.courseId, null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals("The supplied parameter was null\n", a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals("The supplied parameter was null\n", ae.getMessage());
         }
         
         assertEquals(0, FeedbackSessionsEmailTaskQueueCallback.taskCount);

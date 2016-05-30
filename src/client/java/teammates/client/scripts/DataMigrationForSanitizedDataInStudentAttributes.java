@@ -154,7 +154,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         }
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 

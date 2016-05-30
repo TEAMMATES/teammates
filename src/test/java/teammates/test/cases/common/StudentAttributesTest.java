@@ -52,12 +52,12 @@ public class StudentAttributesTest extends BaseTestCase {
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1", "comment 1",
                                                  "courseId1", "team 1", "section 1");
-        verifyStudentContentIncludingID(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes(expected);
-        verifyStudentContentIncludingID(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
@@ -325,7 +325,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(expected.getComments(), actual.getComments());
     }
 
-    private void verifyStudentContentIncludingID(Student expected, Student actual) {
+    private void verifyStudentContentIncludingId(Student expected, Student actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }
