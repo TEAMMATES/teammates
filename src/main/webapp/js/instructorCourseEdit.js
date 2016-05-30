@@ -23,8 +23,6 @@ var instructorPrivilegeValues = [
     'canmodifysessioncommentinsection'
 ];
 
-var hasClickedAddInstructorBefore = false;
-
 /**
  * Enable the user to edit one instructor and disable editting for other instructors
  * @param instructorNum
@@ -72,11 +70,6 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $('#panelAddInstructor').show();
     $('#btnShowNewInstructorForm').hide();
-    if (hasClickedAddInstructorBefore === false) {
-        var index = $('#new-instructor-index').val();
-        bindChangingRole(index);
-        hasClickedAddInstructorBefore = true;
-    }
     scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
 }
 
@@ -359,4 +352,6 @@ function editCourse() {
 
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
+    var index = $('#new-instructor-index').val();
+    bindChangingRole(index);
 });
