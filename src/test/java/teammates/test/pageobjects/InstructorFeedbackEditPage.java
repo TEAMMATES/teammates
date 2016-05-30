@@ -729,9 +729,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
-                                                   .findElements(By.tagName("a"))
-                                                   .get(12);
+        WebElement doneEditingLink = browser.driver.findElement(By.id("button_done_editing"));
        
         doneEditingLink.click();
         waitForPageToLoad();
