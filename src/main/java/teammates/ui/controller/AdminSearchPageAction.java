@@ -81,7 +81,9 @@ public class AdminSearchPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
-    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students,
+                                                     List<InstructorAttributes> instructors,
+                                                     AdminSearchPageData data) {
         
         Logic logic = new Logic();
         

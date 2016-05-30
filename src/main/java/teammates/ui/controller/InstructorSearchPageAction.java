@@ -113,11 +113,12 @@ public class InstructorSearchPageAction extends Action {
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
                 
                 boolean isVisibleResponse = true;
-                boolean isNotAllowedForInstructor = instructor == null
-                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                boolean isNotAllowedForInstructor =
+                        instructor == null
+                        || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
+                                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                        || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
+                                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
                 if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;

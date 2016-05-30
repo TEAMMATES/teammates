@@ -79,8 +79,10 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             
             groupReceiverListFileSize = (int) getFileSize(groupReceiverListFileKey);
             
-            String indexOfEmailListToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);
-            String indexOfEmailToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX);
+            String indexOfEmailListToResumeAsString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);
+            String indexOfEmailToResumeAsString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX);
             
             int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailListToResumeAsString);
             int indexOfEmailToResume = indexOfEmailToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailToResumeAsString);

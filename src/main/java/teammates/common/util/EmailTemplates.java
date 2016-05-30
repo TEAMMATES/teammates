@@ -4,7 +4,8 @@ public class EmailTemplates {
 
     public static final String USER_COURSE_JOIN = FileHelper.readResourseFile("userEmailTemplate-courseJoin.html");
     public static final String FRAGMENT_STUDENT_COURSE_JOIN = FileHelper.readResourseFile("studentEmailFragment-courseJoin.html");
-    public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = FileHelper.readResourseFile("studentEmailFragment-googleIdReset.html");
+    public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
+            FileHelper.readResourseFile("studentEmailFragment-googleIdReset.html");
     public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN = FileHelper.readResourseFile("instructorEmailFragment-courseJoin.html");
     public static final String USER_FEEDBACK_SESSION = FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
     public static final String USER_FEEDBACK_SESSION_CLOSING = FileHelper.readResourseFile("userEmailTemplate-feedbackSessionClosing.html");
