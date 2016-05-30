@@ -91,8 +91,16 @@ public class FeedbackSessionsDb extends EntitiesDb {
             Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
             Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
             
-            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTime(), true, false);
-            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTime(), false, true);
+            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, 
+                                                                           standardEnd, 
+                                                                           fs.getStartTime(), 
+                                                                           true, 
+                                                                           false);
+            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, 
+                                                                         standardEnd, 
+                                                                         fs.getEndTime(), 
+                                                                         false, 
+                                                                         true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -553,6 +561,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
-        return getFeedbackSessionEntity(feedbackSessionToGet.getFeedbackSessionName(), feedbackSessionToGet.getCourseId());
+        return getFeedbackSessionEntity(feedbackSessionToGet.getFeedbackSessionName(), 
+                                        feedbackSessionToGet.getCourseId());
     }
 }

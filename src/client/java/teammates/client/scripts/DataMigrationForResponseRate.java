@@ -66,7 +66,8 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondants = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-            if (feedbackSession.getRespondingStudentList().size() != 0 || feedbackSession.getRespondingInstructorList().size() != 0) {
+            if (feedbackSession.getRespondingStudentList().size() != 0 ||
+                    feedbackSession.getRespondingInstructorList().size() != 0) {
                 continue;
             }
             
