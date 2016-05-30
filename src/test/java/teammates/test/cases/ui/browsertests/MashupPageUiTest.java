@@ -21,8 +21,8 @@ import teammates.test.pageobjects.BrowserPool;
 public class MashupPageUiTest extends BaseUiTestCase {
     private static Browser browser;
 
-
     private static DataBundle testData;
+    
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();

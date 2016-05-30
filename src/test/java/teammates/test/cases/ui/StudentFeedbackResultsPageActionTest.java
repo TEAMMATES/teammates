@@ -6,9 +6,9 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -199,7 +199,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         long toleranceTimeInMs = 1000;
         if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
             // change to the value that will never make the test fail
-            dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = 
+            dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
                                             pageData.getBundle().feedbackSession.resultsVisibleFromTime;
         }
 

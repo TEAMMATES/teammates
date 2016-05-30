@@ -78,7 +78,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
         assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
         assertTrue(logPage.getStatus().contains("in Admin Time Zone"));
-        assertTrue(logPage.getStatus().contains("in Local Time Zone") 
+        assertTrue(logPage.getStatus().contains("in Local Time Zone")
                    || logPage.getStatus().contains("Local Time Unavailable"));
     }
 
@@ -87,10 +87,10 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         ______TS("Link: recent actions link");
         
         try {
-            String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();      
+            String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();
             logPage.clickViewActionsButtonOfFirstEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
-            assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);            
+            assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);
         } catch (NoSuchElementException exceptionFromEmptyLogs) {
             /*
              * This can happen if this test is run right after the server is started.

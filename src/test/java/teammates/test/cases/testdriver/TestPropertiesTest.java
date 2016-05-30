@@ -11,8 +11,8 @@ public class TestPropertiesTest extends BaseTestCase {
         assertEquals("4.18", TestProperties.extractVersionNumber("abc<version>4-18</version>xyz"));
     }
     
-    @Test 
+    @Test
     public void testConstruction() {
-        assertTrue(null != TestProperties.inst().TEAMMATES_VERSION); 
+        assertTrue(null != TestProperties.TEAMMATES_VERSION);
     }
 }

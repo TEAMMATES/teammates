@@ -11,15 +11,15 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbacksPageAction extends Action {
     
     @Override
     protected ActionResult execute() {
-        // This can be null. Non-null value indicates the page is being loaded 
+        // This can be null. Non-null value indicates the page is being loaded
         // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -29,7 +29,7 @@ public class InstructorFeedbacksPageAction extends Action {
                 
         if (courseIdForNewSession != null) {
             new GateKeeper().verifyAccessible(
-                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
+                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId),
                     logic.getCourse(courseIdForNewSession),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }

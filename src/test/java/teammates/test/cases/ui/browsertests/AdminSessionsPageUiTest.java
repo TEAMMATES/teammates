@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -25,7 +25,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     
     @BeforeClass
     public static void classSetup() {
-        printTestClassHeader();      
+        printTestClassHeader();
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }

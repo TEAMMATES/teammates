@@ -8,15 +8,15 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.util.Utils;
+import teammates.logic.core.Emails;
+
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
 import com.google.appengine.api.log.LogService.LogLevel;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
-
-import teammates.common.util.Utils;
-import teammates.logic.core.Emails;
 
 public class CompileLogs {
     private static final Logger log = Utils.getLogger();

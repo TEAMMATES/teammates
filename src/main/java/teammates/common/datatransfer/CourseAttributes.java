@@ -8,9 +8,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Course;
 
 /**
@@ -18,11 +18,23 @@ import teammates.storage.entity.Course;
  */
 public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
     
+    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
+        @Override
+        public int compare(CourseAttributes course1, CourseAttributes course2) {
+            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
+                return course1.getId().compareTo(course2.getId());
+            }
+            
+            // sort by newest course first
+            return -1 * course1.createdAt.compareTo(course2.createdAt);
+        }
+    };
+    
     //Note: be careful when changing these variables as their names are used in *.json files.
-    private String id;
-    private String name;
     public Date createdAt;
     public boolean isArchived;
+    private String id;
+    private String name;
     
     public CourseAttributes() {
         // attributes to be set after construction
@@ -49,7 +61,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         if (status == null) {
             this.isArchived = false;
         } else {
-            this.isArchived = status.booleanValue(); 
+            this.isArchived = status.booleanValue();
         }
     }
 
@@ -69,13 +81,13 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         String error;
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, getId());
-        if (!error.isEmpty()) { 
-            errors.add(error); 
+        if (!error.isEmpty()) {
+            errors.add(error);
         }
         
         error = validator.getInvalidityInfoForCourseName(getName());
-        if (!error.isEmpty()) { 
-            errors.add(error); 
+        if (!error.isEmpty()) {
+            errors.add(error);
         }
         
         return errors;
@@ -139,15 +151,4 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         Collections.sort(courses, createdDateComparator);
     }
 
-    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
-        @Override
-        public int compare(CourseAttributes course1, CourseAttributes course2) {
-            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                return course1.getId().compareTo(course2.getId());
-            }
-            
-            // sort by newest course first
-            return -1 * course1.createdAt.compareTo(course2.createdAt);
-        }
-    };
 }

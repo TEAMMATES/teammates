@@ -46,14 +46,14 @@ public class StudentProfilePageDataTest extends BaseTestCase {
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                    + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
                    + "&" + Const.ParamsNames.USER_ID + "=" + acct.googleId;
-        return new StudentProfilePageData(acct, isEditingPhoto);        
+        return new StudentProfilePageData(acct, isEditingPhoto);
     }
     
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
         spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, "male", null, "");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-        return new StudentProfilePageData(acct, isEditingPhoto);        
+        return new StudentProfilePageData(acct, isEditingPhoto);
     }
     
     private void testProfileEditBox(StudentProfileEditBox profileEditBox) {

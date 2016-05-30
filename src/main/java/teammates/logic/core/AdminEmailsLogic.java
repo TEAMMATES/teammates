@@ -3,13 +3,13 @@ package teammates.logic.core;
 import java.util.Date;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.AdminEmailsDb;
+
+import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles the logic related to admin emails
@@ -29,7 +29,7 @@ public class AdminEmailsLogic {
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
@@ -96,7 +96,7 @@ public class AdminEmailsLogic {
      * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
      */
-    public List<AdminEmailAttributes> getSentAdminEmails() {      
+    public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsDb.getSentAdminEmails();
     }
     
@@ -121,7 +121,7 @@ public class AdminEmailsLogic {
     }
 
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(emailId);    
+        Assumption.assertNotNull(emailId);
         Assumption.assertNotNull(newAdminEmail);
         
         adminEmailsDb.updateAdminEmailById(newAdminEmail, emailId);

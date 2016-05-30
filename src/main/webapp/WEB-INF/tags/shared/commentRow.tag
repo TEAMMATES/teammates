@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
-<%@ attribute name="comment" type="teammates.ui.template.Comment" required="true" %>
+<%@ attribute name="comment" type="teammates.ui.template.CommentRow" required="true" %>
 <%@ attribute name="commentIndex" required="true" %>
 <li class="list-group-item list-group-item-warning${comment.extraClass}">
     <div id="commentBar-${commentIndex}">

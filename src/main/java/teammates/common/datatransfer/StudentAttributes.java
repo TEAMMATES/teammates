@@ -32,7 +32,7 @@ public class StudentAttributes extends EntityAttributes {
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
-        private UpdateStatus(int numericRepresentation) {
+        UpdateStatus(int numericRepresentation) {
             this.numericRepresentation = numericRepresentation;
         }
 
@@ -70,7 +70,7 @@ public class StudentAttributes extends EntityAttributes {
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
-     * Creation and update time stamps. 
+     * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
     private transient Date createdAt;
@@ -196,7 +196,7 @@ public class StudentAttributes extends EntityAttributes {
         String error;
 
         if (isRegistered()) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
 
             if (!error.isEmpty()) {
                 errors.add(error);
@@ -209,25 +209,25 @@ public class StudentAttributes extends EntityAttributes {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        error = validator.getInvalidityInfoForTeamName(team);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        error = validator.getInvalidityInfoForSectionName(section);
 
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
         if (!error.isEmpty()) {
             errors.add(error);
@@ -388,14 +388,14 @@ public class StudentAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      **/
-    public void setCreated_NonProduction(Date createdAt) {
+    public void setCreated_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
 
     /**
      * Should only be used for testing
      **/
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

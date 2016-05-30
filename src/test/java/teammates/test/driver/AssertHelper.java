@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,15 +10,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
-
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
+
+import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 
 public final class AssertHelper {
     
     private AssertHelper() {
-        // utility class 
+        // utility class
     }
     
     /**
@@ -40,7 +40,7 @@ public final class AssertHelper {
     
     /**
      * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
-     * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}. 
+     * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
      * Display the difference between the two on failure (in
      * Eclipse).
      */
@@ -121,7 +121,7 @@ public final class AssertHelper {
      *     <code>&lt;div class="{*}"&gt;</code>, however, will match both.</li>
      * </ol>
      */
-    public static boolean isContainsRegex(String regexExpected,    String stringActual) {
+    public static boolean isContainsRegex(String regexExpected, String stringActual) {
         String processedActual = stringActual.replaceAll("[\t\r\n]", "");
         String processedRegex = Pattern.quote(regexExpected)
                 .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
@@ -131,11 +131,11 @@ public final class AssertHelper {
     
     /**
      * Asserts that the actual log message, excluding its id, is equal to the expected log message,
-     * and that the actual log message's id contains the expected google id. 
+     * and that the actual log message's id contains the expected google id.
      * @param expected
      * @param actual
      */
-    public static void assertLogMessageEquals(String expected, String actual) {        
+    public static void assertLogMessageEquals(String expected, String actual) {
         String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
 
         assertLogMessageEquals(expected, actual, expectedGoogleId);
@@ -148,12 +148,12 @@ public final class AssertHelper {
         assertEquals(expected, actualLogWithoutId);
         
         String actualId = actual.substring(endIndex + "|||".length());
-        assertTrue("expected actual message's id to contain " + userIdentifier 
+        assertTrue("expected actual message's id to contain " + userIdentifier
                    + " but was " + actualId,
                    actualId.contains(userIdentifier));
     }
     
-    public static void assertLogMessageEqualsForUnregisteredStudentUser(String expected, String actual, String studentEmail, String courseId) {        
+    public static void assertLogMessageEqualsForUnregisteredStudentUser(String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
     
