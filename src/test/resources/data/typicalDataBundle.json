@@ -1307,9 +1307,9 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"student1InCourse1@gmail.tmt",
-            "recipientEmail":"student2InCourse1@gmail.tmt",
+            "recipientEmail":"student3InCourse1@gmail.tmt",
             "responseMetaData":{
-                "value":"Response from student 1 to team member (student 2)."
+                "value":"Response from student 1 to team member (student 3)."
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
@@ -1320,10 +1320,10 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student2InCourse1@gmail.tmt",
+            "giverEmail":"student3InCourse1@gmail.tmt",
             "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
-                "value":"Response from student 2 to team member (student 1)."
+                "value":"Response from student 3 to team member (student 1)."
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 

@@ -184,7 +184,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent response");
         
-        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", "student100InCourse1@gmail.tmt"));
         
         ______TS("null fqId");
         
@@ -232,7 +232,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
-        assertEquals(7, responses.size());
+        assertEquals(8, responses.size());
         
         ______TS("null params");
         
@@ -430,7 +430,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesForReceiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
         
-        assertEquals(2, responses.size());
+        assertEquals(3, responses.size());
         
         ______TS("null params");
         
@@ -563,7 +563,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesFromGiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
         
-        assertEquals(3, responses.size());
+        assertEquals(4, responses.size());
         
         ______TS("null params");
         
