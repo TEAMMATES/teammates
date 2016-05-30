@@ -20,7 +20,7 @@
         <td>
             <ul class="list-group comment-list">                                                                           
                 <c:forEach items="${response.comments}" var="comment">
-                    <shared:feedbackResponseComment frc="${comment}" />
+                    <shared:feedbackResponseCommentRow frc="${comment}" />
                 </c:forEach>                                                                                   
             </ul>
         </td>
